@@ -22,8 +22,11 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Constructor with all parameters
-        public ModAuthor(string tag, string name = "", DateTime? lastSeen = null, bool retired = false)
+        // Constructor with one to all parameters
+        public ModAuthor(string tag,
+                         string name = "",
+                         DateTime? lastSeen = null,
+                         bool retired = false)
         {
             Tag = tag;
 

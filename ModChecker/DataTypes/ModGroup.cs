@@ -26,7 +26,9 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters
-        public ModGroup(ulong groupID, List<ulong> steamIDs, string description)
+        public ModGroup(ulong groupID,
+                        List<ulong> steamIDs,
+                        string description)
         {
             if ((groupID < ModSettings.lowestModGroupID) || (groupID > ModSettings.highestModGroupID))
             {

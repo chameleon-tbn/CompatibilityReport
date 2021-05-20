@@ -7,3 +7,5 @@ version 0.1 - Initial build with text report
 * Text report, sorted by mod name
 * Automatic download of a new catalog, saved for future sessions; no mod update for every new incompatibility
 * Logging
+
+version 0.1.1 - Bugfixes and textual changes

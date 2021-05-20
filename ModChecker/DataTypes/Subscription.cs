@@ -193,7 +193,7 @@ namespace ModChecker.DataTypes
             IsRemoved = mod.IsRemoved;
             SourceURL = mod.SourceURL;
             ArchiveURL = mod.ArchiveURL;
-            GameVersionCompatible = mod.GameVersionCompatible;
+            GameVersionCompatible = Tools.ConvertToGameVersion(mod.CompatibleGameVersionString);
             Updated = mod.Updated;
             Statuses = mod.Statuses;
 

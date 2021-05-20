@@ -90,7 +90,11 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with 3 to 5 parameters, used when creating a new catalog
-        public Catalog(uint version, DateTime updateDate, string note, string reportIntroText = "", string reportFooterText = "")
+        public Catalog(uint version,
+                       DateTime updateDate,
+                       string note,
+                       string reportIntroText = "",
+                       string reportFooterText = "")
         {
             StructureVersion = ModSettings.CurrentCatalogStructureVersion;
 
@@ -113,8 +117,16 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters, used when converting an old catalog
-        public Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
-            List<Mod> mods, List<ModCompatibility> modCompatibilities, List<ModGroup> modGroups, List<ModAuthor> modAuthors)
+        public Catalog(uint version,
+                       DateTime updateDate,
+                       Version compatibleGameVersion,
+                       string note,
+                       string reportIntroText,
+                       string reportFooterText,
+                       List<Mod> mods,
+                       List<ModCompatibility> modCompatibilities,
+                       List<ModGroup> modGroups,
+                       List<ModAuthor> modAuthors)
         {
             StructureVersion = ModSettings.CurrentCatalogStructureVersion;
 
@@ -124,7 +136,7 @@ namespace ModChecker.DataTypes
 
             CompatibleGameVersion = compatibleGameVersion;
             
-            CompatibleGameVersionString = compatibleGameVersion.ToString();
+            CompatibleGameVersionString = (compatibleGameVersion == null) ? "" : compatibleGameVersion.ToString();
 
             Note = note;
 
@@ -144,6 +156,13 @@ namespace ModChecker.DataTypes
         }
 
 
+        // Catalog version string, for reporting and logging
+        public string VersionString() 
+        {
+            return $"{ StructureVersion }.{ Version:D4}";
+        }
+
+        
         // Add a new group to a catalog
         internal ulong AddGroup(List<ulong> steamIDs, string description)
         {
@@ -188,7 +207,7 @@ namespace ModChecker.DataTypes
             // Not valid if Version is 0 or UpdateDate is the Constructor assigned lowest value
             if ((Version == 0) || (UpdateDate == DateTime.MinValue))
             {
-                Logger.Log($"Invalid catalog version { StructureVersion }.{ Version } has incorrect version or update date ({ UpdateDate.ToShortDateString() }).", 
+                Logger.Log($"Invalid catalog version { VersionString() } has incorrect version or update date ({ UpdateDate.ToShortDateString() }).", 
                     Logger.error);
 
                 return false;
@@ -197,7 +216,7 @@ namespace ModChecker.DataTypes
             // Not valid if there are no mods
             if (Mods?.Any() != true)
             {
-                Logger.Log($"Invalid catalog version { StructureVersion }.{ Version } contains no mods", Logger.error); 
+                Logger.Log($"Invalid catalog version { VersionString() } contains no mods", Logger.error); 
                 
                 return false;
             }
@@ -212,34 +231,26 @@ namespace ModChecker.DataTypes
             {
                 CountReviewed = 0;
 
-                Logger.Log($"Catalog version { StructureVersion }.{ Version } contains no reviewed mods.", Logger.debug);
+                Logger.Log($"Catalog version { VersionString() } contains no reviewed mods.", Logger.debug);
             }
             else
             {
                 CountReviewed = reviewedMods.Count;
             }            
 
-            // If the compatible gameversion for the catalog is unknown, try to convert the compatible gameversion string
+            // If the compatible gameversion for the catalog is unknown, try to convert the string field
             if ((CompatibleGameVersion == null) || (CompatibleGameVersion == GameVersion.Unknown))
             {
-                try
-                {
-                    string[] versionArray = CompatibleGameVersionString.Split('.');
+                CompatibleGameVersion = Tools.ConvertToGameVersion(CompatibleGameVersionString);
 
-                    CompatibleGameVersion = new Version(
-                        Convert.ToInt32(versionArray[0]),
-                        Convert.ToInt32(versionArray[1]),
-                        Convert.ToInt32(versionArray[2]),
-                        Convert.ToInt32(versionArray[3]));
-                }
-                catch
+                if (CompatibleGameVersion == GameVersion.Unknown) 
                 {
                     // Conversion failed, assume it's the mods compatible game version
                     CompatibleGameVersion = ModSettings.CompatibleGameVersion;
                 }
             }
 
-            // Set the version string, so it matches with the version object
+            // Set the version string, so it matches (again) with the version object
             CompatibleGameVersionString = CompatibleGameVersion.ToString();
 
             IsValid = true;
@@ -311,7 +322,7 @@ namespace ModChecker.DataTypes
 
             if (catalog.Validate())
             {
-                Logger.Log($"Bundled catalog version { catalog.StructureVersion }.{ catalog.Version:D4}.");
+                Logger.Log($"Bundled catalog version { catalog.VersionString() }.");
 
                 return catalog;
             }
@@ -343,7 +354,7 @@ namespace ModChecker.DataTypes
                 }
                 else if (previousCatalog.Validate())
                 {
-                    Logger.Log($"Previously downloaded catalog version { previousCatalog.StructureVersion }.{ previousCatalog.Version:D4}.");
+                    Logger.Log($"Previously downloaded catalog version { previousCatalog.VersionString() }.");
                 }
                 else
                 {
@@ -464,7 +475,7 @@ namespace ModChecker.DataTypes
             }
             else if (newCatalog.Validate())
             {
-                Logger.Log($"Downloaded catalog version { newCatalog.StructureVersion }.{ newCatalog.Version:D4}.");
+                Logger.Log($"Downloaded catalog version { newCatalog.VersionString() }.");
             }
             else
             {
@@ -591,7 +602,7 @@ namespace ModChecker.DataTypes
                     serializer.Serialize(writer, this);
                 }
 
-                Logger.Log($"Created catalog version { StructureVersion }.{ Version } at \"{Tools.PrivacyPath(fullPath)}\".");
+                Logger.Log($"Created catalog version { VersionString() } at \"{Tools.PrivacyPath(fullPath)}\".");
 
                 return true;
             }

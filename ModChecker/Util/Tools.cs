@@ -3,6 +3,7 @@ using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
 using static ColossalFramework.Plugins.PluginManager;
 using ICities;
+using ModChecker.DataTypes;
 
 
 namespace ModChecker.Util
@@ -92,6 +93,31 @@ namespace ModChecker.Util
                 // Replace everything up to and including \appdata\local with %LocalAppData%; path will still work in Windows and is now more privacy-proof
                 return "%LocalAppData%" + path.Substring(indexPlus);
             }
+        }
+
+
+        // Convert a string to a version type
+        internal static Version ConvertToGameVersion(string versionString)
+        {
+            Version version;
+
+            try
+            {
+                string[] versionArray = versionString.Split('.');
+
+                version = new Version(
+                    Convert.ToInt32(versionArray[0]),
+                    Convert.ToInt32(versionArray[1]),
+                    Convert.ToInt32(versionArray[2]),
+                    Convert.ToInt32(versionArray[3]));
+            }
+            catch
+            {
+                // Conversion failed
+                version = GameVersion.Unknown;
+            }
+
+            return version;
         }
     }
 }

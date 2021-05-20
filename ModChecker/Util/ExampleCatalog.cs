@@ -51,9 +51,9 @@ namespace ModChecker.Util
             modStatus = new List<Enums.ModStatus> { Abandoned };
             List<ulong> modsRequired = new List<ulong> { 3, 4, 5 };
             exampleCatalog.Mods.Add(
-                new Mod(2034713132, "Mod Compatibility Checker", aubergine18.Tag, otherAuthors: null, version: "", updated: DateTime.Parse("2020-05-16"),
-                published: DateTime.Parse("2020-03-25"), removed: false, archiveURL: "", "https://github.com/CitiesSkylinesMods/AutoRepair",
-                GameVersion.Patch_1_13_0_f8, dlcRequired: null, modsRequired, modsRecommended: null, onlyNeededFor: null,
+                new Mod(2034713132, "Mod Compatibility Checker", aubergine18.Tag, otherAuthors: null, version: "", published: DateTime.Parse("2020-03-25"),
+                updated: DateTime.Parse("2020-05-16"), removed: false, archiveURL: "", "https://github.com/CitiesSkylinesMods/AutoRepair",
+                GameVersion.Patch_1_13_0_f8.ToString(), dlcRequired: null, modsRequired, modsRecommended: null, onlyNeededFor: null,
                 note: "The predecessor of Mod Checker.", modStatus, reviewUpdated: DateTime.Now));
             
 

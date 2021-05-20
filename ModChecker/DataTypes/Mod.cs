@@ -9,61 +9,92 @@ namespace ModChecker.DataTypes
     [Serializable]
     public class Mod                                // Needs to be public for XML serialization
     {
+        // Steam ID and name
         public ulong SteamID { get; private set; } = 0;
 
         public string Name { get; private set; }
 
+        // Author tag for main author and additional authors; can be linked to the ModAuthors info
         public string AuthorTag { get; private set; }
 
-        public List<string> OtherAuthors { get; private set; } = new List<string>();                            // Can be none
+        public List<string> OtherAuthors { get; private set; } = new List<string>();
 
+        // Version of the mod, if it is indicated in the name or on the Steam Workshop page
         public string Version { get; private set; }
+
+        // Date the mod was published and last updated
+        public DateTime? Published { get; private set; }
 
         public DateTime? Updated { get; private set; }
 
-        public DateTime? Published { get; private set; }
+        // Is the mod removed, and do we know an archive page of the Steam Workshop page
+        public bool IsRemoved { get; private set; }
 
-        public bool IsRemoved { get; private set; }                                                             // Removed from the Steam Workshop (or set private)
+        public string ArchiveURL { get; private set; }
 
-        public string ArchiveURL { get; private set; }                                                          // Archive of the Steam Workshop page
-
+        // Public location of the source
         public string SourceURL { get; private set; }
 
-        public Version GameVersionCompatible { get; private set; } = GameVersion.Unknown;       // Unfinished, does not get serialized; needs string conversion
+        // Game version this mod is compatible with; 'Version' is not serializable, so we use a string; convert to Version when needed
+        public string CompatibleGameVersionString { get; private set; }
 
-        public List<Enums.DLC> RequiredDLC { get; private set; } = new List<Enums.DLC>();                       // Can be none
+        // Required DLCs
+        public List<Enums.DLC> RequiredDLC { get; private set; } = new List<Enums.DLC>();
 
-        [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();    // Can be none; can contain groups
+        // Required mods for this mod; this is the only list that allows mod groups, meaning one (not all) of the mods in that group is required
+        [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();
 
-        [XmlArrayItem("SteamID")] public List<ulong> NeededFor { get; private set; } = new List<ulong>();       // Can be none; no groups; used if it's only a dependency mod
+        // Mods this is needed for; only used when this is purely a dependency mod
+        [XmlArrayItem("SteamID")] public List<ulong> NeededFor { get; private set; } = new List<ulong>();
 
-        [XmlArrayItem("SteamID")] public List<ulong> SucceededBy { get; private set; } = new List<ulong>();     // Can be none; no groups
+        // Successors of this mod
+        [XmlArrayItem("SteamID")] public List<ulong> SucceededBy { get; private set; } = new List<ulong>();
 
-        [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();    // Can be none; no groups; only if it has (comp.) issues
+        // Alternatives for this mod; only used if this has compatibility issues
+        [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
 
-        [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>(); // Can be none; no groups; rec. by the mod author
+        // Recommendations from the mod author
+        [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
 
+        // General note about this mod
         public string Note { get; private set; }
 
-        public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();              // Can be none
+        // Statuses for this mod
+        public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
 
-        public DateTime? ReviewUpdated { get; private set; }                                                    // Date this was last checked for compatibilities and changes
+        // Date this mod was last reviewed for changes in information and compatibility
+        public DateTime? ReviewUpdated { get; private set; }
 
-        public string CatalogRemark { get; private set; }                                                       // Only used for myself for remarks about the mod info
+        // Remark for ourselves, not displayed in report or log (but publicly viewable in the catalog)
+        public string CatalogRemark { get; private set; }
 
 
-        // Default constructor
+        // Default constructor, used when reading from disk
         public Mod()
         {
             // Nothing to do here
         }
 
 
-        // Constructor with all parameters
-        public Mod(ulong steamID, string name = "", string authorTag = "", List<string> otherAuthors = null, string version = "", DateTime? updated = null,
-            DateTime? published = null, bool removed = false, string archiveURL = "", string sourceURL = "", Version gameVersionCompatible = null, 
-            List<Enums.DLC> dlcRequired = null, List<ulong> modsRequired = null, List<ulong> modsRecommended = null, List<ulong> onlyNeededFor = null, 
-            string note = "", List<Enums.ModStatus> statuses = null, DateTime? reviewUpdated = null)
+        // Constructor with all one to all parameters, used when creating/updating a catalog or when converting an old catalog
+        public Mod(ulong steamID,
+                   string name = "",
+                   string authorTag = "",
+                   List<string> otherAuthors = null,
+                   string version = "",
+                   DateTime? published = null,
+                   DateTime? updated = null,
+                   bool removed = false,
+                   string archiveURL = "",
+                   string sourceURL = "",
+                   string gameVersionCompatible = "",
+                   List<Enums.DLC> dlcRequired = null,
+                   List<ulong> modsRequired = null,
+                   List<ulong> modsRecommended = null,
+                   List<ulong> onlyNeededFor = null,
+                   string note = "",
+                   List<Enums.ModStatus> statuses = null,
+                   DateTime? reviewUpdated = null)
         {
             SteamID = steamID;
 
@@ -75,9 +106,9 @@ namespace ModChecker.DataTypes
 
             Version = version;
 
-            Updated = updated;
-
             Published = published;
+
+            Updated = updated;
 
             IsRemoved = removed;
 
@@ -85,7 +116,7 @@ namespace ModChecker.DataTypes
 
             SourceURL = sourceURL;
 
-            GameVersionCompatible = gameVersionCompatible;
+            CompatibleGameVersionString = gameVersionCompatible;
 
             RequiredDLC = dlcRequired;
 
@@ -103,7 +134,7 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Return a max sized, formatted string with the Steam ID and name
+        // Return a max length, formatted string with the Steam ID and name
         internal string ToString(bool nameFirst = false, bool showFakeID = true)
         {
             string id;

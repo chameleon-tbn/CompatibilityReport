@@ -66,7 +66,7 @@ namespace ModChecker
             Logger.Report($"{ ModSettings.name } report, created on { createTime:D}, { createTime:t}.\n");
 
             // Mod version, catalog version and number of mods in the catalog and in game
-            Logger.Report($"Version { ModSettings.version } with catalog version { Catalog.Active.StructureVersion }.{ Catalog.Active.Version:D4}. " + 
+            Logger.Report($"Version { ModSettings.version } with catalog version { Catalog.Active.VersionString() }. " + 
                 $"The catalog contains { Catalog.Active.CountReviewed } reviewed mods\n" +
                 $"and { Catalog.Active.Count - Catalog.Active.CountReviewed } mods with basic information. " + 
                 $"Your game has { Subscription.AllSubscriptions.Count } mods, of which { Subscription.TotalReviewed } were reviewed.");
