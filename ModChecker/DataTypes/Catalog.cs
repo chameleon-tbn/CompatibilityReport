@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Security;
 using System.Xml.Serialization;
 using ModChecker.Util;
+using static ModChecker.Util.ModSettings;
 
 
 // Catalog of all known/reviewed mods
@@ -16,7 +17,7 @@ using ModChecker.Util;
 
 namespace ModChecker.DataTypes
 {
-    [XmlRoot(ModSettings.xmlRoot)]
+    [XmlRoot(xmlRoot)]
     public class Catalog                            // Needs to be public for XML serialization
     {
         // This will only change on structural changes in the xml that make it incompatible with a previous structure version
@@ -96,7 +97,7 @@ namespace ModChecker.DataTypes
                        string reportIntroText = "",
                        string reportFooterText = "")
         {
-            StructureVersion = ModSettings.CurrentCatalogStructureVersion;
+            StructureVersion = CurrentCatalogStructureVersion;
 
             Version = version;
 
@@ -108,9 +109,9 @@ namespace ModChecker.DataTypes
 
             Note = note;
 
-            ReportIntroText = string.IsNullOrEmpty(reportIntroText) ? ModSettings.DefaultIntroText : reportIntroText;
+            ReportIntroText = string.IsNullOrEmpty(reportIntroText) ? DefaultIntroText : reportIntroText;
 
-            ReportFooterText = string.IsNullOrEmpty(reportFooterText) ? ModSettings.DefaultFooterText : reportFooterText;
+            ReportFooterText = string.IsNullOrEmpty(reportFooterText) ? DefaultFooterText : reportFooterText;
 
             ModGroupDictionary = new Dictionary<ulong, ModGroup>();
         }
@@ -128,7 +129,7 @@ namespace ModChecker.DataTypes
                        List<ModGroup> modGroups,
                        List<ModAuthor> modAuthors)
         {
-            StructureVersion = ModSettings.CurrentCatalogStructureVersion;
+            StructureVersion = CurrentCatalogStructureVersion;
 
             Version = version;
 
@@ -172,7 +173,7 @@ namespace ModChecker.DataTypes
             if (ModGroupDictionary?.Any() != true)
             {
                 // No groups yet, so use the lowest group ID
-                newGroupID = ModSettings.lowestModGroupID;
+                newGroupID = lowestModGroupID;
             }
             else
             {
@@ -180,7 +181,7 @@ namespace ModChecker.DataTypes
                 newGroupID = ModGroupDictionary.Keys.Max() + 1;
             }            
 
-            if (newGroupID > ModSettings.highestModGroupID)
+            if (newGroupID > highestModGroupID)
             {
                 Logger.Log("Ran out of mod group IDs. Mod Group could not be added to catalog.", Logger.error);
 
@@ -311,7 +312,7 @@ namespace ModChecker.DataTypes
         // Load bundled catalog
         private static Catalog Bundled()
         {
-            Catalog catalog = Load(ModSettings.BundledCatalogFullPath);
+            Catalog catalog = Load(BundledCatalogFullPath);
 
             if (catalog == null)
             {
@@ -328,7 +329,7 @@ namespace ModChecker.DataTypes
             }
             else
             {
-                Logger.Log($"Bundled catalog does not validate. { ModSettings.PleaseReportText }", Logger.error, gameLog: true);
+                Logger.Log($"Bundled catalog does not validate. { PleaseReportText }", Logger.error, gameLog: true);
 
                 return null;
             }            
@@ -339,7 +340,7 @@ namespace ModChecker.DataTypes
         private static Catalog Download()
         {
             // Filename and object for previously downloaded catalog
-            string previousCatalogFileName = ModSettings.DownloadedCatalogFullPath;
+            string previousCatalogFileName = DownloadedCatalogFullPath;
 
             Catalog previousCatalog = null;            
 
@@ -387,7 +388,7 @@ namespace ModChecker.DataTypes
             }
 
             // Temporary filename for the newly downloaded catalog
-            string newCatalogFileName = ModSettings.DownloadedCatalogFullPath + ".part";
+            string newCatalogFileName = DownloadedCatalogFullPath + ".part";
 
             // Delete temporary catalog if it was left over from a previous session; exit if we can't delete it
             if (File.Exists(newCatalogFileName))
@@ -420,16 +421,16 @@ namespace ModChecker.DataTypes
                     Stopwatch timer = Stopwatch.StartNew();
 
                     // Download
-                    webclient.DownloadFile(ModSettings.CatalogURL, newCatalogFileName);
+                    webclient.DownloadFile(CatalogURL, newCatalogFileName);
 
                     // Get and log the elapsed time in seconds, rounded to one decimal
                     timer.Stop();
 
-                    Logger.Log($"Catalog downloaded in { timer.ElapsedMilliseconds / 1000:F1} seconds from { ModSettings.CatalogURL }");
+                    Logger.Log($"Catalog downloaded in { timer.ElapsedMilliseconds / 1000:F1} seconds from { CatalogURL }");
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Can't download catalog from { ModSettings.CatalogURL }",Logger.warning, gameLog: true);
+                    Logger.Log($"Can't download catalog from { CatalogURL }",Logger.warning, gameLog: true);
 
                     // Check if the issue is TLS 1.2; only log regular exception if it isn't
                     if (ex.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))

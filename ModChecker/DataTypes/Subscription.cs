@@ -5,6 +5,7 @@ using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
 using static ColossalFramework.Plugins.PluginManager;
 using ModChecker.Util;
+using static ModChecker.Util.ModSettings;
 
 
 namespace ModChecker.DataTypes
@@ -62,15 +63,15 @@ namespace ModChecker.DataTypes
         internal static List<string> AllNames { get; private set; }
 
         // Keep track of the number of reviewed mods
-        internal static uint TotalReviewed { get; private set; }
+        internal static uint TotalSubscriptionsReviewed { get; private set; }
 
         // Keep track of local and enabled builtin mods for logging
         private static uint TotalBuiltin;
         private static uint TotalLocal;
 
         // fake Steam IDs to assign to local and unknown builtin mods
-        private static ulong localModID = ModSettings.lowestLocalModID;
-        private static ulong unknownBuiltinModID = ModSettings.lowestUnknownBuiltinModID;
+        private static ulong localModID = lowestLocalModID;
+        private static ulong unknownBuiltinModID = lowestUnknownBuiltinModID;
 
 
         // Default constructor
@@ -108,9 +109,9 @@ namespace ModChecker.DataTypes
                 SteamID = plugin.publishedFileID.AsUInt64;
 
                 // Check for overlap between fake and real Steam IDs
-                if (SteamID <= ModSettings.HighestFakeID)
+                if (SteamID <= HighestFakeID)
                 {
-                    Logger.Log($"Steam ID { SteamID } is lower than the internal IDs used for local mods. This could cause issues. { ModSettings.PleaseReportText }",
+                    Logger.Log($"Steam ID { SteamID } is lower than the internal IDs used for local mods. This could cause issues. { PleaseReportText }",
                         Logger.error);
                 }
             }
@@ -119,26 +120,26 @@ namespace ModChecker.DataTypes
                 // Builtin mod
                 AuthorName = "Colossal Order";
 
-                if (ModSettings.BuiltinMods.ContainsKey(Name))
+                if (BuiltinMods.ContainsKey(Name))
                 {
                     // Known builtin mod; these always get the same fake Steam ID from the BuiltinMods dictionary, so they can be used in mod compatibility
-                    SteamID = ModSettings.BuiltinMods[Name];                    
+                    SteamID = BuiltinMods[Name];                    
                 }
                 else
                 {
                     // Unknown builtin mod. This is either a mistake or BuiltinMods should be updated. Assign fake Steam ID, or 0 if we ran out of fake IDs.
-                    SteamID = (unknownBuiltinModID <= ModSettings.highestUnknownBuiltinModID) ? unknownBuiltinModID : 0;
+                    SteamID = (unknownBuiltinModID <= highestUnknownBuiltinModID) ? unknownBuiltinModID : 0;
 
                     // Increase the fake Steam ID for the next mod
                     unknownBuiltinModID++;
 
-                    Logger.Log($"Unknown builtin mod found: \"{ Name }\". This is probably a mistake. { ModSettings.PleaseReportText }", Logger.error);
+                    Logger.Log($"Unknown builtin mod found: \"{ Name }\". This is probably a mistake. { PleaseReportText }", Logger.error);
                 }
             }
             else
             {
                 // Local mod. Assign fake Steam ID, or 0 if we ran out of fake IDs.
-                SteamID = (localModID <= ModSettings.highestLocalModID) ? localModID : 0;
+                SteamID = (localModID <= highestLocalModID) ? localModID : 0;
 
                 // Increase the fake Steam ID for the next mod
                 localModID++;
@@ -179,7 +180,7 @@ namespace ModChecker.DataTypes
 
             if (IsReviewed)
             {
-                TotalReviewed++;
+                TotalSubscriptionsReviewed++;
             }
 
             // Check for mod rename
@@ -342,7 +343,7 @@ namespace ModChecker.DataTypes
 
             string disabledPrefix = (showDisabled && !IsEnabled) ? "[Disabled] " : "";
 
-            int maxNameLength = ModSettings.MaxReportWidth - 1 - id.Length - disabledPrefix.Length;
+            int maxNameLength = MaxReportWidth - 1 - id.Length - disabledPrefix.Length;
 
             string name = (Name.Length <= maxNameLength) ? Name : Name.Substring(0, maxNameLength - 3) + "...";
 
@@ -377,7 +378,7 @@ namespace ModChecker.DataTypes
 
             TotalBuiltin = 0;
             TotalLocal = 0;
-            TotalReviewed = 0;
+            TotalSubscriptionsReviewed = 0;
             
             // Get all subscribed and local mods in a list
             List<PluginInfo> plugins = new List<PluginInfo>();
@@ -428,7 +429,7 @@ namespace ModChecker.DataTypes
                         string builtinOrLocal = (subscription.IsBuiltin) ? "builtin" : "local";
 
                         Logger.Log($"Ran out of internal IDs for { builtinOrLocal } mods. Some mods were not added to the subscription list. " +
-                            ModSettings.PleaseReportText, Logger.error);
+                            PleaseReportText, Logger.error);
                     }
                 }
                 catch (Exception ex)
@@ -465,11 +466,11 @@ namespace ModChecker.DataTypes
             // Reset the number of builtin, local and reviewed mods
             TotalBuiltin = 0;
             TotalLocal = 0;
-            TotalReviewed = 0;
+            TotalSubscriptionsReviewed = 0;
 
             // To avoid duplicates in unforeseen situations, don't reset the next fake IDs to use
-            // localModID = ModSettings.lowestLocalModID;
-            // unknownBuiltinModID = ModSettings.lowestUnknownBuiltinModID;
+            // localModID = lowestLocalModID;
+            // unknownBuiltinModID = lowestUnknownBuiltinModID;
 
             Logger.Log("Subscription dictionary closed.");
         }

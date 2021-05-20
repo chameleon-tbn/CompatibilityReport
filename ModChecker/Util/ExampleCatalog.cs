@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ModChecker.DataTypes;
+using static ModChecker.DataTypes.Enums;
 using static ModChecker.DataTypes.Enums.CompatibilityStatus;
 using static ModChecker.DataTypes.Enums.ModStatus;
 
@@ -13,17 +14,17 @@ namespace ModChecker.Util
     {
         internal static bool Create(string fullPath)
         {
-            Catalog exampleCatalog = new Catalog(Convert.ToUInt32(ModSettings.build) + 1, DateTime.Now, 
+            Catalog exampleCatalog = new Catalog(Convert.ToUInt32(ModSettings.build), DateTime.Now, 
                 "This Catalog uses fake data and is for testing only. DON'T TRUST THIS INFO!");
 
             DateTime now = DateTime.Now;
-            List<Enums.ModStatus> modStatus;
+            List<ModStatus> modStatus;
             List<ulong> modList;
-            List<Enums.CompatibilityStatus> compStatus;
+            List<CompatibilityStatus> compStatus;
 
 
             // Builtin mods
-            modStatus = new List<Enums.ModStatus> { SourceBundled };
+            modStatus = new List<ModStatus> { SourceBundled };
             
             exampleCatalog.Mods.Add(new Mod(1, "Hard Mode", statuses: modStatus, reviewUpdated: now));
             exampleCatalog.Mods.Add(new Mod(2, "Unlimited Money", statuses: modStatus, reviewUpdated: now));
@@ -45,10 +46,10 @@ namespace ModChecker.Util
             // Fake mod info
             exampleCatalog.Mods.Add(new Mod(576327847, "81 Tiles (Fixed for C:S 1.2+)", "bloody_penguin", reviewUpdated: DateTime.Now));
 
-            modStatus = new List<Enums.ModStatus> { GameBreaking };
+            modStatus = new List<ModStatus> { GameBreaking };
             exampleCatalog.Mods.Add(new Mod(421028969, "[ARIS] Skylines Overwatch", soda.Tag, statuses: modStatus));
 
-            modStatus = new List<Enums.ModStatus> { Abandoned };
+            modStatus = new List<ModStatus> { Abandoned };
             List<ulong> modsRequired = new List<ulong> { 3, 4, 5 };
             exampleCatalog.Mods.Add(
                 new Mod(2034713132, "Mod Compatibility Checker", aubergine18.Tag, otherAuthors: null, version: "", published: DateTime.Parse("2020-03-25"),
@@ -66,7 +67,7 @@ namespace ModChecker.Util
 
 
             // Fake compatibility
-            compStatus = new List<Enums.CompatibilityStatus>() { IncompatibleAccordingToAuthor };
+            compStatus = new List<CompatibilityStatus>() { IncompatibleAccordingToAuthor };
             exampleCatalog.ModCompatibilities.Add(new ModCompatibility(2, id, compStatus));
 
 

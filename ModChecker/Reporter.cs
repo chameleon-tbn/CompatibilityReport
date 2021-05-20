@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ColossalFramework.PlatformServices;
 using ModChecker.DataTypes;
+using static ModChecker.DataTypes.Subscription;
 using ModChecker.Util;
+using static ModChecker.Util.ModSettings;
 
 
 namespace ModChecker
@@ -18,11 +20,11 @@ namespace ModChecker
             createTime = DateTime.Now;
 
             // Create the html report if selected in settings               // Unfinished: change into header, body (per mod data) and footer part, and combine text en html
-            if (ModSettings.HtmlReport)
+            if (HtmlReport)
             {
                 if (CreateHtml())
                 {
-                    Logger.Log($"Scan complete. HTML report ready at \"{ Tools.PrivacyPath(ModSettings.ReportHtmlFullPath) }\".", gameLog: true);
+                    Logger.Log($"Scan complete. HTML report ready at \"{ Tools.PrivacyPath(ReportHtmlFullPath) }\".", gameLog: true);
                 }
                 else
                 {
@@ -31,11 +33,11 @@ namespace ModChecker
             }
 
             // Create the text report if selected in settings, or if somehow no report was selected in options
-            if (ModSettings.TextReport || !ModSettings.HtmlReport)
+            if (TextReport || !HtmlReport)
             {
                 if (CreateText())
                 {
-                    Logger.Log($"{ (ModSettings.HtmlReport ? "" : "Scan complete. ") }Text report ready at \"{ Tools.PrivacyPath(ModSettings.ReportTextFullPath) }\".",
+                    Logger.Log($"{ (ModSettings.HtmlReport ? "" : "Scan complete. ") }Text report ready at \"{ Tools.PrivacyPath(ReportTextFullPath) }\".",
                         gameLog: true);
                 }
                 else
@@ -69,7 +71,7 @@ namespace ModChecker
             Logger.Report($"Version { ModSettings.version } with catalog version { Catalog.Active.VersionString() }. " + 
                 $"The catalog contains { Catalog.Active.CountReviewed } reviewed mods\n" +
                 $"and { Catalog.Active.Count - Catalog.Active.CountReviewed } mods with basic information. " + 
-                $"Your game has { Subscription.AllSubscriptions.Count } mods, of which { Subscription.TotalReviewed } were reviewed.");
+                $"Your game has { AllSubscriptions.Count } mods, of which { TotalSubscriptionsReviewed } were reviewed.");
 
             // Generic note from the catalog
             Logger.Report(string.IsNullOrEmpty(Catalog.Active.Note) ? "" : "\n" + Catalog.Active.Note);
@@ -92,20 +94,20 @@ namespace ModChecker
             }
 
             // Intro text with generic notes
-            Logger.Report("\n" + ModSettings.separatorDouble + "\n");
+            Logger.Report("\n" + separatorDouble + "\n");
 
-            Logger.Report(string.IsNullOrEmpty(Catalog.Active.ReportIntroText) ? ModSettings.DefaultIntroText : Catalog.Active.ReportIntroText);
+            Logger.Report(string.IsNullOrEmpty(Catalog.Active.ReportIntroText) ? DefaultIntroText : Catalog.Active.ReportIntroText);
 
-            Logger.Report("\n" + ModSettings.separatorDouble);
+            Logger.Report("\n" + separatorDouble);
 
             // Details per mod, starting with the reviewed mods
-            Logger.Report($"REVIEWED MODS ({ Subscription.TotalReviewed }):");
+            Logger.Report($"REVIEWED MODS ({ TotalSubscriptionsReviewed }):");
 
             string nonReviewedModsText = "";
 
             try
             {
-                if (ModSettings.ReportSortByName)
+                if (ReportSortByName)
                 {
                     // Report the info of each reviewed mod, sorted by name; gather the info of all non-reviewed mods, also sorted
                     foreach (string name in Subscription.AllNames)
@@ -137,18 +139,18 @@ namespace ModChecker
                 Logger.Exception(ex);
             }
 
-            Logger.Report(ModSettings.separatorDouble);
+            Logger.Report(separatorDouble);
 
             // Log the non-reviewed mods
             if (nonReviewedModsText != "")
             {
-                Logger.Report($"MODS WITHOUT REVIEW ({ Subscription.AllSubscriptions.Count - Subscription.TotalReviewed }):");
+                Logger.Report($"MODS WITHOUT REVIEW ({ AllSubscriptions.Count - TotalSubscriptionsReviewed }):");
 
-                Logger.Report(nonReviewedModsText + ModSettings.separatorDouble);
+                Logger.Report(nonReviewedModsText + separatorDouble);
             }
 
             // Footer text
-            Logger.Report(string.IsNullOrEmpty(Catalog.Active.ReportFooterText) ? "\n" + ModSettings.DefaultFooterText : "\n" + Catalog.Active.ReportFooterText);
+            Logger.Report(string.IsNullOrEmpty(Catalog.Active.ReportFooterText) ? "\n" + DefaultFooterText : "\n" + Catalog.Active.ReportFooterText);
 
             return completed;
         }
@@ -157,10 +159,10 @@ namespace ModChecker
         // Return report text for one mod
         private static string ModText(ulong steamID, bool nameFirst, ref string nonReviewedModsText)
         {
-            Subscription subscription = Subscription.AllSubscriptions[steamID];
+            Subscription subscription = AllSubscriptions[steamID];
 
             // Create a header for this mod information; start with a separator
-            string modHeader = ModSettings.separator + "\n\n";
+            string modHeader = separator + "\n\n";
 
             // Mod name and Steam ID
             string modName = subscription.ToString(nameFirst, showFakeID: false);
@@ -170,7 +172,7 @@ namespace ModChecker
             // Authorname (if known), on a new line if it doesn't fit anymore
             if (!string.IsNullOrEmpty(subscription.AuthorName))
             {
-                if (modName.Length + 4 + subscription.AuthorName.Length <= ModSettings.MaxReportWidth)
+                if (modName.Length + 4 + subscription.AuthorName.Length <= MaxReportWidth)
                 {
                     // On the same line behind name and Steam ID
                     modHeader += " by " + subscription.AuthorName;
@@ -178,7 +180,7 @@ namespace ModChecker
                 else
                 {
                     // Doesn't fit on the same line, so right align on a new line
-                    modHeader += "\n" + $"by { subscription.AuthorName }".PadLeft(ModSettings.MaxReportWidth);
+                    modHeader += "\n" + $"by { subscription.AuthorName }".PadLeft(MaxReportWidth);
                 }
             }
 
@@ -203,7 +205,7 @@ namespace ModChecker
             if (subscription.IsBuiltin)
             {
                 // Builtin mod
-                if (ModSettings.BuiltinMods.ContainsValue(steamID))
+                if (BuiltinMods.ContainsValue(steamID))
                 {
                     // Recognized builtin mod that is enabled; just continue
                 }
@@ -223,7 +225,7 @@ namespace ModChecker
                 if (!subscription.IsEnabled)
                 {
                     modReview += ReviewText("Mod is disabled. If not used, it should be removed. Disabled mods are still");
-                    modReview += ReviewText("partially loaded at game startup and can still cause issues.", ModSettings.NoBullet);
+                    modReview += ReviewText("partially loaded at game startup and can still cause issues.", NoBullet);
                 }
 
                 modReview += ReviewText("Can't review local mods (yet).");
@@ -248,7 +250,7 @@ namespace ModChecker
 
                 // Archive workshop page
                 modReview += string.IsNullOrEmpty(subscription.ArchiveURL) ? "" : 
-                    ReviewText("Old Workshop page:\n" + subscription.ArchiveURL, ModSettings.NoBullet, cutOff: false);
+                    ReviewText("Old Workshop page:\n" + subscription.ArchiveURL, NoBullet, cutOff: false);
             }
             
             // Author is retired
@@ -288,16 +290,16 @@ namespace ModChecker
                 foreach (ulong id in subscription.RequiredMods)
                 {
                     // Check if it's a regular mod or a mod group
-                    if ((id < ModSettings.lowestModGroupID) || (id > ModSettings.highestModGroupID))
+                    if ((id < lowestModGroupID) || (id > highestModGroupID))
                     {
                         // Regular mod. Try to find it in the list of subscribed mods
-                        if (Subscription.AllSubscriptions.ContainsKey(id))
+                        if (AllSubscriptions.ContainsKey(id))
                         {
                             // Mod is subscribed
-                            if (!Subscription.AllSubscriptions[id].IsEnabled)
+                            if (!AllSubscriptions[id].IsEnabled)
                             {
                                 // Mod is subscribed, but not enabled
-                                modReview += ReviewText(Subscription.AllSubscriptions[id].ToString(showFakeID: false, showDisabled: true), ModSettings.Bullet2);
+                                modReview += ReviewText(AllSubscriptions[id].ToString(showFakeID: false, showDisabled: true), Bullet2);
                             }
 
                             continue;   // To the next required mod
@@ -308,18 +310,18 @@ namespace ModChecker
                             if (Catalog.Active.ModDictionary.ContainsKey(id))
                             {
                                 // Mod found in the catalog, list Steam ID and name
-                                modReview += ReviewText(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), ModSettings.Bullet2);
+                                modReview += ReviewText(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), Bullet2);
                             }
                             else
                             {
                                 // Mod not found in the catalog
-                                modReview += ReviewText($"[Steam ID { id, 10 }] <name unknown>", ModSettings.Bullet2);
+                                modReview += ReviewText($"[Steam ID { id, 10 }] <name unknown>", Bullet2);
 
                                 Logger.Log($"Required mod { id } not found in catalog.", Logger.debug);
                             }
 
                             // List the workshop page for easy subscribing
-                            modReview += ReviewText("Workshop page: " + Tools.GetWorkshopURL(id), ModSettings.NoBullet2);
+                            modReview += ReviewText("Workshop page: " + Tools.GetWorkshopURL(id), NoBullet2);
                         }
 
                         continue;   // To the next required mod
@@ -332,7 +334,7 @@ namespace ModChecker
                             // Group not found in catalog, this should not happen
                             Logger.Log($"Group { id } not found in catalog.", Logger.error);
 
-                            modReview += ReviewText("one of the following mods: <missing information in catalog>", ModSettings.Bullet2);
+                            modReview += ReviewText("one of the following mods: <missing information in catalog>", Bullet2);
 
                             continue;   // To the next required mod
                         }
@@ -346,7 +348,7 @@ namespace ModChecker
                             // Group is empty, this should not happen
                             Logger.Log($"Group { id } is empty.", Logger.error);
 
-                            modReview += ReviewText("one of the following mods: <missing information in catalog>", ModSettings.Bullet2);
+                            modReview += ReviewText("one of the following mods: <missing information in catalog>", Bullet2);
 
                             continue;   // To the next required mod
                         }
@@ -362,12 +364,12 @@ namespace ModChecker
                         // Check each mods and see if they are subscribed and enabled
                         foreach (ulong modID in group.SteamIDs)
                         {
-                            if (Subscription.AllSubscriptions.ContainsKey(modID))
+                            if (AllSubscriptions.ContainsKey(modID))
                             {
                                 // Mod is subscribed
                                 modFound++;
 
-                                if (Subscription.AllSubscriptions[modID].IsEnabled)
+                                if (AllSubscriptions[modID].IsEnabled)
                                 {
                                     // Enabled mod found, no need to look any further
                                     modEnabled = true;
@@ -377,7 +379,7 @@ namespace ModChecker
                                 else
                                 {
                                     // Disabled mod
-                                    disabledText += ReviewText(Subscription.AllSubscriptions[modID].ToString(showFakeID: false, showDisabled: true), ModSettings.Bullet3);
+                                    disabledText += ReviewText(AllSubscriptions[modID].ToString(showFakeID: false, showDisabled: true), Bullet3);
                                 }
                             }
                             else
@@ -385,11 +387,11 @@ namespace ModChecker
                                 // Mod is not subscribed, find it in the catalog
                                 if (Catalog.Active.ModDictionary.ContainsKey(modID))
                                 {
-                                    missingText += ReviewText(Catalog.Active.ModDictionary[modID].ToString(showFakeID: false), ModSettings.Bullet3);
+                                    missingText += ReviewText(Catalog.Active.ModDictionary[modID].ToString(showFakeID: false), Bullet3);
                                 }
                                 else
                                 {
-                                    missingText += ReviewText($"[Steam ID { modID, 10 }] <name unknown>", ModSettings.Bullet3);
+                                    missingText += ReviewText($"[Steam ID { modID, 10 }] <name unknown>", Bullet3);
 
                                     Logger.Log($"Mod { modID } from mod group { id } not found in catalog.", Logger.debug);
                                 }
@@ -406,7 +408,7 @@ namespace ModChecker
                         if (modFound == 0)
                         {
                             // None of the group members is subscribed
-                            modReview += ReviewText("one of the following mods:", ModSettings.Bullet2);
+                            modReview += ReviewText("one of the following mods:", Bullet2);
 
                             modReview += missingText;
                         }
@@ -415,12 +417,12 @@ namespace ModChecker
                             // One mod is subscribed, but not enabled; use the 'disabledText' without the indent characters
                             int indent = disabledText.IndexOf('[');
 
-                            modReview += ReviewText(disabledText.Substring(indent), ModSettings.Bullet2);
+                            modReview += ReviewText(disabledText.Substring(indent), Bullet2);
                         }
                         else
                         {
                             // More than one mod subscribed, but not enabled
-                            modReview += ReviewText("one of the following mods should be enabled:", ModSettings.Bullet2);
+                            modReview += ReviewText("one of the following mods should be enabled:", Bullet2);
 
                             modReview += disabledText;
                         }
@@ -436,7 +438,7 @@ namespace ModChecker
                 // Check if any of the mods that need this is actually subscribed; we don't check for enabled this time
                 foreach (ulong id in subscription.NeededFor)
                 {
-                    if (Subscription.AllSubscriptions.ContainsKey(id))
+                    if (AllSubscriptions.ContainsKey(id))
                     {
                         // Found a mod that needs this, no need to look any further
                         modFound = true;
@@ -468,12 +470,12 @@ namespace ModChecker
                     if (Catalog.Active.ModDictionary.ContainsKey(id))
                     {
                         // Mod found in the catalog, list Steam ID and name
-                        modReview += ReviewText(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), ModSettings.Bullet2);
+                        modReview += ReviewText(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), Bullet2);
                     }
                     else
                     {
                         // Mod not found in the catalog
-                        modReview += ReviewText($"[Steam ID { id, 10 }] <name unknown>", ModSettings.Bullet2);
+                        modReview += ReviewText($"[Steam ID { id, 10 }] <name unknown>", Bullet2);
 
                         Logger.Log($"Successor mod { id } not found in catalog.", Logger.debug);
                     }
@@ -497,12 +499,12 @@ namespace ModChecker
                     if (Catalog.Active.ModDictionary.ContainsKey(id))
                     {
                         // Mod found in the catalog, list Steam ID and name
-                        modReview += ReviewText(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), ModSettings.Bullet2);
+                        modReview += ReviewText(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), Bullet2);
                     }
                     else
                     {
                         // Mod not found in the catalog
-                        modReview += ReviewText($"[Steam ID { id, 10 }] <name unknown>", ModSettings.Bullet2);
+                        modReview += ReviewText($"[Steam ID { id, 10 }] <name unknown>", Bullet2);
 
                         Logger.Log($"Alternative mod { id } not found in catalog.", Logger.debug);
                     }
@@ -608,13 +610,13 @@ namespace ModChecker
                 foreach (KeyValuePair<ulong, List<Enums.CompatibilityStatus>> compatibility in subscription.Compatibilities)
                 {
                     // Skip if not subscribed
-                    if (!Subscription.AllSubscriptions.ContainsKey(compatibility.Key))
+                    if (!AllSubscriptions.ContainsKey(compatibility.Key))
                     {
                         continue;   // To the next compatibility
                     }
 
-                    string otherModText = ReviewText(Subscription.AllSubscriptions[compatibility.Key].ToString(showFakeID: false, showDisabled: true), ModSettings.Bullet2);
-                    string compatibilityNote = ReviewText(subscription.ModNotes[compatibility.Key], ModSettings.Bullet3);
+                    string otherModText = ReviewText(AllSubscriptions[compatibility.Key].ToString(showFakeID: false, showDisabled: true), Bullet2);
+                    string compatibilityNote = ReviewText(subscription.ModNotes[compatibility.Key], Bullet3);
 
                     List<Enums.CompatibilityStatus> statuses = compatibility.Value;
 
@@ -675,7 +677,7 @@ namespace ModChecker
             }
 
             // Workshop url for Workshop mods
-            modReview += (steamID > ModSettings.HighestFakeID) ? ReviewText("Steam Workshop page: " + Tools.GetWorkshopURL(steamID)) : "";
+            modReview += (steamID > HighestFakeID) ? ReviewText("Steam Workshop page: " + Tools.GetWorkshopURL(steamID)) : "";
 
             // Unreported: regular properties:      SourceURL, Updated, Downloaded, Recommendations
             //             mod statuses:            SourceBundled, SourceObfuscated, UnconfirmedIssues
@@ -705,12 +707,12 @@ namespace ModChecker
             }
             else
             {
-                bullet = (bullet == "") ? ModSettings.Bullet : bullet;
+                bullet = (bullet == "") ? Bullet : bullet;
 
-                if (cutOff && ((bullet + message).Length > ModSettings.MaxReportWidth))
+                if (cutOff && ((bullet + message).Length > MaxReportWidth))
                 {
                     // Cut off the message, so the 'bulleted' message stays within maximum width
-                    message = message.Substring(0, ModSettings.MaxReportWidth - bullet.Length - 3) + "...";
+                    message = message.Substring(0, MaxReportWidth - bullet.Length - 3) + "...";
 
                     Logger.Log($"Report line too long: " + message, Logger.debug);
                 }

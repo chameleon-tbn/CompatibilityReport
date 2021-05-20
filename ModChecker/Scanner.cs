@@ -134,7 +134,7 @@ namespace ModChecker
             // Log number of mods, runtime and report location
             timer.Stop();
 
-            Logger.Log($"Reviewed { Subscription.TotalReviewed } of your { Subscription.AllSubscriptions.Count } mods in { timer.ElapsedMilliseconds } ms.", 
+            Logger.Log($"Reviewed { Subscription.TotalSubscriptionsReviewed } of your { Subscription.AllSubscriptions.Count } mods in { timer.ElapsedMilliseconds } ms.", 
                 gameLog: true);
 
             // Indicate that we've done the scan in this scene

@@ -40,12 +40,13 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Localization
 
 ### Credits
-This mod is based on [Mod Compatibility Checker / AutoRepair](https://github.com/CitiesSkylinesMods/AutoRepair) ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132)) by aubergine10.
+This mod is inspired by and partially based on [Mod Compatibility Checker / AutoRepair](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine10.
 
-This mod also uses code snippets from:
+This mod uses code snippets from:
+* [Mod Compatibility Checker / AutoRepair](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine10 ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132))
 * [Enhanced District Services](https://github.com/chronofanz/EnhancedDistrictServices) by chronofanz ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2303997489))
 * [Customize It Extended](https://github.com/Celisuis/CustomizeItExtended) by Celisuis ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1806759255))
-* [Change Loading Screen 2](https://github.com/bloodypenguin/ChangeLoadingImage) by bloodypenguin ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110)).
+* [Change Loading Screen 2](https://github.com/bloodypenguin/ChangeLoadingImage) by bloodypenguin ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110))
 
 A big thanks to these modders and many others for making their code available for education and re-use.
 
