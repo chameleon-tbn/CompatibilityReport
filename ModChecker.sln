@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModChecker", "ModChecker\ModChecker.csproj", "{E43B190E-C881-4B71-AF47-D50D978D874C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A56460C7-D4A4-43D4-B044-EE08D71F4116}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
+		Change notes.txt = Change notes.txt
+		LICENSE = LICENSE
+		.github\ISSUE_TEMPLATE\mod-compatibility-info---mod-creators-only.md = .github\ISSUE_TEMPLATE\mod-compatibility-info---mod-creators-only.md
+		.github\ISSUE_TEMPLATE\mod-information-correction---mod-creators-only.md = .github\ISSUE_TEMPLATE\mod-information-correction---mod-creators-only.md
+		README.md = README.md
+		Todo.txt = Todo.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E43B190E-C881-4B71-AF47-D50D978D874C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E43B190E-C881-4B71-AF47-D50D978D874C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E43B190E-C881-4B71-AF47-D50D978D874C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E43B190E-C881-4B71-AF47-D50D978D874C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A494046C-1768-4137-B132-FE703F51466C}
+	EndGlobalSection
+EndGlobal
