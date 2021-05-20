@@ -48,7 +48,7 @@ namespace ModChecker.DataTypes
 
         public List<ModAuthor> ModAuthors { get; private set; } = new List<ModAuthor>();
 
-        // Dictionaries to make searching easier and faster
+        // Dictionaries to make searching easier and faster; Mods and Authors dictionaries will not populate automatically when adding any
         [XmlIgnore] public Dictionary<ulong, Mod> ModDictionary;
         
         [XmlIgnore] public Dictionary<ulong, ModGroup> ModGroupDictionary;
@@ -84,6 +84,8 @@ namespace ModChecker.DataTypes
             Version = 0;
 
             UpdateDate = DateTime.MinValue;
+
+            ModGroupDictionary = new Dictionary<ulong, ModGroup>();
         }
 
 
@@ -105,6 +107,8 @@ namespace ModChecker.DataTypes
             ReportIntroText = string.IsNullOrEmpty(reportIntroText) ? ModSettings.DefaultIntroText : reportIntroText;
 
             ReportFooterText = string.IsNullOrEmpty(reportFooterText) ? ModSettings.DefaultFooterText : reportFooterText;
+
+            ModGroupDictionary = new Dictionary<ulong, ModGroup>();
         }
 
 
@@ -135,9 +139,47 @@ namespace ModChecker.DataTypes
             ModGroups = modGroups;
 
             ModAuthors = modAuthors;
+
+            ModGroupDictionary = new Dictionary<ulong, ModGroup>();
         }
 
 
+        // Add a new group to a catalog
+        internal ulong AddGroup(List<ulong> steamIDs, string description)
+        {
+            // Get a new group ID
+            ulong newGroupID;
+
+            if (ModGroupDictionary?.Any() != true)
+            {
+                // No groups yet, so use the lowest group ID
+                newGroupID = ModSettings.lowestModGroupID;
+            }
+            else
+            {
+                // Set it one higher than the highest used group ID
+                newGroupID = ModGroupDictionary.Keys.Max() + 1;
+            }            
+
+            if (newGroupID > ModSettings.highestModGroupID)
+            {
+                Logger.Log("Ran out of mod group IDs. Mod Group could not be added to catalog.", Logger.error);
+
+                return 0;
+            }
+
+            // Add the new group to the list and dictionary
+            ModGroup modGroup = new ModGroup(newGroupID, steamIDs, description);
+
+            ModGroups.Add(modGroup);
+
+            ModGroupDictionary.Add(newGroupID, modGroup);
+
+            // Return the ID for the new group
+            return newGroupID;
+        }
+        
+        
         // Validate a catalog, including counting the number of mods; can't be private because it is used for the example catalog
         internal bool Validate()
         {
@@ -206,7 +248,7 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Initialize: load and download catalogs and make the newest the active catalog
+        // Load and download catalogs and make the newest the active catalog
         internal static bool InitActive()
         {
             // Load the catalog that was included with the mod
@@ -471,6 +513,25 @@ namespace ModChecker.DataTypes
         }
 
 
+        // Return the newest of two catalogs, or null if both are null; return catalog1 if both are the same version
+        private static Catalog Newest(Catalog catalog1, Catalog catalog2)
+        {
+            if ((catalog1 != null) && (catalog2 != null))
+            {
+                // Age is only determinend by Version, independent of StructureVersion
+                return (catalog1.Version > catalog2.Version) ? catalog1 : catalog2;
+            }
+            else if (catalog1 != null)
+            {
+                return catalog1;
+            }
+            else
+            {
+                return catalog2;
+            }
+        }
+        
+        
         // Load a catalog from disk
         private static Catalog Load(string fullPath)
         {
@@ -541,25 +602,6 @@ namespace ModChecker.DataTypes
                 Logger.Exception(ex);
 
                 return false;
-            }
-        }
-
-
-        // Return the newest of two catalogs, or null if both are null; return catalog1 if both are the same version
-        private static Catalog Newest(Catalog catalog1, Catalog catalog2)
-        {
-            if ((catalog1 != null) && (catalog2 != null))
-            {
-                // Age is only determinend by Version, independent of StructureVersion
-                return (catalog1.Version > catalog2.Version) ? catalog1 : catalog2;
-            }
-            else if (catalog1 != null)
-            {
-                return catalog1;
-            }
-            else
-            {
-                return catalog2;
             }
         }
     }

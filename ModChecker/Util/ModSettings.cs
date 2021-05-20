@@ -27,16 +27,6 @@ namespace ModChecker.Util
 {
     internal static class ModSettings
     {
-        // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
-        internal const string shortVersion = "0.1";
-        internal const string revision = "0";
-        internal const string build = "80";
-        internal const string version = shortVersion + "." + revision + "." + build;
-
-        // Release type: alpha, beta, test or "" (production)
-        internal const string releaseType = "alpha";
-
-
         // Constructor
         static ModSettings()
         {
@@ -53,67 +43,73 @@ namespace ModChecker.Util
 
         /// Hardcoded settings that can't be changed by users
 
+        // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
+        internal const string shortVersion = "0.1";
+        internal const string revision = "1";
+        internal const string build = "81";
+        internal const string version = shortVersion + "." + revision + "." + build;
+
+        // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
+        internal const string releaseType = "alpha";
+
         // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
-        internal const string name = "Mod Checker";                                                     // used in report filename, reporting and logging
-        internal const string displayName = name + " " + shortVersion + " " + releaseType;              // used in game options, Content Manager and AssemblyInfo
-        internal const string internalName = "ModChecker";                                              // used in filenames, xmlRoot, game log, ...
+        internal const string name = "Mod Checker";                                             // used in report filename, reporting and logging
+        internal const string displayName = name + " " + shortVersion + " " + releaseType;      // used in game options, Content Manager and AssemblyInfo
+        internal const string internalName = "ModChecker";                                      // used in filenames, xmlRoot and game log
 
         // Mod description, shown in Content Manager; used in AssemblyInfo, must be a constant
         internal const string description = "Checks your subscribed mods for compatibility. Version " + version + " " + releaseType;
 
-        // Author name; used in AssemblyInfo, must be a constant
+        // Author name; used in AssemblyInfo; used in AssemblyInfo, must be a constant
         internal const string author = "Finwickle";
-
-        // This mods own Steam ID
-        internal static ulong SteamID { get; private set; } = 101;                                      // Unfinished
 
         // The XML root of the Catalog; must be constant
         internal const string xmlRoot = internalName + "Catalog";
 
-        // The current catalog structure version
-        internal const uint CurrentCatalogStructureVersion = 1;
+        // This mods own Steam ID
+        internal static readonly ulong SteamID = 101;                                           // Unfinished
 
+        // The current catalog structure version
+        internal static readonly uint CurrentCatalogStructureVersion = 1;
 
         // Logfile location
-        internal static string LogfileFullPath { get; private set; } = Path.Combine(Application.dataPath, $"{ internalName }.log");
-
-        // Downloaded catalog url
-        internal static string CatalogURL { get; private set; } = "https://surfdrive.surf.nl/files/index.php/s/OwBdunIj4BDc8Jb/download";
+        internal static readonly string LogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
 
         // Report filename, without path
-        internal static string ReportTextFileName { get; private set; } = $"{ name } Report.txt";
-        internal static string ReportHtmlFileName { get; private set; } = $"{ name } Report.html";
+        internal static readonly string ReportTextFileName = $"{ name } Report.txt";
+        internal static readonly string ReportHtmlFileName = $"{ name } Report.html";
+
+        // Downloaded catalog url
+        internal static readonly string CatalogURL = "https://surfdrive.surf.nl/files/index.php/s/OwBdunIj4BDc8Jb/download";
 
         // Downloaded Catalog local location
-        internal static string DownloadedCatalogFullPath { get; private set; } = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Catalog.xml");
+        internal static readonly string DownloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Catalog.xml");
 
         // Bundled Catalog location: in the same location as the mod itself
-        internal static string BundledCatalogFullPath { get; private set; }                            // Set in constructor
-
+        internal static readonly string BundledCatalogFullPath;                                 // Set in constructor
 
         // 'Please report' text to include in logs when something odd happens
-        internal static string PleaseReportText { get; private set; } = $"Please report this on the Workshop page for { name }: { Tools.GetWorkshopURL(SteamID) } ";
-
-        // Separators used in the logfile and TXT report
-        internal const string separator       = "------------------------------------------------------------------------------------------";
-        internal const string separatorDouble = "==========================================================================================";
-
-        // Separator to use in logfiles when appending
-        internal const string sessionSeparator = "\n\n" + separatorDouble + "\n\n";
+        internal static readonly string PleaseReportText = $"Please report this on the Workshop page for { name }: { Tools.GetWorkshopURL(SteamID) } ";
 
         // Max width of the TXT report: 
-        internal static int MaxReportWidth { get; private set; } = separator.Length - 1;
+        internal static readonly int MaxReportWidth = 89;
+
+        // Separators used in the logfile and TXT report
+        internal static readonly string separator       = new string('-', MaxReportWidth + 1);
+        internal static readonly string separatorDouble = new string('=', MaxReportWidth + 1);
+
+        // Separator to use in logfiles when appending
+        internal static readonly string sessionSeparator = "\n\n" + separatorDouble + "\n\n";
 
         // Bullets used in the TXT report:
-        internal static string Bullet    { get; private set; } = " - ";
-        internal static string NoBullet  { get; private set; } = "".PadLeft(Bullet.Length);         // Unfinished: any more efficient way to do this?
-        internal static string Bullet2   { get; private set; } = NoBullet  + "  * ";
-        internal static string NoBullet2 { get; private set; } = "".PadLeft(Bullet2.Length);
-        internal static string Bullet3   { get; private set; } = NoBullet2 + "  - ";
-
+        internal static readonly string Bullet    = " - ";
+        internal static readonly string NoBullet  = new string(' ', Bullet.Length);
+        internal static readonly string Bullet2   = NoBullet  + "  * ";
+        internal static readonly string NoBullet2 = new string(' ', Bullet2.Length);
+        internal static readonly string Bullet3   = NoBullet2 + "  - ";
 
         // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility.
-        internal static Dictionary<string, ulong> BuiltinMods { get; private set; } = new Dictionary<string, ulong>
+        internal static Dictionary<string, ulong> BuiltinMods { get; } = new Dictionary<string, ulong>
         {
             { "Hard Mode", 1 },
             { "Unlimited Money", 2 },
@@ -124,26 +120,27 @@ namespace ModChecker.Util
 
         // Lowest and highest fake Steam ID for unknown builtin mods, local mods and mod groups
         // These should be in this order, not overlap, be higher than above BuiltinMods IDs, and all be lower than real Steam IDs
-        internal const ulong lowestUnknownBuiltinModID  = 11;
-        internal const ulong highestUnknownBuiltinModID = 99;
-        internal const ulong lowestLocalModID          = 101;
-        internal const ulong highestLocalModID        = 9999;
-        internal const ulong lowestModGroupID        = 10001;
-        internal const ulong highestModGroupID      = 999999;
-        internal static ulong HighestFakeID { get; private set; } = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
+        internal static readonly ulong lowestUnknownBuiltinModID  = 11;
+        internal static readonly ulong highestUnknownBuiltinModID = 99;
+        internal static readonly ulong lowestLocalModID          = 101;
+        internal static readonly ulong highestLocalModID        = 9999;
+        internal static readonly ulong lowestModGroupID        = 10001;
+        internal static readonly ulong highestModGroupID      = 999999;
+        internal static readonly ulong HighestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
         
+
         
         /// Settings that come from the catalog; defaults for creating a catalog
         
-        // The game version this mod is updated for; the catalog can overrule this
-        internal static Version CompatibleGameVersion { get; private set; } = GameVersion.Patch_1_13_1_f1;
+        // The game version this mod is updated for; the catalog should overrule this
+        internal static readonly Version CompatibleGameVersion = GameVersion.Patch_1_13_1_f1;
 
-        // Default report intro text for creating new catalogs; should end with \n
-        internal static string DefaultIntroText { get; private set; } =
+        // Default text report intro and footer
+        internal static readonly string DefaultIntroText =
                        "Basic information about mods:\n" +
             Bullet +   "Always exit to desktop before loading another save! (no 'Second Loading')\n" +
-            Bullet +   "Always unsubscribe mods you're not using! Disabled mods are still partially loaded.\n" +
             Bullet +   "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
+            Bullet +   "Always unsubscribe mods you're not using. Disabling isn't always good enough.\n" +
             Bullet +   "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
             Bullet +   "Savegame not loading? Use the optimization and safe mode options from Loading Screen:\n" +
             NoBullet + Tools.GetWorkshopURL(667342976) + "\n" +
@@ -159,12 +156,15 @@ namespace ModChecker.Util
             NoBullet + "mod creators in this. However, we will occasionally get it wrong or miss an update.\n" +
             Bullet +   "Found a mistake? Please comment on the Workshop, especially as the creator of a mod.";
 
-        // Default report footer text for creating new catalogs
-        internal static string DefaultFooterText { get; private set; } =
+        internal static readonly string DefaultFooterText =
             "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" + 
             Tools.GetWorkshopURL(SteamID);
 
-        // Unfinished: defaults for Html needed
+        // Default html report intro and footer
+        internal static readonly string DefaultIntroHtml = "";                                  // Unfinished
+
+        internal static readonly string DefaultFooterHtml = "";                                 // Unfinished
+
 
 
         /// Settings that will be available to users through mod options
@@ -185,14 +185,13 @@ namespace ModChecker.Util
 
 
 
-
         /// Settings that will be available in a settings xml file
 
         // Debug mode; this enables debug logging and logfile append
         internal static bool DebugMode { get; private set; } = true;
 
-        // Overwrite (default) or append the log file for normal mode; always append for debug mode
-        internal static bool LogOverwrite { get; private set; } = true && !DebugMode;
+        // Append (default) or overwrite the log file for normal mode; always append for debug mode
+        internal static bool LogAppend { get; private set; } = true || DebugMode;
 
         // Maximum log file size before starting with new log file; only applicable when appending
         internal static long LogMaxSize { get; private set; } = 100 * 1024;                         // 100 KB

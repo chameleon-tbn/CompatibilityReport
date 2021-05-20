@@ -1,3 +1,9 @@
 Mod Checker
 
 version 0.1 - Initial build with text report
+* Detection of subscribed and local mods
+* Loading of an xml catalog with mod and mod compatibility information (current catalog has only fake information)
+* Investigation of all mods against the catalog
+* Text report, sorted by mod name
+* Automatic download of a new catalog, saved for future sessions; no mod update for every new incompatibility
+* Logging

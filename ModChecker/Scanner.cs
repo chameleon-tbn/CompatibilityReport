@@ -65,7 +65,7 @@ namespace ModChecker
             // Log catalog details and how long the init took. Not sure how useful that number is, with a lot happening in the game at the same time.
             Logger.Log($"Using catalog version { Catalog.Active.StructureVersion }.{ Catalog.Active.Version:D4}, " + 
                 $"created on { Catalog.Active.UpdateDate.ToLongDateString() }. Catalog contains { Catalog.Active.CountReviewed } reviewed mods and " +
-                $"{ Catalog.Active.Count - Catalog.Active.CountReviewed } mods with basic information.", gameLog: true);
+                $"{ Catalog.Active.Count - Catalog.Active.CountReviewed } other mods with basic information.", gameLog: true);
 
             timer.Stop();
 

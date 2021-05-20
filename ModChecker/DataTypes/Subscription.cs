@@ -126,7 +126,7 @@ namespace ModChecker.DataTypes
                 }
                 else
                 {
-                    // Unknow builtin mod. This is either a mistake or BuiltinMods should be updated. Assign fake Steam ID, or 0 if we ran out of fake IDs.
+                    // Unknown builtin mod. This is either a mistake or BuiltinMods should be updated. Assign fake Steam ID, or 0 if we ran out of fake IDs.
                     SteamID = (unknownBuiltinModID <= ModSettings.highestUnknownBuiltinModID) ? unknownBuiltinModID : 0;
 
                     // Increase the fake Steam ID for the next mod
@@ -144,12 +144,17 @@ namespace ModChecker.DataTypes
                 localModID++;
             }
 
-            if (!IsBuiltin || IsEnabled)
+            if (IsBuiltin && !IsEnabled)
             {
-                // Don't log disabled builtin mods, because they will get a 'skipped' log message at GetAll()
-                Logger.Log($"Mod found: { this.ToString() }");
-            }            
+                // Exit on disabled builtin mods; they will not be included in the report and should not be counted in TotalReviewed below                
+                Logger.Log($"Skipped builtin mod that is not enabled: { this.ToString() }.");
 
+                return;
+            }
+                
+            // Don't log disabled builtin mods, because they will get a 'skipped' log message at GetAll()
+            Logger.Log($"Mod found: { this.ToString() }");
+            
             // Find the mod in the active catalog
             if (!Catalog.Active.ModDictionary.ContainsKey(SteamID))
             {
@@ -397,9 +402,7 @@ namespace ModChecker.DataTypes
                         // Skip disabled builtin mods, since they shouldn't influence anything; disabled local mods are still added
                         if (subscription.IsBuiltin && !subscription.IsEnabled)
                         {
-                            Logger.Log($"Skipped builtin mod that is not enabled: { subscription.ToString() }.");
-
-                            continue;
+                            continue;       // To next plugin in foreach
                         }
 
                         // Add Steam Workshop mod to the dictionaries and lists

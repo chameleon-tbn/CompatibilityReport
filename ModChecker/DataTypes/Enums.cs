@@ -47,7 +47,7 @@
             LoadingTimeImpact,
             BreaksEditors,
             SavesCantLoadWithout,
-            Abandonned,
+            Abandoned,
             NoLongerNeeded,
             SourceUnavailable,
             SourceNotUpdated,

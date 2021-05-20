@@ -75,6 +75,7 @@ namespace ModChecker.Util
 
 
         // Remove the Windows username from the '...\AppData\Local' path for privacy reasons
+        // Unfinished: Mac OS X, might be /Users/<username>/Library/ to ~/Library/
         internal static string PrivacyPath(string path)
         {
             // Get position of \appdata\local in the path
