@@ -229,5 +229,8 @@ namespace ModChecker.DataTypes
         
         // 2021-02-03 Bugfixes for the Epic Game Store edition; version is not available on other editions
         internal static readonly Version Patch_1_13_2_f1 = new Version(1, 13, 2, 1);
+
+        // 2021-05-21 Bridges and Piers DLC & Train Stations DLC & Rail Hawk radio DLC & Sunny Breeze radio DLC
+        internal static readonly Version Patch_1_13_3_f9 = new Version(1, 13, 3, 9);
     }
 }

@@ -204,7 +204,7 @@ namespace ModChecker.Util
 
 
         // Log a message to the report
-        internal static void Report(string message, LogLevel logLevel = info)
+        internal static void Report(string message)
         {
             // Don't report if we don't have a message
             if (string.IsNullOrEmpty(message))
@@ -212,10 +212,7 @@ namespace ModChecker.Util
                 return;
             }
 
-            // Report with loglevel prefix for anything other than info
-            string logPrefix = (logLevel == info) ? "" : $"{ logLevel }: ";
-
-            report.WriteLine(logPrefix + message);
+            report.WriteLine(message);
         }
     }
 }

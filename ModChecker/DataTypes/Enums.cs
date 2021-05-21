@@ -49,6 +49,7 @@
             SavesCantLoadWithout,
             Abandoned,
             NoLongerNeeded,
+            NoDescription,                      // For mods without (real) description and images
             SourceUnavailable,
             SourceNotUpdated,
             SourceObfuscated,

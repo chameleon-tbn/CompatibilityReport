@@ -53,20 +53,21 @@ namespace ModChecker
                 return;
             }
 
-            // Check if game version equals the version this mod (more precise: the catalog) was made for
-            if (GameVersion.Current != Catalog.Active.CompatibleGameVersion)
-            {
-                string olderNewer = (GameVersion.Current < Catalog.Active.CompatibleGameVersion) ? "an older" : "a newer";
-
-                Logger.Log($"This mod was updated for game version { GameVersion.Formatted(Catalog.Active.CompatibleGameVersion) }. " +
-                    $"You're using { olderNewer } version of the game. Results might not be accurate.", Logger.warning, gameLog: true);
-            }
-
-            // Log catalog details and how long the init took. Not sure how useful that number is, with a lot happening in the game at the same time.
+            // Log catalog details
             Logger.Log($"Using catalog version { Catalog.Active.StructureVersion }.{ Catalog.Active.Version:D4}, " + 
                 $"created on { Catalog.Active.UpdateDate.ToLongDateString() }. Catalog contains { Catalog.Active.CountReviewed } reviewed mods and " +
                 $"{ Catalog.Active.Count - Catalog.Active.CountReviewed } other mods with basic information.", gameLog: true);
 
+            // Log if the game version differs from the version the catalog was made for
+            if (GameVersion.Current != Catalog.Active.CompatibleGameVersion)
+            {
+                string olderNewer = (GameVersion.Current < Catalog.Active.CompatibleGameVersion) ? "an older" : "a newer";
+
+                Logger.Log($"The catalog was updated for game version { GameVersion.Formatted(Catalog.Active.CompatibleGameVersion) }. " +
+                    $"You're using { olderNewer } version of the game. Results may not be accurate.", Logger.warning, gameLog: true);
+            }
+
+            // Log how long the init took. Not sure how useful that number is, with a lot happening in the game at the same time.
             timer.Stop();
 
             Logger.Log($"Scanner initialized in { timer.ElapsedMilliseconds } ms. Now waiting for all mods to load.\n", gameLog: true);

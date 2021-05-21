@@ -37,7 +37,7 @@ namespace ModChecker
             {
                 if (CreateText())
                 {
-                    Logger.Log($"{ (ModSettings.HtmlReport ? "" : "Scan complete. ") }Text report ready at \"{ Tools.PrivacyPath(ReportTextFullPath) }\".",
+                    Logger.Log($"{ (HtmlReport ? "" : "Scan complete. ") }Text report ready at \"{ Tools.PrivacyPath(ReportTextFullPath) }\".",
                         gameLog: true);
                 }
                 else
@@ -82,15 +82,10 @@ namespace ModChecker
             // Warn about game version mismatch
             if (GameVersion.Current != ModSettings.CompatibleGameVersion)
             {
-                string olderNewer = (GameVersion.Current < ModSettings.CompatibleGameVersion) ? "an older" : "a newer";
+                string olderNewer = (GameVersion.Current < Catalog.Active.CompatibleGameVersion) ? "older" : "newer";
 
-                Logger.Report($"\nThis mod is made for game version { GameVersion.Formatted(ModSettings.CompatibleGameVersion) }. " +
-                    $"You're using { olderNewer } version of the game. Results might not be accurate.", Logger.warning);
-
-                if (olderNewer == "a newer")
-                {
-                    Logger.Report($"Check this mods Steam workshop page for details or an updated version: { Tools.GetWorkshopURL(ModSettings.SteamID) }");
-                }
+                Logger.Report($"\nWARNING: The catalog is made for game version { GameVersion.Formatted(Catalog.Active.CompatibleGameVersion) }. Your game is { olderNewer }.\n" + 
+                                 "         Results may not be accurate.");
             }
 
             // Intro text with generic notes
