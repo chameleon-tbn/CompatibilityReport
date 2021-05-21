@@ -70,11 +70,6 @@ namespace ModChecker.DataTypes
         // Did we download a catalog already this session
         [XmlIgnore] private static bool downloadedValidCatalog = false;
 
-        // ValidationCallback to get rid of "The authentication or decryption has failed." errors when downloading
-        // This allows to download from sites that still support TLS 1.1 or worse, but not from sites that only support TLS 1.2+
-        // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
-        [XmlIgnore] private static readonly RemoteCertificateValidationCallback Callback = (sender, cert, chain, sslPolicyErrors) => true;
-
 
         // Default constructor, used when creating an empty catalog (for reading from disk)
         public Catalog()
@@ -285,7 +280,7 @@ namespace ModChecker.DataTypes
 
             foreach (Mod mod in Active.Mods) { Active.ModDictionary.Add(mod.SteamID, mod); }
             foreach (ModGroup group in Active.ModGroups) { Active.ModGroupDictionary.Add(group.GroupID, group); }
-            foreach (ModAuthor author in Active.ModAuthors) { Active.AuthorDictionary.Add(author.Tag, author); }
+            foreach (ModAuthor author in Active.ModAuthors) { Active.AuthorDictionary.Add(author.ID, author); }
 
             // Return true if we have a valid active catalog
             return Active.IsValid;
@@ -409,8 +404,8 @@ namespace ModChecker.DataTypes
                 }
             }
 
-            // Activate our callback
-            ServicePointManager.ServerCertificateValidationCallback += Callback;
+            // Activate TLS callback
+            ServicePointManager.ServerCertificateValidationCallback += TLSCallback;
 
             // Download new catalog; exit if we can't
             using (WebClient webclient = new WebClient())
@@ -456,16 +451,15 @@ namespace ModChecker.DataTypes
                         Logger.Exception(ex2);
                     }
 
-                    // Deactivate our callback
-                    ServicePointManager.ServerCertificateValidationCallback -= Callback;
-
-                    // Exit download method
+                    // Deactivate TLS callback and exit download method
+                    ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
+                                        
                     return previousCatalog;
                 }
             }
 
-            // Deactivate our callback
-            ServicePointManager.ServerCertificateValidationCallback -= Callback;
+            // Deactivate TLS callback
+            ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
 
             // Load and validate newly downloaded catalog
             Catalog newCatalog = Load(newCatalogFileName);

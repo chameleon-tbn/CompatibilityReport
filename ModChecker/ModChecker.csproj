@@ -70,6 +70,7 @@
     <Compile Include="DataTypes\Mod.cs" />
     <Compile Include="Reporter.cs" />
     <Compile Include="Scanner.cs" />
+    <Compile Include="Util\Updater.cs" />
     <Compile Include="Util\ExampleCatalog.cs" />
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="DataTypes\GameVersion.cs" />

@@ -14,8 +14,8 @@ namespace ModChecker.DataTypes
 
         public string Name { get; private set; }
 
-        // Author tag for main author and additional authors; can be linked to the ModAuthors info
-        public string AuthorTag { get; private set; }
+        // Author ID for main author and additional authors; can be linked to the ModAuthors info
+        public string AuthorID { get; private set; }
 
         public List<string> OtherAuthors { get; private set; } = new List<string>();
 
@@ -79,7 +79,7 @@ namespace ModChecker.DataTypes
         // Constructor with all one to all parameters, used when creating/updating a catalog or when converting an old catalog
         public Mod(ulong steamID,
                    string name = "",
-                   string authorTag = "",
+                   string authorID = "",
                    List<string> otherAuthors = null,
                    string version = "",
                    DateTime? published = null,
@@ -100,7 +100,7 @@ namespace ModChecker.DataTypes
 
             Name = name;
 
-            AuthorTag = authorTag;
+            AuthorID = authorID;
 
             OtherAuthors = otherAuthors;
 

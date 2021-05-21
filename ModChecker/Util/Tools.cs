@@ -29,10 +29,18 @@ namespace ModChecker.Util
         }
 
 
-        // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(string authorTag)
+        // Return Steam Workshop url for an author      // Unfinished
+        internal static string GetAuthorWorkshop(string authorID, bool isProfile)
         {
-            return $"https://steamcommunity.com/profiles/{ authorTag }/myworkshopfiles/?appid=255710";
+            if (isProfile)
+            {
+                return $"https://steamcommunity.com/profiles/{ authorID }/myworkshopfiles/?appid=255710";
+            }
+            else
+            {
+                return $"https://steamcommunity.com/id/{ authorID }/myworkshopfiles/?appid=255710";
+            }
+            
         }
 
 

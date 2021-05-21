@@ -15,7 +15,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 
 ### Roadmap towards version 1.0 (might change)
 * 0.2 - Catalog update routine; probably based on webcrawling, not Steam API
-  * Detection of changes to mod name, update date, version, author tag/name, contributors, ...
+  * Detection of changes to mod name, update date, version, author id/name, contributors, ...
 * 0.3 - HTML report, categorized by severity
 * 0.4 - First catalog, with basic information about 1500+ mods and related authors
   * Set up download site

@@ -10,7 +10,7 @@ using static ModChecker.DataTypes.Enums.ModStatus;
 namespace ModChecker.Util
 {
     // For debugging and development
-    class ExampleCatalog
+    internal static class ExampleCatalog
     {
         internal static bool Create(string fullPath)
         {
@@ -33,13 +33,13 @@ namespace ModChecker.Util
             exampleCatalog.Mods.Add(new Mod(5, "Unlock All", statuses: modStatus, reviewUpdated: now));
 
             // Some authors
-            exampleCatalog.ModAuthors.Add(new ModAuthor("finwickle", "Finwickle", DateTime.Parse("2021-04-30")));
-            exampleCatalog.ModAuthors.Add(new ModAuthor("76561198073436745", "Tim"));
+            exampleCatalog.ModAuthors.Add(new ModAuthor("finwickle", idIsProfile: false, "Finwickle", DateTime.Parse("2021-04-30")));
+            exampleCatalog.ModAuthors.Add(new ModAuthor("76561198073436745", idIsProfile: true, "Tim"));
 
-            ModAuthor aubergine18 = new ModAuthor("aubergine18", "aubergine18", retired: true);
+            ModAuthor aubergine18 = new ModAuthor("aubergine18", idIsProfile: false, "aubergine18", retired: true);
             exampleCatalog.ModAuthors.Add(aubergine18);
             
-            ModAuthor soda = new ModAuthor("76561197997507574", "Soda", retired: true);
+            ModAuthor soda = new ModAuthor("76561197997507574", idIsProfile: true, "Soda", retired: true);
             exampleCatalog.ModAuthors.Add(soda);
 
 
@@ -47,12 +47,12 @@ namespace ModChecker.Util
             exampleCatalog.Mods.Add(new Mod(576327847, "81 Tiles (Fixed for C:S 1.2+)", "bloody_penguin", reviewUpdated: DateTime.Now));
 
             modStatus = new List<ModStatus> { GameBreaking };
-            exampleCatalog.Mods.Add(new Mod(421028969, "[ARIS] Skylines Overwatch", soda.Tag, statuses: modStatus));
+            exampleCatalog.Mods.Add(new Mod(421028969, "[ARIS] Skylines Overwatch", soda.ID, statuses: modStatus));
 
             modStatus = new List<ModStatus> { Abandoned };
             List<ulong> modsRequired = new List<ulong> { 3, 4, 5 };
             exampleCatalog.Mods.Add(
-                new Mod(2034713132, "Mod Compatibility Checker", aubergine18.Tag, otherAuthors: null, version: "", published: DateTime.Parse("2020-03-25"),
+                new Mod(2034713132, "Mod Compatibility Checker", aubergine18.ID, otherAuthors: null, version: "", published: DateTime.Parse("2020-03-25"),
                 updated: DateTime.Parse("2020-05-16"), removed: false, archiveURL: "", "https://github.com/CitiesSkylinesMods/AutoRepair",
                 GameVersion.Patch_1_13_0_f8.ToString(), dlcRequired: null, modsRequired, modsRecommended: null, onlyNeededFor: null,
                 note: "The predecessor of Mod Checker.", modStatus, reviewUpdated: DateTime.Now));

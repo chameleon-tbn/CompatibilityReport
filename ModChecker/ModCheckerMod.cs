@@ -38,8 +38,17 @@ namespace ModChecker
         {
             Logger.Log("OnEnabled called.", Logger.debug);
 
-            // Unfinished: this is for testing only, should be removed
-            ExampleCatalog.Create(ModSettings.ExampleCatalogFullPath);
+            if (ModSettings.DebugMode)
+            {
+                // Unfinished: should get a different starting trigger (file on disk?)
+                if (!Updater.GetAllModsFromSteam())
+                {
+                    Logger.Log("Updater failed.", Logger.debug);
+                }
+
+                // Unfinished: this is for testing only, should be removed
+                // ExampleCatalog.Create(ModSettings.ExampleCatalogFullPath);
+            }
 
             Scanner.Init();
         }

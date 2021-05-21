@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Security;
 using UnityEngine;
 using ColossalFramework.IO;
 using ModChecker.DataTypes;
@@ -27,16 +28,24 @@ namespace ModChecker.Util
 {
     internal static class ModSettings
     {
-        // Constructor
+        // Constructor; don't use Logger here because that one needs ModSettings
         static ModSettings()
         {
             try
             {
-                BundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }Catalog.xml");                      // Steam Workshop mod
+                BundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }Catalog.xml");                          // Steam Workshop mod
             }
             catch
             {
-                BundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }Catalog.xml");   // Local mod
+                try
+                {
+                    BundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }Catalog.xml");   // Local mod
+                }
+                catch
+                {
+                    BundledCatalogFullPath = "";
+                }
+                
             }
         }
 
@@ -44,9 +53,9 @@ namespace ModChecker.Util
         /// Hardcoded settings that can't be changed by users
 
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
-        internal const string shortVersion = "0.1";
-        internal const string revision = "1";
-        internal const string build = "83";
+        internal const string shortVersion = "0.2";
+        internal const string revision = "0";
+        internal const string build = "84";
         internal const string version = shortVersion + "." + revision + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
@@ -127,11 +136,42 @@ namespace ModChecker.Util
         internal static readonly ulong lowestModGroupID        = 10001;
         internal static readonly ulong highestModGroupID      = 999999;
         internal static readonly ulong HighestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
-        
 
-        
+        // Steam Workshop url (without page number) and temporary file location for webcrawling
+        internal static readonly string SteamNewModsURL = 
+            "https://steamcommunity.com/workshop/browse/?appid=255710&requiredtags%5B0%5D=Mod&actualsort=mostrecent&browsesort=mostrecent";
+
+        internal static readonly string SteamNewModsFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }-SteamNewMods.html");
+
+        // Max. number of Steam Mod pages to download, to avoid downloading for eternity
+        internal static uint SteamMaxPagesToDownload = 100;
+        internal static uint SteamMaxErrorCount = 3;
+
+        // String to recognize a mod line in Steam webpages
+        internal static string HtmlSearchMod                 = "<div class=\"workshopItemTitle ellipsis\">";
+
+        // String to recognize for pages without mods
+        internal static string HtmlSearchNoMoreFound         = "No items matching your search criteria were found";
+
+        // Strings to use for finding the mod and author info in the HTML lines
+        internal static string HtmlSearchBeforeID            = "steamcommunity.com/sharedfiles/filedetails/?id=";
+        internal static string HtmlSearchAfterID             = "&searchtext";
+        internal static string HtmlSearchBeforeName          = "workshopItemTitle ellipsis\">";
+        internal static string HtmlSearchAfterName           = "</div>";
+        internal static string HtmlSearchBeforeAuthorID      = "steamcommunity.com/id/";
+        internal static string HtmlSearchBeforeAuthorProfile = "steamcommunity.com/profiles/";
+        internal static string HtmlSearchAfterAuthorID       = "/myworkshopfiles";
+        internal static string HtmlSearchBeforeAuthorName    = "/myworkshopfiles/?appid=255710\">";
+        internal static string HtmlSearchAfterAuthorName     = "</a>";
+
+        // ValidationCallback to get rid of "The authentication or decryption has failed." errors when downloading
+        // This allows to download from sites that still support TLS 1.1 or worse, but not from sites that only support TLS 1.2+
+        // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
+        internal static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;
+
+
         /// Settings that come from the catalog; defaults for creating a catalog
-        
+
         // The game version this mod is updated for; the catalog should overrule this
         internal static readonly Version CompatibleGameVersion = GameVersion.Patch_1_13_1_f1;
 

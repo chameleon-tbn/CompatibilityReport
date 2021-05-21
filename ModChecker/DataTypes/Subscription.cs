@@ -206,20 +206,20 @@ namespace ModChecker.DataTypes
             Recommendations = mod.Recommendations;
 
             // Get the author name for Steam Workshop mods
-            if (!string.IsNullOrEmpty(mod.AuthorTag) && !IsLocal)
+            if (!string.IsNullOrEmpty(mod.AuthorID) && !IsLocal)
             {
                 // Find the author in the active catalog for Steam Workshop mods
-                if (Catalog.Active.AuthorDictionary.ContainsKey(mod.AuthorTag))
+                if (Catalog.Active.AuthorDictionary.ContainsKey(mod.AuthorID))
                 {
                     // Get the author info from the catalog
-                    AuthorName = Catalog.Active.AuthorDictionary[mod.AuthorTag].Name;
+                    AuthorName = Catalog.Active.AuthorDictionary[mod.AuthorID].Name;
 
-                    AuthorIsRetired = Catalog.Active.AuthorDictionary[mod.AuthorTag].Retired;
+                    AuthorIsRetired = Catalog.Active.AuthorDictionary[mod.AuthorID].Retired;
                 }
                 else
                 {
-                    // Can't find the author name, so use the author tag
-                    AuthorName = mod.AuthorTag;
+                    // Can't find the author name, so use the author ID
+                    AuthorName = mod.AuthorID;
 
                     Logger.Log($"Author not found in catalog: { AuthorName }", Logger.debug);
                 }
