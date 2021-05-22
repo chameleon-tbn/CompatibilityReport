@@ -25,7 +25,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * 0.6 - Performance testing; decide when to run the check (probably make it a mod setting)
   * Code cleanup
   * Completing the catalog
-* 0.7 - Settings UI and settings xml; when to scan, on-demand scanning, text or html report, report sorting, ...
+* 0.7 - Settings UI and settings xml; when to scan, on-demand scanning, text or HTML report, report sorting, ...
 
 ### Future ideas (might not happen)
 * In-game popup with summary and button to open report

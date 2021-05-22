@@ -15,7 +15,7 @@ namespace ModChecker.DataTypes
     public class V0_Catalog                                                  // Needs to be public for XML serialization
     {
         // StructureVersion is also used for logging
-        private uint StructureVersion { get; set; } = 0;
+        private static uint StructureVersion { get; set; } = 0;
 
         // Catalog version and date
         public uint Version { get; private set; }
@@ -33,7 +33,7 @@ namespace ModChecker.DataTypes
 
 
         // Load an old catalog from disk and convert it to a new catalog
-        internal Catalog LoadAndConvert(string fullPath)
+        internal static Catalog LoadAndConvert(string fullPath)
         {
             V0_Catalog V0_catalog = new V0_Catalog();
 

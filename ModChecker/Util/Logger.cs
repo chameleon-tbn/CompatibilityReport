@@ -140,7 +140,7 @@ namespace ModChecker.Util
 
 
         // Initialize the updater logfile
-        internal static void InitUpdateLog()
+        internal static void InitUpdaterLog()
         {
             updaterLog = new MyFile(ModSettings.UpdaterLogfileFullPath, timeStamp: true, append: ModSettings.LogAppend);
         }
@@ -190,10 +190,16 @@ namespace ModChecker.Util
 
 
         // Log a message to the updater log
-        internal static void UpdaterLog(string message, LogLevel logLevel)
+        internal static void UpdaterLog(string message, LogLevel logLevel = info, bool regularLog = false)
         {
             // Write the message to file, with loglevel prefix
             updaterLog.WriteLine(message, logLevel);
+
+            // Duplicate the message to the regular log if indicated
+            if (regularLog)
+            {
+                Log(message, logLevel);
+            }
         }
 
 
@@ -203,36 +209,47 @@ namespace ModChecker.Util
             // Write the message to file
             report.WriteLine(message);
         }
-        
-        
+
+
         // Log exception to mod log and if indicated to game log, including stack trace to help debug the problem
-        internal static void Exception(Exception ex, bool debugOnly = false, bool gameLog = true, bool stackTrace = true)
+        internal static void Exception(Exception ex, bool debugOnly = false, bool toUpdaterLog = false, bool duplicateToGameLog = true, bool stackTrace = true)
         {
             // Only write to log files when DebugModeOnly is not requested or we are in debug mode
             if (!debugOnly || ModSettings.DebugMode)
             {
+                string message;
+
                 // Log with regular or debug prefix
                 string logPrefix = (debugOnly ? "[DEBUG EXCEPTION]" : "[EXCEPTION]");
 
                 if (ModSettings.DebugMode)
                 {
                     // Exception with full stacktrace
-                    Log($"{ logPrefix } { ex }");
+                    message = $"{ logPrefix } { ex }";
                 }
                 else if (stackTrace)
                 {
                     // Exception with short stacktrace; if missing vital information, then retry in debug mode
-                    Log($"{ logPrefix } { ex.GetType().Name }: { ex.Message }\n" +
-                        $"{ ex.StackTrace }");
+                    message = $"{ logPrefix } { ex.GetType().Name }: { ex.Message }\n" +
+                        $"{ ex.StackTrace }";
                 }
                 else
                 {
                     // Exception without stacktrace
-                    Log($"{ logPrefix } { ex.GetType().Name }: { ex.Message }");
+                    message = $"{logPrefix} {ex.GetType().Name}: {ex.Message}";
                 }                
 
+                if (toUpdaterLog)
+                {
+                    UpdaterLog(message);
+                }
+                else
+                {
+                    Log(message);
+                }
+
                 // Log exception to game log if indicated
-                if (gameLog)
+                if (duplicateToGameLog)
                 {
                     UnityEngine.Debug.LogException(ex);
                 }                

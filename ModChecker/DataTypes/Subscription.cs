@@ -436,7 +436,7 @@ namespace ModChecker.DataTypes
                 {
                     Logger.Log($"Can't add mod to subscription list: { Tools.GetPluginName(plugin) }.", Logger.error);
 
-                    Logger.Exception(ex, gameLog: false);
+                    Logger.Exception(ex, duplicateToGameLog: false);
                 }
             }
 
