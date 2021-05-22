@@ -55,7 +55,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "85";
+        internal const string build = "86";
         internal const string version = shortVersion + "." + revision + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
@@ -83,6 +83,9 @@ namespace ModChecker.Util
 
         // Logfile location
         internal static readonly string LogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
+
+        // Updater logfile location
+        internal static readonly string UpdaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
 
         // Report filename, without path
         internal static readonly string ReportTextFileName = $"{ name } Report.txt";
@@ -141,13 +144,14 @@ namespace ModChecker.Util
         internal static readonly string SteamNewModsURL = 
             "https://steamcommunity.com/workshop/browse/?appid=255710&requiredtags%5B0%5D=Mod&actualsort=mostrecent&browsesort=mostrecent";
 
-        internal static readonly string SteamNewModsFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }-SteamNewMods.html");
+        // Temporary download location for Steam Workshop pages
+        internal static readonly string SteamWebpageFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }SteamPage.html");
 
         // Max. number of Steam Mod pages to download, to avoid downloading for eternity
         internal static uint SteamMaxPagesToDownload = 100;
         internal static uint SteamMaxErrorCount = 3;
 
-        // String to recognize a mod line in Steam webpages
+        // String to recognize a line in Steam webpages with mod information
         internal static string HtmlSearchMod                 = "<div class=\"workshopItemTitle ellipsis\">";
 
         // String to recognize for pages without mods

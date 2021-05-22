@@ -17,6 +17,9 @@ namespace ModChecker
         // Create the report(s)
         internal static void Create()
         {
+            // Initialize the report logger
+            Logger.InitReport();
+
             createTime = DateTime.Now;
 
             // Create the html report if selected in settings               // Unfinished: change into header, body (per mod data) and footer part, and combine text en html

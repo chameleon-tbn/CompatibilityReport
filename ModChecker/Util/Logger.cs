@@ -17,12 +17,13 @@ namespace ModChecker.Util
         internal const LogLevel error   = LogLevel.Error;
         internal const LogLevel debug   = LogLevel.Debug;
 
-        // The log, report and unknown-mods objects
+        // The log, updater log and report objects; log is initialized immediately
         private static readonly MyFile log = new MyFile(ModSettings.LogfileFullPath, timeStamp: true, append: ModSettings.LogAppend);
-        private static readonly MyFile report = new MyFile(ModSettings.ReportTextFullPath, timeStamp: false, append: false);
+        private static MyFile updaterLog;
+        private static MyFile report;
 
-        // Keep track of the first message send to the game log
-        private static bool firstGameLogMessage = true;
+        // Keep track if we already logged the logfile location to the game log
+        private static bool loggedLogfileLocationToGameLog = false;
 
         // Here the actual file writing happens
         private class MyFile : UnityEngine.MonoBehaviour
@@ -102,16 +103,25 @@ namespace ModChecker.Util
                 }
             }
 
-            internal void WriteLine(string message)
+            internal void WriteLine(string message, LogLevel logLevel = info, bool gameLog = false)
             {
+                // Don't write anything if we don't have a message
+                if (string.IsNullOrEmpty(message))
+                {
+                    return;
+                }
+                
                 // Date and time as prefix when indicated
-                string prefix = (useTimeStamps) ? DateTime.Now.ToString() + " - " : "";
+                string prefix = useTimeStamps ? DateTime.Now.ToString() + " - " : "";
+
+                // Loglevel prefix for anything other than info
+                string logPrefix = (logLevel == info) ? "" : $"[{ Convert.ToString(logLevel).ToUpper() }] ";
 
                 try
                 {
                     lock (file)
                     {
-                        file.WriteLine(prefix + message);
+                        file.WriteLine(prefix + logPrefix + message);
                     }
                 }
                 catch
@@ -119,15 +129,51 @@ namespace ModChecker.Util
                     // Log error to the game log; only place we can safely log to at this point
                     Game($"[ERROR] Can't write to file \"{ Tools.PrivacyPath(fileName) }\".");
                 }
+
+                // Duplicate message to game log if indicated, including loglevel prefix
+                if (gameLog)
+                {
+                    Game(logPrefix + message);
+                }
             }
         }
 
 
-        // Log a message to the mod log, and also to the game log and report if indicated
+        // Initialize the updater logfile
+        internal static void InitUpdateLog()
+        {
+            updaterLog = new MyFile(ModSettings.UpdaterLogfileFullPath, timeStamp: true, append: ModSettings.LogAppend);
+        }
+
+
+        // Initialize the report
+        internal static void InitReport()
+        {
+            report = new MyFile(ModSettings.ReportTextFullPath, timeStamp: false, append: false);
+        }
+
+
+        // Log a message to the game log; only called from within the Logger class
+        private static void Game(string message)
+        {
+            // Log with the mod name as a prefix
+            UnityEngine.Debug.Log($"{ ModSettings.internalName }: { message }");
+
+            // Log the logfile location after the first message to the game log
+            if (!loggedLogfileLocationToGameLog)
+            {
+                UnityEngine.Debug.Log($"{ ModSettings.internalName }: Detailed logging for this mod can be found in \"{ Tools.PrivacyPath(ModSettings.LogfileFullPath) }\"");
+
+                loggedLogfileLocationToGameLog = true;
+            }
+        }
+
+
+        // Log a message to the mod log, and also to the game log if indicated
         internal static void Log(string message, LogLevel logLevel = info, bool gameLog = false)
         {
-            // Don't log if we don't have a message or if it's a debug message and we're not in debugmode
-            if (string.IsNullOrEmpty(message) || ((logLevel == debug) && !ModSettings.DebugMode))
+            // Don't log if we it's a debug message and we're not in debugmode
+            if ((logLevel == debug) && !ModSettings.DebugMode)
             {
                 return;
             }
@@ -138,36 +184,27 @@ namespace ModChecker.Util
                 Log("Path needs more privacy.", logLevel: debug);
             }
 
-            // Loglevel prefix for anything other than info
-            string logPrefix = (logLevel == info) ? "" : $"[{ Convert.ToString(logLevel).ToUpper() }] ";
-
-            // Write the message with prefix
-            log.WriteLine(logPrefix + message);
-
-            // Duplicate message to game log if indicated, including loglevel prefix
-            if (gameLog)
-            {
-                Game(logPrefix + message);
-            }
+            // Write the message to file, with loglevel prefix, and duplicate to game log if indicated
+            log.WriteLine(message, logLevel, gameLog);
         }
 
 
-        // Log a message to the game log; only called from within the Logger class
-        private static void Game(string message)
+        // Log a message to the updater log
+        internal static void UpdaterLog(string message, LogLevel logLevel)
         {
-            // Log with the mod name as a prefix
-            UnityEngine.Debug.Log($"{ ModSettings.internalName }: { message }");
-
-            // Tell the log location name after the first message to the game log
-            if (firstGameLogMessage)
-            {
-                UnityEngine.Debug.Log($"{ ModSettings.internalName }: Detailed logging for this mod can be found in \"{ Tools.PrivacyPath(ModSettings.LogfileFullPath) }\"");
-
-                firstGameLogMessage = false;
-            }
+            // Write the message to file, with loglevel prefix
+            updaterLog.WriteLine(message, logLevel);
         }
 
 
+        // Log a message to the report
+        internal static void Report(string message)
+        {
+            // Write the message to file
+            report.WriteLine(message);
+        }
+        
+        
         // Log exception to mod log and if indicated to game log, including stack trace to help debug the problem
         internal static void Exception(Exception ex, bool debugOnly = false, bool gameLog = true, bool stackTrace = true)
         {
@@ -200,19 +237,6 @@ namespace ModChecker.Util
                     UnityEngine.Debug.LogException(ex);
                 }                
             }
-        }
-
-
-        // Log a message to the report
-        internal static void Report(string message)
-        {
-            // Don't report if we don't have a message
-            if (string.IsNullOrEmpty(message))
-            {
-                return;
-            }
-
-            report.WriteLine(message);
         }
     }
 }
