@@ -14,8 +14,10 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Logging
 
 ### Roadmap towards version 1.0 (might change)
-* 0.2 - Catalog update routine; probably based on webcrawling, not Steam API
+* 0.2 - Catalog update routine, based on webcrawling
   * Detection of changes to mod name, update date, version, author id/name, contributors, ...
+  * Automatic catalog versioning
+  * Automatic change notes
 * 0.3 - HTML report, categorized by severity
 * 0.4 - First catalog, with basic information about 1500+ mods and related authors
   * Set up download site
@@ -25,7 +27,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * 0.6 - Performance testing; decide when to run the check (probably make it a mod setting)
   * Code cleanup
   * Completing the catalog
-* 0.7 - Settings UI and settings xml; when to scan, on-demand scanning, text or html report, report sorting, ...
+* 0.7 - Settings UI and settings xml; when to scan, on-demand scanning, text or HTML report, report sorting, ...
 
 ### Future ideas (might not happen)
 * In-game popup with summary and button to open report
@@ -33,7 +35,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * 'Second load' detection with warning popup
 * Reviewing local mods
 * Detect mods that are not updated
-* Automatic catalog versioning, including change notes
+* Catalog updater based on Steam API for better update detection and performance
 * Online catalog update procedure; supporting multiple contributors
 * TLS 1.2 support for download, if possible
 * Detect missing mods for subscribed assets, like ETST, NExt2, Additive Shader, Trolleybus Trailer AI, etc.

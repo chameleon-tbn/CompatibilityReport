@@ -14,14 +14,10 @@ namespace ModChecker.Util
     {
         internal static bool Create(string fullPath)
         {
-            Catalog exampleCatalog = new Catalog(Convert.ToUInt32(ModSettings.build), DateTime.Now, 
-                "This Catalog uses fake data and is for testing only. DON'T TRUST THIS INFO!");
+            Catalog exampleCatalog = new Catalog(1, DateTime.Now, "This first catalog only contains builtin mods.");
 
             DateTime now = DateTime.Now;
             List<ModStatus> modStatus;
-            List<ulong> modList;
-            List<CompatibilityStatus> compStatus;
-
 
             // Builtin mods
             modStatus = new List<ModStatus> { SourceBundled };
@@ -32,44 +28,8 @@ namespace ModChecker.Util
             exampleCatalog.Mods.Add(new Mod(4, "Unlimited Soil", statuses: modStatus, reviewUpdated: now));
             exampleCatalog.Mods.Add(new Mod(5, "Unlock All", statuses: modStatus, reviewUpdated: now));
 
-            // Some authors
-            exampleCatalog.ModAuthors.Add(new ModAuthor("finwickle", idIsProfile: false, "Finwickle", DateTime.Parse("2021-04-30")));
-            exampleCatalog.ModAuthors.Add(new ModAuthor("76561198073436745", idIsProfile: true, "Tim"));
-
-            ModAuthor aubergine18 = new ModAuthor("aubergine18", idIsProfile: false, "aubergine18", retired: true);
-            exampleCatalog.ModAuthors.Add(aubergine18);
-            
-            ModAuthor soda = new ModAuthor("76561197997507574", idIsProfile: true, "Soda", retired: true);
-            exampleCatalog.ModAuthors.Add(soda);
-
-
-            // Fake mod info
-            exampleCatalog.Mods.Add(new Mod(576327847, "81 Tiles (Fixed for C:S 1.2+)", "bloody_penguin", reviewUpdated: DateTime.Now));
-
-            modStatus = new List<ModStatus> { GameBreaking };
-            exampleCatalog.Mods.Add(new Mod(421028969, "[ARIS] Skylines Overwatch", soda.ID, statuses: modStatus));
-
-            modStatus = new List<ModStatus> { Abandoned };
-            List<ulong> modsRequired = new List<ulong> { 3, 4, 5 };
-            exampleCatalog.Mods.Add(
-                new Mod(2034713132, "Mod Compatibility Checker", aubergine18.ID, otherAuthors: null, version: "", published: DateTime.Parse("2020-03-25"),
-                updated: DateTime.Parse("2020-05-16"), removed: false, archiveURL: "", "https://github.com/CitiesSkylinesMods/AutoRepair",
-                GameVersion.Patch_1_13_0_f8.ToString(), dlcRequired: null, modsRequired, modsRecommended: null, onlyNeededFor: null,
-                note: "The predecessor of Mod Checker.", modStatus, reviewUpdated: DateTime.Now));
-            
-
-            // Useless mod groups
-            modList = new List<ulong>() { 3, 1, 2, 5, 4 };
-            exampleCatalog.AddGroup(modList, "Builtin Mods");
-
-            modList = new List<ulong>() { 2034713132, 1, 421028969 };
-            ulong id = exampleCatalog.AddGroup(modList, "Test group");
-
-
-            // Fake compatibility
-            compStatus = new List<CompatibilityStatus>() { IncompatibleAccordingToAuthor };
-            exampleCatalog.ModCompatibilities.Add(new ModCompatibility(2, id, compStatus));
-
+            // Author
+            exampleCatalog.ModAuthors.Add(new ModAuthor("finwickle", idIsProfile: false, "Finwickle", DateTime.Now));
 
             // Validate catalog before writing to file
             if (!exampleCatalog.Validate())

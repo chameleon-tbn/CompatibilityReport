@@ -11,3 +11,4 @@ version 0.1   - Initial build with text report
 version 0.1.1 - Bugfixes and textual changes
 
 version 0.2   - Catalog updater (work in progress)
+* First catalog created, with only the 5 builtin mods

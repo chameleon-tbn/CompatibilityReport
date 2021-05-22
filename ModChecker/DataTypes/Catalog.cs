@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Security;
 using System.Xml.Serialization;
 using ModChecker.Util;
 using static ModChecker.Util.ModSettings;
@@ -404,62 +402,39 @@ namespace ModChecker.DataTypes
                 }
             }
 
-            // Activate TLS callback
-            ServicePointManager.ServerCertificateValidationCallback += TLSCallback;
+            // Download new catalog and time it
+            Stopwatch timer = Stopwatch.StartNew();
 
-            // Download new catalog; exit if we can't
-            using (WebClient webclient = new WebClient())
+            Exception exception = Tools.Download(CatalogURL, newCatalogFileName);
+
+            timer.Stop();
+
+            if (exception == null)
             {
-                try
-                {
-                    // Start download and time it
-                    Stopwatch timer = Stopwatch.StartNew();
-
-                    // Download
-                    webclient.DownloadFile(CatalogURL, newCatalogFileName);
-
-                    // Get and log the elapsed time in seconds, rounded to one decimal
-                    timer.Stop();
-
-                    Logger.Log($"Catalog downloaded in { timer.ElapsedMilliseconds / 1000:F1} seconds from { CatalogURL }");
-                }
-                catch (Exception ex)
-                {
-                    Logger.Log($"Can't download catalog from { CatalogURL }",Logger.warning, gameLog: true);
-
-                    // Check if the issue is TLS 1.2; only log regular exception if it isn't
-                    if (ex.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
-                    {
-                        Logger.Log("It looks like the webserver only supports TLS 1.2 or higher, while Cities: Skylines modding only supports TLS 1.1 and lower.", gameLog: true);
-
-                        Logger.Exception(ex, debugOnly: true, gameLog: false);
-                    }
-                    else
-                    {
-                        Logger.Exception(ex);
-                    }
-
-                    // Delete empty temporary file
-                    try
-                    {
-                        File.Delete(newCatalogFileName);
-                    }
-                    catch (Exception ex2)
-                    {
-                        Logger.Log("Can't delete temporary catalog file from failed download.", Logger.error);
-
-                        Logger.Exception(ex2);
-                    }
-
-                    // Deactivate TLS callback and exit download method
-                    ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
-                                        
-                    return previousCatalog;
-                }
+                Logger.Log($"Catalog downloaded in { timer.ElapsedMilliseconds / 1000:F1} seconds from { CatalogURL }");
             }
+            else
+            {
+                Logger.Log($"Can't download catalog from { CatalogURL }", Logger.warning, gameLog: true);
 
-            // Deactivate TLS callback
-            ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
+                // Check if the issue is TLS 1.2; only log regular exception if it isn't
+                if (exception.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
+                {
+                    Logger.Log("It looks like the webserver only supports TLS 1.2 or higher, while Cities: Skylines modding only supports TLS 1.1 and lower.", gameLog: true);
+
+                    Logger.Exception(exception, debugOnly: true, duplicateToGameLog: false);
+                }
+                else
+                {
+                    Logger.Exception(exception);
+                }
+
+                // Delete empty temporary file
+                Tools.DeleteFile(newCatalogFileName);
+
+                // Exit
+                return previousCatalog;
+            }
 
             // Load and validate newly downloaded catalog
             Catalog newCatalog = Load(newCatalogFileName);
@@ -502,16 +477,7 @@ namespace ModChecker.DataTypes
             }
 
             // Delete temporary file for newly downloaded catalog
-            try
-            {
-                File.Delete(newCatalogFileName);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log("Can't delete temporary file from download. This might prevent downloading a new catalog in the future.", Logger.error);
-
-                Logger.Exception(ex);
-            }
+            Tools.DeleteFile(newCatalogFileName);
 
             // return the newest catalog or null if both are null
             // if both catalogs are the same version, the previously downloaded will be returned; this way local edits will be kept until a newer version is downloaded
@@ -563,7 +529,7 @@ namespace ModChecker.DataTypes
                     {
                         Logger.Log($"Can't load catalog \"{ Tools.PrivacyPath(fullPath) }\". The XML has an error.");
 
-                        Logger.Exception(ex, debugOnly: true, gameLog: false);
+                        Logger.Exception(ex, debugOnly: true, duplicateToGameLog: false);
                     }
                     else
                     {

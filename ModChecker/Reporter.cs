@@ -14,6 +14,7 @@ namespace ModChecker
     {
         private static DateTime createTime;
 
+
         // Create the report(s)
         internal static void Create()
         {
@@ -22,7 +23,7 @@ namespace ModChecker
 
             createTime = DateTime.Now;
 
-            // Create the html report if selected in settings               // Unfinished: change into header, body (per mod data) and footer part, and combine text en html
+            // Create the HTML report if selected in settings               // Unfinished: change into header, body (per mod data) and footer part, and combine text en html
             if (HtmlReport)
             {
                 if (CreateHtml())
@@ -51,7 +52,7 @@ namespace ModChecker
         }
 
 
-        // Create html report
+        // Create HTML report
         private static bool CreateHtml()
         {
             bool completed = false;
@@ -71,7 +72,7 @@ namespace ModChecker
             Logger.Report($"{ ModSettings.name } report, created on { createTime:D}, { createTime:t}.\n");
 
             // Mod version, catalog version and number of mods in the catalog and in game
-            Logger.Report($"Version { ModSettings.version } with catalog version { Catalog.Active.VersionString() }. " + 
+            Logger.Report($"Version { ModSettings.shortVersion } with catalog version { Catalog.Active.VersionString() }. " + 
                 $"The catalog contains { Catalog.Active.CountReviewed } reviewed mods\n" +
                 $"and { Catalog.Active.Count - Catalog.Active.CountReviewed } mods with basic information. " + 
                 $"Your game has { AllSubscriptions.Count } mods, of which { TotalSubscriptionsReviewed } were reviewed.");
@@ -83,7 +84,7 @@ namespace ModChecker
             Logger.Report(string.IsNullOrEmpty(GameVersion.SpecialNote) ? "" : "\n" + GameVersion.SpecialNote);
 
             // Warn about game version mismatch
-            if (GameVersion.Current != ModSettings.CompatibleGameVersion)
+            if (GameVersion.Current != Catalog.Active.CompatibleGameVersion)
             {
                 string olderNewer = (GameVersion.Current < Catalog.Active.CompatibleGameVersion) ? "older" : "newer";
 
@@ -619,12 +620,7 @@ namespace ModChecker
                     List<Enums.CompatibilityStatus> statuses = compatibility.Value;
 
                     // Different versions, releases or mod with the same functionality
-                    if (statuses.Contains(Enums.CompatibilityStatus.NewerVersionOfTheSameMod))
-                    {
-                        modReview += ReviewText("You still have an older version of the same mod subscribed. Unsubscribe that one:");     // Unfinished: skip?
-                        modReview += otherModText + compatibilityNote;
-                    }
-                    else if (statuses.Contains(Enums.CompatibilityStatus.OlderVersionOfTheSameMod))
+                    if (statuses.Contains(Enums.CompatibilityStatus.OlderVersionOfTheSameMod))              // NewerVersionOfTheSameMod skipped
                     {
                         modReview += ReviewText("Unsubscribe. You're already subscribed to a newer version:");
                         modReview += otherModText + compatibilityNote;
