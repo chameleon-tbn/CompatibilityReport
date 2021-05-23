@@ -220,6 +220,7 @@ namespace ModChecker.DataTypes
 
             // Get the number of mods with a review in the catalog
             List<Mod> reviewedMods = Mods.FindAll(m => m.ReviewUpdated != null);
+            reviewedMods.AddRange(Mods.FindAll(m => m.AutoReviewUpdated != null));
 
             if (reviewedMods?.Any() == null)
             {

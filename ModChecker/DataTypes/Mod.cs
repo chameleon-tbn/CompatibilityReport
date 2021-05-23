@@ -17,11 +17,6 @@ namespace ModChecker.DataTypes
         // Author ID for main author and additional authors; can be linked to the ModAuthors info
         public string AuthorID { get; private set; }
 
-        public List<string> OtherAuthors { get; private set; } = new List<string>();
-
-        // Version of the mod, if it is indicated in the name or on the Steam Workshop page
-        public string Version { get; private set; }
-
         // Date the mod was published and last updated
         public DateTime? Published { get; private set; }
 
@@ -53,17 +48,16 @@ namespace ModChecker.DataTypes
         // Alternatives for this mod; only used if this has compatibility issues
         [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
 
-        // Recommendations from the mod author
-        [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
+        // Statuses for this mod
+        public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
 
         // General note about this mod
         public string Note { get; private set; }
 
-        // Statuses for this mod
-        public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
-
-        // Date this mod was last reviewed for changes in information and compatibility
+        // Date this mod was last manually and automatically reviewed for changes in information and compatibility
         public DateTime? ReviewUpdated { get; private set; }
+
+        public DateTime? AutoReviewUpdated { get; private set; }
 
         // Remark for ourselves, not displayed in report or log (but publicly viewable in the catalog)
         public string CatalogRemark { get; private set; }
@@ -80,21 +74,22 @@ namespace ModChecker.DataTypes
         public Mod(ulong steamID,
                    string name = "",
                    string authorID = "",
-                   List<string> otherAuthors = null,
-                   string version = "",
                    DateTime? published = null,
                    DateTime? updated = null,
-                   bool removed = false,
+                   bool isRemoved = false,
                    string archiveURL = "",
                    string sourceURL = "",
                    string gameVersionCompatible = "",
-                   List<Enums.DLC> dlcRequired = null,
-                   List<ulong> modsRequired = null,
-                   List<ulong> modsRecommended = null,
+                   List<Enums.DLC> requiredDLC = null,
+                   List<ulong> requiredMods = null,
                    List<ulong> onlyNeededFor = null,
-                   string note = "",
+                   List<ulong> succeededBy = null,
+                   List<ulong> alternatives = null,
                    List<Enums.ModStatus> statuses = null,
-                   DateTime? reviewUpdated = null)
+                   string note = "",
+                   DateTime? reviewUpdated = null,
+                   DateTime? autoReviewUpdated = null,
+                   string catalogRemark = "")
         {
             SteamID = steamID;
 
@@ -102,15 +97,11 @@ namespace ModChecker.DataTypes
 
             AuthorID = authorID;
 
-            OtherAuthors = otherAuthors;
-
-            Version = version;
-
             Published = published;
 
             Updated = updated;
 
-            IsRemoved = removed;
+            IsRemoved = isRemoved;
 
             ArchiveURL = archiveURL;
 
@@ -118,19 +109,25 @@ namespace ModChecker.DataTypes
 
             CompatibleGameVersionString = gameVersionCompatible;
 
-            RequiredDLC = dlcRequired;
+            RequiredDLC = requiredDLC;
 
-            RequiredMods = modsRequired;
-
-            Recommendations = modsRecommended;
+            RequiredMods = requiredMods;
 
             NeededFor = onlyNeededFor;
 
-            Note = note;
+            SucceededBy = succeededBy;
+
+            Alternatives = alternatives;
 
             Statuses = statuses;
 
+            Note = note;
+
             ReviewUpdated = reviewUpdated;
+
+            AutoReviewUpdated = autoReviewUpdated;
+
+            CatalogRemark = catalogRemark;
         }
 
 

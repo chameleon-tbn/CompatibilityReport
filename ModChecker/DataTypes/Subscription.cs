@@ -34,14 +34,13 @@ namespace ModChecker.DataTypes
         internal string SourceURL { get; private set; }
         internal string ArchiveURL { get; private set; }                    // Only for removed mods; archive of the Steam Workshop page
 
-        // Requirements, successors, alternatives and recommendations
+        // Requirements, successors and alternatives
         internal List<Enums.DLC> RequiredDLC { get; private set; }
         internal List<ulong> RequiredMods { get; private set; }
         internal List<ulong> NeededFor { get; private set; }                // Mods that need this one; only for pure dependency mods with no functionality of their own
         internal List<ulong> SucceededBy { get; private set; }              // Only for mods with issues
         internal List<ulong> Alternatives { get; private set; }             // Only for mods with issues and no successor
-        internal List<ulong> Recommendations { get; private set; }
-
+        
         // Compatibilities
         internal Dictionary<ulong, List<Enums.CompatibilityStatus>> Compatibilities { get; private set; }
         internal Dictionary<ulong, string> ModNotes { get; private set; }   // Notes about mod compatibility
@@ -176,7 +175,7 @@ namespace ModChecker.DataTypes
             Mod mod = Catalog.Active.ModDictionary[SteamID];
 
             // Check if the mod was reviewed and increase the number if so
-            IsReviewed = mod.ReviewUpdated != null;
+            IsReviewed = (mod.ReviewUpdated != null) || (mod.AutoReviewUpdated != null);
 
             if (IsReviewed)
             {
@@ -203,7 +202,7 @@ namespace ModChecker.DataTypes
             NeededFor = mod.NeededFor;
             SucceededBy = mod.SucceededBy;
             Alternatives = mod.Alternatives;
-            Recommendations = mod.Recommendations;
+            
 
             // Get the author name for Steam Workshop mods
             if (!string.IsNullOrEmpty(mod.AuthorID) && !IsLocal)

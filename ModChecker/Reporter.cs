@@ -673,7 +673,7 @@ namespace ModChecker
             // Workshop url for Workshop mods
             modReview += (steamID > HighestFakeID) ? ReviewText("Steam Workshop page: " + Tools.GetWorkshopURL(steamID)) : "";
 
-            // Unreported: regular properties:      SourceURL, Updated, Downloaded, Recommendations
+            // Unreported: regular properties:      SourceURL, Updated, Downloaded
             //             mod statuses:            SourceBundled, SourceObfuscated, UnconfirmedIssues
             //             compatibility statuses:  CompatibleAccordingToAuthor
 
