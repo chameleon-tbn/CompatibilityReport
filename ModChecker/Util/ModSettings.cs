@@ -32,6 +32,7 @@ namespace ModChecker.Util
         {
             try
             {
+                // Get the mod path for the bundled catalog
                 BundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }Catalog.xml");                          // Steam Workshop mod
             }
             catch
@@ -46,6 +47,16 @@ namespace ModChecker.Util
                 }
                 
             }
+
+            try
+            {
+                // Create the directory for updated catalogs
+                Directory.CreateDirectory(UpdatedCatalogPath);
+            }
+            catch
+            {
+                // Ignore
+            }
         }
 
 
@@ -54,28 +65,28 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "88";
+        internal const string build = "89";
         internal const string version = shortVersion + "." + revision + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
         internal const string releaseType = "alpha";
 
         // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
-        internal const string name = "Mod Checker";                                             // used in report filename, reporting and logging
-        internal const string displayName = name + " " + shortVersion + " " + releaseType;      // used in game options, Content Manager and AssemblyInfo
-        internal const string internalName = "ModChecker";                                      // used in filenames, xmlRoot and game log
+        internal const string modName = "Mod Checker";                                                         // used in report filename, reporting and logging
+        internal const string displayName = modName + " " + shortVersion + " " + releaseType;                  // used in game options, Content Manager and AssemblyInfo
+        internal const string internalName = "ModChecker";                                                  // used in filenames, xmlRoot and game log
 
         // Mod description, shown in Content Manager; used in AssemblyInfo, must be a constant
-        internal const string description = "Checks your subscribed mods for compatibility. Version " + version + " " + releaseType;
+        internal const string modDescription = "Checks your subscribed mods for compatibility. Version " + version + " " + releaseType;
 
         // Author name; used in AssemblyInfo; used in AssemblyInfo, must be a constant
-        internal const string author = "Finwickle";
+        internal const string modAuthor = "Finwickle";
 
         // The XML root of the Catalog; must be constant
         internal const string xmlRoot = internalName + "Catalog";
 
         // This mods own Steam ID
-        internal static readonly ulong SteamID = 101;                                           // Unfinished
+        internal static readonly ulong ModCheckerSteamID = 101;                                                       // Unfinished
 
         // The current catalog structure version
         internal static readonly uint CurrentCatalogStructureVersion = 1;
@@ -87,8 +98,8 @@ namespace ModChecker.Util
         internal static readonly string UpdaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
 
         // Report filename, without path
-        internal static readonly string ReportTextFileName = $"{ name } Report.txt";
-        internal static readonly string ReportHtmlFileName = $"{ name } Report.html";
+        internal static readonly string ReportTextFileName = $"{ modName } Report.txt";
+        internal static readonly string ReportHtmlFileName = $"{ modName } Report.html";
 
         // Downloaded catalog url
         internal static readonly string CatalogURL = "https://surfdrive.surf.nl/files/index.php/s/OwBdunIj4BDc8Jb/download";
@@ -97,10 +108,13 @@ namespace ModChecker.Util
         internal static readonly string DownloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Catalog.xml");
 
         // Bundled Catalog location: in the same location as the mod itself
-        internal static readonly string BundledCatalogFullPath;                                 // Set in constructor
+        internal static readonly string BundledCatalogFullPath;                                             // Set in constructor
+
+        // Number of retries on failed downloads; must be a constant
+        internal const uint downloadRetries = 1;
 
         // 'Please report' text to include in logs when something odd happens
-        internal static readonly string PleaseReportText = $"Please report this on the Workshop page for { name }: { Tools.GetWorkshopURL(SteamID) } ";
+        internal static readonly string PleaseReportText = $"Please report this on the Workshop page for { modName }: { Tools.GetWorkshopURL(ModCheckerSteamID) } ";
 
         // Max width of the TXT report: 
         internal static readonly int MaxReportWidth = 89;
@@ -140,7 +154,7 @@ namespace ModChecker.Util
         internal static readonly ulong HighestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
 
 
-        /// Settings that come from the catalog; defaults for creating a catalog
+        /// Defaults for settings that come from the catalog
 
         // The game version this mod is updated for; the catalog should overrule this
         internal static readonly Version CompatibleGameVersion = GameVersion.Patch_1_13_1_f1;
@@ -168,12 +182,12 @@ namespace ModChecker.Util
 
         internal static readonly string DefaultFooterText =
             "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" + 
-            Tools.GetWorkshopURL(SteamID);
+            Tools.GetWorkshopURL(ModCheckerSteamID);
 
         // Default HTML report intro and footer
-        internal static readonly string DefaultIntroHtml = "";                                  // Unfinished
+        internal static readonly string DefaultIntroHtml = "";                                              // Unfinished
 
-        internal static readonly string DefaultFooterHtml = "";                                 // Unfinished
+        internal static readonly string DefaultFooterHtml = "";                                             // Unfinished
 
 
 
@@ -204,49 +218,74 @@ namespace ModChecker.Util
         internal static bool LogAppend { get; private set; } = true || DebugMode;
 
         // Maximum log file size before starting with new log file; only applicable when appending
-        internal static long LogMaxSize { get; private set; } = 100 * 1024;                         // 100 KB
+        internal static long LogMaxSize { get; private set; } = 100 * 1024;                                 // 100 KB
 
         // Which scenes to run the scanner: "IntroScreen" and/or "Game"
         internal static List<string> ScannerScenes { get; private set; } = new List<string>() { "IntroScreen" };
-
-        // Number of retries on failed downloads; must be a constant
-        internal const uint downloadRetries = 1;
 
 
 
         /// Settings for the updater only
 
-        // Steam Workshop mods listing url without page number
-        internal static readonly string SteamModsListingURL =
-            "https://steamcommunity.com/workshop/browse/?appid=255710&requiredtags%5B0%5D=Mod&actualsort=mostrecent&browsesort=mostrecent";
+        // Updated catalog location
+        internal static readonly string UpdatedCatalogPath = Path.Combine(DataLocation.localApplicationData, "ModCheckerCatalogs");
 
         // Temporary download location for Steam Workshop pages
         internal static readonly string SteamWebpageFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }SteamPage.html");
 
         // Max. number of Steam Workshop pages to download, to limit the time spend and to avoid downloading for eternity
-        internal static uint SteamMaxPages = 100;
+        internal static readonly uint SteamMaxModListingPages = 100;
+        internal static readonly uint SteamMaxNewModDownloads = 10;     // Unfinished: should be 100
+        internal static readonly uint SteamMaxKnownModDownloads = 10;   // Unfinished: should be 100
 
         // Max. number of download errors before giving up
-        internal static uint SteamDownloadRetries = 3;
+        internal static readonly uint SteamDownloadRetries = 3;
 
         // Delay between downloading individual mod pages, to avoid being marked suspicious by Steam or their CDN; not used for mod listing pages
-        internal static uint SteamDownloadDelayInMilliseconds = 250;
+        internal static readonly uint SteamDownloadDelayInMilliseconds = 250;                               // Unfinished: do we need this?
 
-        // String to recognize a line in Steam webpages with mod information
-        internal static string SteamHtmlSearchMod = "<div class=\"workshopItemTitle ellipsis\">";
+        // Steam Workshop mod listing url without page number ("&p=1")
+        internal static readonly string SteamModsListingURL =
+            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod";
 
-        // String to recognize for pages without mods
-        internal static string SteamHtmlNoMoreFound = "No items matching your search criteria were found";
+        internal static readonly string SteamIncompatibleModsURL =
+            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible";
 
-        // Strings to use for finding the mod and author info in the HTML lines
-        internal static string SteamHtmlBeforeModID = "steamcommunity.com/sharedfiles/filedetails/?id=";
-        internal static string SteamHtmlAfterModID = "&searchtext";
-        internal static string SteamHtmlBeforeModName = "workshopItemTitle ellipsis\">";
-        internal static string SteamHtmlAfterModName = "</div>";
-        internal static string SteamHtmlBeforeAuthorID = "steamcommunity.com/id/";
-        internal static string SteamHtmlBeforeAuthorProfile = "steamcommunity.com/profiles/";
-        internal static string SteamHtmlAfterAuthorID = "/myworkshopfiles";
-        internal static string SteamHtmlBeforeAuthorName = "/myworkshopfiles/?appid=255710\">";
-        internal static string SteamHtmlAfterAuthorName = "</a>";
+        // Search string for Mod info in mod Listing files
+        internal static readonly string SteamModListingModFind = "<div class=\"workshopItemTitle ellipsis\">";
+
+        // Recognize a mod listing page without mods
+        internal static readonly string SteamModListingNoMoreFind = "No items matching your search criteria were found.";
+
+        // Search strings for mod and author info in the mod listing files
+        internal static readonly string SteamModListingModIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
+        internal static readonly string SteamModListingModIDRight = "&searchtext";
+        internal static readonly string SteamModListingModNameLeft = "workshopItemTitle ellipsis\">";
+        internal static readonly string SteamModListingModNameRight = "</div>";
+        internal static readonly string SteamModListingAuthorIDLeft = "steamcommunity.com/id/";
+        internal static readonly string SteamModListingAuthorProfileLeft = "steamcommunity.com/profiles/";
+        internal static readonly string SteamModListingAuthorIDRight = "/myworkshopfiles";
+        internal static readonly string SteamModListingAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
+        internal static readonly string SteamModListingAuthorNameRight = "</a>";
+
+        // Search strings for individual mod pages
+        internal static readonly string SteamModPageSteamID = "<span onclick=\"VoteUp(";                                                    // Followed by the Steam ID
+        internal static readonly string SteamModPageVersionTagFind = "<span class=\"workshopTagsTitle\">Tags:";                             // Can appear multiple times
+        internal static readonly string SteamModPageVersionTagLeft = "-compatible\" >";
+        internal static readonly string SteamModPageVersionTagRight = "-compatible";
+        internal static readonly string SteamModPageDatesFind = "<div class=\"detailsStatsContainerRight\">";
+        internal static readonly string SteamModPageDatesLeft = "detailsStatRight\">";                      // Two lines below Find text for published, three lines for updated
+        internal static readonly string SteamModPageDatesRight = "</div>";                                  // Published should be found, updated not
+        internal static readonly string SteamModPageRequiredDLCFind = "<div class=\"requiredDLCItem\">";                                    // Can appear multiple times
+        internal static readonly string SteamModPageRequiredDLCLeft = "https://store.steampowered.com/app/";                                // One line below Find text
+        internal static readonly string SteamModPageRequiredDLCRight = "\">";
+        internal static readonly string SteamModPageRequiredModFind = "<div class=\"requiredItemsContainer\" id=\"RequiredItems\">";        // Can appear multiple times
+        internal static readonly string SteamModPageRequiredModLeft = "https://steamcommunity.com/workshop/filedetails/?id=";               // One line below Find text
+        internal static readonly string SteamModPageRequiredModRight = "\" ";
+        internal static readonly string SteamModPageDescriptionFind = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
+        internal static readonly string SteamModPageDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";                 // One line below Find text
+        internal static readonly string SteamModPageDescriptionRight = "</div>";
+        internal static readonly string SteamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized
+        internal static readonly string SteamModPageSourceURLRight = "\" ";
     }
 }

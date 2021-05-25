@@ -30,7 +30,7 @@ namespace ModChecker
     {
         // The name and description of the mod, as seen in Content Manager and Options window
         public string Name => ModSettings.displayName;
-        public string Description => ModSettings.description;
+        public string Description => ModSettings.modDescription;
 
 
         // Initialize the scanner; subscriptions are not available at this stage yet

@@ -69,7 +69,7 @@ namespace ModChecker
             bool completed = false;            
 
             // Mod name and report date
-            Logger.Report($"{ ModSettings.name } report, created on { createTime:D}, { createTime:t}.\n");
+            Logger.Report($"{ ModSettings.modName } report, created on { createTime:D}, { createTime:t}.\n");
 
             // Mod version, catalog version and number of mods in the catalog and in game
             Logger.Report($"Version { ModSettings.shortVersion } with catalog version { Catalog.Active.VersionString() }. " + 
@@ -189,7 +189,7 @@ namespace ModChecker
             string modReview = "";
 
             // Say hi when we find ourselves
-            if (steamID == ModSettings.SteamID)
+            if (steamID == ModSettings.ModCheckerSteamID)
             {
                 modReview += ReviewText("This mod.");
             }

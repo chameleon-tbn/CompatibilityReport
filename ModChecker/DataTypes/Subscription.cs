@@ -175,7 +175,7 @@ namespace ModChecker.DataTypes
             Mod mod = Catalog.Active.ModDictionary[SteamID];
 
             // Check if the mod was reviewed and increase the number if so
-            IsReviewed = (mod.ReviewUpdated != null) || (mod.AutoReviewUpdated != null);
+            IsReviewed = (mod.ReviewUpdated != DateTime.MinValue) || (mod.AutoReviewUpdated != DateTime.MinValue);
 
             if (IsReviewed)
             {

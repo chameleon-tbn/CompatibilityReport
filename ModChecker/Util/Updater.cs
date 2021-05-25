@@ -7,12 +7,12 @@ using static ModChecker.Util.ModSettings;
 
 namespace ModChecker.Util
 {
-    internal static class Updater       // Unfinished: Keep this here or in a separate out-of-game program?
+    internal static class Updater       // This class has limited error handling because the updater is not for regular users
     {
-        // Catalog and list to collect info from the Steam Workshop
-        private static readonly Catalog collectedWorkshopInfo = new Catalog(0, DateTime.Now, "Basic mod and author information from the Steam Workshop.");
-
-        private static readonly List<ulong> AllSteamIDs = new List<ulong>();
+        // Lists to collect info from the Steam Workshop
+        private static List<Mod> collectedModInfo = new List<Mod>();
+        private static List<ModAuthor> collectedAuthorInfo = new List<ModAuthor>();
+        private static Dictionary<ulong, string> AllSteamIDandNames = new Dictionary<ulong, string>();
 
 
         // Start the updater
@@ -23,52 +23,61 @@ namespace ModChecker.Util
             // Only if have a valid active catalog
             if (Catalog.Active?.IsValid == true)
             {
-                // Get basic mod and author information from the Steam Workshop mods listing pages
+                // Get basic mod and author information from the Steam Workshop mod listing pages
                 if (GetBasicModAndAuthorInfo())
                 {
-                    // Get more detailed information from the individual mod pages
-                    if (GetDetailedModInfo())
+                    // Get detailed information from the individual mod pages and update the active catalog
+                    if (GetDetailsAndUpdateCatalog())
                     {
-                        // Update active catalog
-                        success = UpdateActiveCatalog();
+                        // Increase the catalog version and save the new catalog
+                        Catalog.Active.NewVersion();
+
+                        success = Catalog.Active.Save(Path.Combine(UpdatedCatalogPath, $"{ internalName }Catalog_v{ Catalog.Active.VersionString() }.xml"));
+
+                        // Unfinished: save change notes (full and summary)
                     }
                 }
             }
+
+            // empty the lists to free memory
+            collectedModInfo = null;
+            collectedAuthorInfo = null;
+            AllSteamIDandNames = null;
 
             return success;
         }
         
 
-        // Get mod and author names and IDs from the Steam Workshop mod list pages
+        // Get mod and author names and IDs from the Steam Workshop mod listing pages
         private static bool GetBasicModAndAuthorInfo()
         {
             // Initialize the updater logfile
             Logger.InitUpdaterLog();
 
-            // Initialize counters
+            // Initialize counters and triggers
             bool morePagesToDownload = true;
             uint pageNumber = 0;
             uint modsFound = 0;
-            uint authorsFound = 0;
+            uint authorsFound = 0;            
 
-            Logger.UpdaterLog("Updater started downloading Steam Workshop mod list pages. This should take about 30 to 40 seconds. See separate logfile for details.", 
+            Logger.UpdaterLog("Updater started downloading Steam Workshop mod listing pages. This should take about 30 to 40 seconds. See separate logfile for details.", 
                 regularLog: true);
 
             // Time the total download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
             // Download and read pages until we find no more pages, or we reach the set maximum number of pages (to avoid missing the mark and continuing for eternity)
-            while (morePagesToDownload && (pageNumber < SteamMaxPages))
+            while (morePagesToDownload && (pageNumber < SteamMaxModListingPages))
             {
                 // Increase the pagenumber
                 pageNumber++;
 
-                // Download a page
+                // Download a page          // Unfinished: also SteamIncompatibleModsURL
                 Exception ex = Tools.Download(SteamModsListingURL + $"&p={ pageNumber }", SteamWebpageFullPath, SteamDownloadRetries);
 
                 if (ex != null)
                 {
-                    Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page { pageNumber }. Download process stopped.", Logger.error);
+                    Logger.UpdaterLog($"Permanent error while downloading Steam Workshop mod listing page { pageNumber }. Download process stopped.", Logger.error);
 
                     Logger.Exception(ex, toUpdaterLog: true);
 
@@ -79,9 +88,10 @@ namespace ModChecker.Util
                     break;
                 }
 
-                // Keep track of mods this page
+                // Keep track of mods on this page
                 uint modsFoundThisPage = 0;
 
+                // Read the downloaded file back
                 using (StreamReader reader = File.OpenText(SteamWebpageFullPath))
                 {
                     string line;
@@ -89,16 +99,16 @@ namespace ModChecker.Util
                     try     // Limited error handling because the Updater is not for regular users
                     {
                         // Read all the lines until the end of the file or until we found all the mods we can find on one page
-                        // Note: 95% of process time is download; skipping the first 65KB (900+ lines) with 'reader.Basestream.Seek' does nothing for speed
+                        // Note: >95% of process time is download; skipping the first 65KB (900+ lines) with 'reader.Basestream.Seek' does nothing for speed
                         while ((line = reader.ReadLine()) != null)
                         {
                             // Search for the identifying string
-                            if (line.Contains(SteamHtmlSearchMod))
+                            if (line.Contains(SteamModListingModFind))
                             {
                                 // Get the Steam ID
-                                string SteamIDString = Tools.MidString(line, SteamHtmlBeforeModID, SteamHtmlAfterModID);
+                                string SteamIDString = Tools.MidString(line, SteamModListingModIDLeft, SteamModListingModIDRight);
 
-                                if (SteamIDString == "")
+                                if (string.IsNullOrEmpty(SteamIDString))
                                 {
                                     Logger.UpdaterLog("Steam ID not recognized on HTML line: " + line, Logger.warning);
 
@@ -108,7 +118,7 @@ namespace ModChecker.Util
                                 ulong steamID = Convert.ToUInt64(SteamIDString);
 
                                 // Get the mod name
-                                string name = Tools.MidString(line, SteamHtmlBeforeModName, SteamHtmlAfterModName);
+                                string name = Tools.MidString(line, SteamModListingModNameLeft, SteamModListingModNameRight);
 
                                 // The author is on the next line
                                 line = reader.ReadLine();
@@ -116,44 +126,44 @@ namespace ModChecker.Util
                                 // Try to get the author ID
                                 bool authorIDIsProfile = false;
 
-                                string authorID = Tools.MidString(line, SteamHtmlBeforeAuthorID, SteamHtmlAfterAuthorID);
+                                string authorID = Tools.MidString(line, SteamModListingAuthorIDLeft, SteamModListingAuthorIDRight);
 
                                 if (authorID == "")
                                 {
                                     // Author ID not found, get the profile number instead (as a string)
-                                    authorID = Tools.MidString(line, SteamHtmlBeforeAuthorProfile, SteamHtmlAfterAuthorID);
+                                    authorID = Tools.MidString(line, SteamModListingAuthorProfileLeft, SteamModListingAuthorIDRight);
 
                                     authorIDIsProfile = true;
                                 }
 
                                 // Get the author name
-                                string authorName = Tools.MidString(line, SteamHtmlBeforeAuthorName, SteamHtmlAfterAuthorName);
+                                string authorName = Tools.MidString(line, SteamModListingAuthorNameLeft, SteamModListingAuthorNameRight);
 
-                                // Create a mod and author object from the information gathered
-                                Mod mod = new Mod(steamID, name, authorID, removed: false);
-                                ModAuthor author = new ModAuthor(authorID, authorIDIsProfile, authorName);
-
-                                // Add the newly found mod to the collection and list; duplicates could in theory happen if a new mod is published while downloading
-                                collectedWorkshopInfo.Mods.Add(mod);
-                                
-                                AllSteamIDs.Add(steamID);
-
-                                modsFound++;
-                                modsFoundThisPage++;
-                                    
-                                Logger.UpdaterLog($"Mod found: { mod.ToString() }", Logger.debug);
-                                
-                                // Add the newly found author to the collection; avoid duplicates
-                                if (!collectedWorkshopInfo.ModAuthors.Exists(i => i.ID == authorID))
+                                // Add the mod to the list and dictionary; avoid duplicates (could happen if a new mod is published in the 30 seconds of downloading all pages)
+                                if (!AllSteamIDandNames.ContainsKey(steamID))
                                 {
-                                    collectedWorkshopInfo.ModAuthors.Add(author);
+                                    collectedModInfo.Add(new Mod(steamID, name, authorID));
+
+                                    AllSteamIDandNames.Add(steamID, name);
+
+                                    modsFound++;
+                                    modsFoundThisPage++;
+
+                                    Logger.UpdaterLog($"Mod found: [{ steamID }] { name }", Logger.debug);
+                                }
+
+                                // Add the author to the list; avoid duplicates
+                                if (!collectedAuthorInfo.Exists(a => a.ID == authorID))
+                                {
+                                    collectedAuthorInfo.Add(new ModAuthor(authorID, authorIDIsProfile, authorName));
 
                                     authorsFound++;
 
-                                    Logger.UpdaterLog($"Author found: [{ author.ID }] { authorName }", Logger.debug);
+                                    Logger.UpdaterLog($"Author found: [{ authorID }] { authorName }", Logger.debug);
                                 }
+                                
                             }
-                            else if (line.Contains(SteamHtmlNoMoreFound))
+                            else if (line.Contains(SteamModListingNoMoreFind))
                             {
                                 // We reach a page without mods
                                 morePagesToDownload = false;
@@ -178,8 +188,8 @@ namespace ModChecker.Util
                     }
                     catch (Exception ex2)
                     {
-                        Logger.UpdaterLog($"Couldn't (fully) read or understand downloaded page { pageNumber }. { modsFoundThisPage } mods found on this page.", 
-                            Logger.error);
+                        Logger.UpdaterLog($"Can't (fully) read or understand downloaded page { pageNumber }. { modsFoundThisPage } mods found on this page.", 
+                            Logger.warning);
 
                         Logger.Exception(ex2, toUpdaterLog: true, duplicateToGameLog: false);
                     }
@@ -192,107 +202,326 @@ namespace ModChecker.Util
             // Log the elapsed time
             timer.Stop();
 
-            Logger.UpdaterLog($"Updater finished downloading Steam Workshop mod list pages in { (float)timer.ElapsedMilliseconds / 1000:F1} seconds. " + 
+            Logger.UpdaterLog($"Updater finished checking { pageNumber } Steam Workshop mod list pages in { (float)timer.ElapsedMilliseconds / 1000:F1} seconds. " + 
                 $"{ modsFound } mods and { authorsFound } authors found.", regularLog: true);
-
-            // Unfinished: temporary save the catalog for testing/debugging
-            collectedWorkshopInfo.Save(SteamWebpageFullPath + ".xml");
 
             return (pageNumber > 0) && (modsFound > 0);
         }
 
 
         // Get mod information from the individual mod pages on the Steam Workshop
-        private static bool GetDetailedModInfo()
+        private static bool GetDetailsAndUpdateCatalog()
         {
             // Initialize counters
-            uint knownModsChecked = 0;
-            uint newModsChecked = 0;
-            uint failedModDownloads = 0;
+            uint knownModsDownloaded = 0;
+            uint newModsDownloaded = 0;
+            uint failedDownloads = 0;
 
-            Logger.UpdaterLog("Updater started downloading individual Steam Workshop mod pages. This should take less than two minutes.", regularLog: true);
-            
             // Time the total download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
+            Logger.UpdaterLog("Updater started checking individual Steam Workshop mod pages. This should take less than two minutes.", regularLog: true);
+            
             // Check all SteamIDs from the mods we gathered
-            foreach (ulong steamID in AllSteamIDs)
+            foreach (ulong steamID in AllSteamIDandNames.Keys)
             {
-                // Check if mod is already in the active catalog
-                if (Catalog.Active.ModDictionary.ContainsKey(steamID))
+                // Unfinished: What to do with known mods? Downloading 1600 pages takes about 10 to 15 minutes; just do 100 and save which we haven't done yet?
+
+                // New mod or a known mod?
+                bool newMod = !Catalog.Active.ModDictionary.ContainsKey(steamID);
+                
+                // Stop if we reached the maximum number of both types of mods, continue with the next Steam ID if we only reached the maximum for this type of mod
+                if ((newModsDownloaded >= SteamMaxNewModDownloads) && (knownModsDownloaded >= SteamMaxKnownModDownloads))
                 {
-                    // Known mod; continue to next if we reached the maximum known mods to check
-                    if (knownModsChecked >= SteamMaxPages)
+                    break;
+                }
+                else if ((newMod && (newModsDownloaded >= SteamMaxNewModDownloads)) || (!newMod && (knownModsDownloaded >= SteamMaxKnownModDownloads)))
+                {
+                    continue;
+                }
+
+                // Temporary vars to hold the found information until we can update the catalog info
+                bool steamIDmatched = false;
+                string compatibleGameVersionString = "";
+                string publishedString = "";
+                string updatedString = "";
+                List<string> requiredDLCStrings = new List<string>();
+                List<ulong> requiredMods = new List<ulong>();
+                string sourceURL = "";
+                bool noDescription = false;
+
+                // Mod name is needed later on
+                string modName = AllSteamIDandNames[steamID];
+
+                // Download the Steam Workshop mod page
+                if (Tools.Download(Tools.GetWorkshopURL(steamID), SteamWebpageFullPath, SteamDownloadRetries) != null)
+                {
+                    // Download error
+                    failedDownloads++;
+
+                    if (failedDownloads <= SteamDownloadRetries)
                     {
+                        // Download error might be mod specific. Go to the next mod.
+                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for [Steam ID { steamID }]. Will continue with next mod.",
+                            Logger.warning);
+
                         continue;
-                    }
-
-                    // Unfinished: What to do? Downloading 1600 pages takes about 10 to 15 minutes; just do 100 and save which we haven't done yet?
-
-                    // Download the Steam Workshop mod page
-                    if (Tools.Download(Tools.GetWorkshopURL(steamID), SteamWebpageFullPath, SteamDownloadRetries) == null)
-                    {
-                        // Unfinished: get ...; author last seen = mod update date (if newer); split into new and updated mods; max number of new mods; ...
-                        // Unfinished: automatic catalog change notes
-
-                        // Increase the counter
-                        knownModsChecked++;
-
-                        Logger.UpdaterLog($"Downloaded details page for known mod [Steam ID { steamID }]", Logger.debug);
                     }
                     else
                     {
-                        // Download error
-                        failedModDownloads++;
+                        // Too many failed downloads. Stop downloading
+                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for [Steam ID { steamID }]. Download process stopped.",
+                            Logger.error);
 
-                        if (failedModDownloads <= 5)
-                        {
-                            // Download error might be mod specific. Go to the next mod.
-                            Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for [Steam ID { steamID }]. Will continue with next mod.",
-                                Logger.error);
-                        }
+                        break;
                     }
                 }
                 else
                 {
-                    // New mod; continue to next if we reached the maximum new mods to check
-                    if (newModsChecked >= SteamMaxPages)
+                    // Page downloaded, increase the counter
+                    if (newMod)
                     {
-                        continue;
-                    }
-                    
-                    // Download the Steam Workshop mod page
-                    if (Tools.Download(Tools.GetWorkshopURL(steamID), SteamWebpageFullPath, SteamDownloadRetries) == null)
-                    {
-                        // Unfinished: get ...; author last seen = mod update date (if newer); split into new and updated mods; max number of new mods; ...
-                        // Unfinished: automatic catalog change notes
-
-                        // Increase the counter
-                        newModsChecked++;
-
-                        Logger.UpdaterLog($"Downloaded details page for new mod [Steam ID { steamID }]", Logger.debug);
+                        newModsDownloaded++;
                     }
                     else
                     {
-                        // Download error
-                        failedModDownloads++;
+                        knownModsDownloaded++;
+                    }
 
-                        if (failedModDownloads <= 5)
+                    // Read the page back from file
+                    using (StreamReader reader = File.OpenText(SteamWebpageFullPath))
+                    {
+                        string line;
+
+                        bool moreLinesToRead = true;
+
+                        try
                         {
-                            // Download error might be mod specific. Go to the next mod.
-                            Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for [Steam ID { steamID }]. Will continue with next mod.", 
-                                Logger.error);
+                            // Read all the lines until the end of the file
+                            while (((line = reader.ReadLine()) != null) && moreLinesToRead)
+                            {
+                                // Check the Steam ID to make sure we're reading the correct page
+                                steamIDmatched = steamIDmatched || line.Contains(SteamModPageSteamID + steamID.ToString());
+
+                                // Compatible game version tag, if we haven't found it yet
+                                if (string.IsNullOrEmpty(compatibleGameVersionString) && line.Contains(SteamModPageVersionTagFind))
+                                {
+                                    // Get the compatible game version as a string
+                                    compatibleGameVersionString = Tools.MidString(line, SteamModPageVersionTagLeft, SteamModPageVersionTagRight);
+                                }
+                                // Publish and update dates, if we haven't found them yet
+                                else if (string.IsNullOrEmpty(publishedString) && line.Contains(SteamModPageDatesFind))
+                                {
+                                    // Skip two lines
+                                    line = reader.ReadLine();
+                                    line = reader.ReadLine();
+
+                                    // Get the publish date as a string
+                                    publishedString = Tools.MidString(line, SteamModPageDatesLeft, SteamModPageDatesRight);
+
+                                    // Skip another line
+                                    line = reader.ReadLine();
+
+                                    // Try to get the update date as a string; will be an empty string if it isn't found
+                                    updatedString = Tools.MidString(line, SteamModPageDatesLeft, SteamModPageDatesRight);
+                                }
+                                // Required DLC; can appear more than once
+                                else if (line.Contains(SteamModPageRequiredDLCFind))
+                                {
+                                    // Skip one line
+                                    line = reader.ReadLine();
+
+                                    // Try to get the required DLC
+                                    string dlcString = Tools.MidString(line, SteamModPageRequiredDLCLeft, SteamModPageRequiredDLCRight);
+
+                                    if (!string.IsNullOrEmpty(dlcString))
+                                    {
+                                        requiredDLCStrings.Add(dlcString);
+                                    }
+                                }
+                                // Required mods; can appear more than once
+                                else if (line.Contains(SteamModPageRequiredModFind))
+                                {
+                                    // Skip one line
+                                    line = reader.ReadLine();
+
+                                    // Try to get the required DLC
+                                    string modString = Tools.MidString(line, SteamModPageRequiredModLeft, SteamModPageRequiredModRight);
+                                    
+                                    if (!string.IsNullOrEmpty(modString))
+                                    {
+                                        ulong modID = Convert.ToUInt64(modString);
+                                        
+                                        if (modID != 0)
+                                        {
+                                            requiredMods.Add(modID);
+                                        }
+                                        else
+                                        {
+                                            Logger.UpdaterLog($"Steam ID not recognized for required mod: { modString }.", Logger.warning);
+                                        }
+                                    }
+                                }
+                                // Description - check length and source url
+                                else if (line.Contains(SteamModPageDescriptionFind))
+                                {
+                                    // Skip one line
+                                    line = reader.ReadLine();
+
+                                    // Get the description
+                                    int index = line.IndexOf(SteamModPageDescriptionLeft) + SteamModPageDescriptionLeft.Length;
+                                    string description = line.Substring(index, line.Length - index - SteamModPageDescriptionRight.Length);
+
+                                    // Consider mod to have no description if the description is shorter than the mod name
+                                    noDescription = description.Length <= modName.Length;
+
+                                    // Get the source url
+                                    if (line.Contains(SteamModPageSourceURLLeft))
+                                    {
+                                        sourceURL = Tools.MidString(line, SteamModPageSourceURLLeft, SteamModPageSourceURLRight);
+
+                                        // If source url was found, complete the url again
+                                        if (!string.IsNullOrEmpty(sourceURL))
+                                        {
+                                            sourceURL = "https://github.com/" + sourceURL;
+                                        }
+
+                                        // Try to find a second source url
+                                        string searchString = line;
+                                        string tempSourceURL;
+
+                                        while (searchString.IndexOf(SteamModPageSourceURLLeft) != searchString.LastIndexOf(SteamModPageSourceURLLeft)) 
+                                        {
+                                            // Set the start the search string to just after the first occurrence
+                                            index = searchString.IndexOf(SteamModPageSourceURLLeft);
+                                            searchString = line.Substring(index + 1, line.Length - index - 1);
+
+                                            // Get the second source url
+                                            tempSourceURL = Tools.MidString(searchString, SteamModPageSourceURLLeft, SteamModPageSourceURLRight);
+
+                                            if (!string.IsNullOrEmpty(tempSourceURL))
+                                            {
+                                                tempSourceURL = "https://github.com/" + tempSourceURL;
+
+                                                string oldSource = sourceURL.ToLower();
+                                                string newSource = tempSourceURL.ToLower();
+
+                                                // If the previously found source url contains wiki or issue, and the new one doesn't, use the new one; otherwise the old one
+                                                if ((oldSource.Contains("wiki") || oldSource.Contains("issue")) && !newSource.Contains("wiki") && !newSource.Contains("issue"))
+                                                {
+                                                    // Keep the newly found
+                                                    sourceURL = tempSourceURL;
+
+                                                    Logger.UpdaterLog($"Found more than one source url for [{ steamID }]: " +
+                                                        $"\"{ tempSourceURL }\" (kept) and \"{ sourceURL }\" (discarded)");
+                                                }
+                                                else
+                                                {
+                                                    // Keep the previously found
+                                                    Logger.UpdaterLog($"Found more than one source url for [{ steamID }]: " +
+                                                        $"\"{ sourceURL }\" (kept) and \"{ tempSourceURL }\" (discarded)");
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    // Description is the last info we need from the page, so go on to updating the catalog for this mod
+                                    moreLinesToRead = false;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.UpdaterLog($"Can't (fully) read or understand the mod page for [Steam ID { steamID }]. Skipping this mod.", Logger.warning);
+
+                            Logger.Exception(ex, toUpdaterLog: true, duplicateToGameLog: false);
+
+                            // Don't process any information for this mod; continue with the next mod
+                            continue;
                         }
                     }
-                }
 
-                if (failedModDownloads > 5)
-                {
-                    // Too many failed downloads. Stop downloading
-                    Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for [Steam ID { steamID }]. Download process stopped.",
-                        Logger.error);
+                    // Skip to the next mod if the Steam ID was not found on the downloaded page
+                    if (!steamIDmatched)
+                    {
+                        Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for [Steam ID { steamID }]. Mod info not updated.", Logger.error);
 
-                    break;
+                        continue;
+                    }
+
+                    // Convert the found date strings to real datetime
+                    DateTime published = Tools.ConvertWorkshopDateTime(publishedString);
+                    DateTime updated = Tools.ConvertWorkshopDateTime(updatedString);
+
+                    // New list for the required DLC
+                    List<Enums.DLC> requiredDLC = new List<Enums.DLC>();
+
+                    foreach (string dlcString in requiredDLCStrings)
+                    {
+                        try
+                        {
+                            // Convert the dlc-number strings to enum
+                            requiredDLC.Add((Enums.DLC) Convert.ToUInt32(dlcString));
+                        }
+                        catch
+                        {
+                            Logger.UpdaterLog($"Cannot convert \"{ dlcString }\" to DLC enum for [Steam ID { steamID }].", Logger.warning);
+                        }
+                    }
+
+                    // Remove incorrect steam IDs from the required mods list
+                    foreach (ulong modID in requiredMods)
+                    {
+                        // Remove the mod ID if we didn't find it on the Workshop, or if it accidentally points to itself
+                        if (!AllSteamIDandNames.ContainsKey(modID) || (modID == steamID))
+                        {
+                            requiredMods.Remove(modID);
+
+                            Logger.UpdaterLog($"Required mod [Steam ID { modID }] can't be found for [Steam ID { steamID }].", Logger.warning);
+                        }
+                    }
+
+                    // Convert compatible gameversion back and forth to ensure a correctly formatted string
+                    compatibleGameVersionString = GameVersion.Formatted(Tools.ConvertToGameVersion(compatibleGameVersionString));
+
+                    // vars to be used: (Steam ID), basicinfomod.Name, basicinfomod.AuthorID, published, updated, requiredDLC, requiredMods (check groups), sourceURL,
+                    //                              compatibleVersion, statuses - IncompatibleAccordingToWorkshop & noDescription
+                    //                  AuthorID, IDisProfile, Authorname
+                    //                  indirect:   IsRemoved (false for everything we find, true for unfound but in catalog)
+                    //                              AutoReviewUpdated = now,
+                    //                              SourceUnavailable (if sourceURL)
+                    //                              NeededFor (only update if it is already used for a mod)
+                    //                              Author isRetired (false for new and updated mods)
+                    //                              Author lastseen (updatedate if > current lastseen)
+
+                    // Get the mod info found earlier
+                    Mod basicInfoMod = collectedModInfo.Find(x => x.SteamID == steamID);
+
+                    // Get the mod from the active catalog or create a new object
+                    Mod catalogMod;
+
+                    if (newMod)
+                    {
+                        // Create a new mod object; we will add it to the catalog later
+                        catalogMod = new Mod(steamID, basicInfoMod.Name, basicInfoMod.AuthorID);
+                    }
+                    else
+                    {
+                        // Get a reference to the mod in the catalog
+                        catalogMod = Catalog.Active.Mods.Find(x => x.SteamID == steamID);
+                    }
+
+                    // Unfinished: Update the info in the catalog
+                    // ...
+
+                    // Not updated:         ArchiveURL, SucceededBy, Alternatives, Note, most Statuses, Compatibilities, Mod Groups
+                    // Only half updated:   Author last seen, Author retired, NeededFor
+
+                    // Add the new mod to the catalog; known mods are directly updated in the catalog
+                    if (newMod)
+                    {
+                        Catalog.Active.Mods.Add(catalogMod);
+                    }
                 }
             }
 
@@ -302,17 +531,8 @@ namespace ModChecker.Util
             // Log the elapsed time
             timer.Stop();
 
-            Logger.UpdaterLog($"Updater finished downloading { knownModsChecked + newModsChecked } individual Steam Workshop mod pages in " + 
+            Logger.UpdaterLog($"Updater finished checking { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ (float)timer.ElapsedMilliseconds / 1000:F1} seconds.", regularLog: true);
-
-            return true;
-        }
-
-
-        // 
-        internal static bool UpdateActiveCatalog()
-        {
-            // Unfinished: update active catalog and save it with automatic change notes; automatic version++; detect mod and author name change
 
             return true;
         }

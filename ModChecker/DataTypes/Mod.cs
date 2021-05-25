@@ -18,9 +18,9 @@ namespace ModChecker.DataTypes
         public string AuthorID { get; private set; }
 
         // Date the mod was published and last updated
-        public DateTime? Published { get; private set; }
+        public DateTime Published { get; private set; }
 
-        public DateTime? Updated { get; private set; }
+        public DateTime Updated { get; private set; }
 
         // Is the mod removed, and do we know an archive page of the Steam Workshop page
         public bool IsRemoved { get; private set; }
@@ -55,9 +55,9 @@ namespace ModChecker.DataTypes
         public string Note { get; private set; }
 
         // Date this mod was last manually and automatically reviewed for changes in information and compatibility
-        public DateTime? ReviewUpdated { get; private set; }
+        public DateTime ReviewUpdated { get; private set; }
 
-        public DateTime? AutoReviewUpdated { get; private set; }
+        public DateTime AutoReviewUpdated { get; private set; }
 
         // Remark for ourselves, not displayed in report or log (but publicly viewable in the catalog)
         public string CatalogRemark { get; private set; }
@@ -70,36 +70,47 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Constructor with all one to all parameters, used when creating/updating a catalog or when converting an old catalog
+        // Constructor with all one to three parameters, used when creating a catalog or when converting an old catalog
         public Mod(ulong steamID,
                    string name = "",
-                   string authorID = "",
-                   DateTime? published = null,
-                   DateTime? updated = null,
-                   bool isRemoved = false,
-                   string archiveURL = "",
-                   string sourceURL = "",
-                   string gameVersionCompatible = "",
-                   List<Enums.DLC> requiredDLC = null,
-                   List<ulong> requiredMods = null,
-                   List<ulong> onlyNeededFor = null,
-                   List<ulong> succeededBy = null,
-                   List<ulong> alternatives = null,
-                   List<Enums.ModStatus> statuses = null,
-                   string note = "",
-                   DateTime? reviewUpdated = null,
-                   DateTime? autoReviewUpdated = null,
-                   string catalogRemark = "")
+                   string authorID = "")
         {
             SteamID = steamID;
 
             Name = name;
 
             AuthorID = authorID;
+        }
+
+
+        // Update a mod with new info; all fields can be updated except Steam ID
+        internal void Update(string name = "",
+                   string authorID = "",
+                   DateTime published = default,
+                   DateTime updated = default,
+                   bool isRemoved = false,
+                   string archiveURL = "",
+                   string sourceURL = "",
+                   string gameVersionCompatible = "",
+                   List<Enums.DLC> requiredDLC = default,
+                   List<ulong> requiredMods = default,
+                   List<ulong> onlyNeededFor = default,
+                   List<ulong> succeededBy = default,
+                   List<ulong> alternatives = default,
+                   List<Enums.ModStatus> statuses = default,
+                   string note = "",
+                   DateTime reviewUpdated = default,
+                   DateTime autoReviewUpdated = default,
+                   string catalogRemark = "")
+        {
+            Name = name;
+
+            AuthorID = authorID;
 
             Published = published;
 
-            Updated = updated;
+            // If updated is unknown (default minvalue), set it to the published date
+            Updated = (updated == DateTime.MinValue) ? Published : updated;
 
             IsRemoved = isRemoved;
 
@@ -109,17 +120,18 @@ namespace ModChecker.DataTypes
 
             CompatibleGameVersionString = gameVersionCompatible;
 
-            RequiredDLC = requiredDLC;
+            // Make sure the lists are empty lists instead of null
+            RequiredDLC = requiredDLC ?? new List<Enums.DLC>();
 
-            RequiredMods = requiredMods;
+            RequiredMods = requiredMods ?? new List<ulong>();
 
-            NeededFor = onlyNeededFor;
+            NeededFor = onlyNeededFor ?? new List<ulong>();
 
-            SucceededBy = succeededBy;
+            SucceededBy = succeededBy ?? new List<ulong>();
 
-            Alternatives = alternatives;
+            Alternatives = alternatives ?? new List<ulong>();
 
-            Statuses = statuses;
+            Statuses = statuses ?? new List<Enums.ModStatus>();
 
             Note = note;
 

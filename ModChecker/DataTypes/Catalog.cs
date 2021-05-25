@@ -156,7 +156,14 @@ namespace ModChecker.DataTypes
             return $"{ StructureVersion }.{ Version:D4}";
         }
 
-        
+
+        // Increase the version, used for the Updater
+        internal void NewVersion()
+        {
+            Version++;
+        }
+
+
         // Add a new group to a catalog
         internal ulong AddGroup(List<ulong> steamIDs, string description)
         {
@@ -219,8 +226,7 @@ namespace ModChecker.DataTypes
             Count = Mods.Count;
 
             // Get the number of mods with a review in the catalog
-            List<Mod> reviewedMods = Mods.FindAll(m => m.ReviewUpdated != null);
-            reviewedMods.AddRange(Mods.FindAll(m => m.AutoReviewUpdated != null));
+            List<Mod> reviewedMods = Mods.FindAll(m => (m.ReviewUpdated != DateTime.MinValue) || (m.AutoReviewUpdated != DateTime.MinValue));
 
             if (reviewedMods?.Any() == null)
             {

@@ -17,16 +17,31 @@ namespace ModChecker.Util
             Catalog exampleCatalog = new Catalog(1, DateTime.Now, "This first catalog only contains builtin mods.");
 
             DateTime now = DateTime.Now;
+            Mod mod;
             List<ModStatus> modStatus;
 
             // Builtin mods
             modStatus = new List<ModStatus> { SourceBundled };
-            
-            exampleCatalog.Mods.Add(new Mod(1, "Hard Mode", statuses: modStatus, reviewUpdated: now));
-            exampleCatalog.Mods.Add(new Mod(2, "Unlimited Money", statuses: modStatus, reviewUpdated: now));
-            exampleCatalog.Mods.Add(new Mod(3, "Unlimited Oil And Ore", statuses: modStatus, reviewUpdated: now));
-            exampleCatalog.Mods.Add(new Mod(4, "Unlimited Soil", statuses: modStatus, reviewUpdated: now));
-            exampleCatalog.Mods.Add(new Mod(5, "Unlock All", statuses: modStatus, reviewUpdated: now));
+
+            mod = new Mod(1, "Hard Mode");
+            mod.Update(statuses: modStatus, reviewUpdated: now);
+            exampleCatalog.Mods.Add(mod);
+
+            mod = new Mod(2, "Unlimited Money");
+            mod.Update(statuses: modStatus, reviewUpdated: now);
+            exampleCatalog.Mods.Add(mod);
+
+            mod = new Mod(3, "Unlimited Oil And Ore");
+            mod.Update(statuses: modStatus, reviewUpdated: now);
+            exampleCatalog.Mods.Add(mod);
+
+            mod = new Mod(4, "Unlimited Soil");
+            mod.Update(statuses: modStatus, reviewUpdated: now);
+            exampleCatalog.Mods.Add(mod);
+
+            mod = new Mod(5, "Unlock All");
+            mod.Update(statuses: modStatus, reviewUpdated: now);
+            exampleCatalog.Mods.Add(mod);
 
             // Author
             exampleCatalog.ModAuthors.Add(new ModAuthor("finwickle", idIsProfile: false, "Finwickle", DateTime.Now));

@@ -9,9 +9,9 @@ using ModChecker.Util;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle(ModSettings.displayName)]
-[assembly: AssemblyDescription(ModSettings.description)]
+[assembly: AssemblyDescription(ModSettings.modDescription)]
 [assembly: AssemblyConfiguration(ModSettings.releaseType)]
-[assembly: AssemblyCompany(ModSettings.author)]
+[assembly: AssemblyCompany(ModSettings.modAuthor)]
 [assembly: AssemblyProduct(ModSettings.displayName)]
 [assembly: AssemblyCopyright("Copyright ©  2021  (MIT License)")]
 [assembly: AssemblyTrademark("")]

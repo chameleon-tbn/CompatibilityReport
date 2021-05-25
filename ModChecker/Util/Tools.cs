@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Security;
@@ -71,7 +72,7 @@ namespace ModChecker.Util
                         // Download failed, increase try count
                         failedAttempts++;
 
-                        Logger.Log($"Download of \"{ url }\" failed. { (failedAttempts <= retriesOnError ? "Retrying. " : "") }Exception: { ex.GetType().Name }", 
+                        Logger.Log($"Download of \"{ url }\" failed. { (failedAttempts <= retriesOnError ? "Retrying. " : "") }Exception: { ex.GetType().Name } { ex.Message }", 
                             Logger.debug);
 
                         exception = ex;
@@ -83,6 +84,27 @@ namespace ModChecker.Util
             ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
 
             return exception;
+        }
+
+
+        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons
+        // Unfinished: For Mac OS X, maybe /Users/<username>/Library/ to ~/Library/ ???
+        internal static string PrivacyPath(string path)
+        {
+            // Get position of \appdata\local in the path
+            int index = path.ToLower().IndexOf("\\appdata\\local");
+            int indexPlus = index + "\\appdata\\local".Length;
+
+            if (index == -1)
+            {
+                // Return original path if \appdata\local was not found
+                return path;
+            }
+            else
+            {
+                // Replace everything up to and including \appdata\local with %LocalAppData%; path will still work in Windows and is now more privacy-proof
+                return "%LocalAppData%" + path.Substring(indexPlus);
+            }
         }
 
 
@@ -159,35 +181,52 @@ namespace ModChecker.Util
         }
 
 
-        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons
-        // Unfinished: For Mac OS X, maybe /Users/<username>/Library/ to ~/Library/ ???
-        internal static string PrivacyPath(string path)
+        // Converts the string date/time on Steam Workshop pages and return it as a proper datetime
+        internal static DateTime ConvertWorkshopDateTime(string dateTimeString)
         {
-            // Get position of \appdata\local in the path
-            int index = path.ToLower().IndexOf("\\appdata\\local");
-            int indexPlus = index + "\\appdata\\local".Length;
+            // Only convert if we really have a string; MinValue is the DateTime equivalent of null
+            if (string.IsNullOrEmpty(dateTimeString))
+            {
+                return DateTime.MinValue;
+            }
 
-            if (index == -1)
+            DateTime convertedDate;
+            CultureInfo englishCulture = new CultureInfo("en-GB");
+
+            // Date format on the workshop is either like "12 Mar, 2019 @ 6:11am", or "24 May @ 11:27pm" for current year
+            if (!dateTimeString.Contains(", 20"))
             {
-                // Return original path if \appdata\local was not found
-                return path;
+                // Date without year; insert the current year
+                int position = dateTimeString.IndexOf('@');
+
+                dateTimeString = dateTimeString.Insert(position - 1, $", { DateTime.Now.Year }");
             }
-            else
+
+            // Date format should now always be like "24 May, 2021 @ 11:27pm"
+            try
             {
-                // Replace everything up to and including \appdata\local with %LocalAppData%; path will still work in Windows and is now more privacy-proof
-                return "%LocalAppData%" + path.Substring(indexPlus);
+                convertedDate = DateTime.ParseExact(dateTimeString, "dd MMM, yyyy @ h:mmtt", englishCulture);
             }
+            catch
+            {
+                // Couldn't convert; probably got a faulty string
+                convertedDate = DateTime.MinValue;
+
+                Logger.Log($"Failed to convert workshop datetime: { dateTimeString }.", Logger.debug);
+            }
+
+            return convertedDate;            
         }
 
 
-        // Convert a string to a version type
+        // Convert a string to a version type; should work for "1.13.3.9" and "1.13.3-f9" formats
         internal static Version ConvertToGameVersion(string versionString)
         {
             Version version;
 
             try
             {
-                string[] versionArray = versionString.Split('.');
+                string[] versionArray = versionString.Split(new char[] { '.', '-', 'f' }, StringSplitOptions.RemoveEmptyEntries);
 
                 version = new Version(
                     Convert.ToInt32(versionArray[0]),
