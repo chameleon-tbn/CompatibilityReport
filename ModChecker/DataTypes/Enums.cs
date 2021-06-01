@@ -2,6 +2,90 @@
 {
     public static class Enums                       // Needs to be public for XML serialization
     {
+        // Status of a mod; can be none, one or more
+        public enum ModStatus
+        {
+            Unknown,                                // Unused
+            IncompatibleAccordingToWorkshop,        // The Workshop has an indication for seriously broken mods; incompatible with the game itself
+            GameBreaking,
+            MajorIssues,
+            MinorIssues,
+            UnconfirmedIssues,                      // Unused, only included to keep track for myself
+            PerformanceImpact,
+            LoadingTimeImpact,
+            BreaksEditors,
+            SavesCantLoadWithout,
+            Abandoned,
+            RemovedFromWorkshop,
+            NoLongerNeeded,
+            NoDescription,                          // For mods without (real) description
+            SourceUnavailable,
+            SourceNotUpdated,
+            SourceObfuscated,
+            SourceBundled,
+            CopyrightFreeMusic,                     //  \
+            CopyrightedMusic,                       //   }  Use max. one of these, and only for mods that include music
+            CopyrightUnknownMusic                   //  /
+        }
+
+        // Compatibility status between two mods; can be one or more
+        public enum CompatibilityStatus
+        {
+            Unknown,                                //  Only used as placeholder when errors occur; overrules all other statuses
+            NewerVersionOfTheSame,                  // \
+            OlderVersionOfTheSame,                  //  \
+            SameModDifferentReleaseType,            //   }  Max. one of the newer/older/same/func.covered statuses
+            FunctionalityCoveredByThis,             //  /
+            FunctionalityCoveredByOther,            // /
+            IncompatibleAccordingToAuthor,          //   \
+            IncompatibleAccordingToUsers,           //    }  Max. one of the (in)compatible statuses
+            CompatibleAccordingToAuthor,            //   /
+            MinorIssues,
+            RequiresSpecificConfigForThis,
+            RequiresSpecificConfigForOther
+        }
+
+        // DLCs; the names are used in the report, with double underscores replaced by semicolon+space and single underscores replaced by spaces
+        // numbers are the AppIDs, as seen in the url of every DLC in the Steam shop (https://store.steampowered.com/app/255710/Cities_Skylines/)
+        public enum DLC : uint
+        {
+            None = 0,                               // Unused
+            Deluxe_Edition = 346791,
+            After_Dark = 369150,
+            Snowfall = 420610,
+            Match_Day = 456200,
+            Content_Creator_Pack__Art_Deco = 515190,
+            Natural_Disasters = 515191,
+            Stadiums_Europe = 536610,
+            Content_Creator_Pack__High_Tech_Buildings = 547500,
+            Relaxation_Station = 547501,
+            Mass_Transit = 547502,
+            Pearls_From_the_East = 563850,
+            Green_Cities = 614580,
+            Concerts = 614581,
+            Rock_City_Radio = 614582,
+            Content_Creator_Pack__European_Suburbia = 715190,
+            Park_Life = 715191,
+            Carols_Candles_and_Candy = 715192,
+            All_That_Jazz = 715193,
+            Industries = 715194,
+            Country_Road_Radio = 815380,
+            Synthetic_Dawn_Radio = 944070,
+            Campus = 944071,
+            Content_Creator_Pack__University_City = 1059820,
+            Deep_Focus_Radio = 1065490,
+            Campus_Radio = 1065491,
+            Sunset_Harbor = 1146930,
+            Content_Creator_Pack__Modern_City_Center = 1148020,
+            Downtown_Radio = 1148021,
+            Content_Creator_Pack__Modern_Japan = 1148022,
+            Coast_to_Coast_Radio = 1196100,
+            Rail_Hawk_Radio = 1531472,
+            Sunny_Breeze_Radio = 1531473,
+            Content_Creator_Pack__Train_Station = 1531470,
+            Content_Creator_Pack__Bridges_and_Piers = 1531471
+        }
+
         // LogLevel to differentiate between log messages
         internal enum LogLevel
         {
@@ -9,70 +93,6 @@
             Warning,
             Error,
             Debug
-        }
-
-        // DLCs; numbers are the AppIDs, see https://steamdb.info/search/?a=app_keynames&keyname=23&operator=3&keyvalue=Colossal+Order+Ltd.
-        public enum DLC : uint
-        {
-            AfterDark = 369150,
-            Snowfall = 420610,
-            NaturalDisasters = 515191,
-            MassTransit = 547502,
-            GreenCities = 614580,
-            ParkLife = 715191,
-            Industries = 715194,
-            Campus = 944071,
-            SunsetHarbor = 1146930,
-            Deluxe = 346791,
-            MatchDay = 456200,
-            Concerts = 614581,
-            Carols = 715192,
-            ArtDeco = 515190,
-            HighTech = 547500,
-            PearlsFromTheEast = 563850,
-            EuropeanSuburbia = 715190,
-            UniversityCity = 1059820,
-            ModernCityCenter = 1148020
-        }
-
-        // Status of a mod; can be none, one or more
-        public enum ModStatus
-        {
-            IncompatibleAccordingToWorkshop,    // The Workshop has an indication for seriously broken mods; incompatible with the game itself
-            GameBreaking,
-            MajorIssues,
-            MinorIssues,
-            UnconfirmedIssues,                  // Unused, only included to keep track for myself
-            PerformanceImpact,
-            LoadingTimeImpact,
-            BreaksEditors,
-            SavesCantLoadWithout,
-            Abandoned,
-            NoLongerNeeded,
-            NoDescription,                      // For mods without (real) description and images
-            SourceUnavailable,
-            SourceNotUpdated,
-            SourceObfuscated,
-            SourceBundled,
-            CopyrightFreeMusic,                 // Only to be used for mods that include music
-            CopyrightedMusic                    // Mod should not be used when streaming
-        }
-
-        // Compatibility status between two mods; can be one or more
-        public enum CompatibilityStatus
-        {
-            Unknown,                            // Only used as placeholder when errors occur; overrules all other statuses
-            NewerVersionOfTheSameMod,           //    \
-            OlderVersionOfTheSameMod,           //     \
-            SameModDifferentReleaseType,        //      }  Use max. one of the newer/older/same/func.covered statuses
-            FunctionalityCoveredByThisMod,      //     /
-            FunctionalityCoveredByOtherMod,     //    /
-            IncompatibleAccordingToAuthor,      //  \
-            IncompatibleAccordingToUsers,       //   }  Use max. one of the (in)compatible statuses
-            CompatibleAccordingToAuthor,        //  /
-            MinorIssues,
-            RequiresSpecificConfigForThisMod,
-            RequiresSpecificConfigForOtherMod
         }
     }
 }

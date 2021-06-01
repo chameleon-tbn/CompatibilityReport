@@ -11,11 +11,12 @@ using ModChecker.Util;
 
 namespace ModChecker.DataTypes
 {
-    [XmlRoot(ModSettings.xmlRoot)]
-    public class V0_Catalog                                                  // Needs to be public for XML serialization
+    // Needs to be public for XML serialization
+    [XmlRoot(ModSettings.xmlRoot)] public class V0_Catalog
     {
-        // StructureVersion is also used for logging
-        private static uint StructureVersion { get; set; } = 0;
+        // StructureVersion didn't exist in V0, but is used for logging
+        [XmlIgnore] private static uint StructureVersion { get; set; } = 0;
+
 
         // Catalog version and date
         public uint Version { get; private set; }
@@ -25,17 +26,17 @@ namespace ModChecker.DataTypes
         // The actual data in four lists
         public List<Mod> Mods { get; private set; } = new List<Mod>();
 
-        public List<ModCompatibility> ModCompatibilities { get; private set; } = new List<ModCompatibility>();
+        public List<Compatibility> ModCompatibilities { get; private set; } = new List<Compatibility>();
 
         public List<ModGroup> ModGroups { get; private set; } = new List<ModGroup>();
 
-        public List<ModAuthor> ModAuthors { get; private set; } = new List<ModAuthor>();
+        public List<Author> ModAuthors { get; private set; } = new List<Author>();
 
 
         // Load an old catalog from disk and convert it to a new catalog
         internal static Catalog LoadAndConvert(string fullPath)
         {
-            V0_Catalog V0_catalog = new V0_Catalog();
+            V0_Catalog v0_catalog = new V0_Catalog();
 
             // Load the old catalog from disk
             if (File.Exists(fullPath))
@@ -47,12 +48,12 @@ namespace ModChecker.DataTypes
 
                     using (TextReader reader = new StreamReader(fullPath))
                     {
-                        V0_catalog = (V0_Catalog)serializer.Deserialize(reader);
+                        v0_catalog = (V0_Catalog)serializer.Deserialize(reader);
                     }
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Can't load catalog (V{ StructureVersion }) \"{ Tools.PrivacyPath(fullPath) }\".");
+                    Logger.Log($"Can't load V{ StructureVersion } catalog \"{ Tools.PrivacyPath(fullPath) }\".");
 
                     Logger.Exception(ex, debugOnly: true);
 
@@ -61,23 +62,21 @@ namespace ModChecker.DataTypes
             }
             else
             {
-                Logger.Log($"Can't load nonexistent catalog (V{ StructureVersion }) \"{ Tools.PrivacyPath(fullPath) }\".");
+                Logger.Log($"Can't load nonexistent V{ StructureVersion } catalog \"{ Tools.PrivacyPath(fullPath) }\".");
 
                 return null;
             }
 
-            // Conversion
+            // Convert and/or create all properties
 
             // compatible game version didn't exist in V0; assume the mods compatible game version
-            Version compatibleGameVersionV0 = ModSettings.CompatibleGameVersion;
+            Version v0_CompatibleGameVersion = ModSettings.compatibleGameVersion;
 
-            // ... Whatever more work is needed should be done here, for instance a Mods.Convert() if Mods changed too much
+            // ... Whatever else is needed should be done here, for instance a to-be-created V0_Mods.Convert() if mods changed too much ...
 
             // Create and return the new catalog
-            Catalog catalog = new Catalog(V0_catalog.Version, V0_catalog.UpdateDate, compatibleGameVersionV0, note: "", reportIntroText: ModSettings.DefaultIntroText, 
-                reportFooterText: ModSettings.DefaultFooterText, V0_catalog.Mods, V0_catalog.ModCompatibilities, V0_catalog.ModGroups, V0_catalog.ModAuthors);
-
-            return catalog;
+            return new Catalog(v0_catalog.Version, v0_catalog.UpdateDate, v0_CompatibleGameVersion, note: "", reportIntroText: ModSettings.defaultIntroText, 
+                reportFooterText: ModSettings.defaultFooterText, v0_catalog.Mods, v0_catalog.ModCompatibilities, v0_catalog.ModGroups, v0_catalog.ModAuthors);
         }        
     }
 }

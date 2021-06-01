@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Security;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
-using static ColossalFramework.Plugins.PluginManager;
 using ICities;
 using ModChecker.DataTypes;
 
@@ -14,7 +13,7 @@ namespace ModChecker.Util
 {
     internal static class Tools
     {
-        // ValidationCallback to get rid of "The authentication or decryption has failed." errors when downloading
+        // ValidationCallback gets rid of "The authentication or decryption has failed" errors when downloading
         // This allows to download from sites that still support TLS 1.1 or worse, but not from sites that only support TLS 1.2+
         // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
         private static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;
@@ -28,23 +27,26 @@ namespace ModChecker.Util
                 try
                 {
                     File.Delete(fullPath);
-
-                    return true;
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Could not delete file \"{ fullPath }\".", Logger.error);
+                    Logger.Log($"Could not delete file \"{ PrivacyPath(fullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.debug);
 
-                    Logger.Exception(ex);
+                    Logger.Exception(ex, debugOnly: true, duplicateToGameLog: false);
+
+                    return false;
                 }
             }
 
-            return false;
+            // return true if file was deleted or didn't exist
+            return true;
         }
 
 
         // Download a file, return the exception for custom logging
-        internal static Exception Download(string url, string fullPath, uint retriesOnError = ModSettings.downloadRetries)
+        internal static Exception Download(string url,
+                                           string fullPath,
+                                           uint retriesOnError = ModSettings.downloadRetries)
         {
             Exception exception = null;
 
@@ -62,6 +64,7 @@ namespace ModChecker.Util
                     {
                         webclient.DownloadFile(url, fullPath);
 
+                        // Reset the exception value to return
                         exception = null;
 
                         // No (more) retries needed
@@ -72,8 +75,8 @@ namespace ModChecker.Util
                         // Download failed, increase try count
                         failedAttempts++;
 
-                        Logger.Log($"Download of \"{ url }\" failed. { (failedAttempts <= retriesOnError ? "Retrying. " : "") }Exception: { ex.GetType().Name } { ex.Message }", 
-                            Logger.debug);
+                        Logger.Log($"Download of \"{ url }\" failed. { (failedAttempts <= retriesOnError ? "Retrying. " : "") }" + 
+                            $"Exception: { ex.GetType().Name } { ex.Message }", Logger.debug);
 
                         exception = ex;
                     }
@@ -87,8 +90,8 @@ namespace ModChecker.Util
         }
 
 
+        // [Todo 0.5] Something similar needed for Mac OS X or Linux?
         // Remove the Windows username from the '...\AppData\Local' path for privacy reasons
-        // Unfinished: For Mac OS X, maybe /Users/<username>/Library/ to ~/Library/ ???
         internal static string PrivacyPath(string path)
         {
             // Get position of \appdata\local in the path
@@ -97,7 +100,7 @@ namespace ModChecker.Util
 
             if (index == -1)
             {
-                // Return original path if \appdata\local was not found
+                // Not found, return original path
                 return path;
             }
             else
@@ -109,14 +112,17 @@ namespace ModChecker.Util
 
 
         // Is the Steam Workshop available in game?
-        internal static bool SteamWorkshopAvailable { get; private set; } = (PlatformService.platformType == PlatformType.Steam && !PluginManager.noWorkshop);
+        internal static bool SteamWorkshopAvailable()
+        {
+            return (PlatformService.platformType == PlatformType.Steam) && !PluginManager.noWorkshop;
+        }
 
 
         // Return Steam Workshop url for a mod
         internal static string GetWorkshopURL(ulong steamID)
         {
             // No URL for fake Steam IDs
-            if (steamID > ModSettings.HighestFakeID)
+            if (steamID > ModSettings.highestFakeID)
             {
                 return $"https://steamcommunity.com/sharedfiles/filedetails/?id={ steamID }";
             }
@@ -128,7 +134,8 @@ namespace ModChecker.Util
 
 
         // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(string authorID, bool isProfile)
+        internal static string GetAuthorWorkshop(string authorID,
+                                                 bool isProfile)
         {
             if (isProfile)
             {
@@ -142,10 +149,17 @@ namespace ModChecker.Util
         }
 
 
+        // Return Steam Store url for a DLC
+        internal static string GetDLCStorePage(uint appID)
+        {
+            return $"https://store.steampowered.com/app/{ appID }";
+        }
+
+
         // Get the name of a mod, as safely as possible.
         // Some mods run code in their IUserMod.Name property, or run code in their static or instance constructors, which can cause exceptions - this method handles those.
         // Code based on https://github.com/CitiesSkylinesMods/AutoRepair/blob/master/AutoRepair/AutoRepair/Descriptors/Subscription.cs by aubergine10
-        internal static string GetPluginName(PluginInfo plugin)
+        internal static string GetPluginName(PluginManager.PluginInfo plugin)
         {
             string name = "";
 
@@ -165,7 +179,7 @@ namespace ModChecker.Util
                 }
                 else
                 {
-                    name = $"({plugin.name})";
+                    name = $"{ plugin.name }";
                 }
             }
             catch (Exception ex)
@@ -191,41 +205,43 @@ namespace ModChecker.Util
             }
 
             DateTime convertedDate;
+
             CultureInfo englishCulture = new CultureInfo("en-GB");
 
             // Date format on the workshop is either like "12 Mar, 2019 @ 6:11am", or "24 May @ 11:27pm" for current year
             if (!dateTimeString.Contains(", 20"))
             {
                 // Date without year; insert the current year
-                int position = dateTimeString.IndexOf('@');
+                int position = dateTimeString.IndexOf('@') - 1;
 
-                dateTimeString = dateTimeString.Insert(position - 1, $", { DateTime.Now.Year }");
+                dateTimeString = dateTimeString.Insert(position, $", { DateTime.Now.Year }");
             }
 
             // Date format should now always be like "24 May, 2021 @ 11:27pm"
             try
             {
-                convertedDate = DateTime.ParseExact(dateTimeString, "dd MMM, yyyy @ h:mmtt", englishCulture);
+                convertedDate = DateTime.ParseExact(dateTimeString, "d MMM, yyyy @ h:mmtt", englishCulture);
             }
             catch
             {
                 // Couldn't convert; probably got a faulty string
                 convertedDate = DateTime.MinValue;
 
-                Logger.Log($"Failed to convert workshop datetime: { dateTimeString }.", Logger.debug);
+                Logger.Log($"Failed to convert workshop datetime: { dateTimeString }.", Logger.warning);
             }
 
             return convertedDate;            
         }
 
 
-        // Convert a string to a version type; should work for "1.13.3.9" and "1.13.3-f9" formats
+        // Convert a string to a version type
         internal static Version ConvertToGameVersion(string versionString)
         {
             Version version;
 
             try
             {
+                // Try to get only the numbers for either "1.13.3.9" or "1.13.3-f9" version format
                 string[] versionArray = versionString.Split(new char[] { '.', '-', 'f' }, StringSplitOptions.RemoveEmptyEntries);
 
                 version = new Version(
@@ -245,7 +261,9 @@ namespace ModChecker.Util
 
 
         // Get the substring between two search-string in a string
-        internal static string MidString(string original, string leftBoundary, string rightBoundary)
+        internal static string MidString(string original,
+                                         string leftBoundary,
+                                         string rightBoundary)
         {
             // Get the position of the left boundary string
             int indexLeft = original.IndexOf(leftBoundary);

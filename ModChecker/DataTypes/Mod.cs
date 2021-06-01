@@ -6,11 +6,11 @@ using ModChecker.Util;
 
 namespace ModChecker.DataTypes
 {
-    [Serializable]
-    public class Mod                                // Needs to be public for XML serialization
+    // Needs to be public for XML serialization
+    [Serializable] public class Mod
     {
         // Steam ID and name
-        public ulong SteamID { get; private set; } = 0;
+        public ulong SteamID { get; private set; }
 
         public string Name { get; private set; }
 
@@ -23,8 +23,6 @@ namespace ModChecker.DataTypes
         public DateTime Updated { get; private set; }
 
         // Is the mod removed, and do we know an archive page of the Steam Workshop page
-        public bool IsRemoved { get; private set; }
-
         public string ArchiveURL { get; private set; }
 
         // Public location of the source
@@ -63,92 +61,97 @@ namespace ModChecker.DataTypes
         public string CatalogRemark { get; private set; }
 
 
-        // Default constructor, used when reading from disk
+        // Default constructor
         public Mod()
         {
             // Nothing to do here
         }
 
 
-        // Constructor with all one to three parameters, used when creating a catalog or when converting an old catalog
-        public Mod(ulong steamID,
-                   string name = "",
-                   string authorID = "")
+        // Constructor with 3 parameters
+        internal Mod(ulong steamID,
+                     string name,
+                     string authorID)
         {
             SteamID = steamID;
 
-            Name = name;
+            Name = name ?? "";
 
-            AuthorID = authorID;
+            AuthorID = authorID ?? "";
         }
 
 
-        // Update a mod with new info; all fields can be updated except Steam ID
-        internal void Update(string name = "",
-                   string authorID = "",
-                   DateTime published = default,
-                   DateTime updated = default,
-                   bool isRemoved = false,
-                   string archiveURL = "",
-                   string sourceURL = "",
-                   string gameVersionCompatible = "",
-                   List<Enums.DLC> requiredDLC = default,
-                   List<ulong> requiredMods = default,
-                   List<ulong> onlyNeededFor = default,
-                   List<ulong> succeededBy = default,
-                   List<ulong> alternatives = default,
-                   List<Enums.ModStatus> statuses = default,
-                   string note = "",
-                   DateTime reviewUpdated = default,
-                   DateTime autoReviewUpdated = default,
-                   string catalogRemark = "")
+        // Update a mod with new info; all fields can be updated except Steam ID; all fields are optional, only supplied fields are updated
+        internal void Update(string name = null,
+                             string authorID = null,
+                             DateTime? published = null,
+                             DateTime? updated = null,
+                             string archiveURL = null,
+                             string sourceURL = null,
+                             string compatibleGameVersionString = null,
+                             List<Enums.DLC> requiredDLC = null,
+                             List<ulong> requiredMods = null,
+                             List<ulong> onlyNeededFor = null,
+                             List<ulong> succeededBy = null,
+                             List<ulong> alternatives = null,
+                             List<Enums.ModStatus> statuses = null,
+                             string note = null,
+                             DateTime? reviewUpdated = null,
+                             DateTime? autoReviewUpdated = null,
+                             string catalogRemark = null)
         {
-            Name = name;
+            // Only update supplied fields, so ignore every null value; make sure strings are set to empty string instead of null
+            Name = name ?? Name ?? "";
 
-            AuthorID = authorID;
+            AuthorID = authorID ?? AuthorID ?? "";
 
-            Published = published;
+            Published = published ?? Published;
 
-            // If updated is unknown (default minvalue), set it to the published date
-            Updated = (updated == DateTime.MinValue) ? Published : updated;
+            Updated = updated ?? Updated;
 
-            IsRemoved = isRemoved;
+            // If Updated is unknown (default minvalue), set it to the Published date
+            if (Updated == DateTime.MinValue)
+            {
+                Updated = Published;
+            }
 
-            ArchiveURL = archiveURL;
+            ArchiveURL = archiveURL ?? ArchiveURL ?? "";
 
-            SourceURL = sourceURL;
+            SourceURL = sourceURL ?? SourceURL ?? "";
 
-            CompatibleGameVersionString = gameVersionCompatible;
+            // If the string is null, set it to the unknown game version
+            CompatibleGameVersionString = compatibleGameVersionString ?? CompatibleGameVersionString ?? GameVersion.Unknown.ToString();
 
             // Make sure the lists are empty lists instead of null
-            RequiredDLC = requiredDLC ?? new List<Enums.DLC>();
+            RequiredDLC = requiredDLC ?? RequiredDLC ?? new List<Enums.DLC>();
 
-            RequiredMods = requiredMods ?? new List<ulong>();
+            RequiredMods = requiredMods ?? RequiredMods ?? new List<ulong>();
 
-            NeededFor = onlyNeededFor ?? new List<ulong>();
+            NeededFor = onlyNeededFor ?? NeededFor ?? new List<ulong>();
 
-            SucceededBy = succeededBy ?? new List<ulong>();
+            SucceededBy = succeededBy ?? SucceededBy ?? new List<ulong>();
 
-            Alternatives = alternatives ?? new List<ulong>();
+            Alternatives = alternatives ?? Alternatives ?? new List<ulong>();
 
-            Statuses = statuses ?? new List<Enums.ModStatus>();
+            Statuses = statuses ?? Statuses ?? new List<Enums.ModStatus>();
 
-            Note = note;
+            Note = note ?? Note ?? "";
 
-            ReviewUpdated = reviewUpdated;
+            ReviewUpdated = reviewUpdated ?? ReviewUpdated;
 
-            AutoReviewUpdated = autoReviewUpdated;
+            AutoReviewUpdated = autoReviewUpdated ?? AutoReviewUpdated;
 
-            CatalogRemark = catalogRemark;
+            CatalogRemark = catalogRemark ?? CatalogRemark ?? "";
         }
 
 
         // Return a max length, formatted string with the Steam ID and name
-        internal string ToString(bool nameFirst = false, bool showFakeID = true)
+        internal string ToString(bool nameFirst = false,
+                                 bool showFakeID = true)
         {
             string id;
 
-            if (SteamID > ModSettings.HighestFakeID)
+            if (SteamID > ModSettings.highestFakeID)
             {
                 // Workshop mod
                 id = $"[Steam ID { SteamID, 10 }]";
@@ -164,7 +167,7 @@ namespace ModChecker.DataTypes
                 id = "[builtin mod" + (showFakeID ? " " + SteamID.ToString() : "") + "]";
             }
 
-            int maxNameLength = ModSettings.MaxReportWidth - 1 - id.Length;
+            int maxNameLength = ModSettings.maxReportWidth - 1 - id.Length;
 
             string name = (Name.Length <= maxNameLength) ? Name : Name.Substring(0, maxNameLength - 3) + "...";
 

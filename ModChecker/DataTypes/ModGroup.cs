@@ -4,17 +4,20 @@ using System.Xml.Serialization;
 using ModChecker.Util;
 
 
-// Mod groups are only used for Required Mods in the Mod class, and mean that any one of the mods from a group is a requirement (not all together)
+// Mod groups are only used for Required Mods in the Mod class, and mean that one of the mods from a group is a requirement (not all together)
 
 namespace ModChecker.DataTypes
 {
-    [Serializable]
-    public class ModGroup                           // Needs to be public for XML serialization
+    // Needs to be public for XML serialization
+    [Serializable] public class ModGroup
     {
+        // Group ID, which is used instead of a Steam ID in a required mods list
         public ulong GroupID { get; private set; }
 
+        // Steam IDs of mods in this group; nesting group IDs in this is not supported
         [XmlArrayItem("SteamID")] public List<ulong> SteamIDs { get; private set; } = new List<ulong>();
 
+        // A description of this group, for catalog maintenance only (not shown in reports)
         public string Description { get; private set; }
 
 
@@ -26,28 +29,24 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters
-        public ModGroup(ulong groupID,
-                        List<ulong> steamIDs,
-                        string description)
+        internal ModGroup(ulong groupID,
+                          List<ulong> steamIDs,
+                          string description)
         {
-            if ((groupID < ModSettings.lowestModGroupID) || (groupID > ModSettings.highestModGroupID))
-            {
-                Logger.Log($"ModGroup ID out range: [{ groupID }] { description }. This might give weird results in the report.", Logger.error);
-            }
-
             GroupID = groupID;
 
-            Description = description;
+            SteamIDs = steamIDs ?? new List<ulong>();
 
-            SteamIDs = steamIDs;
+            Description = description ?? "";
 
-            if (SteamIDs == null)
+            if ((GroupID < ModSettings.lowestModGroupID) || (GroupID > ModSettings.highestModGroupID))
             {
-                Logger.Log($"Found 'null' ModGroup: [{ groupID }] { description }.", Logger.error);
+                Logger.Log($"ModGroup ID out range: [{ GroupID }] { Description }. This might give weird results in the report.", Logger.error);
             }
-            else if (SteamIDs.Count < 2)
+
+            if (SteamIDs.Count < 2)
             {
-                Logger.Log($"Found ModGroup with less than 2 members: [{ groupID }] { description }.", Logger.warning);
+                Logger.Log($"Found ModGroup with less than 2 members: [{ GroupID }] { Description }.", Logger.warning);
             }
         }
     }

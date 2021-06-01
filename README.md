@@ -7,37 +7,47 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 
 ### Implemented features
 * Detection of subscribed and local mods
-* Loading of an xml catalog with mod and mod compatibility information (current catalog has only fake information)
-* Investigation of all mods against the catalog 
-* Text report, sorted by mod name
-* Automatic download of a new catalog, saved for future sessions; no mod update for every new incompatibility
+* Xml catalog with basic mod information and compatibility information
+* Review of all subscribed mods with the catalog information
+* Text report, sorted by mod name; split into reviewed and non-reviewed mods
+* Automatic download of a new catalog; no need for a mod update for every new incompatibility
 * Logging
+* Note: the current catalog has only builtin mods
 
 ### Roadmap towards version 1.0 (might change)
-* 0.2 - Catalog update routine, based on webcrawling
-  * Detection of changes to mod name, update date, version, author id/name, contributors, ...
-  * Automatic catalog versioning
-  * Automatic change notes
-* 0.3 - HTML report, categorized by severity
-* 0.4 - First catalog, with basic information about 1500+ mods and related authors
+* 0.2 - Catalog auto-update, based on webcrawling
+  * Detection of new and removed mods
+  * Detection of changes to mod name, update date, author id/name, required dlc/mods, source url, ...
+  * Automatic change notes and catalog versioning
+  * Use of mod groups, to allow different editions of mods as mod requirement
+* 0.3 - Catalog manual update routine, probably based on csv
+  * Again with automatic change notes and catalog versioning
+  * First real catalog, with basic information about 1600+ mods and related authors
+  * Also with mod compatibility information for selected mods
   * Set up download site
-* 0.5 - Full catalog with mod compatibilities and dependencies; will not be complete yet
-  * Steam Workshop upload, with pinned discussion for submissions by mod authors
-  * Alpha testing; hopefully Mac and Linux testing
-* 0.6 - Performance testing; decide when to run the check (probably make it a mod setting)
+  * settings xml
+* 0.4 - Alpha release on GitHub and Steam Workshop (unlisted?)
+  * Catalog with mod compatibilities and dependencies for many mods (not complete yet)
+  * Steam pinned discussions for submissions by mod authors and others
+  * Alpha testing by users; hopefully also Mac and Linux testing
+* 0.5 - Bugfixing and performance testing
+* 0.6 - HTML report, categorized by severity
+* 0.7 - Settings UI; when to scan, on-demand scanning, text or HTML report, report sorting, ...
+* 0.8 - Beta release
   * Code cleanup
+  * Text revision
   * Completing the catalog
-* 0.7 - Settings UI and settings xml; when to scan, on-demand scanning, text or HTML report, report sorting, ...
+  * Create Test branch on GitHub
 
 ### Future ideas (might not happen)
 * In-game popup with summary and button to open report
 * Version check before (down)loading a full catalog
-* 'Second load' detection with warning popup
 * Reviewing local mods
-* Detect mods that are not updated
+* Detect mods that are not updated locally
+* 'Second load' detection with warning popup
 * Catalog updater based on Steam API for better update detection and performance
 * Online catalog update procedure; supporting multiple contributors
-* TLS 1.2 support for download, if possible
+* TLS 1.2 support for download, if possible (might need to switch to .NET 4)
 * Detect missing mods for subscribed assets, like ETST, NExt2, Additive Shader, Trolleybus Trailer AI, etc.
 * Localization
 

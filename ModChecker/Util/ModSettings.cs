@@ -19,43 +19,48 @@ using ModChecker.DataTypes;
 /// .NET 3.5 now supports TLS 1.2 after a MS patch, but only with registry edits which we can't rely on for mod users. 
 ///   So for any download location we either need an 'unsafe' webserver that still support TLS 1.1 or worse, or a HTTP only site. Both are getting more rare.
 ///   Or switch to .NET 4.5+, see https://blogs.perficient.com/2016/04/28/tsl-1-2-and-net-support/
-///   Sites with TLS 1.1 and 1.2: Steamcommunity, Imgur.com, Wordpress.com
-///   Sites with only TLS 1.2+  : GitHub, Surfdrive
+///   Sites with TLS 1.1 and 1.2 : steamcommunity.com, wordpress.com
+///   Sites with only TLS 1.2+   : github.com, surfdrive.surf.nl
 
 
 namespace ModChecker.Util
 {
     internal static class ModSettings
     {
-        // Constructor; don't use Logger here because that one needs ModSettings
+        // Constructor; don't use Logger here because that needs ModSettings
         static ModSettings()
         {
             try
             {
-                // Get the mod path for the bundled catalog
-                BundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }Catalog.xml");                          // Steam Workshop mod
+                // Get the mod path for the bundled catalog; this works if we are a Steam Workshop mod, otherwise throws an exception
+                bundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }Catalog.xml");
             }
             catch
             {
                 try
                 {
-                    BundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }Catalog.xml");   // Local mod
+                    // Get the mod path again, now when we are a local mod
+                    bundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }Catalog.xml");
                 }
                 catch
                 {
-                    BundledCatalogFullPath = "";
+                    // Weirdly, we couldn't get the mod path; just set it to the game folder so we have a valid path
+                    bundledCatalogFullPath = Path.Combine(DataLocation.applicationBase, $"{ internalName }Catalog.xml");
                 }
-                
+
             }
 
             try
             {
                 // Create the directory for updated catalogs
-                Directory.CreateDirectory(UpdatedCatalogPath);
+                if (updaterEnabled)
+                {
+                    Directory.CreateDirectory(UpdatedCatalogPath);
+                }
             }
             catch
             {
-                // Ignore
+                // Ignore errors
             }
         }
 
@@ -65,15 +70,15 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "89";
+        internal const string build = "90";
         internal const string version = shortVersion + "." + revision + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
         internal const string releaseType = "alpha";
 
         // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
-        internal const string modName = "Mod Checker";                                                         // used in report filename, reporting and logging
-        internal const string displayName = modName + " " + shortVersion + " " + releaseType;                  // used in game options, Content Manager and AssemblyInfo
+        internal const string modName = "Mod Checker";                                                      // used in report filename, reporting and logging
+        internal const string displayName = modName + " " + shortVersion + " " + releaseType;               // used in game options, Content Manager and AssemblyInfo
         internal const string internalName = "ModChecker";                                                  // used in filenames, xmlRoot and game log
 
         // Mod description, shown in Content Manager; used in AssemblyInfo, must be a constant
@@ -85,53 +90,55 @@ namespace ModChecker.Util
         // The XML root of the Catalog; must be constant
         internal const string xmlRoot = internalName + "Catalog";
 
+        // [Todo 0.4]
         // This mods own Steam ID
-        internal static readonly ulong ModCheckerSteamID = 101;                                                       // Unfinished
+        internal static readonly ulong modCheckerSteamID = 101;
 
         // The current catalog structure version
-        internal static readonly uint CurrentCatalogStructureVersion = 1;
+        internal static readonly uint currentCatalogStructureVersion = 1;
 
-        // Logfile location
-        internal static readonly string LogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
+        // Logfile location (Cities_Data)
+        internal static readonly string logfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
 
-        // Updater logfile location
-        internal static readonly string UpdaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
+        // Updater logfile location (Cities_Data)
+        internal static readonly string updaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
 
-        // Report filename, without path
-        internal static readonly string ReportTextFileName = $"{ modName } Report.txt";
-        internal static readonly string ReportHtmlFileName = $"{ modName } Report.html";
+        // Report filename (with spaces), without path
+        internal static readonly string reportTextFileName = $"{ modName } Report.txt";
+        internal static readonly string reportHtmlFileName = $"{ modName } Report.html";
 
+        // Bundled Catalog location: in the same location as the mod itself (set in constructor)
+        internal static readonly string bundledCatalogFullPath;
+
+        // [Todo 0.3]
         // Downloaded catalog url
-        internal static readonly string CatalogURL = "https://surfdrive.surf.nl/files/index.php/s/OwBdunIj4BDc8Jb/download";
+        internal static readonly string catalogURL = "https://surfdrive.surf.nl/files/index.php/s/OwBdunIj4BDc8Jb/download";
 
         // Downloaded Catalog local location
-        internal static readonly string DownloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Catalog.xml");
+        internal static readonly string downloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Catalog.xml");
 
-        // Bundled Catalog location: in the same location as the mod itself
-        internal static readonly string BundledCatalogFullPath;                                             // Set in constructor
-
-        // Number of retries on failed downloads; must be a constant
-        internal const uint downloadRetries = 1;
+        // Number of retries on failed downloads; used as default parameter, must be a constant
+        internal const uint downloadRetries = 2;
 
         // 'Please report' text to include in logs when something odd happens
-        internal static readonly string PleaseReportText = $"Please report this on the Workshop page for { modName }: { Tools.GetWorkshopURL(ModCheckerSteamID) } ";
+        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Tools.GetWorkshopURL(modCheckerSteamID) } ";
 
-        // Max width of the TXT report: 
-        internal static readonly int MaxReportWidth = 89;
+        // Max width of the text report
+        internal static readonly int maxReportWidth = 90;
 
-        // Separators used in the logfile and TXT report
-        internal static readonly string separator       = new string('-', MaxReportWidth + 1);
-        internal static readonly string separatorDouble = new string('=', MaxReportWidth + 1);
+        // Separators used in the logfile and text report
+        internal static readonly string separator = new string('-', maxReportWidth);
+        internal static readonly string separatorDouble = new string('=', maxReportWidth);
 
         // Separator to use in logfiles when appending
         internal static readonly string sessionSeparator = "\n\n" + separatorDouble + "\n\n";
 
-        // Bullets used in the TXT report:
-        internal static readonly string Bullet    = " - ";
-        internal static readonly string NoBullet  = new string(' ', Bullet.Length);
-        internal static readonly string Bullet2   = NoBullet  + "  * ";
-        internal static readonly string NoBullet2 = new string(' ', Bullet2.Length);
-        internal static readonly string Bullet3   = NoBullet2 + "  - ";
+        // Bullets used in the text report
+        internal static readonly string bullet = " - ";
+        internal static readonly string noBullet = new string(' ', bullet.Length);
+        internal static readonly string bullet2 = noBullet + "  * ";
+        internal static readonly string noBullet2 = new string(' ', bullet2.Length);
+        internal static readonly string bullet3 = noBullet2 + "  - ";
 
         // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility.
         internal static Dictionary<string, ulong> BuiltinMods { get; } = new Dictionary<string, ulong>
@@ -143,113 +150,127 @@ namespace ModChecker.Util
             { "Unlock All", 5 }
         };
 
-        // Lowest and highest fake Steam ID for unknown builtin mods, local mods and mod groups
-        // These should be in this order, not overlap, be higher than above BuiltinMods IDs, and all be lower than real Steam IDs
-        internal static readonly ulong lowestUnknownBuiltinModID  = 11;
+        // Lowest and highest fake Steam ID to use; should not overlap, be higher than BuiltinMods above and lower than real Steam IDs; mod group IDs are used in catalog
+        internal static readonly ulong lowestUnknownBuiltinModID = 11;
         internal static readonly ulong highestUnknownBuiltinModID = 99;
-        internal static readonly ulong lowestLocalModID          = 101;
-        internal static readonly ulong highestLocalModID        = 9999;
-        internal static readonly ulong lowestModGroupID        = 10001;
-        internal static readonly ulong highestModGroupID      = 999999;
-        internal static readonly ulong HighestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
+        internal static readonly ulong lowestLocalModID = 101;
+        internal static readonly ulong highestLocalModID = 9999;
+        internal static readonly ulong lowestModGroupID = 10001;
+        internal static readonly ulong highestModGroupID = 999999;
+        internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
 
 
         /// Defaults for settings that come from the catalog
 
-        // The game version this mod is updated for; the catalog should overrule this
-        internal static readonly Version CompatibleGameVersion = GameVersion.Patch_1_13_1_f1;
+        // The game version this mod is updated for; the catalog overrules this
+        internal static readonly Version compatibleGameVersion = GameVersion.Patch_1_13_1_f1;
 
         // Default text report intro and footer
-        internal static readonly string DefaultIntroText =
+        internal static readonly string defaultIntroText =
                        "Basic information about mods:\n" +
-            Bullet +   "Always exit to desktop before loading another save! (no 'Second Loading')\n" +
-            Bullet +   "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
-            Bullet +   "Always unsubscribe mods you're not using. Disabling isn't always good enough.\n" +
-            Bullet +   "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
-            Bullet +   "Savegame not loading? Use the optimization and safe mode options from Loading Screen:\n" +
-            NoBullet + Tools.GetWorkshopURL(667342976) + "\n" +
+            bullet + "Always exit to desktop before loading another save! (no 'Second Loading')\n" +
+            bullet + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
+            bullet + "Always unsubscribe mods you're not using. Disabling isn't always good enough.\n" +
+            bullet + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
+            bullet + "Savegame not loading? Use the optimization and safe mode options from Loading Screen:\n" +
+            noBullet + Tools.GetWorkshopURL(667342976) + "\n" +
             "\n" +
                        "Some remarks about incompatibilities:\n" +
-            Bullet +   "Mods that do the same thing are generally incompatible with each other.\n" +
-            Bullet +   "Some issues are a conflict between more than two mods or a loading order issue,\n" +
-            NoBullet + "making it hard to find the real culprit. This can lead to users blaming the\n" +
-            NoBullet + "wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
+            bullet + "Mods that do the same thing are generally incompatible with each other.\n" +
+            bullet + "Some issues are a conflict between more than two mods or a loading order issue,\n" +
+            noBullet + "making it hard to find the real culprit. This can lead to users blaming the\n" +
+            noBullet + "wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
             "\n" +
                        "Disclaimer:\n" +
-            Bullet +   "We try to include only facts about incompatibilities and highly value the words of\n" +
-            NoBullet + "mod creators in this. However, we will occasionally get it wrong or miss an update.\n" +
-            Bullet +   "Found a mistake? Please comment on the Workshop, especially as the creator of a mod.";
+            bullet + "We try to include only facts about incompatibilities and highly value the words of\n" +
+            noBullet + "mod creators in this. However, we will occasionally get it wrong or miss an update.\n" +
+            bullet + "Found a mistake? Please comment on the Workshop, especially as the creator of a mod.";
 
-        internal static readonly string DefaultFooterText =
-            "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" + 
-            Tools.GetWorkshopURL(ModCheckerSteamID);
+        internal static readonly string defaultFooterText =
+            "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" +
+            Tools.GetWorkshopURL(modCheckerSteamID);
 
+        // [Todo 0.6]
         // Default HTML report intro and footer
-        internal static readonly string DefaultIntroHtml = "";                                              // Unfinished
+        internal static readonly string defaultIntroHtml = "";
 
-        internal static readonly string DefaultFooterHtml = "";                                             // Unfinished
+        internal static readonly string defaultFooterHtml = "";
 
 
 
-        /// Settings that will be available to users through mod options
+        /// Defaults for settings that will be available to users through mod options within the game
 
         // Sort report by Name or Steam ID
         internal static bool ReportSortByName { get; private set; } = true;
 
-        // Report type; can be both, will create Text report if none
-        internal static bool TextReport { get; private set; } = true;
-        internal static bool HtmlReport { get; private set; } = true;
+        // [Todo 0.6]
+        // Which report(s) to create; will create text report if none
+        internal static bool HtmlReport { get; private set; } = false;
+        internal static bool TextReport { get; private set; } = true | !HtmlReport;
 
-        // Report path; filename is not changeable and is set in another variable
+        // Report path (game folder); filename is not user-changeable and is set in another variable
         internal static string ReportPath { get; private set; } = DataLocation.applicationBase;
 
         // Report location, generated from the path and filename
-        internal static string ReportTextFullPath { get; private set; } = Path.Combine(ReportPath, ReportTextFileName);
-        internal static string ReportHtmlFullPath { get; private set; } = Path.Combine(ReportPath, ReportHtmlFileName);
+        internal static string ReportTextFullPath { get; private set; } = Path.Combine(ReportPath, reportTextFileName);
+        internal static string ReportHtmlFullPath { get; private set; } = Path.Combine(ReportPath, reportHtmlFileName);
+
+        // Run the scanner before the main menu or later during map loading
+        internal static bool ScanBeforeMainMenu { get; private set; } = true;
+
+        // Allow on-demand scanning; this will increase memory usage because the catalog stays loaded
+        internal static bool AllowOnDemandScanning { get; private set; } = false;
 
 
 
-        /// Settings that will be available in a settings xml file
+        /// Defaults for settings that will be available in a settings xml file
 
         // Debug mode; this enables debug logging and logfile append
         internal static bool DebugMode { get; private set; } = true;
 
         // Append (default) or overwrite the log file for normal mode; always append for debug mode
-        internal static bool LogAppend { get; private set; } = true || DebugMode;
+        internal static bool LogAppend { get; private set; } = false || DebugMode;
 
-        // Maximum log file size before starting with new log file; only applicable when appending
-        internal static long LogMaxSize { get; private set; } = 100 * 1024;                                 // 100 KB
-
-        // Which scenes to run the scanner: "IntroScreen" and/or "Game"
-        internal static List<string> ScannerScenes { get; private set; } = new List<string>() { "IntroScreen" };
+        // Maximum log file size before starting with new log file; only applicable when appending; default is 100 KB
+        internal static long LogMaxSize { get; private set; } = 100 * 1024;
 
 
 
-        /// Settings for the updater only
+        /// Defaults for updater settings that will be available in a updater-settings xml file
 
-        // Updated catalog location
+        // Updater enabled?
+        internal static readonly bool updaterEnabled = true;
+
+        // Updated catalog path
         internal static readonly string UpdatedCatalogPath = Path.Combine(DataLocation.localApplicationData, "ModCheckerCatalogs");
+
+        // Max. number of Steam Workshop mod listing pages to download per category, to limit the time spend and to avoid downloading for eternity
+        internal static readonly uint SteamMaxModListingPages = 100;
+
+        // [Todo 0.2] Should be 100?
+        // Max. number of individual mod pages to download, to limit the time spend
+        internal static readonly uint SteamMaxNewModDownloads = 10;
+        internal static readonly uint SteamMaxKnownModDownloads = 10;
+
+        // Max. number of failed downloads for individual pages before giving up altogether
+        internal static readonly uint SteamMaxFailedPages = 4;
+
+        // [Todo 0.2] Do we need this?
+        // Delay between downloading individual mod pages, to avoid being marked suspicious by Steam or their CDN; not used for mod listing pages
+        internal static readonly uint SteamDownloadDelayInMilliseconds = 250;
+
+
+        /// Hardcoded updater settings
 
         // Temporary download location for Steam Workshop pages
         internal static readonly string SteamWebpageFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }SteamPage.html");
 
-        // Max. number of Steam Workshop pages to download, to limit the time spend and to avoid downloading for eternity
-        internal static readonly uint SteamMaxModListingPages = 100;
-        internal static readonly uint SteamMaxNewModDownloads = 10;     // Unfinished: should be 100
-        internal static readonly uint SteamMaxKnownModDownloads = 10;   // Unfinished: should be 100
-
-        // Max. number of download errors before giving up
-        internal static readonly uint SteamDownloadRetries = 3;
-
-        // Delay between downloading individual mod pages, to avoid being marked suspicious by Steam or their CDN; not used for mod listing pages
-        internal static readonly uint SteamDownloadDelayInMilliseconds = 250;                               // Unfinished: do we need this?
-
-        // Steam Workshop mod listing url without page number ("&p=1")
-        internal static readonly string SteamModsListingURL =
-            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod";
-
-        internal static readonly string SteamIncompatibleModsURL =
-            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible";
+        // Steam Workshop mod listing urls, without page number ("&p=1")
+        internal static readonly List<string> SteamModsListingURLs = new List<string> {
+            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod",
+            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
+            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras",
+            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras&requiredflags[]=incompatible" };
 
         // Search string for Mod info in mod Listing files
         internal static readonly string SteamModListingModFind = "<div class=\"workshopItemTitle ellipsis\">";

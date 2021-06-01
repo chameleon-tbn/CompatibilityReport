@@ -7,26 +7,27 @@ namespace ModChecker.DataTypes
     internal static class GameVersion
     {
         // Current game version (major, minor, build, revision)
-        internal static Version Current { get; private set; }
+        internal static readonly Version Current;
 
         // Note about special versions, used in the log and report
-        internal static string SpecialNote { get; private set; }
+        internal static readonly string SpecialNote;
 
 
         // Constructor
         static GameVersion()
         {
+            // Get the game version
             Current = new Version(
                 Convert.ToInt32(BuildConfig.APPLICATION_VERSION_A),
                 Convert.ToInt32(BuildConfig.APPLICATION_VERSION_B),
                 Convert.ToInt32(BuildConfig.APPLICATION_VERSION_C),
                 Convert.ToInt32(BuildConfig.APPLICATION_BUILD_NUMBER));
 
-            // Extra check if the Buildconfig info is consistent with itself
+            // Extra check for the conversion of the buildconfig info
             if (Formatted(Current) != BuildConfig.applicationVersion) 
             {
-                Logger.Log($"Game version mismatch: Current ({ Formatted(Current) }) != BuildConfig.applicationVersion " + 
-                    $"({ BuildConfig.applicationVersion }). { ModSettings.PleaseReportText }", Logger.error);
+                Logger.Log($"Game version conversion went wrong: Current ({ Formatted(Current) }) != BuildConfig.applicationVersion " + 
+                    $"({ BuildConfig.applicationVersion }). { ModSettings.pleaseReportText }", Logger.error);
             }
 
             // 1.13.2-f1 is Epic only; consider this to be 1.13.1-f1 to not overcomplicate this mod
@@ -36,10 +37,6 @@ namespace ModChecker.DataTypes
 
                 SpecialNote = $"Your game version is { Formatted(Patch_1_13_2_f1) }, which is an Epic Store only patch.\n" + 
                     $"To avoid complexity this mod will treat it as version { Formatted(Current) }.";
-            }
-            else
-            {
-                SpecialNote = "";
             }
         }
 
@@ -64,8 +61,8 @@ namespace ModChecker.DataTypes
 
 
         // 2015-03-10 Initial release
-        internal static readonly Version Release = Patch_1_0_5;
         internal static readonly Version Patch_1_0_5 = new Version(1, 0, 5, 0);
+        internal static readonly Version Release = Patch_1_0_5;
 
         // 2015-03-21 Bugfixes
         internal static readonly Version Patch_1_0_6b = new Version(1, 0, 6, 2);
@@ -86,8 +83,8 @@ namespace ModChecker.DataTypes
         
         // 2015-09-24 After Dark expansion
         // Day/night cycle, tourism/leisure, taxis, prisons, bicycle paths
-        internal static readonly Version AfterDark = Patch_1_2_0;
         internal static readonly Version Patch_1_2_0 = new Version(1, 2, 0, 0);
+        internal static readonly Version AfterDark = Patch_1_2_0;
 
         // 2015-10-01 Asset editor fix
         internal static readonly Version Patch_1_2_1_f1 = new Version(1, 2, 1, 1);
@@ -98,8 +95,8 @@ namespace ModChecker.DataTypes
         
         // 2016-02-18 Snowfall expansion
         // Winter biome, tram, road maintenance, heating
-        internal static readonly Version Snowfall = Patch_1_3_0_f4;
         internal static readonly Version Patch_1_3_0_f4 = new Version(1, 3, 0, 4);
+        internal static readonly Version Snowfall = Patch_1_3_0_f4;
 
         // 2016-02-23 Bugfixes
         internal static readonly Version Patch_1_3_1_f1 = new Version(1, 3, 1, 1);
@@ -127,8 +124,8 @@ namespace ModChecker.DataTypes
         
         // 2016-11-29 Natural Disasters expansion & High-Tech Buildings DLC
         // Unity 5.4, natural disasters, disaster services & buildings, fires spread, helicopters, sub-buildings
-        internal static readonly Version NaturalDisasters = Patch_1_6_0_f4;
         internal static readonly Version Patch_1_6_0_f4 = new Version(1, 6, 0, 4);
+        internal static readonly Version NaturalDisasters = Patch_1_6_0_f4;
 
         // 2016-12-11 Service enumerators fixes in modding API
         internal static readonly Version Patch_1_6_1_f2 = new Version(1, 6, 1, 2);
@@ -143,8 +140,8 @@ namespace ModChecker.DataTypes
         // 2017-05-18 Mass Transit expansion
         // Unlimited soil/ore mods added, ferries, cable cars, blimps, monorail, road naming, citizen assets, 
         // emergency vehicle swerving, railway intercity toggle, stop signs, transport unbunching, ...
-        internal static readonly Version MassTransit = Patch_1_7_0_f5;
         internal static readonly Version Patch_1_7_0_f5 = new Version(1, 7, 0, 5);
+        internal static readonly Version MassTransit = Patch_1_7_0_f5;
 
         // 2017-05-23 Bugfixes
         internal static readonly Version Patch_1_7_1_f1 = new Version(1, 7, 1, 1);
@@ -160,8 +157,8 @@ namespace ModChecker.DataTypes
         // 2017-10-19 Green Cities expansion & European Suburbia DLC
         // Unity 5.6.3, new commercial/residential/office specialisations, new service buildings, 
         // electric cars, noise pollution overhaul, moddable roads, train track intersection rules, ...
-        internal static readonly Version GreenCities = Patch_1_9_0_f5;
         internal static readonly Version Patch_1_9_0_f5 = new Version(1, 9, 0, 5);
+        internal static readonly Version GreenCities = Patch_1_9_0_f5;
 
         // 2017-12-05 All That Jazz DLC & Carols, Candles and Candies DLC
         // Unity 5.6.4p2, dams and powerlines editable in asset editor
@@ -177,8 +174,8 @@ namespace ModChecker.DataTypes
         // 2018-05-24 Park Life expansion
         // Trees reduce noise pollition, submesh modding, cinematic camera, menu filtering, 
         // new rocks/trees/etc, tourism info view, changes to some menus/info views
-        internal static readonly Version ParkLife = Patch_1_10_0_f3;
         internal static readonly Version Patch_1_10_0_f3 = new Version(1, 10, 0, 3);
+        internal static readonly Version ParkLife = Patch_1_10_0_f3;
 
         // 2018-07-05 Bugfixes
         internal static readonly Version Patch_1_10_1_f3 = new Version(1, 10, 1, 3);
@@ -189,8 +186,8 @@ namespace ModChecker.DataTypes
         // unique factories, new industry vehicles, workers, Cargo airport and aircraft, auxilliary buildings, 
         // new animals, toll booths, new industry train wagons, new trees, dust/ore/sand debris markers, 
         // custom names, new light colors, new assets now have DLC requirements set, historic buildings
-        internal static readonly Version Industries = Patch_1_11_0_f3;
         internal static readonly Version Patch_1_11_0_f3 = new Version(1, 11, 0, 3);
+        internal static readonly Version Industries = Patch_1_11_0_f3;
 
         // 2018-12-13 "Holiday Surprise Patch"; Winter Market asset added
         internal static readonly Version Patch_1_11_1_f2 = new Version(1, 11, 1, 2);
@@ -200,12 +197,12 @@ namespace ModChecker.DataTypes
 
         
         // 2019-05-21 Campus expansion & University City DLC & Campus radio DLC & Deep Focus radio DLC
-        internal static readonly Version Campus = Patch_1_12_0_f5;
         internal static readonly Version Patch_1_12_0_f5 = new Version(1, 12, 0, 5);
+        internal static readonly Version Campus = Patch_1_12_0_f5;
 
-        // 2019-06-04 Bugfixes; Steam uses (or used?) f1 for this version, but the game uses f2
-        internal static readonly Version Patch_1_12_1_f1 = Patch_1_12_1_f2;               
+        // 2019-06-04 Bugfixes; Steam used f1 for this version, but the game uses f2
         internal static readonly Version Patch_1_12_1_f2 = new Version(1, 12, 1, 2);
+        internal static readonly Version Patch_1_12_1_f1 = Patch_1_12_1_f2;
 
         // 2019-11-07 Modern City Center & Downtown radio DLC
         internal static readonly Version Patch_1_12_2_f3 = new Version(1, 12, 2, 3);
@@ -218,8 +215,8 @@ namespace ModChecker.DataTypes
         // Fishing industry, intercity bus, trolleybus, passenger helicopter, waste transfer system, 
         // inland water treatment, aviation club, child/elder care, overground metro, tutorial log, 
         // pedestrian path snap to quays, walkable quays
-        internal static readonly Version SunsetHarbor = Patch_1_13_0_f7;
         internal static readonly Version Patch_1_13_0_f7 = new Version(1, 13, 0, 7);
+        internal static readonly Version SunsetHarbor = Patch_1_13_0_f7;
 
         // 2020-04-06 Bugfixes
         internal static readonly Version Patch_1_13_0_f8 = new Version(1, 13, 0, 8);
