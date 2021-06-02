@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Tell us about missing or incorrect information in the current catalog about your OWN mod(s), in relation to the current game version (but unrelated to other mods; use another form for mod compatibility).
+Use this to provide information about missing or incorrect information in the current catalog about your OWN mod(s), in relation to the current game version (but unrelated to other mods; use another form for mod compatibility).
 
 **Your mod(s)**
 Steam ID - Mod name

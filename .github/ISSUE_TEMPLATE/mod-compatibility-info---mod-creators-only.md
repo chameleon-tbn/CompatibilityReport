@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Use this to give us information about compatibility for your OWN mod with another mod. Multiple mods with the same (in)compatibility can be added in the same request. Make sure to get the Steam IDs right, don't send me on a hunt :-)
+Use this to provide information about compatibility for your OWN mod with another mod. Multiple mods with the same (in)compatibility can be added in the same request. Make sure to get the Steam IDs right, don't send me on a hunt :-)
 
 **Your mod(s)**
 Steam ID - Mod name

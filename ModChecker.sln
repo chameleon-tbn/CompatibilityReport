@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A56460C7-D4A4-43D4-B044-EE08D71F4116}"
 	ProjectSection(SolutionItems) = preProject
 		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
-		Change notes.txt = Change notes.txt
+		Change notes.md = Change notes.md
 		LICENSE = LICENSE
 		.github\ISSUE_TEMPLATE\mod-compatibility-info---mod-creators-only.md = .github\ISSUE_TEMPLATE\mod-compatibility-info---mod-creators-only.md
 		.github\ISSUE_TEMPLATE\mod-information-correction---mod-creators-only.md = .github\ISSUE_TEMPLATE\mod-information-correction---mod-creators-only.md

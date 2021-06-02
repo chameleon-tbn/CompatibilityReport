@@ -11,21 +11,19 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Review of all subscribed mods with the catalog information
 * Text report, sorted by mod name; split into reviewed and non-reviewed mods
 * Automatic download of a new catalog; no need for a mod update for every new incompatibility
-* Logging
-* Note: the current catalog has only builtin mods
+* Use of mod groups, to allow different editions of mods as mod requirement
+* Note: the current catalog contains only builtin mods
 
 ### Roadmap towards version 1.0 (might change)
 * 0.2 - Catalog auto-update, based on webcrawling
   * Detection of new and removed mods
   * Detection of changes to mod name, update date, author id/name, required dlc/mods, source url, ...
   * Automatic change notes and catalog versioning
-  * Use of mod groups, to allow different editions of mods as mod requirement
 * 0.3 - Catalog manual update routine, probably based on csv
   * Again with automatic change notes and catalog versioning
   * First real catalog, with basic information about 1600+ mods and related authors
-  * Also with mod compatibility information for selected mods
+  * Catalog also containing mod compatibility information for a limited set of mods
   * Set up download site
-  * settings xml
 * 0.4 - Alpha release on GitHub and Steam Workshop (unlisted?)
   * Catalog with mod compatibilities and dependencies for many mods (not complete yet)
   * Steam pinned discussions for submissions by mod authors and others
@@ -33,6 +31,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * 0.5 - Bugfixing and performance testing
 * 0.6 - HTML report, categorized by severity
 * 0.7 - Settings UI; when to scan, on-demand scanning, text or HTML report, report sorting, ...
+  * settings xml
 * 0.8 - Beta release
   * Code cleanup
   * Text revision
@@ -60,7 +59,7 @@ This mod uses code snippets from:
 * [Customize It Extended](https://github.com/Celisuis/CustomizeItExtended) by Celisuis ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1806759255))
 * [Change Loading Screen 2](https://github.com/bloodypenguin/ChangeLoadingImage) by bloodypenguin ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110))
 
-A big thanks to these modders and many others for making their code available for education and re-use.
+A big thanks to these modders and all those others for making their code available for education and re-use.
 
 ### Disclaimer
-I'm not an experienced programmer. I knew some programming fundamentals and taught myself C# with online tutorials, reading other peoples code and lots of experimenting. My code might be sloppy and inefficient. I'm open to suggestions and constructive criticism in the discussions.
+I'm not an experienced programmer. I knew some programming fundamentals and taught myself C# with online tutorials, reading other peoples code and lots of experimenting. My code might be sloppy and inefficient. I'm open to suggestions and constructive feedback in the discussions.
