@@ -116,7 +116,7 @@ namespace ModChecker
             Logger.Log(message, duplicateToGameLog: true);
 
             // Get all subscriptions, including all builtin and local mods, with info from game and catalog
-            Subscription.GetAll();
+            ActiveSubscriptions.Get();
 
             // Create the report(s)
             Reporter.Create();
@@ -124,7 +124,7 @@ namespace ModChecker
             // Log number of mods, runtime and report location
             timer.Stop();
 
-            Logger.Log($"Scan complete. Reviewed { Subscription.TotalReviewed } of your { Subscription.AllSubscriptions.Count } mods " + 
+            Logger.Log($"Scan complete. Reviewed { ActiveSubscriptions.TotalReviewed } of your { ActiveSubscriptions.All.Count } mods " + 
                 $"in { timer.ElapsedMilliseconds } ms.", duplicateToGameLog: true);
 
             // Indicate that we've completed a scan
@@ -143,8 +143,8 @@ namespace ModChecker
                 Logger.Log("Scanner asked to close without an Init done.", Logger.debug);
             }
 
-            // Clear subscriptions
-            Subscription.CloseAll();
+            // Clear the subscriptions dictionaries and lists
+            ActiveSubscriptions.Clear();
 
             // Clear active catalog; will have to reload it for an on-demand scan
             ActiveCatalog.Close();

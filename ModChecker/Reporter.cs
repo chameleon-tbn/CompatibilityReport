@@ -1,10 +1,10 @@
-﻿using ColossalFramework.PlatformServices;
-using ModChecker.DataTypes;
-using ModChecker.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ColossalFramework.PlatformServices;
+using ModChecker.DataTypes;
+using ModChecker.Util;
 
 
 namespace ModChecker
@@ -69,7 +69,7 @@ namespace ModChecker
             // Mod version, catalog version and number of mods in the catalog and in game
             Logger.TextReport($"Version { ModSettings.shortVersion } with catalog { ActiveCatalog.Instance.VersionString() }. The catalog contains " + 
                 $"{ ActiveCatalog.Instance.ReviewCount } reviewed mods and " + $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } mods\n" +
-                $"with basic information. Your game has { Subscription.AllSubscriptions.Count } mods.", extraLine: true);
+                $"with basic information. Your game has { ActiveSubscriptions.All.Count } mods.", extraLine: true);
 
             // Generic note from the catalog
             Logger.TextReport(ActiveCatalog.Instance.Note, extraLine: true);
@@ -98,10 +98,10 @@ namespace ModChecker
             if (ModSettings.ReportSortByName)
             {
                 // Sort by name
-                foreach (string name in Subscription.AllNames)
+                foreach (string name in ActiveSubscriptions.AllNames)
                 {
                     // Get the Steam ID(s) for this mod name; could be multiple (which will be sorted by Steam ID)
-                    foreach (ulong steamID in Subscription.AllNamesAndIDs[name])
+                    foreach (ulong steamID in ActiveSubscriptions.AllNamesAndIDs[name])
                     {
                         // Get the mod text, and increase the counter if it was a mod without review but with remarks
                         if (GetModText(steamID, nameFirst: true))
@@ -114,7 +114,7 @@ namespace ModChecker
             else
             {
                 // Sort by Steam ID
-                foreach (ulong steamID in Subscription.AllSteamIDs)
+                foreach (ulong steamID in ActiveSubscriptions.AllSteamIDs)
                 {
                     // Get the mod text, and increase the counter if it was a mod without review but with remarks
                     if (GetModText(steamID, nameFirst: false))
@@ -129,7 +129,7 @@ namespace ModChecker
             {
                 Logger.TextReport(ModSettings.separatorDouble);
 
-                Logger.TextReport($"REVIEWED MODS ({ Subscription.TotalReviewed })" + 
+                Logger.TextReport($"REVIEWED MODS ({ ActiveSubscriptions.TotalReviewed })" + 
                     (modsWithRemarks == 0 ? ":" : $" AND OTHER MODS WITH REMARKS ({ modsWithRemarks }): "));
 
                 Logger.TextReport(reviewedModsText.ToString());
@@ -140,7 +140,7 @@ namespace ModChecker
             {
                 Logger.TextReport(ModSettings.separatorDouble);
 
-                Logger.TextReport($"MODS NOT REVIEWED YET ({ Subscription.AllSubscriptions.Count - Subscription.TotalReviewed - modsWithRemarks }):");
+                Logger.TextReport($"MODS NOT REVIEWED YET ({ ActiveSubscriptions.All.Count - ActiveSubscriptions.TotalReviewed - modsWithRemarks }):");
 
                 Logger.TextReport(nonReviewedModsText.ToString());
             }
@@ -167,7 +167,7 @@ namespace ModChecker
             }
 
             // Get the mod
-            Subscription subscription = Subscription.AllSubscriptions[steamID];
+            Subscription subscription = ActiveSubscriptions.All[steamID];
 
             // Start with a separator
             string modHeader = ModSettings.separator + "\n\n";
@@ -381,7 +381,7 @@ namespace ModChecker
             // Check if any of the mods that need this is actually subscribed; we don't care if it's enabled or not
             foreach (ulong id in subscription.NeededFor)
             {
-                if (Subscription.AllSubscriptions.ContainsKey(id))
+                if (ActiveSubscriptions.All.ContainsKey(id))
                 {
                     // Found a subscribed mod that needs this; nothing to report
                     return "";
@@ -508,13 +508,13 @@ namespace ModChecker
                 if ((id < ModSettings.lowestModGroupID) || (id > ModSettings.highestModGroupID))
                 {
                     // Regular mod. Try to find it in the list of subscribed mods
-                    if (Subscription.AllSubscriptions.ContainsKey(id))
+                    if (ActiveSubscriptions.All.ContainsKey(id))
                     {
                         // Mod is subscribed
-                        if (!Subscription.AllSubscriptions[id].IsEnabled)
+                        if (!ActiveSubscriptions.All[id].IsEnabled)
                         {
                             // Mod is subscribed, but not enabled
-                            text += ReviewLine(Subscription.AllSubscriptions[id].ToString(showFakeID: false, showDisabled: true), htmlReport, ModSettings.bullet2);
+                            text += ReviewLine(ActiveSubscriptions.All[id].ToString(showFakeID: false, showDisabled: true), htmlReport, ModSettings.bullet2);
                         }
                         else
                         {
@@ -579,12 +579,12 @@ namespace ModChecker
                     // Check each mod in the group, and see if they are subscribed and enabled
                     foreach (ulong modID in group.SteamIDs)
                     {
-                        if (Subscription.AllSubscriptions.ContainsKey(modID))
+                        if (ActiveSubscriptions.All.ContainsKey(modID))
                         {
                             // Mod is subscribed
                             subscriptionsFound++;
 
-                            if (Subscription.AllSubscriptions[modID].IsEnabled)
+                            if (ActiveSubscriptions.All[modID].IsEnabled)
                             {
                                 // Enabled mod found, no need to look any further in this group
                                 EnabledSubscriptionFound = true;
@@ -594,7 +594,7 @@ namespace ModChecker
                             else
                             {
                                 // Disabled mod
-                                disabledModsText += ReviewLine(Subscription.AllSubscriptions[modID].ToString(showFakeID: false, showDisabled: true), 
+                                disabledModsText += ReviewLine(ActiveSubscriptions.All[modID].ToString(showFakeID: false, showDisabled: true), 
                                     htmlReport, ModSettings.bullet3);
                             }
                         }
@@ -780,7 +780,7 @@ namespace ModChecker
             foreach (KeyValuePair<ulong, List<Enums.CompatibilityStatus>> compatibility in subscription.Compatibilities)
             {
                 // Skip if not subscribed
-                if (!Subscription.AllSubscriptions.ContainsKey(compatibility.Key))
+                if (!ActiveSubscriptions.All.ContainsKey(compatibility.Key))
                 {
                     continue;   // To the next compatibility
                 }
@@ -789,8 +789,8 @@ namespace ModChecker
                 List<Enums.CompatibilityStatus> statuses = compatibility.Value;
 
                 // Get a formatted text with the name of the other mod and the corresponding compatibility note
-                string otherModText = 
-                    ReviewLine(Subscription.AllSubscriptions[compatibility.Key].ToString(showFakeID: false, showDisabled: true), htmlReport, ModSettings.bullet2) + 
+                string otherModText = ReviewLine(ActiveSubscriptions.All[compatibility.Key].ToString(showFakeID: false, showDisabled: true), 
+                    htmlReport, ModSettings.bullet2) + 
                     ReviewLine(subscription.ModNotes[compatibility.Key], htmlReport, ModSettings.bullet3);
                 
                 // Different versions, releases or mod with the same functionality
