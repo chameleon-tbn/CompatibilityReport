@@ -62,6 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveCatalog.cs" />
     <Compile Include="DataTypes\V0_Catalog.cs" />
     <Compile Include="DataTypes\Catalog.cs" />
     <Compile Include="DataTypes\Author.cs" />

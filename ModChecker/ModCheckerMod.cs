@@ -83,8 +83,6 @@ namespace ModChecker
             Logger.Log("OnDisabled called.", Logger.debug);
 
             // Clean up; mostly freeing some memory
-            DataTypes.Catalog.CloseActive();
-
             Scanner.Close();
         }
     }

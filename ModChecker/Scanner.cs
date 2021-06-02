@@ -42,7 +42,7 @@ namespace ModChecker
             }
 
             // Initialize the catalog; exit if no valid catalog can be loaded
-            if (!Catalog.InitActive())
+            if (!ActiveCatalog.Init())
             {
                 Logger.Log("Can't load bundled catalog and can't download a new catalog. No report was generated.", Logger.error, duplicateToGameLog: true);
 
@@ -50,16 +50,16 @@ namespace ModChecker
             }
 
             // Log catalog details
-            Logger.Log($"Using catalog { Catalog.Active.VersionString() }, created on { Catalog.Active.UpdateDate.ToLongDateString() }. Catalog contains " + 
-                $"{ Catalog.Active.ReviewCount } reviewed mods and { Catalog.Active.Count - Catalog.Active.ReviewCount } other mods with basic information.", 
-                duplicateToGameLog: true);
+            Logger.Log($"Using catalog { ActiveCatalog.Instance.VersionString() }, created on { ActiveCatalog.Instance.UpdateDate.ToLongDateString() }. " + 
+                $"Catalog contains { ActiveCatalog.Instance.ReviewCount } reviewed mods and " + 
+                $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } other mods with basic information.", duplicateToGameLog: true);
 
             // Log if the game version differs from the version the catalog was made for
-            if (GameVersion.Current != Catalog.Active.CompatibleGameVersion)
+            if (GameVersion.Current != ActiveCatalog.Instance.CompatibleGameVersion)
             {
-                string olderNewer = (GameVersion.Current < Catalog.Active.CompatibleGameVersion) ? "an older" : "a newer";
+                string olderNewer = (GameVersion.Current < ActiveCatalog.Instance.CompatibleGameVersion) ? "an older" : "a newer";
 
-                Logger.Log($"The catalog was updated for game version { GameVersion.Formatted(Catalog.Active.CompatibleGameVersion) }. " +
+                Logger.Log($"The catalog was updated for game version { GameVersion.Formatted(ActiveCatalog.Instance.CompatibleGameVersion) }. " +
                     $"You're using { olderNewer } version of the game. Results may not be accurate.", Logger.warning, duplicateToGameLog: true);
             }
 
@@ -78,7 +78,7 @@ namespace ModChecker
         // Also called whenever mod options are opened
         internal static void Scan(string scene)
         {
-            // If this is not an on-demand scan, check if we haven't done the scan already and if we're in the right 'scene' (IntroScreen or Game, depening on user setting)
+            // If not an on-demand scan, check if scan wasn't already done and if in the right 'scene' (IntroScreen or Game, depening on user setting)
             if (scene != "On-demand")
             {
                 if (scanDone || (ModSettings.ScanBeforeMainMenu && (scene != "IntroScreen")) || (!ModSettings.ScanBeforeMainMenu && (scene != "Game")))
@@ -99,9 +99,9 @@ namespace ModChecker
             Stopwatch timer = Stopwatch.StartNew();
 
             // if we don't have an active catalog, initialize it again; exit if we can't
-            if (Catalog.Active == null)
+            if (ActiveCatalog.Instance == null)
             {
-                if (!Catalog.InitActive())
+                if (!ActiveCatalog.Init())
                 {
                     Logger.Log("Scanner called without an active catalog, and can't load a catalog. No report was generated.", Logger.error, duplicateToGameLog: true);
 
@@ -147,7 +147,7 @@ namespace ModChecker
             Subscription.CloseAll();
 
             // Clear active catalog; will have to reload it for an on-demand scan
-            Catalog.CloseActive();
+            ActiveCatalog.Close();
 
             Logger.Log("Mod has shutdown.", duplicateToGameLog: true);
         }

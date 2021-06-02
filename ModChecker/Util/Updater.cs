@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using ModChecker.DataTypes;
 
+
 namespace ModChecker.Util
 {
     internal static class Updater       // This class has limited error handling because the updater is not for regular users
@@ -20,7 +21,7 @@ namespace ModChecker.Util
             bool success = false;
 
             // Only if the updater is enabled in settings and we have an active catalog
-            if ((ModSettings.updaterEnabled) && (Catalog.Active != null))
+            if ((ModSettings.updaterEnabled) && (ActiveCatalog.Instance != null))
             {
                 // Get basic mod and author information from the Steam Workshop mod listing pages
                 if (GetBasicModAndAuthorInfo())
@@ -29,11 +30,11 @@ namespace ModChecker.Util
                     if (GetDetailsAndUpdateCatalog())
                     {
                         // Increase the catalog version and save the new catalog
-                        Catalog.Active.NewVersion();
+                        ActiveCatalog.Instance.NewVersion();
 
-                        string catalogFileName = $"{ ModSettings.internalName }Catalog_v{ Catalog.Active.VersionString() }.xml";
+                        string catalogFileName = $"{ ModSettings.internalName }Catalog_v{ ActiveCatalog.Instance.VersionString() }.xml";
 
-                        success = Catalog.Active.Save(Path.Combine(ModSettings.UpdatedCatalogPath, catalogFileName));
+                        success = ActiveCatalog.Instance.Save(Path.Combine(ModSettings.UpdatedCatalogPath, catalogFileName));
 
                         // [Todo 0.2] Save change notes (full and summary)
                     }                    
@@ -251,7 +252,7 @@ namespace ModChecker.Util
                 //            Just do the first 100 new mods and 100 known mods from a random starting number?
 
                 // New mod or a known mod?
-                bool newMod = !Catalog.Active.ModDictionary.ContainsKey(steamID);
+                bool newMod = !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID);
                 
                 // Stop if we reached the maximum number of both types of mods, continue with the next Steam ID if we only reached the maximum for this type of mod
                 if ((newModsDownloaded >= ModSettings.SteamMaxNewModDownloads) && (knownModsDownloaded >= ModSettings.SteamMaxKnownModDownloads))
@@ -537,12 +538,12 @@ namespace ModChecker.Util
                     if (newMod)
                     {
                         // Add a new mod to the catalog
-                        catalogMod = Catalog.Active.AddMod(steamID, basicInfoMod.Name, basicInfoMod.AuthorID);
+                        catalogMod = ActiveCatalog.Instance.AddMod(steamID, basicInfoMod.Name, basicInfoMod.AuthorID);
                     }
                     else
                     {
                         // Get a reference to the mod in the catalog
-                        catalogMod = Catalog.Active.ModDictionary[steamID];
+                        catalogMod = ActiveCatalog.Instance.ModDictionary[steamID];
                     }
 
                     // [Todo 0.2] Update the info in the catalog

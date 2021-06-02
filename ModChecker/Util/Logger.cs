@@ -17,7 +17,7 @@ namespace ModChecker.Util
         internal const Enums.LogLevel error   = Enums.LogLevel.Error;
         internal const Enums.LogLevel debug   = Enums.LogLevel.Debug;
 
-        // The log, updater log and report objects; will be initialized on first use
+        // The log, updater log and report instances; will be initialized on first use
         private static Filer log;
         private static Filer updaterLog;
         private static Filer report;

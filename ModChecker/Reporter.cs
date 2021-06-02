@@ -67,21 +67,21 @@ namespace ModChecker
             Logger.TextReport($"{ ModSettings.modName } report, created on { createTime:D}, { createTime:t}.", extraLine: true);
 
             // Mod version, catalog version and number of mods in the catalog and in game
-            Logger.TextReport($"Version { ModSettings.shortVersion } with catalog { Catalog.Active.VersionString() }. " + 
-                $"The catalog contains { Catalog.Active.ReviewCount } reviewed mods and { Catalog.Active.Count - Catalog.Active.ReviewCount } mods\n" +
+            Logger.TextReport($"Version { ModSettings.shortVersion } with catalog { ActiveCatalog.Instance.VersionString() }. The catalog contains " + 
+                $"{ ActiveCatalog.Instance.ReviewCount } reviewed mods and " + $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } mods\n" +
                 $"with basic information. Your game has { Subscription.AllSubscriptions.Count } mods.", extraLine: true);
 
             // Generic note from the catalog
-            Logger.TextReport(Catalog.Active.Note, extraLine: true);
+            Logger.TextReport(ActiveCatalog.Instance.Note, extraLine: true);
 
             // Special note about specific game versions; will be empty for almost everyone
             Logger.TextReport(GameVersion.SpecialNote, extraLine: true);
 
             // Warning about game version mismatch
-            if (GameVersion.Current != Catalog.Active.CompatibleGameVersion)
+            if (GameVersion.Current != ActiveCatalog.Instance.CompatibleGameVersion)
             {
-                string olderNewer = (GameVersion.Current < Catalog.Active.CompatibleGameVersion) ? "older" : "newer";
-                string catalogGameVersion = GameVersion.Formatted(Catalog.Active.CompatibleGameVersion);
+                string olderNewer = (GameVersion.Current < ActiveCatalog.Instance.CompatibleGameVersion) ? "older" : "newer";
+                string catalogGameVersion = GameVersion.Formatted(ActiveCatalog.Instance.CompatibleGameVersion);
 
                 Logger.TextReport($"WARNING: The review catalog is made for game version { catalogGameVersion }. Your game is { olderNewer }.\n" + 
                                "         Results may not be accurate.", extraLine: true);
@@ -90,7 +90,9 @@ namespace ModChecker
             Logger.TextReport(ModSettings.separatorDouble, extraLine: true);
 
             // Intro text with generic remarks
-            Logger.TextReport(string.IsNullOrEmpty(Catalog.Active.ReportIntroText) ? ModSettings.defaultIntroText : Catalog.Active.ReportIntroText, extraLine: true);
+            Logger.TextReport(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportIntroText) ? 
+                ModSettings.defaultIntroText : 
+                ActiveCatalog.Instance.ReportIntroText, extraLine: true);
 
             // Gather all mod detail texts
             if (ModSettings.ReportSortByName)
@@ -146,7 +148,7 @@ namespace ModChecker
             Logger.TextReport(ModSettings.separatorDouble, extraLine: true);
 
             // Footer text
-            Logger.TextReport(string.IsNullOrEmpty(Catalog.Active.ReportFooterText) ? ModSettings.defaultFooterText : Catalog.Active.ReportFooterText);
+            Logger.TextReport(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportFooterText) ? ModSettings.defaultFooterText : ActiveCatalog.Instance.ReportFooterText);
 
             // Log the report location
             Logger.Log($"Text report ready at \"{ Tools.PrivacyPath(ModSettings.ReportTextFullPath) }\".", duplicateToGameLog: true);
@@ -405,10 +407,10 @@ namespace ModChecker
             // List all successor mods
             foreach (ulong id in subscription.SucceededBy)
             {
-                if (Catalog.Active.ModDictionary.ContainsKey(id))
+                if (ActiveCatalog.Instance.ModDictionary.ContainsKey(id))
                 {
                     // Mod found in the catalog, list Steam ID and name
-                    text += ReviewLine(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
+                    text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
                 }
                 else
                 {
@@ -438,10 +440,10 @@ namespace ModChecker
             // List all alternative mods
             foreach (ulong id in subscription.Alternatives)
             {
-                if (Catalog.Active.ModDictionary.ContainsKey(id))
+                if (ActiveCatalog.Instance.ModDictionary.ContainsKey(id))
                 {
                     // Mod found in the catalog, list Steam ID and name
-                    text += ReviewLine(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
+                    text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
                 }
                 else
                 {
@@ -524,10 +526,10 @@ namespace ModChecker
                     else
                     {
                         // Mod is not subscribed, try to find it in the catalog
-                        if (Catalog.Active.ModDictionary.ContainsKey(id))
+                        if (ActiveCatalog.Instance.ModDictionary.ContainsKey(id))
                         {
                             // Mod found in the catalog
-                            text += ReviewLine(Catalog.Active.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
+                            text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
                         }
                         else
                         {
@@ -546,7 +548,7 @@ namespace ModChecker
                 else
                 {
                     // Mod group. We have to dig a little deeper. First some error checks
-                    if (!Catalog.Active.ModGroupDictionary.ContainsKey(id))
+                    if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(id))
                     {
                         // Group not found in catalog, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", htmlReport, ModSettings.bullet2);
@@ -555,7 +557,7 @@ namespace ModChecker
 
                         continue;   // To the next required mod
                     }
-                    else if (Catalog.Active.ModGroupDictionary[id].SteamIDs?.Any() != true)
+                    else if (ActiveCatalog.Instance.ModGroupDictionary[id].SteamIDs?.Any() != true)
                     {
                         // Group contains no Steam IDs, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", htmlReport, ModSettings.bullet2);
@@ -566,7 +568,7 @@ namespace ModChecker
                     }
 
                     // Get the mod group from the catalog
-                    ModGroup group = Catalog.Active.ModGroupDictionary[id];
+                    ModGroup group = ActiveCatalog.Instance.ModGroupDictionary[id];
 
                     // Some vars to keep track of all mods in the group, and check if at least one group member is subscribed and enabled
                     uint subscriptionsFound = 0;
@@ -599,10 +601,10 @@ namespace ModChecker
                         else
                         {
                             // Mod is not subscribed, find it in the catalog
-                            if (Catalog.Active.ModDictionary.ContainsKey(modID))
+                            if (ActiveCatalog.Instance.ModDictionary.ContainsKey(modID))
                             {
                                 // Mod found in the catalog
-                                missingModsText += ReviewLine(Catalog.Active.ModDictionary[modID].ToString(showFakeID: false), htmlReport, ModSettings.bullet3);
+                                missingModsText += ReviewLine(ActiveCatalog.Instance.ModDictionary[modID].ToString(showFakeID: false), htmlReport, ModSettings.bullet3);
                             }
                             else
                             {
