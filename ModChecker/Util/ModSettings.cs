@@ -70,7 +70,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "92";
+        internal const string build = "93";
         internal const string version = shortVersion + "." + revision + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
@@ -99,9 +99,6 @@ namespace ModChecker.Util
 
         // Logfile location (Cities_Data)
         internal static readonly string logfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
-
-        // Updater logfile location (Cities_Data)
-        internal static readonly string updaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
 
         // Report filename (with spaces), without path
         internal static readonly string reportTextFileName = $"{ modName } Report.txt";
@@ -236,7 +233,7 @@ namespace ModChecker.Util
 
 
 
-        /// Defaults for updater settings that will be available in a updater-settings xml file
+        /// Defaults for updater settings that will be available in an updater settings xml file
 
         // Updater enabled?
         internal static readonly bool updaterEnabled = true;
@@ -262,6 +259,9 @@ namespace ModChecker.Util
 
         /// Hardcoded updater settings
 
+        // Updater logfile location (Cities_Data)
+        internal static readonly string updaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
+
         // Temporary download location for Steam Workshop pages
         internal static readonly string SteamWebpageFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }SteamPage.html");
 
@@ -277,7 +277,7 @@ namespace ModChecker.Util
 
         // Recognize a mod listing page without mods
         internal static readonly string SteamModListingNoMoreFind = "No items matching your search criteria were found.";
-
+        
         // Search strings for mod and author info in the mod listing files
         internal static readonly string SteamModListingModIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
         internal static readonly string SteamModListingModIDRight = "&searchtext";

@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Security;
+using System.Text;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
 using ICities;
@@ -13,12 +14,6 @@ namespace ModChecker.Util
 {
     internal static class Tools
     {
-        // ValidationCallback gets rid of "The authentication or decryption has failed" errors when downloading
-        // This allows to download from sites that still support TLS 1.1 or worse, but not from sites that only support TLS 1.2+
-        // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
-        private static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;
-
-
         // Delete a file
         internal static bool DeleteFile(string fullPath)
         {
@@ -30,9 +25,7 @@ namespace ModChecker.Util
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Could not delete file \"{ PrivacyPath(fullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.debug);
-
-                    Logger.Exception(ex, debugOnly: true, duplicateToGameLog: false);
+                    Logger.Log($"Could not delete file \"{ PrivacyPath(fullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.warning);
 
                     return false;
                 }
@@ -41,6 +34,60 @@ namespace ModChecker.Util
             // return true if file was deleted or didn't exist
             return true;
         }
+
+
+        // Copy a file
+        internal static bool CopyFile(string sourceFullPath,
+                                      string destinationFullPath,
+                                      bool overwrite = true)
+        {
+            try
+            {
+                File.Copy(sourceFullPath, destinationFullPath, overwrite);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"Could not copy file \"{ PrivacyPath(sourceFullPath) }\" to \"{ destinationFullPath }\". Exception: { ex.GetType().Name } { ex.Message }", 
+                    Logger.error);
+
+                return false;
+            }
+        }
+
+
+        // Save string to file
+        internal static bool SaveToFile(string message,
+                                        string fileFullPath,
+                                        bool append = false)
+        {
+            try
+            {
+                if (append)
+                {
+                    File.AppendAllText(fileFullPath, message);
+                }
+                else
+                {
+                    File.WriteAllText(fileFullPath, message);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"Could not save text to file \"{ PrivacyPath(fileFullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.error);
+
+                return false;
+            }
+        }
+
+
+        // ValidationCallback gets rid of "The authentication or decryption has failed" errors when downloading
+        // This allows to download from sites that still support TLS 1.1 or worse, but not from sites that only support TLS 1.2+
+        // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
+        private static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;
 
 
         // Download a file, return the exception for custom logging

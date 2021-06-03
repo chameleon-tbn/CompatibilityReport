@@ -19,25 +19,25 @@ namespace ModChecker
         // Load and download catalogs and make the newest the active catalog
         internal static bool Init()
         {
-            // Load the catalog that was included with the mod
-            Catalog bundledCatalog = LoadBundled();
-
-            // Load the downloaded catalog, either a previously downloaded or a newly downloaded catalog, whichever is newest
-            Catalog downloadedCatalog = Download();
-
-            // The newest catalog becomes the active catalog; if both are the same version, use the bundled catalog
-            Instance = Newest(bundledCatalog, downloadedCatalog);
-
-            // Check if we have an active catalog
-            if (Instance != null)
+            if (Instance == null)
             {
-                return false;
+                // Load the catalog that was included with the mod
+                Catalog bundledCatalog = LoadBundled();
+
+                // Load the downloaded catalog, either a previously downloaded or a newly downloaded catalog, whichever is newest
+                Catalog downloadedCatalog = Download();
+
+                // The newest catalog becomes the active catalog; if both are the same version, use the bundled catalog
+                Instance = Newest(bundledCatalog, downloadedCatalog);
+
+                if (Instance != null)
+                {
+                    // Prepare the active catalog for searching
+                    Instance.CreateIndex();
+                }
             }
 
-            // Prepare the active catalog for searching
-            Instance.CreateIndex();
-
-            return true;
+            return Instance != null;
         }
 
 
@@ -168,27 +168,15 @@ namespace ModChecker
                 // Make newly downloaded valid catalog the previously downloaded catalog, if it is newer (only determinend by Version, independent of StructureVersion)
                 if ((previousCatalog == null) || (previousCatalog.Version < newCatalog.Version))
                 {
-                    try
-                    {
-                        File.Copy(newCatalogTemporaryFullPath, ModSettings.downloadedCatalogFullPath, overwrite: true);
-
-                        // Indicate we downloaded a valid catalog, so we won't do that again this session
-                        downloadedValidCatalog = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Log("Can't overwrite previously downloaded catalog. Newly downloaded catalog will not be saved for next session.", Logger.error);
-
-                        Logger.Exception(ex);
-                    }
+                    // Copy the temporary file over the previously downloaded catalog; indicate we downloaded a valid catalog, so we won't do that again this session
+                    downloadedValidCatalog = Tools.CopyFile(newCatalogTemporaryFullPath, ModSettings.downloadedCatalogFullPath);
                 }
             }
 
             // Delete temporary file
             Tools.DeleteFile(newCatalogTemporaryFullPath);
 
-            // Return the newest catalog or null if both are null
-            // If both catalogs are the same version, the previously downloaded will be returned; this way local edits will be kept until a newer version is downloaded
+            // Return the newest catalog or null if both are null; if both are the same version, the previously downloaded will be returned
             return Newest(previousCatalog, newCatalog);
         }
 

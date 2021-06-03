@@ -51,7 +51,7 @@ namespace ModChecker.Util
                     }
                     else if (!append || (new FileInfo(fileName).Length > ModSettings.LogMaxSize))
                     {
-                        // If overwrite is chosen or the filesize exceeds the maximum, make a backup of the old file
+                        // If overwrite is chosen or the filesize exceeds the maximum, make a backup of the old file; can't use Tools.CopyFile here because it logs
                         try
                         {
                             File.Copy(fileName, fileName + ".old", overwrite: true);
@@ -114,7 +114,7 @@ namespace ModChecker.Util
 
                 try
                 {
-                    // Use a lock for when the updater gets split into its own executable but still uses the same log file
+                    // Use a lock for when the updater gets its own executable but still uses the same log file
                     lock (file)
                     {
                         file.WriteLine(timeStamp + logLevelPrefix + message + (extraLine ? "\n" : ""));
@@ -197,7 +197,7 @@ namespace ModChecker.Util
             // Initialize the file on the first message
             if (!updaterLogWritten) 
             {
-                updaterLog = new Filer(ModSettings.updaterLogfileFullPath, timeStamp: true, append: ModSettings.LogAppend);
+                updaterLog = new Filer(ModSettings.updaterLogfileFullPath, timeStamp: true, append: false);
 
                 updaterLogWritten = true;
 

@@ -99,14 +99,11 @@ namespace ModChecker
             Stopwatch timer = Stopwatch.StartNew();
 
             // if we don't have an active catalog, initialize it again; exit if we can't
-            if (ActiveCatalog.Instance == null)
+            if (!ActiveCatalog.Init())
             {
-                if (!ActiveCatalog.Init())
-                {
-                    Logger.Log("Scanner called without an active catalog, and can't load a catalog. No report was generated.", Logger.error, duplicateToGameLog: true);
+                Logger.Log("Scanner called without an active catalog, and can't load a catalog. No report was generated.", Logger.error, duplicateToGameLog: true);
 
-                    return;
-                }
+                return;
             }
 
             string message = (scene == "IntroScreen") ? "Scan started during game startup, before main menu." 
