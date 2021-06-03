@@ -40,6 +40,9 @@ namespace ModChecker.DataTypes
 
         public List<Author> ModAuthors { get; private set; } = new List<Author>();
 
+        // Auto updater exclusions
+        public List<UpdateExclusion> UpdateExclusions { get; private set; } = new List<UpdateExclusion>();
+
 
         // Dictionaries to make searching easier and faster
         [XmlIgnore] public Dictionary<ulong, Mod> ModDictionary { get; private set; } = new Dictionary<ulong, Mod>();
@@ -96,7 +99,8 @@ namespace ModChecker.DataTypes
                        List<Mod> mods,
                        List<Compatibility> modCompatibilities,
                        List<ModGroup> modGroups,
-                       List<Author> modAuthors)
+                       List<Author> modAuthors,
+                       List<UpdateExclusion> updateExclusions)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
@@ -121,6 +125,8 @@ namespace ModChecker.DataTypes
             ModGroups = modGroups;
 
             ModAuthors = modAuthors;
+
+            UpdateExclusions = updateExclusions;
 
             ModGroupDictionary = new Dictionary<ulong, ModGroup>();
         }
