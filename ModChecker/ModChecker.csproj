@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="ActiveCatalog.cs" />
     <Compile Include="ActiveSubscriptions.cs" />
+    <Compile Include="DataTypes\UpdateExclusion.cs" />
     <Compile Include="DataTypes\V0_Catalog.cs" />
     <Compile Include="DataTypes\Catalog.cs" />
     <Compile Include="DataTypes\Author.cs" />
@@ -72,7 +73,7 @@
     <Compile Include="DataTypes\Mod.cs" />
     <Compile Include="Reporter.cs" />
     <Compile Include="Scanner.cs" />
-    <Compile Include="Util\Updater.cs" />
+    <Compile Include="Util\AutoUpdater.cs" />
     <Compile Include="Util\DevCatalog.cs" />
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="DataTypes\GameVersion.cs" />

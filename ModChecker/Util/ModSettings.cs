@@ -70,7 +70,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "94";
+        internal const string build = "95";
         internal const string version = shortVersion + "." + revision + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
@@ -241,12 +241,8 @@ namespace ModChecker.Util
         // Updated catalog path
         internal static readonly string UpdatedCatalogPath = Path.Combine(DataLocation.localApplicationData, "ModCheckerCatalogs");
 
-        // Max. number of Steam Workshop mod listing pages to download per category, to limit the time spend and to avoid downloading for eternity
-        internal static readonly uint SteamMaxModListingPages = 100;
-
         // [Todo 0.2] Should be 100?
-        // Max. number of individual mod pages to download, to limit the time spend
-        internal static readonly uint SteamMaxNewModDownloads = 10;
+        // Max. number of individual mod pages to download for known mods, to limit the time spend
         internal static readonly uint SteamMaxKnownModDownloads = 10;
 
         // Max. number of failed downloads for individual pages before giving up altogether
@@ -262,21 +258,21 @@ namespace ModChecker.Util
         // Updater logfile location (Cities_Data)
         internal static readonly string updaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
 
+        // Max. number of Steam Workshop mod listing pages to download per category, to avoid downloading for eternity; should be high enough to include all pages
+        internal static readonly uint SteamMaxModListingPages = 100;
+
         // Temporary download location for Steam Workshop pages
         internal static readonly string SteamWebpageFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }SteamPage.html");
 
         // Steam Workshop mod listing urls, without page number ("&p=1")
-        internal static readonly List<string> SteamModsListingURLs = new List<string> {
+        internal static readonly List<string> SteamModListingURLs = new List<string> {
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod",
-            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras",
+            "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras&requiredflags[]=incompatible" };
 
         // Search string for Mod info in mod Listing files
         internal static readonly string SteamModListingModFind = "<div class=\"workshopItemTitle ellipsis\">";
-
-        // Recognize a mod listing page without mods
-        internal static readonly string SteamModListingNoMoreFind = "No items matching your search criteria were found.";
         
         // Search strings for mod and author info in the mod listing files
         internal static readonly string SteamModListingModIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";

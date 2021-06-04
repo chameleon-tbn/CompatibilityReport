@@ -40,12 +40,12 @@ namespace ModChecker
             // Initialize the scanner: basic checks and loading the catalog
             Scanner.Init();
 
-            // Start the updater
+            // Start the auto updater
             if (ModSettings.updaterEnabled)
             {
-                if (!Updater.Start())
+                if (!AutoUpdater.Start(ModSettings.SteamMaxKnownModDownloads))
                 {
-                    Logger.Log("Updater failed.", Logger.debug);
+                    Logger.Log("Auto updater failed.", Logger.debug);
                 }
             }
         }
@@ -63,17 +63,8 @@ namespace ModChecker
             // Start the scan and create the report(s)
             Scanner.Scan(scene);
 
-            try
-            {
-                // [Todo 0.7]
-                // SettingsUI.Render(helper, scene);
-            }
-            catch (Exception ex)
-            {
-                Logger.Log($"Error creating SettingsUI while in scene { scene }.", Logger.error);
-
-                Logger.Exception(ex);
-            }
+            // [Todo 0.7]
+            // SettingsUI.Render(helper, scene);
         }
 
 

@@ -33,10 +33,10 @@ namespace ModChecker.DataTypes
 
         // Constructor with all parameters
         internal Compatibility(ulong steamID1,
-                                  ulong steamID2,
-                                  List<Enums.CompatibilityStatus> statuses,
-                                  string note1,
-                                  string note2)
+                               ulong steamID2,
+                               List<Enums.CompatibilityStatus> statuses,
+                               string note1,
+                               string note2)
         {
             if (steamID1 == steamID2)
             {

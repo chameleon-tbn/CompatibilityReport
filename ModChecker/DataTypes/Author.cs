@@ -30,10 +30,10 @@ namespace ModChecker.DataTypes
 
         // Constructor with all parameters
         internal Author(string id,
-                           bool idIsProfile,
-                           string name,
-                           DateTime lastSeen,
-                           bool retired)
+                        bool idIsProfile,
+                        string name,
+                        DateTime lastSeen,
+                        bool retired)
         {
             ID = id ?? "";
 
