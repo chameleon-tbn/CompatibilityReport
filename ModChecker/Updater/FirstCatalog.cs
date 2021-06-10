@@ -13,7 +13,7 @@ namespace ModChecker.Updater
         internal static bool Create()
         {
             // Exit if the updater is not enabled in settings
-            if (!ModSettings.updaterEnabled)
+            if (!ModSettings.UpdaterEnabled)
             {
                 return false;
             }
@@ -45,7 +45,7 @@ namespace ModChecker.Updater
             changeNotes += $"New author: { author.Name }\n";
 
             // The filename for the catalog and change notes
-            string partialPath = Path.Combine(ModSettings.UpdatedCatalogPath, $"{ ModSettings.internalName }Catalog_v{ firstCatalog.VersionString() }");
+            string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ firstCatalog.VersionString() }");
 
             // Save the catalog as ModCheckerCatalog_v1.0001.xml
             bool success = firstCatalog.Save(partialPath + ".xml");

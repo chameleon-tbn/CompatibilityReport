@@ -40,7 +40,7 @@ namespace ModChecker.Updater
         internal static bool Start(uint maxKnownModDownloads)
         {
             // Exit if the updater is not enabled in settings, or if we can't get an active catalog
-            if (!ModSettings.updaterEnabled || !ActiveCatalog.Init())
+            if (!ModSettings.UpdaterEnabled || !ActiveCatalog.Init())
             {
                 return false;
             }
@@ -57,7 +57,7 @@ namespace ModChecker.Updater
                     if (UpdateCatalog())
                     {
                         // The filename for the new catalog and related files ('ModCheckerCatalog_v1.0001')
-                        string partialPath = Path.Combine(ModSettings.UpdatedCatalogPath, $"{ ModSettings.internalName }Catalog_v{ ActiveCatalog.Instance.VersionString() }");
+                        string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ ActiveCatalog.Instance.VersionString() }");
 
                         // Save the new catalog
                         if (ActiveCatalog.Instance.Save(partialPath + ".xml"))
@@ -114,19 +114,19 @@ namespace ModChecker.Updater
             uint totalPages = 0;
 
             // Go through the different mod listings: mods and camera scripts, both regular and incompatible
-            foreach (string steamURL in ModSettings.SteamModListingURLs)
+            foreach (string steamURL in ModSettings.steamModListingURLs)
             {
                 Logger.UpdaterLog($"Starting downloading from { steamURL }");
                 
                 uint pageNumber = 0;
 
                 // Download and read pages until we find no more pages, or we reach the set maximum number of pages (to avoid missing the mark and continuing for eternity)
-                while (pageNumber < ModSettings.SteamMaxModListingPages)
+                while (pageNumber < ModSettings.steamMaxModListingPages)
                 {
                     // Increase the pagenumber and download a page
                     pageNumber++;
 
-                    Exception ex = Tools.Download($"{ steamURL }&p={ pageNumber }", ModSettings.SteamWebpageFullPath);
+                    Exception ex = Tools.Download($"{ steamURL }&p={ pageNumber }", ModSettings.steamWebpageFullPath);
 
                     if (ex != null)
                     {
@@ -160,7 +160,7 @@ namespace ModChecker.Updater
             }
 
             // Delete the temporary file
-            Tools.DeleteFile(ModSettings.SteamWebpageFullPath);
+            Tools.DeleteFile(ModSettings.steamWebpageFullPath);
 
             // Log the elapsed time; note: >95% of process time is download; skipping the first 65KB (900+ lines) with 'reader.Basestream.Seek' does nothing for speed
             timer.Stop();
@@ -180,13 +180,13 @@ namespace ModChecker.Updater
             string line;
 
             // Read the downloaded file
-            using (StreamReader reader = File.OpenText(ModSettings.SteamWebpageFullPath))
+            using (StreamReader reader = File.OpenText(ModSettings.steamWebpageFullPath))
             {
                 // Read all the lines until the end of the file
                 while ((line = reader.ReadLine()) != null)
                 {
                     // Search for the identifying string for the next mod; continue with next line if not found
-                    if (!line.Contains(ModSettings.SteamModListingModFind))
+                    if (!line.Contains(ModSettings.steamModListingModFind))
                     {
                         continue;
                     }
@@ -196,7 +196,7 @@ namespace ModChecker.Updater
 
                     try
                     {
-                        steamID = Convert.ToUInt64(Tools.MidString(line, ModSettings.SteamModListingModIDLeft, ModSettings.SteamModListingModIDRight));
+                        steamID = Convert.ToUInt64(Tools.MidString(line, ModSettings.steamModListingModIDLeft, ModSettings.steamModListingModIDRight));
                     }
                     catch
                     {
@@ -207,7 +207,7 @@ namespace ModChecker.Updater
                     }
 
                     // Get the mod name
-                    string name = Tools.MidString(line, ModSettings.SteamModListingModNameLeft, ModSettings.SteamModListingModNameRight);
+                    string name = Tools.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight);
 
                     // Try to get the author ID and custom URL from the next line; only one will exist
                     line = reader.ReadLine();
@@ -216,7 +216,7 @@ namespace ModChecker.Updater
 
                     try
                     {
-                        authorID = Convert.ToUInt64(Tools.MidString(line, ModSettings.SteamModListingAuthorIDLeft, ModSettings.SteamModListingAuthorRight));
+                        authorID = Convert.ToUInt64(Tools.MidString(line, ModSettings.steamModListingAuthorIDLeft, ModSettings.steamModListingAuthorRight));
                     }
                     catch
                     {
@@ -225,10 +225,10 @@ namespace ModChecker.Updater
                     }                    
 
                     // Author URL will be empty if not found
-                    string authorURL = Tools.MidString(line, ModSettings.SteamModListingAuthorURLLeft, ModSettings.SteamModListingAuthorRight);
+                    string authorURL = Tools.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
                     
                     // Get the author name
-                    string authorName = Tools.MidString(line, ModSettings.SteamModListingAuthorNameLeft, ModSettings.SteamModListingAuthorNameRight);
+                    string authorName = Tools.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight);
 
                     // Add the mod to the dictionary; avoid duplicates (could happen if a new mod is published in the time of downloading all pages)
                     if (!collectedModInfo.ContainsKey(steamID))
@@ -272,10 +272,10 @@ namespace ModChecker.Updater
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
-            // Estimate is two downloads per second; [Todo 0.2] estimate should calculate with new mods found
-            double estimate = Math.Ceiling(0.5 * Math.Min(maxKnownModDownloads + maxNewModDownloads, collectedModInfo.Count) / 60);
+            // Estimate is 0.5 seconds per download, and allowing for 50 new mods
+            double estimatedMinutes = Math.Ceiling(0.5 * Math.Min(maxKnownModDownloads + 50, collectedModInfo.Count) / 60);
 
-            Logger.UpdaterLog($"Auto updater started checking individual Steam Workshop mod pages. This should take less than { estimate } minutes.",
+            Logger.UpdaterLog($"Auto updater started checking individual Steam Workshop mod pages. This should take about { estimatedMinutes } minutes.",
                 duplicateToRegularLog: true);
 
             // Initialize counters
@@ -284,13 +284,29 @@ namespace ModChecker.Updater
             uint modsFound = 0;
             uint failedDownloads = 0;
 
+            // Get a random number between 0 and the number of mods we found minus the number we're allowed to download; will be 0 if we're allowed to download them all
+            int skip = new Random().Next(Math.Max(collectedModInfo.Count - (int)maxKnownModDownloads + 1, 0));
+            int skipped = 0;
 
-            // Check all mods we gathered, one by one; [Todo 0.2] add a random starting point, to randomize which known mods will be updated
+            // Check all mods we gathered, one by one
             foreach (ulong steamID in collectedModInfo.Keys)
             {
                 // New mod or a mod already in the catalog
                 bool newMod = !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID);
-                
+
+                // Skip a random number of mods before starting the downloads for known mods; this randomizes which mods to download for details
+                if (skipped < skip)
+                {
+                    // Increase the counter
+                    skipped++;
+
+                    // Skip the mod if it's a known mod; new mods are still processed as usual
+                    if (!newMod)
+                    {
+                        continue;
+                    }
+                }
+
                 // Stop if we reached the maximum number of both types of mods; continue with the next Steam ID if we only reached the maximum for this type of mod
                 if ((newModsDownloaded >= maxNewModDownloads) && (knownModsDownloaded >= maxKnownModDownloads))
                 {
@@ -302,7 +318,7 @@ namespace ModChecker.Updater
                 }
 
                 // Download the Steam Workshop mod page
-                if (Tools.Download(Tools.GetWorkshopURL(steamID), ModSettings.SteamWebpageFullPath) != null)
+                if (Tools.Download(Tools.GetWorkshopURL(steamID), ModSettings.steamWebpageFullPath) != null)
                 {
                     // Download error
                     failedDownloads++;
@@ -347,7 +363,7 @@ namespace ModChecker.Updater
             }
 
             // Delete the temporary file
-            Tools.DeleteFile(ModSettings.SteamWebpageFullPath);
+            Tools.DeleteFile(ModSettings.steamWebpageFullPath);
 
             // Log the elapsed time
             timer.Stop();
@@ -372,7 +388,7 @@ namespace ModChecker.Updater
             // Read the page back from file
             string line;
 
-            using (StreamReader reader = File.OpenText(ModSettings.SteamWebpageFullPath))
+            using (StreamReader reader = File.OpenText(ModSettings.steamWebpageFullPath))
             {
                 // Read all the lines until the end of the file
                 while ((line = reader.ReadLine()) != null)
@@ -380,36 +396,36 @@ namespace ModChecker.Updater
                     // First find the correct Steam ID on this page; it appears before all other info
                     if (!steamIDmatched)
                     {
-                        steamIDmatched = line.Contains(ModSettings.SteamModPageSteamID + steamID.ToString());
+                        steamIDmatched = line.Contains(ModSettings.steamModPageSteamID + steamID.ToString());
 
                         // Don't update anything if we don't find the Steam ID first
                         continue;
                     }
                     
                     // Compatible game version tag
-                    if (line.Contains(ModSettings.SteamModPageVersionTagFind))
+                    if (line.Contains(ModSettings.steamModPageVersionTagFind))
                     {
                         // Get the version as string
-                        string gameVersion = Tools.MidString(line, ModSettings.SteamModPageVersionTagLeft, ModSettings.SteamModPageVersionTagRight);
+                        string gameVersion = Tools.MidString(line, ModSettings.steamModPageVersionTagLeft, ModSettings.steamModPageVersionTagRight);
 
                         // Update the mod, but first convert the gameversion string back and forth to ensure a correctly formatted string
                         mod.Update(compatibleGameVersionString: GameVersion.Formatted(Tools.ConvertToGameVersion(gameVersion)));
                     }
                     // Publish and update dates; also update author last seen date and retired state
-                    else if (line.Contains(ModSettings.SteamModPageDatesFind))
+                    else if (line.Contains(ModSettings.steamModPageDatesFind))
                     {
                         // Skip two lines
                         line = reader.ReadLine();
                         line = reader.ReadLine();
 
                         // Get the publish date
-                        DateTime published = Tools.ConvertWorkshopDateTime(Tools.MidString(line, ModSettings.SteamModPageDatesLeft, ModSettings.SteamModPageDatesRight));
+                        DateTime published = Tools.ConvertWorkshopDateTime(Tools.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
 
                         // Skip another line
                         line = reader.ReadLine();
 
                         // Get the update date, if available; 
-                        DateTime updated = Tools.ConvertWorkshopDateTime(Tools.MidString(line, ModSettings.SteamModPageDatesLeft, ModSettings.SteamModPageDatesRight));
+                        DateTime updated = Tools.ConvertWorkshopDateTime(Tools.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
 
                         // Update the mod with both dates
                         mod.Update(published: published, updated: updated);
@@ -427,13 +443,13 @@ namespace ModChecker.Updater
                         }
                     }
                     // Required DLC
-                    else if (line.Contains(ModSettings.SteamModPageRequiredDLCFind))
+                    else if (line.Contains(ModSettings.steamModPageRequiredDLCFind))
                     {
                         // Skip one line
                         line = reader.ReadLine();
 
                         // Get the required DLC
-                        string dlcString = Tools.MidString(line, ModSettings.SteamModPageRequiredDLCLeft, ModSettings.SteamModPageRequiredDLCRight);
+                        string dlcString = Tools.MidString(line, ModSettings.steamModPageRequiredDLCLeft, ModSettings.steamModPageRequiredDLCRight);
 
                         // Update the mod
                         if (!string.IsNullOrEmpty(dlcString))
@@ -450,13 +466,13 @@ namespace ModChecker.Updater
                         }
                     }
                     // Required mods
-                    else if (line.Contains(ModSettings.SteamModPageRequiredModFind))
+                    else if (line.Contains(ModSettings.steamModPageRequiredModFind))
                     {
                         // Skip one line
                         line = reader.ReadLine();
 
                         // Get the required mods Steam ID
-                        string requiredString = Tools.MidString(line, ModSettings.SteamModPageRequiredModLeft, ModSettings.SteamModPageRequiredModRight);
+                        string requiredString = Tools.MidString(line, ModSettings.steamModPageRequiredModLeft, ModSettings.steamModPageRequiredModRight);
 
                         try
                         {
@@ -471,15 +487,15 @@ namespace ModChecker.Updater
                         }                        
                     }
                     // Description - check for 'no description' status and source url
-                    else if (line.Contains(ModSettings.SteamModPageDescriptionFind))
+                    else if (line.Contains(ModSettings.steamModPageDescriptionFind))
                     {
                         // Skip one line
                         line = reader.ReadLine();
 
                         // Get the description length: the number of characters between the left and right boundary texts
                         int descriptionLength = line.Length -
-                            line.IndexOf(ModSettings.SteamModPageDescriptionLeft) - ModSettings.SteamModPageDescriptionLeft.Length -
-                            ModSettings.SteamModPageDescriptionRight.Length;
+                            line.IndexOf(ModSettings.steamModPageDescriptionLeft) - ModSettings.steamModPageDescriptionLeft.Length -
+                            ModSettings.steamModPageDescriptionRight.Length;
 
                         // Tag as 'no description' if the description is not at least a few characters longer than the mod name
                         if (descriptionLength <= mod.Name.Length + 3)
@@ -488,7 +504,7 @@ namespace ModChecker.Updater
                         }
 
                         // Get the source url, if any
-                        if (line.Contains(ModSettings.SteamModPageSourceURLLeft))
+                        if (line.Contains(ModSettings.steamModPageSourceURLLeft))
                         {
                             mod.Update(sourceURL: GetSourceURL(line, steamID));
                         }
@@ -516,7 +532,7 @@ namespace ModChecker.Updater
         // Get the source URL; if more than one is found, pick the most likely
         private static string GetSourceURL(string line, ulong steamID)
         {
-            string sourceURL = Tools.MidString(line, ModSettings.SteamModPageSourceURLLeft, ModSettings.SteamModPageSourceURLRight);
+            string sourceURL = Tools.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
 
             // Exit if we find none
             if (string.IsNullOrEmpty(sourceURL))
@@ -532,16 +548,16 @@ namespace ModChecker.Updater
             uint tries = 0;
 
             // Keep comparing source url's until we find a good enough one or we find no more; max. 50 times to avoid infinite loops on code errors
-            while (line.IndexOf(ModSettings.SteamModPageSourceURLLeft) != line.LastIndexOf(ModSettings.SteamModPageSourceURLLeft) && tries < 50)
+            while (line.IndexOf(ModSettings.steamModPageSourceURLLeft) != line.LastIndexOf(ModSettings.steamModPageSourceURLLeft) && tries < 50)
             {
                 tries++;
 
                 // Set the start the string to just after the first occurrence
-                int index = line.IndexOf(ModSettings.SteamModPageSourceURLLeft);
+                int index = line.IndexOf(ModSettings.steamModPageSourceURLLeft);
                 line = line.Substring(index + 1, line.Length - index - 1);
 
                 // Get the second source url
-                secondSourceURL = Tools.MidString(line, ModSettings.SteamModPageSourceURLLeft, ModSettings.SteamModPageSourceURLRight);
+                secondSourceURL = Tools.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
 
                 // Decide which source url to use if a second source url was found
                 if (!string.IsNullOrEmpty(secondSourceURL))
@@ -608,7 +624,7 @@ namespace ModChecker.Updater
                         removalList.Add(requiredID);
 
                         // Don't log if it's a known asset to ignore
-                        if (!ModSettings.RequiredIDsToIgnore.Contains(requiredID))
+                        if (!ModSettings.requiredIDsToIgnore.Contains(requiredID))
                         {
                             Logger.UpdaterLog($"Required item [Steam ID { requiredID, 10 }] not found, probably an asset. For { collectedMod.ToString(cutOff: false) }.");
                         }                        

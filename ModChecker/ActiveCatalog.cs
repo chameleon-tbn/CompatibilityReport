@@ -192,13 +192,13 @@ namespace ModChecker
         // Load updated catalog, if the updater is enabled
         private static Catalog LoadUpdated()
         {
-            if (!ModSettings.updaterEnabled || !Directory.Exists(ModSettings.UpdatedCatalogPath))
+            if (!ModSettings.UpdaterEnabled)
             {
                 return null;
             }
 
-            // Get all updated catalog filenames
-            string[] files = Directory.GetFiles(ModSettings.UpdatedCatalogPath, "*.xml");
+            // Get all catalog filenames
+            string[] files = Directory.GetFiles(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog*.xml");
 
             if (files.Length == 0)
             {

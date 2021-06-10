@@ -49,19 +49,6 @@ namespace ModChecker.Util
                 }
 
             }
-
-            try
-            {
-                // Create the directory for updated catalogs
-                if (updaterEnabled)
-                {
-                    Directory.CreateDirectory(UpdatedCatalogPath);
-                }
-            }
-            catch
-            {
-                // Ignore errors
-            }
         }
 
 
@@ -70,11 +57,14 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "96";
+        internal const string build = "97";
         internal const string version = shortVersion + "." + revision + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
         internal const string releaseType = "alpha";
+
+        // The game version this mod is updated for; the catalog overrules this
+        internal static readonly Version compatibleGameVersion = GameVersion.Patch_1_13_3_f9;
 
         // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
         internal const string modName = "Mod Checker";                                                      // used in report filename, reporting and logging
@@ -159,9 +149,6 @@ namespace ModChecker.Util
 
         /// Defaults for settings that come from the catalog
 
-        // The game version this mod is updated for; the catalog overrules this
-        internal static readonly Version compatibleGameVersion = GameVersion.Patch_1_13_1_f1;
-
         // Default text report intro and footer
         internal static readonly string defaultIntroText =
                        "Basic information about mods:\n" +
@@ -233,74 +220,78 @@ namespace ModChecker.Util
 
 
 
-        /// Defaults for updater settings that will be available in an updater settings xml file
-
-        // Updater enabled?
-        internal static readonly bool updaterEnabled = true;
-
-        // Updated catalog path
-        internal static readonly string UpdatedCatalogPath = Path.Combine(DataLocation.localApplicationData, "ModCheckerCatalogs");
-
-        // Max. number of individual mod pages to download for known mods, to limit the time spend
-        internal static readonly uint SteamMaxKnownModDownloads = 100;
-
-        // Max. number of failed downloads for individual pages before giving up altogether
-        internal static readonly uint SteamMaxFailedPages = 4;
-
-
         /// Hardcoded updater settings
 
-        // Updater logfile location (Cities_Data)
-        internal static readonly string updaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
+        // Updater path
+        internal static readonly string updaterPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Updater");
 
-        // Max. number of Steam Workshop mod listing pages to download (per category), to avoid downloading for eternity; should be high enough to include all pages
-        internal static readonly uint SteamMaxModListingPages = 100;
+        // Updater settings file
+        internal static readonly string updaterSettingsXml = Path.Combine(updaterPath, "_UpdaterSettings.xml");
+
+        // Updater logfile location (Cities_Data)
+        internal static readonly string updaterLogfileFullPath = Path.Combine(updaterPath, $"{ internalName }_Updater.log");
 
         // Temporary download location for Steam Workshop pages
-        internal static readonly string SteamWebpageFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }SteamPage.html");
+        internal static readonly string steamWebpageFullPath = Path.Combine(updaterPath, $"{ internalName }_Download.tmp");
+
+        // Max. number of Steam Workshop mod listing pages to download (per category), to avoid downloading for eternity; should be high enough to include all pages
+        internal static readonly uint steamMaxModListingPages = 200;
 
         // Steam Workshop mod listing urls, without page number ("&p=1")
-        internal static readonly List<string> SteamModListingURLs = new List<string> {
+        internal static readonly List<string> steamModListingURLs = new List<string> {
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras&requiredflags[]=incompatible" };
 
         // Search string for Mod info in mod Listing files
-        internal static readonly string SteamModListingModFind = "<div class=\"workshopItemTitle ellipsis\">";
+        internal static readonly string steamModListingModFind = "<div class=\"workshopItemTitle ellipsis\">";
         
         // Search strings for mod and author info in the mod listing files
-        internal static readonly string SteamModListingModIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
-        internal static readonly string SteamModListingModIDRight = "&searchtext";
-        internal static readonly string SteamModListingModNameLeft = "workshopItemTitle ellipsis\">";
-        internal static readonly string SteamModListingModNameRight = "</div>";
-        internal static readonly string SteamModListingAuthorURLLeft = "steamcommunity.com/id/";
-        internal static readonly string SteamModListingAuthorIDLeft = "steamcommunity.com/profiles/";
-        internal static readonly string SteamModListingAuthorRight = "/myworkshopfiles";
-        internal static readonly string SteamModListingAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
-        internal static readonly string SteamModListingAuthorNameRight = "</a>";
+        internal static readonly string steamModListingModIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
+        internal static readonly string steamModListingModIDRight = "&searchtext";
+        internal static readonly string steamModListingModNameLeft = "workshopItemTitle ellipsis\">";
+        internal static readonly string steamModListingModNameRight = "</div>";
+        internal static readonly string steamModListingAuthorURLLeft = "steamcommunity.com/id/";
+        internal static readonly string steamModListingAuthorIDLeft = "steamcommunity.com/profiles/";
+        internal static readonly string steamModListingAuthorRight = "/myworkshopfiles";
+        internal static readonly string steamModListingAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
+        internal static readonly string steamModListingAuthorNameRight = "</a>";
 
         // Search strings for individual mod pages
-        internal static readonly string SteamModPageSteamID = "<span onclick=\"VoteUp(";                                                    // Followed by the Steam ID
-        internal static readonly string SteamModPageVersionTagFind = "<span class=\"workshopTagsTitle\">Tags:";                             // Can appear multiple times
-        internal static readonly string SteamModPageVersionTagLeft = "-compatible\">";
-        internal static readonly string SteamModPageVersionTagRight = "-compatible";
-        internal static readonly string SteamModPageDatesFind = "<div class=\"detailsStatsContainerRight\">";
-        internal static readonly string SteamModPageDatesLeft = "detailsStatRight\">";                      // Two lines below Find text for published, three lines for updated
-        internal static readonly string SteamModPageDatesRight = "</div>";                                  // Published should be found, updated not
-        internal static readonly string SteamModPageRequiredDLCFind = "<div class=\"requiredDLCItem\">";                                    // Can appear multiple times
-        internal static readonly string SteamModPageRequiredDLCLeft = "https://store.steampowered.com/app/";                                // One line below Find text
-        internal static readonly string SteamModPageRequiredDLCRight = "\">";
-        internal static readonly string SteamModPageRequiredModFind = "<div class=\"requiredItemsContainer\" id=\"RequiredItems\">";        // Can appear multiple times
-        internal static readonly string SteamModPageRequiredModLeft = "https://steamcommunity.com/workshop/filedetails/?id=";               // One line below Find text
-        internal static readonly string SteamModPageRequiredModRight = "\" ";
-        internal static readonly string SteamModPageDescriptionFind = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
-        internal static readonly string SteamModPageDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";                 // One line below Find text
-        internal static readonly string SteamModPageDescriptionRight = "</div>";
-        internal static readonly string SteamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized
-        internal static readonly string SteamModPageSourceURLRight = "\" ";
+        internal static readonly string steamModPageSteamID = "<span onclick=\"VoteUp(";                                                    // Followed by the Steam ID
+        internal static readonly string steamModPageVersionTagFind = "<span class=\"workshopTagsTitle\">Tags:";                             // Can appear multiple times
+        internal static readonly string steamModPageVersionTagLeft = "-compatible\">";
+        internal static readonly string steamModPageVersionTagRight = "-compatible";
+        internal static readonly string steamModPageDatesFind = "<div class=\"detailsStatsContainerRight\">";
+        internal static readonly string steamModPageDatesLeft = "detailsStatRight\">";                                                      // Two/three lines below Find
+        internal static readonly string steamModPageDatesRight = "</div>";
+        internal static readonly string steamModPageRequiredDLCFind = "<div class=\"requiredDLCItem\">";                                    // Can appear multiple times
+        internal static readonly string steamModPageRequiredDLCLeft = "https://store.steampowered.com/app/";                                // One line below Find text
+        internal static readonly string steamModPageRequiredDLCRight = "\">";
+        internal static readonly string steamModPageRequiredModFind = "<div class=\"requiredItemsContainer\" id=\"RequiredItems\">";        // Can appear multiple times
+        internal static readonly string steamModPageRequiredModLeft = "https://steamcommunity.com/workshop/filedetails/?id=";               // One line below Find text
+        internal static readonly string steamModPageRequiredModRight = "\" ";
+        internal static readonly string steamModPageDescriptionFind = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
+        internal static readonly string steamModPageDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";                 // One line below Find text
+        internal static readonly string steamModPageDescriptionRight = "</div>";
+        internal static readonly string steamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized
+        internal static readonly string steamModPageSourceURLRight = "\" ";
 
         // Some Steam items to ignore; [Todo 0.3] Move to catalog
-        internal static readonly List<ulong> RequiredIDsToIgnore = new List<ulong> { 1145223801 };
+        internal static readonly List<ulong> requiredIDsToIgnore = new List<ulong> { 1145223801 };
+
+
+
+        /// Defaults for updater settings that will be available in an updater settings xml file
+
+        // Updater enabled? Updater will only be enabled if the updater settings xml file exists
+        internal static bool UpdaterEnabled { get; private set; } = true && File.Exists(updaterSettingsXml);
+
+        // Max. number of individual mod pages to download for known mods, to limit the time spend
+        internal static uint SteamMaxKnownModDownloads { get; private set; } = 100;
+
+        // Max. number of failed downloads for individual pages before giving up altogether
+        internal static uint SteamMaxFailedPages { get; private set; } = 4;
     }
 }
