@@ -34,11 +34,11 @@ namespace ModChecker.DataTypes
         // The actual data in four lists
         public List<Mod> Mods { get; private set; } = new List<Mod>();
 
-        public List<Compatibility> ModCompatibilities { get; private set; } = new List<Compatibility>();
+        public List<Compatibility> Compatibilities { get; private set; } = new List<Compatibility>();
 
-        public List<ModGroup> ModGroups { get; private set; } = new List<ModGroup>();
+        public List<ModGroup> Groups { get; private set; } = new List<ModGroup>();
 
-        public List<Author> ModAuthors { get; private set; } = new List<Author>();
+        public List<Author> Authors { get; private set; } = new List<Author>();
 
         // Auto updater exclusions
         public List<UpdateExclusion> UpdateExclusions { get; private set; } = new List<UpdateExclusion>();
@@ -49,7 +49,9 @@ namespace ModChecker.DataTypes
         
         [XmlIgnore] public Dictionary<ulong, ModGroup> ModGroupDictionary { get; private set; } = new Dictionary<ulong, ModGroup>();
 
-        [XmlIgnore] public Dictionary<string, Author> AuthorDictionary { get; private set; } = new Dictionary<string, Author>();
+        [XmlIgnore] public Dictionary<ulong, Author> AuthorIDDictionary { get; private set; } = new Dictionary<ulong, Author>();
+
+        [XmlIgnore] public Dictionary<string, Author> AuthorURLDictionary { get; private set; } = new Dictionary<string, Author>();
 
 
         // The total number of mods in the catalog
@@ -120,15 +122,13 @@ namespace ModChecker.DataTypes
 
             Mods = mods;
 
-            ModCompatibilities = modCompatibilities;
+            Compatibilities = modCompatibilities;
 
-            ModGroups = modGroups;
+            Groups = modGroups;
 
-            ModAuthors = modAuthors;
+            Authors = modAuthors;
 
             UpdateExclusions = updateExclusions;
-
-            ModGroupDictionary = new Dictionary<ulong, ModGroup>();
         }
 
 
@@ -136,14 +136,20 @@ namespace ModChecker.DataTypes
         public string VersionString() => $"{ StructureVersion }.{ Version:D4}";
 
 
-        // Increase the version, used for the Updater
-        internal void NewVersion() => Version++;
+        // Increase the version with a new update date (defaults to now); used for the Updater
+        internal void NewVersion(DateTime? updated = null)
+        {
+            Version++;
+
+            UpdateDate = updated ?? DateTime.Now;
+        }
 
 
         // Add a new mod to the catalog
         internal Mod AddMod(ulong steamID,
                             string name = "",
-                            string authorID = "",
+                            ulong authorID = 0,
+                            string authorURL = "",
                             DateTime? published = null,
                             DateTime? updated = null,
                             string archiveURL = null,
@@ -154,6 +160,7 @@ namespace ModChecker.DataTypes
                             List<ulong> onlyNeededFor = null,
                             List<ulong> succeededBy = null,
                             List<ulong> alternatives = null,
+                            List<ulong> requiredAssets = null,
                             List<Enums.ModStatus> statuses = null,
                             string note = null,
                             DateTime? reviewUpdated = null,
@@ -161,10 +168,10 @@ namespace ModChecker.DataTypes
                             string catalogRemark = null)
         {
             // Add the new mod to the list and dictionary
-            Mod mod = new Mod(steamID, name, authorID);
+            Mod mod = new Mod(steamID, name, authorID, authorURL);
 
-            mod.Update(name, authorID, published, updated, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods, 
-                onlyNeededFor, succeededBy, alternatives, statuses, note, reviewUpdated, autoReviewUpdated, catalogRemark);
+            mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods, 
+                onlyNeededFor, succeededBy, alternatives, requiredAssets, statuses, note, reviewUpdated, autoReviewUpdated, catalogRemark);
 
             Mods.Add(mod);
 
@@ -203,7 +210,7 @@ namespace ModChecker.DataTypes
             // Add the new group to the list and dictionary
             ModGroup modGroup = new ModGroup(newGroupID, steamIDs, description);
 
-            ModGroups.Add(modGroup);
+            Groups.Add(modGroup);
 
             ModGroupDictionary.Add(newGroupID, modGroup);
 
@@ -214,15 +221,15 @@ namespace ModChecker.DataTypes
 
         // Add a new compatibility to the catalog
         internal Compatibility AddCompatibility(ulong steamID1,
-                                                   ulong steamID2,
-                                                   List<Enums.CompatibilityStatus> statuses,
-                                                   string note1 = "",
-                                                   string note2 = "")
+                                                ulong steamID2,
+                                                List<Enums.CompatibilityStatus> statuses,
+                                                string note1 = "",
+                                                string note2 = "")
         {
             // Add the new compatibility to the list
             Compatibility compatibility = new Compatibility(steamID1, steamID2, statuses, note1, note2);
 
-            ModCompatibilities.Add(compatibility);
+            Compatibilities.Add(compatibility);
 
             // Return a reference to the new compatibility
             return compatibility;
@@ -230,19 +237,29 @@ namespace ModChecker.DataTypes
 
 
         // Add a new author to the catalog
-        internal Author AddAuthor(string id,
-                                     bool idIsProfile,
-                                     string name = "",
-                                     DateTime lastSeen = default,
-                                     bool retired = false)
+        internal Author AddAuthor(ulong authorID,
+                                  string authorURL, 
+                                  string name = "",
+                                  DateTime lastSeen = default,
+                                  bool retired = false,
+                                  string catalogRemark = "")
         {
-            // Add the new group to the list and dictionary
-            Author author = new Author(id, idIsProfile, name, lastSeen, retired);
+            // Add the new author to the list
+            Author author = new Author(authorID, authorURL, name, lastSeen, retired, catalogRemark);
 
-            ModAuthors.Add(author);
+            Authors.Add(author);
 
-            AuthorDictionary.Add(id, author);
-
+            // Add the new author to one or two dictionaries
+            if (authorID != 0)
+            {
+                AuthorIDDictionary.Add(authorID, author);
+            }
+            
+            if (!string.IsNullOrEmpty(authorURL))
+            {
+                AuthorURLDictionary.Add(authorURL, author);
+            }
+            
             // Return a reference to the new author
             return author;
         }
@@ -309,21 +326,31 @@ namespace ModChecker.DataTypes
         {
             ModDictionary = new Dictionary<ulong, Mod>();
             ModGroupDictionary = new Dictionary<ulong, ModGroup>();
-            AuthorDictionary = new Dictionary<string, Author>();
+            AuthorIDDictionary = new Dictionary<ulong, Author>();
+            AuthorURLDictionary = new Dictionary<string, Author>();
 
             foreach (Mod mod in Mods) 
             { 
                 ModDictionary.Add(mod.SteamID, mod); 
             }
             
-            foreach (ModGroup group in ModGroups) 
+            foreach (ModGroup group in Groups) 
             { 
                 ModGroupDictionary.Add(group.GroupID, group); 
             }
             
-            foreach (Author author in ModAuthors) 
+            foreach (Author author in Authors) 
             { 
-                AuthorDictionary.Add(author.ID, author); 
+                // Add author to one or both of the dictionaries
+                if (author.ProfileID != 0)
+                {
+                    AuthorIDDictionary.Add(author.ProfileID, author);
+                }
+
+                if (!string.IsNullOrEmpty(author.CustomURL))
+                {
+                    AuthorURLDictionary.Add(author.CustomURL, author);
+                }
             }
         }
 
@@ -392,7 +419,6 @@ namespace ModChecker.DataTypes
 
                     return null;
                 }
-
             }
             catch (Exception ex)
             {

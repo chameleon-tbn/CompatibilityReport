@@ -19,22 +19,31 @@ namespace ModChecker
         // Load and download catalogs and make the newest the active catalog
         internal static bool Init()
         {
-            if (Instance == null)
+            // Skip if we already have an active catalog
+            if (Instance != null)
             {
-                // Load the catalog that was included with the mod
-                Catalog bundledCatalog = LoadBundled();
+                return true;
+            }
 
-                // Load the downloaded catalog, either a previously downloaded or a newly downloaded catalog, whichever is newest
-                Catalog downloadedCatalog = Download();
+            // Load the catalog that was included with the mod
+            Catalog bundledCatalog = LoadBundled();
 
-                // The newest catalog becomes the active catalog; if both are the same version, use the bundled catalog
-                Instance = Newest(bundledCatalog, downloadedCatalog);
+            // Load the previously downloaded catalog
+            Catalog previousCatalog = LoadPreviouslyDownloaded();
 
-                if (Instance != null)
-                {
-                    // Prepare the active catalog for searching
-                    Instance.CreateIndex();
-                }
+            // Download a new catalog
+            Catalog downloadedCatalog = Download(previousCatalog == null ? 0 : previousCatalog.Version);
+
+            // Download the latest updated catalog
+            Catalog updatedCatalog = LoadUpdated();
+
+            // The newest catalog becomes the active catalog
+            Instance = Newest(bundledCatalog, previousCatalog, downloadedCatalog, updatedCatalog);
+
+            if (Instance != null)
+            {
+                // Prepare the active catalog for searching
+                Instance.CreateIndex();
             }
 
             return Instance != null;
@@ -69,44 +78,46 @@ namespace ModChecker
         }
 
 
-        // Check for a previously downloaded catalog, download a new catalog and activate the newest of the two
-        private static Catalog Download()
+        // Load the previously downloaded catalog if it exists
+        private static Catalog LoadPreviouslyDownloaded()
         {
-            // Catalog instance for a previously downloaded catalog
-            Catalog previousCatalog = null;
-
             // Check if previously downloaded catalog exists
             if (!File.Exists(ModSettings.downloadedCatalogFullPath))
             {
-                // Did not exist
                 Logger.Log("No previously downloaded catalog exists. This is expected when the mod has never downloaded a new catalog.");
+
+                return null;
+            }
+
+            // Try to load it
+            Catalog previousCatalog = Catalog.Load(ModSettings.downloadedCatalogFullPath);
+
+            if (previousCatalog != null)
+            {
+                Logger.Log($"Previously downloaded catalog { previousCatalog.VersionString() } loaded.");
+            }
+            // Can't be loaded; try to delete it
+            else if (Tools.DeleteFile(ModSettings.downloadedCatalogFullPath))
+            {
+                Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.warning);
             }
             else
             {
-                // Exists, try to load it
-                previousCatalog = Catalog.Load(ModSettings.downloadedCatalogFullPath);
-
-                if (previousCatalog != null)
-                {
-                    Logger.Log($"Previously downloaded catalog { previousCatalog.VersionString() } loaded.");
-                }
-                // Can't be loaded; try to delete it
-                else if (Tools.DeleteFile(ModSettings.downloadedCatalogFullPath))
-                {
-                    Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.warning);
-                }
-                else
-                {
-                    // Can't be deleted
-                    Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. " +
-                        "This prevents saving a newly downloaded catalog for future sessions.", Logger.error);
-                }
+                Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. " +
+                    "This prevents saving a newly downloaded catalog for future sessions.", Logger.error);
             }
 
-            // If we already downloaded this session, exit returning the previously downloaded catalog (could be null if it was manually deleted)
+            return previousCatalog;
+        }
+
+
+        // Download a new catalog
+        private static Catalog Download(uint previousVersion)
+        {
+            // Exit if we already downloaded this session
             if (downloadedValidCatalog)
             {
-                return previousCatalog;
+                return null;
             }
 
             // Temporary filename for the newly downloaded catalog
@@ -115,9 +126,9 @@ namespace ModChecker
             // Delete temporary catalog if it was left over from a previous session; exit if we can't delete it
             if (!Tools.DeleteFile(newCatalogTemporaryFullPath))
             {
-                Logger.Log("Partially downloaded catalog still existed from a previous session and couldn't be deleted. This prevents a new download.", Logger.error);
+                Logger.Log("Partially downloaded catalog still exists from a previous session and can't be deleted. This prevents a new download.", Logger.error);
 
-                return previousCatalog;
+                return null;
             }
 
             // Download new catalog and time it
@@ -125,13 +136,7 @@ namespace ModChecker
 
             Exception exception = Tools.Download(ModSettings.catalogURL, newCatalogTemporaryFullPath);
 
-            timer.Stop();
-
-            if (exception == null)
-            {
-                Logger.Log($"Catalog downloaded in { timer.ElapsedMilliseconds / 1000:F1} seconds from { ModSettings.catalogURL }");
-            }
-            else
+            if (exception != null)
             {
                 Logger.Log($"Can't download catalog from { ModSettings.catalogURL }", Logger.warning);
 
@@ -147,12 +152,16 @@ namespace ModChecker
                     Logger.Exception(exception);
                 }
 
-                // Delete empty temporary file
+                // Delete empty temporary file and exit
                 Tools.DeleteFile(newCatalogTemporaryFullPath);
 
-                // Exit
-                return previousCatalog;
+                return null;
             }
+
+            // Log elapsed time
+            timer.Stop();
+
+            Logger.Log($"Catalog downloaded in { (double)timer.ElapsedMilliseconds / 1000:F1} seconds from { ModSettings.catalogURL }");
 
             // Load newly downloaded catalog
             Catalog newCatalog = Catalog.Load(newCatalogTemporaryFullPath);
@@ -165,10 +174,10 @@ namespace ModChecker
             {
                 Logger.Log($"Downloaded catalog { newCatalog.VersionString() } loaded.");
 
-                // Make newly downloaded valid catalog the previously downloaded catalog, if it is newer (only determinend by Version, independent of StructureVersion)
-                if ((previousCatalog == null) || (previousCatalog.Version < newCatalog.Version))
+                // Copy the temporary file over the previously downloaded catalog if it's newer
+                if (newCatalog.Version > previousVersion)
                 {
-                    // Copy the temporary file over the previously downloaded catalog; indicate we downloaded a valid catalog, so we won't do that again this session
+                    // Indicate we downloaded a valid catalog, so we won't do that again this session
                     downloadedValidCatalog = Tools.CopyFile(newCatalogTemporaryFullPath, ModSettings.downloadedCatalogFullPath);
                 }
             }
@@ -176,13 +185,54 @@ namespace ModChecker
             // Delete temporary file
             Tools.DeleteFile(newCatalogTemporaryFullPath);
 
-            // Return the newest catalog or null if both are null; if both are the same version, the previously downloaded will be returned
-            return Newest(previousCatalog, newCatalog);
+            return newCatalog;
         }
 
 
-        // Return the newest of two catalogs, or null if both are null; return catalog1 if both are the same version
-        private static Catalog Newest(Catalog catalog1, Catalog catalog2)
+        // Load updated catalog, if the updater is enabled
+        private static Catalog LoadUpdated()
+        {
+            if (!ModSettings.updaterEnabled || !Directory.Exists(ModSettings.UpdatedCatalogPath))
+            {
+                return null;
+            }
+
+            // Get all updated catalog filenames
+            string[] files = Directory.GetFiles(ModSettings.UpdatedCatalogPath, "*.xml");
+
+            if (files.Length == 0)
+            {
+                return null;
+            }
+
+            // Sort the filenames
+            Array.Sort(files);
+
+            // Load the last updated catalog
+            Catalog catalog = Catalog.Load(files[files.Length - 1]);
+
+            if (catalog == null)
+            {
+                Logger.Log($"Can't load updated catalog.", Logger.warning);
+            }
+            else
+            {
+                Logger.Log($"Updated catalog { catalog.VersionString() } loaded.");
+            }
+
+            return catalog;
+        }
+
+
+        // Return the newest of four catalogs
+        private static Catalog Newest(Catalog catalog1, Catalog catalog2, Catalog catalog3, Catalog catalog4)
+        {
+            return (NewestOfTwo(NewestOfTwo(catalog1, catalog2), NewestOfTwo(catalog3, catalog4)));
+        }
+
+
+        // Return the newest of two catalogs; return catalog1 if both are the same version
+        private static Catalog NewestOfTwo(Catalog catalog1, Catalog catalog2)
         {
             if ((catalog1 != null) && (catalog2 != null))
             {
@@ -195,5 +245,6 @@ namespace ModChecker
                 return catalog1 ?? catalog2;
             }
         }
+
     }
 }

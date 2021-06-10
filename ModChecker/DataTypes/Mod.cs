@@ -14,8 +14,10 @@ namespace ModChecker.DataTypes
 
         public string Name { get; private set; }
 
-        // Author ID for main author and additional authors; can be linked to the ModAuthors info
-        public string AuthorID { get; private set; }
+        // Author Profile and Author Custom URL; only one is needed to identify the author
+        public ulong AuthorID { get; private set; }
+
+        public string AuthorURL { get; private set; }
 
         // Date the mod was published and last updated
         public DateTime Published { get; private set; }
@@ -46,6 +48,9 @@ namespace ModChecker.DataTypes
         // Alternatives for this mod; only used if this has compatibility issues
         [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
 
+        // Required assets for this mod; only used to collect info we gather from the Steam Workshop, not checked or reported
+        [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
+
         // Statuses for this mod
         public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
 
@@ -68,22 +73,26 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Constructor with 3 parameters
+        // Constructor with 4 parameters
         internal Mod(ulong steamID,
                      string name,
-                     string authorID)
+                     ulong authorID,
+                     string authorURL)
         {
             SteamID = steamID;
 
             Name = name ?? "";
 
-            AuthorID = authorID ?? "";
+            AuthorID = authorID;
+
+            AuthorURL = authorURL ?? "";
         }
 
 
         // Update a mod with new info; all fields can be updated except Steam ID; all fields are optional, only supplied fields are updated
         internal void Update(string name = null,
-                             string authorID = null,
+                             ulong authorID = 0,
+                             string authorURL = null,
                              DateTime? published = null,
                              DateTime? updated = null,
                              string archiveURL = null,
@@ -94,6 +103,7 @@ namespace ModChecker.DataTypes
                              List<ulong> onlyNeededFor = null,
                              List<ulong> succeededBy = null,
                              List<ulong> alternatives = null,
+                             List<ulong> requiredAssets = null,
                              List<Enums.ModStatus> statuses = null,
                              string note = null,
                              DateTime? reviewUpdated = null,
@@ -103,14 +113,16 @@ namespace ModChecker.DataTypes
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty string instead of null
             Name = name ?? Name ?? "";
 
-            AuthorID = authorID ?? AuthorID ?? "";
+            AuthorID = authorID == 0 ? AuthorID : authorID;
+
+            AuthorURL = authorURL ?? AuthorURL ?? "";
 
             Published = published ?? Published;
 
             Updated = updated ?? Updated;
 
-            // If Updated is unknown (default minvalue), set it to the Published date
-            if (Updated == DateTime.MinValue)
+            // If updated is earlier than published, set it to published
+            if (Updated < Published)
             {
                 Updated = Published;
             }
@@ -133,6 +145,8 @@ namespace ModChecker.DataTypes
 
             Alternatives = alternatives ?? Alternatives ?? new List<ulong>();
 
+            RequiredAssets = requiredAssets ?? RequiredAssets ?? new List<ulong>();
+            
             Statuses = statuses ?? Statuses ?? new List<Enums.ModStatus>();
 
             Note = note ?? Note ?? "";
@@ -141,13 +155,15 @@ namespace ModChecker.DataTypes
 
             AutoReviewUpdated = autoReviewUpdated ?? AutoReviewUpdated;
 
-            CatalogRemark = catalogRemark ?? CatalogRemark ?? "";
+            // Add a new catalog remark instead of replacing it
+            CatalogRemark += string.IsNullOrEmpty(catalogRemark) ? "" : (string.IsNullOrEmpty(CatalogRemark) ? "" : "\n") + catalogRemark;
         }
 
 
         // Return a max length, formatted string with the Steam ID and name
         internal string ToString(bool nameFirst = false,
-                                 bool showFakeID = true)
+                                 bool showFakeID = true,
+                                 bool cutOff = true)
         {
             string id;
 
@@ -169,7 +185,8 @@ namespace ModChecker.DataTypes
 
             int maxNameLength = ModSettings.maxReportWidth - 1 - id.Length;
 
-            string name = (Name.Length <= maxNameLength) ? Name : Name.Substring(0, maxNameLength - 3) + "...";
+            // Cut off the name to max. length, if the cutOff parameter is true
+            string name = (Name.Length <= maxNameLength) || !cutOff ? Name : Name.Substring(0, maxNameLength - 3) + "...";
 
             if (nameFirst)
             {

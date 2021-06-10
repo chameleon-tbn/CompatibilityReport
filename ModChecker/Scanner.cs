@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using ModChecker.DataTypes;
 using ModChecker.Util;
 
@@ -52,7 +53,7 @@ namespace ModChecker
             // Log catalog details
             Logger.Log($"Using catalog { ActiveCatalog.Instance.VersionString() }, created on { ActiveCatalog.Instance.UpdateDate.ToLongDateString() }. " + 
                 $"Catalog contains { ActiveCatalog.Instance.ReviewCount } reviewed mods and " + 
-                $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } other mods with basic information.", duplicateToGameLog: true);
+                $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } mods with basic information.", duplicateToGameLog: true);
 
             // Log if the game version differs from the version the catalog was made for
             if (GameVersion.Current != ActiveCatalog.Instance.CompatibleGameVersion)
@@ -63,10 +64,10 @@ namespace ModChecker
                     $"You're using { olderNewer } version of the game. Results may not be accurate.", Logger.warning, duplicateToGameLog: true);
             }
 
-            // Log how long the init took, including downloading a new catalog.
             timer.Stop();
 
-            Logger.Log($"Scanner initialized in { timer.ElapsedMilliseconds } ms. Now waiting for all mods to load.", extraLine: true, duplicateToGameLog: true);
+            Logger.Log($"Scanner initialized in { (double)timer.ElapsedMilliseconds / 1000:F1} seconds. Now waiting for all mods to load.", 
+                extraLine: true, duplicateToGameLog: true);
 
             // Indicate that Init has run
             initDone = true;
@@ -122,7 +123,7 @@ namespace ModChecker
             timer.Stop();
 
             Logger.Log($"Scan complete. Reviewed { ActiveSubscriptions.TotalReviewed } of your { ActiveSubscriptions.All.Count } mods " + 
-                $"in { timer.ElapsedMilliseconds } ms.", duplicateToGameLog: true);
+                $"in { (double)timer.ElapsedMilliseconds / 1000:F1} seconds.", duplicateToGameLog: true);
 
             // Indicate that we've completed a scan
             scanDone = true;

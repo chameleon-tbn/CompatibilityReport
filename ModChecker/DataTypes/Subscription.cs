@@ -166,22 +166,21 @@ namespace ModChecker.DataTypes
                 // Nothing more to do; exit
                 return;
             }
-            else
-            {
-                Logger.Log($"Mod found: { this.ToString() }");
-            }
-
+            
             // Get the mod from the catalog
             Mod catalogMod = ActiveCatalog.Instance.ModDictionary[SteamID];
+
+            // Log the catalog name which is seen in the Steam Workshop; subscription name might differ and is seen in game in the Content Manager and Options
+            Logger.Log($"Mod found: { catalogMod.ToString() }");
 
             // Check if the mod was (manually) reviewed
             IsReviewed = catalogMod.ReviewUpdated != DateTime.MinValue;
 
-            // [Todo 0.4] Only for debugging, can be removed later
+            // [Todo 0.2] For debugging only, to be removed; 
             // Check for mod rename
             if (Name != catalogMod.Name)
             {
-                Logger.Log($"Mod { SteamID } was renamed from \"{ catalogMod.Name }\" to \"{ Name }\".", Logger.debug);
+                Logger.Log($"[{ SteamID }]: name mismatch between subscription ({ Name }) and catalog ({ catalogMod.Name }).", Logger.debug);
             }
 
             // Get information from the catalog
@@ -200,20 +199,32 @@ namespace ModChecker.DataTypes
             Note = catalogMod.Note;
 
             // Get the author name and retirement status; only for Steam Workshop mods
-            if (!string.IsNullOrEmpty(catalogMod.AuthorID) && !IsLocal)
+            if (!IsLocal)
             {
+                Author catalogAuthor = null;
+
                 // Find the author in the active catalog
-                if (ActiveCatalog.Instance.AuthorDictionary.ContainsKey(catalogMod.AuthorID))
+                if (catalogMod.AuthorID != 0)
+                {
+                    catalogAuthor = ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(catalogMod.AuthorID) ?
+                        ActiveCatalog.Instance.AuthorIDDictionary[catalogMod.AuthorID] : null;
+                }
+                else if (!string.IsNullOrEmpty(catalogMod.AuthorURL))
+                {
+                    catalogAuthor = ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(catalogMod.AuthorURL) ?
+                        ActiveCatalog.Instance.AuthorURLDictionary[catalogMod.AuthorURL] : null;
+                }
+
+                if (catalogAuthor != null)
                 {
                     // Get the author info from the catalog
-                    AuthorName = ActiveCatalog.Instance.AuthorDictionary[catalogMod.AuthorID].Name;
-
-                    AuthorIsRetired = ActiveCatalog.Instance.AuthorDictionary[catalogMod.AuthorID].Retired;
+                    AuthorName = catalogAuthor.Name;
+                    AuthorIsRetired = catalogAuthor.Retired;
                 }
                 else
                 {
-                    // Can't find the author name, so use the author ID
-                    AuthorName = catalogMod.AuthorID;
+                    // Can't find the author name, so use the author ID or author URL
+                    AuthorName = catalogMod.AuthorID != 0 ? catalogMod.AuthorID.ToString() : catalogMod.AuthorURL ?? "";
 
                     Logger.Log($"Author not found in catalog: { AuthorName }", Logger.debug);
                 }
@@ -224,11 +235,11 @@ namespace ModChecker.DataTypes
             ModNotes = new Dictionary<ulong, string>();
 
             // Get all compatibilities (including notes) where this mod is either the first or the second ID
-            AddCompatibility(ActiveCatalog.Instance.ModCompatibilities.FindAll(c => c.SteamID1 == SteamID), firstID: true);
-            AddCompatibility(ActiveCatalog.Instance.ModCompatibilities.FindAll(c => c.SteamID2 == SteamID), firstID: false);
+            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID1 == SteamID), firstID: true);
+            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID2 == SteamID), firstID: false);
 
             // Get all mod groups that this mod is a member of
-            List<ModGroup> modGroups = ActiveCatalog.Instance.ModGroups.FindAll(g => g.SteamIDs.Contains(SteamID));
+            List<ModGroup> modGroups = ActiveCatalog.Instance.Groups.FindAll(g => g.SteamIDs.Contains(SteamID));
 
             if (modGroups != null)
             {
@@ -236,8 +247,8 @@ namespace ModChecker.DataTypes
                 foreach (ModGroup group in modGroups)
                 {
                     // Get all compatibilities (including notes) where the mod group is either the first or the second ID
-                    AddCompatibility(ActiveCatalog.Instance.ModCompatibilities.FindAll(c => c.SteamID1 == group.GroupID), firstID: true);
-                    AddCompatibility(ActiveCatalog.Instance.ModCompatibilities.FindAll(c => c.SteamID2 == group.GroupID), firstID: false);
+                    AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID1 == group.GroupID), firstID: true);
+                    AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID2 == group.GroupID), firstID: false);
                 }
             }
         }

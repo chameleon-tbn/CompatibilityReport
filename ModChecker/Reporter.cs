@@ -448,7 +448,7 @@ namespace ModChecker
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless manually editing the catalog
-                    text += ReviewLine($"[Steam ID { id,10 }] { subscription.Name }", htmlReport, ModSettings.bullet2);
+                    text += ReviewLine($"[Steam ID { id, 10 }] { subscription.Name }", htmlReport, ModSettings.bullet2);
 
                     Logger.Log($"Alternative mod { id } not found in catalog.", Logger.warning);
                 }
@@ -534,7 +534,7 @@ namespace ModChecker
                         else
                         {
                             // Mod not found in the catalog, which should not happen unless manually editing the catalog
-                            text += ReviewLine($"[Steam ID { id,10 }] { subscription.Name }", htmlReport, ModSettings.bullet2);
+                            text += ReviewLine($"[Steam ID { id, 10 }] { subscription.Name }", htmlReport, ModSettings.bullet2);
 
                             Logger.Log($"Required mod { id } not found in catalog.", Logger.warning);
                         }
@@ -609,7 +609,7 @@ namespace ModChecker
                             else
                             {
                                 // Mod not found in the catalog
-                                missingModsText += ReviewLine($"[Steam ID { modID,10 }] { subscription.Name }", htmlReport, ModSettings.bullet3);
+                                missingModsText += ReviewLine($"[Steam ID { modID, 10 }] { subscription.Name }", htmlReport, ModSettings.bullet3);
 
                                 Logger.Log($"Mod { modID } from mod group { id } not found in catalog.", Logger.warning);
                             }

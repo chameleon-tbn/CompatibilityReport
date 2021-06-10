@@ -1,6 +1,6 @@
-﻿using System;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 using ICities;
+using ModChecker.Updater;
 using ModChecker.Util;
 
 
@@ -37,16 +37,16 @@ namespace ModChecker
         {
             Logger.Log("OnEnabled called.", Logger.debug);
 
+            // [Todo 0.3] remove when no longer needed
+            // FirstCatalog.Create();
+
             // Initialize the scanner: basic checks and loading the catalog
             Scanner.Init();
 
             // Start the auto updater
-            if (ModSettings.updaterEnabled)
+            if (!AutoUpdater.Start(ModSettings.SteamMaxKnownModDownloads))
             {
-                if (!AutoUpdater.Start(ModSettings.SteamMaxKnownModDownloads))
-                {
-                    Logger.Log("Auto updater failed.", Logger.debug);
-                }
+                Logger.Log("Auto updater failed.", Logger.warning);
             }
         }
 

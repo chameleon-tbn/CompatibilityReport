@@ -73,8 +73,8 @@
     <Compile Include="DataTypes\Mod.cs" />
     <Compile Include="Reporter.cs" />
     <Compile Include="Scanner.cs" />
-    <Compile Include="Util\AutoUpdater.cs" />
-    <Compile Include="Util\DevCatalog.cs" />
+    <Compile Include="Updater\AutoUpdater.cs" />
+    <Compile Include="Updater\FirstCatalog.cs" />
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="DataTypes\GameVersion.cs" />
     <Compile Include="Util\Logger.cs" />

@@ -19,8 +19,8 @@ using ModChecker.DataTypes;
 /// .NET 3.5 now supports TLS 1.2 after a MS patch, but only with registry edits which we can't rely on for mod users. 
 ///   So for any download location we either need an 'unsafe' webserver that still support TLS 1.1 or worse, or a HTTP only site. Both are getting more rare.
 ///   Or switch to .NET 4.5+, see https://blogs.perficient.com/2016/04/28/tsl-1-2-and-net-support/
-///   Sites with TLS 1.1 and 1.2 : steamcommunity.com, wordpress.com
-///   Sites with only TLS 1.2+   : github.com, surfdrive.surf.nl
+///   Sites with TLS 1.1 and 1.2 : steamcommunity.com, drive.google.com
+///   Sites with only TLS 1.2+   : github.com
 
 
 namespace ModChecker.Util
@@ -70,7 +70,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "95";
+        internal const string build = "96";
         internal const string version = shortVersion + "." + revision + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
@@ -97,6 +97,25 @@ namespace ModChecker.Util
         // The current catalog structure version
         internal static readonly uint currentCatalogStructureVersion = 1;
 
+        // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility.
+        internal static Dictionary<string, ulong> BuiltinMods { get; } = new Dictionary<string, ulong>
+        {
+            { "Hard Mode", 1 },
+            { "Unlimited Money", 2 },
+            { "Unlimited Oil And Ore", 3 },
+            { "Unlimited Soil", 4 },
+            { "Unlock All", 5 }
+        };
+
+        // Lowest and highest fake Steam ID to use; should not overlap, be higher than BuiltinMods above and lower than real Steam IDs; mod group IDs are used in catalog
+        internal static readonly ulong lowestUnknownBuiltinModID = 11;
+        internal static readonly ulong highestUnknownBuiltinModID = 99;
+        internal static readonly ulong lowestLocalModID = 101;
+        internal static readonly ulong highestLocalModID = 9999;
+        internal static readonly ulong lowestModGroupID = 10001;
+        internal static readonly ulong highestModGroupID = 999999;
+        internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
+        
         // Logfile location (Cities_Data)
         internal static readonly string logfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
 
@@ -109,7 +128,7 @@ namespace ModChecker.Util
 
         // [Todo 0.3]
         // Downloaded catalog url
-        internal static readonly string catalogURL = "https://surfdrive.surf.nl/files/index.php/s/OwBdunIj4BDc8Jb/download";
+        internal static readonly string catalogURL = "https://drive.google.com/uc?export=download&confirm=pYrX&id=11VlTUD2MU_Ln5Bhi66TKwRnqZDwBjRp_";
 
         // Downloaded Catalog local location
         internal static readonly string downloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Catalog.xml");
@@ -136,25 +155,6 @@ namespace ModChecker.Util
         internal static readonly string bullet2 = noBullet + "  * ";
         internal static readonly string noBullet2 = new string(' ', bullet2.Length);
         internal static readonly string bullet3 = noBullet2 + "  - ";
-
-        // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility.
-        internal static Dictionary<string, ulong> BuiltinMods { get; } = new Dictionary<string, ulong>
-        {
-            { "Hard Mode", 1 },
-            { "Unlimited Money", 2 },
-            { "Unlimited Oil And Ore", 3 },
-            { "Unlimited Soil", 4 },
-            { "Unlock All", 5 }
-        };
-
-        // Lowest and highest fake Steam ID to use; should not overlap, be higher than BuiltinMods above and lower than real Steam IDs; mod group IDs are used in catalog
-        internal static readonly ulong lowestUnknownBuiltinModID = 11;
-        internal static readonly ulong highestUnknownBuiltinModID = 99;
-        internal static readonly ulong lowestLocalModID = 101;
-        internal static readonly ulong highestLocalModID = 9999;
-        internal static readonly ulong lowestModGroupID = 10001;
-        internal static readonly ulong highestModGroupID = 999999;
-        internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
 
 
         /// Defaults for settings that come from the catalog
@@ -200,7 +200,7 @@ namespace ModChecker.Util
         // Sort report by Name or Steam ID
         internal static bool ReportSortByName { get; private set; } = true;
 
-        // [Todo 0.6]
+        // [Todo 0.6] Set HTML to true
         // Which report(s) to create; will create text report if none
         internal static bool HtmlReport { get; private set; } = false;
         internal static bool TextReport { get; private set; } = true | !HtmlReport;
@@ -241,16 +241,11 @@ namespace ModChecker.Util
         // Updated catalog path
         internal static readonly string UpdatedCatalogPath = Path.Combine(DataLocation.localApplicationData, "ModCheckerCatalogs");
 
-        // [Todo 0.2] Should be 100?
         // Max. number of individual mod pages to download for known mods, to limit the time spend
-        internal static readonly uint SteamMaxKnownModDownloads = 10;
+        internal static readonly uint SteamMaxKnownModDownloads = 100;
 
         // Max. number of failed downloads for individual pages before giving up altogether
         internal static readonly uint SteamMaxFailedPages = 4;
-
-        // [Todo 0.2] Do we need this?
-        // Delay between downloading individual mod pages, to avoid being marked suspicious by Steam or their CDN; not used for mod listing pages
-        internal static readonly uint SteamDownloadDelayInMilliseconds = 250;
 
 
         /// Hardcoded updater settings
@@ -258,7 +253,7 @@ namespace ModChecker.Util
         // Updater logfile location (Cities_Data)
         internal static readonly string updaterLogfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }Updater.log");
 
-        // Max. number of Steam Workshop mod listing pages to download per category, to avoid downloading for eternity; should be high enough to include all pages
+        // Max. number of Steam Workshop mod listing pages to download (per category), to avoid downloading for eternity; should be high enough to include all pages
         internal static readonly uint SteamMaxModListingPages = 100;
 
         // Temporary download location for Steam Workshop pages
@@ -279,16 +274,16 @@ namespace ModChecker.Util
         internal static readonly string SteamModListingModIDRight = "&searchtext";
         internal static readonly string SteamModListingModNameLeft = "workshopItemTitle ellipsis\">";
         internal static readonly string SteamModListingModNameRight = "</div>";
-        internal static readonly string SteamModListingAuthorIDLeft = "steamcommunity.com/id/";
-        internal static readonly string SteamModListingAuthorProfileLeft = "steamcommunity.com/profiles/";
-        internal static readonly string SteamModListingAuthorIDRight = "/myworkshopfiles";
+        internal static readonly string SteamModListingAuthorURLLeft = "steamcommunity.com/id/";
+        internal static readonly string SteamModListingAuthorIDLeft = "steamcommunity.com/profiles/";
+        internal static readonly string SteamModListingAuthorRight = "/myworkshopfiles";
         internal static readonly string SteamModListingAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
         internal static readonly string SteamModListingAuthorNameRight = "</a>";
 
         // Search strings for individual mod pages
         internal static readonly string SteamModPageSteamID = "<span onclick=\"VoteUp(";                                                    // Followed by the Steam ID
         internal static readonly string SteamModPageVersionTagFind = "<span class=\"workshopTagsTitle\">Tags:";                             // Can appear multiple times
-        internal static readonly string SteamModPageVersionTagLeft = "-compatible\" >";
+        internal static readonly string SteamModPageVersionTagLeft = "-compatible\">";
         internal static readonly string SteamModPageVersionTagRight = "-compatible";
         internal static readonly string SteamModPageDatesFind = "<div class=\"detailsStatsContainerRight\">";
         internal static readonly string SteamModPageDatesLeft = "detailsStatRight\">";                      // Two lines below Find text for published, three lines for updated
@@ -304,5 +299,8 @@ namespace ModChecker.Util
         internal static readonly string SteamModPageDescriptionRight = "</div>";
         internal static readonly string SteamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized
         internal static readonly string SteamModPageSourceURLRight = "\" ";
+
+        // Some Steam items to ignore; [Todo 0.3] Move to catalog
+        internal static readonly List<ulong> RequiredIDsToIgnore = new List<ulong> { 1145223801 };
     }
 }
