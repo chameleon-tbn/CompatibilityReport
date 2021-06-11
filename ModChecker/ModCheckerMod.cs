@@ -37,17 +37,14 @@ namespace ModChecker
         {
             Logger.Log("OnEnabled called.", Logger.debug);
 
-            // [Todo 0.3] remove when no longer needed
-            // FirstCatalog.Create();
+            // Create the first catalog if it doesn't exist yet (will only run if the updater is enabled)
+            FirstCatalog.Create();
 
             // Initialize the scanner: basic checks and loading the catalog
             Scanner.Init();
 
-            // Start the auto updater
-            if (!AutoUpdater.Start(ModSettings.SteamMaxKnownModDownloads))
-            {
-                Logger.Log("Auto updater failed.", Logger.warning);
-            }
+            // Start the auto updater (will only run if the updater is enabled)
+            AutoUpdater.Start(ModSettings.SteamMaxKnownModDownloads);
         }
 
 

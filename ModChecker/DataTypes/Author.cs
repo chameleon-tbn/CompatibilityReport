@@ -89,5 +89,12 @@ namespace ModChecker.DataTypes
                 Logger.Log($"Author updated with both empty profile ID and custom URL: { Name }", Logger.debug);
             }
         }
+
+
+        // Return a formatted string with the author profile or url, and the name
+        internal new string ToString()
+        {
+            return $"[{ (ProfileID != 0 ? ProfileID.ToString() : CustomURL) }] { Name }";
+        }
     }
 }

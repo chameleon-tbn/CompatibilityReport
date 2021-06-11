@@ -29,7 +29,7 @@ namespace ModChecker
             Stopwatch timer = Stopwatch.StartNew();
 
             // Log mod and game version
-            Logger.Log($"{ ModSettings.modName } version { ModSettings.version }. Game version { GameVersion.Formatted(GameVersion.Current) }. ", duplicateToGameLog: true);
+            Logger.Log($"{ ModSettings.modName } version { ModSettings.fullVersion }. Game version { GameVersion.Formatted(GameVersion.Current) }. ", duplicateToGameLog: true);
 
             Logger.Log($"{ GameVersion.SpecialNote }", duplicateToGameLog: true);
 

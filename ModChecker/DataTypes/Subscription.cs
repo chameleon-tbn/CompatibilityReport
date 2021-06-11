@@ -176,13 +176,6 @@ namespace ModChecker.DataTypes
             // Check if the mod was (manually) reviewed
             IsReviewed = catalogMod.ReviewUpdated != DateTime.MinValue;
 
-            // [Todo 0.2] For debugging only, to be removed; 
-            // Check for mod rename
-            if (Name != catalogMod.Name)
-            {
-                Logger.Log($"[{ SteamID }]: name mismatch between subscription ({ Name }) and catalog ({ catalogMod.Name }).", Logger.debug);
-            }
-
             // Get information from the catalog
             Updated = catalogMod.Updated;
             ArchiveURL = catalogMod.ArchiveURL;
@@ -239,7 +232,7 @@ namespace ModChecker.DataTypes
             AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID2 == SteamID), firstID: false);
 
             // Get all mod groups that this mod is a member of
-            List<ModGroup> modGroups = ActiveCatalog.Instance.Groups.FindAll(g => g.SteamIDs.Contains(SteamID));
+            List<ModGroup> modGroups = ActiveCatalog.Instance.ModGroups.FindAll(g => g.SteamIDs.Contains(SteamID));
 
             if (modGroups != null)
             {

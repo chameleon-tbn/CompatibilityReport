@@ -11,7 +11,7 @@ using ModChecker.Util;
 // * Mod: name, author, publish/update dates, source url, compatible game version, required DLC, required mods, only-needed-for mods (update only, not for new mods),
 //        statuses: incompatible according to the workshop, removed from workshop, no description, no source available (only when a source url is found)
 // * Author: name, last seen (only based on mod updates), retired (only based on mod updates)
-// Note: a change in author ID will be seen as a new author
+// Note: a change in author URL might be seen as a new author
 
 
 namespace ModChecker.Updater
@@ -19,6 +19,9 @@ namespace ModChecker.Updater
     // This class has limited error handling because the auto updater is not for regular users
     internal static class AutoUpdater
     {
+        // Did we run already this session (successful or not)
+        private static bool hasRun;
+
         // Dictionaries to collect info from the Steam Workshop
         private static readonly Dictionary<ulong, Mod> collectedModInfo = new Dictionary<ulong, Mod>();
         private static readonly Dictionary<ulong, Author> collectedAuthorIDs = new Dictionary<ulong, Author>();
@@ -30,20 +33,19 @@ namespace ModChecker.Updater
         private static StringBuilder ChangeNotesRemoved;
         private static string ChangeNotes;
 
-        // [Todo 0.2] temporary, should be removed after first catalog is created
-        private const uint maxNewModDownloads = 3000;
-
         // Date and time of this update
         private static DateTime UpdateDate;
 
         // Start the auto updater; will download Steam webpages, extract info, update the active catalog and save it with a new version; includes change notes
         internal static bool Start(uint maxKnownModDownloads)
         {
-            // Exit if the updater is not enabled in settings, or if we can't get an active catalog
-            if (!ModSettings.UpdaterEnabled || !ActiveCatalog.Init())
+            // Exit if we ran already, the updater is not enabled in settings, or if we can't get an active catalog
+            if (hasRun || !ModSettings.UpdaterEnabled || !ActiveCatalog.Init())
             {
                 return false;
             }
+
+            hasRun = true;
 
             bool success = false;
 
@@ -93,7 +95,7 @@ namespace ModChecker.Updater
             collectedModInfo.Clear();
             collectedAuthorIDs.Clear();
             collectedAuthorURLs.Clear();
-            ChangeNotes = null;
+            ChangeNotes = "";
             ChangeNotesNew = null;
             ChangeNotesUpdated = null;
             ChangeNotesRemoved = null;
@@ -206,8 +208,8 @@ namespace ModChecker.Updater
                         continue;
                     }
 
-                    // Get the mod name
-                    string name = Tools.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight);
+                    // Get the mod name, and clean it a bit
+                    string name = Tools.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight).Replace("&amp;", "&");
 
                     // Try to get the author ID and custom URL from the next line; only one will exist
                     line = reader.ReadLine();
@@ -307,12 +309,8 @@ namespace ModChecker.Updater
                     }
                 }
 
-                // Stop if we reached the maximum number of both types of mods; continue with the next Steam ID if we only reached the maximum for this type of mod
-                if ((newModsDownloaded >= maxNewModDownloads) && (knownModsDownloaded >= maxKnownModDownloads))
-                {
-                    break;
-                }
-                else if ((newMod && (newModsDownloaded >= maxNewModDownloads)) || (!newMod && (knownModsDownloaded >= maxKnownModDownloads)))
+                // Stop if we reached the maximum number of known mods
+                if (!newMod && knownModsDownloaded >= maxKnownModDownloads)
                 {
                     continue;
                 }
@@ -326,7 +324,7 @@ namespace ModChecker.Updater
                     if (failedDownloads <= ModSettings.SteamMaxFailedPages)
                     {
                         // Download error might be mod specific. Go to the next mod.
-                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { collectedModInfo[steamID].ToString() }. " + 
+                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { collectedModInfo[steamID].ToString(cutOff: false) }. " + 
                             "Will continue with next mod.", Logger.warning);
 
                         continue;
@@ -334,7 +332,7 @@ namespace ModChecker.Updater
                     else
                     {
                         // Too many failed downloads. Stop downloading
-                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { collectedModInfo[steamID].ToString() }. " + 
+                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { collectedModInfo[steamID].ToString(cutOff: false) }. " + 
                             "Download process stopped.", Logger.error);
 
                         break;
@@ -358,7 +356,8 @@ namespace ModChecker.Updater
                 }
                 else
                 {
-                    Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { collectedModInfo[steamID].ToString() }. Mod info not updated.", Logger.error);
+                    Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { collectedModInfo[steamID].ToString(cutOff: false) }. Mod info not updated.", 
+                        Logger.error);
                 }
             }
 
@@ -461,7 +460,7 @@ namespace ModChecker.Updater
                             }
                             catch
                             {
-                                Logger.UpdaterLog($"Cannot convert \"{ dlcString }\" to DLC enum for { mod.ToString() }.", Logger.warning);
+                                Logger.UpdaterLog($"Cannot convert \"{ dlcString }\" to DLC enum for { mod.ToString(cutOff: false) }.", Logger.warning);
                             }
                         }
                     }
@@ -576,14 +575,14 @@ namespace ModChecker.Updater
                             || lower.Contains("https://github.com/sschoener/cities-skylines-detour"))
                         {
                             // Keep the new
-                            Logger.UpdaterLog($"Found multiple source url's for [{ steamID, 10 }]: \"{ secondSourceURL }\" (kept) and \"{ sourceURL }\" (discarded)");
+                            Logger.UpdaterLog($"Found multiple source url's for [Steam ID { steamID, 10 }]: \"{ secondSourceURL }\" (kept) and \"{ sourceURL }\" (discarded)");
 
                             sourceURL = secondSourceURL;
                         }
                         else
                         {
                             // Keep the previous; keep finding the rest for complete logging of all source url's found
-                            Logger.UpdaterLog($"Found multiple source url's for [{ steamID }]: \"{ sourceURL }\" (kept) and \"{ secondSourceURL }\" (discarded)");
+                            Logger.UpdaterLog($"Found multiple source url's for [Steam ID { steamID, 10 }]: \"{ sourceURL }\" (kept) and \"{ secondSourceURL }\" (discarded)");
                         }
                     }
                 }
@@ -593,9 +592,10 @@ namespace ModChecker.Updater
         }
 
 
-        // [Todo 0.2] Add check for exclusions; also add exclusions dictionary in catalog; Exclusions needed for:
+        // [Todo 0.2.1] Add check for exclusions; also add exclusions dictionary in catalog; Exclusions needed for:
         // * source url of 2414618415, 2139980554, and more
         // *     was also: 2071210858, 1957515502, 1806759255, 1776052533, 1637663252, 1386697922, 1322787091, 958161597, 938049744, and more
+        // * name: 593588108
 
         // Update the active catalog with the found information
         private static bool UpdateCatalog()
@@ -730,7 +730,7 @@ namespace ModChecker.Updater
                     
                     catalogAuthor.Update(retired: true, catalogRemark: $"AutoUpdated as retired on { UpdateDate.ToShortDateString() }.");
 
-                    ChangeNotesRemoved.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorIDDictionary[authorID].Name }");
+                    ChangeNotesRemoved.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorIDDictionary[authorID].ToString() }");
                 }
             }
 
@@ -744,7 +744,7 @@ namespace ModChecker.Updater
 
                     catalogAuthor.Update(retired: true, catalogRemark: $"AutoUpdated as retired on { UpdateDate.ToShortDateString() }.");
 
-                    ChangeNotesRemoved.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorURLDictionary[authorURL].Name }");
+                    ChangeNotesRemoved.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorURLDictionary[authorURL].ToString() }");
                 }
             }
             */
@@ -783,7 +783,7 @@ namespace ModChecker.Updater
                 catalogRemark: $"Added by AutoUpdater on { UpdateDate.ToShortDateString() }.");
 
             // Change notes
-            ChangeNotesNew.AppendLine($"New author: { collectedAuthor.Name }");
+            ChangeNotesNew.AppendLine($"New author { collectedAuthor.ToString() }");
         }
 
 
@@ -819,7 +819,7 @@ namespace ModChecker.Updater
             {
                 catalogAuthor.Update(catalogRemark: $"AutoUpdated on { UpdateDate.ToShortDateString() }: { changes }.");
 
-                ChangeNotesUpdated.AppendLine($"Author { catalogAuthor.Name }: { changes }");
+                ChangeNotesUpdated.AppendLine($"Author { catalogAuthor.ToString() }: " + changes);
             }
         }
         
@@ -837,7 +837,7 @@ namespace ModChecker.Updater
                 catalogRemark: $"Added by AutoUpdater on { UpdateDate.ToShortDateString() }.");
 
             // Change notes
-            ChangeNotesNew.AppendLine($"New mod: { catalogMod.ToString(cutOff: false) }");
+            ChangeNotesNew.AppendLine($"New mod { catalogMod.ToString(cutOff: false) }");
         }
 
 
@@ -866,10 +866,10 @@ namespace ModChecker.Updater
             // Author ID; only update if it was unknown; author ID can never changed and a mod can't change primary owner, so don't remove if we didn't find it anymore
             if ((catalogMod.AuthorID == 0) && (collectedMod.AuthorID != 0))
             {
-                // Author ID found where there was none before
+                // Author profile ID found where there was none before
                 catalogMod.Update(authorID: collectedMod.AuthorID);
 
-                Logger.UpdaterLog($"Author ID found for { catalogMod.ToString() }");
+                Logger.UpdaterLog($"Author profile ID found for { catalogMod.ToString(cutOff: false) }");
 
                 // [Todo 0.2] Add author id to other mods with the same Author URL (elsewhere in the updater after all collected mods are processed)
                 // [Todo 0.2] Add author id to author (link through author URL)
@@ -881,7 +881,7 @@ namespace ModChecker.Updater
                 // Author URL found where there was none before
                 catalogMod.Update(authorURL: collectedMod.AuthorURL);
 
-                Logger.UpdaterLog($"Author URL found for { catalogMod.ToString() }");
+                Logger.UpdaterLog($"Author custom URL found for { catalogMod.ToString(cutOff: false) }");
             }
             else if (catalogMod.AuthorURL != collectedMod.AuthorURL)
             {
@@ -892,7 +892,7 @@ namespace ModChecker.Updater
 
                 // changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "author URL changed";
 
-                Logger.UpdaterLog($"Author URL change detected (but not updated in the catalog) for { catalogMod.ToString() }; " + 
+                Logger.UpdaterLog($"Author custom URL change detected (but not updated in the catalog) for { catalogMod.ToString(cutOff: false) }; " + 
                     $"from \"{ catalogMod.AuthorURL }\" to \"{ collectedMod.AuthorURL }\".", Logger.debug);
             }
 
@@ -903,7 +903,7 @@ namespace ModChecker.Updater
                 if (catalogMod.Published != DateTime.MinValue)
                 {
                     Logger.UpdaterLog($"Published date changed from { catalogMod.Published.ToShortDateString() } to { collectedMod.Published.ToShortDateString() }. " + 
-                        $"This should not happen. Mod { catalogMod.ToString() }", Logger.warning);
+                        $"This should not happen. Mod { catalogMod.ToString(cutOff: false) }", Logger.warning);
                 }
 
                 catalogMod.Update(published: collectedMod.Published);
@@ -979,7 +979,7 @@ namespace ModChecker.Updater
                     {
                         catalogMod.RequiredDLC.Add(dlc);
 
-                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required dlc added ({ dlc })";
+                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required dlc \"{ dlc }\" added";
                     }
                 }
 
@@ -990,35 +990,57 @@ namespace ModChecker.Updater
                     {
                         catalogMod.RequiredDLC.Remove(dlc);
 
-                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required dlc removed ({ dlc })";
+                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required dlc \"{ dlc }\" removed";
                     }
                 }
             }
 
-            // Required mods (only if details for this mod were checked), including updating existing NeededFor lists; [Todo 0.2] mod groups
+            // Required mods (only if details for this mod were checked), including updating existing NeededFor lists; [Todo 0.5] simplify (or split) this
             if (catalogMod.RequiredMods.ToString() != collectedMod.RequiredMods.ToString() && detailsChecked)
             {
-                // Add new required mods
-                foreach (ulong requiredID in collectedMod.RequiredMods)
-                {
-                    if (!catalogMod.RequiredMods.Contains(requiredID))
-                    {
-                        catalogMod.RequiredMods.Add(requiredID);
-
-                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod added ({ requiredID })";
-                    }
-                }
-
-                // Remove no longer needed mods
+                // Remove no longer needed mods and groups from the required list
                 foreach (ulong requiredID in catalogMod.RequiredMods)
                 {
-                    if (!collectedMod.RequiredMods.Contains(requiredID))
+                    // Check if it's a mod or a group
+                    if (requiredID >= ModSettings.lowestModGroupID && requiredID <= ModSettings.highestModGroupID)
                     {
+                        // ID is a group; check if this is still required
+                        bool stillRequired = false;
+
+                        foreach (ulong modID in ActiveCatalog.Instance.ModGroupDictionary[requiredID].SteamIDs)
+                        {
+                            if (collectedMod.RequiredMods.Contains(modID))
+                            {
+                                // A group member is still required, so the group is still required
+                                stillRequired = true;
+
+                                break;
+                            }
+                        }
+
+                        if (!stillRequired)
+                        {
+                            // No longer required; remove the group
+                            catalogMod.RequiredMods.Remove(requiredID);
+
+                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod group { requiredID } removed";
+                        }
+                    }
+                    else if (ActiveCatalog.Instance.ModGroups.Find(x => x.SteamIDs.Contains(requiredID)) != null)
+                    {
+                        // ID is a mod that is a group member, so remove it; the group will be added below if still needed
                         catalogMod.RequiredMods.Remove(requiredID);
 
-                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod removed ({ requiredID })";
+                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod { requiredID } removed";
+                    }
+                    else if (!collectedMod.RequiredMods.Contains(requiredID))
+                    {
+                        // ID is a mod that is not in any group, and it's not required anymore, so remove it
+                        catalogMod.RequiredMods.Remove(requiredID);
 
-                        // Remove this mod from the previously required mods 'only needed for' list
+                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod { requiredID } removed";
+
+                        // Remove the updated mod from the 'only needed for' list of the previously required mod
                         if (ActiveCatalog.Instance.ModDictionary.ContainsKey(requiredID))
                         {
                             Mod requiredMod = ActiveCatalog.Instance.ModDictionary[requiredID];
@@ -1032,6 +1054,34 @@ namespace ModChecker.Updater
                         }
                     }
                 }
+                
+                // Add new required mods, as mod or group
+                foreach (ulong requiredModID in collectedMod.RequiredMods)
+                {
+                    // Check if this required mod is part of a group
+                    ModGroup group = ActiveCatalog.Instance.ModGroups.Find(x => x.SteamIDs.Contains(requiredModID));
+
+                    if (group == null)
+                    {
+                        // Add the required mod to the catalog mod's required list, if it isn't there already
+                        if (!catalogMod.RequiredMods.Contains(requiredModID))
+                        {
+                            catalogMod.RequiredMods.Add(requiredModID);
+
+                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod { requiredModID } added";
+                        }
+                    }
+                    else
+                    {
+                        // Add the group (instead of the required mod) to the catalog mod's required list, if it isn't there already
+                        if (!catalogMod.RequiredMods.Contains(group.GroupID))
+                        {
+                            catalogMod.RequiredMods.Add(group.GroupID);
+
+                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod group { group.GroupID } added (instead of mod { requiredModID })";
+                        }
+                    }
+                }
             }
 
             // Required assets (only if details for this mod were checked)
@@ -1040,7 +1090,7 @@ namespace ModChecker.Updater
                 // We're not really interested in these; just replace the list
                 catalogMod.Update(requiredAssets: collectedMod.RequiredAssets);
 
-                Logger.UpdaterLog($"Required assets changed for [{ steamID, 10 }]: { collectedMod.RequiredAssets }.", Logger.debug);
+                Logger.UpdaterLog($"Required assets changed for [Steam ID { steamID, 10 }]: { collectedMod.RequiredAssets }.", Logger.debug);
             }
 
             // Add new Statuses: incompatible, no description (only if details for this mod were checked)

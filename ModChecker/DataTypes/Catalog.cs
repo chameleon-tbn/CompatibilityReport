@@ -36,7 +36,7 @@ namespace ModChecker.DataTypes
 
         public List<Compatibility> Compatibilities { get; private set; } = new List<Compatibility>();
 
-        public List<ModGroup> Groups { get; private set; } = new List<ModGroup>();
+        public List<ModGroup> ModGroups { get; private set; } = new List<ModGroup>();
 
         public List<Author> Authors { get; private set; } = new List<Author>();
 
@@ -124,7 +124,7 @@ namespace ModChecker.DataTypes
 
             Compatibilities = modCompatibilities;
 
-            Groups = modGroups;
+            ModGroups = modGroups;
 
             Authors = modAuthors;
 
@@ -182,10 +182,28 @@ namespace ModChecker.DataTypes
         }
         
         
-        // Add a new mod group to the catalog
-        internal ModGroup AddGroup(List<ulong> steamIDs,
-                                   string description)
+        // Add a new mod group to the catalog; return the group, or null if the group couldn't be added; NOTE: a mod can only be in one group
+        internal ModGroup AddModGroup(string name, 
+                                      List<ulong> steamIDs)
         {
+            // Check if none of the steam IDs is already in a group, or is a group itself
+            foreach (ulong steamID in steamIDs)
+            {
+                if (steamID >= ModSettings.lowestModGroupID && steamID <= ModSettings.highestModGroupID)
+                {
+                    Logger.Log($"Could not add a new group ({ name }) because { steamID } is a group and groups can't be nested.", Logger.error);
+
+                    return null;
+                }
+
+                if (ModGroups.Find(x => x.SteamIDs.Contains(steamID)) != null)
+                {
+                    Logger.Log($"Could not add a new group ({ name }) because [Steam ID { steamID }] is already member of another group.", Logger.error);
+
+                    return null;
+                }
+            }
+
             // Get a new group ID
             ulong newGroupID;
 
@@ -201,18 +219,36 @@ namespace ModChecker.DataTypes
 
                 if (newGroupID > ModSettings.highestModGroupID)
                 {
-                    Logger.Log("Ran out of mod group IDs. Mod Group could not be added to catalog.", Logger.error);
+                    Logger.Log($"Could not add a new group ({ name }) because we ran out of mod group IDs.", Logger.error);
 
                     return null;
                 }
             }
 
             // Add the new group to the list and dictionary
-            ModGroup modGroup = new ModGroup(newGroupID, steamIDs, description);
+            ModGroup modGroup = new ModGroup(newGroupID, name, steamIDs);
 
-            Groups.Add(modGroup);
+            ModGroups.Add(modGroup);
 
             ModGroupDictionary.Add(newGroupID, modGroup);
+
+            // Change required mods in the whole catalog from a group member to the group
+            foreach (ulong groupMemberID in steamIDs)
+            {
+                // Get all mods that have this group member as required mod
+                List<Mod> modList = Mods.FindAll(x => x.RequiredMods.Contains(groupMemberID));
+
+                foreach (Mod mod in modList)
+                {
+                    // Replace the mod ID with the group ID
+                    mod.RequiredMods.Remove(groupMemberID);
+
+                    mod.RequiredMods.Add(newGroupID);
+
+                    Logger.Log($"Changed required mod { ModDictionary[groupMemberID].ToString() } to { modGroup.ToString() }, for { mod.ToString() }.", 
+                        Logger.debug);
+                }
+            }
 
             // Return a reference to the new group
             return modGroup;
@@ -334,7 +370,7 @@ namespace ModChecker.DataTypes
                 ModDictionary.Add(mod.SteamID, mod); 
             }
             
-            foreach (ModGroup group in Groups) 
+            foreach (ModGroup group in ModGroups) 
             { 
                 ModGroupDictionary.Add(group.GroupID, group); 
             }

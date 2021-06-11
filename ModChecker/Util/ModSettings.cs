@@ -19,8 +19,8 @@ using ModChecker.DataTypes;
 /// .NET 3.5 now supports TLS 1.2 after a MS patch, but only with registry edits which we can't rely on for mod users. 
 ///   So for any download location we either need an 'unsafe' webserver that still support TLS 1.1 or worse, or a HTTP only site. Both are getting more rare.
 ///   Or switch to .NET 4.5+, see https://blogs.perficient.com/2016/04/28/tsl-1-2-and-net-support/
-///   Sites with TLS 1.1 and 1.2 : steamcommunity.com, drive.google.com
-///   Sites with only TLS 1.2+   : github.com
+///   Sites with TLS 1.1 and 1.2 : Steam Workshop, Google Drive
+///   Sites with only TLS 1.2+   : GitHub
 
 
 namespace ModChecker.Util
@@ -30,16 +30,17 @@ namespace ModChecker.Util
         // Constructor; don't use Logger here because that needs ModSettings
         static ModSettings()
         {
+            // Get the mod path for the bundled catalog
             try
             {
-                // Get the mod path for the bundled catalog; this works if we are a Steam Workshop mod, otherwise throws an exception
+                // This will work if we are a Steam Workshop mod, otherwise it throws an exception
                 bundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }Catalog.xml");
             }
             catch
             {
                 try
                 {
-                    // Get the mod path again, now when we are a local mod
+                    // Get the mod path again, now for if we are a local mod
                     bundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }Catalog.xml");
                 }
                 catch
@@ -57,8 +58,9 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "97";
-        internal const string version = shortVersion + "." + revision + "." + build;
+        internal const string build = "98";
+        internal const string version = shortVersion + "." + revision;
+        internal const string fullVersion = version + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
         internal const string releaseType = "alpha";
@@ -68,7 +70,7 @@ namespace ModChecker.Util
 
         // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
         internal const string modName = "Mod Checker";                                                      // used in report filename, reporting and logging
-        internal const string displayName = modName + " " + shortVersion + " " + releaseType;               // used in game options, Content Manager and AssemblyInfo
+        internal const string displayName = modName + " " + version + " " + releaseType;                    // used in game options, Content Manager and AssemblyInfo
         internal const string internalName = "ModChecker";                                                  // used in filenames, xmlRoot and game log
 
         // Mod description, shown in Content Manager; used in AssemblyInfo, must be a constant
@@ -226,7 +228,7 @@ namespace ModChecker.Util
         internal static readonly string updaterPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Updater");
 
         // Updater settings file
-        internal static readonly string updaterSettingsXml = Path.Combine(updaterPath, "_UpdaterSettings.xml");
+        internal static readonly string updaterSettingsXml = Path.Combine(updaterPath, $"{ internalName }_UpdaterSettings.xml");
 
         // Updater logfile location (Cities_Data)
         internal static readonly string updaterLogfileFullPath = Path.Combine(updaterPath, $"{ internalName }_Updater.log");
@@ -278,8 +280,10 @@ namespace ModChecker.Util
         internal static readonly string steamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized
         internal static readonly string steamModPageSourceURLRight = "\" ";
 
-        // Some Steam items to ignore; [Todo 0.3] Move to catalog
-        internal static readonly List<ulong> requiredIDsToIgnore = new List<ulong> { 1145223801 };
+        // Steam IDs of assets to ignore as required items; [Todo 0.3] Move to catalog
+        internal static readonly List<ulong> requiredIDsToIgnore = new List<ulong> { 1145223801, 2228643473, 1083162158, 1787627069, 2088550283, 2071058348, 
+            2071057587, 2013521990, 1866391549, 2128887855, 1568009578, 1779369015, 2008960441, 1899911682, 678303408, 1544460160, 1386088603, 816325876,
+            698391006, 697218602, 597034783, 574281911, 548154065, 562337133, 545841631, 452680862, 482681213, 484657860, 489046338, 413776855, 2442974192};
 
 
 
