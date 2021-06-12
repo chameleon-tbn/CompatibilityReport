@@ -44,7 +44,7 @@ namespace ModChecker
             Scanner.Init();
 
             // Start the auto updater (will only run if the updater is enabled)
-            AutoUpdater.Start(ModSettings.SteamMaxKnownModDownloads);
+            AutoUpdater.Start();
         }
 
 
