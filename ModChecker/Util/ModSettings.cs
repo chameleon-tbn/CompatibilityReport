@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "98";
+        internal const string build = "99";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -118,9 +118,8 @@ namespace ModChecker.Util
         // Bundled Catalog location: in the same location as the mod itself (set in constructor)
         internal static readonly string bundledCatalogFullPath;
 
-        // [Todo 0.3]
         // Downloaded catalog url
-        internal static readonly string catalogURL = "https://drive.google.com/uc?export=download&confirm=pYrX&id=11VlTUD2MU_Ln5Bhi66TKwRnqZDwBjRp_";
+        internal static readonly string catalogURL = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
 
         // Downloaded Catalog local location
         internal static readonly string downloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Catalog.xml");

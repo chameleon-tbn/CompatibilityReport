@@ -195,7 +195,7 @@ namespace ModChecker
                 }
             }
 
-            // Gather the review text
+            // Gather the review text; [Todo 0.4] Rethink which review texts to include in 'somethingToReport'
             StringBuilder modReview = new StringBuilder();
 
             modReview.Append(ThisMod(subscription));

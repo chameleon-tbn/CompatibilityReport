@@ -138,7 +138,7 @@ namespace ModChecker.Updater
 
                         // Decrease the pageNumber to the last succesful page
                         pageNumber--;
-                        
+
                         // Stop downloading pages for this type of mod listing
                         break;
                     }
@@ -150,6 +150,12 @@ namespace ModChecker.Updater
                     {
                         // No mods found on this page; decrease the page number to the last succesful page
                         pageNumber--;
+
+                        // Log something if no mods were found at all
+                        if (pageNumber == 0)
+                        {
+                            Logger.UpdaterLog("Found no mods on page 1");
+                        }
 
                         // Stop downloading pages for this type of mod listing
                         break;
@@ -353,6 +359,12 @@ namespace ModChecker.Updater
                 if (ReadModPage(steamID))
                 {
                     modsFound++;
+
+                    // Log every 100 as a sign of life
+                    if (modsFound / 100 == Math.Ceiling((double)modsFound / 100))
+                    {
+                        Logger.UpdaterLog($"{ modsFound } mods checked.");
+                    }
                 }
                 else
                 {
@@ -617,7 +629,7 @@ namespace ModChecker.Updater
 
                 foreach (ulong requiredID in collectedMod.RequiredMods)
                 {
-                    // Remove the required ID if we didn't find it on the Workshop; ignore builtin required mods; [Todo 0.2] include groups
+                    // Remove the required ID if we didn't find it on the Workshop; ignore builtin required mods
                     if (!collectedModInfo.ContainsKey(requiredID) && (requiredID > ModSettings.highestFakeID))
                     {
                         // We can't remove it here directly, because the RequiredMods list is used in the foreach loop, so we just collect here and (re)move below
