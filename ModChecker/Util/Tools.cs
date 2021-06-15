@@ -84,6 +84,27 @@ namespace ModChecker.Util
         }
 
 
+        // [Todo 0.5] Something similar needed for Mac OS X or Linux?
+        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons
+        internal static string PrivacyPath(string path)
+        {
+            // Get position of \appdata\local in the path
+            int index = path.ToLower().IndexOf("\\appdata\\local");
+            int indexPlus = index + "\\appdata\\local".Length;
+
+            if (index == -1)
+            {
+                // Not found, return original path
+                return path;
+            }
+            else
+            {
+                // Replace everything up to and including \appdata\local with %LocalAppData%; path will still work in Windows and is now more privacy-proof
+                return "%LocalAppData%" + path.Substring(indexPlus);
+            }
+        }
+
+
         // ValidationCallback gets rid of "The authentication or decryption has failed" errors when downloading
         // This allows to download from sites that still support TLS 1.1 or worse, but not from sites that only support TLS 1.2+
         // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
@@ -122,8 +143,9 @@ namespace ModChecker.Util
                         // Download failed, increase try count
                         failedAttempts++;
 
-                        Logger.Log($"Download of \"{ url }\" failed. { (failedAttempts <= retriesOnError ? "Retrying. " : "") }" + 
-                            $"Exception: { ex.GetType().Name } { ex.Message }", Logger.debug);
+                        Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }. " + 
+                            (failedAttempts <= retriesOnError ? "Retrying. " : "") + 
+                            (ex.Message.Contains("(502) Bad Gateway") ? "Error: 502 Bad Gateway" : $"Exception: { ex.GetType().Name } { ex.Message }"), Logger.debug);
 
                         exception = ex;
                     }
@@ -134,27 +156,6 @@ namespace ModChecker.Util
             ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
 
             return exception;
-        }
-
-
-        // [Todo 0.5] Something similar needed for Mac OS X or Linux?
-        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons
-        internal static string PrivacyPath(string path)
-        {
-            // Get position of \appdata\local in the path
-            int index = path.ToLower().IndexOf("\\appdata\\local");
-            int indexPlus = index + "\\appdata\\local".Length;
-
-            if (index == -1)
-            {
-                // Not found, return original path
-                return path;
-            }
-            else
-            {
-                // Replace everything up to and including \appdata\local with %LocalAppData%; path will still work in Windows and is now more privacy-proof
-                return "%LocalAppData%" + path.Substring(indexPlus);
-            }
         }
 
 
@@ -181,18 +182,21 @@ namespace ModChecker.Util
 
 
         // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(string authorID,
-                                                 bool isProfile)
+        internal static string GetAuthorWorkshop(ulong profileID,
+                                                 string customURL)
         {
-            if (isProfile)
+            if (profileID != 0)
             {
-                return $"https://steamcommunity.com/profiles/{ authorID }/myworkshopfiles/?appid=255710";
+                return $"https://steamcommunity.com/profiles/{ profileID }/myworkshopfiles/?appid=255710";
+            }
+            else if (!string.IsNullOrEmpty(customURL))
+            {
+                return $"https://steamcommunity.com/id/{ customURL }/myworkshopfiles/?appid=255710";
             }
             else
             {
-                return $"https://steamcommunity.com/id/{ authorID }/myworkshopfiles/?appid=255710";
+                return "";
             }
-            
         }
 
 
@@ -334,6 +338,24 @@ namespace ModChecker.Util
             }
 
             return original.Substring(indexLeft, indexRight - indexLeft);
+        }
+
+
+        // Return a formatted elapsed time string, in seconds or minutes or both
+        internal static string FormattedTime(long milliseconds, long threshold = 120, bool showBoth = false, bool showDecimal = false)
+        {
+            long seconds = milliseconds / 1000;
+
+            // Decide on when to show seconds, decimals (for seconds only) and minutes
+            showBoth = showBoth && threshold > 0 && seconds > threshold;
+            bool showSeconds = showBoth || seconds <= threshold;
+            bool showMinutes = seconds > threshold;
+            showDecimal = showDecimal && showSeconds && seconds < 10;
+            
+            return (showSeconds ? (showDecimal ? $"{ seconds:F1}" : $"{ seconds }") + " second" + (seconds > 1 ? "s" : "") : "") + 
+                   (showBoth    ? " (" : "") + 
+                   (showMinutes ? $"{ seconds / 60:0}:{ seconds % 60:00} minutes" : "") + 
+                   (showBoth    ? ")" : "");
         }
     }
 }

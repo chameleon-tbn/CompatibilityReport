@@ -142,7 +142,7 @@ namespace ModChecker.DataTypes
             if (IsBuiltin && !IsEnabled)
             {
                 // Exit on disabled builtin mods; they will not be included in the report and should not be counted in TotalReviewed below                
-                Logger.Log($"Skipped builtin mod that is not enabled: { this.ToString() }.");
+                Logger.Log($"Skipped builtin mod that is not enabled: { this.ToString() }");
 
                 return;
             }

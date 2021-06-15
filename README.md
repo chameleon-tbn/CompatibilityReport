@@ -12,22 +12,18 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Text report, sorted by mod name; split into reviewed and non-reviewed mods
 * Automatic download of a new catalog; no need for a mod update for every new incompatibility
 * Use of mod groups, to allow different editions of mods as mod requirement
-* Note: the current catalog contains only builtin mods
+* Catalog updater method, based on web crawling the Steam Workshop
+  - detects new mods and changes in mod information (name, required dlc/mods, source url, etc.)
+* Note: the current catalog contains only basic mod information and no reviews yet
 
 ### Roadmap towards version 1.0 (might change)
-* 0.2 - Catalog auto-update, based on webcrawling
-  * Detection of new and removed mods
-  * Detection of changes to mod name, update date, author id/name, required dlc/mods, source url, ...
-  * Automatic change notes and catalog versioning
 * 0.3 - Catalog manual update routine, probably based on csv
   * Again with automatic change notes and catalog versioning
-  * First real catalog, with basic information about 1600+ mods and related authors
-  * Catalog also containing mod compatibility information for a limited set of mods
-  * Set up download site
-* 0.4 - Alpha release on GitHub and Steam Workshop (unlisted?)
+  * Catalog containing mod compatibility information for a limited set of mods
+* 0.4 - Alpha release on GitHub and Steam Workshop (unlisted)
   * Catalog with mod compatibilities and dependencies for many mods (not complete yet)
   * Steam pinned discussions for submissions by mod authors and others
-  * Alpha testing by users; hopefully also Mac and Linux testing
+  * Alpha testing by some users; hopefully also Mac and Linux testing
 * 0.5 - Bugfixing and performance testing
 * 0.6 - HTML report, categorized by severity
 * 0.7 - Settings UI; when to scan, on-demand scanning, text or HTML report, report sorting, ...
@@ -37,6 +33,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
   * Text revision
   * Completing the catalog
   * Create Test branch on GitHub
+  * Public release on the Steam Workshop
 
 ### Future ideas (might not happen)
 * In-game popup with summary and button to open report

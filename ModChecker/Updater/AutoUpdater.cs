@@ -123,9 +123,9 @@ namespace ModChecker.Updater
             // Log the elapsed time; note: >95% of process time is download; skipping the first 65KB (900+ lines) with 'reader.Basestream.Seek' does nothing for speed
             timer.Stop();
 
-            Logger.UpdaterLog($"Auto updater finished checking { totalPages } Steam Workshop mod list pages in { (double)timer.ElapsedMilliseconds / 1000:F1} seconds. " + 
-                $"{ CatalogUpdater.CollectedModInfo.Count } mods and { CatalogUpdater.CollectedAuthorIDs.Count + CatalogUpdater.CollectedAuthorURLs.Count } " + 
-                "authors found.", duplicateToRegularLog: true);
+            Logger.UpdaterLog($"Auto updater finished checking { totalPages } Steam Workshop mod list pages in " + 
+                $"{ Tools.FormattedTime(timer.ElapsedMilliseconds, showDecimal: true) }. { CatalogUpdater.CollectedModInfo.Count } mods and " + 
+                $"{ CatalogUpdater.CollectedAuthorIDs.Count + CatalogUpdater.CollectedAuthorURLs.Count } authors found.", duplicateToRegularLog: true);
 
             return (totalPages > 0) && (CatalogUpdater.CollectedModInfo.Count > 0);
         }
@@ -231,10 +231,10 @@ namespace ModChecker.Updater
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
-            // Estimate is 0.5 seconds per download, and allowing for 50 new mods
-            double estimatedMinutes = Math.Ceiling(0.5 * Math.Min(maxKnownModDownloads + 50, CatalogUpdater.CollectedModInfo.Count) / 60);
+            // Estimate is 500 ms per download, and allowing for 50 new mods
+            long estimated = 500 * Math.Min(maxKnownModDownloads + 50, CatalogUpdater.CollectedModInfo.Count);
 
-            Logger.UpdaterLog($"Auto updater started checking individual Steam Workshop mod pages. This should take about { estimatedMinutes } minutes.",
+            Logger.UpdaterLog($"Auto updater started checking individual Steam Workshop mod pages. This should take about { Tools.FormattedTime(estimated) }.",
                 duplicateToRegularLog: true);
 
             // Initialize counters
@@ -330,8 +330,15 @@ namespace ModChecker.Updater
             // Log the elapsed time
             timer.Stop();
 
+            // [Todo 0.2] move to Tools
+            /*string elapsedMinutes = timer.ElapsedMilliseconds < 120000 ? "" : 
+                " (" +  ((int)timer.ElapsedMilliseconds / 60000).ToString() + ":" + ((timer.ElapsedMilliseconds /1000) % 60).ToString("00") + " minutes)";
+
             Logger.UpdaterLog($"Auto updater finished checking { modsFound } individual Steam Workshop mod pages in " + 
-                $"{ (float)timer.ElapsedMilliseconds / 1000:F1} seconds.", duplicateToRegularLog: true);
+                $"{ (float)timer.ElapsedMilliseconds / 1000:F1} seconds{ elapsedMinutes }.", duplicateToRegularLog: true);*/
+
+            Logger.UpdaterLog($"Auto updater finished checking { modsFound } individual Steam Workshop mod pages in " + 
+                $"{ Tools.FormattedTime(timer.ElapsedMilliseconds, showBoth: true) }.", duplicateToRegularLog: true);
 
             // return true if we downloaded at least one mod, or we were not allowed to download any
             return (knownModsDownloaded + newModsDownloaded) > 0 || maxKnownModDownloads == 0;
