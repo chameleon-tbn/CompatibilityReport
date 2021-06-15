@@ -367,12 +367,26 @@ namespace ModChecker.DataTypes
 
             foreach (Mod mod in Mods) 
             { 
-                ModDictionary.Add(mod.SteamID, mod); 
+                if (ModDictionary.ContainsKey(mod.SteamID))
+                {
+                    Logger.Log($"Found duplicate mod steam ID in catalog: { mod.SteamID }.", Logger.error);
+                }
+                else
+                {
+                    ModDictionary.Add(mod.SteamID, mod);
+                }
             }
             
             foreach (ModGroup group in ModGroups) 
-            { 
-                ModGroupDictionary.Add(group.GroupID, group); 
+            {
+                if (ModGroupDictionary.ContainsKey(group.GroupID))
+                {
+                    Logger.Log($"Found duplicate mod group ID in catalog: { group.GroupID }.", Logger.error);
+                }
+                else
+                {
+                    ModGroupDictionary.Add(group.GroupID, group);
+                }
             }
             
             foreach (Author author in Authors) 
@@ -380,12 +394,26 @@ namespace ModChecker.DataTypes
                 // Add author to one or both of the dictionaries
                 if (author.ProfileID != 0)
                 {
-                    AuthorIDDictionary.Add(author.ProfileID, author);
+                    if (AuthorIDDictionary.ContainsKey(author.ProfileID))
+                    {
+                        Logger.Log($"Found duplicate author profile ID in catalog: { author.ProfileID }.", Logger.error);
+                    }
+                    else
+                    {
+                        AuthorIDDictionary.Add(author.ProfileID, author);
+                    }                    
                 }
 
                 if (!string.IsNullOrEmpty(author.CustomURL))
                 {
-                    AuthorURLDictionary.Add(author.CustomURL, author);
+                    if (AuthorURLDictionary.ContainsKey(author.CustomURL))
+                    {
+                        Logger.Log($"Found duplicate author custom URL in catalog: { author.CustomURL }.", Logger.error);
+                    }
+                    else
+                    {
+                        AuthorURLDictionary.Add(author.CustomURL, author);
+                    }
                 }
             }
         }

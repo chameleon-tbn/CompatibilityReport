@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "100";
+        internal const string build = "101";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -100,12 +100,12 @@ namespace ModChecker.Util
         };
 
         // Lowest and highest fake Steam ID to use; should not overlap, be higher than BuiltinMods above and lower than real Steam IDs; mod group IDs are used in catalog
-        internal static readonly ulong lowestUnknownBuiltinModID = 11;
+        internal static readonly ulong lowestUnknownBuiltinModID  = 11;
         internal static readonly ulong highestUnknownBuiltinModID = 99;
-        internal static readonly ulong lowestLocalModID = 101;
-        internal static readonly ulong highestLocalModID = 9999;
-        internal static readonly ulong lowestModGroupID = 10001;
-        internal static readonly ulong highestModGroupID = 999999;
+        internal static readonly ulong lowestLocalModID          = 101;
+        internal static readonly ulong highestLocalModID        = 9999;
+        internal static readonly ulong lowestModGroupID        = 10001;
+        internal static readonly ulong highestModGroupID      = 999999;
         internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
         
         // Logfile location (Cities_Data)
