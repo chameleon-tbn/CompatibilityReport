@@ -227,6 +227,14 @@ namespace ModChecker.Updater
         // Get mod information from the individual mod pages on the Steam Workshop; we get this info for all new mods and for a maximum number of known mods
         private static bool GetDetails(uint maxKnownModDownloads)
         {
+            // If the current active catalog is version 1, we're (re)building the catalog from scratch; version 2 should not include any details, so exit here
+            if (ActiveCatalog.Instance.Version == 1)
+            {
+                Logger.UpdaterLog($"Auto updater skipped checking individual Steam Workshop mod pages.");
+
+                return true;
+            }
+            
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 

@@ -37,7 +37,7 @@ namespace ModChecker.Updater
 
             DateTime gameRelease = DateTime.Parse("2015-03-10");
 
-            string modNotes = $"Added by Updater on { now.ToShortDateString() }.";
+            string modNotes = $"Added by Updater on { Tools.DateString(now) }.";
 
             string changeNotes = "";
 

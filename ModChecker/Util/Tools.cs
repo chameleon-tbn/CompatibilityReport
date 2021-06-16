@@ -340,6 +340,10 @@ namespace ModChecker.Util
         }
 
 
+        // Return a formatted date string
+        internal static string DateString(DateTime date) => $"{ date:yyyy-MM-dd}";
+
+
         // Return a formatted elapsed time string, in seconds or minutes or both
         internal static string ElapsedTime(long milliseconds, long threshold = 120, bool showBoth = false, bool showDecimal = false)
         {

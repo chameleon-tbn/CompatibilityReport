@@ -344,7 +344,7 @@ namespace ModChecker.DataTypes
             // Not valid if Version is 0 or UpdateDate is the lowest value
             if ((Version == 0) || (UpdateDate == DateTime.MinValue))
             {
-                Logger.Log($"Catalog { VersionString() } has incorrect version or update date ({ UpdateDate.ToShortDateString() }).", 
+                Logger.Log($"Catalog { VersionString() } has incorrect version or update date ({ Tools.DateString(UpdateDate) }).", 
                     Logger.error);
 
                 return false;
