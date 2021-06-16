@@ -69,10 +69,10 @@ namespace ModChecker.DataTypes
 
             // Convert and/or create all properties
 
-            // compatible game version didn't exist in V0; assume the mods compatible game version
+            // compatible game version didn't exist in V0; assume the compatible game version for this mod
             Version v0_CompatibleGameVersion = ModSettings.compatibleGameVersion;
 
-            // ... Whatever else is needed should be done here, for instance a to-be-created V0_Mods.Convert() if mods changed too much ...
+            // ... Whatever else is needed should be done here, for instance a to-be-created V0_Mods.Convert() if mods change too much ...
 
             // Create and return the new catalog
             return new Catalog(v0_catalog.Version, v0_catalog.UpdateDate, v0_CompatibleGameVersion, note: "", reportIntroText: ModSettings.defaultIntroText, 

@@ -19,10 +19,10 @@ namespace ModChecker.DataTypes
         // Group ID, which is used instead of a Steam ID in a required mods list
         public ulong GroupID { get; private set; }
 
-        // A name for this group, for catalog maintenance and logging only (not shown in reports)
+        // A name for this group, for catalog maintenance and logging only; not shown in reports
         public string Name { get; private set; }
 
-        // Steam IDs of mods in this group; nesting group IDs in this is not supported
+        // Steam IDs of mods in this group; nesting group IDs is not supported
         [XmlArrayItem("SteamID")] public List<ulong> SteamIDs { get; private set; } = new List<ulong>();
 
 
@@ -34,9 +34,7 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters
-        internal ModGroup(ulong groupID,
-                          string name,
-                          List<ulong> steamIDs)
+        internal ModGroup(ulong groupID, string name, List<ulong> steamIDs)
         {
             GroupID = groupID;
 

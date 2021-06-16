@@ -1,6 +1,6 @@
 # Mod Checker
 
-### Version 0.2   - Catalog auto updater (work in progress)
+### Version 0.2   - Catalog auto updater
 * Catalog auto updater method, based on web crawling the Steam Workshop
   - detects new mods and changes in mod information (name, required dlc/mods, source url, etc.)
 * Automatic catalog versioning and change notes

@@ -51,7 +51,7 @@ namespace ModChecker
         // Create HTML report
         private static void CreateHtml(DateTime createTime)
         {
-            // [Todo 0.6]
+            // [Todo 0.6] Create HTML report
 
             // Logger.Log($"HTML report ready at \"{ Tools.PrivacyPath(ModSettings.ReportHtmlFullPath) }\".", duplicateToGameLog: true);
         }
@@ -249,8 +249,7 @@ namespace ModChecker
         }
 
 
-        // Format one line for the text or html review; including bullets, indenting and max. width
-        // [Todo 0.6] Change for html with unordered list for bullets, etc.
+        // Format one line for the text or html review; including bullets, indenting and max. width; [Todo 0.6] Change for html with unordered list for bullets, etc.
         private static string ReviewLine(string message,
                                          bool htmlReport,
                                          string bullet = null,

@@ -1,16 +1,17 @@
 ﻿namespace ModChecker.DataTypes
 {
-    public static class Enums                       // Needs to be public for XML serialization
+    // Needs to be public for XML serialization
+    public static class Enums
     {
-        // Status of a mod; can be none, one or more
+        // Status of a mod; can be none, one or more [Todo 0.4] Not all are used (yet)
         public enum ModStatus
         {
             Unknown,                                // Unused
-            IncompatibleAccordingToWorkshop,        // The Workshop has an indication for seriously broken mods; incompatible with the game itself
-            GameBreaking,
-            MajorIssues,
-            MinorIssues,
-            UnconfirmedIssues,                      // Unused, only included to keep track for myself
+            IncompatibleAccordingToWorkshop,        // \    The Workshop has an indication for seriously broken mods; incompatible with the game itself
+            GameBreaking,                           //  \
+            MajorIssues,                            //   }  Use only one of these four
+            MinorIssues,                            //  /
+            UnconfirmedIssues,                      // Unused, only included to keep track for ourself
             PerformanceImpact,
             LoadingTimeImpact,
             BreaksEditors,
@@ -23,15 +24,16 @@
             SourceNotUpdated,
             SourceObfuscated,
             SourceBundled,
-            CopyrightFreeMusic,                     //  \
-            CopyrightedMusic,                       //   }  Use max. one of these, and only for mods that include music
-            CopyrightUnknownMusic                   //  /
+            CopyrightFreeMusic,                     // \
+            CopyrightedMusic,                       //  }  Use only one of these three, and only for mods that include music
+            CopyrightUnknownMusic                   // /
         }
+
 
         // Compatibility status between two mods; can be one or more
         public enum CompatibilityStatus
         {
-            Unknown,                                //  Only used as placeholder when errors occur; overrules all other statuses
+            Unknown,                                // Only used as placeholder when errors occur; overrules all other statuses
             NewerVersionOfTheSame,                  // \
             OlderVersionOfTheSame,                  //  \
             SameModDifferentReleaseType,            //   }  Max. one of the newer/older/same/func.covered statuses
@@ -45,8 +47,9 @@
             RequiresSpecificConfigForOther
         }
 
-        // DLCs; the names are used in the report, with double underscores replaced by semicolon+space and single underscores replaced by spaces
-        // numbers are the AppIDs, as seen in the url of every DLC in the Steam shop (https://store.steampowered.com/app/255710/Cities_Skylines/)
+
+        // DLCs; the names are used in the report, with double underscores replaced by colon+space, and single underscores replaced by a space
+        // Numbers are the AppIDs, as seen in the url of every DLC in the Steam shop (https://store.steampowered.com/app/255710/Cities_Skylines/)
         public enum DLC : uint
         {
             None = 0,                               // Unused
@@ -85,6 +88,7 @@
             Content_Creator_Pack__Train_Station = 1531470,
             Content_Creator_Pack__Bridges_and_Piers = 1531471
         }
+
 
         // LogLevel to differentiate between log messages
         internal enum LogLevel

@@ -14,7 +14,7 @@ namespace ModChecker.DataTypes
         // Catalog structure version (major version); will only change on structural changes in the xml that make it incompatible with a previous structure version
         public uint StructureVersion { get; private set; }
 
-        // Catalog version and date; version only increases and never resets, even when going to a new StructureVersion
+        // Catalog version and date; version always increases and never resets, even when going to a new StructureVersion
         public uint Version { get; private set; }
 
         public DateTime UpdateDate { get; private set; }
@@ -31,7 +31,7 @@ namespace ModChecker.DataTypes
 
         public string ReportFooterText { get; private set; }
 
-        // The actual data in four lists
+        // The actual mod data in four lists
         public List<Mod> Mods { get; private set; } = new List<Mod>();
 
         public List<Compatibility> Compatibilities { get; private set; } = new List<Compatibility>();
@@ -40,7 +40,7 @@ namespace ModChecker.DataTypes
 
         public List<Author> Authors { get; private set; } = new List<Author>();
 
-        // Auto updater exclusions
+        // Update exclusions; these prevent certain changes by the auto updater
         public List<UpdateExclusion> UpdateExclusions { get; private set; } = new List<UpdateExclusion>();
 
 
@@ -83,7 +83,7 @@ namespace ModChecker.DataTypes
 
             CompatibleGameVersionString = CompatibleGameVersion.ToString();
 
-            Note = note;
+            Note = note ?? "";
 
             ReportIntroText = reportIntroText ?? ModSettings.defaultIntroText;
 
@@ -92,17 +92,8 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters, used when converting an old catalog
-        public Catalog(uint version,
-                       DateTime updateDate,
-                       Version compatibleGameVersion,
-                       string note,
-                       string reportIntroText,
-                       string reportFooterText,
-                       List<Mod> mods,
-                       List<Compatibility> modCompatibilities,
-                       List<ModGroup> modGroups,
-                       List<Author> modAuthors,
-                       List<UpdateExclusion> updateExclusions)
+        public Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
+            List<Mod> mods, List<Compatibility> modCompatibilities, List<ModGroup> modGroups, List<Author> modAuthors, List<UpdateExclusion> updateExclusions)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
@@ -114,21 +105,21 @@ namespace ModChecker.DataTypes
             
             CompatibleGameVersionString = CompatibleGameVersion.ToString();
 
-            Note = note;
+            Note = note ?? "";
 
-            ReportIntroText = reportIntroText;
+            ReportIntroText = reportIntroText ?? "";
 
-            ReportFooterText = reportFooterText;
+            ReportFooterText = reportFooterText ?? "";
 
-            Mods = mods;
+            Mods = mods ?? new List<Mod>();
 
-            Compatibilities = modCompatibilities;
+            Compatibilities = modCompatibilities ?? new List<Compatibility>();
 
-            ModGroups = modGroups;
+            ModGroups = modGroups ?? new List<ModGroup>();
 
-            Authors = modAuthors;
+            Authors = modAuthors ?? new List<Author>();
 
-            UpdateExclusions = updateExclusions;
+            UpdateExclusions = updateExclusions ?? new List<UpdateExclusion>();
         }
 
 
@@ -157,37 +148,86 @@ namespace ModChecker.DataTypes
                             string compatibleGameVersionString = null,
                             List<Enums.DLC> requiredDLC = null,
                             List<ulong> requiredMods = null,
-                            List<ulong> onlyNeededFor = null,
+                            List<ulong> requiredAssets = null,
+                            List<ulong> neededFor = null,
                             List<ulong> succeededBy = null,
                             List<ulong> alternatives = null,
-                            List<ulong> requiredAssets = null,
                             List<Enums.ModStatus> statuses = null,
                             string note = null,
                             DateTime? reviewUpdated = null,
                             DateTime? autoReviewUpdated = null,
-                            string catalogRemark = null)
+                            string changeNotes = null)
         {
-            // Add the new mod to the list and dictionary
+            // Create a new mod
             Mod mod = new Mod(steamID, name, authorID, authorURL);
 
-            mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods, 
-                onlyNeededFor, succeededBy, alternatives, requiredAssets, statuses, note, reviewUpdated, autoReviewUpdated, catalogRemark);
+            if (!ModDictionary.ContainsKey(steamID))
+            {
+                // Add the mod to the list and dictionary
+                Mods.Add(mod);
 
-            Mods.Add(mod);
+                ModDictionary.Add(steamID, mod);
+            }
+            else
+            {
+                // This mod already exists; update the existing one
+                mod = ModDictionary[steamID];
 
-            ModDictionary.Add(steamID, mod);
+                Logger.Log($"Tried to add mod [{ steamID }] while it already existed. Updating existing mod instead.", Logger.error);
+            }
+
+            // Add all info to the mod
+            mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods,
+                requiredAssets, neededFor, succeededBy, alternatives, statuses, note, reviewUpdated, autoReviewUpdated, changeNotes);
 
             // Return a reference to the new mod
             return mod;
         }
-        
-        
+
+
+        // Add a new author to the catalog; return the author or null if they couldn't be added
+        internal Author AddAuthor(ulong authorID,
+                                  string authorURL,
+                                  string name = "",
+                                  DateTime lastSeen = default,
+                                  bool retired = false,
+                                  string changeNotes = "")
+        {
+            // Create a new author
+            Author author = new Author(authorID, authorURL, name, lastSeen, retired, changeNotes);
+
+            if (AuthorIDDictionary.ContainsKey(authorID) || AuthorURLDictionary.ContainsKey(authorURL ?? "")) 
+            {
+                // Author already exists
+                Logger.Log($"Tried to add an author with a profile ID ({ authorID }) or custom URL ({ authorURL }) that is already used. Author NOT added.", Logger.error);
+
+                return null;
+            }
+
+            // Add the author to the list
+            Authors.Add(author);
+
+            // Add the new author to one or two dictionaries
+            if (authorID != 0)
+            {
+                AuthorIDDictionary.Add(authorID, author);
+            }
+
+            if (!string.IsNullOrEmpty(authorURL))
+            {
+                AuthorURLDictionary.Add(authorURL, author);
+            }
+
+            // Return a reference to the new author
+            return author;
+        }
+
+
         // Add a new mod group to the catalog; return the group, or null if the group couldn't be added; NOTE: a mod can only be in one group
-        internal ModGroup AddModGroup(string name, 
-                                      List<ulong> steamIDs)
+        internal ModGroup AddModGroup(string name, List<ulong> steamIDs)
         {
             // Check if none of the steam IDs is already in a group, or is a group itself
-            foreach (ulong steamID in steamIDs)
+            foreach (ulong steamID in steamIDs ?? new List<ulong>())
             {
                 if (steamID >= ModSettings.lowestModGroupID && steamID <= ModSettings.highestModGroupID)
                 {
@@ -233,10 +273,10 @@ namespace ModChecker.DataTypes
             ModGroupDictionary.Add(newGroupID, modGroup);
 
             // Change required mods in the whole catalog from a group member to the group
-            foreach (ulong groupMemberID in steamIDs)
+            foreach (ulong groupMemberID in modGroup.SteamIDs)
             {
                 // Get all mods that have this group member as required mod
-                List<Mod> modList = Mods.FindAll(x => x.RequiredMods.Contains(groupMemberID));
+                List<Mod> modList = Mods.FindAll(x => x.RequiredMods.Contains(groupMemberID)) ?? new List<Mod>();
 
                 foreach (Mod mod in modList)
                 {
@@ -245,7 +285,7 @@ namespace ModChecker.DataTypes
 
                     mod.RequiredMods.Add(newGroupID);
 
-                    Logger.Log($"Changed required mod { ModDictionary[groupMemberID].ToString() } to { modGroup.ToString() }, for { mod.ToString() }.", 
+                    Logger.Log($"Changed required mod { ModDictionary[groupMemberID].ToString() } to { modGroup.ToString() }, for { mod.ToString() }.",
                         Logger.debug);
                 }
             }
@@ -255,49 +295,46 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Add a new compatibility to the catalog
+        // Add a new compatibility to the catalog; return the compatibility, or null if the compatibility couldn't be added
         internal Compatibility AddCompatibility(ulong steamID1,
                                                 ulong steamID2,
                                                 List<Enums.CompatibilityStatus> statuses,
                                                 string note1 = "",
                                                 string note2 = "")
         {
-            // Add the new compatibility to the list
+            if ((steamID1 >= ModSettings.lowestModGroupID && steamID1 <= ModSettings.highestModGroupID) 
+                || (steamID2 >= ModSettings.lowestModGroupID && steamID2 <= ModSettings.highestModGroupID))
+            {
+                Logger.Log($"Tried to add a compatibility with a group instead of a mod, which is not supported. Compatibility NOT added.", Logger.error);
+
+                return null;
+            }
+
+            if (Compatibilities.Find(x => x.SteamID1 == steamID1 && x.SteamID2 == steamID2) != null)
+            {
+                // A compatibility already exists between these Steam IDs
+                Logger.Log($"Tried to add a compatibility while one already exists between [Steam ID { steamID1 }] and [Steam ID { steamID2 }]. " + 
+                    "Compatibility NOT added.", Logger.error);
+
+                return null;
+            }
+
+            if (Compatibilities.Find(x => x.SteamID1 == steamID2 && x.SteamID2 == steamID1) != null)
+            {
+                // A compatibility already exists between these Steam IDs, but reversed
+                Logger.Log($"Tried to add a compatibility between [Steam ID { steamID1 }] and [Steam ID { steamID2 }] while a reversed one already exists . " +
+                    "Compatibility NOT added.", Logger.error);
+
+                return null;
+            }
+
+            // Add a new compatibility to the list
             Compatibility compatibility = new Compatibility(steamID1, steamID2, statuses, note1, note2);
 
             Compatibilities.Add(compatibility);
-
+            
             // Return a reference to the new compatibility
             return compatibility;
-        }
-
-
-        // Add a new author to the catalog
-        internal Author AddAuthor(ulong authorID,
-                                  string authorURL, 
-                                  string name = "",
-                                  DateTime lastSeen = default,
-                                  bool retired = false,
-                                  string catalogRemark = "")
-        {
-            // Add the new author to the list
-            Author author = new Author(authorID, authorURL, name, lastSeen, retired, catalogRemark);
-
-            Authors.Add(author);
-
-            // Add the new author to one or two dictionaries
-            if (authorID != 0)
-            {
-                AuthorIDDictionary.Add(authorID, author);
-            }
-            
-            if (!string.IsNullOrEmpty(authorURL))
-            {
-                AuthorURLDictionary.Add(authorURL, author);
-            }
-            
-            // Return a reference to the new author
-            return author;
         }
 
 
@@ -321,22 +358,13 @@ namespace ModChecker.DataTypes
                 return false;
             }
 
-            // Get the number of mods in the catalog
+            // Count the number of mods in the catalog
             Count = Mods.Count;
 
-            // Get the number of mods with a (manual) review in the catalog
-            List<Mod> reviewedMods = Mods.FindAll(m => m.ReviewUpdated != DateTime.MinValue);
+            // Count the number of mods with a manual review in the catalog
+            List<Mod> reviewedMods = Mods.FindAll(x => x.ReviewUpdated != DateTime.MinValue);
 
-            if (reviewedMods?.Any() == null)
-            {
-                ReviewCount = 0;
-
-                Logger.Log($"Catalog { VersionString() } contains no reviewed mods.", Logger.debug);
-            }
-            else
-            {
-                ReviewCount = reviewedMods.Count;
-            }            
+            ReviewCount = reviewedMods?.Any() == null ? 0 : reviewedMods.Count;
 
             // If the compatible gameversion for the catalog is unknown, try to convert the string field
             if ((CompatibleGameVersion == null) || (CompatibleGameVersion == GameVersion.Unknown))
@@ -360,43 +388,46 @@ namespace ModChecker.DataTypes
         // Prepare a catalog for searching
         internal void CreateIndex()
         {
-            ModDictionary = new Dictionary<ulong, Mod>();
-            ModGroupDictionary = new Dictionary<ulong, ModGroup>();
-            AuthorIDDictionary = new Dictionary<ulong, Author>();
-            AuthorURLDictionary = new Dictionary<string, Author>();
+            // Clear the dictionaries
+            ModDictionary.Clear();
+            ModGroupDictionary.Clear();
+            AuthorIDDictionary.Clear();
+            AuthorURLDictionary.Clear();
 
+            // Add mods to the dictionary
             foreach (Mod mod in Mods) 
             { 
                 if (ModDictionary.ContainsKey(mod.SteamID))
                 {
-                    Logger.Log($"Found duplicate mod steam ID in catalog: { mod.SteamID }.", Logger.error);
+                    Logger.Log($"Found a duplicate mod steam ID in the catalog: { mod.SteamID }.", Logger.error);
                 }
                 else
                 {
                     ModDictionary.Add(mod.SteamID, mod);
                 }
             }
-            
+
+            // Add mod groups to the dictionary
             foreach (ModGroup group in ModGroups) 
             {
                 if (ModGroupDictionary.ContainsKey(group.GroupID))
                 {
-                    Logger.Log($"Found duplicate mod group ID in catalog: { group.GroupID }.", Logger.error);
+                    Logger.Log($"Found a duplicate mod group ID in the catalog: { group.GroupID }.", Logger.error);
                 }
                 else
                 {
                     ModGroupDictionary.Add(group.GroupID, group);
                 }
             }
-            
+
+            // Add authors to one or both of the dictionaries
             foreach (Author author in Authors) 
             { 
-                // Add author to one or both of the dictionaries
                 if (author.ProfileID != 0)
                 {
                     if (AuthorIDDictionary.ContainsKey(author.ProfileID))
                     {
-                        Logger.Log($"Found duplicate author profile ID in catalog: { author.ProfileID }.", Logger.error);
+                        Logger.Log($"Found a duplicate author profile ID in the catalog: { author.ProfileID }.", Logger.error);
                     }
                     else
                     {
@@ -408,7 +439,7 @@ namespace ModChecker.DataTypes
                 {
                     if (AuthorURLDictionary.ContainsKey(author.CustomURL))
                     {
-                        Logger.Log($"Found duplicate author custom URL in catalog: { author.CustomURL }.", Logger.error);
+                        Logger.Log($"Found a duplicate author custom URL in the catalog: { author.CustomURL }.", Logger.error);
                     }
                     else
                     {
@@ -479,7 +510,7 @@ namespace ModChecker.DataTypes
                 else
                 {
                     // Invalid, don't return the catalog
-                    Logger.Log($"Loaded and discarded invalid catalog \"{ Tools.PrivacyPath(fullPath) }\".", Logger.warning);
+                    Logger.Log($"Discarded invalid catalog \"{ Tools.PrivacyPath(fullPath) }\".", Logger.warning);
 
                     return null;
                 }

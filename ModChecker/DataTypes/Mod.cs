@@ -14,17 +14,17 @@ namespace ModChecker.DataTypes
 
         public string Name { get; private set; }
 
-        // Author Profile and Author Custom URL; only one is needed to identify the author
+        // Author Profile ID and Author Custom URL; only one is needed to identify the author; ID is more reliable
         public ulong AuthorID { get; private set; }
 
         public string AuthorURL { get; private set; }
 
-        // Date the mod was published and last updated
+        // Date the mod was published and last updated on the Steam Workshop
         public DateTime Published { get; private set; }
 
         public DateTime Updated { get; private set; }
 
-        // Is the mod removed, and do we know an archive page of the Steam Workshop page
+        // An archive page of the Steam Workshop page, for mods that were removed from the Steam Workshop
         public string ArchiveURL { get; private set; }
 
         // Public location of the source
@@ -36,10 +36,13 @@ namespace ModChecker.DataTypes
         // Required DLCs
         public List<Enums.DLC> RequiredDLC { get; private set; } = new List<Enums.DLC>();
 
-        // Required mods for this mod; this is the only list that allows mod groups, meaning one (not all) of the mods in that group is required
+        // Required mods for this mod (all are required); this is the only list that allows mod groups, meaning one (not all) of the mods in the group is required
         [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();
 
-        // Mods this is needed for; only used when this is purely a dependency mod
+        // Required assets for this mod; only used to collect info we gather from the Steam Workshop, not reported right now
+        [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
+
+        // Mods this is needed for; only used when this is purely a dependency mod (like Harmony)
         [XmlArrayItem("SteamID")] public List<ulong> NeededFor { get; private set; } = new List<ulong>();
 
         // Successors of this mod
@@ -48,22 +51,19 @@ namespace ModChecker.DataTypes
         // Alternatives for this mod; only used if this has compatibility issues
         [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
 
-        // Required assets for this mod; only used to collect info we gather from the Steam Workshop, not checked or reported
-        [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
-
         // Statuses for this mod
         public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
 
-        // General note about this mod
+        // General note about this mod; this is included in the report
         public string Note { get; private set; }
 
-        // Date this mod was last manually and automatically reviewed for changes in information and compatibility
+        // Date this mod was last manually and automatically reviewed for changes in information and compatibilities
         public DateTime ReviewUpdated { get; private set; }
 
         public DateTime AutoReviewUpdated { get; private set; }
 
-        // Remark for ourselves, not displayed in report or log (but publicly viewable in the catalog)
-        public string CatalogRemark { get; private set; }
+        // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
+        public string ChangeNotes { get; private set; }
 
 
         // Default constructor
@@ -74,10 +74,7 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with 4 parameters
-        internal Mod(ulong steamID,
-                     string name,
-                     ulong authorID,
-                     string authorURL)
+        internal Mod(ulong steamID, string name, ulong authorID, string authorURL)
         {
             SteamID = steamID;
 
@@ -100,17 +97,17 @@ namespace ModChecker.DataTypes
                              string compatibleGameVersionString = null,
                              List<Enums.DLC> requiredDLC = null,
                              List<ulong> requiredMods = null,
-                             List<ulong> onlyNeededFor = null,
+                             List<ulong> requiredAssets = null,
+                             List<ulong> neededFor = null,
                              List<ulong> succeededBy = null,
                              List<ulong> alternatives = null,
-                             List<ulong> requiredAssets = null,
                              List<Enums.ModStatus> statuses = null,
                              string note = null,
                              DateTime? reviewUpdated = null,
                              DateTime? autoReviewUpdated = null,
-                             string catalogRemark = null)
+                             string changeNotes = null)
         {
-            // Only update supplied fields, so ignore every null value; make sure strings are set to empty string instead of null
+            // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
             Name = name ?? Name ?? "";
 
             AuthorID = authorID == 0 ? AuthorID : authorID;
@@ -121,7 +118,7 @@ namespace ModChecker.DataTypes
 
             Updated = updated ?? Updated;
 
-            // If updated is earlier than published, set it to published
+            // If the updated date is older than published, set it to published
             if (Updated < Published)
             {
                 Updated = Published;
@@ -139,14 +136,14 @@ namespace ModChecker.DataTypes
 
             RequiredMods = requiredMods ?? RequiredMods ?? new List<ulong>();
 
-            NeededFor = onlyNeededFor ?? NeededFor ?? new List<ulong>();
+            RequiredAssets = requiredAssets ?? RequiredAssets ?? new List<ulong>();
+
+            NeededFor = neededFor ?? NeededFor ?? new List<ulong>();
 
             SucceededBy = succeededBy ?? SucceededBy ?? new List<ulong>();
 
             Alternatives = alternatives ?? Alternatives ?? new List<ulong>();
 
-            RequiredAssets = requiredAssets ?? RequiredAssets ?? new List<ulong>();
-            
             Statuses = statuses ?? Statuses ?? new List<Enums.ModStatus>();
 
             Note = note ?? Note ?? "";
@@ -155,8 +152,8 @@ namespace ModChecker.DataTypes
 
             AutoReviewUpdated = autoReviewUpdated ?? AutoReviewUpdated;
 
-            // Add a new catalog remark instead of replacing it
-            CatalogRemark += string.IsNullOrEmpty(catalogRemark) ? "" : (string.IsNullOrEmpty(CatalogRemark) ? "" : "\n") + catalogRemark;
+            // Add a change note (on a new line) instead of replacing it
+            ChangeNotes += string.IsNullOrEmpty(changeNotes) ? "" : (string.IsNullOrEmpty(ChangeNotes) ? "" : "\n") + changeNotes;
         }
 
 

@@ -37,14 +37,14 @@ namespace ModChecker
         {
             Logger.Log("OnEnabled called.", Logger.debug);
 
-            // Create the first catalog if it doesn't exist yet (will only run if the updater is enabled)
+            // Create the first catalog if it doesn't exist yet; will only run if the updater is enabled
             FirstCatalog.Create();
 
             // Initialize the scanner: basic checks and loading the catalog
             Scanner.Init();
 
-            // Start the auto updater (will only run if the updater is enabled)
-            AutoUpdater.Start();
+            // Start the auto updater; will only run if the updater is enabled; [Todo 0.3] remove the number
+            AutoUpdater.Start(10000);
         }
 
 
@@ -57,10 +57,10 @@ namespace ModChecker
 
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.debug);
 
-            // Start the scan and create the report(s)
+            // Start the scan and create the report(s); will only be done once and only in the allowed scene
             Scanner.Scan(scene);
 
-            // [Todo 0.7]
+            // Get the settings on the screen [Todo 0.7]
             // SettingsUI.Render(helper, scene);
         }
 

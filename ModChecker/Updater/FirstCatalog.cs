@@ -35,30 +35,31 @@ namespace ModChecker.Updater
             // Add builtin mods with the correct fixed fake Steam ID
             List<Enums.ModStatus> sourceBundled = new List<Enums.ModStatus> { Enums.ModStatus.SourceBundled };
 
-            DateTime firstGameRelease = DateTime.Parse("2015-03-10");
+            DateTime gameRelease = DateTime.Parse("2015-03-10");
 
-            string remark = $"Added at { now.ToShortDateString() }.";
+            string modNotes = $"Added by Updater on { now.ToShortDateString() }.";
 
             string changeNotes = "";
 
             foreach (KeyValuePair<string, ulong> modVP in ModSettings.BuiltinMods)
             {
-                Mod mod = firstCatalog.AddMod(modVP.Value, modVP.Key, published: firstGameRelease, statuses: sourceBundled, reviewUpdated: now, catalogRemark: remark);
+                Mod mod = firstCatalog.AddMod(modVP.Value, modVP.Key, published: gameRelease, statuses: sourceBundled, reviewUpdated: now, changeNotes: modNotes);
 
-                changeNotes += $"New mod: { mod.ToString() }\n";
+                changeNotes += $"New mod { mod.ToString(cutOff: false) }\n";
             }
 
             // Add author
-            Author author = firstCatalog.AddAuthor(76561198031001669, "finwickle", "Finwickle", lastSeen: now, retired: false, catalogRemark: remark);
+            Author author = firstCatalog.AddAuthor(76561198031001669, "finwickle", "Finwickle", lastSeen: now, retired: false, changeNotes: modNotes);
 
-            changeNotes += $"New author: { author.Name }\n";
+            changeNotes += $"New author { author.ToString() }\n";
 
             // Save the catalog as ModCheckerCatalog_v1.0001.xml and save the change notes in the same folder
             if (firstCatalog.Save(partialPath + ".xml"))
             {
                 Tools.SaveToFile($"Change Notes for Catalog { firstCatalog.VersionString() }\n" +
                     "-------------------------------\n" +
-                    $"{ now:D}, { now:t}\n\n" +
+                    $"{ now:D}, { now:t}\n" + 
+                    "\n" +
                     "*** ADDED: ***\n" +
                     changeNotes,
                     partialPath + "_ChangeNotes.txt"); ; ;

@@ -84,8 +84,7 @@ namespace ModChecker.Util
         }
 
 
-        // [Todo 0.5] Something similar needed for Mac OS X or Linux?
-        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons
+        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons; [Todo 0.5] Something similar needed for Mac OS X or Linux?
         internal static string PrivacyPath(string path)
         {
             // Get position of \appdata\local in the path
@@ -143,8 +142,8 @@ namespace ModChecker.Util
                         // Download failed, increase try count
                         failedAttempts++;
 
-                        Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }. " + 
-                            (failedAttempts <= retriesOnError ? "Retrying. " : "") + 
+                        Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
+                            (failedAttempts <= retriesOnError ? ", will retry. " : ". ") + 
                             (ex.Message.Contains("(502) Bad Gateway") ? "Error: 502 Bad Gateway" : $"Exception: { ex.GetType().Name } { ex.Message }"), Logger.debug);
 
                         exception = ex;
@@ -235,7 +234,7 @@ namespace ModChecker.Util
             }
             catch (Exception ex)
             {
-                Logger.Log("GetPluginName: can't retrieve plugin name.", Logger.debug);
+                Logger.Log("Can't retrieve plugin name.", Logger.debug);
 
                 Logger.Exception(ex, debugOnly: true, duplicateToGameLog: false);
 
@@ -342,7 +341,7 @@ namespace ModChecker.Util
 
 
         // Return a formatted elapsed time string, in seconds or minutes or both
-        internal static string FormattedTime(long milliseconds, long threshold = 120, bool showBoth = false, bool showDecimal = false)
+        internal static string ElapsedTime(long milliseconds, long threshold = 120, bool showBoth = false, bool showDecimal = false)
         {
             long seconds = milliseconds / 1000;
 

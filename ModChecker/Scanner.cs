@@ -66,7 +66,7 @@ namespace ModChecker
 
             timer.Stop();
 
-            Logger.Log($"Scanner initialized in { Tools.FormattedTime(timer.ElapsedMilliseconds, showDecimal: true) }. Now waiting for all mods to load.", 
+            Logger.Log($"Scanner initialized in { Tools.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }. Now waiting for all mods to load.", 
                 extraLine: true, duplicateToGameLog: true);
 
             // Indicate that Init has run
@@ -123,7 +123,7 @@ namespace ModChecker
             timer.Stop();
 
             Logger.Log($"Scan complete. Reviewed { ActiveSubscriptions.TotalReviewed } of your { ActiveSubscriptions.All.Count } mods " + 
-                $"in { Tools.FormattedTime(timer.ElapsedMilliseconds, showDecimal: true) }.", duplicateToGameLog: true);
+                $"in { Tools.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }.", duplicateToGameLog: true);
 
             // Indicate that we've completed a scan
             scanDone = true;

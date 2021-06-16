@@ -23,15 +23,13 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters
-        internal UpdateExclusion(ulong steamID,
-                                 string category,
-                                 string info)
+        internal UpdateExclusion(ulong steamID, string category, string info)
         {
             SteamID = steamID;
 
-            Category = category;
+            Category = category ?? "";
 
-            Info = info;
+            Info = info ?? "";
         }
     }
 }

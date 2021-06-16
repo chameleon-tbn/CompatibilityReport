@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "102";
+        internal const string build = "103";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -82,8 +82,7 @@ namespace ModChecker.Util
         // The XML root of the Catalog; must be constant
         internal const string xmlRoot = internalName + "Catalog";
 
-        // [Todo 0.4]
-        // This mods own Steam ID
+        // This mods own Steam ID; [Todo 0.4]
         internal static readonly ulong modCheckerSteamID = 101;
 
         // The current catalog structure version
@@ -148,7 +147,7 @@ namespace ModChecker.Util
         internal static readonly string bullet3 = noBullet2 + "  - ";
 
 
-        /// Defaults for settings that come from the catalog
+        /// Hardcoded defaults for settings that come from the catalog
 
         // Default text report intro and footer
         internal static readonly string defaultIntroText =
@@ -175,21 +174,19 @@ namespace ModChecker.Util
             "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" +
             Tools.GetWorkshopURL(modCheckerSteamID);
 
-        // [Todo 0.6]
-        // Default HTML report intro and footer
+        // Default HTML report intro and footer; [Todo 0.6]
         internal static readonly string defaultIntroHtml = "";
 
         internal static readonly string defaultFooterHtml = "";
 
 
 
-        /// Defaults for settings that will be available to users through mod options within the game
+        /// Defaults for settings that will be available to users through mod options within the game [Todo 0.7]
 
         // Sort report by Name or Steam ID
         internal static bool ReportSortByName { get; private set; } = true;
 
-        // [Todo 0.6] Set HTML to true
-        // Which report(s) to create; will create text report if none
+        // Which report(s) to create; will create text report if none; [Todo 0.6] Set HTML to true
         internal static bool HtmlReport { get; private set; } = false;
         internal static bool TextReport { get; private set; } = true | !HtmlReport;
 
@@ -208,7 +205,7 @@ namespace ModChecker.Util
 
 
 
-        /// Defaults for settings that will be available in a settings xml file
+        /// Defaults for settings that will be available in a settings xml file [Todo 0.7]
 
         // Debug mode; this enables debug logging and logfile append
         internal static bool DebugMode { get; private set; } = true;
@@ -233,7 +230,7 @@ namespace ModChecker.Util
         internal static readonly string updaterLogfileFullPath = Path.Combine(updaterPath, $"{ internalName }_Updater.log");
 
         // Temporary download location for Steam Workshop pages
-        internal static readonly string steamWebpageFullPath = Path.Combine(updaterPath, $"{ internalName }_Download.tmp");
+        internal static readonly string steamDownloadedPageFullPath = Path.Combine(updaterPath, $"{ internalName }_Download.tmp");
 
         // Max. number of Steam Workshop mod listing pages to download (per category), to avoid downloading for eternity; should be high enough to include all pages
         internal static readonly uint steamMaxModListingPages = 200;
@@ -286,7 +283,7 @@ namespace ModChecker.Util
 
 
 
-        /// Defaults for updater settings that will be available in an updater settings xml file
+        /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.7]
 
         // Updater enabled? Updater will only be enabled if the updater settings xml file exists
         internal static bool UpdaterEnabled { get; private set; } = true && File.Exists(updaterSettingsXml);

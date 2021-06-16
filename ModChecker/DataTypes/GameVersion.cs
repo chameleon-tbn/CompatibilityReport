@@ -23,7 +23,7 @@ namespace ModChecker.DataTypes
                 Convert.ToInt32(BuildConfig.APPLICATION_VERSION_C),
                 Convert.ToInt32(BuildConfig.APPLICATION_BUILD_NUMBER));
 
-            // Extra check for the conversion of the buildconfig info
+            // Extra check for the conversion of the buildconfig info [Todo 0.5] Do we need this?
             if (Formatted(Current) != BuildConfig.applicationVersion) 
             {
                 Logger.Log($"Game version conversion went wrong: Current ({ Formatted(Current) }) != BuildConfig.applicationVersion " + 

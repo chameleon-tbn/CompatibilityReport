@@ -71,7 +71,7 @@ namespace ModChecker
             }
             else
             {
-                Logger.Log($"Bundled catalog { catalog.VersionString() } loaded.");
+                Logger.Log($"Bundled catalog is version { catalog.VersionString() }.");
             }
 
             return catalog;
@@ -94,7 +94,7 @@ namespace ModChecker
 
             if (previousCatalog != null)
             {
-                Logger.Log($"Previously downloaded catalog { previousCatalog.VersionString() } loaded.");
+                Logger.Log($"Previously downloaded catalog is version { previousCatalog.VersionString() }.");
             }
             // Can't be loaded; try to delete it
             else if (Tools.DeleteFile(ModSettings.downloadedCatalogFullPath))
@@ -161,7 +161,7 @@ namespace ModChecker
             // Log elapsed time
             timer.Stop();
 
-            Logger.Log($"Catalog downloaded in { Tools.FormattedTime(timer.ElapsedMilliseconds, showDecimal: true) } from { ModSettings.catalogURL }");
+            Logger.Log($"Catalog downloaded in { Tools.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) } from { ModSettings.catalogURL }");
 
             // Load newly downloaded catalog
             Catalog newCatalog = Catalog.Load(newCatalogTemporaryFullPath);
@@ -172,12 +172,14 @@ namespace ModChecker
             }
             else
             {
-                Logger.Log($"Downloaded catalog { newCatalog.VersionString() } loaded.");
+                Logger.Log($"Downloaded catalog is version { newCatalog.VersionString() }.");
+
+                // Indicate we downloaded a valid catalog, so we won't do that again this session
+                downloadedValidCatalog = true;
 
                 // Copy the temporary file over the previously downloaded catalog if it's newer
                 if (newCatalog.Version > previousVersion)
                 {
-                    // Indicate we downloaded a valid catalog, so we won't do that again this session
                     downloadedValidCatalog = Tools.CopyFile(newCatalogTemporaryFullPath, ModSettings.downloadedCatalogFullPath);
                 }
             }
@@ -217,7 +219,7 @@ namespace ModChecker
             }
             else
             {
-                Logger.Log($"Updated catalog { catalog.VersionString() } loaded.");
+                Logger.Log($"Updated catalog is version { catalog.VersionString() }.");
             }
 
             return catalog;

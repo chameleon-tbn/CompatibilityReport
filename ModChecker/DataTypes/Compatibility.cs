@@ -32,11 +32,7 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters
-        internal Compatibility(ulong steamID1,
-                               ulong steamID2,
-                               List<Enums.CompatibilityStatus> statuses,
-                               string note1,
-                               string note2)
+        internal Compatibility(ulong steamID1, ulong steamID2, List<Enums.CompatibilityStatus> statuses, string note1, string note2)
         {
             if (steamID1 == steamID2)
             {
@@ -55,7 +51,7 @@ namespace ModChecker.DataTypes
                 // If no status is indicated, add an Unknown so we have at least one
                 Statuses = new List<Enums.CompatibilityStatus> { Enums.CompatibilityStatus.Unknown };
 
-                Logger.Log($"Found ModCompatibility object with no status, Steam IDs: { SteamID1 } and { SteamID2 }.", Logger.warning);
+                Logger.Log($"Found ModCompatibility object with no status, Steam IDs: { SteamID1 } and { SteamID2 }.", Logger.error);
             }
             else
             {

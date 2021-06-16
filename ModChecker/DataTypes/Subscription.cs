@@ -17,10 +17,10 @@ namespace ModChecker.DataTypes
         // Date the mod was last updated
         internal DateTime Updated { get; private set; }
 
-        // Date the files on disk were downloaded/updated
+        // Date the files on disk were last downloaded
         internal DateTime Downloaded { get; private set; }
 
-        // URL for an archived Steam Workshop page; only for removed mods
+        // URL for an archived Steam Workshop page; only for mods no longer on the Steam Workshop
         internal string ArchiveURL { get; private set; }
 
         // Source URL
@@ -50,18 +50,18 @@ namespace ModChecker.DataTypes
         internal bool IsReviewed { get; private set; }
         internal bool AuthorIsRetired { get; private set; }
 
-        internal List<Enums.ModStatus> Statuses { get; private set; }
+        internal List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
 
         // Generic note
         internal string Note { get; private set; }
 
         // Compatibilities
-        internal Dictionary<ulong, List<Enums.CompatibilityStatus>> Compatibilities { get; private set; }
+        internal Dictionary<ulong, List<Enums.CompatibilityStatus>> Compatibilities { get; private set; } = new Dictionary<ulong, List<Enums.CompatibilityStatus>>();
 
-        // Notes about mod compatibility
-        internal Dictionary<ulong, string> ModNotes { get; private set; }
+        // Notes about mod compatibilities
+        internal Dictionary<ulong, string> ModNotes { get; private set; } = new Dictionary<ulong, string>();
 
-        
+
         // fake Steam IDs to assign to local mods and unknown builtin mods
         private static ulong localModID = ModSettings.lowestLocalModID;
         private static ulong unknownBuiltinModID = ModSettings.lowestUnknownBuiltinModID;
@@ -74,7 +74,7 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Constructor with plugin parameter; get all information from plugin and catalog
+        // Constructor with plugin parameter; get all information from plugin and catalog [Todo 0.5] This constructor is large, is that problematic?
         internal Subscription(PluginManager.PluginInfo plugin)
         {
             // Make sure we got a real plugin
@@ -92,8 +92,7 @@ namespace ModChecker.DataTypes
             IsBuiltin = plugin.isBuiltin;
             IsCameraScript = plugin.isCameraScript;
 
-            // [Todo 0.5] How reliable is this?
-            // Get the time this mod was downloaded/updated
+            // Get the time this mod was downloaded/updated; [Todo 0.5] How reliable is this? Is ToLocalTime needed?
             Downloaded = PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime();
 
             // Get the Steam ID or assign a fake ID
@@ -127,7 +126,7 @@ namespace ModChecker.DataTypes
                     // Increase the fake Steam ID for the next mod
                     unknownBuiltinModID++;
 
-                    Logger.Log($"Unknown builtin mod found: \"{ Name }\". This is probably a mistake. { ModSettings.pleaseReportText }", Logger.error);
+                    Logger.Log($"Unknown builtin mod found: \"{ Name }\". { ModSettings.pleaseReportText }", Logger.error);
                 }
             }
             else
@@ -146,20 +145,21 @@ namespace ModChecker.DataTypes
 
                 return;
             }
-                
+            
             // Exit here if the mod is not in the catalog
             if (!ActiveCatalog.Instance.ModDictionary.ContainsKey(SteamID))
             {
                 // Mod not found in catalog; set to not reviewed
                 IsReviewed = false;
-
-                // Log that we didn't find this one in the catalog, unless it's a local (non-builtin) mod
+                
                 if (!IsLocal || IsBuiltin)
                 {
+                    // Log that we didn't find this one in the catalog
                     Logger.Log($"Mod found in game but not in the catalog: { this.ToString() }.");
                 }
                 else
                 {
+                    // Local mod, log the subscription name
                     Logger.Log($"Mod found: { this.ToString() }");
                 }
 
@@ -173,7 +173,13 @@ namespace ModChecker.DataTypes
             // Log the catalog name which is seen in the Steam Workshop; subscription name might differ and is seen in game in the Content Manager and Options
             Logger.Log($"Mod found: { catalogMod.ToString() }");
 
-            // Check if the mod was (manually) reviewed
+            if (catalogMod.Name.ToLower() != Name.ToLower())
+            {
+                // Log both names as input for manual changes in the catalog
+                Logger.Log($"{ catalogMod.ToString() }: Steam Workshop name differs from subscription name ({ Name })", Logger.debug);
+            }
+
+            // Check if the mod was manually reviewed
             IsReviewed = catalogMod.ReviewUpdated != DateTime.MinValue;
 
             // Get information from the catalog
@@ -191,7 +197,7 @@ namespace ModChecker.DataTypes
             Statuses = catalogMod.Statuses;
             Note = catalogMod.Note;
 
-            // Get the author name and retirement status; only for Steam Workshop mods
+            // Get the author name and retirement status for Steam Workshop mods
             if (!IsLocal)
             {
                 Author catalogAuthor = null;
@@ -216,23 +222,19 @@ namespace ModChecker.DataTypes
                 }
                 else
                 {
-                    // Can't find the author name, so use the author ID or author URL
+                    // Can't find the author in the catalog, so use the author ID or author URL
                     AuthorName = catalogMod.AuthorID != 0 ? catalogMod.AuthorID.ToString() : catalogMod.AuthorURL ?? "";
 
                     Logger.Log($"Author not found in catalog: { AuthorName }", Logger.debug);
                 }
             }
 
-            // Prepare to get compatibilities, including corresponding notes
-            Compatibilities = new Dictionary<ulong, List<Enums.CompatibilityStatus>>();
-            ModNotes = new Dictionary<ulong, string>();
-
             // Get all compatibilities (including notes) where this mod is either the first or the second ID
-            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID1 == SteamID), firstID: true);
-            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID2 == SteamID), firstID: false);
+            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == SteamID), firstID: true);
+            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == SteamID), firstID: false);
 
             // Get all mod groups that this mod is a member of
-            List<ModGroup> modGroups = ActiveCatalog.Instance.ModGroups.FindAll(g => g.SteamIDs.Contains(SteamID));
+            List<ModGroup> modGroups = ActiveCatalog.Instance.ModGroups.FindAll(x => x.SteamIDs.Contains(SteamID));
 
             if (modGroups != null)
             {
@@ -240,22 +242,22 @@ namespace ModChecker.DataTypes
                 foreach (ModGroup group in modGroups)
                 {
                     // Get all compatibilities (including notes) where the mod group is either the first or the second ID
-                    AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID1 == group.GroupID), firstID: true);
-                    AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(c => c.SteamID2 == group.GroupID), firstID: false);
+                    AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == group.GroupID), firstID: true);
+                    AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == group.GroupID), firstID: false);
                 }
             }
         }
 
 
         // Add compatibilities to the list of compatibilities with the correct statuses; also add the corresponding note
-        private void AddCompatibility(List<Compatibility> compatibilities,
-                                      bool firstID)
+        private void AddCompatibility(List<Compatibility> compatibilities, bool firstID)
         {
             if (compatibilities == null)
             {
                 return;
             }
 
+            // Add the compatibilities one by one
             foreach (Compatibility compatibility in compatibilities)
             {
                 if (compatibility.Statuses.Contains(Enums.CompatibilityStatus.Unknown))
@@ -264,7 +266,7 @@ namespace ModChecker.DataTypes
                     continue;
                 }
 
-                // firstID indicates which one is the subscription, but we want the other mods ID in the dictionaries
+                // firstID indicates which one is the subscription, but we want the ID of the other mod or group
                 if (firstID)
                 {
                     // Add the compatibility status to the list, with the Steam ID for the other mod or group
@@ -275,10 +277,10 @@ namespace ModChecker.DataTypes
                 }
                 else
                 {
-                    // Gather the statuses in a new list so we can flip some without altering the catalog
+                    // We need to 'flip' some statuses without affecting the catalog, so gather the statuses in a new list first
                     List<Enums.CompatibilityStatus> statuses = new List<Enums.CompatibilityStatus>();
 
-                    // Add each status, flipping some
+                    // Add each status to this new list, flipping some
                     foreach (Enums.CompatibilityStatus status in compatibility.Statuses)
                     {
                         switch (status)
@@ -324,7 +326,7 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Return a max sized, formatted string with the Steam ID and name
+        // Return a max length, formatted string with the Steam ID and name
         internal string ToString(bool nameFirst = false,
                                  bool showFakeID = true,
                                  bool showDisabled = false)
