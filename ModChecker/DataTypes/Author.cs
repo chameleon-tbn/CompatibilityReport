@@ -63,7 +63,7 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Update an author with new info; all fields are optional, only supplied fields are updated
+        // Update an author with new info; all fields are optional, only supplied fields are updated; profile ID can only be changed once, if it was zero
         internal void Update(ulong profileID = 0,
                              string customURL = null,
                              string name = null,
@@ -72,10 +72,12 @@ namespace ModChecker.DataTypes
                              string changeNotes = null)
         {
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
-            ProfileID = profileID == 0 ? ProfileID : profileID;
+
+            // Update profile ID only if it was zero
+            ProfileID = ProfileID == 0 ? profileID : ProfileID;
 
             CustomURL = customURL ?? CustomURL;
-
+            
             // Avoid an empty name
             Name = string.IsNullOrEmpty(name) ? Name : name;
 
@@ -88,7 +90,7 @@ namespace ModChecker.DataTypes
 
             if ((ProfileID == 0) && string.IsNullOrEmpty(CustomURL))
             {
-                Logger.Log($"Author updated without profile ID and custom URL: { Name }", Logger.debug);
+                Logger.Log($"Author without profile ID and custom URL: { Name }", Logger.debug);
             }
         }
 

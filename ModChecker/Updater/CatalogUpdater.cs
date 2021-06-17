@@ -158,7 +158,7 @@ namespace ModChecker.Updater
                 {
                     catalogMod.Statuses.Add(Enums.ModStatus.RemovedFromWorkshop);
 
-                    catalogMod.Update(changeNotes: $"AutoUpdated as removed on { UpdateDate.ToShortDateString() }.");
+                    catalogMod.Update(changeNotes: $"AutoUpdated as removed on { Tools.DateString(UpdateDate) }.");
 
                     ChangeNotesRemovedMods.AppendLine($"Mod no longer available on the workshop: { catalogMod.ToString(cutOff: false) }");
                 }
@@ -172,7 +172,7 @@ namespace ModChecker.Updater
                 {
                     Author catalogAuthor = ActiveCatalog.Instance.AuthorIDDictionary[authorID];
                     
-                    catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { UpdateDate.ToShortDateString() }.");
+                    catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { Tools.DateString(UpdateDate) }.");
 
                     ChangeNotesRemovedAuthors.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorIDDictionary[authorID].ToString() }");
                 }
@@ -186,7 +186,7 @@ namespace ModChecker.Updater
                 {
                     Author catalogAuthor = ActiveCatalog.Instance.AuthorURLDictionary[authorURL];
 
-                    catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { UpdateDate.ToShortDateString() }.");
+                    catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { Tools.DateString(UpdateDate) }.");
 
                     ChangeNotesRemovedAuthors.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorURLDictionary[authorURL].ToString() }");
                 }
@@ -258,7 +258,7 @@ namespace ModChecker.Updater
             catalogMod.Update(collectedMod.Name, collectedMod.AuthorID, collectedMod.AuthorURL, collectedMod.Published, collectedMod.Updated, archiveURL: null,
                 collectedMod.SourceURL, collectedMod.CompatibleGameVersionString, collectedMod.RequiredDLC, collectedMod.RequiredMods, collectedMod.RequiredAssets, 
                 neededFor: null, succeededBy: null, alternatives: null, collectedMod.Statuses, note: null, reviewUpdated: null, UpdateDate,
-                changeNotes: $"Added by AutoUpdater on { UpdateDate.ToShortDateString() }.");
+                changeNotes: $"Added by AutoUpdater on { Tools.DateString(UpdateDate) }.");
 
             // Change notes
             ChangeNotesNewMods.AppendLine($"New mod { catalogMod.ToString(cutOff: false) }");
@@ -309,6 +309,12 @@ namespace ModChecker.Updater
                         CollectedAuthorIDs.Add(author.ProfileID, author);
                     }
 
+                    // Add author to author ID dictionary in the active catalog
+                    if (!ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(author.ProfileID))
+                    {
+                        ActiveCatalog.Instance.AuthorIDDictionary.Add(author.ProfileID, author);
+                    }
+
                     // Change notes
                     ChangeNotesUpdatedAuthors.AppendLine($"Author { author.ToString() }: author profile ID found");
 
@@ -329,16 +335,33 @@ namespace ModChecker.Updater
                                 string.IsNullOrEmpty(collectedMod.AuthorURL) ? "removed" :
                                 "changed";
 
+                // Collect the old URL before we change it
+                string oldURL = catalogMod.AuthorURL ?? "";
+
                 // Update the catalog; change null into empty string for if we decide to allow removal of author URL
                 catalogMod.Update(authorURL: collectedMod.AuthorURL ?? "");
 
                 changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "author custom url " + change;
 
                 // Update the author URL for the author; this ensures that when adding/updating authors later, the author is recognised and not mistakenly seen as new
+                Author author = null;
+
+                // Get the author by ID
                 if (catalogMod.AuthorID != 0 && ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(catalogMod.AuthorID))
                 {
-                    Author author = ActiveCatalog.Instance.AuthorIDDictionary[catalogMod.AuthorID];
+                    author = ActiveCatalog.Instance.AuthorIDDictionary[catalogMod.AuthorID];
+                }
+                // Or get the author by old URL
+                else if (!string.IsNullOrEmpty(oldURL) && ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(oldURL))
+                {
+                    author = ActiveCatalog.Instance.AuthorURLDictionary[oldURL];
 
+                    // Remove the old URL from the dictionary in the active catalog
+                    ActiveCatalog.Instance.AuthorURLDictionary.Remove(oldURL);
+                }
+
+                if (author != null)
+                {
                     // Add/update URL for author
                     author.Update(customURL: catalogMod.AuthorURL);
 
@@ -348,15 +371,23 @@ namespace ModChecker.Updater
                         CollectedAuthorURLs.Add(author.CustomURL, author);
                     }
 
-                    // Change notes
-                    ChangeNotesUpdatedAuthors.AppendLine($"Author { author.ToString() }: custom URL {change} ({ author.CustomURL })");
+                    // Add author to author URL dictionary in the active catalog
+                    if (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(author.CustomURL))
+                    {
+                        ActiveCatalog.Instance.AuthorURLDictionary.Add(author.CustomURL, author);
+                    }
 
-                    Logger.UpdaterLog($"Author { author.ToString() }: custom URL \"{ author.CustomURL }\" linked to profile ID { author.ProfileID }.");
+                    // Change notes
+                    ChangeNotesUpdatedAuthors.AppendLine($"Author { author.ToString() }: custom URL { change } ({ author.CustomURL })");
+
+                    Logger.UpdaterLog($"Author { author.ToString() }: new custom URL \"{ author.CustomURL }\" linked to profile ID { author.ProfileID }." +
+                        (string.IsNullOrEmpty(oldURL) ? "" : $"Old URL: { oldURL }."));
                 }
-                else
+                // If the catalog contains the new URL, then the author was already updated from an earlier mod; otherwise log an error
+                else if (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(catalogMod.AuthorURL))
                 {
                     Logger.UpdaterLog($"Could not update author custom URL \"{ catalogMod.AuthorURL }\" to author with profile ID { catalogMod.AuthorID }, " +
-                        "because the ID can't be found.", Logger.error);
+                        "because the ID or the old URL can't be found.", Logger.error);
                 }
             }
 
@@ -381,7 +412,7 @@ namespace ModChecker.Updater
                 // No mention in the change notes, but log if the publish date was already a valid date
                 if (catalogMod.Published != DateTime.MinValue)
                 {
-                    Logger.UpdaterLog($"Published date changed from { catalogMod.Published.ToShortDateString() } to { collectedMod.Published.ToShortDateString() }. " +
+                    Logger.UpdaterLog($"Published date changed from { Tools.DateString(catalogMod.Published) } to { Tools.DateString(collectedMod.Published) }. " +
                         $"This should not happen. Mod { catalogMod.ToString(cutOff: false) }", Logger.warning);
                 }
 
@@ -622,7 +653,7 @@ namespace ModChecker.Updater
             // Auto review update date, catalog remark and change notes
             if (!string.IsNullOrEmpty(changes))
             {
-                catalogMod.Update(autoReviewUpdated: UpdateDate, changeNotes: $"AutoUpdated on { UpdateDate.ToShortDateString() }: { changes }.");
+                catalogMod.Update(autoReviewUpdated: UpdateDate, changeNotes: $"AutoUpdated on { Tools.DateString(UpdateDate) }: { changes }.");
 
                 ChangeNotesUpdatedMods.AppendLine($"Mod { catalogMod.ToString(cutOff: false) }: { changes }");
             }
@@ -633,7 +664,7 @@ namespace ModChecker.Updater
         private static void AddAuthor(Author collectedAuthor)
         {
             ActiveCatalog.Instance.AddAuthor(collectedAuthor.ProfileID, collectedAuthor.CustomURL, collectedAuthor.Name, collectedAuthor.LastSeen, retired: false,
-                changeNotes: $"Added by AutoUpdater on { UpdateDate.ToShortDateString() }.");
+                changeNotes: $"Added by AutoUpdater on { Tools.DateString(UpdateDate) }.");
 
             // Change notes
             ChangeNotesNewAuthors.AppendLine($"New author { collectedAuthor.ToString() }");
@@ -670,7 +701,7 @@ namespace ModChecker.Updater
             // Catalog remark and change notes
             if (!string.IsNullOrEmpty(changes))
             {
-                catalogAuthor.Update(changeNotes: $"AutoUpdated on { UpdateDate.ToShortDateString() }: { changes }.");
+                catalogAuthor.Update(changeNotes: $"AutoUpdated on { Tools.DateString(UpdateDate) }: { changes }.");
 
                 ChangeNotesUpdatedAuthors.AppendLine($"Author { catalogAuthor.ToString() }: " + changes);
             }

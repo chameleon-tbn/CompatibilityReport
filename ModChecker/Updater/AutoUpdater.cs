@@ -10,7 +10,6 @@ using ModChecker.Util;
 // * Mod: name, author, publish/update dates, source url, compatible game version, required DLC, required mods, only-needed-for mods (update existing field only),
 //        statuses: incompatible according to the workshop, removed from workshop, no description, no source available (only remove when a source url is found)
 // * Author: name, last seen (only based on mod updates), retired (only remove on mod updates)
-// Note: a change in author URL will be seen as a new author if we don't know the author profile ID; [Todo 0.2] We can do better
 
 
 namespace ModChecker.Updater
