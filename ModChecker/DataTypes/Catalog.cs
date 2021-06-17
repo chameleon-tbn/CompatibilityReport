@@ -285,7 +285,7 @@ namespace ModChecker.DataTypes
 
                     mod.RequiredMods.Add(newGroupID);
 
-                    Logger.Log($"Changed required mod { ModDictionary[groupMemberID].ToString() } to { modGroup.ToString() }, for { mod.ToString() }.",
+                    Logger.Log($"Changed required mod { ModDictionary[groupMemberID].ToString() } to { modGroup.ToString() }, for { mod.ToString(cutOff: false) }.",
                         Logger.debug);
                 }
             }

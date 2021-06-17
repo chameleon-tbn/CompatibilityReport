@@ -575,8 +575,6 @@ namespace ModChecker.Updater
             {
                 // We're not really interested in these; just replace the list
                 catalogMod.Update(requiredAssets: collectedMod.RequiredAssets);
-
-                Logger.UpdaterLog($"Required assets changed for [Steam ID { steamID,10 }]: { collectedMod.RequiredAssets }.", Logger.debug);
             }
 
             // Add new Statuses: incompatible, no description*, unlisted in workshop, removed from workshop (* = only if details for this mod were checked)

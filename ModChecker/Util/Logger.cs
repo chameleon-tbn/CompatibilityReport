@@ -35,9 +35,7 @@ namespace ModChecker.Util
             private readonly string fileName = "";
 
             // Constructor
-            internal Filer(string fileFullPath,
-                           bool timeStamp,
-                           bool append)
+            internal Filer(string fileFullPath, bool timeStamp, bool append)
             {
                 fileName = fileFullPath;
 
@@ -107,7 +105,7 @@ namespace ModChecker.Util
                 }
                 
                 // Date and time as prefix when indicated
-                string timeStamp = useTimeStamps ? DateTime.Now.ToString() + " - " : "";
+                string timeStamp = useTimeStamps ? $"{ DateTime.Now:yyyy-MM-dd HH:mm:ss} - " : "";
 
                 // Loglevel prefix for anything other than info
                 string logLevelPrefix = (logLevel == info) ? "" : $"[{ Convert.ToString(logLevel).ToUpper() }] ";

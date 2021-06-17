@@ -181,8 +181,7 @@ namespace ModChecker.Util
 
 
         // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(ulong profileID,
-                                                 string customURL)
+        internal static string GetAuthorWorkshop(ulong profileID, string customURL)
         {
             if (profileID != 0)
             {
@@ -311,9 +310,7 @@ namespace ModChecker.Util
 
 
         // Get the substring between two search-string in a string
-        internal static string MidString(string original,
-                                         string leftBoundary,
-                                         string rightBoundary)
+        internal static string MidString(string original, string leftBoundary, string rightBoundary)
         {
             // Get the position of the left boundary string
             int indexLeft = original.IndexOf(leftBoundary);
@@ -345,7 +342,10 @@ namespace ModChecker.Util
 
 
         // Return a formatted elapsed time string, in seconds or minutes or both
-        internal static string ElapsedTime(long milliseconds, long threshold = 120, bool showBoth = false, bool showDecimal = false)
+        internal static string ElapsedTime(long milliseconds,
+                                           long threshold = 120,
+                                           bool showBoth = false,
+                                           bool showDecimal = false)
         {
             long seconds = milliseconds / 1000;
 

@@ -6,7 +6,7 @@ using ModChecker.DataTypes;
 using ModChecker.Util;
 
 
-// Auto updater updates the catalog with information from the Steam Workshop pages. The following is updated/added:
+// Auto Updater updates the catalog with information from the Steam Workshop pages. The following is updated/added:
 // * Mod: name, author, publish/update dates, source url, compatible game version, required DLC, required mods, only-needed-for mods (update existing field only),
 //        statuses: incompatible according to the workshop, removed from workshop, no description, no source available (only remove when a source url is found)
 // * Author: name, last seen (only based on mod updates), retired (only remove on mod updates)
@@ -48,7 +48,7 @@ namespace ModChecker.Updater
                 }                    
             }
 
-            Logger.UpdaterLog("Auto updater has shutdown.", extraLine: true, duplicateToRegularLog: true);
+            Logger.UpdaterLog("Auto Updater has shutdown.", extraLine: true, duplicateToRegularLog: true);
 
             return;
         }
@@ -60,8 +60,8 @@ namespace ModChecker.Updater
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
-            Logger.Log("Auto updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute. See separate logfile for details.");
-            Logger.UpdaterLog("Auto updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
+            Logger.Log("Auto Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute. See separate logfile for details.");
+            Logger.UpdaterLog("Auto Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
 
             uint totalPages = 0;
 
@@ -123,7 +123,7 @@ namespace ModChecker.Updater
             // Log the elapsed time; note: >95% is download time; skipping lines with 'reader.Basestream.Seek' or stopping after 30 mods does nothing for speed
             timer.Stop();
 
-            Logger.UpdaterLog($"Auto updater finished checking { totalPages } Steam Workshop 'mod listing' pages in " + 
+            Logger.UpdaterLog($"Auto Updater finished checking { totalPages } Steam Workshop 'mod listing' pages in " + 
                 $"{ Tools.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }. { CatalogUpdater.CollectedModInfo.Count } mods and " + 
                 $"{ CatalogUpdater.CollectedAuthorIDs.Count + CatalogUpdater.CollectedAuthorURLs.Count } authors found.", duplicateToRegularLog: true);
 
@@ -252,9 +252,9 @@ namespace ModChecker.Updater
                 else
                 {
                     unfoundMod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.Unknown });
-                }
 
-                Logger.UpdaterLog("Unfound mod added from catalog to CollectedModInfo dictionary: { unfoundMod.ToString() }", Logger.debug);
+                    Logger.UpdaterLog($"Mod from catalog without 'removed' or 'unlisted' status no longer found: { unfoundMod.ToString(cutOff: false) }", Logger.debug);
+                }
 
                 // Add the mod to the collected mods dictionary
                 CatalogUpdater.CollectedModInfo.Add(unfoundMod.SteamID, unfoundMod);
@@ -268,7 +268,7 @@ namespace ModChecker.Updater
             // If the current active catalog is version 1, we're (re)building the catalog from scratch; version 2 should not include any details, so exit here
             if (ActiveCatalog.Instance.Version == 1)
             {
-                Logger.UpdaterLog($"Auto updater skipped checking individual Steam Workshop mod pages.");
+                Logger.UpdaterLog($"Auto Updater skipped checking individual Steam Workshop mod pages.");
 
                 return true;
             }
@@ -279,7 +279,7 @@ namespace ModChecker.Updater
             // Estimated time in milliseconds is about half a second per download, for the number of known mods we are allowed to download and 10 new mods
             long estimated = 550 * Math.Min(maxKnownModDownloads + 10, CatalogUpdater.CollectedModInfo.Count);
 
-            Logger.UpdaterLog($"Auto updater started checking individual Steam Workshop mod pages. This should take about { Tools.ElapsedTime(estimated) }.",
+            Logger.UpdaterLog($"Auto Updater started checking individual Steam Workshop mod pages. This should take about { Tools.ElapsedTime(estimated) }.",
                 duplicateToRegularLog: true);
 
             // Initialize counters
@@ -354,7 +354,7 @@ namespace ModChecker.Updater
             // Log the elapsed time
             timer.Stop();
 
-            Logger.UpdaterLog($"Auto updater finished checking { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
+            Logger.UpdaterLog($"Auto Updater finished checking { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Tools.ElapsedTime(timer.ElapsedMilliseconds, showBoth: true) }.", duplicateToRegularLog: true);
 
             // return true if we downloaded at least one mod, or we were not allowed to download any

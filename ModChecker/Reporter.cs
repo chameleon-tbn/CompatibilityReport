@@ -157,8 +157,7 @@ namespace ModChecker
 
         // Get report text for one mod; not reported: SourceURL, Updated, Downloaded
         // Return value indicates whether we found a mod without a review in the catalog, but with remarks to report
-        private static bool GetModText(ulong steamID,
-                                       bool nameFirst)
+        private static bool GetModText(ulong steamID, bool nameFirst)
         {
             // Exit if the Steam ID is 0 (meaning we ran out of fake IDs for local or builtin mods)
             if (steamID == 0)

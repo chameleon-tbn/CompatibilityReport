@@ -35,7 +35,7 @@ namespace ModChecker
             Catalog downloadedCatalog = Download(previousCatalog == null ? 0 : previousCatalog.Version);
 
             // Download the latest updated catalog
-            Catalog updatedCatalog = LoadUpdated();
+            Catalog updatedCatalog = LoadUpdater();
 
             // The newest catalog becomes the active catalog
             Instance = Newest(bundledCatalog, previousCatalog, downloadedCatalog, updatedCatalog);
@@ -192,7 +192,7 @@ namespace ModChecker
 
 
         // Load updated catalog, if the updater is enabled
-        private static Catalog LoadUpdated()
+        private static Catalog LoadUpdater()
         {
             if (!ModSettings.UpdaterEnabled)
             {
@@ -215,11 +215,11 @@ namespace ModChecker
 
             if (catalog == null)
             {
-                Logger.Log($"Can't load updated catalog.", Logger.warning);
+                Logger.Log($"Can't load updater catalog.", Logger.warning);
             }
             else
             {
-                Logger.Log($"Updated catalog is version { catalog.VersionString() }.");
+                Logger.Log($"Updater catalog is version { catalog.VersionString() }.");
             }
 
             return catalog;
