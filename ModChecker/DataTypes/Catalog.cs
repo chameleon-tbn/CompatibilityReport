@@ -123,6 +123,24 @@ namespace ModChecker.DataTypes
         }
 
 
+        // Update the catalog; all fields are optional, only supplied fields are updated; the lists can be updated directly, version has it's own update method
+        internal void Update(string note = null, 
+                             Version compatibleGameVersion = null, 
+                             string reportIntroText = null, 
+                             string reportFooterText = null)
+        {
+            Note = note ?? Note;
+
+            CompatibleGameVersion = compatibleGameVersion ?? CompatibleGameVersion;
+
+            CompatibleGameVersionString = CompatibleGameVersion.ToString();
+
+            ReportIntroText = reportIntroText ?? ReportIntroText;
+
+            ReportFooterText = reportFooterText ?? ReportFooterText;
+        }
+
+
         // Catalog version string, for reporting and logging
         public string VersionString() => $"{ StructureVersion }.{ Version:D4}";
 
