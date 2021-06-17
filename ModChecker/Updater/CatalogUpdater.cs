@@ -28,6 +28,7 @@ namespace ModChecker.Updater
         private static DateTime UpdateDate;
 
 
+        // Initialize the dictionaries and change notes stringbuilders
         internal static void Init()
         {
             CollectedModInfo.Clear();
@@ -44,9 +45,7 @@ namespace ModChecker.Updater
         }
 
 
-        // [Todo 0.3] Add check for exclusions and add exclusions dictionary in Catalog class; Exclusions are needed for source url and mod groups, and probably others
-
-        // Update the active catalog with the found information
+        // Update the active catalog with the found information [Todo 0.3] Add exclusion check; add exclusion list in catalog; exclusion are needed for sourcurl and mod groups, and probably others
         internal static void Start()
         {
             UpdateDate = DateTime.Now;
@@ -78,7 +77,7 @@ namespace ModChecker.Updater
 
                 foreach (ulong requiredID in removalList)
                 {
-                    // Now move the above collected IDs to the asset list
+                    // Now remove the IDs and move them to the asset list
                     collectedMod.RequiredMods.Remove(requiredID);
 
                     collectedMod.RequiredAssets.Add(requiredID);
@@ -106,19 +105,17 @@ namespace ModChecker.Updater
             // Add or update all found authors, by author ID
             foreach (ulong authorID in CollectedAuthorIDs.Keys)
             {
+                Author collectedAuthor = CollectedAuthorIDs[authorID];
+
                 if (!ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
                 {
                     // New author; add to the catalog
-                    Author collectedAuthor = CollectedAuthorIDs[authorID];
-
                     AddAuthor(collectedAuthor);
                 }
                 else
                 {
                     // Known author
                     Author catalogAuthor = ActiveCatalog.Instance.AuthorIDDictionary[authorID];
-
-                    Author collectedAuthor = CollectedAuthorIDs[authorID];
 
                     // Update all info
                     UpdateAuthor(catalogAuthor, collectedAuthor);
@@ -128,11 +125,11 @@ namespace ModChecker.Updater
             // Add or update all found authors, by author custom URL
             foreach (string authorURL in CollectedAuthorURLs.Keys)
             {
+                Author collectedAuthor = CollectedAuthorURLs[authorURL];
+
                 if (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL))
                 {
                     // New author; add to the catalog
-                    Author collectedAuthor = CollectedAuthorURLs[authorURL];
-
                     AddAuthor(collectedAuthor);
                 }
                 else
@@ -140,27 +137,8 @@ namespace ModChecker.Updater
                     // Known author
                     Author catalogAuthor = ActiveCatalog.Instance.AuthorURLDictionary[authorURL];
 
-                    Author collectedAuthor = CollectedAuthorURLs[authorURL];
-
                     // Update all info
                     UpdateAuthor(catalogAuthor, collectedAuthor);
-                }
-            }
-
-            // Mods no longer available in the Steam Workshop
-            // [Todo 0.2] Check for unlisted mods, by downloading the mod info (check earlier and add to download list); add 'unlisted' as status next to 'removed'
-            foreach (ulong steamID in ActiveCatalog.Instance.ModDictionary.Keys)
-            {
-                Mod catalogMod = ActiveCatalog.Instance.ModDictionary[steamID];
-
-                // Ignore mods we just found, and local and builtin mods, and mods that already have the 'removed' status
-                if (!CollectedModInfo.ContainsKey(steamID) && (steamID > ModSettings.highestFakeID) && !catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
-                {
-                    catalogMod.Statuses.Add(Enums.ModStatus.RemovedFromWorkshop);
-
-                    catalogMod.Update(changeNotes: $"AutoUpdated as removed on { Tools.DateString(UpdateDate) }.");
-
-                    ChangeNotesRemovedMods.AppendLine($"Mod no longer available on the workshop: { catalogMod.ToString(cutOff: false) }");
                 }
             }
 
@@ -243,8 +221,6 @@ namespace ModChecker.Updater
 
             // Empty the dictionaries and change notes to free memory
             Init();
-
-            return;
         }
 
 
@@ -603,7 +579,7 @@ namespace ModChecker.Updater
                 Logger.UpdaterLog($"Required assets changed for [Steam ID { steamID,10 }]: { collectedMod.RequiredAssets }.", Logger.debug);
             }
 
-            // Add new Statuses: incompatible, no description (only if details for this mod were checked)
+            // Add new Statuses: incompatible, no description*, unlisted in workshop, removed from workshop (* = only if details for this mod were checked)
             if (collectedMod.Statuses.Count > 0)
             {
                 if (collectedMod.Statuses.Contains(Enums.ModStatus.IncompatibleAccordingToWorkshop) &&
@@ -614,18 +590,38 @@ namespace ModChecker.Updater
                     changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'IncompatibleAccordingToWorkshop' status added";
                 }
 
-                if (collectedMod.Statuses.Contains(Enums.ModStatus.NoDescription) && !catalogMod.Statuses.Contains(Enums.ModStatus.NoDescription) && detailsChecked)
+                if (collectedMod.Statuses.Contains(Enums.ModStatus.NoDescription) && 
+                    !catalogMod.Statuses.Contains(Enums.ModStatus.NoDescription) && detailsChecked)
                 {
                     catalogMod.Statuses.Add(Enums.ModStatus.NoDescription);
 
                     changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'NoDescription' status added";
                 }
+
+                if (collectedMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop) && 
+                    !catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
+                {
+                    catalogMod.Statuses.Add(Enums.ModStatus.UnlistedInWorkshop);
+
+                    changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'UnlistedInWorkshop' status added";
+                }
+
+                if (collectedMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop) &&
+                    !catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                {
+                    catalogMod.Statuses.Add(Enums.ModStatus.RemovedFromWorkshop);
+
+                    // Remove unlisted status, if needed
+                    catalogMod.Statuses.Remove(Enums.ModStatus.UnlistedInWorkshop);
+
+                    // Gives this its own line in the change notes
+                    ChangeNotesNewMods.AppendLine($"Mod no longer available on the workshop: { catalogMod.ToString(cutOff: false) }");
+                }
             }
 
-            // Remove Statuses: incompatible, no description (only if details for this mod were checked), removed from workshop
+            // Remove Statuses: incompatible, no description*, unlisted in workshop, removed from workshop (* = only if details for this mod were checked)
             if (catalogMod.Statuses.Count > 0)
             {
-                // Remove statuses
                 if (catalogMod.Statuses.Contains(Enums.ModStatus.IncompatibleAccordingToWorkshop) &&
                     !collectedMod.Statuses.Contains(Enums.ModStatus.IncompatibleAccordingToWorkshop))
                 {
@@ -634,23 +630,33 @@ namespace ModChecker.Updater
                     changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'IncompatibleAccordingToWorkshop' status removed";
                 }
 
-                if (catalogMod.Statuses.Contains(Enums.ModStatus.NoDescription) && !collectedMod.Statuses.Contains(Enums.ModStatus.NoDescription) && detailsChecked)
+                if (catalogMod.Statuses.Contains(Enums.ModStatus.NoDescription) && 
+                    !collectedMod.Statuses.Contains(Enums.ModStatus.NoDescription) && detailsChecked)
                 {
                     catalogMod.Statuses.Remove(Enums.ModStatus.NoDescription);
 
                     changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'NoDescription' status removed";
                 }
 
-                if (catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                if (catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop) &&
+                    !collectedMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
+                {
+                    catalogMod.Statuses.Remove(Enums.ModStatus.UnlistedInWorkshop);
+
+                    changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'UnlistedInWorkshop' status removed";
+                }
+
+                if (catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop) &&
+                    !collectedMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
                 {
                     catalogMod.Statuses.Remove(Enums.ModStatus.RemovedFromWorkshop);
 
-                    changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'RemovedFromWorkshop' status removed";
+                    // Gives this its own line in the change notes
+                    ChangeNotesRemovedMods.AppendLine($"Mod reappeared on the workshop: { catalogMod.ToString(cutOff: false) }");
                 }
-
             }
 
-            // Auto review update date, catalog remark and change notes
+            // Auto review update date and change notes
             if (!string.IsNullOrEmpty(changes))
             {
                 catalogMod.Update(autoReviewUpdated: UpdateDate, changeNotes: $"AutoUpdated on { Tools.DateString(UpdateDate) }: { changes }.");
@@ -698,7 +704,7 @@ namespace ModChecker.Updater
                 changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'last seen' date updated";
             }
 
-            // Catalog remark and change notes
+            // Change notes
             if (!string.IsNullOrEmpty(changes))
             {
                 catalogAuthor.Update(changeNotes: $"AutoUpdated on { Tools.DateString(UpdateDate) }: { changes }.");

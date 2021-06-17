@@ -6,7 +6,7 @@
         // Status of a mod; can be none, one or more [Todo 0.4] Not all are used (yet)
         public enum ModStatus
         {
-            Unknown,                                // Unused
+            Unknown,                                // Only used by the Updater; should not appear in the catalog
             IncompatibleAccordingToWorkshop,        // \    The Workshop has an indication for seriously broken mods; incompatible with the game itself
             GameBreaking,                           //  \
             MajorIssues,                            //   }  Use only one of these four
@@ -17,6 +17,7 @@
             BreaksEditors,
             SavesCantLoadWithout,
             Abandoned,
+            UnlistedInWorkshop,
             RemovedFromWorkshop,
             NoLongerNeeded,
             NoDescription,                          // For mods without (real) description

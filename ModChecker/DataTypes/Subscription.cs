@@ -154,8 +154,8 @@ namespace ModChecker.DataTypes
                 
                 if (!IsLocal || IsBuiltin)
                 {
-                    // Log that we didn't find this one in the catalog
-                    Logger.Log($"Mod found in game but not in the catalog: { this.ToString() }.");
+                    // Log that we didn't find this one in the catalog; probably an unlisted or removed mod
+                    Logger.Log($"Mod found in game but not in the catalog: { this.ToString() }. { ModSettings.pleaseReportText }", Logger.error);
                 }
                 else
                 {

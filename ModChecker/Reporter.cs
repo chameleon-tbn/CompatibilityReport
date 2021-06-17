@@ -653,7 +653,7 @@ namespace ModChecker
         }
 
 
-        // Mod statuses; not reported: UnconfirmedIssues, SourceBundled, SourceObfuscated
+        // Mod statuses; not reported: UnconfirmedIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated
         private static string Statuses(Subscription subscription,
                                        bool htmlReport = false)
         {
@@ -723,7 +723,7 @@ namespace ModChecker
             // Removed from the Steam Workshop
             if (subscription.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
             {
-                text += ReviewLine("Unsubscribe is wise. This is no longer (publicly) available on the Workshop.", htmlReport);
+                text += ReviewLine("Unsubscribe is wise. This is no longer available on the Workshop.", htmlReport);
 
                 // Archive workshop page
                 text += string.IsNullOrEmpty(subscription.ArchiveURL) ? "" :

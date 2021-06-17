@@ -37,6 +37,9 @@ namespace ModChecker.Updater
             // Get basic mod and author information from the Steam Workshop 'mod listing' pages; we always get this info for all mods and their authors
             if (GetBasicInfo())
             {
+                // Add mods from the catalog that we didn't find, for the detail check below
+                AddUnfoundMods();
+
                 // Get detailed information from the individual mod pages; we get this info for all new mods and for a maximum number of known mods
                 if (GetDetails(maxKnownModDownloads))
                 {
@@ -117,7 +120,7 @@ namespace ModChecker.Updater
             // Delete the temporary file
             Tools.DeleteFile(ModSettings.steamDownloadedPageFullPath);
 
-            // Log the elapsed time; note: >95% of process time is download; skipping the first 65KB (900+ lines) with 'reader.Basestream.Seek' does nothing for speed
+            // Log the elapsed time; note: >95% is download time; skipping lines with 'reader.Basestream.Seek' or stopping after 30 mods does nothing for speed
             timer.Stop();
 
             Logger.UpdaterLog($"Auto updater finished checking { totalPages } Steam Workshop 'mod listing' pages in " + 
@@ -223,6 +226,42 @@ namespace ModChecker.Updater
         }
 
 
+        // Add unfound catalog mods to the collected mod dictionary for a detail check; [Todo 0.2] basic info is not yet checked (mod name, author id/url/name)
+        private static void AddUnfoundMods()
+        {
+            foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
+            {
+                // Skip any mods we found already and any non-Steam mods
+                if (CatalogUpdater.CollectedModInfo.ContainsKey(catalogMod.SteamID) || catalogMod.SteamID <= ModSettings.highestFakeID)
+                {
+                    continue;
+                }
+
+                // Create a new mod object with only basic info
+                Mod unfoundMod = new Mod(catalogMod.SteamID, catalogMod.Name, catalogMod.AuthorID, catalogMod.AuthorURL);
+
+                // Add the correct status: removed, unlisted or unknown (if we don't know why it wasn't found; will be changed to removed or unlisted later)
+                if (catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                {
+                    unfoundMod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.RemovedFromWorkshop });
+                }
+                else if (catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
+                {
+                    unfoundMod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.UnlistedInWorkshop });
+                }
+                else
+                {
+                    unfoundMod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.Unknown });
+                }
+
+                Logger.UpdaterLog("Unfound mod added from catalog to CollectedModInfo dictionary: { unfoundMod.ToString() }", Logger.debug);
+
+                // Add the mod to the collected mods dictionary
+                CatalogUpdater.CollectedModInfo.Add(unfoundMod.SteamID, unfoundMod);
+            }
+        }
+
+
         // Get mod information from the individual mod pages on the Steam Workshop; we get this info for all new mods and for a maximum number of known mods
         private static bool GetDetails(uint maxKnownModDownloads)
         {
@@ -306,11 +345,7 @@ namespace ModChecker.Updater
                 }
 
                 // Extract detailed info from the downloaded page
-                if (!ReadModPage(steamID))
-                {
-                    Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { CatalogUpdater.CollectedModInfo[steamID].ToString(cutOff: false) }. " + 
-                        "Mod info not updated.", Logger.error);
-                }
+                ReadModPage(steamID);
             }
 
             // Delete the temporary file
@@ -328,7 +363,7 @@ namespace ModChecker.Updater
 
 
         // Extract detailed mod information from the downloaded mod page; return false if the Steam ID can't be found on this page
-        private static bool ReadModPage(ulong steamID)
+        private static void ReadModPage(ulong steamID)
         {
             // Get the mod
             Mod mod = CatalogUpdater.CollectedModInfo[steamID];
@@ -353,6 +388,17 @@ namespace ModChecker.Updater
                         continue;
                     }
                     
+                    // We found the steam ID, so this mod is definitely not / no longer removed from the Steam Workshop (can still be unlisted)
+                    mod.Statuses.Remove(Enums.ModStatus.RemovedFromWorkshop);
+                    
+                    // If we gave the mod the unknown status before (at AddUnfoundMods), change it to unlisted
+                    if (mod.Statuses.Contains(Enums.ModStatus.Unknown))
+                    {
+                        mod.Statuses.Remove(Enums.ModStatus.Unknown);
+
+                        mod.Statuses.Add(Enums.ModStatus.UnlistedInWorkshop);
+                    }
+
                     // Compatible game version tag
                     if (line.Contains(ModSettings.steamModPageVersionTagFind))
                     {
@@ -471,12 +517,22 @@ namespace ModChecker.Updater
             {
                 // Indicate we checked details for this mod; this will be used by the CatalogUpdater class
                 mod.Update(changeNotes: "Details checked");
-
-                return true;
             }
             else
             {
-                return false;
+                // We didn't find this mod; if we gave the mod the unknown status before (at AddUnfoundMods), change it to removed
+                if (mod.Statuses.Contains(Enums.ModStatus.Unknown))
+                {
+                    mod.Statuses.Remove(Enums.ModStatus.Unknown);
+
+                    mod.Statuses.Add(Enums.ModStatus.RemovedFromWorkshop);
+                }
+                else
+                {
+                    // The download page for this mod couldn't be read correctly
+                    Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { CatalogUpdater.CollectedModInfo[steamID].ToString(cutOff: false) }. " +
+                        "Mod info not updated.", Logger.error);
+                }
             }
         }
 
