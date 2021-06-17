@@ -456,7 +456,7 @@ namespace ModChecker.Updater
             }
 
             // Required DLC (only if details for this mod were checked)
-            if (catalogMod.RequiredDLC.ToString() != collectedMod.RequiredDLC.ToString() && detailsChecked)
+            if (catalogMod.RequiredDLC.Count + collectedMod.RequiredDLC.Count != 0 && detailsChecked)
             {
                 // Add new required dlc
                 foreach (Enums.DLC dlc in collectedMod.RequiredDLC)
@@ -482,7 +482,7 @@ namespace ModChecker.Updater
             }
 
             // Required mods (only if details for this mod were checked), including updating existing NeededFor lists; [Todo 0.5] simplify (or split) this
-            if (catalogMod.RequiredMods.ToString() != collectedMod.RequiredMods.ToString() && detailsChecked)
+            if (catalogMod.RequiredMods.Count + collectedMod.RequiredMods.Count != 0 && detailsChecked)
             {
                 // Remove no longer needed mods and groups from the required list
                 foreach (ulong requiredID in catalogMod.RequiredMods)
@@ -571,7 +571,7 @@ namespace ModChecker.Updater
             }
 
             // Required assets (only if details for this mod were checked)
-            if (catalogMod.RequiredAssets.ToString() != collectedMod.RequiredAssets.ToString() && detailsChecked)
+            if (catalogMod.RequiredAssets.Count + collectedMod.RequiredAssets.Count != 0 && detailsChecked)
             {
                 // We're not really interested in these; just replace the list
                 catalogMod.Update(requiredAssets: collectedMod.RequiredAssets);
