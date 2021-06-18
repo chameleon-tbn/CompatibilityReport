@@ -68,7 +68,7 @@ namespace ModChecker.Updater
             // Go through the different mod listings: mods and camera scripts, both regular and incompatible
             foreach (string steamURL in ModSettings.steamModListingURLs)
             {
-                Logger.UpdaterLog($"Starting downloading from { steamURL }");
+                Logger.UpdaterLog($"Starting downloads from { steamURL }");
                 
                 uint pageNumber = 0;
 
@@ -189,7 +189,7 @@ namespace ModChecker.Updater
                     
                     // Get the author name
                     string authorName = Tools.CleanString(Tools.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
-
+                    
                     // Add the mod to the dictionary; avoid duplicates (could happen if a new mod is published in the time of downloading all pages)
                     if (!CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
                     {
@@ -253,7 +253,7 @@ namespace ModChecker.Updater
                 {
                     unfoundMod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.Unknown });
 
-                    Logger.UpdaterLog($"Mod from catalog without 'removed' or 'unlisted' status no longer found: { unfoundMod.ToString(cutOff: false) }", Logger.debug);
+                    Logger.UpdaterLog($"Mod from catalog without 'removed' or 'unlisted' status not found: { unfoundMod.ToString(cutOff: false) }", Logger.debug);
                 }
 
                 // Add the mod to the collected mods dictionary
@@ -281,13 +281,19 @@ namespace ModChecker.Updater
                 CatalogUpdater.SetNote(ModSettings.thirdCatalogNote);
             }
 
+            // Reset the catalog note if it is still the default note
+            else if (ActiveCatalog.Instance.Note == ModSettings.thirdCatalogNote)
+            {
+                CatalogUpdater.SetNote("");
+            }
+
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
             // Estimated time in milliseconds is about half a second per download, for the number of known mods we are allowed to download and 10 new mods
             long estimated = 550 * Math.Min(maxKnownModDownloads + 10, CatalogUpdater.CollectedModInfo.Count);
 
-            Logger.UpdaterLog($"Auto Updater started checking individual Steam Workshop mod pages. This should take about { Tools.ElapsedTime(estimated) }.",
+            Logger.UpdaterLog($"Auto Updater started checking individual Steam Workshop mod pages. Estimated time: { Tools.ElapsedTime(estimated) }.", 
                 duplicateToRegularLog: true);
 
             // Initialize counters
@@ -424,21 +430,21 @@ namespace ModChecker.Updater
                         }
 
                         string authorName = Tools.CleanString(Tools.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
-
+                        
                         // Update the mod
                         mod.Update(authorID: authorID, authorURL: authorURL);
 
-                        // Add the author to one of the dictionaries, if we don't have this author yet
+                        // Add the author to one of the dictionaries, if we don't have this author yet; if somehow we didn't get an authorName, don't empty it
                         if ((authorID != 0) && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
                         {
-                            CatalogUpdater.CollectedAuthorIDs.Add(authorID, new Author(authorID, authorURL, authorName));
+                            CatalogUpdater.CollectedAuthorIDs.Add(authorID, new Author(authorID, authorURL, string.IsNullOrEmpty(authorName) ? null : authorName));
                         }
 
                         if (!string.IsNullOrEmpty(authorURL))
                         {
                             if (!CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
                             {
-                                CatalogUpdater.CollectedAuthorURLs.Add(authorURL, new Author(authorID, authorURL, authorName));
+                                CatalogUpdater.CollectedAuthorURLs.Add(authorURL, new Author(authorID, authorURL, string.IsNullOrEmpty(authorName) ? null : authorName));
                             }
                         }
                     }

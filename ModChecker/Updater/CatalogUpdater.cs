@@ -15,6 +15,9 @@ namespace ModChecker.Updater
         internal static Dictionary<ulong, Author> CollectedAuthorIDs { get; private set; } = new Dictionary<ulong, Author>();
         internal static Dictionary<string, Author> CollectedAuthorURLs { get; private set; } = new Dictionary<string, Author>();
 
+        // List of author custom URLs to remove from the catalog; these are collected first and removed later to avoid 'author not found' issues
+        private static readonly List<string> AuthorURLsToRemove = new List<string>();
+
         // Note for the new catalog
         private static string CatalogNote;
 
@@ -31,13 +34,16 @@ namespace ModChecker.Updater
         private static DateTime UpdateDate;
 
 
-        // Initialize the dictionaries and change notes stringbuilders
+        // Initialize all variables
         internal static void Init()
         {
             CollectedModInfo.Clear();
             CollectedAuthorIDs.Clear();
             CollectedAuthorURLs.Clear();
 
+            AuthorURLsToRemove.Clear();
+
+            // Setting the note to null instead of empty to avoid accidentally clearing the note when this field is never set
             CatalogNote = null;
 
             ChangeNotesNewMods = new StringBuilder();
@@ -47,6 +53,8 @@ namespace ModChecker.Updater
             ChangeNotesUpdatedAuthors = new StringBuilder();
             ChangeNotesRemovedAuthors = new StringBuilder();
             ChangeNotes = "";
+
+            UpdateDate = DateTime.Now;
         }
 
 
@@ -57,8 +65,6 @@ namespace ModChecker.Updater
         // Update the active catalog with the found information [Todo 0.3] Add exclusion check; add exclusion list in catalog; exclusion are needed for source url and mod groups, and probably others
         internal static void Start()
         {
-            UpdateDate = DateTime.Now;
-
             // Add or update all found mods
             foreach (ulong steamID in CollectedModInfo.Keys)
             {
@@ -151,7 +157,13 @@ namespace ModChecker.Updater
                 }
             }
 
-            // Authors no longer available in the Steam Workshop, by author ID
+            // Remove all old author custom URLs that no longer exist
+            foreach (string oldURL in AuthorURLsToRemove)
+            {
+                ActiveCatalog.Instance.AuthorURLDictionary.Remove(oldURL);
+            }
+
+            // Find authors in the catalog, by author ID, that we didn't find on any mod in the Steam Workshop this time
             foreach (ulong authorID in ActiveCatalog.Instance.AuthorIDDictionary.Keys)
             {
                 // Ignore authors that already have the 'retired' status
@@ -165,7 +177,7 @@ namespace ModChecker.Updater
                 }
             }
 
-            // Authors no longer available in the Steam Workshop, by author custom URL
+            // Find authors in the catalog, by custom URL, that we didn't find on any mod in the Steam Workshop this time
             foreach (string authorURL in ActiveCatalog.Instance.AuthorURLDictionary.Keys)
             {
                 // Ignore authors that already have the 'retired' status
@@ -291,10 +303,10 @@ namespace ModChecker.Updater
                     // Add author ID to author
                     author.Update(profileID: catalogMod.AuthorID);
 
-                    // Add author ID to CollectedAuthors to avoid the author from getting a 'retired' status later
-                    if (!CollectedAuthorIDs.ContainsKey(author.ProfileID))
+                    // Add author URL (which might not be found this time) to CollectedAuthors to avoid the author from getting a 'retired' status later
+                    if (!CollectedAuthorURLs.ContainsKey(author.CustomURL))
                     {
-                        CollectedAuthorIDs.Add(author.ProfileID, author);
+                        CollectedAuthorURLs.Add(author.CustomURL, author);
                     }
 
                     // Add author to author ID dictionary in the active catalog
@@ -326,7 +338,7 @@ namespace ModChecker.Updater
                 // Collect the old URL before we change it
                 string oldURL = catalogMod.AuthorURL ?? "";
 
-                // Update the catalog; change null into empty string for if we decide to allow removal of author URL
+                // Add author URL to the mod; change null into empty string for if we decide to allow removal of author URL
                 catalogMod.Update(authorURL: collectedMod.AuthorURL ?? "");
 
                 changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "author custom url " + change;
@@ -343,9 +355,6 @@ namespace ModChecker.Updater
                 else if (!string.IsNullOrEmpty(oldURL) && ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(oldURL))
                 {
                     author = ActiveCatalog.Instance.AuthorURLDictionary[oldURL];
-
-                    // Remove the old URL from the dictionary in the active catalog
-                    ActiveCatalog.Instance.AuthorURLDictionary.Remove(oldURL);
                 }
 
                 if (author != null)
@@ -353,16 +362,22 @@ namespace ModChecker.Updater
                     // Add/update URL for author
                     author.Update(customURL: catalogMod.AuthorURL);
 
-                    // Add author URL to CollectedAuthors to avoid the author from getting a 'retired' status later
-                    if (!CollectedAuthorURLs.ContainsKey(author.CustomURL))
+                    // Add author ID to CollectedAuthors to avoid the author from getting a 'retired' status later
+                    if (!CollectedAuthorIDs.ContainsKey(author.ProfileID))
                     {
-                        CollectedAuthorURLs.Add(author.CustomURL, author);
+                        CollectedAuthorIDs.Add(author.ProfileID, author);
                     }
 
                     // Add author to author URL dictionary in the active catalog
                     if (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(author.CustomURL))
                     {
                         ActiveCatalog.Instance.AuthorURLDictionary.Add(author.CustomURL, author);
+
+                        // Mark the old URL for removal
+                        if (!string.IsNullOrEmpty(oldURL) && !AuthorURLsToRemove.Contains(oldURL))
+                        {
+                            AuthorURLsToRemove.Add(oldURL);
+                        }
                     }
 
                     // Change notes
@@ -380,8 +395,13 @@ namespace ModChecker.Updater
             }
 
             // Author URL no longer found
-            if (catalogMod.AuthorURL != collectedMod.AuthorURL && string.IsNullOrEmpty(collectedMod.AuthorURL))
+            if (!string.IsNullOrEmpty(catalogMod.AuthorURL) && string.IsNullOrEmpty(collectedMod.AuthorURL))
             {
+                // We don't know if the custom URL was removed by the author, or if Steam decided to give us the profile ID instead; do nothing with it for now
+
+                // [Todo 0.3] Not removing means incorrect custom URLs in the catalog, with potential weird results if someone else starts using it; test URL by downloading?
+
+                /*
                 if (catalogMod.AuthorID != 0 && ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(catalogMod.AuthorID)) 
                 {
                     Author author = ActiveCatalog.Instance.AuthorIDDictionary[catalogMod.AuthorID];
@@ -392,6 +412,7 @@ namespace ModChecker.Updater
                 {
                     Logger.UpdaterLog($"[Not updated in catalog] Mod { catalogMod.ToString() }: author URL no longer found");
                 }
+                */
             }
 
             // Published (only if details for this mod were checked)

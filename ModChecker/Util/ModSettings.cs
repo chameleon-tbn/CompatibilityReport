@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "111";
+        internal const string build = "112";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -181,8 +181,8 @@ namespace ModChecker.Util
 
         // Catalog notes for the first few catalogs
         internal static readonly string firstCatalogNote  = "This first catalog only contains the builtin mods.";
-        internal static readonly string secondCatalogNote = "This second catalog only contains basic info for all mods.";
-        internal static readonly string thirdCatalogNote  = "This third catalog is the first one with detailed information about mods.";
+        internal static readonly string secondCatalogNote = "This second catalog only contains some basic info for all mods.";
+        internal static readonly string thirdCatalogNote  = "This third catalog is the first one with all basic info about mods. No reviews yet.";
 
 
         /// Defaults for settings that will be available to users through mod options within the game [Todo 0.7]
