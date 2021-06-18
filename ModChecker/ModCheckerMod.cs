@@ -44,7 +44,7 @@ namespace ModChecker
             Scanner.Init();
 
             // Start the auto updater; will only run if the updater is enabled; [Todo 0.3] remove the number
-            AutoUpdater.Start(10000);
+            AutoUpdater.Start();
         }
 
 

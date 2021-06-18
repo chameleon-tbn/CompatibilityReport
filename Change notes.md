@@ -4,8 +4,9 @@
 * Catalog auto updater method, based on web crawling the Steam Workshop
   - detects new mods and changes in mod information (name, required dlc/mods, source url, etc.)
 * Automatic catalog versioning and change notes
-* Use of mod groups, to allow different editions of mods as mod requirement
-* First catalog created, with basic mod information for all mods
+* Support for unlisted and removed mods
+* Support for mod groups, to allow different editions of mods as mod requirement
+* First real catalog created, with information of all Workshop mods, but without reviews
 
 ### Version 0.1.1 - Bugfixes and textual changes
 

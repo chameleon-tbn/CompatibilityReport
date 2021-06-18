@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "115";
+        internal const string build = "116";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -298,7 +298,7 @@ namespace ModChecker.Util
         internal static bool UpdaterEnabled { get; private set; } = true && File.Exists(updaterSettingsXml);
 
         // Max. number of individual mod pages to download for known mods, to limit the time spend
-        internal const uint SteamMaxKnownModDownloads = 100;
+        internal const uint SteamMaxKnownModDownloads = 10000;
 
         // Max. number of failed downloads for individual pages before giving up altogether
         internal static uint SteamMaxFailedPages { get; private set; } = 4;

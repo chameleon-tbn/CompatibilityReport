@@ -14,10 +14,10 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Use of mod groups, to allow different editions of mods as mod requirement
 * Catalog updater method, based on web crawling the Steam Workshop
   - detects new mods and changes in mod information (name, required dlc/mods, source url, etc.)
-* Note: the current catalog contains only basic mod information and no reviews yet
+* Note: the current catalog contains basic information about all mods but no reviews yet
 
 ### Roadmap towards version 1.0 (might change)
-* 0.3 - Catalog manual update routine, probably based on csv
+* 0.3 - Catalog manual update routine, based on csv
   * Again with automatic change notes and catalog versioning
   * Catalog containing mod compatibility information for a limited set of mods
 * 0.4 - Alpha release on GitHub and Steam Workshop (unlisted)
@@ -48,7 +48,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Localization
 
 ### Credits
-This mod is inspired by and partially based on [Mod Compatibility Checker / AutoRepair](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine10.
+This mod is inspired by on [Mod Compatibility Checker / AutoRepair](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine10.
 
 This mod uses code snippets from:
 * [Mod Compatibility Checker / AutoRepair](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine10 ([workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132))
