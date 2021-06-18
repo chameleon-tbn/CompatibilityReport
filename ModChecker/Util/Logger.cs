@@ -57,7 +57,7 @@ namespace ModChecker.Util
                         catch (Exception ex2)
                         {
                             // Log error to the game log; only place we can safely log to at this point
-                            Game($"[ERROR] Can't create backup file \"{ Tools.PrivacyPath(fileName) }.old\". { ex2.GetType().Name }: { ex2.Message }");
+                            Game($"[ERROR] Can't create backup file \"{ Toolkit.PrivacyPath(fileName) }.old\". { ex2.GetType().Name }: { ex2.Message }");
                         }
 
                         // Overwrite old file by creating a new one
@@ -66,7 +66,7 @@ namespace ModChecker.Util
                         // Indicate were the old info went if append was chosen but the file exceeded max. size
                         if (append)
                         {
-                            WriteLine($"Older info moved to \"{ Tools.PrivacyPath(fileName) }.old\".");
+                            WriteLine($"Older info moved to \"{ Toolkit.PrivacyPath(fileName) }.old\".");
 
                             WriteLine(ModSettings.sessionSeparator);
                         }
@@ -89,7 +89,7 @@ namespace ModChecker.Util
                 catch (Exception ex)
                 {
                     // Log error to the game log; only place we can safely log to at this point
-                    Game($"[ERROR] Can't create file \"{ Tools.PrivacyPath(fileName) }\". { ex.GetType().Name }: { ex.Message }");
+                    Game($"[ERROR] Can't create file \"{ Toolkit.PrivacyPath(fileName) }\". { ex.GetType().Name }: { ex.Message }");
                 }
             }
 
@@ -121,7 +121,7 @@ namespace ModChecker.Util
                 catch
                 {
                     // Log error to the game log; only place we can safely log to at this point
-                    Game($"[ERROR] Can't write to file \"{ Tools.PrivacyPath(fileName) }\".");
+                    Game($"[ERROR] Can't write to file \"{ Toolkit.PrivacyPath(fileName) }\".");
 
                     // Log to the game log instead
                     duplicateToGameLog = true;
@@ -170,7 +170,7 @@ namespace ModChecker.Util
                 logWritten = true;
 
                 // Log the logfile location to the game log
-                Game($"Detailed logging for this mod can be found in \"{ Tools.PrivacyPath(ModSettings.logfileFullPath) }\"");
+                Game($"Detailed logging for this mod can be found in \"{ Toolkit.PrivacyPath(ModSettings.logfileFullPath) }\"");
             }
 
             // Log a debug message when '\appdata\local' or '/Users/' path found, which contains the username; don't include path to avoid infinite loop
@@ -200,7 +200,7 @@ namespace ModChecker.Util
                 updaterLogWritten = true;
 
                 // Log the updater logfile location to the game log
-                Game($"Logging for the updater can be found in \"{ Tools.PrivacyPath(ModSettings.updaterLogfileFullPath) }\"");
+                Game($"Logging for the updater can be found in \"{ Toolkit.PrivacyPath(ModSettings.updaterLogfileFullPath) }\"");
             }
 
             // Write the message to file, with loglevel prefix

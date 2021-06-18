@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "112";
+        internal const string build = "113";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -127,7 +127,7 @@ namespace ModChecker.Util
         internal const uint downloadRetries = 2;
 
         // 'Please report' text to include in logs when something odd happens
-        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Tools.GetWorkshopURL(modCheckerSteamID) } ";
+        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(modCheckerSteamID) } ";
 
         // Max width of the text report
         internal static readonly int maxReportWidth = 90;
@@ -157,7 +157,7 @@ namespace ModChecker.Util
             bullet + "Always unsubscribe mods you're not using. Disabling isn't always good enough.\n" +
             bullet + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
             bullet + "Savegame not loading? Use the optimization and safe mode options from Loading Screen:\n" +
-            noBullet + Tools.GetWorkshopURL(667342976) + "\n" +
+            noBullet + Toolkit.GetWorkshopURL(667342976) + "\n" +
             "\n" +
                        "Some remarks about incompatibilities:\n" +
             bullet + "Mods that do the same thing are generally incompatible with each other.\n" +
@@ -172,7 +172,7 @@ namespace ModChecker.Util
 
         internal static readonly string defaultFooterText =
             "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" +
-            Tools.GetWorkshopURL(modCheckerSteamID);
+            Toolkit.GetWorkshopURL(modCheckerSteamID);
 
         // Default HTML report intro and footer; [Todo 0.6]
         internal static readonly string defaultIntroHtml = "";

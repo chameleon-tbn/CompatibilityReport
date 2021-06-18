@@ -34,7 +34,7 @@ namespace ModChecker
             Logger.Log($"{ GameVersion.SpecialNote }", duplicateToGameLog: true);
 
             // Exit if Steam Workshop is not available in game
-            if (!Tools.SteamWorkshopAvailable())
+            if (!Toolkit.SteamWorkshopAvailable())
             {
                 Logger.Log("The game can't access the Steam Workshop, and thus has no subscriptions to check. No report was generated.\n" + 
                     "This is expected behaviour if you used the '--noWorkshop' parameter.", Logger.warning, duplicateToGameLog: true);
@@ -66,7 +66,7 @@ namespace ModChecker
 
             timer.Stop();
 
-            Logger.Log($"Scanner initialized in { Tools.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }. Now waiting for all mods to load.", 
+            Logger.Log($"Scanner initialized in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }. Now waiting for all mods to load.", 
                 extraLine: true, duplicateToGameLog: true);
 
             // Indicate that Init has run
@@ -123,7 +123,7 @@ namespace ModChecker
             timer.Stop();
 
             Logger.Log($"Scan complete. Reviewed { ActiveSubscriptions.TotalReviewed } of your { ActiveSubscriptions.All.Count } mods " + 
-                $"in { Tools.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }.", duplicateToGameLog: true);
+                $"in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }.", duplicateToGameLog: true);
 
             // Indicate that we've completed a scan
             scanDone = true;

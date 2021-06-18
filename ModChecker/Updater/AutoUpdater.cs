@@ -78,7 +78,7 @@ namespace ModChecker.Updater
                     // Increase the pagenumber and download a page
                     pageNumber++;
 
-                    Exception ex = Tools.Download($"{ steamURL }&p={ pageNumber }", ModSettings.steamDownloadedPageFullPath);
+                    Exception ex = Toolkit.Download($"{ steamURL }&p={ pageNumber }", ModSettings.steamDownloadedPageFullPath);
 
                     if (ex != null)
                     {
@@ -118,13 +118,13 @@ namespace ModChecker.Updater
             }
 
             // Delete the temporary file
-            Tools.DeleteFile(ModSettings.steamDownloadedPageFullPath);
+            Toolkit.DeleteFile(ModSettings.steamDownloadedPageFullPath);
 
             // Log the elapsed time; note: >95% is download time; skipping lines with 'reader.Basestream.Seek' or stopping after 30 mods does nothing for speed
             timer.Stop();
 
             Logger.UpdaterLog($"Auto Updater finished checking { totalPages } Steam Workshop 'mod listing' pages in " + 
-                $"{ Tools.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }. { CatalogUpdater.CollectedModInfo.Count } mods and " + 
+                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }. { CatalogUpdater.CollectedModInfo.Count } mods and " + 
                 $"{ CatalogUpdater.CollectedAuthorIDs.Count + CatalogUpdater.CollectedAuthorURLs.Count } authors found.", duplicateToRegularLog: true);
 
             return (totalPages > 0) && (CatalogUpdater.CollectedModInfo.Count > 0);
@@ -155,7 +155,7 @@ namespace ModChecker.Updater
 
                     try
                     {
-                        steamID = Convert.ToUInt64(Tools.MidString(line, ModSettings.steamModListingModIDLeft, ModSettings.steamModListingModIDRight));
+                        steamID = Convert.ToUInt64(Toolkit.MidString(line, ModSettings.steamModListingModIDLeft, ModSettings.steamModListingModIDRight));
                     }
                     catch
                     {
@@ -166,7 +166,7 @@ namespace ModChecker.Updater
                     }
 
                     // Get the mod name
-                    string name = Tools.CleanString(Tools.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
+                    string name = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
 
                     // Skip one line
                     line = reader.ReadLine();
@@ -176,7 +176,7 @@ namespace ModChecker.Updater
 
                     try
                     {
-                        authorID = Convert.ToUInt64(Tools.MidString(line, ModSettings.steamModListingAuthorIDLeft, ModSettings.steamModListingAuthorRight));
+                        authorID = Convert.ToUInt64(Toolkit.MidString(line, ModSettings.steamModListingAuthorIDLeft, ModSettings.steamModListingAuthorRight));
                     }
                     catch
                     {
@@ -185,10 +185,10 @@ namespace ModChecker.Updater
                     }                    
 
                     // Author URL will be empty if not found
-                    string authorURL = Tools.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
+                    string authorURL = Toolkit.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
                     
                     // Get the author name
-                    string authorName = Tools.CleanString(Tools.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
+                    string authorName = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
                     
                     // Add the mod to the dictionary; avoid duplicates (could happen if a new mod is published in the time of downloading all pages)
                     if (!CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
@@ -293,7 +293,7 @@ namespace ModChecker.Updater
             // Estimated time in milliseconds is about half a second per download, for the number of known mods we are allowed to download and 10 new mods
             long estimated = 550 * Math.Min(maxKnownModDownloads + 10, CatalogUpdater.CollectedModInfo.Count);
 
-            Logger.UpdaterLog($"Auto Updater started checking individual Steam Workshop mod pages. Estimated time: { Tools.ElapsedTime(estimated) }.", 
+            Logger.UpdaterLog($"Auto Updater started checking individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.", 
                 duplicateToRegularLog: true);
 
             // Initialize counters
@@ -319,7 +319,7 @@ namespace ModChecker.Updater
                 }
 
                 // Download the Steam Workshop mod page
-                if (Tools.Download(Tools.GetWorkshopURL(steamID), ModSettings.steamDownloadedPageFullPath) != null)
+                if (Toolkit.Download(Toolkit.GetWorkshopURL(steamID), ModSettings.steamDownloadedPageFullPath) != null)
                 {
                     // Download error
                     failedDownloads++;
@@ -363,13 +363,13 @@ namespace ModChecker.Updater
             }
 
             // Delete the temporary file
-            Tools.DeleteFile(ModSettings.steamDownloadedPageFullPath);
+            Toolkit.DeleteFile(ModSettings.steamDownloadedPageFullPath);
 
             // Log the elapsed time
             timer.Stop();
 
             Logger.UpdaterLog($"Auto Updater finished checking { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
-                $"{ Tools.ElapsedTime(timer.ElapsedMilliseconds, showBoth: true) }.", duplicateToRegularLog: true);
+                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showBoth: true) }.", duplicateToRegularLog: true);
 
             // return true if we downloaded at least one mod, or we were not allowed to download any
             return (knownModsDownloaded + newModsDownloaded) > 0 || maxKnownModDownloads == 0;
@@ -421,15 +421,15 @@ namespace ModChecker.Updater
 
                         try
                         {
-                            authorID = Convert.ToUInt64(Tools.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/", ModSettings.steamModPageAuthorMid));
+                            authorID = Convert.ToUInt64(Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/", ModSettings.steamModPageAuthorMid));
                         }
                         catch
                         {
                             // Author profile ID not found, try custom URL
-                            authorURL = Tools.MidString(line, ModSettings.steamModPageAuthorFind + "id/", ModSettings.steamModPageAuthorMid);
+                            authorURL = Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "id/", ModSettings.steamModPageAuthorMid);
                         }
 
-                        string authorName = Tools.CleanString(Tools.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
+                        string authorName = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
                         
                         // Update the mod
                         mod.Update(authorID: authorID, authorURL: authorURL);
@@ -453,16 +453,16 @@ namespace ModChecker.Updater
                     else if (line.Contains(ModSettings.steamModPageNameLeft) && mod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                     {
                         // Update the mod
-                        mod.Update(name: Tools.CleanString(Tools.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)));
+                        mod.Update(name: Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)));
                     }
 
                     // Compatible game version tag
                     else if (line.Contains(ModSettings.steamModPageVersionTagFind))
                     {
-                        string gameVersion = Tools.MidString(line, ModSettings.steamModPageVersionTagLeft, ModSettings.steamModPageVersionTagRight);
+                        string gameVersion = Toolkit.MidString(line, ModSettings.steamModPageVersionTagLeft, ModSettings.steamModPageVersionTagRight);
 
                         // Update the mod, but first convert the gameversion string back and forth to ensure a correctly formatted string
-                        mod.Update(compatibleGameVersionString: GameVersion.Formatted(Tools.ConvertToGameVersion(gameVersion)));
+                        mod.Update(compatibleGameVersionString: GameVersion.Formatted(Toolkit.ConvertToGameVersion(gameVersion)));
                     }
 
                     // Publish and update dates; also update author last seen date and retired state
@@ -472,13 +472,13 @@ namespace ModChecker.Updater
                         line = reader.ReadLine();
                         line = reader.ReadLine();
 
-                        DateTime published = Tools.ConvertWorkshopDateTime(Tools.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
+                        DateTime published = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
 
                         // Skip another line
                         line = reader.ReadLine();
 
                         // Get the update date, if available; this will return DateTime.MinValue if no updated date was found on the page
-                        DateTime updated = Tools.ConvertWorkshopDateTime(Tools.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
+                        DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
 
                         // Update the mod with both dates
                         mod.Update(published: published, updated: updated);
@@ -502,7 +502,7 @@ namespace ModChecker.Updater
                         // Skip one line
                         line = reader.ReadLine();
 
-                        string dlcString = Tools.MidString(line, ModSettings.steamModPageRequiredDLCLeft, ModSettings.steamModPageRequiredDLCRight);
+                        string dlcString = Toolkit.MidString(line, ModSettings.steamModPageRequiredDLCLeft, ModSettings.steamModPageRequiredDLCRight);
                         
                         if (!string.IsNullOrEmpty(dlcString))
                         {
@@ -524,7 +524,7 @@ namespace ModChecker.Updater
                         // Skip one line
                         line = reader.ReadLine();
 
-                        string requiredString = Tools.MidString(line, ModSettings.steamModPageRequiredModLeft, ModSettings.steamModPageRequiredModRight);
+                        string requiredString = Toolkit.MidString(line, ModSettings.steamModPageRequiredModLeft, ModSettings.steamModPageRequiredModRight);
 
                         try
                         {
@@ -597,7 +597,7 @@ namespace ModChecker.Updater
         // Get the source URL; if more than one is found, pick the most likely; this is not foolproof and will need a manual update for some
         private static string GetSourceURL(string line, ulong steamID)
         {
-            string sourceURL = Tools.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
+            string sourceURL = Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
 
             // Exit if we find none
             if (string.IsNullOrEmpty(sourceURL))
@@ -622,7 +622,7 @@ namespace ModChecker.Updater
                 line = line.Substring(index, line.Length - index);
 
                 // Get the second source url
-                secondSourceURL = Tools.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
+                secondSourceURL = Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
 
                 // Decide which source url to use if a second source url was found and both url's are not identical
                 if (!string.IsNullOrEmpty(secondSourceURL) && sourceURL != "https://github.com/" + secondSourceURL)

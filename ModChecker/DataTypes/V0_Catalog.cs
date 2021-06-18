@@ -53,7 +53,7 @@ namespace ModChecker.DataTypes
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Can't load V{ StructureVersion } catalog \"{ Tools.PrivacyPath(fullPath) }\".");
+                    Logger.Log($"Can't load V{ StructureVersion } catalog \"{ Toolkit.PrivacyPath(fullPath) }\".");
 
                     Logger.Exception(ex, debugOnly: true);
 
@@ -62,7 +62,7 @@ namespace ModChecker.DataTypes
             }
             else
             {
-                Logger.Log($"Can't load nonexistent V{ StructureVersion } catalog \"{ Tools.PrivacyPath(fullPath) }\".");
+                Logger.Log($"Can't load nonexistent V{ StructureVersion } catalog \"{ Toolkit.PrivacyPath(fullPath) }\".");
 
                 return null;
             }

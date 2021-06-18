@@ -86,7 +86,7 @@ namespace ModChecker.DataTypes
             }
 
             // Get information from plugin
-            Name = Tools.GetPluginName(plugin);
+            Name = Toolkit.GetPluginName(plugin);
             IsEnabled = plugin.isEnabled;
             IsLocal = plugin.publishedFileID == PublishedFileId.invalid;
             IsBuiltin = plugin.isBuiltin;
@@ -186,7 +186,7 @@ namespace ModChecker.DataTypes
             Updated = catalogMod.Updated;
             ArchiveURL = catalogMod.ArchiveURL;
             SourceURL = catalogMod.SourceURL;
-            GameVersionCompatible = Tools.ConvertToGameVersion(catalogMod.CompatibleGameVersionString);
+            GameVersionCompatible = Toolkit.ConvertToGameVersion(catalogMod.CompatibleGameVersionString);
 
             RequiredDLC = catalogMod.RequiredDLC;
             RequiredMods = catalogMod.RequiredMods;

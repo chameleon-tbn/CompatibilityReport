@@ -97,7 +97,7 @@ namespace ModChecker
                 Logger.Log($"Previously downloaded catalog is version { previousCatalog.VersionString() }.");
             }
             // Can't be loaded; try to delete it
-            else if (Tools.DeleteFile(ModSettings.downloadedCatalogFullPath))
+            else if (Toolkit.DeleteFile(ModSettings.downloadedCatalogFullPath))
             {
                 Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.warning);
             }
@@ -124,7 +124,7 @@ namespace ModChecker
             string newCatalogTemporaryFullPath = ModSettings.downloadedCatalogFullPath + ".part";
 
             // Delete temporary catalog if it was left over from a previous session; exit if we can't delete it
-            if (!Tools.DeleteFile(newCatalogTemporaryFullPath))
+            if (!Toolkit.DeleteFile(newCatalogTemporaryFullPath))
             {
                 Logger.Log("Partially downloaded catalog still exists from a previous session and can't be deleted. This prevents a new download.", Logger.error);
 
@@ -134,7 +134,7 @@ namespace ModChecker
             // Download new catalog and time it
             Stopwatch timer = Stopwatch.StartNew();
 
-            Exception exception = Tools.Download(ModSettings.catalogURL, newCatalogTemporaryFullPath);
+            Exception exception = Toolkit.Download(ModSettings.catalogURL, newCatalogTemporaryFullPath);
 
             if (exception != null)
             {
@@ -153,7 +153,7 @@ namespace ModChecker
                 }
 
                 // Delete empty temporary file and exit
-                Tools.DeleteFile(newCatalogTemporaryFullPath);
+                Toolkit.DeleteFile(newCatalogTemporaryFullPath);
 
                 return null;
             }
@@ -161,7 +161,7 @@ namespace ModChecker
             // Log elapsed time
             timer.Stop();
 
-            Logger.Log($"Catalog downloaded in { Tools.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) } from { ModSettings.catalogURL }");
+            Logger.Log($"Catalog downloaded in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) } from { ModSettings.catalogURL }");
 
             // Load newly downloaded catalog
             Catalog newCatalog = Catalog.Load(newCatalogTemporaryFullPath);
@@ -180,12 +180,12 @@ namespace ModChecker
                 // Copy the temporary file over the previously downloaded catalog if it's newer
                 if (newCatalog.Version > previousVersion)
                 {
-                    downloadedValidCatalog = Tools.CopyFile(newCatalogTemporaryFullPath, ModSettings.downloadedCatalogFullPath);
+                    downloadedValidCatalog = Toolkit.CopyFile(newCatalogTemporaryFullPath, ModSettings.downloadedCatalogFullPath);
                 }
             }
 
             // Delete temporary file
-            Tools.DeleteFile(newCatalogTemporaryFullPath);
+            Toolkit.DeleteFile(newCatalogTemporaryFullPath);
 
             return newCatalog;
         }

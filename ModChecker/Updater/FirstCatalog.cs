@@ -37,7 +37,7 @@ namespace ModChecker.Updater
 
             DateTime gameRelease = DateTime.Parse("2015-03-10");
 
-            string modNotes = $"Added by Updater on { Tools.DateString(now) }.";
+            string modNotes = $"Added by Updater on { Toolkit.DateString(now) }.";
 
             string changeNotes = "";
 
@@ -56,7 +56,7 @@ namespace ModChecker.Updater
             // Save the catalog as ModCheckerCatalog_v1.0001.xml and save the change notes in the same folder
             if (firstCatalog.Save(partialPath + ".xml"))
             {
-                Tools.SaveToFile($"Change Notes for Catalog { firstCatalog.VersionString() }\n" +
+                Toolkit.SaveToFile($"Change Notes for Catalog { firstCatalog.VersionString() }\n" +
                     "-------------------------------\n" +
                     $"{ now:D}, { now:t}\n" + 
                     "\n" +

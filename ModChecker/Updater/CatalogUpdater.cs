@@ -171,7 +171,7 @@ namespace ModChecker.Updater
                 {
                     Author catalogAuthor = ActiveCatalog.Instance.AuthorIDDictionary[authorID];
                     
-                    catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { Tools.DateString(UpdateDate) }.");
+                    catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { Toolkit.DateString(UpdateDate) }.");
 
                     ChangeNotesRemovedAuthors.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorIDDictionary[authorID].ToString() }");
                 }
@@ -185,7 +185,7 @@ namespace ModChecker.Updater
                 {
                     Author catalogAuthor = ActiveCatalog.Instance.AuthorURLDictionary[authorURL];
 
-                    catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { Tools.DateString(UpdateDate) }.");
+                    catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { Toolkit.DateString(UpdateDate) }.");
 
                     ChangeNotesRemovedAuthors.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorURLDictionary[authorURL].ToString() }");
                 }
@@ -229,10 +229,10 @@ namespace ModChecker.Updater
                 if (ActiveCatalog.Instance.Save(partialPath + ".xml"))
                 {
                     // Save change notes, in the same folder as the new catalog
-                    Tools.SaveToFile(ChangeNotes.ToString(), partialPath + "_ChangeNotes.txt");
+                    Toolkit.SaveToFile(ChangeNotes.ToString(), partialPath + "_ChangeNotes.txt");
 
                     // Copy the updater logfile to the same folder as the new catalog
-                    Tools.CopyFile(ModSettings.updaterLogfileFullPath, partialPath + "_Updater.log");
+                    Toolkit.CopyFile(ModSettings.updaterLogfileFullPath, partialPath + "_Updater.log");
                 }
 
                 // Close and reopen the active catalog, because we made changes to it
@@ -258,7 +258,7 @@ namespace ModChecker.Updater
             catalogMod.Update(collectedMod.Name, collectedMod.AuthorID, collectedMod.AuthorURL, collectedMod.Published, collectedMod.Updated, archiveURL: null,
                 collectedMod.SourceURL, collectedMod.CompatibleGameVersionString, collectedMod.RequiredDLC, collectedMod.RequiredMods, collectedMod.RequiredAssets, 
                 neededFor: null, succeededBy: null, alternatives: null, collectedMod.Statuses, note: null, reviewUpdated: null, UpdateDate,
-                changeNotes: $"Added by AutoUpdater on { Tools.DateString(UpdateDate) }.");
+                changeNotes: $"Added by AutoUpdater on { Toolkit.DateString(UpdateDate) }.");
 
             // Change notes
             ChangeNotesNewMods.AppendLine($"New mod { catalogMod.ToString(cutOff: false) }");
@@ -421,7 +421,7 @@ namespace ModChecker.Updater
                 // No mention in the change notes, but log if the publish date was already a valid date
                 if (catalogMod.Published != DateTime.MinValue)
                 {
-                    Logger.UpdaterLog($"Published date changed from { Tools.DateString(catalogMod.Published) } to { Tools.DateString(collectedMod.Published) }. " +
+                    Logger.UpdaterLog($"Published date changed from { Toolkit.DateString(catalogMod.Published) } to { Toolkit.DateString(collectedMod.Published) }. " +
                         $"This should not happen. Mod { catalogMod.ToString(cutOff: false) }", Logger.warning);
                 }
 
@@ -690,7 +690,7 @@ namespace ModChecker.Updater
             // Auto review update date and change notes
             if (!string.IsNullOrEmpty(changes))
             {
-                catalogMod.Update(autoReviewUpdated: UpdateDate, changeNotes: $"AutoUpdated on { Tools.DateString(UpdateDate) }: { changes }.");
+                catalogMod.Update(autoReviewUpdated: UpdateDate, changeNotes: $"AutoUpdated on { Toolkit.DateString(UpdateDate) }: { changes }.");
 
                 ChangeNotesUpdatedMods.AppendLine($"Mod { catalogMod.ToString(cutOff: false) }: { changes }");
             }
@@ -701,7 +701,7 @@ namespace ModChecker.Updater
         private static void AddAuthor(Author collectedAuthor)
         {
             ActiveCatalog.Instance.AddAuthor(collectedAuthor.ProfileID, collectedAuthor.CustomURL, collectedAuthor.Name, collectedAuthor.LastSeen, retired: false,
-                changeNotes: $"Added by AutoUpdater on { Tools.DateString(UpdateDate) }.");
+                changeNotes: $"Added by AutoUpdater on { Toolkit.DateString(UpdateDate) }.");
 
             // Change notes
             ChangeNotesNewAuthors.AppendLine($"New author { collectedAuthor.ToString() }");
@@ -738,7 +738,7 @@ namespace ModChecker.Updater
             // Change notes
             if (!string.IsNullOrEmpty(changes))
             {
-                catalogAuthor.Update(changeNotes: $"AutoUpdated on { Tools.DateString(UpdateDate) }: { changes }.");
+                catalogAuthor.Update(changeNotes: $"AutoUpdated on { Toolkit.DateString(UpdateDate) }: { changes }.");
 
                 ChangeNotesUpdatedAuthors.AppendLine($"Author { catalogAuthor.ToString() }: " + changes);
             }

@@ -12,7 +12,7 @@ using ModChecker.DataTypes;
 
 namespace ModChecker.Util
 {
-    internal static class Tools
+    internal static class Toolkit
     {
         // Delete a file
         internal static bool DeleteFile(string fullPath)
@@ -351,7 +351,7 @@ namespace ModChecker.Util
                                            bool showBoth = false,
                                            bool showDecimal = false)
         {
-            long seconds = milliseconds / 1000;
+            double seconds = milliseconds / 1000;
 
             // Decide on when to show seconds, decimals (for seconds only) and minutes
             showBoth = showBoth && threshold > 0 && seconds > threshold;
@@ -359,9 +359,9 @@ namespace ModChecker.Util
             bool showMinutes = seconds > threshold;
             showDecimal = showDecimal && showSeconds && seconds < 10;
             
-            return (showSeconds ? (showDecimal ? $"{ seconds:F1}" : $"{ seconds }") + " second" + (seconds > 1 ? "s" : "") : "") + 
+            return (showSeconds ? (showDecimal ? $"{ seconds:F1}" : $"{ (int)seconds }") + " second" + (seconds > 1 ? "s" : "") : "") + 
                    (showBoth    ? " (" : "") + 
-                   (showMinutes ? $"{ seconds / 60:0}:{ seconds % 60:00} minutes" : "") + 
+                   (showMinutes ? $"{ Math.Floor(seconds / 60) }:{ seconds % 60:00} minutes" : "") + 
                    (showBoth    ? ")" : "");
         }
     }

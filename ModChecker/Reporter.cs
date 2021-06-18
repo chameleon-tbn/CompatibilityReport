@@ -151,7 +151,7 @@ namespace ModChecker
             Logger.TextReport(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportFooterText) ? ModSettings.defaultFooterText : ActiveCatalog.Instance.ReportFooterText);
 
             // Log the report location
-            Logger.Log($"Text report ready at \"{ Tools.PrivacyPath(ModSettings.ReportTextFullPath) }\".", duplicateToGameLog: true);
+            Logger.Log($"Text report ready at \"{ Toolkit.PrivacyPath(ModSettings.ReportTextFullPath) }\".", duplicateToGameLog: true);
         }
 
 
@@ -224,7 +224,7 @@ namespace ModChecker
             }
             
             // Workshop url for Workshop mods
-            modReview.Append((steamID > ModSettings.highestFakeID) ? ReviewLine("Steam Workshop page: " + Tools.GetWorkshopURL(steamID), htmlReport: false) : "");
+            modReview.Append((steamID > ModSettings.highestFakeID) ? ReviewLine("Steam Workshop page: " + Toolkit.GetWorkshopURL(steamID), htmlReport: false) : "");
 
             // Add the text for this subscription to the reviewed or nonreviewed text
             if (subscription.IsReviewed)
@@ -538,7 +538,7 @@ namespace ModChecker
                         }
 
                         // List the workshop page for easy subscribing
-                        text += ReviewLine("Workshop page: " + Tools.GetWorkshopURL(id), htmlReport, ModSettings.noBullet2);
+                        text += ReviewLine("Workshop page: " + Toolkit.GetWorkshopURL(id), htmlReport, ModSettings.noBullet2);
 
                         continue;   // To the next required mod
                     }

@@ -362,7 +362,7 @@ namespace ModChecker.DataTypes
             // Not valid if Version is 0 or UpdateDate is the lowest value
             if ((Version == 0) || (UpdateDate == DateTime.MinValue))
             {
-                Logger.Log($"Catalog { VersionString() } has incorrect version or update date ({ Tools.DateString(UpdateDate) }).", 
+                Logger.Log($"Catalog { VersionString() } has incorrect version or update date ({ Toolkit.DateString(UpdateDate) }).", 
                     Logger.error);
 
                 return false;
@@ -387,7 +387,7 @@ namespace ModChecker.DataTypes
             // If the compatible gameversion for the catalog is unknown, try to convert the string field
             if ((CompatibleGameVersion == null) || (CompatibleGameVersion == GameVersion.Unknown))
             {
-                CompatibleGameVersion = Tools.ConvertToGameVersion(CompatibleGameVersionString);
+                CompatibleGameVersion = Toolkit.ConvertToGameVersion(CompatibleGameVersionString);
 
                 if (CompatibleGameVersion == GameVersion.Unknown) 
                 {
@@ -481,13 +481,13 @@ namespace ModChecker.DataTypes
                     serializer.Serialize(writer, this);
                 }
 
-                Logger.Log($"Created catalog { VersionString() } at \"{Tools.PrivacyPath(fullPath)}\".");
+                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.PrivacyPath(fullPath)}\".");
 
                 return true;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Failed to create catalog at \"{Tools.PrivacyPath(fullPath)}\".", Logger.error);
+                Logger.Log($"Failed to create catalog at \"{Toolkit.PrivacyPath(fullPath)}\".", Logger.error);
 
                 Logger.Exception(ex);
 
@@ -502,7 +502,7 @@ namespace ModChecker.DataTypes
             // Check if file exists
             if (!File.Exists(fullPath))
             {
-                Logger.Log($"Can't load nonexistent catalog \"{ Tools.PrivacyPath(fullPath) }\".", Logger.warning);
+                Logger.Log($"Can't load nonexistent catalog \"{ Toolkit.PrivacyPath(fullPath) }\".", Logger.warning);
 
                 return null;
             }
@@ -528,7 +528,7 @@ namespace ModChecker.DataTypes
                 else
                 {
                     // Invalid, don't return the catalog
-                    Logger.Log($"Discarded invalid catalog \"{ Tools.PrivacyPath(fullPath) }\".", Logger.warning);
+                    Logger.Log($"Discarded invalid catalog \"{ Toolkit.PrivacyPath(fullPath) }\".", Logger.warning);
 
                     return null;
                 }
@@ -539,14 +539,14 @@ namespace ModChecker.DataTypes
                 if (ex.ToString().Contains("There is an error in XML document"))
                 {
                     // XML error, log debug exception
-                    Logger.Log($"XML error in catalog \"{ Tools.PrivacyPath(fullPath) }\". Catalog could not be loaded.", Logger.warning);
+                    Logger.Log($"XML error in catalog \"{ Toolkit.PrivacyPath(fullPath) }\". Catalog could not be loaded.", Logger.warning);
 
                     Logger.Exception(ex, debugOnly: true, duplicateToGameLog: false);
                 }
                 else
                 {
                     // Other error, log exception
-                    Logger.Log($"Can't load catalog \"{ Tools.PrivacyPath(fullPath) }\".", Logger.warning);
+                    Logger.Log($"Can't load catalog \"{ Toolkit.PrivacyPath(fullPath) }\".", Logger.warning);
 
                     Logger.Exception(ex);
                 }
