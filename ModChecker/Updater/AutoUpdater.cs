@@ -270,9 +270,17 @@ namespace ModChecker.Updater
             {
                 Logger.UpdaterLog($"Auto Updater skipped checking individual Steam Workshop mod pages.");
 
+                CatalogUpdater.SetNote(ModSettings.secondCatalogNote);
+
                 return true;
             }
-            
+
+            // If the current active catalog is version 2, we're still (re)building the catalog from scratch; version 3 is the first 'real' catalog
+            if (ActiveCatalog.Instance.Version == 2)
+            {
+                CatalogUpdater.SetNote(ModSettings.thirdCatalogNote);
+            }
+
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 

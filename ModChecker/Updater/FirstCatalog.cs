@@ -7,7 +7,7 @@ using ModChecker.Util;
 
 namespace ModChecker.Updater
 {
-    // Only needed to (re)create the catalog from scratch
+    // Only needed to (re)create the catalog from scratch; catalog 1 is only builtin mods, catalog 2 is only basic info for all mods, catalog 3 is first 'real' catalog
     internal static class FirstCatalog
     {
         internal static void Create()
@@ -21,7 +21,7 @@ namespace ModChecker.Updater
             DateTime now = DateTime.Now;
 
             // Create a new catalog
-            Catalog firstCatalog = new Catalog(1, now, "This first catalog only contains the builtin mods.");
+            Catalog firstCatalog = new Catalog(1, now, ModSettings.firstCatalogNote);
 
             // The filename for the catalog and change notes
             string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ firstCatalog.VersionString() }");

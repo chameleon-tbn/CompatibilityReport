@@ -15,6 +15,9 @@ namespace ModChecker.Updater
         internal static Dictionary<ulong, Author> CollectedAuthorIDs { get; private set; } = new Dictionary<ulong, Author>();
         internal static Dictionary<string, Author> CollectedAuthorURLs { get; private set; } = new Dictionary<string, Author>();
 
+        // Note for the new catalog
+        private static string CatalogNote;
+
         // Change notes, separate parts and combined
         private static StringBuilder ChangeNotesNewMods;
         private static StringBuilder ChangeNotesUpdatedMods;
@@ -35,6 +38,8 @@ namespace ModChecker.Updater
             CollectedAuthorIDs.Clear();
             CollectedAuthorURLs.Clear();
 
+            CatalogNote = null;
+
             ChangeNotesNewMods = new StringBuilder();
             ChangeNotesUpdatedMods = new StringBuilder();
             ChangeNotesRemovedMods = new StringBuilder();
@@ -45,7 +50,11 @@ namespace ModChecker.Updater
         }
 
 
-        // Update the active catalog with the found information [Todo 0.3] Add exclusion check; add exclusion list in catalog; exclusion are needed for sourcurl and mod groups, and probably others
+        // Set a new note for the catalog
+        internal static void SetNote(string catalogNote) => CatalogNote = catalogNote;
+
+
+        // Update the active catalog with the found information [Todo 0.3] Add exclusion check; add exclusion list in catalog; exclusion are needed for source url and mod groups, and probably others
         internal static void Start()
         {
             UpdateDate = DateTime.Now;
@@ -180,6 +189,9 @@ namespace ModChecker.Updater
             {
                 // Increase the catalog version and update date
                 ActiveCatalog.Instance.NewVersion(UpdateDate);
+
+                // Set a new catalog note; not changed if null
+                ActiveCatalog.Instance.Update(note: CatalogNote);
 
                 // Combine the change notes
                 ChangeNotes = $"Change Notes for Catalog { ActiveCatalog.Instance.VersionString() }\n" +
