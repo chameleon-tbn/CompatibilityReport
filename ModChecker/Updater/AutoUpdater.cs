@@ -44,7 +44,7 @@ namespace ModChecker.Updater
                 if (GetDetails(maxKnownModDownloads))
                 {
                     // Update the catalog with the new info and save it to a new version
-                    CatalogUpdater.Start();
+                    CatalogUpdater.Start("the AutoUpdater process");
                 }                    
             }
 

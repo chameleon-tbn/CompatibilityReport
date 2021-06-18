@@ -61,8 +61,10 @@ namespace ModChecker.Updater
                     $"{ now:D}, { now:t}\n" + 
                     "\n" +
                     "*** ADDED: ***\n" +
-                    changeNotes,
-                    partialPath + "_ChangeNotes.txt"); ; ;
+                    changeNotes +
+                    "\n" +
+                    "*** The change notes were automatically created by the FirstCatalog process ***",
+                    partialPath + "_ChangeNotes.txt");
             }
         }
     }

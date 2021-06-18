@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "113";
+        internal const string build = "114";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 

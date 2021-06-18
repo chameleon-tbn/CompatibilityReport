@@ -58,20 +58,101 @@ namespace ModChecker.Updater
         }
 
 
-        // Set a new note for the catalog
-        internal static void SetNote(string catalogNote) => CatalogNote = catalogNote;
-
-
         // Update the active catalog with the found information [Todo 0.3] Add exclusion check; add exclusion list in catalog; exclusion are needed for source url and mod groups, and probably others
-        internal static void Start()
+        internal static void Start(string createdBy = "")
         {
+            // Exit if the updater is not enabled in settings
+            if (!ModSettings.UpdaterEnabled)
+            {
+                return;
+            }
+
             // Add or update all found mods
+            UpdateAndAddMods();
+
+            // Add or update all found authors
+            UpdateAndAddAuthors();
+
+            // Retire authors that have no mods on the Steam Workshop anymore
+            RetireAuthors();
+
+            // Only continue with catalog update if we found any changes to update the catalog; author name changes are ignored for this
+            if (ChangeNotesNewMods.Length + ChangeNotesUpdatedMods.Length + ChangeNotesRemovedMods.Length == 0)
+            {
+                Logger.UpdaterLog("No changed or new mods detected on the Steam Workshop. No new catalog created.");
+
+                // Empty the dictionaries and change notes to free memory
+                Init();
+
+                // Exit
+                return;
+            }
+
+            // Increase the catalog version and update date
+            ActiveCatalog.Instance.NewVersion(UpdateDate);
+
+            // Set a new catalog note; not changed if null
+            ActiveCatalog.Instance.Update(note: CatalogNote);
+
+            // Combine the change notes
+            ChangeNotes = $"Change Notes for Catalog { ActiveCatalog.Instance.VersionString() }\n" +
+                "-------------------------------\n" +
+                $"{ UpdateDate:D}, { UpdateDate:t}\n" +
+                "\n" +
+                "*** ADDED: ***\n" +
+                ChangeNotesNewMods.ToString() +
+                ChangeNotesNewAuthors.ToString() +
+                "\n" +
+                "*** UPDATED: ***\n" +
+                ChangeNotesUpdatedMods.ToString() +
+                ChangeNotesUpdatedAuthors.ToString() +
+                "\n" +
+                "*** REMOVED: ***\n" +
+                ChangeNotesRemovedMods.ToString() +
+                ChangeNotesRemovedAuthors.ToString() +
+                "\n" +
+                "*** The change notes were automatically created" + (string.IsNullOrEmpty(createdBy) ? "" : " by " + createdBy) + " ***";
+
+            // The filename for the new catalog and related files ('ModCheckerCatalog_v1.0001')
+            string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ ActiveCatalog.Instance.VersionString() }");
+
+            // Save the new catalog
+            if (ActiveCatalog.Instance.Save(partialPath + ".xml"))
+            {
+                // Save change notes, in the same folder as the new catalog
+                Toolkit.SaveToFile(ChangeNotes.ToString(), partialPath + "_ChangeNotes.txt");
+
+                Logger.UpdaterLog($"New catalog { ActiveCatalog.Instance.VersionString() } created and change notes saved.");
+
+                // Copy the updater logfile to the same folder as the new catalog
+                Toolkit.CopyFile(ModSettings.updaterLogfileFullPath, partialPath + "_Updater.log");
+            }
+            else
+            {
+                Logger.UpdaterLog($"Could not save the new catalog. All updates were lost.", Logger.error);
+            }
+
+            // Close and reopen the active catalog, because we made changes to it
+            Logger.Log("Closing and reopening the active catalog.");
+
+            ActiveCatalog.Close();
+
+            ActiveCatalog.Init();
+
+            // Empty the dictionaries and change notes to free memory
+            Init();
+        }
+
+
+        // Update or add all found mods
+        internal static void UpdateAndAddMods()
+        {
             foreach (ulong steamID in CollectedModInfo.Keys)
             {
                 // Get the found mod
                 Mod collectedMod = CollectedModInfo[steamID];
 
-                // Clean out assets from the required mods list
+                // Mark assets from the required mods list for removal
                 List<ulong> removalList = new List<ulong>();
 
                 foreach (ulong requiredID in collectedMod.RequiredMods)
@@ -90,9 +171,9 @@ namespace ModChecker.Updater
                     }
                 }
 
+                // Now remove the asset IDs and add them to the asset list
                 foreach (ulong requiredID in removalList)
                 {
-                    // Now remove the IDs and move them to the asset list
                     collectedMod.RequiredMods.Remove(requiredID);
 
                     collectedMod.RequiredAssets.Add(requiredID);
@@ -116,7 +197,12 @@ namespace ModChecker.Updater
                     UpdateMod(steamID);
                 }
             }
+        }
 
+
+        // Update or add all found authors
+        internal static void UpdateAndAddAuthors()
+        {
             // Add or update all found authors, by author ID
             foreach (ulong authorID in CollectedAuthorIDs.Keys)
             {
@@ -162,22 +248,27 @@ namespace ModChecker.Updater
             {
                 ActiveCatalog.Instance.AuthorURLDictionary.Remove(oldURL);
             }
+        }
 
-            // Find authors in the catalog, by author ID, that we didn't find on any mod in the Steam Workshop this time
+
+        // Set retired status for authors in the catalog that we didn't find any mods for (anymore) in the Steam Workshop
+        internal static void RetireAuthors()
+        {
+            // Find authors by author ID
             foreach (ulong authorID in ActiveCatalog.Instance.AuthorIDDictionary.Keys)
             {
                 // Ignore authors that already have the 'retired' status
                 if (!CollectedAuthorIDs.ContainsKey(authorID) && !ActiveCatalog.Instance.AuthorIDDictionary[authorID].Retired)
                 {
                     Author catalogAuthor = ActiveCatalog.Instance.AuthorIDDictionary[authorID];
-                    
+
                     catalogAuthor.Update(retired: true, changeNotes: $"AutoUpdated as retired on { Toolkit.DateString(UpdateDate) }.");
 
                     ChangeNotesRemovedAuthors.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorIDDictionary[authorID].ToString() }");
                 }
             }
 
-            // Find authors in the catalog, by custom URL, that we didn't find on any mod in the Steam Workshop this time
+            // Find authors by custom URL
             foreach (string authorURL in ActiveCatalog.Instance.AuthorURLDictionary.Keys)
             {
                 // Ignore authors that already have the 'retired' status
@@ -190,61 +281,6 @@ namespace ModChecker.Updater
                     ChangeNotesRemovedAuthors.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorURLDictionary[authorURL].ToString() }");
                 }
             }
-
-            // Did we find any changes to mods? Author name changes are ignored for this
-            if (ChangeNotesNewMods.Length + ChangeNotesUpdatedMods.Length + ChangeNotesRemovedMods.Length == 0)
-            {
-                // Nothing changed
-                Logger.UpdaterLog("No changed or new mods detected on the Steam Workshop. No new catalog created.");
-            }
-            else
-            {
-                // Increase the catalog version and update date
-                ActiveCatalog.Instance.NewVersion(UpdateDate);
-
-                // Set a new catalog note; not changed if null
-                ActiveCatalog.Instance.Update(note: CatalogNote);
-
-                // Combine the change notes
-                ChangeNotes = $"Change Notes for Catalog { ActiveCatalog.Instance.VersionString() }\n" +
-                    "-------------------------------\n" +
-                    $"{ UpdateDate:D}, { UpdateDate:t}\n" +
-                    "\n" +
-                    "*** ADDED: ***\n" +
-                    ChangeNotesNewMods.ToString() +
-                    ChangeNotesNewAuthors.ToString() +
-                    "\n" +
-                    "*** UPDATED: ***\n" +
-                    ChangeNotesUpdatedMods.ToString() +
-                    ChangeNotesUpdatedAuthors.ToString() +
-                    "\n" +
-                    "*** REMOVED: ***\n" +
-                    ChangeNotesRemovedMods.ToString() +
-                    ChangeNotesRemovedAuthors.ToString();
-
-                // The filename for the new catalog and related files ('ModCheckerCatalog_v1.0001')
-                string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ ActiveCatalog.Instance.VersionString() }");
-
-                // Save the new catalog
-                if (ActiveCatalog.Instance.Save(partialPath + ".xml"))
-                {
-                    // Save change notes, in the same folder as the new catalog
-                    Toolkit.SaveToFile(ChangeNotes.ToString(), partialPath + "_ChangeNotes.txt");
-
-                    // Copy the updater logfile to the same folder as the new catalog
-                    Toolkit.CopyFile(ModSettings.updaterLogfileFullPath, partialPath + "_Updater.log");
-                }
-
-                // Close and reopen the active catalog, because we made changes to it
-                Logger.Log("Closing and reopening the active catalog.");
-
-                ActiveCatalog.Close();
-
-                ActiveCatalog.Init();
-            }
-
-            // Empty the dictionaries and change notes to free memory
-            Init();
         }
 
 
@@ -743,5 +779,9 @@ namespace ModChecker.Updater
                 ChangeNotesUpdatedAuthors.AppendLine($"Author { catalogAuthor.ToString() }: " + changes);
             }
         }
+
+
+        // Set a new note for the catalog
+        internal static void SetNote(string catalogNote) => CatalogNote = catalogNote;
     }
 }
