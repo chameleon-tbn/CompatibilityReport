@@ -165,8 +165,8 @@ namespace ModChecker.Updater
                         continue;
                     }
 
-                    // Get the mod name; convert '&amp;' to '&'
-                    string name = Tools.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight).Replace("&amp;", "&");
+                    // Get the mod name
+                    string name = Tools.CleanString(Tools.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
 
                     // Skip one line
                     line = reader.ReadLine();
@@ -188,7 +188,7 @@ namespace ModChecker.Updater
                     string authorURL = Tools.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
                     
                     // Get the author name
-                    string authorName = Tools.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight);
+                    string authorName = Tools.CleanString(Tools.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
 
                     // Add the mod to the dictionary; avoid duplicates (could happen if a new mod is published in the time of downloading all pages)
                     if (!CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
@@ -226,7 +226,7 @@ namespace ModChecker.Updater
         }
 
 
-        // Add unfound catalog mods to the collected mod dictionary for a detail check; [Todo 0.2] basic info is not yet checked (mod name, author id/url/name)
+        // Add unfound catalog mods to the collected mod dictionary for a detail check
         private static void AddUnfoundMods()
         {
             foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
@@ -387,7 +387,7 @@ namespace ModChecker.Updater
                         // Don't update anything if we don't find the Steam ID first
                         continue;
                     }
-                    
+
                     // We found the steam ID, so this mod is definitely not / no longer removed from the Steam Workshop (can still be unlisted)
                     mod.Statuses.Remove(Enums.ModStatus.RemovedFromWorkshop);
                     
@@ -399,8 +399,51 @@ namespace ModChecker.Updater
                         mod.Statuses.Add(Enums.ModStatus.UnlistedInWorkshop);
                     }
 
+                    // Author profile ID or custom URL, and author name; only for unlisted mods (we have this info for other mods already)
+                    if (line.Contains(ModSettings.steamModPageAuthorFind) && mod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
+                    {
+                        ulong authorID = 0;
+                        string authorURL = "";
+
+                        try
+                        {
+                            authorID = Convert.ToUInt64(Tools.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/", ModSettings.steamModPageAuthorMid));
+                        }
+                        catch
+                        {
+                            // Author profile ID not found, try custom URL
+                            authorURL = Tools.MidString(line, ModSettings.steamModPageAuthorFind + "id/", ModSettings.steamModPageAuthorMid);
+                        }
+
+                        string authorName = Tools.CleanString(Tools.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
+
+                        // Update the mod
+                        mod.Update(authorID: authorID, authorURL: authorURL);
+
+                        // Add the author to one of the dictionaries, if we don't have this author yet
+                        if ((authorID != 0) && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
+                        {
+                            CatalogUpdater.CollectedAuthorIDs.Add(authorID, new Author(authorID, authorURL, authorName));
+                        }
+
+                        if (!string.IsNullOrEmpty(authorURL))
+                        {
+                            if (!CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
+                            {
+                                CatalogUpdater.CollectedAuthorURLs.Add(authorURL, new Author(authorID, authorURL, authorName));
+                            }
+                        }
+                    }
+
+                    // Mod name; only for unlisted mods (we have this info for other mods already)
+                    else if (line.Contains(ModSettings.steamModPageNameLeft) && mod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
+                    {
+                        // Update the mod
+                        mod.Update(name: Tools.CleanString(Tools.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)));
+                    }
+
                     // Compatible game version tag
-                    if (line.Contains(ModSettings.steamModPageVersionTagFind))
+                    else if (line.Contains(ModSettings.steamModPageVersionTagFind))
                     {
                         string gameVersion = Tools.MidString(line, ModSettings.steamModPageVersionTagLeft, ModSettings.steamModPageVersionTagRight);
 

@@ -309,6 +309,10 @@ namespace ModChecker.Util
         }
 
 
+        // Clean a html string from html codes
+        internal static string CleanString(string text) => text == null ? "" : text.Replace("&amp;", "&").Replace("&quot;", "\"");
+        
+
         // Get the substring between two search-string in a string
         internal static string MidString(string original, string leftBoundary, string rightBoundary)
         {

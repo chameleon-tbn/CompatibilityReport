@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.2";
         internal const string revision = "0";
-        internal const string build = "109";
+        internal const string build = "110";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -257,7 +257,12 @@ namespace ModChecker.Util
         internal static readonly string steamModListingAuthorNameRight = "</a>";
 
         // Search strings for individual mod pages
-        internal static readonly string steamModPageSteamID = "<span onclick=\"VoteUp(";                                                    // Followed by the Steam ID
+        internal static readonly string steamModPageSteamID = "var publishedfileid = '";                                                    // Followed by the Steam ID
+        internal static readonly string steamModPageAuthorFind = "&gt;&nbsp;<a href=\"https://steamcommunity.com/";                         // Followed by 'id' or 'profiles'
+        internal static readonly string steamModPageAuthorMid = "/myworkshopfiles/?appid=255710\">";                                        // Sits between ID/URL and name
+        internal static readonly string steamModPageAuthorRight = "'s Workshop</a>";
+        internal static readonly string steamModPageNameLeft = "<div class=\"workshopItemTitle\">";
+        internal static readonly string steamModPageNameRight = "</div>";
         internal static readonly string steamModPageVersionTagFind = "<span class=\"workshopTagsTitle\">Tags:";                             // Can appear multiple times
         internal static readonly string steamModPageVersionTagLeft = "-compatible\">";
         internal static readonly string steamModPageVersionTagRight = "-compatible";
