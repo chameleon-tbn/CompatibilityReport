@@ -43,7 +43,7 @@ namespace ModChecker
             // Initialize the scanner: basic checks and loading the catalog
             Scanner.Init();
 
-            // Start the auto updater; will only run if the updater is enabled; [Todo 0.3] remove the number
+            // Start the auto updater; will only run if the updater is enabled;
             AutoUpdater.Start();
         }
 

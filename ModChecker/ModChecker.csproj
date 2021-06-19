@@ -76,6 +76,7 @@
     <Compile Include="Updater\AutoUpdater.cs" />
     <Compile Include="Updater\CatalogUpdater.cs" />
     <Compile Include="Updater\FirstCatalog.cs" />
+    <Compile Include="Updater\ManualUpdater.cs" />
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="DataTypes\GameVersion.cs" />
     <Compile Include="Util\Logger.cs" />

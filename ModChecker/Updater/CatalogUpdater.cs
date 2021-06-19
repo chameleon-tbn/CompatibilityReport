@@ -58,13 +58,14 @@ namespace ModChecker.Updater
         }
 
 
-        // Update the active catalog with the found information [Todo 0.3] Add exclusion check; add exclusion list in catalog; exclusion are needed for source url and mod groups, and probably others
-        internal static void Start(string createdBy = "")
+        // Update the active catalog with the found information; returns the partial path of the new catalog
+        // [Todo 0.3] Add exclusion check; add exclusion list in catalog; exclusion are needed for source url and mod groups, and probably others
+        internal static string Start(string createdBy = "")
         {
             // Exit if the updater is not enabled in settings
             if (!ModSettings.UpdaterEnabled)
             {
-                return;
+                return "";
             }
 
             // Add or update all found mods
@@ -85,7 +86,7 @@ namespace ModChecker.Updater
                 Init();
 
                 // Exit
-                return;
+                return "";
             }
 
             // Increase the catalog version and update date
@@ -99,18 +100,21 @@ namespace ModChecker.Updater
                 "-------------------------------\n" +
                 $"{ UpdateDate:D}, { UpdateDate:t}\n" +
                 "\n" +
-                "*** ADDED: ***\n" +
-                ChangeNotesNewMods.ToString() +
-                ChangeNotesNewAuthors.ToString() +
-                "\n" +
-                "*** UPDATED: ***\n" +
-                ChangeNotesUpdatedMods.ToString() +
-                ChangeNotesUpdatedAuthors.ToString() +
-                "\n" +
-                "*** REMOVED: ***\n" +
-                ChangeNotesRemovedMods.ToString() +
-                ChangeNotesRemovedAuthors.ToString() +
-                "\n" +
+                (ChangeNotesNewMods.Length + ChangeNotesNewAuthors.Length == 0 ? "" : 
+                    "*** ADDED: ***\n" +
+                    ChangeNotesNewMods.ToString() +
+                    ChangeNotesNewAuthors.ToString() +
+                    "\n") +
+                (ChangeNotesUpdatedMods.Length + ChangeNotesUpdatedAuthors.Length == 0 ? "" : 
+                    "*** UPDATED: ***\n" +
+                    ChangeNotesUpdatedMods.ToString() +
+                    ChangeNotesUpdatedAuthors.ToString() +
+                    "\n") +
+                (ChangeNotesRemovedMods.Length + ChangeNotesRemovedAuthors.Length == 0 ? "" : 
+                    "*** REMOVED: ***\n" +
+                    ChangeNotesRemovedMods.ToString() +
+                    ChangeNotesRemovedAuthors.ToString() +
+                    "\n") +
                 "*** The change notes were automatically created" + (string.IsNullOrEmpty(createdBy) ? "" : " by " + createdBy) + " ***";
 
             // The filename for the new catalog and related files ('ModCheckerCatalog_v1.0001')
@@ -129,6 +133,9 @@ namespace ModChecker.Updater
             }
             else
             {
+                // Clear partialPath to indicate the catalog wasn't saved
+                partialPath = "";
+
                 Logger.UpdaterLog($"Could not save the new catalog. All updates were lost.", Logger.error);
             }
 
@@ -141,6 +148,8 @@ namespace ModChecker.Updater
 
             // Empty the dictionaries and change notes to free memory
             Init();
+
+            return partialPath;
         }
 
 

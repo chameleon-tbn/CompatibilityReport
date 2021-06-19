@@ -36,6 +36,25 @@ namespace ModChecker.Util
         }
 
 
+        // Rename a file
+        internal static bool MoveFile(string sourceFullPath, string destinationFullPath)
+        {
+            try
+            {
+                File.Move(sourceFullPath, destinationFullPath);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"Could not move file \"{ PrivacyPath(sourceFullPath) }\" to \"{ PrivacyPath(destinationFullPath) }\". " + 
+                    $"Exception: { ex.GetType().Name } { ex.Message }", Logger.error);
+
+                return false;
+            }
+        }
+
+
         // Copy a file
         internal static bool CopyFile(string sourceFullPath,
                                       string destinationFullPath,
