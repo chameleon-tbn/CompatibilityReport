@@ -41,7 +41,7 @@ namespace ModChecker.DataTypes
         public List<Author> Authors { get; private set; } = new List<Author>();
 
         // Update exclusions; these prevent certain changes by the auto updater
-        public List<UpdateExclusion> UpdateExclusions { get; private set; } = new List<UpdateExclusion>();
+        public List<Exclusion> Exclusions { get; private set; } = new List<Exclusion>();
 
 
         // Dictionaries to make searching easier and faster
@@ -93,7 +93,7 @@ namespace ModChecker.DataTypes
 
         // Constructor with all parameters, used when converting an old catalog
         public Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
-            List<Mod> mods, List<Compatibility> modCompatibilities, List<ModGroup> modGroups, List<Author> modAuthors, List<UpdateExclusion> updateExclusions)
+            List<Mod> mods, List<Compatibility> modCompatibilities, List<ModGroup> modGroups, List<Author> modAuthors, List<Exclusion> updateExclusions)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
@@ -119,7 +119,7 @@ namespace ModChecker.DataTypes
 
             Authors = modAuthors ?? new List<Author>();
 
-            UpdateExclusions = updateExclusions ?? new List<UpdateExclusion>();
+            Exclusions = updateExclusions ?? new List<Exclusion>();
         }
 
 
@@ -353,6 +353,14 @@ namespace ModChecker.DataTypes
             
             // Return a reference to the new compatibility
             return compatibility;
+        }
+
+
+        // Add a new exclusion to the catalog; return the exclusion id
+        internal void AddExclusion(string name, ulong steamID, string category, ulong subitem = 0)
+        {
+            // [Todo 0.3] Needs check for existence before adding
+            Exclusions.Add(new Exclusion(name, steamID, category, subitem));
         }
 
 

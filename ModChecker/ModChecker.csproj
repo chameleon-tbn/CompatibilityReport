@@ -64,7 +64,7 @@
   <ItemGroup>
     <Compile Include="ActiveCatalog.cs" />
     <Compile Include="ActiveSubscriptions.cs" />
-    <Compile Include="DataTypes\UpdateExclusion.cs" />
+    <Compile Include="DataTypes\Exclusion.cs" />
     <Compile Include="DataTypes\V0_Catalog.cs" />
     <Compile Include="DataTypes\Catalog.cs" />
     <Compile Include="DataTypes\Author.cs" />
