@@ -21,7 +21,7 @@ namespace ModChecker.Updater
 
 
         // Start the auto updater; will download Steam webpages, extract info, update the active catalog and save it with a new version; including change notes
-        internal static void Start(uint maxKnownModDownloads = ModSettings.SteamMaxKnownModDownloads)
+        internal static void Start()
         {
             // Exit if we ran already, the updater is not enabled in settings, or if we can't get an active catalog
             if (hasRun || !ModSettings.UpdaterEnabled || !ActiveCatalog.Init())
@@ -41,7 +41,7 @@ namespace ModChecker.Updater
                 AddUnfoundMods();
 
                 // Get detailed information from the individual mod pages; we get this info for all new mods and for a maximum number of known mods
-                if (GetDetails(maxKnownModDownloads))
+                if (GetDetails())
                 {
                     // Update the catalog with the new info and save it to a new version
                     CatalogUpdater.Start("the AutoUpdater process");
@@ -49,8 +49,6 @@ namespace ModChecker.Updater
             }
 
             Logger.UpdaterLog("Auto Updater has shutdown.", extraLine: true, duplicateToRegularLog: true);
-
-            return;
         }
         
 
@@ -263,7 +261,7 @@ namespace ModChecker.Updater
 
 
         // Get mod information from the individual mod pages on the Steam Workshop; we get this info for all new mods and for a maximum number of known mods
-        private static bool GetDetails(uint maxKnownModDownloads)
+        private static bool GetDetails()
         {
             // If the current active catalog is version 1, we're (re)building the catalog from scratch; version 2 should not include any details, so exit here
             if (ActiveCatalog.Instance.Version == 1)
@@ -291,7 +289,7 @@ namespace ModChecker.Updater
             Stopwatch timer = Stopwatch.StartNew();
 
             // Estimated time in milliseconds is about half a second per download, for the number of known mods we are allowed to download and 10 new mods
-            long estimated = 550 * Math.Min(maxKnownModDownloads + 10, CatalogUpdater.CollectedModInfo.Count);
+            long estimated = 550 * Math.Min(ModSettings.SteamMaxKnownModDownloads + 10, CatalogUpdater.CollectedModInfo.Count);
 
             Logger.UpdaterLog($"Auto Updater started checking individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.", 
                 duplicateToRegularLog: true);
@@ -302,7 +300,7 @@ namespace ModChecker.Updater
             uint failedDownloads = 0;
 
             // Randomize which known mods to download, by skipping a number of mods; calculated from the number of mods we found and the max. we're allowed to download
-            int skip = new Random().Next(Math.Max(CatalogUpdater.CollectedModInfo.Count - (int)maxKnownModDownloads + 1, 0));
+            int skip = new Random().Next(Math.Max(CatalogUpdater.CollectedModInfo.Count - (int)ModSettings.SteamMaxKnownModDownloads + 1, 0));
             int skipped = 0;
 
             // Check all mods we gathered, one by one
@@ -313,7 +311,7 @@ namespace ModChecker.Updater
                 skipped++;
 
                 // Skip if this is a known mod and we either didn't skip enough mods yet, or we reached the maximum known mods to download
-                if (knownMod && (skipped <= skip || knownModsDownloaded >= maxKnownModDownloads))
+                if (knownMod && (skipped <= skip || knownModsDownloaded >= ModSettings.SteamMaxKnownModDownloads))
                 {
                     continue;
                 }
@@ -372,7 +370,7 @@ namespace ModChecker.Updater
                 $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showBoth: true) }.", duplicateToRegularLog: true);
 
             // return true if we downloaded at least one mod, or we were not allowed to download any
-            return (knownModsDownloaded + newModsDownloaded) > 0 || maxKnownModDownloads == 0;
+            return (knownModsDownloaded + newModsDownloaded) > 0 || ModSettings.SteamMaxKnownModDownloads == 0;
         }
 
 
