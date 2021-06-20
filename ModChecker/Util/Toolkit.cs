@@ -370,7 +370,7 @@ namespace ModChecker.Util
                                            bool showBoth = false,
                                            bool showDecimal = false)
         {
-            double seconds = (double)milliseconds / 1000;
+            double seconds = Math.Floor((double)milliseconds / 1000);
 
             // Decide on when to show seconds, decimals (for seconds only) and minutes
             showBoth = showBoth && threshold > 0 && seconds > threshold;
