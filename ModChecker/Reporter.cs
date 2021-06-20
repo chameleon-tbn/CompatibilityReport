@@ -337,7 +337,7 @@ namespace ModChecker
                 return "";
             }
 
-            return ReviewLine($"This mod was created or updated for the current game version, { GameVersion.Formatted(GameVersion.Current) }.", htmlReport);
+            return ReviewLine($"Created or updated for current game version { GameVersion.Formatted(GameVersion.Current) }. Less likely to have issues.", htmlReport);
         }
 
 

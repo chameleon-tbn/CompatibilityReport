@@ -115,6 +115,7 @@ namespace ModChecker.Updater
                     ChangeNotesRemovedMods.ToString() +
                     ChangeNotesRemovedAuthors.ToString() +
                     "\n") +
+                    "\n" +
                 "*** The change notes were automatically created" + (string.IsNullOrEmpty(createdBy) ? "" : " by " + createdBy) + " ***";
 
             // The filename for the new catalog and related files ('ModCheckerCatalog_v1.0001')
@@ -340,7 +341,7 @@ namespace ModChecker.Updater
 
                 changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "author profile ID found";
 
-                // Update the author ID for the author; this ensures that when adding/updating authors later, the author is recognised and not mistakenly seen as new
+                // Update the author ID for the author; this ensures that when adding/updating authors later, the author is recognized and not mistakenly seen as new
                 if (!string.IsNullOrEmpty(catalogMod.AuthorURL) && ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(catalogMod.AuthorURL))
                 {
                     Author author = ActiveCatalog.Instance.AuthorURLDictionary[catalogMod.AuthorURL];
@@ -388,7 +389,7 @@ namespace ModChecker.Updater
 
                 changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "author custom url " + change;
 
-                // Update the author URL for the author; this ensures that when adding/updating authors later, the author is recognised and not mistakenly seen as new
+                // Update the author URL for the author; this ensures that when adding/updating authors later, the author is recognized and not mistakenly seen as new
                 Author author = null;
 
                 // Get the author by ID

@@ -1,6 +1,6 @@
 ﻿namespace ModChecker.DataTypes
 {
-    // Needs to be public for XML serialization
+    // Needs to be public for XML serialization of some enums
     public static class Enums
     {
         // Status of a mod; can be none, one or more [Todo 0.4] Not all are used (yet)
