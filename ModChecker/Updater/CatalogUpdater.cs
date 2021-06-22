@@ -344,27 +344,21 @@ namespace ModChecker.Updater
                 // Update the author ID for the author; this ensures that when adding/updating authors later, the author is recognized and not mistakenly seen as new
                 if (!string.IsNullOrEmpty(catalogMod.AuthorURL) && ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(catalogMod.AuthorURL))
                 {
-                    Author author = ActiveCatalog.Instance.AuthorURLDictionary[catalogMod.AuthorURL];
+                    Author catalogAuthor = ActiveCatalog.Instance.AuthorURLDictionary[catalogMod.AuthorURL];
 
                     // Add author ID to author
-                    author.Update(profileID: catalogMod.AuthorID);
-
-                    // Add author URL (which might not be found this time) to CollectedAuthors to avoid the author from getting a 'retired' status later
-                    if (!CollectedAuthorURLs.ContainsKey(author.CustomURL))
-                    {
-                        CollectedAuthorURLs.Add(author.CustomURL, author);
-                    }
+                    catalogAuthor.Update(profileID: catalogMod.AuthorID);
 
                     // Add author to author ID dictionary in the active catalog
-                    if (!ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(author.ProfileID))
+                    if (!ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(catalogAuthor.ProfileID))
                     {
-                        ActiveCatalog.Instance.AuthorIDDictionary.Add(author.ProfileID, author);
+                        ActiveCatalog.Instance.AuthorIDDictionary.Add(catalogAuthor.ProfileID, catalogAuthor);
                     }
 
                     // Change notes
-                    ChangeNotesUpdatedAuthors.AppendLine($"Author { author.ToString() }: author profile ID found");
+                    ChangeNotesUpdatedAuthors.AppendLine($"Author { catalogAuthor.ToString() }: author profile ID found");
 
-                    Logger.UpdaterLog($"Author { author.ToString() }: profile ID { author.ProfileID } linked to custom URL \"{ author.CustomURL }\".");
+                    Logger.UpdaterLog($"Author { catalogAuthor.ToString() }: profile ID { catalogAuthor.ProfileID } linked to custom URL \"{ catalogAuthor.CustomURL }\".");
                 }
                 else
                 {
@@ -390,34 +384,28 @@ namespace ModChecker.Updater
                 changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "author custom url " + change;
 
                 // Update the author URL for the author; this ensures that when adding/updating authors later, the author is recognized and not mistakenly seen as new
-                Author author = null;
+                Author catalogAuthor = null;
 
                 // Get the author by ID
                 if (catalogMod.AuthorID != 0 && ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(catalogMod.AuthorID))
                 {
-                    author = ActiveCatalog.Instance.AuthorIDDictionary[catalogMod.AuthorID];
+                    catalogAuthor = ActiveCatalog.Instance.AuthorIDDictionary[catalogMod.AuthorID];
                 }
                 // Or get the author by old URL
                 else if (!string.IsNullOrEmpty(oldURL) && ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(oldURL))
                 {
-                    author = ActiveCatalog.Instance.AuthorURLDictionary[oldURL];
+                    catalogAuthor = ActiveCatalog.Instance.AuthorURLDictionary[oldURL];
                 }
 
-                if (author != null)
+                if (catalogAuthor != null)
                 {
                     // Add/update URL for author
-                    author.Update(customURL: catalogMod.AuthorURL);
-
-                    // Add author ID to CollectedAuthors to avoid the author from getting a 'retired' status later
-                    if (!CollectedAuthorIDs.ContainsKey(author.ProfileID))
-                    {
-                        CollectedAuthorIDs.Add(author.ProfileID, author);
-                    }
+                    catalogAuthor.Update(customURL: catalogMod.AuthorURL);
 
                     // Add author to author URL dictionary in the active catalog
-                    if (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(author.CustomURL))
+                    if (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(catalogAuthor.CustomURL))
                     {
-                        ActiveCatalog.Instance.AuthorURLDictionary.Add(author.CustomURL, author);
+                        ActiveCatalog.Instance.AuthorURLDictionary.Add(catalogAuthor.CustomURL, catalogAuthor);
 
                         // Mark the old URL for removal
                         if (!string.IsNullOrEmpty(oldURL) && !AuthorURLsToRemove.Contains(oldURL))
@@ -427,10 +415,11 @@ namespace ModChecker.Updater
                     }
 
                     // Change notes
-                    ChangeNotesUpdatedAuthors.AppendLine($"Author { author.ToString() }: custom URL { change } ({ author.CustomURL })");
+                    ChangeNotesUpdatedAuthors.AppendLine($"Author { catalogAuthor.ToString() }: custom URL { change }");
 
-                    Logger.UpdaterLog($"Author { author.ToString() }: new custom URL \"{ author.CustomURL }\" linked to profile ID { author.ProfileID }." +
-                        (string.IsNullOrEmpty(oldURL) ? "" : $"Old URL: { oldURL }."));
+                    Logger.UpdaterLog($"Author { catalogAuthor.ToString() }: new custom URL \"{ catalogAuthor.CustomURL }\"" +
+                        (catalogAuthor.ProfileID == 0 ? "." : $" linked to profile ID { catalogAuthor.ProfileID }.") +
+                        (string.IsNullOrEmpty(oldURL) ? "" : $" Old URL: { oldURL }."));
                 }
                 // If the catalog contains the new URL, then the author was already updated from an earlier mod; otherwise log an error
                 else if (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(catalogMod.AuthorURL))
