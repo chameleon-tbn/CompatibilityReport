@@ -194,5 +194,19 @@ namespace ModChecker.DataTypes
                 return id + " " + name;
             }
         }
+
+
+        // Copy all fields from a mod to a new mod
+        internal static Mod CopyMod(Mod originalMod)
+        {
+            Mod newMod = new Mod(originalMod.SteamID, originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL);
+
+            newMod.Update(originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL, originalMod.Published, originalMod.Updated, originalMod.ArchiveURL,
+                originalMod.SourceURL, originalMod.CompatibleGameVersionString, originalMod.RequiredDLC, originalMod.RequiredMods, originalMod.RequiredAssets,
+                originalMod.NeededFor, originalMod.SucceededBy, originalMod.Alternatives, originalMod.Statuses, originalMod.Note, originalMod.ReviewUpdated,
+                originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
+
+            return newMod;
+        }
     }
 }
