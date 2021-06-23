@@ -206,14 +206,11 @@ namespace ModChecker.DataTypes
         // Add a new author to the catalog; return the author or null if they couldn't be added
         internal Author AddAuthor(ulong authorID,
                                   string authorURL,
-                                  string name = "",
+                                  string name,
                                   DateTime lastSeen = default,
                                   bool retired = false,
                                   string changeNotes = "")
         {
-            // Create a new author
-            Author author = new Author(authorID, authorURL, name, lastSeen, retired, changeNotes);
-
             if (AuthorIDDictionary.ContainsKey(authorID) || AuthorURLDictionary.ContainsKey(authorURL ?? "")) 
             {
                 // Author already exists
@@ -221,6 +218,9 @@ namespace ModChecker.DataTypes
 
                 return null;
             }
+
+            // Create a new author
+            Author author = new Author(authorID, authorURL, name, lastSeen, retired, changeNotes);
 
             // Add the author to the list
             Authors.Add(author);

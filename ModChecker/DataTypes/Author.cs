@@ -47,8 +47,7 @@ namespace ModChecker.DataTypes
 
             CustomURL = customURL ?? "";
 
-            // If name is empty, use the profile ID or custom url text
-            Name = !string.IsNullOrEmpty(name) ? name : ProfileID != 0 ? ProfileID.ToString() : CustomURL;
+            Name = name ?? "";
 
             LastSeen = lastSeen;
             
@@ -56,9 +55,19 @@ namespace ModChecker.DataTypes
 
             ChangeNotes = changeNotes;
 
+            // Debug messages
             if (ProfileID == 0 && string.IsNullOrEmpty(CustomURL))
             {
-                Logger.Log($"Author created without profile ID and custom URL: { Name }", Logger.error);
+                Logger.Log($"Author created without profile ID and custom URL: { Name }", Logger.debug);
+            }
+
+            if (string.IsNullOrEmpty(name))
+            {
+                Logger.Log($"Author created with an empty name (profile ID { profileID } | custom URL: { customURL }).", Logger.debug);
+            }
+            else if (name == ProfileID.ToString())
+            {
+                Logger.Log($"Author created with profile ID as name ({ profileID }).", Logger.debug);
             }
         }
 
@@ -77,9 +86,9 @@ namespace ModChecker.DataTypes
             ProfileID = ProfileID == 0 ? profileID : ProfileID;
 
             CustomURL = customURL ?? CustomURL;
-            
-            // Avoid an empty name
-            Name = string.IsNullOrEmpty(name) ? Name : name;
+
+            // Avoid an empty name or the profile ID as name; Steam sometimes incorrectly puts the profile ID in the name field in mod listing HTML pages
+            Name = string.IsNullOrEmpty(name) || name == ProfileID.ToString() ? Name : name;
 
             LastSeen = lastSeen ?? LastSeen;
 
@@ -88,9 +97,15 @@ namespace ModChecker.DataTypes
             // Add a change note (on a new line) instead of replacing it
             ChangeNotes += string.IsNullOrEmpty(changeNotes) ? "" : (string.IsNullOrEmpty(ChangeNotes) ? "" : "\n") + changeNotes;
 
+            // Debug message
             if ((ProfileID == 0) && string.IsNullOrEmpty(CustomURL))
             {
-                Logger.Log($"Author without profile ID and custom URL: { Name }", Logger.debug);
+                Logger.Log($"Updated author left without profile ID and custom URL: { Name }", Logger.debug);
+            }
+
+            if (name == ProfileID.ToString())
+            {
+                Logger.Log($"Author updated with profile ID as name ({ name }). This change was discarded, old name is still used.", Logger.debug);
             }
         }
 

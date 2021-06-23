@@ -122,7 +122,7 @@ namespace ModChecker.Updater
             timer.Stop();
 
             Logger.UpdaterLog($"Auto Updater finished checking { totalPages } Steam Workshop 'mod listing' pages in " + 
-                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) }. { CatalogUpdater.CollectedModInfo.Count } mods and " + 
+                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. { CatalogUpdater.CollectedModInfo.Count } mods and " + 
                 $"{ CatalogUpdater.CollectedAuthorIDs.Count + CatalogUpdater.CollectedAuthorURLs.Count } authors found.", duplicateToRegularLog: true);
 
             return (totalPages > 0) && (CatalogUpdater.CollectedModInfo.Count > 0);
@@ -187,7 +187,23 @@ namespace ModChecker.Updater
                     
                     // Get the author name
                     string authorName = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
-                    
+
+                    // Steam sometimes incorrectly puts the profile ID in place of the name; log if it happens. However, there are authors that actually have the ID as name
+                    if (authorName == authorID.ToString())
+                    {
+                        if (ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
+                        {
+                            if (ActiveCatalog.Instance.AuthorIDDictionary[authorID].Name != authorID.ToString())
+                            {
+                                Logger.UpdaterLog($"Author found in HTML with profile ID as name ({ authorID }). This could be a Steam error.", Logger.warning);
+                            }
+                        }
+                        else
+                        {
+                            Logger.UpdaterLog($"Author found in HTML with profile ID as name ({ authorID }). This could be a Steam error.", Logger.warning);
+                        }
+                    }
+
                     // Add the mod to the dictionary; avoid duplicates (could happen if a new mod is published in the time of downloading all pages)
                     if (!CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
                     {
@@ -202,15 +218,32 @@ namespace ModChecker.Updater
                         CatalogUpdater.CollectedModInfo.Add(steamID, mod);
 
                         modsFoundThisPage++;
+
+                        // Debug messages [Todo 0.5] Remove?
+                        if (string.IsNullOrEmpty(name))
+                        {
+                            Logger.Log($"Mod name not found: { steamID }.", Logger.debug);
+                        }
+
+                        if (authorID == 0 && string.IsNullOrEmpty(authorURL))
+                        {
+                            Logger.Log($"Author ID and URL not found: { steamID }.", Logger.debug);
+                        }
+                        else if (authorID != 0 && !string.IsNullOrEmpty(authorURL))
+                        {
+                            Logger.Log($"Author ID and URL both found at the same time: { steamID }.", Logger.debug);
+                        }
                     }
 
                     // Add the author to one of the dictionaries; avoid duplicates
-                    if ((authorID != 0) && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
+                    if (authorID != 0)
                     {
-                        CatalogUpdater.CollectedAuthorIDs.Add(authorID, new Author(authorID, authorURL, authorName));
+                        if (!CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
+                        {
+                            CatalogUpdater.CollectedAuthorIDs.Add(authorID, new Author(authorID, authorURL, authorName));
+                        }
                     }
-
-                    if (!string.IsNullOrEmpty(authorURL))
+                    else if (!string.IsNullOrEmpty(authorURL))
                     {
                         if (!CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
                         {
@@ -266,7 +299,7 @@ namespace ModChecker.Updater
             // If the current active catalog is version 1, we're (re)building the catalog from scratch; version 2 should not include any details, so exit here
             if (ActiveCatalog.Instance.Version == 1)
             {
-                Logger.UpdaterLog($"Auto Updater skipped checking individual Steam Workshop mod pages.");
+                Logger.UpdaterLog($"Auto Updater skipped checking individual Steam Workshop mod pages for the second catalog.");
 
                 CatalogUpdater.SetNote(ModSettings.secondCatalogNote);
 
@@ -366,7 +399,7 @@ namespace ModChecker.Updater
             // Log the elapsed time
             timer.Stop();
 
-            Logger.UpdaterLog($"Auto Updater finished checking { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
+            Logger.UpdaterLog($"Auto Updater finished downloading { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showBoth: true) }.", duplicateToRegularLog: true);
 
             // return true if we downloaded at least one mod, or we were not allowed to download any
@@ -436,6 +469,12 @@ namespace ModChecker.Updater
                         if ((authorID != 0) && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
                         {
                             CatalogUpdater.CollectedAuthorIDs.Add(authorID, new Author(authorID, authorURL, string.IsNullOrEmpty(authorName) ? null : authorName));
+
+                            // Debug messages [Todo 0.5] Remove?
+                            if (string.IsNullOrEmpty(authorName))
+                            {
+                                Logger.Log($"Author name not found for unlisted mod { steamID }.", Logger.debug);
+                            }
                         }
 
                         if (!string.IsNullOrEmpty(authorURL))
@@ -443,6 +482,12 @@ namespace ModChecker.Updater
                             if (!CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
                             {
                                 CatalogUpdater.CollectedAuthorURLs.Add(authorURL, new Author(authorID, authorURL, string.IsNullOrEmpty(authorName) ? null : authorName));
+
+                                // Debug messages [Todo 0.5] Remove?
+                                if (string.IsNullOrEmpty(authorName))
+                                {
+                                    Logger.Log($"Author name not found for unlisted mod { steamID }.", Logger.debug);
+                                }
                             }
                         }
                     }
@@ -537,7 +582,7 @@ namespace ModChecker.Updater
                         catch
                         {
                             Logger.UpdaterLog($"Steam ID not recognized for required mod: { requiredString }.", Logger.warning);
-                        }                        
+                        }
                     }
 
                     // Description for 'no description' status and for source url
