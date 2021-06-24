@@ -81,6 +81,11 @@ namespace ModChecker.Util
                                         string fileFullPath,
                                         bool append = false)
         {
+            if (string.IsNullOrEmpty(message))
+            {
+                return false;
+            }
+
             try
             {
                 if (append)
@@ -162,7 +167,7 @@ namespace ModChecker.Util
                         failedAttempts++;
 
                         Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
-                            (failedAttempts <= retriesOnError ? ", will retry. " : ". ") + 
+                            (failedAttempts <= retriesOnError ? ", will retry. " : ". Skipped. ") + 
                             (ex.Message.Contains("(502) Bad Gateway") ? "Error: 502 Bad Gateway" : $"Exception: { ex.GetType().Name } { ex.Message }"), Logger.debug);
 
                         exception = ex;
@@ -365,23 +370,23 @@ namespace ModChecker.Util
 
 
         // Return a formatted elapsed time string, in seconds or minutes or both
-        internal static string ElapsedTime(long milliseconds,
-                                           long threshold = 120,
-                                           bool showBoth = false,
-                                           bool showDecimal = false)
+        internal static string ElapsedTime(double milliseconds,
+                                           bool alwaysShowSeconds = false)
         {
-            double seconds = Math.Floor((double)milliseconds / 1000);
+            int seconds = (int)Math.Floor(milliseconds / 1000);
+
+            // Number of seconds when to switch from showing seconds to minutes
+            long threshold = 120;
 
             // Decide on when to show seconds, decimals (for seconds only) and minutes
-            showBoth = showBoth && threshold > 0 && seconds > threshold;
-            bool showSeconds = showBoth || seconds <= threshold;
             bool showMinutes = seconds > threshold;
-            showDecimal = showDecimal && showSeconds && seconds < 10;
+            bool showSeconds = seconds <= threshold || alwaysShowSeconds;
+            bool showDecimal = seconds < 10;
             
-            return (showSeconds ? (showDecimal ? $"{ seconds:F1}" : $"{ (int)seconds }") + " second" + (seconds > 1 ? "s" : "") : "") + 
-                   (showBoth    ? " (" : "") + 
-                   (showMinutes ? $"{ Math.Floor(seconds / 60) }:{ seconds % 60:00} minutes" : "") + 
-                   (showBoth    ? ")" : "");
+            return (showSeconds ? (showDecimal ? $"{ Math.Floor(milliseconds / 100) / 10:F1}" : $"{ seconds }") + " seconds" : "") + 
+                   (showSeconds && showMinutes ? " (" : "") + 
+                   (showMinutes ? $"{ Math.Floor((double)seconds / 60):0}:{ seconds % 60:00} minutes" : "") + 
+                   (showSeconds && showMinutes ? ")" : "");
         }
     }
 }

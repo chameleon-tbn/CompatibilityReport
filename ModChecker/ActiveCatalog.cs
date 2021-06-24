@@ -161,7 +161,7 @@ namespace ModChecker
             // Log elapsed time
             timer.Stop();
 
-            Logger.Log($"Catalog downloaded in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds, showDecimal: true) } from { ModSettings.catalogURL }");
+            Logger.Log($"Catalog downloaded in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) } from { ModSettings.catalogURL }");
 
             // Load newly downloaded catalog
             Catalog newCatalog = Catalog.Load(newCatalogTemporaryFullPath);
