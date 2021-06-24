@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "125";
+        internal const string build = "126";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -287,7 +287,7 @@ namespace ModChecker.Util
 
         // Steam IDs of assets to ignore as required items; [Todo 0.3] Move to catalog
         internal static readonly List<ulong> requiredIDsToIgnore = new List<ulong> { 1145223801, 2228643473, 1083162158, 1787627069, 2088550283, 2071058348, 
-            2071057587, 2013521990, 1866391549, 2128887855, 1568009578, 1779369015, 2008960441, 1899911682, 678303408, 1544460160, 1386088603, 816325876,
+            2071057587, 2013521990, 1866391549, 2128887855, 1568009578, 1779369015, 2008960441, 1899911682, 678303408, 1544460160, 1386088603, 816325876, 
             698391006, 697218602, 597034783, 574281911, 548154065, 562337133, 545841631, 452680862, 482681213, 484657860, 489046338, 413776855, 2442974192};
 
 

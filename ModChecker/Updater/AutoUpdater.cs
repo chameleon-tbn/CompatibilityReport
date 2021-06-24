@@ -561,27 +561,44 @@ namespace ModChecker.Updater
                         }
                     }
 
-                    // Required mods
+                    // Required mods and assets
                     else if (line.Contains(ModSettings.steamModPageRequiredModFind))
                     {
-                        // Skip one line
-                        line = reader.ReadLine();
-
-                        string requiredString = Toolkit.MidString(line, ModSettings.steamModPageRequiredModLeft, ModSettings.steamModPageRequiredModRight);
-
-                        try
+                        // Try to find required mods until we find no more; max. 50 times to avoid infinite loops on code errors
+                        for (uint tries = 1; tries <= 50; tries++)
                         {
-                            // Convert the required mod string to ulong and add if it's not zero
-                            ulong requiredID = Convert.ToUInt64(requiredString);
+                            // Read the next line
+                            line = reader.ReadLine();
 
-                            if (requiredID > 0)
+                            // Get the required Steam ID as string
+                            string requiredString = Toolkit.MidString(line, ModSettings.steamModPageRequiredModLeft, ModSettings.steamModPageRequiredModRight);
+
+                            try
                             {
-                                mod.RequiredMods.Add(requiredID);
+                                // Convert the required Steam ID string to ulong and add if it's not zero
+                                ulong requiredID = Convert.ToUInt64(requiredString);
+
+                                if (requiredID > 0)
+                                {
+                                    mod.RequiredMods.Add(requiredID);
+                                }
+
+                                // Skip three lines
+                                line = reader.ReadLine();
+                                line = reader.ReadLine();
+                                line = reader.ReadLine();
                             }
-                        }
-                        catch
-                        {
-                            Logger.UpdaterLog($"Steam ID not recognized for required mod: { requiredString }.", Logger.warning);
+                            catch
+                            {
+                                // No more steam IDs found for required mods
+                                if (tries == 1)
+                                {
+                                    Logger.UpdaterLog($"Steam ID not recognized for required mod: { requiredString }.", Logger.warning);
+                                }
+                                
+                                // Exit the required mods loop
+                                break;
+                            }
                         }
                     }
 
