@@ -46,11 +46,22 @@ namespace ModChecker.Updater
             // Initialize the dictionaries we need
             CatalogUpdater.Init();
 
+            CSVCombined = new StringBuilder();
+
             // Read all the CSVs
             bool? success = ReadCSVs();
 
-            if (success != null)
+            if (success == null)
             {
+                Logger.UpdaterLog("No CSV files found. No new catalog created.");
+            }
+            else
+            {
+                if (success == false)
+                {
+                    Logger.UpdaterLog($"Manual Updater processed some but not all CSV files. Check logfile for details.", Logger.warning, duplicateToRegularLog: true);
+                }
+
                 // Update the catalog with the new info and save it to a new version
                 string partialPath = CatalogUpdater.Start("the Manual Updater process");
 
@@ -58,11 +69,6 @@ namespace ModChecker.Updater
                 if (!string.IsNullOrEmpty(partialPath) && CSVCombined.Length != 0)
                 {
                     Toolkit.SaveToFile(CSVCombined.ToString(), partialPath + "_ManualUpdates.csv");
-                }
-
-                if (success == false)
-                {
-                    Logger.Log($"Manual Updater processed some but not all CSV files. Check logfile for details.", Logger.warning);
                 }
             }
 
@@ -349,20 +355,27 @@ namespace ModChecker.Updater
         // 
         private static bool AddMod(ulong steamID, bool removedFromWorkshop)
         {
-            return false;
+            // Check if the Steam ID is valid and not already in the active catalog
+            if (steamID == 0 || ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID))
+            {
+                return false;
+            }
+
+            Mod newMod = new Mod(steamID, "", 0, "");
+
+            newMod.Statuses.Add(removedFromWorkshop ? Enums.ModStatus.RemovedFromWorkshop : Enums.ModStatus.UnlistedInWorkshop);
+
+            CatalogUpdater.CollectedModInfo.Add(steamID, newMod);
+
+            return true;
         }
 
 
         // 
         private static bool RemoveMod(ulong steamID)
         {
-            return false;
-        }
+            // [Todo 0.3]
 
-
-        // 
-        private static bool AddModItem(ulong steamID, string action, ulong listMember)
-        {
             return false;
         }
 
@@ -370,13 +383,65 @@ namespace ModChecker.Updater
         // 
         private static bool AddModItem(ulong steamID, string action, string itemData)
         {
+            // Check if the Steam ID is in the active catalog
+            if (steamID == 0 || !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID))
+            {
+                return false;
+            }
+
+            // [Todo 0.3]
+
             return false;
+        }
+
+
+        // 
+        private static bool AddModItem(ulong steamID, string action, ulong listMember)
+        {
+            // Check if the Steam ID and the listMember are in the active catalog
+            if (steamID == 0 || listMember == 0 || !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) || 
+                (!ActiveCatalog.Instance.ModDictionary.ContainsKey(listMember) && !ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(listMember)))
+            {
+                return false;
+            }
+
+            Mod newMod = Mod.CopyMod(ActiveCatalog.Instance.ModDictionary[steamID]);
+
+            if (action == "add_requiredmod")
+            {
+                if (newMod.RequiredMods.Contains(listMember))
+                {
+                    return false;
+                }
+
+                newMod.RequiredMods.Add(listMember);
+            }
+            else if (action == "add_neededfor")
+            {
+                // [Todo 0.3]
+            }
+            else if (action == "add_successor")
+            {
+                // [Todo 0.3]
+            }
+            else if (action == "add_alternative")
+            {
+                // [Todo 0.3]
+            }
+            else
+            {
+                return false;
+            }
+
+            return true;
         }
 
 
         // 
         private static bool RemoveModItem(ulong steamID, string action)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -384,6 +449,8 @@ namespace ModChecker.Updater
         // 
         private static bool RemoveModItem(ulong steamID, string action, ulong listMember)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -391,6 +458,8 @@ namespace ModChecker.Updater
         // 
         private static bool AddAuthorItem(ulong authorID, string action, string itemData)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -398,6 +467,8 @@ namespace ModChecker.Updater
         // 
         private static bool AddAuthorItem(string authorURL, string action, string itemData)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -405,6 +476,8 @@ namespace ModChecker.Updater
         // 
         private static bool AddAuthorItem(string authorURL, ulong newAuthorID)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -412,6 +485,8 @@ namespace ModChecker.Updater
         // 
         private static bool RemoveAuthorItem(string authorURL, string action)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -419,6 +494,8 @@ namespace ModChecker.Updater
         // 
         private static bool RemoveAuthorItem(ulong authorID, string action)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -426,6 +503,8 @@ namespace ModChecker.Updater
         // 
         private static bool AddGroup(string name, List<string> groupMembers)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -433,6 +512,8 @@ namespace ModChecker.Updater
         // 
         private static bool RemoveGroup(ulong groupID, ulong replacementMod)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -440,6 +521,8 @@ namespace ModChecker.Updater
         // 
         private static bool AddGroupMember(ulong groupID, ulong groupMember)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -447,6 +530,8 @@ namespace ModChecker.Updater
         // 
         private static bool RemoveGroupMember(ulong groupID, ulong groupMember)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -454,6 +539,8 @@ namespace ModChecker.Updater
         // 
         private static bool AddCompatibility(ulong steamID1, ulong steamID2, string[] compatibilityData)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -461,6 +548,8 @@ namespace ModChecker.Updater
         // 
         private static bool RemoveCompatibility(ulong steamID1, ulong steamID2)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -468,6 +557,8 @@ namespace ModChecker.Updater
         // 
         private static bool RemoveExclusion(string name, string category, ulong subitem)
         {
+            // [Todo 0.3]
+
             return false;
         }
 
@@ -475,6 +566,8 @@ namespace ModChecker.Updater
         // 
         private static bool SetCatalogGameVersion(string gameVersionString)
         {
+            // [Todo 0.3]
+
             return false;
         }
     }

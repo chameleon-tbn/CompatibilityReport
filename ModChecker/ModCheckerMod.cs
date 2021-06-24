@@ -37,13 +37,15 @@ namespace ModChecker
         {
             Logger.Log("OnEnabled called.", Logger.debug);
 
-            // Create the first catalog if it doesn't exist yet; will only run if the updater is enabled
+            // Create the first catalog; will only run if the updater is enabled and catalog v#.0001 doesn't exist yet
             FirstCatalog.Create();
 
             // Initialize the scanner: basic checks and loading the catalog
             Scanner.Init();
 
-            // Start the auto updater; will only run if the updater is enabled;
+            // Start the updaters; will only run if the updater is enabled
+            ManualUpdater.Start();
+
             AutoUpdater.Start();
         }
 
