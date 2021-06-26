@@ -7,20 +7,7 @@ using ModChecker.DataTypes;
 using ModChecker.Util;
 
 
-// Manual Updater updates the catalog with information from CSV files in de updater folder. The following can be updated/added:
-// * Mod:           nothing yet
-// * Author:        nothing yet
-// * Mod Group:     nothing yet
-// * Compatibility: nothing yet
-// * Catalog info:  nothing yet 
-//
-// CSV lines should be in the following format: Action, ID, Optional other action specific data [Todo 0.3] rewrite
-//    Example: Add_SourceURL, 2414618415, https://github.com/kianzarrin/AdvancedRoads
-//
-// Available actions are listed in the switch statement in ProcessLine() below.
-// Lines that start with a '#' are considered comments and will be ignored.
-// An exclusion will be automatically created for:
-// * source url, required dlc, required mod, compatible game version (only if the workshop has a game version tag), unlisted status of a mod (to prevent 'removed' status)
+// Manual Updater updates the catalog with information from CSV files in de updater folder. See separate guide for details.
 
 
 namespace ModChecker.Updater
@@ -49,15 +36,15 @@ namespace ModChecker.Updater
             CSVCombined = new StringBuilder();
 
             // Read all the CSVs
-            bool? success = ReadCSVs();
+            bool success = ReadCSVs();
 
-            if (success == null)
+            if (CSVCombined.Length == 0)
             {
                 Logger.UpdaterLog("No CSV files found. No new catalog created.");
             }
             else
             {
-                if (success == false)
+                if (!success)
                 {
                     Logger.UpdaterLog($"Manual Updater processed some but not all CSV files. Check logfile for details.", Logger.warning, duplicateToRegularLog: true);
                 }
@@ -66,9 +53,9 @@ namespace ModChecker.Updater
                 string partialPath = CatalogUpdater.Start("the Manual Updater process");
 
                 // Save the combined CSVs to one file, next to the catalog
-                if (!string.IsNullOrEmpty(partialPath) && CSVCombined.Length != 0)
+                if (!string.IsNullOrEmpty(partialPath))
                 {
-                    Toolkit.SaveToFile(CSVCombined.ToString(), partialPath + "_ManualUpdates.csv");
+                    Toolkit.SaveToFile(CSVCombined.ToString(), partialPath + "_ManualUpdates.txt");
                 }
             }
 
@@ -79,21 +66,20 @@ namespace ModChecker.Updater
         }
 
 
-        // Read all CSV files; returns null if no files where found, false if not all files could be processed, or true if all is well
-        private static bool? ReadCSVs()
+        // Read all CSV files; returns false if not all files could be processed, or true if all is well
+        private static bool ReadCSVs()
         {
             // Get all CSV filenames
-            List<string> CSVfiles = Directory.GetFiles(ModSettings.updaterPath, $"{ ModSettings.internalName }*.csv").ToList();
+            List<string> CSVfiles = Directory.GetFiles(ModSettings.updaterPath, $"*.csv").ToList();
 
-            // Remove all Manual Updates CSVs and sort the filenames
-            CSVfiles.RemoveAll(x => x.Contains("_ManualUpdates.csv"));
-
-            CSVfiles.Sort();
-
+            // Exit if we have no CSVs to read
             if (!CSVfiles.Any())
             {
-                return null;
+                return false;
             }
+
+            // Sort the list
+            CSVfiles.Sort();
 
             bool overallSuccess = true;
 
@@ -116,12 +102,12 @@ namespace ModChecker.Updater
                         if (ProcessLine(line))
                         {
                             // Add this line to the complete list
-                            CSVCombined.AppendLine(line);   // [Todo 0.3] append or appendline?
+                            CSVCombined.AppendLine(line);
                         }
                         else
                         {
                             // Add the failed line with a comment to the complete list
-                            CSVCombined.AppendLine("# [NOT PROCESSED]: " + line);   // [Todo 0.3] append or appendline?
+                            CSVCombined.AppendLine("# [NOT PROCESSED] " + line);
 
                             singleFileSuccess = false;
 
@@ -138,6 +124,7 @@ namespace ModChecker.Updater
                     Logger.UpdaterLog($"Could not rename \"{ CSVfile }\". Rename or delete it manually to avoid processing it again.", Logger.error);
                 }
 
+                // Log if we couldn't process all lines
                 if (!singleFileSuccess)
                 {
                     Logger.UpdaterLog($"\"{ newFileName }\" not processed (completely).", Logger.warning);
@@ -151,25 +138,26 @@ namespace ModChecker.Updater
         // Process a line from a CSV file
         private static bool ProcessLine(string line)
         {
+            // Skip empty lines
+            if (string.IsNullOrEmpty(line))
+            {
+                return true;
+            }
+
             // Skip comments starting with a '#'
             if (line[0] == '#')
             {
                 return true;
             }
 
-            // Split the line; exit if we don't have enough elements
+            // Split the line
             string[] lineFragments = line.Split(',');
-
-            if (lineFragments.Length < 2)
-            {
-                return NotEnoughElements(line);
-            }
 
             // Get the action
             string action = lineFragments[0].Trim().ToLower();
 
-            // Get the id as string (for author custom url) and number (for Steam IDs); 0 if unrecognized
-            string idString = lineFragments[1].Trim();
+            // Get the id as number (Steam ID or group ID) and as string (author custom url, exclusion type, game version string, catalog note)
+            string idString = lineFragments.Length < 2 ? "" : lineFragments[1].Trim();
             ulong id;
 
             try
@@ -187,7 +175,7 @@ namespace ModChecker.Updater
             
             if (lineFragments.Length > 2)
             {
-                extraData = lineFragments[2];
+                extraData = lineFragments[2].Trim();
 
                 try
                 {
@@ -197,20 +185,18 @@ namespace ModChecker.Updater
                 {
                     secondID = 0;
                 }
-            }
 
-            if (secondID > 0 && lineFragments.Length > 3)
-            {
-                extraData = lineFragments[3];
+                // Set extraData to the 3rd element if that isn't numeric, otherwise to the 4th element if available, otherwise to an empty string
+                extraData = secondID == 0 ? extraData : (lineFragments.Length > 3 ? lineFragments[3].Trim() : "");
             }
 
             bool success;
 
-            // Act on the action and category found
+            // Act on the action found
             switch (action)
             {
                 case "add_mod":
-                    success = AddMod(id, extraData == "removed");
+                    success = AddMod(id, extraData.ToLower() != "removed");
                     break;
 
                 case "remove_mod":
@@ -226,7 +212,7 @@ namespace ModChecker.Updater
                     break;
 
                 case "add_note":
-                    success = AddModItem(id, action, string.Join(", ", lineFragments, 2, lineFragments.Length - 2).Trim());
+                    success = AddModItem(id, action, string.Join(", ", lineFragments, 2, lineFragments.Length - 2));
                     break;
 
                 case "add_requiredmod":
@@ -239,10 +225,13 @@ namespace ModChecker.Updater
                 case "remove_archiveurl":
                 case "remove_sourceurl":
                 case "remove_gameversion":
-                case "remove_requireddlc":
-                case "remove_status":
                 case "remove_note":
                     success = RemoveModItem(id, action);
+                    break;
+
+                case "remove_requireddlc":
+                case "remove_status":
+                    success = RemoveModItem(id, action, extraData);
                     break;
 
                 case "remove_requiredmod":
@@ -286,7 +275,7 @@ namespace ModChecker.Updater
                 case "add_modgroup":
                     if (lineFragments.Length < 4)
                     {
-                        success = NotEnoughElements(line);
+                        success = false;
                     }
                     else
                     {
@@ -312,29 +301,33 @@ namespace ModChecker.Updater
                     break;
 
                 case "add_compatibility":
-                    success = AddCompatibility(steamID1: id, steamID2: secondID, lineFragments); // [Todo 0.3] Can do better?
+                    success = AddCompatibility(steamID1: id, steamID2: secondID, extraData);
                     break;
 
                 case "remove_compatibility":
-                    success = RemoveCompatibility(steamID1: id, steamID2: secondID);
+                    success = RemoveCompatibility(steamID1: id, steamID2: secondID, extraData);
                     break;
 
                 case "remove_exclusion":
                     success = RemoveExclusion(name: idString, category: extraData, subitem: secondID);
                     break;
 
-                case "add_catalognote":
-                case "remove_catalognote":
-                    CatalogUpdater.SetNote(action[0] == 'a' ? string.Join(", ", lineFragments, 2, lineFragments.Length - 2).Trim() : "");
-                    success = true;
-                    break;
-
                 case "add_cataloggameversion":
                     success = SetCatalogGameVersion(gameVersionString: idString);
                     break;
 
+                case "add_catalognote":
+                    CatalogUpdater.SetNote(string.Join(", ", lineFragments, 2, lineFragments.Length - 2).Trim());
+                    success = true;
+                    break;
+
+                case "remove_catalognote":
+                    CatalogUpdater.SetNote("");
+                    success = true;
+                    break;
+
                 default:
-                    Logger.UpdaterLog($"Line not processed, invalid action  \"{ action }\". Line: { line }", Logger.warning);
+                    Logger.UpdaterLog($"Line not processed, invalid action. Line: { line }", Logger.warning);
                     success = false;
                     break;
             }
@@ -343,17 +336,8 @@ namespace ModChecker.Updater
         }
 
 
-        // Log an error for having too few elements in the CSV line
-        private static bool NotEnoughElements(string line)
-        {
-            Logger.UpdaterLog($"Line not processed, not enough elements. Line: { line }", Logger.warning);
-
-            return false;
-        }
-
-
-        // 
-        private static bool AddMod(ulong steamID, bool removedFromWorkshop)
+        // Add unlisted or removed mod [Todo 0.3] Add mod name and author for removed mods
+        private static bool AddMod(ulong steamID, bool unlisted)
         {
             // Check if the Steam ID is valid and not already in the active catalog
             if (steamID == 0 || ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID))
@@ -363,7 +347,7 @@ namespace ModChecker.Updater
 
             Mod newMod = new Mod(steamID, "", 0, "");
 
-            newMod.Statuses.Add(removedFromWorkshop ? Enums.ModStatus.RemovedFromWorkshop : Enums.ModStatus.UnlistedInWorkshop);
+            newMod.Statuses.Add(unlisted ? Enums.ModStatus.UnlistedInWorkshop : Enums.ModStatus.RemovedFromWorkshop);
 
             CatalogUpdater.CollectedModInfo.Add(steamID, newMod);
 
@@ -371,10 +355,16 @@ namespace ModChecker.Updater
         }
 
 
-        // 
+        // Remove an unlisted or removed mod
         private static bool RemoveMod(ulong steamID)
         {
-            // [Todo 0.3]
+            // Check if the Steam ID is valid and does exist in the active catalog
+            if (steamID == 0 || !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID))
+            {
+                return false;
+            }
+
+            // [Todo 0.3] Check if it is unlisted or removed; Add mod to 'to-be-removed' list
 
             return false;
         }
@@ -438,7 +428,7 @@ namespace ModChecker.Updater
 
 
         // 
-        private static bool RemoveModItem(ulong steamID, string action)
+        private static bool RemoveModItem(ulong steamID, string action, string subItem = "")
         {
             // [Todo 0.3]
 
@@ -537,7 +527,7 @@ namespace ModChecker.Updater
 
 
         // 
-        private static bool AddCompatibility(ulong steamID1, ulong steamID2, string[] compatibilityData)
+        private static bool AddCompatibility(ulong steamID1, ulong steamID2, string compatibility)
         {
             // [Todo 0.3]
 
@@ -546,7 +536,7 @@ namespace ModChecker.Updater
 
 
         // 
-        private static bool RemoveCompatibility(ulong steamID1, ulong steamID2)
+        private static bool RemoveCompatibility(ulong steamID1, ulong steamID2, string compatibility)
         {
             // [Todo 0.3]
 
