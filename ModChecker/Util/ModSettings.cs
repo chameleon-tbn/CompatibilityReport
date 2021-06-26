@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "128";
+        internal const string build = "129";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -294,11 +294,11 @@ namespace ModChecker.Util
 
         /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.7]
 
-        // Updater enabled? Updater will only be enabled if the updater settings xml file exists
+        // Updater in general enabled? Updater will only be enabled if the updater settings xml file exists
         internal static bool UpdaterEnabled { get; private set; } = true && File.Exists(updaterSettingsXml);
 
-        // Max. number of individual mod pages to download for known mods, to limit the time spend
-        internal const uint SteamMaxKnownModDownloads = 10000;
+        // AutoUpdater enabled? Updater will only be enabled if the updater settings xml file exists
+        internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && File.Exists(updaterSettingsXml);
 
         // Max. number of failed downloads for individual pages before giving up altogether
         internal static uint SteamMaxFailedPages { get; private set; } = 4;

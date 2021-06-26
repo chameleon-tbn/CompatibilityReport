@@ -321,8 +321,8 @@ namespace ModChecker.Updater
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
-            // Estimated time in milliseconds is about half a second per download, for the number of known mods we are allowed to download and 10 new mods
-            long estimated = 550 * Math.Min(ModSettings.SteamMaxKnownModDownloads + 10, CatalogUpdater.CollectedModInfo.Count);
+            // Estimated time in milliseconds is about half a second per download
+            long estimated = 550 * CatalogUpdater.CollectedModInfo.Count;
 
             Logger.UpdaterLog($"Auto Updater started checking individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.", 
                 duplicateToRegularLog: true);
@@ -332,22 +332,10 @@ namespace ModChecker.Updater
             uint newModsDownloaded = 0;
             uint failedDownloads = 0;
 
-            // Randomize which known mods to download, by skipping a number of mods; calculated from the number of mods we found and the max. we're allowed to download
-            int skip = new Random().Next(Math.Max(CatalogUpdater.CollectedModInfo.Count - (int)ModSettings.SteamMaxKnownModDownloads + 1, 0));
-            int skipped = 0;
-
             // Check all mods we gathered, one by one
             foreach (ulong steamID in CatalogUpdater.CollectedModInfo.Keys)
             {
                 bool knownMod = ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID);
-
-                skipped++;
-
-                // Skip if this is a known mod and we either didn't skip enough mods yet, or we reached the maximum known mods to download
-                if (knownMod && (skipped <= skip || knownModsDownloaded >= ModSettings.SteamMaxKnownModDownloads))
-                {
-                    continue;
-                }
 
                 // Download the Steam Workshop mod page
                 if (Toolkit.Download(Toolkit.GetWorkshopURL(steamID), ModSettings.steamDownloadedPageFullPath) != null)
@@ -402,8 +390,8 @@ namespace ModChecker.Updater
             Logger.UpdaterLog($"Auto Updater finished downloading { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.", duplicateToRegularLog: true);
 
-            // return true if we downloaded at least one mod, or we were not allowed to download any
-            return (knownModsDownloaded + newModsDownloaded) > 0 || ModSettings.SteamMaxKnownModDownloads == 0;
+            // return true if we downloaded at least one mod
+            return (knownModsDownloaded + newModsDownloaded) > 0;
         }
 
 
