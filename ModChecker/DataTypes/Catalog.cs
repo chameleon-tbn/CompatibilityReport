@@ -360,7 +360,7 @@ namespace ModChecker.DataTypes
         internal void AddExclusion(string name, ulong steamID, string category, ulong subitem = 0)
         {
             // [Todo 0.3] Needs check for existence before adding
-            Exclusions.Add(new Exclusion(name, steamID, category, subitem));
+            Exclusions.Add(new Exclusion(steamID, category, subitem));
         }
 
 
