@@ -86,6 +86,9 @@
     <Compile Include="DataTypes\Enums.cs" />
     <Compile Include="Util\Toolkit.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Updater\Updater Guide.md" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
