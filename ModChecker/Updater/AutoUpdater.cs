@@ -44,7 +44,7 @@ namespace ModChecker.Updater
                 if (GetDetails())
                 {
                     // Update the catalog with the new info and save it to a new version
-                    CatalogUpdater.Start("the AutoUpdater process");
+                    CatalogUpdater.Start(autoUpdater: true);
                 }                    
             }
 

@@ -36,7 +36,7 @@ namespace ModChecker.Updater
             CSVCombined = new StringBuilder();
 
             // Read all the CSVs
-            bool success = ReadCSVs();
+            ReadCSVs();
 
             if (CSVCombined.Length == 0)
             {
@@ -44,13 +44,8 @@ namespace ModChecker.Updater
             }
             else
             {
-                if (!success)
-                {
-                    Logger.UpdaterLog($"Manual Updater processed some but not all CSV files. Check logfile for details.", Logger.warning, duplicateToRegularLog: true);
-                }
-
-                // Update the catalog with the new info and save it to a new version
-                string partialPath = CatalogUpdater.Start("the Manual Updater process");
+                // Update the catalog with the new info and save it to a new version [Todo 0.3] Prevent 'author no longer has mods'
+                string partialPath = CatalogUpdater.Start(autoUpdater: false);
 
                 // Save the combined CSVs to one file, next to the catalog
                 if (!string.IsNullOrEmpty(partialPath))
@@ -66,8 +61,8 @@ namespace ModChecker.Updater
         }
 
 
-        // Read all CSV files; returns false if not all files could be processed, or true if all is well
-        private static bool ReadCSVs()
+        // Read all CSV files
+        private static void ReadCSVs()
         {
             // Get all CSV filenames
             List<string> CSVfiles = Directory.GetFiles(ModSettings.updaterPath, $"*.csv").ToList();
@@ -75,13 +70,14 @@ namespace ModChecker.Updater
             // Exit if we have no CSVs to read
             if (!CSVfiles.Any())
             {
-                return false;
+                return;
             }
 
             // Sort the list
             CSVfiles.Sort();
 
             bool overallSuccess = true;
+            uint numberOfFiles = 0;
 
             string line;
 
@@ -90,8 +86,10 @@ namespace ModChecker.Updater
             {
                 Logger.UpdaterLog($"Processing \"{ CSVfile }\".");
 
-                bool singleFileSuccess = true;
+                numberOfFiles++;
 
+                bool singleFileSuccess = true;
+                
                 // Read a single CSV file
                 using (StreamReader reader = File.OpenText(CSVfile))
                 {
@@ -131,7 +129,19 @@ namespace ModChecker.Updater
                 }
             }
 
-            return overallSuccess;
+            // Log number of processed files to updater log
+            Logger.UpdaterLog($"{ numberOfFiles } CSV file{ (numberOfFiles == 1 ? "" : "s") } processed{ (overallSuccess ? "" : ", with some errors" ) }.");
+            
+            // Log to regular log
+            if (overallSuccess)
+            {
+                Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ (numberOfFiles == 1 ? "" : "s") }. Check logfile for details.");
+            }
+            else
+            {
+                Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ (numberOfFiles == 1 ? "" : "s") }, with some errors. Check logfile for details.", 
+                    Logger.warning);
+            }
         }
 
 
