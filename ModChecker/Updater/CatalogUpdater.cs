@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using ModChecker.DataTypes;
 using ModChecker.Util;
@@ -79,9 +80,12 @@ namespace ModChecker.Updater
             // Add or update all found authors
             UpdateAndAddAuthors();
 
-            // Retire authors that have no mods on the Steam Workshop anymore
-            RetireAuthors();
-
+            // Retire authors that have no mods on the Steam Workshop anymore; only when running AutoUpdater, otherwise we won't have gathered all mods from Workshop
+            if (AutoUpdater)
+            {
+                RetireAuthors();
+            }
+            
             // Only continue with catalog update if we found any changes to update the catalog; author name changes are ignored for this
             if (ChangeNotesNewMods.Length + ChangeNotesUpdatedMods.Length + ChangeNotesRemovedMods.Length == 0)
             {
@@ -167,7 +171,7 @@ namespace ModChecker.Updater
                 // Get the found mod
                 Mod collectedMod = CollectedModInfo[steamID];
 
-                // Mark assets from the required mods list for removal
+                // Clean assets from the required mods list
                 List<ulong> removalList = new List<ulong>();
 
                 foreach (ulong requiredID in collectedMod.RequiredMods)
@@ -186,7 +190,7 @@ namespace ModChecker.Updater
                     }
                 }
 
-                // Now remove the asset IDs and add them to the asset list
+                // Now really remove the asset IDs and add them to the asset list
                 foreach (ulong requiredID in removalList)
                 {
                     collectedMod.RequiredMods.Remove(requiredID);
@@ -198,6 +202,15 @@ namespace ModChecker.Updater
                 if (collectedMod.CompatibleGameVersionString == null)
                 {
                     collectedMod.Update(compatibleGameVersionString: GameVersion.Formatted(GameVersion.Unknown));
+                }
+
+                // Clean up statuses
+                if (collectedMod.Statuses.Any())
+                {
+                    if (collectedMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop) && collectedMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                    {
+                        collectedMod.Statuses.Remove(Enums.ModStatus.UnlistedInWorkshop);
+                    }
                 }
 
                 // Add or update the mod in the catalog
@@ -277,7 +290,7 @@ namespace ModChecker.Updater
                 // Ignore authors that we found by either ID or URL, and authors that already have the 'retired' status
                 if (!CollectedAuthorIDs.ContainsKey(authorID) && !CollectedAuthorURLs.ContainsKey(catalogAuthor.CustomURL) && !catalogAuthor.Retired)
                 {
-                    catalogAuthor.Update(retired: true, 
+                    catalogAuthor.Update(retired: true,
                         changeNotes: $"{ (AutoUpdater ? "Auto" : "") }Updated as retired on { Toolkit.DateString(UpdateDate) }.");
 
                     ChangeNotesRemovedAuthors.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorIDDictionary[authorID].ToString() }");
@@ -292,7 +305,7 @@ namespace ModChecker.Updater
                 // Ignore authors that we found by either ID or URL, and authors that already have the 'retired' status
                 if (!CollectedAuthorURLs.ContainsKey(authorURL) && !CollectedAuthorIDs.ContainsKey(catalogAuthor.ProfileID) && !catalogAuthor.Retired)
                 {
-                    catalogAuthor.Update(retired: true, 
+                    catalogAuthor.Update(retired: true,
                         changeNotes: $"{ (AutoUpdater ? "Auto" : "") }Updated as retired on { Toolkit.DateString(UpdateDate) }.");
 
                     ChangeNotesRemovedAuthors.AppendLine($"Author no longer has mods on the workshop: { ActiveCatalog.Instance.AuthorURLDictionary[authorURL].ToString() }");
@@ -314,7 +327,10 @@ namespace ModChecker.Updater
                 changeNotes: $"Added by { (AutoUpdater ? "Auto" : "Manual") }Updater on { Toolkit.DateString(UpdateDate) }.");
 
             // Change notes
-            ChangeNotesNewMods.AppendLine($"New mod { catalogMod.ToString(cutOff: false) }");
+            string modType = catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop) ? "unlisted " : 
+                (catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop) ? "removed " : "");
+
+            ChangeNotesNewMods.AppendLine($"New { modType }mod { catalogMod.ToString(cutOff: false) }");
         }
 
 
@@ -675,6 +691,9 @@ namespace ModChecker.Updater
                     !catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                 {
                     catalogMod.Statuses.Add(Enums.ModStatus.UnlistedInWorkshop);
+
+                    // Remove removed status, if needed
+                    catalogMod.Statuses.Remove(Enums.ModStatus.RemovedFromWorkshop);
 
                     changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'UnlistedInWorkshop' status added";
                 }

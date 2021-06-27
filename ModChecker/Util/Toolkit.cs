@@ -279,8 +279,6 @@ namespace ModChecker.Util
 
             DateTime convertedDate;
 
-            CultureInfo englishCulture = new CultureInfo("en-GB");
-
             // Date format on the workshop is either like "12 Mar, 2019 @ 6:11am", or "24 May @ 11:27pm" for current year
             if (!dateTimeString.Contains(", 20"))
             {
@@ -293,7 +291,7 @@ namespace ModChecker.Util
             // Date format should now always be like "24 May, 2021 @ 11:27pm"
             try
             {
-                convertedDate = DateTime.ParseExact(dateTimeString, "d MMM, yyyy @ h:mmtt", englishCulture);
+                convertedDate = DateTime.ParseExact(dateTimeString, "d MMM, yyyy @ h:mmtt", new CultureInfo("en-GB"));
             }
             catch
             {
@@ -305,6 +303,10 @@ namespace ModChecker.Util
 
             return convertedDate;            
         }
+
+
+        // Return a formatted date string
+        internal static string DateString(DateTime date) => $"{ date:yyyy-MM-dd}";
 
 
         // Convert a string to a version type
@@ -363,10 +365,6 @@ namespace ModChecker.Util
 
             return original.Substring(indexLeft, indexRight - indexLeft);
         }
-
-
-        // Return a formatted date string
-        internal static string DateString(DateTime date) => $"{ date:yyyy-MM-dd}";
 
 
         // Return a formatted elapsed time string, in seconds or minutes or both

@@ -50,11 +50,6 @@ namespace ModChecker
                 return;
             }
 
-            // Log catalog details
-            Logger.Log($"Using catalog { ActiveCatalog.Instance.VersionString() }, created on { ActiveCatalog.Instance.UpdateDate.ToLongDateString() }. " + 
-                $"Catalog contains { ActiveCatalog.Instance.ReviewCount } reviewed mods and " + 
-                $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } mods with basic information.", duplicateToGameLog: true);
-
             // Log if the game version differs from the version the catalog was made for
             if (GameVersion.Current != ActiveCatalog.Instance.CompatibleGameVersion)
             {

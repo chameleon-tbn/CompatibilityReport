@@ -23,8 +23,8 @@ namespace ModChecker.Updater
         // Start the auto updater; will download Steam webpages, extract info, update the active catalog and save it with a new version; including change notes
         internal static void Start()
         {
-            // Exit if we ran already, the updater is not enabled in settings, or if we can't get an active catalog
-            if (hasRun || !ModSettings.UpdaterEnabled || !ActiveCatalog.Init())
+            // Exit if we ran already, the auto updater is not enabled in settings, or if we can't get an active catalog
+            if (hasRun || !ModSettings.AutoUpdaterEnabled || !ActiveCatalog.Init())
             {
                 return;
             }
@@ -268,21 +268,13 @@ namespace ModChecker.Updater
                     continue;
                 }
 
-                // Create a new mod object with only basic info
-                Mod unfoundMod = new Mod(catalogMod.SteamID, catalogMod.Name, catalogMod.AuthorID, catalogMod.AuthorURL);
+                // Create a copy of the catalog mod
+                Mod unfoundMod = Mod.CopyMod(catalogMod);
 
-                // Add the correct status: removed, unlisted or unknown (if we don't know why it wasn't found; will be changed to removed or unlisted later)
-                if (catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                // Add the unknown status if it doesn't have the unlisted or removed status (will be changed to removed or unlisted later)
+                if (!unfoundMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop) && !unfoundMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                 {
-                    unfoundMod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.RemovedFromWorkshop });
-                }
-                else if (catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
-                {
-                    unfoundMod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.UnlistedInWorkshop });
-                }
-                else
-                {
-                    unfoundMod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.Unknown });
+                    unfoundMod.Statuses.Add(Enums.ModStatus.Unknown);
 
                     Logger.UpdaterLog($"Mod from catalog without 'removed' or 'unlisted' status not found: { unfoundMod.ToString(cutOff: false) }", Logger.debug);
                 }
@@ -642,7 +634,7 @@ namespace ModChecker.Updater
         }
 
 
-        // Get the source URL; if more than one is found, pick the most likely; this is not foolproof and will need a manual update for some
+        // Get the source URL; if more than one is found, pick the most likely; this is not foolproof and will need a manual update for some [Todo 0.3] Skip if exclusion
         private static string GetSourceURL(string line, ulong steamID)
         {
             string sourceURL = Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);

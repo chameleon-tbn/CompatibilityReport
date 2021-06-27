@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "133";
+        internal const string build = "134";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -298,7 +298,7 @@ namespace ModChecker.Util
         internal static bool UpdaterEnabled { get; private set; } = true && File.Exists(updaterSettingsXml);
 
         // AutoUpdater enabled? AutoUpdater will only be enabled if the global updater is enabled
-        internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && true;
+        internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && false;  // [Todo 0.3] false -> true
 
         // Max. number of failed downloads for individual pages before giving up altogether
         internal static uint SteamMaxFailedPages { get; private set; } = 4;

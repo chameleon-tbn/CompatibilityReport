@@ -44,6 +44,11 @@ namespace ModChecker
             {
                 // Prepare the active catalog for searching
                 Instance.CreateIndex();
+
+                // Log catalog details
+                Logger.Log($"Using catalog { Instance.VersionString() }, created on { Instance.UpdateDate.ToLongDateString() }. " +
+                    $"Catalog contains { Instance.ReviewCount } reviewed mods and { Instance.Count - Instance.ReviewCount } mods with basic information.", 
+                    duplicateToGameLog: true);
             }
 
             return Instance != null;

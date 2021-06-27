@@ -2,18 +2,18 @@
 
 The manual updater updates the catalog with manual changes and additions from CSV files. The files should be placed in the Updater folder where the updated catalogs are written as well. Update actions can be bundled in one CSV file or split into multiple files. Filenames are not relevant, except they should end in .csv. After updating, the processed CSV files will be combined into one file with the named of the new catalog and ending in '_ManualUpdates.txt'. The processed CSV files are renamed to .txt to avoid duplicate additions to the catalog.
 
-The lines in the CSV files all start with an action, often followed by a steam ID (for the mod, group, author, etc. involved), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the AutoUpdater from overwriting these manual updates.
+The lines in the CSV files all start with an action, often followed by a steam ID (for the mod, group, author, etc. involved), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the AutoUpdater from overwriting these manual updates. Actions and parameters are mostly not case sensitive.
 
 Lines starting with a '#' are considered comments and will be ignored by the updater. They will be copied to the combined file though.
 
 ### Available mod actions
-*Parameters enclosed in square brackets are optional, with bold parameters being default. :zap: means an exclusion will be created.*
-* Add_Mod, \<mod ID\>, [**unlisted** | removed]
+Parameters enclosed in square brackets are optional. :zap: means an exclusion will be created.
+* Add_Mod, \<mod ID\>, [\<author ID\>, \<mod name\>] *(mod will have the 'unlisted' status)*
 * Add_ArchiveURL, \<mod ID\>, \<url\>
 * Add_SourceURL, \<mod ID\>, \<url\> :zap:
-* Add_GameVersion, \<mod ID\>, \<game version string\> :zap: (exclusion only if Workshop has different game version tag)
+* Add_GameVersion, \<mod ID\>, \<game version string\> :zap: *(exclusion only if Workshop has different game version tag)*
 * Add_RequiredDLC, \<mod ID\>, \<single DLC string\> :zap:
-* Add_Status, \<mod ID\>, \<single status\> :zap: (exclusion only for statuses Removed and Unlisted)
+* Add_Status, \<mod ID\>, \<single status\> :zap: *(exclusion only for statuses Removed and Unlisted)*
 * Add_Note, \<mod ID\>, \<note\>
 * Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Add_NeededFor, \<mod ID\>, \<'needed for' mod ID\>
@@ -55,3 +55,6 @@ Lines starting with a '#' are considered comments and will be ignored by the upd
 * Add_CatalogGameVersion, \<game version string\>
 * Add_CatalogNote, \<note\>
 * Remove_CatalogNote
+
+
+*See https://github.com/Finwickle/ModChecker/blob/dev/ModChecker/DataTypes/Enums.cs for available statuses, compatibility and DLC texts.*
