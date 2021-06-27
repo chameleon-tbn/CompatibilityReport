@@ -187,34 +187,18 @@ namespace ModChecker.Updater
 
             // Get the id as number (Steam ID or group ID) and as string (author custom url, exclusion type, game version string, catalog note)
             string idString = lineFragments.Length < 2 ? "" : lineFragments[1].Trim();
-            ulong id;
-
-            try
-            {
-                id = Convert.ToUInt64(idString);
-            }
-            catch
-            {
-                id = 0;
-            }
+            ulong id = Toolkit.ConvertToUlong(idString);
 
             // Get the rest of the data, if present
-            ulong secondID = 0;
             string extraData = "";
-            
+            ulong secondID = 0;
+
             if (lineFragments.Length > 2)
             {
                 extraData = lineFragments[2].Trim();
 
-                try
-                {
-                    secondID = Convert.ToUInt64(extraData);
-                }
-                catch
-                {
-                    secondID = 0;
-                }
-
+                secondID = Toolkit.ConvertToUlong(extraData);
+                
                 // Set extraData to the 3rd element if that isn't numeric, otherwise to the 4th element if available, otherwise to an empty string
                 extraData = secondID == 0 ? extraData : (lineFragments.Length > 3 ? lineFragments[3].Trim() : "");
             }

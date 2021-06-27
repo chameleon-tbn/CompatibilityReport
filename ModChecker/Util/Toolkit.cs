@@ -335,6 +335,24 @@ namespace ModChecker.Util
         }
 
 
+        // Convert a string to ulong, for Steam IDs
+        internal static ulong ConvertToUlong(string numericString)
+        {
+            ulong number;
+
+            try
+            {
+                number = Convert.ToUInt64(numericString);
+            }
+            catch
+            {
+                number = 0;
+            }
+
+            return number;
+        }
+
+
         // Clean a html string from html codes
         internal static string CleanString(string text) => text == null ? "" : text.Replace("&amp;", "&").Replace("&quot;", "\"");
         

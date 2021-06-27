@@ -149,15 +149,11 @@ namespace ModChecker.Updater
                     }
 
                     // Found the identifying string; get the Steam ID
-                    ulong steamID;
+                    ulong steamID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModListingModIDLeft, ModSettings.steamModListingModIDRight));
 
-                    try
+                    if (steamID == 0) 
                     {
-                        steamID = Convert.ToUInt64(Toolkit.MidString(line, ModSettings.steamModListingModIDLeft, ModSettings.steamModListingModIDRight));
-                    }
-                    catch
-                    {
-                        // If the Steam ID was not recognized, continue with the next lines
+                        // Steam ID was not recognized, continue with the next line
                         Logger.UpdaterLog("Steam ID not recognized on HTML line: " + line, Logger.warning);
 
                         continue;
@@ -169,20 +165,9 @@ namespace ModChecker.Updater
                     // Skip one line
                     line = reader.ReadLine();
 
-                    // Try to get the author ID and custom URL; only one will exist
-                    ulong authorID;
+                    // Get the author ID and custom URL; only one will exist, the other will be zero / empty
+                    ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModListingAuthorIDLeft, ModSettings.steamModListingAuthorRight));
 
-                    try
-                    {
-                        authorID = Convert.ToUInt64(Toolkit.MidString(line, ModSettings.steamModListingAuthorIDLeft, ModSettings.steamModListingAuthorRight));
-                    }
-                    catch
-                    {
-                        // Author ID not found
-                        authorID = 0;
-                    }                    
-
-                    // Author URL will be empty if not found
                     string authorURL = Toolkit.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
                     
                     // Get the author name
@@ -427,18 +412,10 @@ namespace ModChecker.Updater
                     // Author profile ID or custom URL, and author name; only for unlisted mods (we have this info for other mods already)
                     if (line.Contains(ModSettings.steamModPageAuthorFind) && mod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                     {
-                        ulong authorID = 0;
-                        string authorURL = "";
+                        ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/", 
+                            ModSettings.steamModPageAuthorMid));
 
-                        try
-                        {
-                            authorID = Convert.ToUInt64(Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/", ModSettings.steamModPageAuthorMid));
-                        }
-                        catch
-                        {
-                            // Author profile ID not found, try custom URL
-                            authorURL = Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "id/", ModSettings.steamModPageAuthorMid);
-                        }
+                        string authorURL = authorID != 0 ? "" : Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "id/", ModSettings.steamModPageAuthorMid);
 
                         string authorName = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
                         
@@ -553,32 +530,28 @@ namespace ModChecker.Updater
                             // Get the required Steam ID as string
                             string requiredString = Toolkit.MidString(line, ModSettings.steamModPageRequiredModLeft, ModSettings.steamModPageRequiredModRight);
 
-                            try
-                            {
-                                // Convert the required Steam ID string to ulong and add if it's not zero
-                                ulong requiredID = Convert.ToUInt64(requiredString);
+                            // Convert the required Steam ID string to ulong
+                            ulong requiredID = Toolkit.ConvertToUlong(requiredString);
 
-                                if (requiredID > 0)
-                                {
-                                    mod.RequiredMods.Add(requiredID);
-                                }
-
-                                // Skip three lines
-                                line = reader.ReadLine();
-                                line = reader.ReadLine();
-                                line = reader.ReadLine();
-                            }
-                            catch
+                            if (requiredID == 0)
                             {
                                 // No more steam IDs found for required mods
                                 if (tries == 1)
                                 {
                                     Logger.UpdaterLog($"Steam ID not recognized for required mod: { requiredString }.", Logger.warning);
                                 }
-                                
+
                                 // Exit the required mods loop
                                 break;
                             }
+
+                            // Add the required mod
+                            mod.RequiredMods.Add(requiredID);
+
+                            // Skip three lines
+                            line = reader.ReadLine();
+                            line = reader.ReadLine();
+                            line = reader.ReadLine();
                         }
                     }
 
