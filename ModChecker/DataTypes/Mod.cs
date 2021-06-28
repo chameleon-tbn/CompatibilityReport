@@ -197,7 +197,7 @@ namespace ModChecker.DataTypes
 
 
         // Copy all fields from a mod to a new mod
-        internal static Mod CopyMod(Mod originalMod)
+        internal static Mod Copy(Mod originalMod)
         {
             Mod newMod = new Mod(originalMod.SteamID, originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL);
 

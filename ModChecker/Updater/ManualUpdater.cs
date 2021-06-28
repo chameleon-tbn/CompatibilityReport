@@ -205,7 +205,7 @@ namespace ModChecker.Updater
 
             bool success;
 
-            // Act on the action found
+            // Act on the action found  [Todo 0.3] Check if all actions are updated in CatalogUpdater
             switch (action)
             {
                 case "add_mod":
@@ -239,20 +239,15 @@ namespace ModChecker.Updater
                     break;
 
                 case "add_requiredmod":
-                case "add_neededfor":
                 case "add_successor":
                 case "add_alternative":
                 case "remove_requiredmod":
-                case "remove_neededfor":
                 case "remove_successor":
                 case "remove_alternative":
                     success = ChangeModItem(id, action, listMember: secondID);
                     break;
 
                 case "add_authorid":
-                    success = AddAuthorID(authorURL: idString, newAuthorID: secondID);
-                    break;
-
                 case "add_authorurl":
                 case "add_lastseen":
                 case "add_retired":
@@ -260,7 +255,7 @@ namespace ModChecker.Updater
                 case "remove_retired":
                     if (id == 0)
                     {
-                        success = ChangeAuthorItem(authorURL: idString, action, extraData);
+                        success = ChangeAuthorItem(authorURL: idString, action, extraData, newAuthorID: secondID);
                     }
                     else
                     {
@@ -336,53 +331,72 @@ namespace ModChecker.Updater
         // Add unlisted mod
         private static bool AddMod(ulong steamID, ulong authorID, string modName)
         {
-            // Check if the Steam ID is valid and not already in the active catalog
-            if (steamID == 0 || ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID))
+            // Exit if Steam ID is not valid, exists in the active catalog or exists in the collected mods
+            if (steamID <= ModSettings.highestFakeID || ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) || CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
             {
                 return false;
             }
 
+            // Create a new mod
             Mod newMod = new Mod(steamID, modName, authorID, "");
 
+            // Add unlisted status
             newMod.Statuses.Add(Enums.ModStatus.UnlistedInWorkshop);
 
+            // Add mod to collected mods
             CatalogUpdater.CollectedModInfo.Add(steamID, newMod);
 
             return true;
         }
 
 
-        // Remove an unlisted or removed mod
+        // Remove an unlisted or removed mod from the catalog
         private static bool RemoveMod(ulong steamID)
         {
-            // Check if the Steam ID is valid and does exist in the active catalog
-            if (steamID == 0 || !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID))
+            // Exit if Steam ID is not valid, doesn't exist in the active catalog or exists in the collected mods
+            if (steamID <= ModSettings.highestFakeID || !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) || CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
             {
                 return false;
             }
 
+            // Exit if it is listed as required, needed, successor or alternative mod anywhere
+            // [Todo 0.3]
+
+            // Get the mod from the active catalog
             Mod mod = ActiveCatalog.Instance.ModDictionary[steamID];
 
-            // Check if it is unlisted or removed
+            // Exit if it does not have the unlisted or removed status
             if (!mod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop) && !mod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
             {
                 return false;
             }
 
-            // [Todo 0.3] Add mod to 'to-be-removed' list
-            return false;
+            // Add mod to the removals list
+            if (CatalogUpdater.CollectedRemovals.ContainsKey(steamID))
+            {
+                // Add a new string to the existing list
+                CatalogUpdater.CollectedRemovals[steamID].Add("remove_mod");
+            }
+            else
+            {
+                // Add a new entry with the mod and a new, single-entry list
+                CatalogUpdater.CollectedRemovals.Add(steamID, new List<string> { "remove_mod" });
+            }
+
+            return true;
         }
 
 
         // 
         private static bool ChangeModItem(ulong steamID, string action, string itemData)
         {
-            // Check if the listMember is in the active catalog (as mod or group) or collected mod dictionary [Todo 0.3] Add collected group info
+            // Exit if itemData is empty
             if (string.IsNullOrEmpty(itemData))
             {
                 return false;
             }
 
+            // Do the actual change
             return ChangeModItem(steamID, action, itemData, 0);
         }
 
@@ -390,13 +404,14 @@ namespace ModChecker.Updater
         // 
         private static bool ChangeModItem(ulong steamID, string action, ulong listMember)
         {
-            // Check if the listMember is in the active catalog (as mod or group) or collected mod dictionary [Todo 0.3] Add collected group info
-            if (listMember == 0 || (!ActiveCatalog.Instance.ModDictionary.ContainsKey(listMember) && !ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(listMember) &&
-                !CatalogUpdater.CollectedModInfo.ContainsKey(listMember)))
+            // Exit if the listMember is not in the active catalog (as mod or group) or collected mod dictionary [Todo 0.3] Add collected group info
+            if (listMember == 0 || (!ActiveCatalog.Instance.ModDictionary.ContainsKey(listMember) && 
+                !ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(listMember) && !CatalogUpdater.CollectedModInfo.ContainsKey(listMember)))
             {
                 return false;
             }
 
+            // Do the actual change
             return ChangeModItem(steamID, action, "", listMember);
         }
 
@@ -404,27 +419,18 @@ namespace ModChecker.Updater
         // 
         private static bool ChangeModItem(ulong steamID, string action, string itemData, ulong listMember)
         {
-            // Check if the Steam ID is in the active catalog or the collected mod dictionary
-            if (steamID == 0 || (!ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) && !CatalogUpdater.CollectedModInfo.ContainsKey(steamID)))
+            // Exit if the Steam ID is invalid or not in the active catalog or the collected mod dictionary
+            if (steamID <= ModSettings.highestFakeID || 
+                (!ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) && !CatalogUpdater.CollectedModInfo.ContainsKey(steamID)))
             {
                 return false;
             }
-            
-            // Get the mod
-            Mod newMod;
 
-            if (CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
-            {
-                // Get existing collected mod
-                newMod = CatalogUpdater.CollectedModInfo[steamID];
-            }
-            else
-            {
-                // Create a new copy of the catalog mod
-                newMod = Mod.CopyMod(ActiveCatalog.Instance.ModDictionary[steamID]);
-            }
+            // Get a copy of the catalog mod from the collected mods dictionary or create a new copy
+            Mod newMod= CatalogUpdater.CollectedModInfo.ContainsKey(steamID) ? CatalogUpdater.CollectedModInfo[steamID] : 
+                Mod.Copy(ActiveCatalog.Instance.ModDictionary[steamID]);
 
-            // Update the new mod
+            // Update the new mod [Todo 0.3] Needs action in CatalogUpdater
             if (action == "add_archiveurl" || action == "remove_archiveurl")
             {
                 newMod.Update(archiveURL: itemData);
@@ -435,19 +441,12 @@ namespace ModChecker.Updater
 
                 // [Todo 0.3] Add or remove exclusion
             }
-            else if (action == "add_gameversion")
+            else if (action == "add_gameversion" || action == "remove_gameversion")
             {
                 // [Todo 0.3]
                 return false;
 
-                // [Todo 0.3] Add exclusion
-            }
-            else if (action == "remove_gameversion")
-            {
-                // [Todo 0.3]
-                return false;
-
-                // [Todo 0.3] Remove exclusion if it exists
+                // [Todo 0.3] Add or remove exclusion
             }
             else if (action == "add_requireddlc" || action == "remove_requireddlc")
             {
@@ -490,11 +489,11 @@ namespace ModChecker.Updater
                     // [Todo 0.3] Remove exclusion if it exists
                 }
             }
-            else if (action == "add_status" || action == "remove_status")
+            else if (action == "add_status" || action == "remove_status")  // [Todo 0.3] Needs action in CatalogUpdater for additional statuses
             {
                 Enums.ModStatus status;
 
-                // Convert the status string to enum
+                // Convert the status string to enum [Todo 0.3] create toolkit method
                 try
                 {
                     status = (Enums.ModStatus)Enum.Parse(typeof(Enums.ModStatus), itemData, ignoreCase: true);
@@ -530,15 +529,15 @@ namespace ModChecker.Updater
 
                     // [Todo 0.3] Remove exclusion for some, if it exists
                 }
-                // Check if the mod already has this status
-                
             }
-            else if (action == "add_note" || action == "remove_note")
+            else if (action == "add_note" || action == "remove_note") // [Todo 0.3] Needs action in CatalogUpdater
             {
+                // Add the new note (empty for 'remove')
                 newMod.Update(note: itemData);
             }
             else if (action == "add_requiredmod")
             {
+                // Add the required mod if the mod doesn't already have it
                 if (newMod.RequiredMods.Contains(listMember))
                 {
                     return false;
@@ -559,25 +558,7 @@ namespace ModChecker.Updater
 
                 // [Todo 0.3] Remove exclusion if it exists
             }
-            else if (action == "add_neededfor")
-            {
-                if (newMod.NeededFor.Contains(listMember))
-                {
-                    return false;
-                }
-
-                newMod.NeededFor.Add(listMember);
-            }
-            else if (action == "remove_neededfor")
-            {
-                if (!newMod.NeededFor.Contains(listMember))
-                {
-                    return false;
-                }
-
-                newMod.NeededFor.Remove(listMember);
-            }
-            else if (action == "add_successor")
+            else if (action == "add_successor") // [Todo 0.3] Needs action in CatalogUpdater
             {
                 if (newMod.SucceededBy.Contains(listMember))
                 {
@@ -586,7 +567,7 @@ namespace ModChecker.Updater
 
                 newMod.SucceededBy.Add(listMember);
             }
-            else if (action == "remove_successor")
+            else if (action == "remove_successor") // [Todo 0.3] Needs action in CatalogUpdater
             {
                 if (!newMod.SucceededBy.Contains(listMember))
                 {
@@ -595,7 +576,7 @@ namespace ModChecker.Updater
 
                 newMod.SucceededBy.Remove(listMember);
             }
-            else if (action == "add_alternative")
+            else if (action == "add_alternative") // [Todo 0.3] Needs action in CatalogUpdater
             {
                 if (newMod.Alternatives.Contains(listMember))
                 {
@@ -604,7 +585,7 @@ namespace ModChecker.Updater
 
                 newMod.Alternatives.Add(listMember);
             }
-            else if (action == "remove_alternative")
+            else if (action == "remove_alternative") // [Todo 0.3] Needs action in CatalogUpdater
             {
                 if (!newMod.Alternatives.Contains(listMember))
                 {
@@ -618,7 +599,7 @@ namespace ModChecker.Updater
                 return false;
             }
             
-            // Add the copied mod to the collected mods dictionary
+            // Add the copied mod to the collected mods dictionary if the change was successful
             if (!CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
             {
                 CatalogUpdater.CollectedModInfo.Add(newMod.SteamID, newMod);
@@ -628,86 +609,96 @@ namespace ModChecker.Updater
         }
 
 
-        // Add a profile ID to an author
-        private static bool AddAuthorID(string authorURL, ulong newAuthorID)
-        {
-            // Check if the author custom URL is in the active catalog and if the new author ID is not zero
-            if (string.IsNullOrEmpty(authorURL) || newAuthorID == 0 || !ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL))
-            {
-                return false;
-            }
-
-            // [Todo 0.3] copy the author and add to collected authors
-            Author catalogAuthor = ActiveCatalog.Instance.AuthorURLDictionary[authorURL];
-
-            // Check if the author already has an ID
-            if (catalogAuthor.ProfileID != 0)
-            {
-                return false;
-            }
-
-            // Update the author
-            catalogAuthor.Update(newAuthorID);
-
-            return true;
-        }
-
-
         // Add an author item, by author profile ID
         private static bool ChangeAuthorItem(ulong authorID, string action, string itemData)
         {
-            // Check if the author ID is in the active catalog
+            // Exit if the author ID is invalid or not in the active catalog
             if (authorID == 0 || !ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
             {
                 return false;
             }
 
-            // Get the author and add the item
-            return ChangeAuthorItem(ActiveCatalog.Instance.AuthorIDDictionary[authorID], action, itemData);
+            // Get a copy of the catalog author from the collected authors dictionary or create a new copy
+            Author newAuthor = CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID) ? CatalogUpdater.CollectedAuthorIDs[authorID] : 
+                Author.Copy(ActiveCatalog.Instance.AuthorIDDictionary[authorID]);
+            
+            // Update the author
+            bool success = ChangeAuthorItem(newAuthor, action, itemData, 0);
+
+            // Add the copied author to the collected mods dictionary if the change was successful
+            if (success && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
+            {
+                CatalogUpdater.CollectedAuthorIDs.Add(authorID, newAuthor);
+            }
+
+            return success;
         }
 
 
         // Add an author item, by author custom URL
-        private static bool ChangeAuthorItem(string authorURL, string action, string itemData)
+        private static bool ChangeAuthorItem(string authorURL, string action, string itemData, ulong newAuthorID = 0)
         {
-            // Check if the author custom URL is in the active catalog
+            // Exit if the author custom URL is empty or not in the active catalog
             if (string.IsNullOrEmpty(authorURL) || !ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL))
             {
                 return false;
             }
 
-            // Get the author and add the item
-            return ChangeAuthorItem(ActiveCatalog.Instance.AuthorURLDictionary[authorURL], action, itemData);
+            // Get a copy of the catalog author from the collected authors dictionary or create a new copy
+            Author newAuthor = CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL) ? CatalogUpdater.CollectedAuthorURLs[authorURL] : 
+                Author.Copy(ActiveCatalog.Instance.AuthorURLDictionary[authorURL]);
+
+            // Update the author
+            bool success = ChangeAuthorItem(newAuthor, action, itemData, newAuthorID);
+
+            // Add the copied author to the collected mods dictionary if the change was successful
+            if (success && !CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
+            {
+                CatalogUpdater.CollectedAuthorURLs.Add(authorURL, newAuthor);
+            }
+
+            return success;
         }
 
 
         // Add an author item, by author type
-        private static bool ChangeAuthorItem(Author author, string action, string itemData)
+        private static bool ChangeAuthorItem(Author newAuthor, string action, string itemData, ulong newAuthorID)
         {
-            if (author == null)
+            if (newAuthor == null)
             {
                 return false;
             }
 
-            // [Todo 0.3] copy the author and add to collected authors
-
-            if (action == "add_authorurl")
+            // Update the author item
+            if (action == "add_authorid")
             {
+                // Exit if the author already has an ID or if the new ID is zero
+                if (newAuthor.ProfileID != 0 || newAuthorID == 0)
+                {
+                    return false;
+                }
+
+                newAuthor.Update(profileID: newAuthorID);
+            }
+            else if (action == "add_authorurl")
+            {
+                // Exit if the new URL is empty
                 if (string.IsNullOrEmpty(itemData))
                 {
                     return false;
                 }
 
-                author.Update(customURL: itemData);
+                newAuthor.Update(customURL: itemData);
             }
             else if (action == "remove_authorurl")
             {
-                if (string.IsNullOrEmpty(author.CustomURL))
+                // Exit if the author doesn't have a custom URL
+                if (string.IsNullOrEmpty(newAuthor.CustomURL))
                 {
                     return false;
                 }
 
-                author.Update(customURL: "");
+                newAuthor.Update(customURL: "");
             }
             else if (action == "add_lastseen")
             {
@@ -718,7 +709,7 @@ namespace ModChecker.Updater
                 {
                     lastSeen = DateTime.ParseExact(itemData, "yyyy-MM-dd", new CultureInfo("en-GB"));
 
-                    if (lastSeen < author.LastSeen)
+                    if (lastSeen < newAuthor.LastSeen)
                     {
                         return false;
                     }
@@ -728,25 +719,25 @@ namespace ModChecker.Updater
                     return false;
                 }
 
-                author.Update(lastSeen: lastSeen);
+                newAuthor.Update(lastSeen: lastSeen);
             }
             else if (action == "add_retired")
             {
-                if (author.Retired)
+                if (newAuthor.Retired)
                 {
                     return false;
                 }
 
-                author.Update(retired: true);
+                newAuthor.Update(retired: true);
             }
             else if (action == "remove_retired")
             {
-                if (!author.Retired)
+                if (!newAuthor.Retired && true)    // [Todo 0.3] Doesn't work as we can't differentiate between set to false or unset and defaulting to false
                 {
                     return false;
                 }
 
-                author.Update(retired: false);
+                newAuthor.Update(retired: false);
             }
             else
             {

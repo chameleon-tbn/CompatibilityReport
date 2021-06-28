@@ -89,7 +89,7 @@ namespace ModChecker.Updater
             // Only continue with catalog update if we found any changes to update the catalog; author name changes are ignored for this
             if (ChangeNotesNewMods.Length + ChangeNotesUpdatedMods.Length + ChangeNotesRemovedMods.Length == 0)
             {
-                Logger.UpdaterLog("No changed or new mods detected on the Steam Workshop. No new catalog created.");
+                Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
 
                 // Empty the dictionaries and change notes to free memory
                 Init();
@@ -784,7 +784,7 @@ namespace ModChecker.Updater
                 changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "name changed";
             }
 
-            // Last seen and retired
+            // Last seen; also resets retired 
             if (catalogAuthor.LastSeen < collectedAuthor.LastSeen)
             {
                 if (catalogAuthor.Retired)
@@ -795,6 +795,21 @@ namespace ModChecker.Updater
                 catalogAuthor.Update(lastSeen: collectedAuthor.LastSeen, retired: false);
 
                 changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "'last seen' date updated";
+            }
+            // Retired
+            else if (!catalogAuthor.Retired && collectedAuthor.Retired)
+            {
+                catalogAuthor.Update(retired: true);
+
+                changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "set as retired";
+            }
+            // No longer retired
+            else if (catalogAuthor.Retired && !collectedAuthor.Retired)
+            {
+                // [Todo 0.3] How to differentiate between Remove_Retired action and the default false value?
+                // catalogAuthor.Update(retired: false);
+
+                // changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + "no longer retired";
             }
 
             // Change notes

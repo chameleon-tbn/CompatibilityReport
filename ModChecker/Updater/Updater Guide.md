@@ -16,7 +16,6 @@ Parameters enclosed in square brackets are optional. :zap: means an exclusion wi
 * Add_Status, \<mod ID\>, \<single status\> :zap: *(exclusion only for statuses Removed and Unlisted)*
 * Add_Note, \<mod ID\>, \<note\>
 * Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
-* Add_NeededFor, \<mod ID\>, \<'needed for' mod ID\>
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Remove_Mod, \<mod ID\>
@@ -27,7 +26,6 @@ Parameters enclosed in square brackets are optional. :zap: means an exclusion wi
 * Remove_Status, \<mod ID\>, \<single status\>
 * Remove_Note, \<mod ID\>
 * Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\>
-* Remove_NeededFor, \<mod ID\>, \<'needed for' mod ID\>
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
 

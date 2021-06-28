@@ -254,7 +254,7 @@ namespace ModChecker.Updater
                 }
 
                 // Create a copy of the catalog mod
-                Mod unfoundMod = Mod.CopyMod(catalogMod);
+                Mod unfoundMod = Mod.Copy(catalogMod);
 
                 // Add the unknown status if it doesn't have the unlisted or removed status (will be changed to removed or unlisted later)
                 if (!unfoundMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop) && !unfoundMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
@@ -415,7 +415,13 @@ namespace ModChecker.Updater
                         ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/", 
                             ModSettings.steamModPageAuthorMid));
 
-                        string authorURL = authorID != 0 ? "" : Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "id/", ModSettings.steamModPageAuthorMid);
+                        string authorURL = Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "id/", ModSettings.steamModPageAuthorMid);
+                        
+                        // Empty the author custom URL if author ID was found or if custom URL was not found, preventing updating the custom URL to an empty string
+                        if (authorID != 0 || string.IsNullOrEmpty(authorURL))
+                        {
+                            authorURL = null;
+                        }
 
                         string authorName = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
                         

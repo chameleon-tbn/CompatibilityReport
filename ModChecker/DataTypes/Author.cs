@@ -115,5 +115,13 @@ namespace ModChecker.DataTypes
         {
             return $"[{ (ProfileID != 0 ? ProfileID.ToString() : CustomURL) }] { Name }";
         }
+
+
+        // Copy all fields from an author to a new author
+        internal static Author Copy(Author originalAuthor)
+        {
+            return new Author(originalAuthor.ProfileID, originalAuthor.CustomURL, originalAuthor.Name,
+                originalAuthor.LastSeen, originalAuthor.Retired, originalAuthor.ChangeNotes);
+        }
     }
 }
