@@ -11,10 +11,11 @@ namespace ModChecker.Updater
 {
     internal static class CatalogUpdater
     {
-        // Dictionaries to collect info from the Steam Workshop
+        // Dictionaries to collect info from the Steam Workshop (AutoUpdater) and the CSV files (ManualUpdater)
         internal static Dictionary<ulong, Mod> CollectedModInfo { get; private set; } = new Dictionary<ulong, Mod>();
         internal static Dictionary<ulong, Author> CollectedAuthorIDs { get; private set; } = new Dictionary<ulong, Author>();
         internal static Dictionary<string, Author> CollectedAuthorURLs { get; private set; } = new Dictionary<string, Author>();
+        internal static Dictionary<ulong, List<string>> CollectedRemovals { get; private set; } = new Dictionary<ulong, List<string>>();
 
         // List of author custom URLs to remove from the catalog; these are collected first and removed later to avoid 'author not found' issues
         private static readonly List<string> AuthorURLsToRemove = new List<string>();
@@ -44,6 +45,7 @@ namespace ModChecker.Updater
             CollectedModInfo.Clear();
             CollectedAuthorIDs.Clear();
             CollectedAuthorURLs.Clear();
+            CollectedRemovals.Clear();
 
             AuthorURLsToRemove.Clear();
 
@@ -85,7 +87,9 @@ namespace ModChecker.Updater
             {
                 RetireAuthors();
             }
-            
+
+            Removals();
+
             // Only continue with catalog update if we found any changes to update the catalog; author name changes are ignored for this
             if (ChangeNotesNewMods.Length + ChangeNotesUpdatedMods.Length + ChangeNotesRemovedMods.Length == 0)
             {
@@ -314,6 +318,38 @@ namespace ModChecker.Updater
         }
 
 
+        // Remove items from the collected removal dictionary
+        private static void Removals()
+        {
+            foreach (ulong id in CollectedRemovals.Keys)
+            {
+                foreach (string action in CollectedRemovals[id])
+                {
+                    if (action == "remove_mod")
+                    {
+                        // [Todo 0.3]
+                    }
+                    else if (action == "remove_archiveurl")
+                    {
+                        // [Todo 0.3]
+                    }
+                    else if (action == "remove_retired")
+                    {
+                        // [Todo 0.3]
+                    }
+                    else if (action == "remove_successor")
+                    {
+                        // [Todo 0.3]
+                    }
+                    else if (action == "remove_alternative")
+                    {
+                        // [Todo 0.3]
+                    }
+                }
+            }
+        }
+
+
         // Add a new mod to the active catalog
         private static void AddMod(ulong steamID)
         {
@@ -498,8 +534,8 @@ namespace ModChecker.Updater
                 }
             }
 
-            // Source URL (only if details for this mod were checked)
-            if (catalogMod.SourceURL != collectedMod.SourceURL && detailsChecked)
+            // Source URL (only if details for this mod were checked or ManualUpdater is running)
+            if (catalogMod.SourceURL != collectedMod.SourceURL && (detailsChecked || !AutoUpdater))
             {
                 if (string.IsNullOrEmpty(catalogMod.SourceURL) && !string.IsNullOrEmpty(collectedMod.SourceURL))
                 {
@@ -572,7 +608,8 @@ namespace ModChecker.Updater
                 }
             }
 
-            // Required mods (only if details for this mod were checked), including updating existing NeededFor lists; [Todo 0.5] simplify (or split) this
+            // Required mods (only if details for this mod were checked), including updating existing NeededFor lists;
+            // [Todo 0.3] Check exclusions before replacing a mod with a group  [Todo 0.5] simplify (or split) this
             if (catalogMod.RequiredMods.Count + collectedMod.RequiredMods.Count != 0 && detailsChecked)
             {
                 // Remove no longer needed mods and groups from the required list
