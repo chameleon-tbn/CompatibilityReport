@@ -33,9 +33,6 @@ namespace ModChecker.DataTypes
         internal List<Enums.DLC> RequiredDLC { get; private set; } = new List<Enums.DLC>();
         internal List<ulong> RequiredMods { get; private set; } = new List<ulong>();
 
-        // Mods that need this one; only for pure dependency mods with no functionality of their own
-        internal List<ulong> NeededFor { get; private set; } = new List<ulong>();
-
         // Successor(s); only for mods with issues
         internal List<ulong> SucceededBy { get; private set; } = new List<ulong>();
 
@@ -190,7 +187,6 @@ namespace ModChecker.DataTypes
 
             RequiredDLC = catalogMod.RequiredDLC;
             RequiredMods = catalogMod.RequiredMods;
-            NeededFor = catalogMod.NeededFor;
             SucceededBy = catalogMod.SucceededBy;
             Alternatives = catalogMod.Alternatives;
 

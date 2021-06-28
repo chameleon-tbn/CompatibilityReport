@@ -42,9 +42,6 @@ namespace ModChecker.DataTypes
         // Required assets for this mod; only used to collect info we gather from the Steam Workshop, not reported right now
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
 
-        // Mods this is needed for; only used when this is purely a dependency mod (like Harmony)
-        [XmlArrayItem("SteamID")] public List<ulong> NeededFor { get; private set; } = new List<ulong>();
-
         // Successors of this mod
         [XmlArrayItem("SteamID")] public List<ulong> SucceededBy { get; private set; } = new List<ulong>();
 
@@ -98,7 +95,6 @@ namespace ModChecker.DataTypes
                              List<Enums.DLC> requiredDLC = null,
                              List<ulong> requiredMods = null,
                              List<ulong> requiredAssets = null,
-                             List<ulong> neededFor = null,
                              List<ulong> succeededBy = null,
                              List<ulong> alternatives = null,
                              List<Enums.ModStatus> statuses = null,
@@ -137,8 +133,6 @@ namespace ModChecker.DataTypes
             RequiredMods = requiredMods ?? RequiredMods ?? new List<ulong>();
 
             RequiredAssets = requiredAssets ?? RequiredAssets ?? new List<ulong>();
-
-            NeededFor = neededFor ?? NeededFor ?? new List<ulong>();
 
             SucceededBy = succeededBy ?? SucceededBy ?? new List<ulong>();
 
@@ -203,8 +197,8 @@ namespace ModChecker.DataTypes
 
             newMod.Update(originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL, originalMod.Published, originalMod.Updated, originalMod.ArchiveURL,
                 originalMod.SourceURL, originalMod.CompatibleGameVersionString, originalMod.RequiredDLC, originalMod.RequiredMods, originalMod.RequiredAssets,
-                originalMod.NeededFor, originalMod.SucceededBy, originalMod.Alternatives, originalMod.Statuses, originalMod.Note, originalMod.ReviewUpdated,
-                originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
+                originalMod.SucceededBy, originalMod.Alternatives, originalMod.Statuses, originalMod.Note, originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, 
+                originalMod.ChangeNotes);
 
             return newMod;
         }

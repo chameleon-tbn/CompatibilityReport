@@ -20,6 +20,7 @@
             UnlistedInWorkshop,
             RemovedFromWorkshop,
             NoLongerNeeded,
+            DependencyMod,                          // For mods that are only a dependency mod and have no functionality on their own
             NoDescription,                          // For mods without (real) description
             SourceUnavailable,
             SourceNotUpdated,

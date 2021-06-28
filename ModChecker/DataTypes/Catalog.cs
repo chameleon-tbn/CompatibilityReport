@@ -167,7 +167,6 @@ namespace ModChecker.DataTypes
                             List<Enums.DLC> requiredDLC = null,
                             List<ulong> requiredMods = null,
                             List<ulong> requiredAssets = null,
-                            List<ulong> neededFor = null,
                             List<ulong> succeededBy = null,
                             List<ulong> alternatives = null,
                             List<Enums.ModStatus> statuses = null,
@@ -196,7 +195,7 @@ namespace ModChecker.DataTypes
 
             // Add all info to the mod
             mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods,
-                requiredAssets, neededFor, succeededBy, alternatives, statuses, note, reviewUpdated, autoReviewUpdated, changeNotes);
+                requiredAssets, succeededBy, alternatives, statuses, note, reviewUpdated, autoReviewUpdated, changeNotes);
 
             // Return a reference to the new mod
             return mod;
@@ -357,7 +356,7 @@ namespace ModChecker.DataTypes
 
 
         // Add a new exclusion to the catalog; return the exclusion id
-        internal void AddExclusion(string name, ulong steamID, string category, ulong subitem = 0)
+        internal void AddExclusion(ulong steamID, string category, ulong subitem = 0)
         {
             // [Todo 0.3] Needs check for existence before adding
             Exclusions.Add(new Exclusion(steamID, category, subitem));

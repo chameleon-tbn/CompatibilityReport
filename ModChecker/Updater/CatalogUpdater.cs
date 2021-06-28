@@ -359,7 +359,7 @@ namespace ModChecker.Updater
 
             catalogMod.Update(collectedMod.Name, collectedMod.AuthorID, collectedMod.AuthorURL, collectedMod.Published, collectedMod.Updated, archiveURL: null,
                 collectedMod.SourceURL, collectedMod.CompatibleGameVersionString, collectedMod.RequiredDLC, collectedMod.RequiredMods, collectedMod.RequiredAssets, 
-                neededFor: null, succeededBy: null, alternatives: null, collectedMod.Statuses, note: null, reviewUpdated: null, UpdateDate,
+                succeededBy: null, alternatives: null, collectedMod.Statuses, note: null, reviewUpdated: null, UpdateDate,
                 changeNotes: $"Added by { (AutoUpdater ? "Auto" : "Manual") }Updater on { Toolkit.DateString(UpdateDate) }.");
 
             // Change notes
@@ -653,19 +653,6 @@ namespace ModChecker.Updater
                         catalogMod.RequiredMods.Remove(requiredID);
 
                         changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod { requiredID } removed";
-
-                        // Remove the updated mod from the 'only needed for' list of the previously required mod
-                        if (ActiveCatalog.Instance.ModDictionary.ContainsKey(requiredID))
-                        {
-                            Mod requiredMod = ActiveCatalog.Instance.ModDictionary[requiredID];
-
-                            if (requiredMod.NeededFor.Contains(steamID))
-                            {
-                                requiredMod.NeededFor.Remove(steamID);
-
-                                ChangeNotesUpdatedMods.AppendLine($"Mod { requiredMod.ToString(cutOff: false) }: removed { steamID } from 'only needed for' list");
-                            }
-                        }
                     }
                 }
 

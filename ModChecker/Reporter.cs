@@ -200,7 +200,7 @@ namespace ModChecker
             modReview.Append(ThisMod(subscription));
             modReview.Append(RequiredDLC(subscription));
             modReview.Append(RequiredMods(subscription));
-            modReview.Append(OnlyNeededFor(subscription));
+            modReview.Append(DependencyMod(subscription));
             modReview.Append(Compatibilities(subscription));
             modReview.Append(Statuses(subscription));
             modReview.Append(Disabled(subscription));
@@ -368,21 +368,26 @@ namespace ModChecker
 
 
         // Unneeded dependency mod
-        private static string OnlyNeededFor(Subscription subscription,
+        private static string DependencyMod(Subscription subscription,
                                             bool htmlReport = false)
         {
-            if (subscription.NeededFor?.Any() != true)
+            if (!subscription.Statuses.Contains(Enums.ModStatus.DependencyMod))
             {
                 return "";
             }
 
             // Check if any of the mods that need this is actually subscribed; we don't care if it's enabled or not
-            foreach (ulong id in subscription.NeededFor)
+            List<Mod> requiredMods = ActiveCatalog.Instance.Mods.FindAll(x => x.RequiredMods.Contains(subscription.SteamID));
+
+            if (requiredMods != null)
             {
-                if (ActiveSubscriptions.All.ContainsKey(id))
+                foreach (Mod mod in requiredMods)
                 {
-                    // Found a subscribed mod that needs this; nothing to report
-                    return "";
+                    if (ActiveSubscriptions.All.ContainsKey(mod.SteamID))
+                    {
+                        // Found a subscribed mod that needs this; nothing to report
+                        return "";
+                    }
                 }
             }
 
