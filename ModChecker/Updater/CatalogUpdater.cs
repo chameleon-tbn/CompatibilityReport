@@ -65,7 +65,7 @@ namespace ModChecker.Updater
 
 
         // Update the active catalog with the found information; returns the partial path of the new catalog
-        // [Todo 0.3] Add exclusion check; add exclusion list in catalog; exclusion are needed for source url and mod groups, and probably others
+        // [Todo 0.3] Add exclusion checks
         internal static string Start(bool autoUpdater)
         {
             // Exit if the updater is not enabled in settings

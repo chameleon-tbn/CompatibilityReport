@@ -40,7 +40,7 @@ namespace ModChecker.DataTypes
 
         public List<Author> Authors { get; private set; } = new List<Author>();
 
-        // Update exclusions; these prevent certain changes by the auto updater
+        // Update-exclusions; these prevent certain changes by the AutoUpdater
         public List<Exclusion> Exclusions { get; private set; } = new List<Exclusion>();
 
 
@@ -355,11 +355,47 @@ namespace ModChecker.DataTypes
         }
 
 
-        // Add a new exclusion to the catalog; return the exclusion id
-        internal void AddExclusion(ulong steamID, string category, ulong subitem = 0)
+        // Add a new exclusion to the catalog
+        internal bool AddExclusion(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
         {
-            // [Todo 0.3] Needs check for existence before adding
-            Exclusions.Add(new Exclusion(steamID, category, subitem));
+            if (steamID == 0 || category == Enums.ExclusionCategory.Unknown)
+            {
+                return false;
+            }
+
+            // Exit if the subitem is zero while required
+            if (subItem == 0 && (category == Enums.ExclusionCategory.RequiredDLC || category == Enums.ExclusionCategory.RequiredMod))
+            {
+                return false;
+            }
+
+            // Exit if the exclusion already exists
+            if (Exclusions.FindAll(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem).Any())
+            {
+                return false; 
+            }
+
+            // Add exclusion
+            Exclusions.Add(new Exclusion(steamID, category, subItem));
+
+            return true;
+        }
+
+
+        // Remove an exclusion from the catalog
+        internal bool RemoveExclusion(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
+        {
+            // Get the exclusion
+            Exclusion exclusion = Exclusions.Find(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem);
+
+            // Exit if it doesn't exist
+            if (exclusion == null)
+            {
+                return false;
+            }
+
+            // Remove the exclusion if it exists
+            return Exclusions.Remove(exclusion);
         }
 
 

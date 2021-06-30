@@ -8,7 +8,7 @@ using ModChecker.Util;
 // NOTE: A mod can only be a member of one group, and that group is automatically used instead of a required mod when found by the updater
 
 
-// N O T E !!!! - The updater will replace required mods with the group they're a member of. Make sure this is always appropriate! (or use an UpdateExclusion)
+// N O T E !!!! - The updater will replace required mods with the group they're a member of. Make sure this is always appropriate! (or use an Update-Exclusion)
 
 
 namespace ModChecker.DataTypes

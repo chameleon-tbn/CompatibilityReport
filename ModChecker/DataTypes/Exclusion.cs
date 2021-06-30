@@ -9,10 +9,10 @@ namespace ModChecker.DataTypes
         public ulong SteamID { get; private set; }
 
         // Exclusion category
-        public string Category { get; private set; }
+        public Enums.ExclusionCategory Category { get; private set; }
 
-        // Steam ID for a subitem for which this exclusion is, if any
-        public ulong SubItemSteamID { get; private set; }
+        // Subitem for which this exclusion is, if any; mod Steam ID, DLC appid (number corresponding to DLC enum), or status number corresponding to enum
+        public ulong SubItem { get; private set; }
 
 
         // Default constructor
@@ -23,13 +23,13 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters
-        internal Exclusion(ulong steamID, string category, ulong subItemSteamID = 0)
+        internal Exclusion(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
         {
             SteamID = steamID;
 
-            Category = category ?? "";
+            Category = category;
 
-            SubItemSteamID = subItemSteamID;
+            SubItem = subItem;
         }
     }
 }

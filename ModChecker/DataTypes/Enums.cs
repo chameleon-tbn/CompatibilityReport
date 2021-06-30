@@ -17,8 +17,8 @@
             BreaksEditors,
             SavesCantLoadWithout,
             Abandoned,
-            UnlistedInWorkshop,
-            RemovedFromWorkshop,
+            UnlistedInWorkshop = 100,
+            RemovedFromWorkshop = 101,
             NoLongerNeeded,
             DependencyMod,                          // For mods that are only a dependency mod and have no functionality on their own
             NoDescription,                          // For mods without (real) description
@@ -47,6 +47,18 @@
             MinorIssues,
             RequiresSpecificConfigForThis,
             RequiresSpecificConfigForOther
+        }
+
+
+        // Exclusion categories for the updater
+        public enum ExclusionCategory
+        {
+            Unknown,                                // Unused
+            SourceURL,
+            GameVersion,
+            Status,
+            RequiredDLC,
+            RequiredMod
         }
 
 

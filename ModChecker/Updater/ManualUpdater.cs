@@ -185,7 +185,7 @@ namespace ModChecker.Updater
             // Get the action
             string action = lineFragments[0].Trim().ToLower();
 
-            // Get the id as number (Steam ID or group ID) and as string (author custom url, exclusion type, game version string, catalog note)
+            // Get the id as number (Steam ID or group ID) and as string (author custom url, exclusion category, game version string, catalog note)
             string idString = lineFragments.Length < 2 ? "" : lineFragments[1].Trim();
             ulong id = Toolkit.ConvertToUlong(idString);
 
@@ -301,7 +301,7 @@ namespace ModChecker.Updater
                     break;
 
                 case "remove_exclusion":
-                    success = RemoveExclusion(name: idString, category: extraData, subitem: secondID);
+                    success = RemoveExclusion(id, subitem: secondID, categoryString: extraData);
                     break;
 
                 case "add_cataloggameversion":
@@ -435,18 +435,38 @@ namespace ModChecker.Updater
             {
                 newMod.Update(archiveURL: itemData);
             }
-            else if (action == "add_sourceurl" || action == "remove_sourceurl")
+            else if (action == "add_sourceurl")
             {
                 newMod.Update(sourceURL: itemData);
 
-                // [Todo 0.3] Add or remove exclusion
+                ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.SourceURL);
+            }
+            else if (action == "remove_sourceurl")
+            {
+                newMod.Update(sourceURL: "");
+
+                ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.SourceURL);
             }
             else if (action == "add_gameversion" || action == "remove_gameversion")
             {
                 // [Todo 0.3]
                 return false;
 
-                // [Todo 0.3] Add or remove exclusion
+                // Add or remove exclusion
+                if (action[0] == 'a')
+                {
+                    // Add exclusion only if the mod has a different gameversion now
+                    if (ActiveCatalog.Instance.ModDictionary[steamID].CompatibleGameVersionString != newMod.CompatibleGameVersionString &&
+                        !string.IsNullOrEmpty(ActiveCatalog.Instance.ModDictionary[steamID].CompatibleGameVersionString) &&
+                        ActiveCatalog.Instance.ModDictionary[steamID].CompatibleGameVersionString != GameVersion.Formatted(GameVersion.Unknown))
+                    {
+                        ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.GameVersion);
+                    }
+                }
+                else
+                {
+                    ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.GameVersion);
+                }
             }
             else if (action == "add_requireddlc" || action == "remove_requireddlc")
             {
@@ -474,7 +494,8 @@ namespace ModChecker.Updater
 
                     newMod.RequiredDLC.Add(dlc);
 
-                    // [Todo 0.3] Add exclusion
+                    // Add exclusion
+                    ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.RequiredDLC, (uint)dlc);
                 }
                 else
                 {
@@ -486,7 +507,8 @@ namespace ModChecker.Updater
 
                     newMod.RequiredDLC.Remove(dlc);
 
-                    // [Todo 0.3] Remove exclusion if it exists
+                    // Remove exclusion if it exists
+                    ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredDLC, (uint)dlc);
                 }
             }
             else if (action == "add_status" || action == "remove_status")  // [Todo 0.3] Needs action in CatalogUpdater for additional statuses
@@ -515,7 +537,11 @@ namespace ModChecker.Updater
                     
                     newMod.Statuses.Add(status);
 
-                    // [Todo 0.3] Add exclusion for some
+                    // Add exclusion for some statuses
+                    if (status == Enums.ModStatus.UnlistedInWorkshop || status == Enums.ModStatus.RemovedFromWorkshop)
+                    {
+                        ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.Status, (uint)status);
+                    }
                 }
                 else
                 {
@@ -527,7 +553,8 @@ namespace ModChecker.Updater
 
                     newMod.Statuses.Remove(status);
 
-                    // [Todo 0.3] Remove exclusion for some, if it exists
+                    // Remove exclusion if it exists; will only exist for some statuses
+                    ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.Status, (uint)status);
                 }
             }
             else if (action == "add_note" || action == "remove_note") // [Todo 0.3] Needs action in CatalogUpdater
@@ -545,7 +572,8 @@ namespace ModChecker.Updater
 
                 newMod.RequiredMods.Add(listMember);
 
-                // [Todo 0.3] Add exclusion
+                // Add exclusion
+                ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
             }
             else if (action == "remove_requiredmod")
             {
@@ -556,7 +584,8 @@ namespace ModChecker.Updater
 
                 newMod.RequiredMods.Remove(listMember);
 
-                // [Todo 0.3] Remove exclusion if it exists
+                // Remove exclusion if it exists
+                ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
             }
             else if (action == "add_successor") // [Todo 0.3] Needs action in CatalogUpdater
             {
@@ -803,11 +832,30 @@ namespace ModChecker.Updater
 
 
         // 
-        private static bool RemoveExclusion(string name, string category, ulong subitem)
+        private static bool RemoveExclusion(ulong steamID, ulong subitem, string categoryString)
         {
-            // [Todo 0.3]
+            // Exit if the Steam ID is zero or the category is null
+            if (steamID == 0 || string.IsNullOrEmpty(categoryString))
+            {
+                return false;
+            }
 
-            return false;
+            Enums.ExclusionCategory category;
+
+            // Convert the category string to enum [Todo 0.3] create toolkit method
+            try
+            {
+                category = (Enums.ExclusionCategory)Enum.Parse(typeof(Enums.ExclusionCategory), categoryString, ignoreCase: true);
+            }
+            catch
+            {
+                Logger.UpdaterLog($"Exclusion category \"{ categoryString }\" could not be converted.", Logger.debug);
+
+                return false;
+            }
+
+            // Remove the exclusion; will return false if the exclusion didn't exist
+            return ActiveCatalog.Instance.RemoveExclusion(steamID, category, subitem);
         }
 
 

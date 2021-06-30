@@ -13,7 +13,7 @@ Parameters enclosed in square brackets are optional. :zap: means an exclusion wi
 * Add_SourceURL, \<mod ID\>, \<url\> :zap:
 * Add_GameVersion, \<mod ID\>, \<game version string\> :zap: *(exclusion only if Workshop has different game version tag)*
 * Add_RequiredDLC, \<mod ID\>, \<single DLC string\> :zap:
-* Add_Status, \<mod ID\>, \<single status\> :zap: *(exclusion only for statuses Removed and Unlisted)*
+* Add_Status, \<mod ID\>, \<single status string\> :zap: *(exclusion only for statuses Unlisted and Removed)*
 * Add_Note, \<mod ID\>, \<note\>
 * Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
@@ -49,7 +49,8 @@ Parameters enclosed in square brackets are optional. :zap: means an exclusion wi
 * Remove_Retired, \<author ID | author custom URL\>
 
 ### Available miscellaneous actions
-* Remove_Exclusion, \<exclusion type\>, \<mod ID\>, [\<subitem ID\>]
+* Remove_Exclusion, \<mod ID\>, [\<subitem ID\>], \<exclusion type\>
+  * *Subitem is a mod ID, DLC appid or status ID (100 for unlisted, 101 for removed)*
 * Add_CatalogGameVersion, \<game version string\>
 * Add_CatalogNote, \<note\>
 * Remove_CatalogNote
