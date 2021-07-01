@@ -56,7 +56,7 @@ namespace ModChecker.Updater
                 // Update the catalog with the new info and save it to a new version
                 string partialPath = CatalogUpdater.Start(autoUpdater: false);
 
-                // Save the combined CSVs to one file, next to the catalog
+                // Save the combined CSVs, next to the catalog
                 if (!string.IsNullOrEmpty(partialPath))
                 {
                     Toolkit.SaveToFile(CSVCombined.ToString(), partialPath + "_ManualUpdates.txt");
@@ -74,7 +74,7 @@ namespace ModChecker.Updater
         private static void ReadCSVs()
         {
             // Get all CSV filenames
-            List<string> CSVfiles = Directory.GetFiles(ModSettings.updaterPath, $"*.csv").ToList();
+            List<string> CSVfiles = Directory.GetFiles(ModSettings.updaterPath, "*.csv").ToList();
 
             // Exit if we have no CSVs to read
             if (!CSVfiles.Any())
@@ -88,24 +88,24 @@ namespace ModChecker.Updater
             bool overallSuccess = true;
             uint numberOfFiles = 0;
 
-            string line;
-
             // Process all CSV files
             foreach (string CSVfile in CSVfiles)
             {
                 Logger.UpdaterLog($"Processing \"{ CSVfile }\".");
 
+                // Add filename to the combined CSV file
+                CSVCombined.AppendLine($"#####################################################################");
+                CSVCombined.AppendLine($"#### { Toolkit.PrivacyPath(CSVfile) }");
+                CSVCombined.AppendLine("");
+
                 numberOfFiles++;
 
                 bool singleFileSuccess = true;
-                
+
                 // Read a single CSV file
                 using (StreamReader reader = File.OpenText(CSVfile))
                 {
-                    // Add filename to the combined CSV file
-                    CSVCombined.AppendLine($"#####################################################################");
-                    CSVCombined.AppendLine($"#### { Toolkit.PrivacyPath(CSVfile) }");
-                    CSVCombined.AppendLine("");
+                    string line;
 
                     // Read each line and process the command
                     while ((line = reader.ReadLine()) != null)
@@ -126,15 +126,15 @@ namespace ModChecker.Updater
                             overallSuccess = false;
                         }
                     }
-
-                    // Add some space to the combined CSV file
-                    CSVCombined.AppendLine("");
                 }
 
-                // Rename the processed CSV file
-                string newFileName = CSVfile + (singleFileSuccess ? ".processed.txt" : ".processes_partially.txt");
+                // Add some space to the combined CSV file
+                CSVCombined.AppendLine("");
 
-                /* [Todo 0.3]
+                // Rename the processed CSV file
+                string newFileName = CSVfile + (singleFileSuccess ? ".processed.txt" : ".processed_partially.txt");
+
+                /* [Todo 0.3] Re-enable this
                 if (!Toolkit.MoveFile(CSVfile, newFileName))
                 {
                     Logger.UpdaterLog($"Could not rename \"{ Toolkit.PrivacyPath(CSVfile) }\". Rename or delete it manually to avoid processing it again.", Logger.error);
@@ -144,21 +144,23 @@ namespace ModChecker.Updater
                 // Log if we couldn't process all lines
                 if (!singleFileSuccess)
                 {
-                    Logger.UpdaterLog($"\"{ newFileName }\" not processed (completely).", Logger.warning);
+                    Logger.UpdaterLog($"\"{ newFileName }\" not completely processed.", Logger.warning);
                 }
             }
 
+            string s = numberOfFiles == 1 ? "" : "s";
+
             // Log number of processed files to updater log
-            Logger.UpdaterLog($"{ numberOfFiles } CSV file{ (numberOfFiles == 1 ? "" : "s") } processed{ (overallSuccess ? "" : ", with some errors" ) }.");
+            Logger.UpdaterLog($"{ numberOfFiles } CSV file{ s } processed{ (overallSuccess ? "" : ", with some errors" ) }.");
             
             // Log to regular log
             if (overallSuccess)
             {
-                Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ (numberOfFiles == 1 ? "" : "s") }. Check logfile for details.");
+                Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ s }. Check logfile for details.");
             }
             else
             {
-                Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ (numberOfFiles == 1 ? "" : "s") }, with some errors. Check logfile for details.", 
+                Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ s }, with some errors. Check logfile for details.", 
                     Logger.warning);
             }
         }
@@ -167,13 +169,13 @@ namespace ModChecker.Updater
         // Process a line from a CSV file
         private static bool ProcessLine(string line)
         {
-            // Skip empty lines
+            // Skip empty lines, without returning an error
             if (string.IsNullOrEmpty(line))
             {
                 return true;
             }
 
-            // Skip comments starting with a '#'
+            // Skip comments starting with a '#', without returning an error
             if (line[0] == '#')
             {
                 return true;
@@ -199,16 +201,17 @@ namespace ModChecker.Updater
 
                 secondID = Toolkit.ConvertToUlong(extraData);
                 
-                // Set extraData to the 3rd element if that isn't numeric, otherwise to the 4th element if available, otherwise to an empty string
+                // Set extraData to the 3rd element if that isn't numeric (secondID = 0), otherwise to the 4th element if available, otherwise to an empty string
                 extraData = secondID == 0 ? extraData : (lineFragments.Length > 3 ? lineFragments[3].Trim() : "");
             }
 
             bool success;
 
-            // Act on the action found  [Todo 0.3] Check if all actions are updated in CatalogUpdater
+            // Act on the action found with the additional data  [Todo 0.3] Check if all actions are updated in CatalogUpdater
             switch (action)
             {
                 case "add_mod":
+                    // Join the lineFragments to allow for commas in the mod name
                     success = AddMod(id, authorID: secondID, 
                         modName: lineFragments.Length < 5 ? extraData : string.Join(", ", lineFragments, 3, lineFragments.Length - 3));
                     break;
@@ -228,6 +231,7 @@ namespace ModChecker.Updater
                     break;
 
                 case "add_note":
+                    // Join the lineFragments to allow for commas in the note
                     success = ChangeModItem(id, action, string.Join(", ", lineFragments, 2, lineFragments.Length - 2));
                     break;
 
@@ -247,6 +251,37 @@ namespace ModChecker.Updater
                     success = ChangeModItem(id, action, listMember: secondID);
                     break;
 
+                case "add_compatibility":
+                case "remove_compatibility":
+                    success = AddRemoveCompatibility(steamID1: id, steamID2: secondID, compatibility: extraData);
+                    break;
+
+                case "add_group":
+                    if (lineFragments.Length < 4)
+                    {
+                        success = false;
+                    }
+                    else
+                    {
+                        // Get all linefragments to get all group members as strings; remove the first two elements: action and name
+                        List<string> groupMembers = lineFragments.ToList();
+
+                        groupMembers.RemoveRange(0, 2);
+
+                        success = AddGroup(groupName: idString, groupMembers);
+                    }
+                    break;
+
+                case "remove_group":
+                    // Remove the group after changing it to a replacement mod as 'required mod' for all affected mods
+                    success = RemoveGroup(groupID: id, replacementMod: secondID);
+                    break;
+
+                case "add_groupmember":
+                case "remove_groupmember":
+                    success = AddRemoveGroupMember(groupID: id, groupMember: secondID);
+                    break;
+
                 case "add_authorid":
                 case "add_authorurl":
                 case "add_lastseen":
@@ -263,45 +298,8 @@ namespace ModChecker.Updater
                     }                    
                     break;
 
-                case "add_group":
-                case "add_modgroup":
-                    if (lineFragments.Length < 4)
-                    {
-                        success = false;
-                    }
-                    else
-                    {
-                        List<string> groupMembers = lineFragments.ToList();
-
-                        groupMembers.RemoveRange(0, 2);
-
-                        success = AddGroup(name: idString, groupMembers);
-                    }
-                    break;
-
-                case "remove_group":
-                case "remove_modgroup":
-                    success = RemoveGroup(id, replacementMod: secondID);
-                    break;
-
-                case "add_groupmember":
-                    success = AddGroupMember(id, groupMember: secondID);
-                    break;
-
-                case "remove_groupmember":
-                    success = RemoveGroupMember(id, groupMember: secondID);
-                    break;
-
-                case "add_compatibility":
-                    success = AddCompatibility(steamID1: id, steamID2: secondID, extraData);
-                    break;
-
-                case "remove_compatibility":
-                    success = RemoveCompatibility(steamID1: id, steamID2: secondID, extraData);
-                    break;
-
                 case "remove_exclusion":
-                    success = RemoveExclusion(id, subitem: secondID, categoryString: extraData);
+                    success = RemoveExclusion(steamID: id, subitem: secondID, categoryString: extraData);
                     break;
 
                 case "add_cataloggameversion":
@@ -309,7 +307,8 @@ namespace ModChecker.Updater
                     break;
 
                 case "add_catalognote":
-                    CatalogUpdater.SetNote(string.Join(", ", lineFragments, 2, lineFragments.Length - 2).Trim());
+                    // Join the lineFragments to allow for commas in the note
+                    CatalogUpdater.SetNote(string.Join(", ", lineFragments, 1, lineFragments.Length - 1).Trim());
                     success = true;
                     break;
 
@@ -472,7 +471,7 @@ namespace ModChecker.Updater
             {
                 Enums.DLC dlc;
 
-                // Convert the DLC string to enum
+                // Convert the DLC string to enum [Todo 0.3] Move to Toolkit method?
                 try
                 {
                     dlc = (Enums.DLC)Enum.Parse(typeof(Enums.DLC), itemData, ignoreCase: true);
@@ -515,7 +514,7 @@ namespace ModChecker.Updater
             {
                 Enums.ModStatus status;
 
-                // Convert the status string to enum [Todo 0.3] create toolkit method
+                // Convert the status string to enum [Todo 0.3] Move to Toolkit method?
                 try
                 {
                     status = (Enums.ModStatus)Enum.Parse(typeof(Enums.ModStatus), itemData, ignoreCase: true);
@@ -778,7 +777,7 @@ namespace ModChecker.Updater
 
 
         // 
-        private static bool AddGroup(string name, List<string> groupMembers)
+        private static bool AddGroup(string groupName, List<string> groupMembers)
         {
             // [Todo 0.3]
 
@@ -796,7 +795,7 @@ namespace ModChecker.Updater
 
 
         // 
-        private static bool AddGroupMember(ulong groupID, ulong groupMember)
+        private static bool AddRemoveGroupMember(ulong groupID, ulong groupMember)
         {
             // [Todo 0.3]
 
@@ -805,25 +804,7 @@ namespace ModChecker.Updater
 
 
         // 
-        private static bool RemoveGroupMember(ulong groupID, ulong groupMember)
-        {
-            // [Todo 0.3]
-
-            return false;
-        }
-
-
-        // 
-        private static bool AddCompatibility(ulong steamID1, ulong steamID2, string compatibility)
-        {
-            // [Todo 0.3]
-
-            return false;
-        }
-
-
-        // 
-        private static bool RemoveCompatibility(ulong steamID1, ulong steamID2, string compatibility)
+        private static bool AddRemoveCompatibility(ulong steamID1, ulong steamID2, string compatibility)
         {
             // [Todo 0.3]
 
@@ -842,7 +823,7 @@ namespace ModChecker.Updater
 
             Enums.ExclusionCategory category;
 
-            // Convert the category string to enum [Todo 0.3] create toolkit method
+            // Convert the category string to enum [Todo 0.3] Move to Toolkit method?
             try
             {
                 category = (Enums.ExclusionCategory)Enum.Parse(typeof(Enums.ExclusionCategory), categoryString, ignoreCase: true);
