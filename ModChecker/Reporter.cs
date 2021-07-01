@@ -377,17 +377,23 @@ namespace ModChecker
             }
 
             // Check if any of the mods that need this is actually subscribed; we don't care if it's enabled or not
-            List<Mod> requiredMods = ActiveCatalog.Instance.Mods.FindAll(x => x.RequiredMods.Contains(subscription.SteamID));
+            List<Mod> ModsRequiringThis = ActiveCatalog.Instance.Mods.FindAll(x => x.RequiredMods.Contains(subscription.SteamID));
 
-            if (requiredMods != null)
+            // Check the same again for groups this is a member of and add these to the above list
+            List<ModGroup> GroupsContainingThis = ActiveCatalog.Instance.ModGroups.FindAll(x => x.SteamIDs.Contains(subscription.SteamID));
+
+            foreach (ModGroup group in GroupsContainingThis)
             {
-                foreach (Mod mod in requiredMods)
+                ModsRequiringThis.AddRange(ActiveCatalog.Instance.Mods.FindAll(x => x.RequiredMods.Contains(group.GroupID)));
+            }
+
+            // Check if any of these mods is subscribed
+            foreach (Mod mod in ModsRequiringThis)
+            {
+                if (ActiveSubscriptions.All.ContainsKey(mod.SteamID))
                 {
-                    if (ActiveSubscriptions.All.ContainsKey(mod.SteamID))
-                    {
-                        // Found a subscribed mod that needs this; nothing to report
-                        return "";
-                    }
+                    // Found a subscribed mod that needs this; nothing to report
+                    return "";
                 }
             }
 
