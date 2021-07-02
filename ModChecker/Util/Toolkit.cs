@@ -312,44 +312,46 @@ namespace ModChecker.Util
         // Convert a string to a version type
         internal static Version ConvertToGameVersion(string versionString)
         {
-            Version version;
-
             try
             {
                 // Try to get only the numbers for either "1.13.3.9" or "1.13.3-f9" version format
-                string[] versionArray = versionString.Split(new char[] { '.', '-', 'f' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] elements = versionString.Split(new char[] { '.', '-', 'f' }, StringSplitOptions.RemoveEmptyEntries);
 
-                version = new Version(
-                    Convert.ToInt32(versionArray[0]),
-                    Convert.ToInt32(versionArray[1]),
-                    Convert.ToInt32(versionArray[2]),
-                    Convert.ToInt32(versionArray[3]));
+                return new Version(Convert.ToInt32(elements[0]), Convert.ToInt32(elements[1]), Convert.ToInt32(elements[2]), Convert.ToInt32(elements[3]));
             }
             catch
             {
                 // Conversion failed
-                version = GameVersion.Unknown;
+                return GameVersion.Unknown;
             }
+        }
 
-            return version;
+
+        // Convert a string to enum
+        internal static T ConvertToEnum<T>(string enumString)
+        {
+            try
+            {
+                return (T)Enum.Parse(typeof(T), enumString, ignoreCase: true);
+            }
+            catch
+            {
+                return default(T);
+            }
         }
 
 
         // Convert a string to ulong, for Steam IDs
         internal static ulong ConvertToUlong(string numericString)
         {
-            ulong number;
-
             try
             {
-                number = Convert.ToUInt64(numericString);
+                return Convert.ToUInt64(numericString);
             }
             catch
             {
-                number = 0;
+                return 0;
             }
-
-            return number;
         }
 
 

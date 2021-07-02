@@ -66,7 +66,7 @@
         // Numbers are the AppIDs, as seen in the url of every DLC in the Steam shop (https://store.steampowered.com/app/255710/Cities_Skylines/)
         public enum DLC : uint
         {
-            None = 0,                               // Unused
+            Unknown = 0,                            // Unused
             Deluxe_Edition = 346791,
             After_Dark = 369150,
             Snowfall = 420610,
