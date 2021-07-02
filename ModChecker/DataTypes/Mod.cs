@@ -195,10 +195,11 @@ namespace ModChecker.DataTypes
         {
             Mod newMod = new Mod(originalMod.SteamID, originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL);
 
+            // Copy all value types directly, and all lists as new lists
             newMod.Update(originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL, originalMod.Published, originalMod.Updated, originalMod.ArchiveURL,
-                originalMod.SourceURL, originalMod.CompatibleGameVersionString, originalMod.RequiredDLC, originalMod.RequiredMods, originalMod.RequiredAssets,
-                originalMod.SucceededBy, originalMod.Alternatives, originalMod.Statuses, originalMod.Note, originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, 
-                originalMod.ChangeNotes);
+                originalMod.SourceURL, originalMod.CompatibleGameVersionString, new List<Enums.DLC>(originalMod.RequiredDLC), new List<ulong>(originalMod.RequiredMods), 
+                new List<ulong>(originalMod.RequiredAssets), new List<ulong>(originalMod.SucceededBy), new List<ulong>(originalMod.Alternatives), 
+                new List<Enums.ModStatus>(originalMod.Statuses), originalMod.Note, originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
 
             return newMod;
         }

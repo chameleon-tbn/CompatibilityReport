@@ -120,6 +120,7 @@ namespace ModChecker.DataTypes
         // Copy all fields from an author to a new author
         internal static Author Copy(Author originalAuthor)
         {
+            // Copy all value types directly
             return new Author(originalAuthor.ProfileID, originalAuthor.CustomURL, originalAuthor.Name,
                 originalAuthor.LastSeen, originalAuthor.Retired, originalAuthor.ChangeNotes);
         }
