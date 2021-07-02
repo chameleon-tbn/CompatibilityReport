@@ -16,7 +16,7 @@ Parameters enclosed in square brackets are optional. :zap: means an exclusion wi
 * Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
-* Add_Status, \<mod ID\>, \<single status string\> :zap: *(exclusion only for statuses Unlisted and Removed)*
+* Add_Status, \<mod ID\>, \<single status string\> :zap: *(exclusion only for Unlisted status)*
 * Add_Note, \<mod ID\>, \<note\>
 * Remove_Mod, \<mod ID\>
 * Remove_ArchiveURL, \<mod ID\>
@@ -37,7 +37,8 @@ Parameters enclosed in square brackets are optional. :zap: means an exclusion wi
 * Add_Group, \<name\>, \<mod ID\>, \<mod ID\>, [\<mod ID\>, ...]
 * Add_GroupMember, \<group ID\>, \<mod ID\>
 * Remove_Group, \<group ID\>
-* Remove_GroupMember, \<group ID\>, \mod ID\>
+* Remove_GroupMember, \<group ID\>, \<mod ID\>
+*A mod can only be a member of one group, and you cannot remove a mod from one group and add it to another in the same update run.*
 
 ### Available author actions
 * Add_AuthorID, \<author custom URL\>, \<author ID\>
@@ -48,8 +49,7 @@ Parameters enclosed in square brackets are optional. :zap: means an exclusion wi
 * Remove_Retired, \<author ID | author custom URL\>
 
 ### Available miscellaneous actions
-* Remove_Exclusion, \<mod ID\>, [\<subitem ID\>], \<exclusion type\>
-  * *Subitem is a mod ID, DLC appid or status ID (100 for unlisted, 101 for removed)*
+* Remove_Exclusion, \<mod ID\>, [\<mod ID | DLC appid\>], \<exclusion type\>
 * Add_CatalogGameVersion, \<game version string\>
 * Add_CatalogNote, \<note\>
 * Remove_CatalogNote

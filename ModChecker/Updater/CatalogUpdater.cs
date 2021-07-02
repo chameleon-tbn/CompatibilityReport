@@ -15,6 +15,7 @@ namespace ModChecker.Updater
         internal static Dictionary<ulong, Mod> CollectedModInfo { get; private set; } = new Dictionary<ulong, Mod>();
         internal static Dictionary<ulong, Author> CollectedAuthorIDs { get; private set; } = new Dictionary<ulong, Author>();
         internal static Dictionary<string, Author> CollectedAuthorURLs { get; private set; } = new Dictionary<string, Author>();
+        internal static Dictionary<ulong, ModGroup> CollectedModGroupInfo { get; private set; } = new Dictionary<ulong, ModGroup>();
         internal static Dictionary<ulong, List<string>> CollectedRemovals { get; private set; } = new Dictionary<ulong, List<string>>();
 
         // List of author custom URLs to remove from the catalog; these are collected first and removed later to avoid 'author not found' issues
@@ -45,6 +46,7 @@ namespace ModChecker.Updater
             CollectedModInfo.Clear();
             CollectedAuthorIDs.Clear();
             CollectedAuthorURLs.Clear();
+            CollectedModGroupInfo.Clear();
             CollectedRemovals.Clear();
 
             AuthorURLsToRemove.Clear();
@@ -79,6 +81,9 @@ namespace ModChecker.Updater
             // Add or update all found mods
             UpdateAndAddMods();
 
+            // Add or update all collected groups
+            UpdateAndAddGroups();
+
             // Add or update all found authors
             UpdateAndAddAuthors();
 
@@ -90,8 +95,9 @@ namespace ModChecker.Updater
 
             Removals();
 
-            // Only continue with catalog update if we found any changes to update the catalog; author name changes are ignored for this
-            if (ChangeNotesNewMods.Length + ChangeNotesUpdatedMods.Length + ChangeNotesRemovedMods.Length == 0)
+            // Only continue with catalog update if we found any changes to update the catalog
+            if (ChangeNotesNewMods.Length + ChangeNotesUpdatedMods.Length + ChangeNotesRemovedMods.Length + 
+                ChangeNotesNewAuthors.Length + ChangeNotesUpdatedAuthors.Length + ChangeNotesRemovedAuthors.Length == 0)
             {
                 Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
 
@@ -232,6 +238,25 @@ namespace ModChecker.Updater
         }
 
 
+        // Update or add all collected groups
+        internal static void UpdateAndAddGroups()
+        {
+            foreach (ulong groupID in CollectedModGroupInfo.Keys)
+            {
+                if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID))
+                {
+                    // Add new group  [Todo 0.3] and replace required mod by new group
+                    //AddGroup(groupID);
+                }
+                else
+                {
+                    // Update existing group [Todo 0.3]
+                    //UpdateGroup(groupID);
+                }
+            }
+        }
+
+
         // Update or add all found authors
         internal static void UpdateAndAddAuthors()
         {
@@ -327,23 +352,41 @@ namespace ModChecker.Updater
                 {
                     if (action == "remove_mod")
                     {
-                        // [Todo 0.3]
+                        // Get the mod
+                        Mod mod = ActiveCatalog.Instance.ModDictionary[id];
+
+                        // This has already been checked for existence in other lists; can remove immediately
+                        ActiveCatalog.Instance.ModDictionary.Remove(id);
+
+                        ActiveCatalog.Instance.Mods.Remove(mod);
+
+                        ChangeNotesRemovedMods.AppendLine($"Mod \"{ mod.ToString(cutOff: false) }\" was removed from the catalog.");
+
+                        // Remove any exclusions for this mod
+                        List<Exclusion> ExclusionsToRemove = ActiveCatalog.Instance.Exclusions.FindAll(x => x.SteamID == id);
+
+                        foreach (Exclusion exclusion in ExclusionsToRemove)
+                        {
+                            ActiveCatalog.Instance.Exclusions.Remove(exclusion);
+                        }
                     }
-                    else if (action == "remove_archiveurl")
+                    else if (action == "remove_group")
                     {
-                        // [Todo 0.3]
+                        // Get the group
+                        ModGroup group = ActiveCatalog.Instance.ModGroupDictionary[id];
+
+                        // This has already been checked for existence and has been replaced in all required mods lists; can remove immediately
+                        ActiveCatalog.Instance.ModGroupDictionary.Remove(id);
+
+                        ActiveCatalog.Instance.ModGroups.Remove(group);
+
+                        // Add to the 'authors' change notes, so it will go to the end of the changes notes
+                        ChangeNotesRemovedAuthors.AppendLine($"ModGroup \"{ group.Name }\" was removed from the catalog.");
                     }
-                    else if (action == "remove_retired")
+                    else if (action == "newcatalogcompatiblegameversion")
                     {
-                        // [Todo 0.3]
-                    }
-                    else if (action == "remove_successor")
-                    {
-                        // [Todo 0.3]
-                    }
-                    else if (action == "remove_alternative")
-                    {
-                        // [Todo 0.3]
+                        // Update the change notes; the update itself was already done by the ManualUpdater
+                        ChangeNotesUpdatedAuthors.AppendLine("Catalog was updated to a new game version: " + ActiveCatalog.Instance.CompatibleGameVersionString);
                     }
                 }
             }

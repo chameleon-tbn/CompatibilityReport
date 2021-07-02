@@ -154,6 +154,23 @@ namespace ModChecker.DataTypes
         }
 
 
+        // Change the compatible game version to a higher version
+        internal bool UpdateGameVersion(Version newGameVersion)
+        {
+            // Exit on incorrect game version, or if the new game version is not higher than the current
+            if (newGameVersion == null || newGameVersion <= CompatibleGameVersion)
+            {
+                return false;
+            }
+
+            CompatibleGameVersion = newGameVersion;
+
+            CompatibleGameVersionString = CompatibleGameVersion.ToString();
+
+            return true;
+        }
+
+
         // Add a new mod to the catalog
         internal Mod AddMod(ulong steamID,
                             string name = "",
@@ -370,7 +387,7 @@ namespace ModChecker.DataTypes
             }
 
             // Exit if the exclusion already exists
-            if (Exclusions.FindAll(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem).Any())
+            if (Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem) != default)
             {
                 return false; 
             }
@@ -389,7 +406,7 @@ namespace ModChecker.DataTypes
             Exclusion exclusion = Exclusions.Find(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem);
 
             // Exit if it doesn't exist
-            if (exclusion == null)
+            if (exclusion == default)
             {
                 return false;
             }

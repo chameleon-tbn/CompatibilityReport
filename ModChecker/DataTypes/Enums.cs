@@ -17,8 +17,8 @@
             BreaksEditors,
             SavesCantLoadWithout,
             Abandoned,
-            UnlistedInWorkshop = 100,
-            RemovedFromWorkshop = 101,
+            UnlistedInWorkshop,
+            RemovedFromWorkshop,
             NoLongerNeeded,
             DependencyMod,                          // For mods that are only a dependency mod and have no functionality on their own
             NoDescription,                          // For mods without (real) description
@@ -56,7 +56,7 @@
             Unknown,                                // Unused
             SourceURL,
             GameVersion,
-            Status,
+            Unlisted,
             RequiredDLC,
             RequiredMod
         }

@@ -59,5 +59,14 @@ namespace ModChecker.DataTypes
         {
             return $"[Group { GroupID }] { Name }";
         }
+
+
+        // Copy all fields from a mod group to a new mod group
+        internal static ModGroup Copy(ModGroup originalGroup)
+        {
+            // Copy the value types directly, and the list as a new list
+            return new ModGroup(originalGroup.GroupID, originalGroup.Name, new List<ulong>(originalGroup.SteamIDs));
+        }
+
     }
 }
