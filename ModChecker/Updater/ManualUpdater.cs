@@ -94,8 +94,9 @@ namespace ModChecker.Updater
                 Logger.UpdaterLog($"Processing \"{ CSVfile }\".");
 
                 // Add filename to the combined CSV file
-                CSVCombined.AppendLine($"#####################################################################");
-                CSVCombined.AppendLine($"#### { Toolkit.PrivacyPath(CSVfile) }");
+                CSVCombined.AppendLine($"###################################################");
+                CSVCombined.AppendLine($"#### FILE: { Toolkit.GetFileName(CSVfile) }");
+                CSVCombined.AppendLine($"###################################################");
                 CSVCombined.AppendLine("");
 
                 numberOfFiles++;
@@ -254,24 +255,23 @@ namespace ModChecker.Updater
                     success = ChangeModItem(id, action, listMember: secondID);
                     break;
 
+                case "add_group":
                 case "add_compatibility":
                 case "remove_compatibility":
-                    success = AddRemoveCompatibility(steamID1: id, steamID2: secondID, compatibility: extraData);
-                    break;
-
-                case "add_group":
                     if (lineFragments.Length < 4)
                     {
                         success = false;
                     }
                     else
                     {
-                        // Get all linefragments to get all group members as strings; remove the first two elements: action and name
-                        List<string> groupMembers = lineFragments.ToList();
+                        // Get all linefragments to get all steam IDs as strings; remove the first two elements: action and compatibility / group name
+                        List<string> steamIDs = lineFragments.ToList();
 
-                        groupMembers.RemoveRange(0, 2);
+                        steamIDs.RemoveRange(0, 2);
 
-                        success = AddGroup(groupName: idString, groupMembers);
+                        success = action == "add_group" ? 
+                            AddGroup(groupName: idString, steamIDs) : 
+                            AddRemoveCompatibility(compatibility: idString, steamIDs);
                     }
                     break;
 
@@ -959,7 +959,7 @@ namespace ModChecker.Updater
 
 
         // Add or remove a compatibility
-        private static bool AddRemoveCompatibility(ulong steamID1, ulong steamID2, string compatibility)
+        private static bool AddRemoveCompatibility(string compatibility, List<string> steamIDs)
         {
             // [Todo 0.3]
 

@@ -128,6 +128,20 @@ namespace ModChecker.Util
         }
 
 
+        // Return the filename (with extension) from a path
+        internal static string GetFileName(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                return "";
+            }
+
+            int index = path.LastIndexOf('\\');
+
+            return index == 0 || index == path.Length ? path : path.Substring(index + 1, path.Length - index - 1);
+        }
+
+
         // ValidationCallback gets rid of "The authentication or decryption has failed" errors when downloading
         // This allows to download from sites that still support TLS 1.1 or worse, but not from sites that only support TLS 1.2+
         // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
