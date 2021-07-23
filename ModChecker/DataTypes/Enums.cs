@@ -17,6 +17,7 @@
             BreaksEditors,
             SavesCantLoadWithout,
             Abandoned,
+            NoCommentSectionOnWorkshop,
             UnlistedInWorkshop,
             RemovedFromWorkshop,
             NoLongerNeeded,
@@ -32,13 +33,14 @@
         }
 
 
-        // Compatibility status between two mods; can be one or more
+        // Compatibility status between two mods; can be one or more  [Todo 0.3] Change statuses so we can have more than 2 mods in one compatibility
         public enum CompatibilityStatus
         {
             Unknown,                                // Only used as placeholder when errors occur; overrules all other statuses
-            NewerVersionOfTheSame,                  // \
-            OlderVersionOfTheSame,                  //  \
-            SameModDifferentReleaseType,            //   }  Max. one of the newer/older/same/func.covered statuses
+            NewerVersionOfTheSame,                  //  \
+            OlderVersionOfTheSame,                  //   \
+            SameModDifferentReleaseType,            //    }  Max. one of the newer/older/same/func.covered statuses
+            ModsDoTheSame,                          //   /
             FunctionalityCoveredByThis,             //  /
             FunctionalityCoveredByOther,            // /
             IncompatibleAccordingToAuthor,          //   \
