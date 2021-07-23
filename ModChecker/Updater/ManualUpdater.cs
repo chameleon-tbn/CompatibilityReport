@@ -360,7 +360,7 @@ namespace ModChecker.Updater
         {
             // Exit if Steam ID is not valid, doesn't exist in the active catalog or does exist in the collected mods dictionary or removals list
             if (steamID <= ModSettings.highestFakeID || !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) || 
-                CatalogUpdater.CollectedModInfo.ContainsKey(steamID) || CatalogUpdater.CollectedRemovals.ContainsKey(steamID))
+                CatalogUpdater.CollectedModInfo.ContainsKey(steamID) || CatalogUpdater.CollectedRemovals.Contains(steamID))
             {
                 return false;
             }
@@ -392,7 +392,7 @@ namespace ModChecker.Updater
             }
 
             // Add mod to the removals list
-            CatalogUpdater.CollectedRemovals.Add(steamID, new List<string> { "remove_mod" });
+            CatalogUpdater.CollectedRemovals.Add(steamID);
 
             return true;
         }
@@ -415,7 +415,7 @@ namespace ModChecker.Updater
         // Change a mod list item
         private static bool ChangeModItem(ulong steamID, string action, ulong listMember)
         {
-            // Exit if the listMember is not a valid ID or is not in the active catalog and not in the collected mod dictionary
+            // Exit if the listMember is not a valid ID or is not in the active catalog and not in the collected mod dictionary [Todo 0.3] Allow builtin mods
             if (listMember <= ModSettings.highestFakeID || (!ActiveCatalog.Instance.ModDictionary.ContainsKey(listMember) && 
                 !CatalogUpdater.CollectedModInfo.ContainsKey(listMember)))
             {
@@ -863,7 +863,16 @@ namespace ModChecker.Updater
         // Remove a group
         private static bool RemoveGroup(ulong groupID, ulong replacementMod)
         {
-            // [Todo 0.3] replace group by mod
+            // Exit if the group doesn't exist or is already in the collected removals
+            if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID) || CatalogUpdater.CollectedRemovals.Contains(groupID))
+            {
+                return false;
+            }
+
+            // [Todo 0.3] replace group by replacement mod
+
+            // Add group to the removals list
+            CatalogUpdater.CollectedRemovals.Add(groupID);
 
             return false;
         }
@@ -1003,7 +1012,7 @@ namespace ModChecker.Updater
             if (success)
             {
                 // Abuse the 'removals' collection to indicate we have a new gameversion
-                CatalogUpdater.CollectedRemovals.Add(0, new List<string> { "newcatalogcompatiblegameversion" });
+                CatalogUpdater.CollectedRemovals.Add(1);
             }
 
             return success;

@@ -16,7 +16,7 @@ namespace ModChecker.Updater
         internal static Dictionary<ulong, Author> CollectedAuthorIDs { get; private set; } = new Dictionary<ulong, Author>();
         internal static Dictionary<string, Author> CollectedAuthorURLs { get; private set; } = new Dictionary<string, Author>();
         internal static Dictionary<ulong, ModGroup> CollectedModGroupInfo { get; private set; } = new Dictionary<ulong, ModGroup>();
-        internal static Dictionary<ulong, List<string>> CollectedRemovals { get; private set; } = new Dictionary<ulong, List<string>>();
+        internal static List<ulong> CollectedRemovals { get; private set; } = new List<ulong>();
 
         // List of author custom URLs to remove from the catalog; these are collected first and removed later to avoid 'author not found' issues
         private static readonly List<string> AuthorURLsToRemove = new List<string>();
@@ -346,48 +346,50 @@ namespace ModChecker.Updater
         // Remove items from the collected removal dictionary
         private static void Removals()
         {
-            foreach (ulong id in CollectedRemovals.Keys)
+            foreach (ulong id in CollectedRemovals)
             {
-                foreach (string action in CollectedRemovals[id])
+                // Mod
+                if (id > ModSettings.highestFakeID)
                 {
-                    if (action == "remove_mod")
+                    // Get the mod
+                    Mod mod = ActiveCatalog.Instance.ModDictionary[id];
+
+                    // This has already been checked for existence in other lists; can remove immediately
+                    ActiveCatalog.Instance.ModDictionary.Remove(id);
+
+                    ActiveCatalog.Instance.Mods.Remove(mod);
+
+                    ChangeNotesRemovedMods.AppendLine($"Mod \"{ mod.ToString(cutOff: false) }\" was removed from the catalog.");
+
+                    // Remove any exclusions for this mod
+                    List<Exclusion> ExclusionsToRemove = ActiveCatalog.Instance.Exclusions.FindAll(x => x.SteamID == id);
+
+                    foreach (Exclusion exclusion in ExclusionsToRemove)
                     {
-                        // Get the mod
-                        Mod mod = ActiveCatalog.Instance.ModDictionary[id];
-
-                        // This has already been checked for existence in other lists; can remove immediately
-                        ActiveCatalog.Instance.ModDictionary.Remove(id);
-
-                        ActiveCatalog.Instance.Mods.Remove(mod);
-
-                        ChangeNotesRemovedMods.AppendLine($"Mod \"{ mod.ToString(cutOff: false) }\" was removed from the catalog.");
-
-                        // Remove any exclusions for this mod
-                        List<Exclusion> ExclusionsToRemove = ActiveCatalog.Instance.Exclusions.FindAll(x => x.SteamID == id);
-
-                        foreach (Exclusion exclusion in ExclusionsToRemove)
-                        {
-                            ActiveCatalog.Instance.Exclusions.Remove(exclusion);
-                        }
+                        ActiveCatalog.Instance.Exclusions.Remove(exclusion);
                     }
-                    else if (action == "remove_group")
-                    {
-                        // Get the group
-                        ModGroup group = ActiveCatalog.Instance.ModGroupDictionary[id];
+                }
 
-                        // This has already been checked for existence and has been replaced in all required mods lists; can remove immediately
-                        ActiveCatalog.Instance.ModGroupDictionary.Remove(id);
+                // Mod Group
+                else if (id >= ModSettings.lowestModGroupID && id <= ModSettings.highestModGroupID)
+                {
+                    // Get the group
+                    ModGroup group = ActiveCatalog.Instance.ModGroupDictionary[id];
 
-                        ActiveCatalog.Instance.ModGroups.Remove(group);
+                    // This has already been checked for existence and has been replaced in all required mods lists; can remove immediately
+                    ActiveCatalog.Instance.ModGroupDictionary.Remove(id);
 
-                        // Add to the 'authors' change notes, so it will go to the end of the changes notes
-                        ChangeNotesRemovedAuthors.AppendLine($"ModGroup \"{ group.Name }\" was removed from the catalog.");
-                    }
-                    else if (action == "newcatalogcompatiblegameversion")
-                    {
-                        // Update the change notes; the update itself was already done by the ManualUpdater
-                        ChangeNotesUpdatedAuthors.AppendLine("Catalog was updated to a new game version: " + ActiveCatalog.Instance.CompatibleGameVersionString);
-                    }
+                    ActiveCatalog.Instance.ModGroups.Remove(group);
+
+                    // Add to the 'authors' change notes, so it will go to the end of the changes notes
+                    ChangeNotesRemovedAuthors.AppendLine($"ModGroup \"{ group.Name }\" was removed from the catalog.");
+                }
+
+                // Catalog compatible game version
+                else if (id == 1)
+                {
+                    // Update the change notes; the update itself was already done by the ManualUpdater
+                    ChangeNotesUpdatedAuthors.AppendLine("Catalog was updated to a new game version: " + ActiveCatalog.Instance.CompatibleGameVersionString);
                 }
             }
         }
