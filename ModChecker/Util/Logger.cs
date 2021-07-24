@@ -21,11 +21,13 @@ namespace ModChecker.Util
         private static Filer log;
         private static Filer updaterLog;
         private static Filer report;
+        private static Filer dataDump;
 
         // Keep track if we already written to the log; used to initialize the file on first use
         private static bool logWritten;
         private static bool updaterLogWritten;
         private static bool reportWritten;
+        private static bool dataDumpWritten;
 
         // Here the actual file writing happens
         private class Filer : UnityEngine.MonoBehaviour
@@ -228,6 +230,22 @@ namespace ModChecker.Util
 
             // Write the message to file
             report.WriteLine(message, extraLine: extraLine);
+        }
+
+
+        // Log a message to the data dump file
+        internal static void DataDump(string message)
+        {
+            // Initialize the file on the first message
+            if (!dataDumpWritten)
+            {
+                dataDump = new Filer(ModSettings.dataDumpFullPath, timeStamp: false, append: false);
+
+                dataDumpWritten = true;
+            }
+
+            // Write the message to file
+            dataDump.WriteLine(message);
         }
 
 

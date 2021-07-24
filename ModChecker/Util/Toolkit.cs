@@ -219,15 +219,15 @@ namespace ModChecker.Util
 
 
         // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(ulong profileID, string customURL)
+        internal static string GetAuthorWorkshop(ulong profileID, string customURL, bool modsOnly = false)
         {
             if (profileID != 0)
             {
-                return $"https://steamcommunity.com/profiles/{ profileID }/myworkshopfiles/?appid=255710";
+                return $"https://steamcommunity.com/profiles/{ profileID }/myworkshopfiles/?appid=255710" + (modsOnly ? "&requiredtags[]=Mod" : "");
             }
             else if (!string.IsNullOrEmpty(customURL))
             {
-                return $"https://steamcommunity.com/id/{ customURL }/myworkshopfiles/?appid=255710";
+                return $"https://steamcommunity.com/id/{ customURL }/myworkshopfiles/?appid=255710" + (modsOnly ? "&requiredtags[]=Mod" : "");
             }
             else
             {

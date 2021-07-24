@@ -43,10 +43,12 @@ namespace ModChecker
             // Initialize the scanner: basic checks and loading the catalog
             Scanner.Init();
 
-            // Start the updaters; will only run if the updater is enabled
+            // Start the updaters and datadunmper; will only run if the updater is enabled
             ManualUpdater.Start();
 
             AutoUpdater.Start();
+
+            DataDumper.Start();
         }
 
 

@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "147";
+        internal const string build = "148";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -232,6 +232,9 @@ namespace ModChecker.Util
 
         // Updater logfile location (Cities_Data)
         internal static readonly string updaterLogfileFullPath = Path.Combine(updaterPath, $"{ internalName }_Updater.log");
+
+        // Data dump file location (Cities_Data)
+        internal static readonly string dataDumpFullPath = Path.Combine(updaterPath, $"{ internalName }_DataDump.txt");
 
         // Temporary download location for Steam Workshop pages
         internal static readonly string steamDownloadedPageFullPath = Path.Combine(updaterPath, $"{ internalName }_Download.tmp");
