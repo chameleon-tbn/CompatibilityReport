@@ -273,40 +273,24 @@ namespace ModChecker.DataTypes
                 }
                 else
                 {
-                    // We need to 'flip' some statuses without affecting the catalog, so gather the statuses in a new list first
+                    // We need to 'mirror' some statuses without affecting the catalog, so gather the statuses in a new list first
                     List<Enums.CompatibilityStatus> statuses = new List<Enums.CompatibilityStatus>();
 
-                    // Add each status to this new list, flipping some
+                    // Add each status to this new list
                     foreach (Enums.CompatibilityStatus status in compatibility.Statuses)
                     {
                         switch (status)
                         {
-                            case Enums.CompatibilityStatus.NewerVersionOfTheSame:
-                                statuses.Add(Enums.CompatibilityStatus.OlderVersionOfTheSame);
+                            case Enums.CompatibilityStatus.NewerVersion:
+                                statuses.Add(Enums.CompatibilityStatus.OlderVersion);
                                 break;
 
-                            case Enums.CompatibilityStatus.OlderVersionOfTheSame:
-                                statuses.Add(Enums.CompatibilityStatus.NewerVersionOfTheSame);
-                                break;
-
-                            case Enums.CompatibilityStatus.FunctionalityCoveredByThis:
+                            case Enums.CompatibilityStatus.FunctionalityCovered:
                                 statuses.Add(Enums.CompatibilityStatus.FunctionalityCoveredByOther);
                                 break;
 
-                            case Enums.CompatibilityStatus.FunctionalityCoveredByOther:
-                                statuses.Add(Enums.CompatibilityStatus.FunctionalityCoveredByThis);
-                                break;
-
-                            case Enums.CompatibilityStatus.RequiresSpecificConfigForThis:
-                                statuses.Add(Enums.CompatibilityStatus.RequiresSpecificConfigForOther);
-                                break;
-
-                            case Enums.CompatibilityStatus.RequiresSpecificConfigForOther:
-                                statuses.Add(Enums.CompatibilityStatus.RequiresSpecificConfigForThis);
-                                break;
-
                             default:
-                                // Add statuses we don't need to flip
+                                // Add statuses we don't need to mirror
                                 statuses.Add(status);
                                 break;
                         }

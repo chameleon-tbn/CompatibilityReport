@@ -757,15 +757,15 @@ namespace ModChecker
             }
 
             // Music
-            if (subscription.Statuses.Contains(Enums.ModStatus.CopyrightFreeMusic))
-            {
-                text += ReviewLine("This includes copyrighted music and should not be used for streaming.", htmlReport);
-            }
-            else if (subscription.Statuses.Contains(Enums.ModStatus.CopyrightedMusic))
+            if (subscription.Statuses.Contains(Enums.ModStatus.MusicCopyrightFree))
             {
                 text += ReviewLine("The included music is said to be copyright-free and safe for streaming.", htmlReport);
             }
-            else if (subscription.Statuses.Contains(Enums.ModStatus.CopyrightUnknownMusic))
+            else if (subscription.Statuses.Contains(Enums.ModStatus.MusicCopyrighted))
+            {
+                text += ReviewLine("This includes copyrighted music and should not be used for streaming.", htmlReport);
+            }
+            else if (subscription.Statuses.Contains(Enums.ModStatus.MusicCopyrightUnknown))
             {
                 text += ReviewLine("This includes music with unknown copyright status. Safer not to use it for streaming.", htmlReport);
             }
@@ -803,7 +803,7 @@ namespace ModChecker
                     ReviewLine(subscription.ModNotes[compatibility.Key], htmlReport, ModSettings.bullet3);
                 
                 // Different versions, releases or mod with the same functionality
-                if (statuses.Contains(Enums.CompatibilityStatus.OlderVersionOfTheSame))
+                if (statuses.Contains(Enums.CompatibilityStatus.OlderVersion))
                 {
                     text += ReviewLine("Unsubscribe. You're already subscribed to a newer version:", htmlReport) + otherModText;
                 }
@@ -831,7 +831,7 @@ namespace ModChecker
                 }
 
                 // Specific config
-                if (statuses.Contains(Enums.CompatibilityStatus.RequiresSpecificConfigForThis))
+                if (statuses.Contains(Enums.CompatibilityStatus.RequiresSpecificSettings))
                 {
                     text += ReviewLine("This requires specific configuration to work together with:", htmlReport) + otherModText;
                 }

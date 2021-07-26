@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "148";
+        internal const string build = "149";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -239,6 +239,9 @@ namespace ModChecker.Util
         // Temporary download location for Steam Workshop pages
         internal static readonly string steamDownloadedPageFullPath = Path.Combine(updaterPath, $"{ internalName }_Download.tmp");
 
+        // Updater enabled
+        internal static bool UpdaterEnabled { get; private set; } = File.Exists(updaterSettingsXml);
+
         // Max. number of Steam Workshop mod listing pages to download (per category), to avoid downloading for eternity; should be high enough to include all pages
         internal static readonly uint steamMaxModListingPages = 200;
 
@@ -296,9 +299,6 @@ namespace ModChecker.Util
 
 
         /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.7]
-
-        // (Global) updater enabled? Updater will only be enabled if the updater settings xml file exists
-        internal static bool UpdaterEnabled { get; private set; } = true && File.Exists(updaterSettingsXml);
 
         // AutoUpdater enabled? AutoUpdater will only be enabled if the global updater is enabled
         internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && false;  // [Todo 0.3] false -> true
