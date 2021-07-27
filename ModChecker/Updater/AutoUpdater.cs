@@ -7,7 +7,7 @@ using ModChecker.Util;
 
 
 // Auto Updater updates the catalog with information from the Steam Workshop pages. The following is updated/added:
-// * Mod: name, author, publish/update dates, source url, compatible game version, required DLC, required mods, only-needed-for mods (update existing field only),
+// * Mod: name, author, publish/update dates, source url, compatible game version, required DLC, required mods,
 //        statuses: incompatible according to the workshop, removed from workshop, no description, no source available (only remove when a source url is found)
 // * Author: name, last seen (only based on mod updates), retired (only remove on mod updates)
 

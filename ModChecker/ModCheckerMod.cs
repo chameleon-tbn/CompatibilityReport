@@ -44,9 +44,9 @@ namespace ModChecker
             Scanner.Init();
 
             // Start the updaters and datadunmper; will only run if the updater is enabled
-            ManualUpdater.Start();
-
             AutoUpdater.Start();
+
+            ManualUpdater.Start();
 
             DataDumper.Start();
         }
