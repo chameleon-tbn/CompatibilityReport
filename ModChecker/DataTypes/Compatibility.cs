@@ -17,12 +17,8 @@ namespace ModChecker.DataTypes
         // Compatibility status of these two mods, from the perspective of ID1 ('this mod'); can be one or more statuses
         public List<Enums.CompatibilityStatus> Statuses { get; private set; } = new List<Enums.CompatibilityStatus>();
 
-        // Note about ID1 to display when reporting compatibility of ID2 with ID1
-        public string NoteAboutMod1 { get; private set; }
-
-        // Note about ID2 to display when reporting compatibility of ID1 with ID2
-        public string NoteAboutMod2 { get; private set; }
-
+        // Note about this compatibility
+        public string Note { get; private set; }
 
         // Default constructor
         public Compatibility()
@@ -32,7 +28,7 @@ namespace ModChecker.DataTypes
 
 
         // Constructor with all parameters
-        internal Compatibility(ulong steamID1, ulong steamID2, List<Enums.CompatibilityStatus> statuses, string note1, string note2)
+        internal Compatibility(ulong steamID1, ulong steamID2, List<Enums.CompatibilityStatus> statuses, string note)
         {
             if (steamID1 == steamID2)
             {
@@ -58,9 +54,7 @@ namespace ModChecker.DataTypes
                 Statuses = statuses;
             }
 
-            NoteAboutMod1 = note1 ?? "";
-
-            NoteAboutMod2 = note2 ?? "";
+            Note = note ?? "";
         }
     }
 }

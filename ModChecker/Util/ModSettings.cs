@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "150";
+        internal const string build = "151";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -82,13 +82,13 @@ namespace ModChecker.Util
         // The XML root of the Catalog; must be constant
         internal const string xmlRoot = internalName + "Catalog";
 
-        // This mods own Steam ID; [Todo 0.4]
-        internal static readonly ulong modCheckerSteamID = 101;
-
         // The current catalog structure version
         internal static readonly uint currentCatalogStructureVersion = 1;
 
-        // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility.
+        // This mods own Steam ID; [Todo 0.4]
+        internal static readonly ulong modCheckerSteamID = 101;
+
+        // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility, alternatives, etc.
         internal static Dictionary<string, ulong> BuiltinMods { get; } = new Dictionary<string, ulong>
         {
             { "Hard Mode", 1 },
@@ -105,6 +105,7 @@ namespace ModChecker.Util
         internal static readonly ulong highestLocalModID        = 9999;
         internal static readonly ulong lowestModGroupID        = 10001;
         internal static readonly ulong highestModGroupID      = 999999;
+        internal static readonly ulong lowestFakeID  = Math.Min(Math.Min(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
         internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
         
         // Logfile location (Cities_Data)

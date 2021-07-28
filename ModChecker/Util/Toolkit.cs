@@ -350,7 +350,7 @@ namespace ModChecker.Util
             }
             catch
             {
-                return default(T);
+                return default;
             }
         }
 
@@ -405,6 +405,12 @@ namespace ModChecker.Util
         internal static string ElapsedTime(double milliseconds,
                                            bool alwaysShowSeconds = false)
         {
+            // Return the time in milliseconds if it's less than 0.1 seconds
+            if (milliseconds < 100)
+            {
+                return $"{ milliseconds } ms";
+            }
+
             int seconds = (int)Math.Floor(milliseconds / 1000);
 
             // Number of seconds when to switch from showing seconds to minutes

@@ -60,7 +60,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_Retired, \<author ID | author custom URL\>
 
 ### Available miscellaneous actions
-* Remove_Exclusion, \<mod ID\>, [\<mod ID | DLC appid\>,] \<exclusion type\>
+* Remove_Exclusion, \<mod ID\>, [\<mod ID | DLC appid\>,] \<exclusion category\>
 * Add_CatalogGameVersion, \<game version string\>
 * Add_CatalogNote, \<note\>
 * Remove_CatalogNote

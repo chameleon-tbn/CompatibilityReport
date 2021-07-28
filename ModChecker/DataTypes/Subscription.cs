@@ -34,7 +34,7 @@ namespace ModChecker.DataTypes
         internal List<ulong> RequiredMods { get; private set; } = new List<ulong>();
 
         // Successor(s); only for mods with issues
-        internal List<ulong> SucceededBy { get; private set; } = new List<ulong>();
+        internal List<ulong> Successors { get; private set; } = new List<ulong>();
 
         // Alternative mods; only for mods with issues and no successor
         internal List<ulong> Alternatives { get; private set; } = new List<ulong>();
@@ -187,7 +187,7 @@ namespace ModChecker.DataTypes
 
             RequiredDLC = catalogMod.RequiredDLC;
             RequiredMods = catalogMod.RequiredMods;
-            SucceededBy = catalogMod.SucceededBy;
+            Successors = catalogMod.Successors;
             Alternatives = catalogMod.Alternatives;
 
             Statuses = catalogMod.Statuses;
@@ -225,7 +225,7 @@ namespace ModChecker.DataTypes
                 }
             }
 
-            // Get all compatibilities (including notes) where this mod is either the first or the second ID
+            // Get all compatibilities (including note) where this mod is either the first or the second ID
             AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == SteamID), firstID: true);
             AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == SteamID), firstID: false);
 
@@ -237,7 +237,7 @@ namespace ModChecker.DataTypes
                 // go through all found mod groups
                 foreach (ModGroup group in modGroups)
                 {
-                    // Get all compatibilities (including notes) where the mod group is either the first or the second ID
+                    // Get all compatibilities (including note) where the mod group is either the first or the second ID
                     AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == group.GroupID), firstID: true);
                     AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == group.GroupID), firstID: false);
                 }
@@ -268,8 +268,8 @@ namespace ModChecker.DataTypes
                     // Add the compatibility status to the list, with the Steam ID for the other mod or group
                     Compatibilities.Add(compatibility.SteamID2, compatibility.Statuses);
 
-                    // Add the mod note for this compatibility to the list
-                    ModNotes.Add(compatibility.SteamID2, compatibility.NoteAboutMod2);
+                    // Add the compatibility note to the list
+                    ModNotes.Add(compatibility.SteamID2, compatibility.Note);
                 }
                 else
                 {
@@ -298,8 +298,7 @@ namespace ModChecker.DataTypes
                         // Add the compatibility status to the list, with the Steam ID for the other mod or group
                         Compatibilities.Add(compatibility.SteamID1, statuses);
 
-                        // Add the mod note for this compatibility to the list
-                        ModNotes.Add(compatibility.SteamID1, compatibility.NoteAboutMod1);
+                        // The compatibility note should only be displayed for the first mod in the compatibility, so skip it here
                     }
                 }
             }

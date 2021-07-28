@@ -43,7 +43,7 @@ namespace ModChecker.DataTypes
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
 
         // Successors of this mod
-        [XmlArrayItem("SteamID")] public List<ulong> SucceededBy { get; private set; } = new List<ulong>();
+        [XmlArrayItem("SteamID")] public List<ulong> Successors { get; private set; } = new List<ulong>();
 
         // Alternatives for this mod; only used if this has compatibility issues
         [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
@@ -95,7 +95,7 @@ namespace ModChecker.DataTypes
                              List<Enums.DLC> requiredDLC = null,
                              List<ulong> requiredMods = null,
                              List<ulong> requiredAssets = null,
-                             List<ulong> succeededBy = null,
+                             List<ulong> successors = null,
                              List<ulong> alternatives = null,
                              List<Enums.ModStatus> statuses = null,
                              string note = null,
@@ -134,7 +134,7 @@ namespace ModChecker.DataTypes
 
             RequiredAssets = requiredAssets ?? RequiredAssets ?? new List<ulong>();
 
-            SucceededBy = succeededBy ?? SucceededBy ?? new List<ulong>();
+            Successors = successors ?? Successors ?? new List<ulong>();
 
             Alternatives = alternatives ?? Alternatives ?? new List<ulong>();
 
@@ -198,7 +198,7 @@ namespace ModChecker.DataTypes
             // Copy all value types directly, and all lists as new lists
             newMod.Update(originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL, originalMod.Published, originalMod.Updated, originalMod.ArchiveURL,
                 originalMod.SourceURL, originalMod.CompatibleGameVersionString, new List<Enums.DLC>(originalMod.RequiredDLC), new List<ulong>(originalMod.RequiredMods), 
-                new List<ulong>(originalMod.RequiredAssets), new List<ulong>(originalMod.SucceededBy), new List<ulong>(originalMod.Alternatives), 
+                new List<ulong>(originalMod.RequiredAssets), new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), 
                 new List<Enums.ModStatus>(originalMod.Statuses), originalMod.Note, originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
 
             return newMod;

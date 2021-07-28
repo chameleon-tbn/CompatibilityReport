@@ -320,7 +320,7 @@ namespace ModChecker
         }
 
 
-        // General note for this mod
+        // Generic note for this mod
         private static string Note(Subscription subscription,
                                    bool htmlReport = false)
         {
@@ -405,16 +405,16 @@ namespace ModChecker
         private static string Successors(Subscription subscription,
                                          bool htmlReport = false)
         {            
-            if (subscription.SucceededBy?.Any() != true)
+            if (subscription.Successors?.Any() != true)
             {
                 return "";
             }
 
-            string text = (subscription.SucceededBy.Count == 1) ? ReviewLine("This is succeeded by:", htmlReport) : 
+            string text = (subscription.Successors.Count == 1) ? ReviewLine("This is succeeded by:", htmlReport) : 
                 ReviewLine("This is succeeded by any of the following (pick one, not all):", htmlReport);
             
             // List all successor mods
-            foreach (ulong id in subscription.SucceededBy)
+            foreach (ulong id in subscription.Successors)
             {
                 if (ActiveCatalog.Instance.ModDictionary.ContainsKey(id))
                 {

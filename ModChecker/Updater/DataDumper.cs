@@ -6,7 +6,7 @@ using ModChecker.DataTypes;
 using ModChecker.Util;
 
 
-// This lists specific catalog data in the updater log; mostly for development.
+// This dumps specific catalog data to a text file, to help with manual updating
 
 
 namespace ModChecker.Updater
@@ -28,6 +28,8 @@ namespace ModChecker.Updater
             DumpRequiredMods();
 
             DumpAuthorsWithMultipleMods();
+
+            DumpAuthorsNotSeenLastYear();
 
             DumpModsWithoutReview();
 
@@ -106,9 +108,9 @@ namespace ModChecker.Updater
         // Dump name and workshop url for all authors with more than one mod; gives false positives for mods that contain both author ID and URLwwwwwww
         private static void DumpAuthorsWithMultipleMods()
         {
-            Logger.DataDump("===================================");
-            Logger.DataDump("All authors with more than one mod:");
-            Logger.DataDump("===================================");
+            Logger.DataDump("===============================");
+            Logger.DataDump("Authors with more than one mod:");
+            Logger.DataDump("===============================");
             Logger.DataDump(" ");
 
             foreach (Author author in ActiveCatalog.Instance.Authors)
@@ -116,6 +118,27 @@ namespace ModChecker.Updater
                 // List authors that have at least two mods
                 if ((author.ProfileID != 0 ? ActiveCatalog.Instance.Mods.FindAll(x => x.AuthorID == author.ProfileID).Count : 0) +
                     (!string.IsNullOrEmpty(author.CustomURL) ? ActiveCatalog.Instance.Mods.FindAll(x => x.AuthorURL == author.CustomURL).Count : 0) > 1)
+                {
+                    Logger.DataDump($"{ author.Name }, { Toolkit.GetAuthorWorkshop(author.ProfileID, author.CustomURL, modsOnly: true) }");
+                }
+            }
+
+            Logger.DataDump(" ");
+
+        }
+
+
+        // Dump name and workshop url for all authors that were last seen more than a year ago
+        private static void DumpAuthorsNotSeenLastYear()
+        {
+            Logger.DataDump("=================================");
+            Logger.DataDump("Authors not seen for over a year:");
+            Logger.DataDump("=================================");
+            Logger.DataDump(" ");
+
+            foreach (Author author in ActiveCatalog.Instance.Authors)
+            {
+                if (author.LastSeen.AddYears(1) < DateTime.Now)
                 {
                     Logger.DataDump($"{ author.Name }, { Toolkit.GetAuthorWorkshop(author.ProfileID, author.CustomURL, modsOnly: true) }");
                 }

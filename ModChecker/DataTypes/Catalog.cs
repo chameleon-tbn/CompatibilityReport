@@ -184,7 +184,7 @@ namespace ModChecker.DataTypes
                             List<Enums.DLC> requiredDLC = null,
                             List<ulong> requiredMods = null,
                             List<ulong> requiredAssets = null,
-                            List<ulong> succeededBy = null,
+                            List<ulong> successors = null,
                             List<ulong> alternatives = null,
                             List<Enums.ModStatus> statuses = null,
                             string note = null,
@@ -212,7 +212,7 @@ namespace ModChecker.DataTypes
 
             // Add all info to the mod
             mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods,
-                requiredAssets, succeededBy, alternatives, statuses, note, reviewUpdated, autoReviewUpdated, changeNotes);
+                requiredAssets, successors, alternatives, statuses, note, reviewUpdated, autoReviewUpdated, changeNotes);
 
             // Return a reference to the new mod
             return mod;
@@ -333,8 +333,7 @@ namespace ModChecker.DataTypes
         internal Compatibility AddCompatibility(ulong steamID1,
                                                 ulong steamID2,
                                                 List<Enums.CompatibilityStatus> statuses,
-                                                string note1 = "",
-                                                string note2 = "")
+                                                string note = "")
         {
             if ((steamID1 >= ModSettings.lowestModGroupID && steamID1 <= ModSettings.highestModGroupID) 
                 || (steamID2 >= ModSettings.lowestModGroupID && steamID2 <= ModSettings.highestModGroupID))
@@ -363,7 +362,7 @@ namespace ModChecker.DataTypes
             }
 
             // Add a new compatibility to the list
-            Compatibility compatibility = new Compatibility(steamID1, steamID2, statuses, note1, note2);
+            Compatibility compatibility = new Compatibility(steamID1, steamID2, statuses, note);
 
             Compatibilities.Add(compatibility);
             

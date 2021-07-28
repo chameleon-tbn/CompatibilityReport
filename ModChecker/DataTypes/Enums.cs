@@ -18,6 +18,7 @@
             BreaksEditors,                          // Gives serious issues in the map and/or asset editor, or prevents them from loading
             SavesCantLoadWithout,                   // This mod is needed to successfully load a savegame where it was previously used
             TestVersion,                            // This is a test/beta/alpha/experimental version; use only when a stable version exists, to differentiate between them
+            Deprecated,                             // No longer supported and should not be used anymore
             Abandoned,                              // No longer maintained and might give issues or break with future game updates
             NoDescription,                          // For mods without a (real) description in the Workshop, which indicates a sparsely supported mod
             NoCommentSectionOnWorkshop,             // This mods Workshop page has the comment section disabled, making it hard to see if people are experiencing issues
