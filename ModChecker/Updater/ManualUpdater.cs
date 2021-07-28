@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace ModChecker.Updater
                 return;
             }
 
-            // If the current active catalog is version 1 or 2, we're (re)building the catalog from scratch; wait with manual updates until version 3
+            // If the current active catalog is version 1 or 2, we're (re)building the catalog from scratch; wait with manual updates until version 3 is done
             if (ActiveCatalog.Instance.Version < 3)
             {
                 Logger.UpdaterLog($"ManualUpdater skipped.", extraLine: true);
@@ -44,8 +45,8 @@ namespace ModChecker.Updater
 
             CSVCombined = new StringBuilder();
 
-            // Read all the CSVs
-            ReadCSVs();
+            // Read all the CSVs and import them into the updater collections
+            ImportCSVs();
 
             if (CSVCombined.Length == 0)
             {
@@ -70,8 +71,8 @@ namespace ModChecker.Updater
         }
 
 
-        // Read all CSV files
-        private static void ReadCSVs()
+        // Read all the CSVs and import them into the updater collections
+        private static void ImportCSVs()
         {
             // Get all CSV filenames
             List<string> CSVfiles = Directory.GetFiles(ModSettings.updaterPath, "*.csv").ToList();
@@ -82,6 +83,9 @@ namespace ModChecker.Updater
                 return;
             }
 
+            // Time the update process
+            Stopwatch timer = Stopwatch.StartNew();
+
             // Sort the list
             CSVfiles.Sort();
 
@@ -91,7 +95,7 @@ namespace ModChecker.Updater
             // Process all CSV files
             foreach (string CSVfile in CSVfiles)
             {
-                Logger.UpdaterLog($"Processing \"{ CSVfile }\".");
+                Logger.UpdaterLog($"Processing \"{ Toolkit.GetFileName(CSVfile) }\".");
 
                 // Add filename to the combined CSV file
                 CSVCombined.AppendLine($"###################################################");
@@ -131,6 +135,7 @@ namespace ModChecker.Updater
 
                 // Add some space to the combined CSV file
                 CSVCombined.AppendLine("");
+                CSVCombined.AppendLine("");
 
                 // Rename the processed CSV file
                 string newFileName = CSVfile + (singleFileSuccess ? ".processed.txt" : ".processed_partially.txt");
@@ -138,32 +143,21 @@ namespace ModChecker.Updater
                 /* [Todo 0.3] Re-enable this
                 if (!Toolkit.MoveFile(CSVfile, newFileName))
                 {
-                    Logger.UpdaterLog($"Could not rename \"{ Toolkit.PrivacyPath(CSVfile) }\". Rename or delete it manually to avoid processing it again.", Logger.error);
+                    Logger.UpdaterLog($"Could not rename \"{ Toolkit.GetFileName(CSVfile) }\". Rename or delete it manually to avoid processing it again.", Logger.error);
                 }
                 */
-
-                // Log if we couldn't process all lines
-                if (!singleFileSuccess)
-                {
-                    Logger.UpdaterLog($"\"{ newFileName }\" not completely processed.", Logger.warning);
-                }
             }
+
+            timer.Stop();
 
             string s = numberOfFiles == 1 ? "" : "s";
 
-            // Log number of processed files to updater log
-            Logger.UpdaterLog($"{ numberOfFiles } CSV file{ s } processed{ (overallSuccess ? "" : ", with some errors" ) }.");
+            // Log number of processed files and elapsed time to updater log, also to regular log
+            Logger.UpdaterLog($"{ numberOfFiles } CSV file{ s } processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" + 
+                (overallSuccess ? "." : ", with some errors."));
             
-            // Log to regular log
-            if (overallSuccess)
-            {
-                Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ s }. Check logfile for details.");
-            }
-            else
-            {
-                Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ s }, with some errors. Check logfile for details.", 
-                    Logger.warning);
-            }
+            Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ s } in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" +
+                $"{ (overallSuccess ? "" : ", with some errors. Check separate logfile for details") }.", overallSuccess ? Logger.info : Logger.warning);
         }
 
 
@@ -206,19 +200,25 @@ namespace ModChecker.Updater
                 extraData = secondID == 0 ? extraData : (lineFragments.Length > 3 ? lineFragments[3].Trim() : "");
             }
 
-            bool success;
+            string result;
 
             // Act on the action found with the additional data  [Todo 0.3] Check if all actions are updated in CatalogUpdater
             switch (action)
             {
                 case "add_mod":
                     // Join the lineFragments to allow for commas in the mod name
-                    success = AddMod(id, authorID: secondID, 
-                        modName: lineFragments.Length < 5 ? extraData : string.Join(", ", lineFragments, 3, lineFragments.Length - 3));
+                    string modName = secondID == 0 ?
+                        (lineFragments.Length < 4 ? "" : string.Join(", ", lineFragments, 3, lineFragments.Length - 3)).Trim() :
+                        (lineFragments.Length < 4 ? extraData : string.Join(", ", lineFragments, 3, lineFragments.Length - 3)).Trim();
+
+                    // Get the author URL if no author ID was found
+                    string authorURL = secondID == 0 ? extraData : "";
+
+                    result = AddMod(id, authorID: secondID, authorURL, modName);
                     break;
 
                 case "remove_mod":
-                    success = RemoveMod(id);
+                    result = RemoveMod(id);
                     break;
 
                 case "add_archiveurl":
@@ -228,64 +228,113 @@ namespace ModChecker.Updater
                 case "add_status":
                 case "remove_requireddlc":
                 case "remove_status":
-                    success = ChangeModItem(id, action, extraData);
+                    result = ChangeModItem(id, action, extraData);
                     break;
 
                 case "add_note":
                     // Join the lineFragments to allow for commas in the note
-                    success = ChangeModItem(id, action, string.Join(", ", lineFragments, 2, lineFragments.Length - 2));
+                    result = ChangeModItem(id, action, string.Join(", ", lineFragments, 2, lineFragments.Length - 2)).Trim();
                     break;
 
+                case "add_reviewdate":
                 case "remove_archiveurl":
                 case "remove_sourceurl":
                 case "remove_gameversion":
                 case "remove_note":
-                    success = ChangeModItem(id, action, "");
+                    result = ChangeModItem(id, action, "");
                     break;
 
                 case "add_requiredmod":
                 case "remove_requiredmod":
-                    success = ChangeRequiredMod(id, action, listMember: secondID);
+                    result = ChangeRequiredMod(id, action, listMember: secondID);
                     break;
 
                 case "add_successor":
                 case "add_alternative":
                 case "remove_successor":
                 case "remove_alternative":
-                    success = ChangeModItem(id, action, listMember: secondID);
+                    result = ChangeModItem(id, action, listMember: secondID);
                     break;
 
-                case "add_group":
                 case "add_compatibility":
                 case "remove_compatibility":
                     if (lineFragments.Length < 4)
                     {
-                        success = false;
+                        result = "Not enough parameters.";
                     }
                     else
                     {
-                        // Get all linefragments to get all steam IDs as strings; remove the first two elements: action and compatibility / group name
+                        // Get the note, if available
+                        string note = lineFragments.Length > 4 ? string.Join(", ", lineFragments, 4, lineFragments.Length - 4).Trim() : "";
+
+                        // If the note starts with a '#', assume a comment instead of an actual note
+                        if (!string.IsNullOrEmpty(note) && note[0] == '#')
+                        {
+                            note = "";
+                        }
+
+                        result = AddRemoveCompatibility(action, id, secondID, compatibilityString: extraData, note);
+                    }
+                    break;
+
+                case "add_compatibilitiesforone":
+                case "add_compatibilitiesforall":
+                    if (lineFragments.Length < 5)
+                    {
+                        result = "Not enough parameters.";
+                    }
+                    else
+                    {
+                        // Get all linefragments to get all steam IDs as strings
                         List<string> steamIDs = lineFragments.ToList();
 
-                        steamIDs.RemoveRange(0, 2);
+                        // Remove the first two or three elements: action, [first mod id,] compatibility
+                        steamIDs.RemoveRange(0, action == "add_compatibilitiesforone" ? 3 : 2);
 
-                        success = action == "add_group" ? 
-                            AddGroup(groupName: idString, steamIDs) : 
-                            AddRemoveCompatibility(compatibility: idString, steamIDs);
+                        // Remove the list element if it starts with a '#', assuming a comment
+                        if (steamIDs.Last().Trim()[0] == '#' && steamIDs.Count > 2) 
+                        {
+                            steamIDs.RemoveAt(steamIDs.Count - 1);
+                        }
+
+                        if (action == "add_compatibilitiesforone")
+                        {
+                            result = AddCompatibilitiesForOne(id, compatibilityString: extraData, steamIDs);
+                        }
+                        else
+                        {
+                            result = AddCompatibilitiesForAll(compatibilityString: idString, steamIDs);
+                        }                        
+                    }
+                    break;
+
+                case "add_group":
+                    if (lineFragments.Length < 4)
+                    {
+                        result = "Not enough parameters.";
+                    }
+                    else
+                    {
+                        // Get all linefragments to get all steam IDs as strings; remove the first two elements: action and group name
+                        List<string> groupMembers = lineFragments.ToList();
+
+                        groupMembers.RemoveRange(0, 2);
+
+                        result = AddGroup(groupName: idString, groupMembers);
                     }
                     break;
 
                 case "remove_group":
                     // Remove the group after changing it to a replacement mod as 'required mod' for all affected mods
-                    success = RemoveGroup(groupID: id, replacementMod: secondID);
+                    result = RemoveGroup(groupID: id, replacementMod: secondID);
                     break;
 
                 case "add_groupmember":
-                    success = AddGroupMember(groupID: id, groupMember: secondID);
+                    result = AddGroupMember(groupID: id, groupMember: secondID);
                     break;
 
                 case "remove_groupmember":
-                    success = RemoveGroupMember(groupID: id, groupMember: secondID);
+                    result = RemoveGroupMember(groupID: id, groupMember: secondID);
                     break;
 
                 case "add_authorid":
@@ -296,54 +345,74 @@ namespace ModChecker.Updater
                 case "remove_retired":
                     if (id == 0)
                     {
-                        success = ChangeAuthorItem(authorURL: idString, action, extraData, newAuthorID: secondID);
+                        result = ChangeAuthorItem(authorURL: idString, action, extraData, newAuthorID: secondID);
                     }
                     else
                     {
-                        success = ChangeAuthorItem(authorID: id, action, extraData);
+                        result = ChangeAuthorItem(authorID: id, action, extraData);
                     }                    
                     break;
 
                 case "remove_exclusion":
-                    success = RemoveExclusion(steamID: id, subitem: secondID, categoryString: extraData);
+                    result = RemoveExclusion(steamID: id, subitem: secondID, categoryString: extraData);
                     break;
 
                 case "add_cataloggameversion":
-                    success = SetCatalogGameVersion(gameVersionString: idString);
+                    result = SetCatalogGameVersion(gameVersionString: idString);
                     break;
 
                 case "add_catalognote":
                     // Join the lineFragments to allow for commas in the note
                     CatalogUpdater.SetNote(string.Join(", ", lineFragments, 1, lineFragments.Length - 1).Trim());
-                    success = true;
+                    result = "";
                     break;
 
                 case "remove_catalognote":
                     CatalogUpdater.SetNote("");
-                    success = true;
+                    result = "";
+                    break;
+
+                case "updatedate":
+                    result = CatalogUpdater.SetUpdateDate(idString) ? "" : "Invalid date.";
                     break;
 
                 default:
-                    Logger.UpdaterLog($"Line not processed, invalid action. Line: { line }", Logger.warning);
-                    success = false;
+                    result = "Line not processed, invalid action.";
                     break;
             }
 
-            return success;
+            if (!string.IsNullOrEmpty(result))
+            {
+                Logger.UpdaterLog(result + " Line: " + line, Logger.error);
+            }
+            
+            return string.IsNullOrEmpty(result);
         }
 
 
         // Add unlisted mod
-        private static bool AddMod(ulong steamID, ulong authorID, string modName)
+        private static string AddMod(ulong steamID, ulong authorID, string authorURL, string modName)
         {
-            // Exit if Steam ID is not valid, exists in the active catalog or exists in the collected mods
-            if (steamID <= ModSettings.highestFakeID || ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) || CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
+            // Exit if Steam ID is not valid
+            if (steamID <= ModSettings.highestFakeID)
             {
-                return false;
+                return $"Invalid Steam ID { steamID }.";
+            }
+
+            // Exit if Steam ID already exists in the active catalog or in the collected mods
+            if (ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) || CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
+            {
+                return "Mod already exists.";
+            }
+
+            // Exit if both the author ID and URL are empty
+            if (authorID == 0 && string.IsNullOrEmpty(authorURL))
+            {
+                return "Invalid author.";
             }
 
             // Create a new mod
-            Mod newMod = new Mod(steamID, modName, authorID, "");
+            Mod newMod = new Mod(steamID, modName, authorID, authorURL);
 
             // Add unlisted status
             newMod.Statuses.Add(Enums.ModStatus.UnlistedInWorkshop);
@@ -351,35 +420,33 @@ namespace ModChecker.Updater
             // Add mod to collected mods
             CatalogUpdater.CollectedModInfo.Add(steamID, newMod);
 
-            return true;
+            return "";
         }
 
 
         // Remove an unlisted or removed mod from the catalog
-        private static bool RemoveMod(ulong steamID)
+        private static string RemoveMod(ulong steamID)
         {
             // Exit if Steam ID is not valid, doesn't exist in the active catalog or does exist in the collected mods dictionary or removals list
             if (steamID <= ModSettings.highestFakeID || !ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) || 
                 CatalogUpdater.CollectedModInfo.ContainsKey(steamID) || CatalogUpdater.CollectedRemovals.Contains(steamID))
             {
-                return false;
+                return $"Invalid Steam ID { steamID }.";
             }
 
             // Exit if it is listed as required, successor or alternative mod anywhere, or if it is a group member
             Mod catalogMod = ActiveCatalog.Instance.Mods.FirstOrDefault(x => x.RequiredMods.Contains(steamID) || 
-                                                                             x.SucceededBy.Contains(steamID) || 
+                                                                             x.Successors.Contains(steamID) || 
                                                                              x.Alternatives.Contains(steamID));
             Mod collectedMod = CatalogUpdater.CollectedModInfo.FirstOrDefault(x => x.Value.RequiredMods.Contains(steamID) || 
-                                                                                   x.Value.SucceededBy.Contains(steamID) || 
+                                                                                   x.Value.Successors.Contains(steamID) || 
                                                                                    x.Value.Alternatives.Contains(steamID)).Value;
             ModGroup catalogGroup = ActiveCatalog.Instance.ModGroups.FirstOrDefault(x => x.SteamIDs.Contains(steamID));
             ModGroup collectedGroup = CatalogUpdater.CollectedModGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(steamID)).Value;
 
             if (catalogMod != default || collectedMod != default || catalogGroup != default || collectedGroup != default)
             {
-                Logger.UpdaterLog($"Mod { steamID } can't be removed because it is still referenced by mods or groups.", Logger.error);
-
-                return false;
+                return $"Mod { steamID } can't be removed because it is still referenced by mods or groups.";
             }
 
             // Get the mod from the active catalog
@@ -388,23 +455,23 @@ namespace ModChecker.Updater
             // Exit if it does not have the unlisted or removed status
             if (!mod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop) && !mod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
             {
-                return false;
+                return "Mod can't be removed because it isn't unlisted or removed.";
             }
 
             // Add mod to the removals list
             CatalogUpdater.CollectedRemovals.Add(steamID);
 
-            return true;
+            return "";
         }
 
 
         // Change a mod item with a string value
-        private static bool ChangeModItem(ulong steamID, string action, string itemData)
+        private static string ChangeModItem(ulong steamID, string action, string itemData)
         {
             // Exit if itemData is empty for actions that should have a non-empty string
-            if (string.IsNullOrEmpty(itemData) && action != "remove_note")
+            if (string.IsNullOrEmpty(itemData) && action != "add_reviewdate" && action != "remove_note")
             {
-                return false;
+                return $"Invalid parameter \"{ itemData }\".";
             }
 
             // Do the actual change
@@ -413,13 +480,13 @@ namespace ModChecker.Updater
 
 
         // Change a mod list item
-        private static bool ChangeModItem(ulong steamID, string action, ulong listMember)
+        private static string ChangeModItem(ulong steamID, string action, ulong listMember)
         {
-            // Exit if the listMember is not a valid ID or is not in the active catalog and not in the collected mod dictionary [Todo 0.3] Allow builtin mods
-            if (listMember <= ModSettings.highestFakeID || (!ActiveCatalog.Instance.ModDictionary.ContainsKey(listMember) && 
-                !CatalogUpdater.CollectedModInfo.ContainsKey(listMember)))
+            // Exit if the listMember is not a valid ID or is not in the active catalog and not in the collected mod dictionary
+            if ((listMember >= ModSettings.lowestFakeID && listMember <= ModSettings.highestFakeID) || 
+                (!ActiveCatalog.Instance.ModDictionary.ContainsKey(listMember) && !CatalogUpdater.CollectedModInfo.ContainsKey(listMember)))
             {
-                return false;
+                return $"Invalid Steam ID { listMember }.";
             }
 
             // Do the actual change
@@ -428,14 +495,15 @@ namespace ModChecker.Updater
 
 
         // Change a mod's required mod
-        private static bool ChangeRequiredMod(ulong steamID, string action, ulong listMember)
+        private static string ChangeRequiredMod(ulong steamID, string action, ulong listMember)
         {
             // Exit if the listMember is not a valid ID or is not in the active catalog as mod or group, and not in the collected mod or group dictionary
-            if (listMember < ModSettings.lowestModGroupID || (listMember > ModSettings.highestModGroupID && listMember <= ModSettings.highestFakeID) || 
+            if ((listMember >= ModSettings.lowestFakeID && listMember < ModSettings.lowestModGroupID) || 
+                (listMember > ModSettings.highestModGroupID && listMember <= ModSettings.highestFakeID) || 
                 (!ActiveCatalog.Instance.ModDictionary.ContainsKey(listMember) && !ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(listMember) && 
                 !CatalogUpdater.CollectedModInfo.ContainsKey(listMember) && !CatalogUpdater.CollectedModGroupInfo.ContainsKey(listMember)))
             {
-                return false;
+                return $"Invalid Steam ID { listMember }.";
             }
 
             // Do the actual change
@@ -444,13 +512,13 @@ namespace ModChecker.Updater
 
 
         // Change a mod item, with a string value or a list member
-        private static bool ChangeModItem(ulong steamID, string action, string itemData, ulong listMember)
+        private static string ChangeModItem(ulong steamID, string action, string itemData, ulong listMember)
         {
-            // Exit if the Steam ID is invalid or not in the active catalog or the collected mod dictionary
-            if (steamID <= ModSettings.highestFakeID || 
+            // Exit if the Steam ID is invalid (allow for builtin mods) or not in the active catalog or the collected mod dictionary
+            if ((steamID >= ModSettings.lowestFakeID && steamID <= ModSettings.highestFakeID) || 
                 (!ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) && !CatalogUpdater.CollectedModInfo.ContainsKey(steamID)))
             {
-                return false;
+                return $"Invalid Steam ID { steamID }.";
             }
 
             // Get a copy of the catalog mod from the collected mods dictionary or create a new copy
@@ -481,9 +549,7 @@ namespace ModChecker.Updater
 
                 if (newGameVersionString == GameVersion.Formatted(GameVersion.Unknown))
                 {
-                    Logger.UpdaterLog($"Incorrect gameversion \"{ itemData }\".", Logger.warning);
-
-                    return false;
+                    return $"Incorrect gameversion.";
                 }
 
                 // Update the new mod
@@ -513,9 +579,7 @@ namespace ModChecker.Updater
 
                 if (dlc == default)
                 {
-                    Logger.UpdaterLog($"Incorrect DLC \"{ itemData }\".", Logger.warning);
-
-                    return false;
+                    return "Incorrect DLC.";
                 }
 
                 if (action[0] == 'a')
@@ -523,7 +587,7 @@ namespace ModChecker.Updater
                     // Add the required DLC if the mod doesn't already have it
                     if (newMod.RequiredDLC.Contains(dlc))
                     {
-                        return false;
+                        return "DLC was already required.";
                     }
 
                     newMod.RequiredDLC.Add(dlc);
@@ -536,7 +600,7 @@ namespace ModChecker.Updater
                     // Remove the required DLC if the mod has it
                     if (!newMod.RequiredDLC.Contains(dlc))
                     {
-                        return false;
+                        return "DLC was not required.";
                     }
 
                     newMod.RequiredDLC.Remove(dlc);
@@ -552,9 +616,7 @@ namespace ModChecker.Updater
 
                 if (status == default)
                 {
-                    Logger.UpdaterLog($"Incorrect status \"{ itemData }\".", Logger.warning);
-
-                    return false;
+                    return "Invalid status.";
                 }
 
                 if (action[0] == 'a')
@@ -562,7 +624,7 @@ namespace ModChecker.Updater
                     // Add the status if the mod doesn't already have it
                     if (newMod.Statuses.Contains(status))
                     {
-                        return false;
+                        return "Status was already active.";
                     }
                     
                     newMod.Statuses.Add(status);
@@ -578,7 +640,7 @@ namespace ModChecker.Updater
                     // Remove the status if the mod has it
                     if (!newMod.Statuses.Contains(status))
                     {
-                        return false;
+                        return "Status not found for this mod.";
                     }
 
                     newMod.Statuses.Remove(status);
@@ -595,12 +657,16 @@ namespace ModChecker.Updater
                 // Add the new note (empty for 'remove')
                 newMod.Update(note: itemData);
             }
+            else if (action == "add_reviewdate")
+            {
+                // Nothing to do here, date will be changed below
+            }
             else if (action == "add_requiredmod")
             {
                 // Exit if the new required mod is already in the list
                 if (newMod.RequiredMods.Contains(listMember))
                 {
-                    return false;
+                    return "Mod was already required.";
                 }
 
                 newMod.RequiredMods.Add(listMember);
@@ -613,7 +679,7 @@ namespace ModChecker.Updater
                 // Exit if the to-be-removed mod is not in the list
                 if (!newMod.RequiredMods.Contains(listMember))
                 {
-                    return false;
+                    return "Mod was not required.";
                 }
 
                 newMod.RequiredMods.Remove(listMember);
@@ -624,29 +690,29 @@ namespace ModChecker.Updater
             else if (action == "add_successor") // [Todo 0.3] Needs action in CatalogUpdater
             {
                 // Exit if the new member is not in the list
-                if (newMod.SucceededBy.Contains(listMember))
+                if (newMod.Successors.Contains(listMember))
                 {
-                    return false;
+                    return "Already a successor.";
                 }
 
-                newMod.SucceededBy.Add(listMember);
+                newMod.Successors.Add(listMember);
             }
             else if (action == "remove_successor") // [Todo 0.3] Needs action in CatalogUpdater
             {
                 // Exit if the to-be-removed member is not in the list
-                if (!newMod.SucceededBy.Contains(listMember))
+                if (!newMod.Successors.Contains(listMember))
                 {
-                    return false;
+                    return "Successor not found.";
                 }
 
-                newMod.SucceededBy.Remove(listMember);
+                newMod.Successors.Remove(listMember);
             }
             else if (action == "add_alternative") // [Todo 0.3] Needs action in CatalogUpdater
             {
                 // Exit if the new member is already in the list
                 if (newMod.Alternatives.Contains(listMember))
                 {
-                    return false;
+                    return "Already an alternative.";
                 }
 
                 newMod.Alternatives.Add(listMember);
@@ -656,33 +722,36 @@ namespace ModChecker.Updater
                 // Exit if the to-be-removed member is not in the list
                 if (!newMod.Alternatives.Contains(listMember))
                 {
-                    return false;
+                    return "Alternative not found.";
                 }
 
                 newMod.Alternatives.Remove(listMember);
             }
             else
             {
-                return false;
+                return "Invalid Action.";
             }
-            
+
+            // Set the review date to anything. It is only to indicate it should be updated by the CatalogUpdater, which uses its own update date.
+            newMod.Update(reviewUpdated: DateTime.Now);
+
             // Add the copied mod to the collected mods dictionary if the change was successful
             if (!CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
             {
                 CatalogUpdater.CollectedModInfo.Add(newMod.SteamID, newMod);
             }
 
-            return true;
+            return "";
         }
 
 
         // Add an author item, by author profile ID
-        private static bool ChangeAuthorItem(ulong authorID, string action, string itemData)
+        private static string ChangeAuthorItem(ulong authorID, string action, string itemData)
         {
             // Exit if the author ID is invalid or not in the active catalog
             if (authorID == 0 || !ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
             {
-                return false;
+                return "Invalid author ID.";
             }
 
             // Get a copy of the catalog author from the collected authors dictionary or create a new copy
@@ -690,25 +759,25 @@ namespace ModChecker.Updater
                 Author.Copy(ActiveCatalog.Instance.AuthorIDDictionary[authorID]);
             
             // Update the author
-            bool success = ChangeAuthorItem(newAuthor, action, itemData, 0);
+            string result = ChangeAuthorItem(newAuthor, action, itemData, 0);
 
             // Add the copied author to the collected mods dictionary if the change was successful
-            if (success && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
+            if (string.IsNullOrEmpty(result) && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
             {
                 CatalogUpdater.CollectedAuthorIDs.Add(authorID, newAuthor);
             }
 
-            return success;
+            return result;
         }
 
 
         // Add an author item, by author custom URL
-        private static bool ChangeAuthorItem(string authorURL, string action, string itemData, ulong newAuthorID = 0)
+        private static string ChangeAuthorItem(string authorURL, string action, string itemData, ulong newAuthorID = 0)
         {
             // Exit if the author custom URL is empty or not in the active catalog
             if (string.IsNullOrEmpty(authorURL) || !ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL))
             {
-                return false;
+                return "Invalid author custom URL.";
             }
 
             // Get a copy of the catalog author from the collected authors dictionary or create a new copy
@@ -716,33 +785,38 @@ namespace ModChecker.Updater
                 Author.Copy(ActiveCatalog.Instance.AuthorURLDictionary[authorURL]);
 
             // Update the author
-            bool success = ChangeAuthorItem(newAuthor, action, itemData, newAuthorID);
+            string result = ChangeAuthorItem(newAuthor, action, itemData, newAuthorID);
 
             // Add the copied author to the collected mods dictionary if the change was successful
-            if (success && !CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
+            if (string.IsNullOrEmpty(result) && !CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
             {
                 CatalogUpdater.CollectedAuthorURLs.Add(authorURL, newAuthor);
             }
 
-            return success;
+            return result;
         }
 
 
         // Add an author item, by author type
-        private static bool ChangeAuthorItem(Author newAuthor, string action, string itemData, ulong newAuthorID)
+        private static string ChangeAuthorItem(Author newAuthor, string action, string itemData, ulong newAuthorID)
         {
             if (newAuthor == null)
             {
-                return false;
+                return "Author not found.";
             }
 
             // Update the author item
             if (action == "add_authorid")
             {
                 // Exit if the author already has an ID or if the new ID is zero
-                if (newAuthor.ProfileID != 0 || newAuthorID == 0)
+                if (newAuthor.ProfileID != 0)
                 {
-                    return false;
+                    return "Author already has an author ID.";
+                }
+
+                if (newAuthorID == 0)
+                {
+                    return "Invalid Author ID.";
                 }
 
                 newAuthor.Update(profileID: newAuthorID);
@@ -750,9 +824,14 @@ namespace ModChecker.Updater
             else if (action == "add_authorurl")
             {
                 // Exit if the new URL is empty or the same as the current URL
-                if (string.IsNullOrEmpty(itemData) || newAuthor.CustomURL == itemData)
+                if (string.IsNullOrEmpty(itemData))
                 {
-                    return false;
+                    return "Invalid custom URL.";
+                }
+
+                if (newAuthor.CustomURL == itemData)
+                {
+                    return "This custom URL is already active.";
                 }
 
                 newAuthor.Update(customURL: itemData);
@@ -762,7 +841,7 @@ namespace ModChecker.Updater
                 // Exit if the author doesn't have a custom URL
                 if (string.IsNullOrEmpty(newAuthor.CustomURL))
                 {
-                    return false;
+                    return "No custom URL active.";
                 }
 
                 newAuthor.Update(customURL: "");
@@ -778,12 +857,12 @@ namespace ModChecker.Updater
 
                     if (lastSeen < newAuthor.LastSeen)
                     {
-                        return false;
+                        return $"Last Seen date lower than current date in catalog ({ newAuthor.LastSeen }).";
                     }
                 }
                 catch
                 {
-                    return false;
+                    return "Invalid date.";
                 }
 
                 newAuthor.Update(lastSeen: lastSeen);
@@ -793,7 +872,7 @@ namespace ModChecker.Updater
                 // Exit if the author is already retired
                 if (newAuthor.Retired)
                 {
-                    return false;
+                    return "Author already retired.";
                 }
 
                 newAuthor.Update(retired: true);
@@ -803,27 +882,32 @@ namespace ModChecker.Updater
                 // Exit if the author is not retired now
                 if (!newAuthor.Retired)
                 {
-                    return false;
+                    return "Author was not retired.";
                 }
 
                 newAuthor.Update(retired: false);
             }
             else
             {
-                return false;
+                return "Invalid action.";
             }            
 
-            return true;
+            return "";
         }
 
 
         // Add a group
-        private static bool AddGroup(string groupName, List<string> groupMembers)
+        private static string AddGroup(string groupName, List<string> groupMembers)
         {
             // Exit if name or group members is empty
-            if (string.IsNullOrEmpty(groupName) || groupMembers == null)
+            if (string.IsNullOrEmpty(groupName))
             {
-                return false;
+                return "Invalid group name.";
+            }
+
+            if (groupMembers == null)
+            {
+                return "Not enough parameters.";
             }
 
             // Convert the members from string to steam IDs
@@ -836,9 +920,7 @@ namespace ModChecker.Updater
                 // Exit if a memberString can't be converted to numeric
                 if (member == 0)
                 {
-                    Logger.UpdaterLog("Incorrect group member: " + memberString, Logger.error);
-
-                    return false;
+                    return $"Invalid Steam ID { memberString }.";
                 }
 
                 members.Add(member);
@@ -847,26 +929,24 @@ namespace ModChecker.Updater
             // Exit if the group has less than two members
             if (members.Count < 2)
             {
-                Logger.UpdaterLog($"Not enough group members for new group \"{ groupName }\"", Logger.error);
-
-                return false;
+                return $"Not enough parameters.";
             }
 
             // [Todo 0.3] Find a way to add this to the catalogupdater
             //ModGroup newGroup = new ModGroup(0, groupName, members);
             //CatalogUpdater.CollectedModGroupInfo.Add(newGroup.GroupID, newGroup);
 
-            return true;
+            return "";
         }
 
 
         // Remove a group
-        private static bool RemoveGroup(ulong groupID, ulong replacementMod)
+        private static string RemoveGroup(ulong groupID, ulong replacementMod)
         {
             // Exit if the group doesn't exist or is already in the collected removals
             if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID) || CatalogUpdater.CollectedRemovals.Contains(groupID))
             {
-                return false;
+                return "Invalid group ID.";
             }
 
             // [Todo 0.3] replace group by replacement mod
@@ -874,27 +954,30 @@ namespace ModChecker.Updater
             // Add group to the removals list
             CatalogUpdater.CollectedRemovals.Add(groupID);
 
-            return false;
+            return "Not implemented yet.";
         }
 
 
         // Add a group member
-        private static bool AddGroupMember(ulong groupID, ulong groupMember)
+        private static string AddGroupMember(ulong groupID, ulong groupMember)
         {
-            // Exit if group or groupMember do not exist in the catalog or the collected dictionaries
-            if ((!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID) && !CatalogUpdater.CollectedModGroupInfo.ContainsKey(groupID)) || 
-                (!ActiveCatalog.Instance.ModDictionary.ContainsKey(groupMember) && !CatalogUpdater.CollectedModInfo.ContainsKey(groupMember)))
+            // Exit if the group does not exist in the catalog or the collected dictionaries
+            if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID) && !CatalogUpdater.CollectedModGroupInfo.ContainsKey(groupID))
             {
-                return false;
+                return $"Invalid group ID { groupID }.";
+            }
+
+            // Exit if the groupMember does not exist in the catalog or the collected dictionaries
+            if (!ActiveCatalog.Instance.ModDictionary.ContainsKey(groupMember) && !CatalogUpdater.CollectedModInfo.ContainsKey(groupMember))
+            {
+                return $"Invalid Steam ID { groupMember }.";
             }
 
             // Exit if the group member is already in a group in the catalog or the collected dictionary
             if (ActiveCatalog.Instance.ModGroups.Find(x => x.SteamIDs.Contains(groupMember)) != null ||
                 !CatalogUpdater.CollectedModGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(groupMember)).Equals(default(KeyValuePair<ulong, ModGroup>)))
             {
-                Logger.UpdaterLog($"Potential new groupmember { groupMember } is already a member of another group.", Logger.error);
-
-                return false;
+                return $"Mod { groupMember } is already a member of another group.";
             }
 
             // Get a copy of the catalog group from the collected groups dictionary or create a new copy
@@ -910,19 +993,23 @@ namespace ModChecker.Updater
                 CatalogUpdater.CollectedModGroupInfo.Add(group.GroupID, group);
             }
 
-            return true;
+            return "";
         }
 
 
         // Remove a group member
-        private static bool RemoveGroupMember(ulong groupID, ulong groupMember)
+        private static string RemoveGroupMember(ulong groupID, ulong groupMember)
         {
-            // Exit if group or groupMember do not exist in the catalog or the collected dictionaries
-            if ((!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID) && !CatalogUpdater.CollectedModGroupInfo.ContainsKey(groupID)) ||
-                (!ActiveCatalog.Instance.ModDictionary.ContainsKey(groupMember) && !CatalogUpdater.CollectedModInfo.ContainsKey(groupMember)))
-
+            // Exit if the group does not exist in the catalog or the collected dictionaries
+            if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID) && !CatalogUpdater.CollectedModGroupInfo.ContainsKey(groupID))
             {
-                return false;
+                return $"Invalid group ID { groupID }.";
+            }
+
+            // Exit if the groupMember does not exist in the catalog or the collected dictionaries
+            if (!ActiveCatalog.Instance.ModDictionary.ContainsKey(groupMember) && !CatalogUpdater.CollectedModInfo.ContainsKey(groupMember))
+            {
+                return $"Invalid Steam ID { groupMember }.";
             }
 
             // Get a copy of the catalog group from the collected groups dictionary or create a new copy
@@ -932,48 +1019,153 @@ namespace ModChecker.Updater
             // Exit is the group member is not actually a member of this group
             if (!group.SteamIDs.Contains(groupMember))
             {
-                Logger.UpdaterLog($"Mod { groupMember } can't be removed from group { groupID } because it isn't a member.", Logger.error);
-
-                return false;
+                return $"Mod { groupMember } is not a member of this group.";
             }
 
             // Exit if the group will not have at least 2 members after removal
             if (group.SteamIDs.Count < 3)
             {
-                Logger.UpdaterLog($"Group { groupID } does not have enough members to delete one. A group should always have at least two members.", Logger.error);
-
-                return false;
+                return "Group does not have enough members to remove one. A group should always have at least two members.";
             }
 
             // Remove the group member
-            bool success = group.SteamIDs.Remove(groupMember);
+            string result = group.SteamIDs.Remove(groupMember) ? "" : $"Could not remove { groupMember } from group.";
 
             // Add the copied group to the collected groups dictionary if the change was successful
-            if (success && !CatalogUpdater.CollectedModGroupInfo.ContainsKey(groupID))
+            if (string.IsNullOrEmpty(result) && !CatalogUpdater.CollectedModGroupInfo.ContainsKey(groupID))
             {
                 CatalogUpdater.CollectedModGroupInfo.Add(group.GroupID, group);
             }
 
-            return success;
+            return result;
+        }
+
+
+        // Add a set of compatibilities between the first mod and each of the other mods
+        private static string AddCompatibilitiesForOne(ulong steamID1, string compatibilityString, List<string> steamIDs)
+        {
+            string result = "";
+
+            // Add a compatibility between the first mod and each mod from the list
+            foreach (string steamID2String in steamIDs)
+            {
+                // Add the compatibility
+                result = AddRemoveCompatibility("add_compatibility", steamID1, steamID2: Toolkit.ConvertToUlong(steamID2String), compatibilityString, note: "");
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    // Stop if this compatibility could not be added, without processing more compatibilities
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+
+        // Add a set of compatibilities between each of the mods
+        private static string AddCompatibilitiesForAll(string compatibilityString, List<string> steamIDs)
+        {
+            string result = "";
+
+            // Loop from the first to the second to last
+            for (int index1 = 0; index1 < steamIDs.Count - 1; index1++)
+            {
+                ulong steamID1 = Toolkit.ConvertToUlong(steamIDs[index1]);
+
+                // Loop from the one after index1 to the last
+                for (int index2 = index1 + 1; index2 < steamIDs.Count; index2++)
+                {
+                    ulong steamID2 = Toolkit.ConvertToUlong(steamIDs[index2]);
+
+                    // Add a compatibility between the list items at index1 and index2
+                    result = AddRemoveCompatibility("add_compatibility", steamID1, steamID2, compatibilityString, note: "");
+
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        // Stop if this compatibility could not be added, without processing more compatibilities
+                        return result;
+                    }
+                }
+            }
+
+            return result;
         }
 
 
         // Add or remove a compatibility
-        private static bool AddRemoveCompatibility(string compatibility, List<string> steamIDs)
+        private static string AddRemoveCompatibility(string action, ulong steamID1, ulong steamID2, string compatibilityString, string note)
         {
-            // [Todo 0.3]
+            // Exit if SteamID1 is invalid (allow for builtin mods) or not in the active catalog or the collected mod dictionary
+            if ((steamID1 >= ModSettings.lowestFakeID && steamID1 <= ModSettings.highestFakeID) ||
+                (!ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID1) && !CatalogUpdater.CollectedModInfo.ContainsKey(steamID1)))
+            {
+                return $"Invalid Steam ID { steamID1 }.";
+            }
 
-            return false;
+            // Exit if SteamID2 is invalid (allow for builtin mods) or not in the active catalog or the collected mod dictionary
+            if ((steamID2 >= ModSettings.lowestFakeID && steamID2 <= ModSettings.highestFakeID) ||
+                (!ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID2) && !CatalogUpdater.CollectedModInfo.ContainsKey(steamID2)))
+            {
+                return $"Invalid Steam ID { steamID2 }.";
+            }
+
+            // Get the compatibility status as enum
+            Enums.CompatibilityStatus compatibilityStatus = Toolkit.ConvertToEnum<Enums.CompatibilityStatus>(compatibilityString);
+
+            // Exit if the compatibility status is unknown
+            if (compatibilityStatus == default)
+            {
+                return "Invalid compatibility status.";
+            }
+
+            // Check if a compatibility exists for these steam IDs and this compatibility status
+            bool compatibilityExists = ActiveCatalog.Instance.Compatibilities.Find(x => x.SteamID1 == steamID1 && x.SteamID2 == steamID2 && 
+                x.Statuses.Contains(compatibilityStatus)) != default;
+
+            if (action == "add_compatibility")
+            {
+                // Add a compatibility to the collected list
+                if (compatibilityExists)
+                {
+                    return $"Compatibility already exists.";
+                }
+
+                CatalogUpdater.CollectedCompatibilities.Add(new Compatibility(steamID1, steamID2, new List<Enums.CompatibilityStatus> { compatibilityStatus }, note));
+            }
+            else if (action == "remove_compatibility")
+            {
+                // Add a compatibility to the collected removal list
+                if (!compatibilityExists)
+                {
+                    return "Compatibility does not exists.";
+                }
+
+                // [Todo 0.3] Add to removals
+                return "Not implemented yet.";
+            }
+            else
+            {
+                return "Invalid action.";
+            }
+
+            return "";
         }
 
 
         // Remove an exclusion
-        private static bool RemoveExclusion(ulong steamID, ulong subitem, string categoryString)
+        private static string RemoveExclusion(ulong steamID, ulong subitem, string categoryString)
         {
-            // Exit if the no valid Steam ID or the category is null
-            if (steamID < ModSettings.highestFakeID || string.IsNullOrEmpty(categoryString))
+            // Exit if no valid Steam ID
+            if (steamID <= ModSettings.highestFakeID)
             {
-                return false;
+                return $"Invalid Steam ID { steamID }.";
+            }
+
+            // Exit if the category is null
+            if (string.IsNullOrEmpty(categoryString))
+            {
+                return "Invalid category.";
             }
 
             // Convert the category string to enum
@@ -982,18 +1174,16 @@ namespace ModChecker.Updater
             // Exit on incorrect exclusion
             if (category == default)
             {
-                Logger.UpdaterLog($"Incorrect exclusion category \"{ categoryString }\".", Logger.warning);
-
-                return false;
+                return "Incorrect category.";
             }
 
             // Remove the exclusion; will return false if the exclusion didn't exist
-            return ActiveCatalog.Instance.RemoveExclusion(steamID, category, subitem);
+            return ActiveCatalog.Instance.RemoveExclusion(steamID, category, subitem) ? "" : "Could not remove exclusion. It probably didn't exist.";
         }
 
 
         // Set the compatible game version for the catalog
-        private static bool SetCatalogGameVersion(string gameVersionString)
+        private static string SetCatalogGameVersion(string gameVersionString)
         {
             // Convert the gameversion string to gameversion
             Version newGameVersion = Toolkit.ConvertToGameVersion(gameVersionString);
@@ -1001,21 +1191,19 @@ namespace ModChecker.Updater
             // Exit on incorrect game version
             if (newGameVersion == GameVersion.Unknown)
             {
-                Logger.UpdaterLog($"Incorrect gameversion \"{ gameVersionString }\".", Logger.warning);
-
-                return false;
+                return "Incorrect gameversion.";
             }
 
             // Update the active catalog directly
-            bool success = ActiveCatalog.Instance.UpdateGameVersion(newGameVersion);
+            string result = ActiveCatalog.Instance.UpdateGameVersion(newGameVersion) ? "" : "Could not update gameversion.";
 
-            if (success)
+            if (string.IsNullOrEmpty(result))
             {
                 // Abuse the 'removals' collection to indicate we have a new gameversion
                 CatalogUpdater.CollectedRemovals.Add(1);
             }
 
-            return success;
+            return result;
         }
     }
 }

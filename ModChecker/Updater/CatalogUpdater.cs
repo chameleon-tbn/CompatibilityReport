@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace ModChecker.Updater
         internal static Dictionary<ulong, Author> CollectedAuthorIDs { get; private set; } = new Dictionary<ulong, Author>();
         internal static Dictionary<string, Author> CollectedAuthorURLs { get; private set; } = new Dictionary<string, Author>();
         internal static Dictionary<ulong, ModGroup> CollectedModGroupInfo { get; private set; } = new Dictionary<ulong, ModGroup>();
+        internal static List<Compatibility> CollectedCompatibilities { get; private set; } = new List<Compatibility>();
         internal static List<ulong> CollectedRemovals { get; private set; } = new List<ulong>();
 
         // List of author custom URLs to remove from the catalog; these are collected first and removed later to avoid 'author not found' issues
@@ -23,6 +25,9 @@ namespace ModChecker.Updater
 
         // Note for the new catalog
         private static string CatalogNote;
+
+        // Date and time of this update
+        private static DateTime UpdateDate;
 
         // Change notes, separate parts and combined
         private static StringBuilder ChangeNotesNewMods;
@@ -32,9 +37,6 @@ namespace ModChecker.Updater
         private static StringBuilder ChangeNotesUpdatedAuthors;
         private static StringBuilder ChangeNotesRemovedAuthors;
         private static string ChangeNotes;
-
-        // Date and time of this update
-        private static DateTime UpdateDate;
 
         // Calling process
         private static bool AutoUpdater;
@@ -47,6 +49,7 @@ namespace ModChecker.Updater
             CollectedAuthorIDs.Clear();
             CollectedAuthorURLs.Clear();
             CollectedModGroupInfo.Clear();
+            CollectedCompatibilities.Clear();
             CollectedRemovals.Clear();
 
             AuthorURLsToRemove.Clear();
@@ -93,6 +96,10 @@ namespace ModChecker.Updater
                 RetireAuthors();
             }
 
+            // Add or update all collected compatibilities
+            UpdateAndAddCompatibilities();
+
+            // Remove all items from the collected removal list
             Removals();
 
             // Only continue with catalog update if we found any changes to update the catalog
@@ -186,8 +193,9 @@ namespace ModChecker.Updater
 
                 foreach (ulong requiredID in collectedMod.RequiredMods)
                 {
-                    // Remove the required ID if we didn't find it on the Workshop; ignore builtin required mods
-                    if (!CollectedModInfo.ContainsKey(requiredID) && (requiredID > ModSettings.highestFakeID))
+                    // Remove the required ID if it's not in the catalog and we didn't find it on the Workshop; ignore builtin required mods
+                    if (!CollectedModInfo.ContainsKey(requiredID) && !ActiveCatalog.Instance.ModDictionary.ContainsKey(requiredID) 
+                        && (requiredID > ModSettings.highestFakeID))
                     {
                         // We can't remove it here directly, because the RequiredMods list is used in the foreach loop, so we just collect here and (re)move below
                         removalList.Add(requiredID);
@@ -343,7 +351,17 @@ namespace ModChecker.Updater
         }
 
 
-        // Remove items from the collected removal dictionary
+        // Update or add all collected groups
+        internal static void UpdateAndAddCompatibilities()
+        {
+            // foreach (Compatibility compatibility in CollectedCompatibilities)
+            {
+                // [Todo 0.3] Add new compatibility or add status to existing one
+            }
+        }
+
+
+        // Remove all items from the collected removal list
         private static void Removals()
         {
             foreach (ulong id in CollectedRemovals)
@@ -404,7 +422,7 @@ namespace ModChecker.Updater
 
             catalogMod.Update(collectedMod.Name, collectedMod.AuthorID, collectedMod.AuthorURL, collectedMod.Published, collectedMod.Updated, archiveURL: null,
                 collectedMod.SourceURL, collectedMod.CompatibleGameVersionString, collectedMod.RequiredDLC, collectedMod.RequiredMods, collectedMod.RequiredAssets, 
-                succeededBy: null, alternatives: null, collectedMod.Statuses, note: null, reviewUpdated: null, UpdateDate,
+                successors: null, alternatives: null, collectedMod.Statuses, note: null, reviewUpdated: null, UpdateDate,
                 changeNotes: $"Added by { (AutoUpdater ? "Auto" : "Manual") }Updater on { Toolkit.DateString(UpdateDate) }.");
 
             // Change notes
@@ -646,7 +664,7 @@ namespace ModChecker.Updater
                 {
                     if (!collectedMod.RequiredDLC.Contains(dlc))
                     {
-                        catalogMod.RequiredDLC.Remove(dlc);
+                        //catalogMod.RequiredDLC.Remove(dlc);     // [Todo 0.3] Illegal operation, cannot change within foreach
 
                         changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required dlc \"{ dlc }\" removed";
                     }
@@ -680,7 +698,7 @@ namespace ModChecker.Updater
                         if (!stillRequired)
                         {
                             // No longer required; remove the group
-                            catalogMod.RequiredMods.Remove(requiredID);
+                            //catalogMod.RequiredMods.Remove(requiredID);     // [Todo 0.3] Illegal operation, cannot change within foreach
 
                             changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod group { requiredID } removed";
                         }
@@ -688,14 +706,14 @@ namespace ModChecker.Updater
                     else if (ActiveCatalog.Instance.ModGroups.Find(x => x.SteamIDs.Contains(requiredID)) != null)
                     {
                         // ID is a mod that is a group member, so remove it; the group will be added below if still needed
-                        catalogMod.RequiredMods.Remove(requiredID);
+                        //catalogMod.RequiredMods.Remove(requiredID);     // [Todo 0.3] Illegal operation, cannot change within foreach
 
                         changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod { requiredID } removed";
                     }
                     else if (!collectedMod.RequiredMods.Contains(requiredID))
                     {
                         // ID is a mod that is not in any group, and it's not required anymore, so remove it
-                        catalogMod.RequiredMods.Remove(requiredID);
+                        //catalogMod.RequiredMods.Remove(requiredID);     // [Todo 0.3] Illegal operation, cannot change within foreach
 
                         changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod { requiredID } removed";
                     }
@@ -893,5 +911,23 @@ namespace ModChecker.Updater
 
         // Set a new note for the catalog
         internal static void SetNote(string catalogNote) => CatalogNote = catalogNote;
+
+
+        // Set an update date
+        internal static bool SetUpdateDate(string updateDate)
+        {
+            try
+            {
+                DateTime convertedDate = DateTime.ParseExact(updateDate, "yyyy-MM-dd", new CultureInfo("en-GB"));
+
+                UpdateDate = convertedDate;
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
