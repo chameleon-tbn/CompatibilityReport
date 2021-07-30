@@ -16,39 +16,39 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_ArchiveURL, \<mod ID\>, \<url\>
 * Add_SourceURL, \<mod ID\>, \<url\> :zap:
 * Add_GameVersion, \<mod ID\>, \<game version string\> :zap: *(exclusion only if Workshop has different game version tag)*
-* Add_RequiredDLC, \<mod ID\>, \<single DLC string\> :zap:
+* Add_RequiredDLC, \<mod ID\>, \<DLC string\> :zap:
 * Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
-* Add_Status, \<mod ID\>, \<single status string\> :zap: *(exclusion only for NoDescription and SourceUnavailable status)*
+* Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription and SourceUnavailable status)*
   * *Adding a SourceUnavailable status will remove the SourceURL from the mod*
-* Add_Note, \<mod ID\>, \<note\>
+* Add_Note, \<mod ID\>, \<text\> *(this will add the text to the end of the note, if a note already exists*
 * Add_ReviewDate, \<mod ID\> *(use for reviews without changes to the mod itself)*
 * Remove_Mod, \<mod ID\> *(only works on unlisted and removed mods)*
 * Remove_ArchiveURL, \<mod ID\>
 * Remove_SourceURL, \<mod ID\> :zap:
-* Remove_GameVersion, \<mod ID\> *(only works if manually added before)*
-* Remove_RequiredDLC, \<mod ID\>, \<single DLC string\> *(only works if manually added before)*
-* Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\> *(only works if manually added before)*
+* Remove_GameVersion, \<mod ID\> *(only works if an exclusion exists)*
+* Remove_RequiredDLC, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*
+* Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\> *(only works if an exclusion exists)*
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
-* Remove_Status, \<mod ID\>, \<single status\>
+* Remove_Status, \<mod ID\>, \<status string\>
 * Remove_Note, \<mod ID\>
 
 ### Available compatibility actions (will not change reviewed date for included mods)
-* Add_Compatibility, \<first mod ID\>, \<second mod ID\>, \<single compatibility status\>[, \<note\>]
+* Add_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>[, \<note\>]
   * *The note will only be mentioned in the report for the first mod*
-* Add_CompatibilitiesForOne, \<first mod ID\>, \<single compatibility status\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
+* Add_CompatibilitiesForOne, \<first mod ID\>, \<compatibility status\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
   * *This will create compatibilities between the first mod and each of the other mods*
-* Add_CompatibilitiesForAll, \<single compatibility status\>, \<mod ID\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
+* Add_CompatibilitiesForAll, \<compatibility status\>, \<mod ID\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
   * *This will create many compatibilities, between each of these mods in pairs (1 with 2, 1 with 3, 2 with 3, etc.)*
-* Remove_Compatibility, \<first mod ID\>, \<second mod ID\>, \<single compatibility status\>
+* Remove_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>
 
 ### Available mod group actions (will not change reviewed date for included mods)
 * Add_Group, \<name\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
 * Add_GroupMember, \<group ID\>, \<mod ID\>
-* Remove_Group, \<group ID\>
-* Remove_GroupMember, \<group ID\>, \<replacement mod ID\>
+* Remove_Group, \<group ID\>, \<replacement mod ID\>
+* Remove_GroupMember, \<group ID\>, \<mod ID\>
 
 ### Available author actions
 * Add_AuthorID, \<author custom URL\>, \<author ID\>
@@ -68,4 +68,4 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
   * *Used as review update date; uses 'now' if omitted*
 
 
-*See https://github.com/Finwickle/ModChecker/blob/dev/ModChecker/DataTypes/Enums.cs for available statuses, compatibilities and DLCs.*  [Todo 0.3] change url
+*See https://github.com/Finwickle/ModChecker/blob/dev/ModChecker/DataTypes/Enums.cs for available status, compatibility and DLC strings.*  [Todo 0.3] change url to main

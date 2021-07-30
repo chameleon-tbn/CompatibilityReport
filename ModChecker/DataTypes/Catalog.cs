@@ -371,9 +371,17 @@ namespace ModChecker.DataTypes
         }
 
 
+        // Check if an exclusion exists
+        internal bool ExclusionExists(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
+        {
+            return Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem) != default;
+        }
+
+
         // Add a new exclusion to the catalog
         internal bool AddExclusion(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
         {
+            // Exit on a zero steam ID or an unknown category
             if (steamID == 0 || category == Enums.ExclusionCategory.Unknown)
             {
                 return false;
@@ -386,7 +394,7 @@ namespace ModChecker.DataTypes
             }
 
             // Exit if the exclusion already exists
-            if (Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem) != default)
+            if (ExclusionExists(steamID, category, subItem))
             {
                 return false; 
             }
@@ -402,7 +410,7 @@ namespace ModChecker.DataTypes
         internal bool RemoveExclusion(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
         {
             // Get the exclusion
-            Exclusion exclusion = Exclusions.Find(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem);
+            Exclusion exclusion = Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem);
 
             // Exit if it doesn't exist
             if (exclusion == default)

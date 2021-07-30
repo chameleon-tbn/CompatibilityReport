@@ -261,7 +261,7 @@ namespace ModChecker.Updater
                 {
                     unfoundMod.Statuses.Add(Enums.ModStatus.Unknown);
 
-                    Logger.UpdaterLog($"Mod from catalog without 'removed' or 'unlisted' status not found: { unfoundMod.ToString(cutOff: false) }", Logger.debug);
+                    Logger.UpdaterLog($"Mod from catalog (not 'removed' or 'unlisted') not found: { unfoundMod.ToString(cutOff: false) }", Logger.debug);
                 }
 
                 // Add the mod to the collected mods dictionary
@@ -580,7 +580,11 @@ namespace ModChecker.Updater
                         // Get the source url, if any
                         else if (line.Contains(ModSettings.steamModPageSourceURLLeft))
                         {
-                            mod.Update(sourceURL: GetSourceURL(line, steamID));
+                            // Only if there is no exclusion
+                            if (!ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.SourceURL))
+                            {
+                                mod.Update(sourceURL: GetSourceURL(line, steamID));
+                            }
                         }
 
                         // Description is the last info we need from the page, so exit the while loop
@@ -613,7 +617,7 @@ namespace ModChecker.Updater
         }
 
 
-        // Get the source URL; if more than one is found, pick the most likely; this is not foolproof and will need a manual update for some [Todo 0.3] Skip if exclusion
+        // Get the source URL; if more than one is found, pick the most likely; this is not foolproof and will need a manual update for some
         private static string GetSourceURL(string line, ulong steamID)
         {
             string sourceURL = Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);

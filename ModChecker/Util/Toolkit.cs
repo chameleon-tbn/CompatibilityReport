@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -366,6 +367,20 @@ namespace ModChecker.Util
             {
                 return 0;
             }
+        }
+
+
+        // Convert a list of strings to a list of ulongs, for Steam IDs
+        internal static List<ulong> ConvertToUlong(List<string> numericStrings)
+        {
+            List<ulong> ulongs = new List<ulong>();
+
+            foreach(string numericString in numericStrings)
+            {
+                ulongs.Add(ConvertToUlong(numericString));
+            }
+
+            return ulongs;
         }
 
 
