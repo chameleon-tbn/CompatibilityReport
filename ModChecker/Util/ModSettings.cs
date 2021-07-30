@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "152";
+        internal const string build = "153";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -105,7 +105,6 @@ namespace ModChecker.Util
         internal static readonly ulong highestLocalModID        = 9999;
         internal static readonly ulong lowestModGroupID        = 10001;
         internal static readonly ulong highestModGroupID      = 999999;
-        internal static readonly ulong lowestFakeID  = Math.Min(Math.Min(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
         internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
         
         // Logfile location (Cities_Data)
@@ -186,12 +185,12 @@ namespace ModChecker.Util
         internal static readonly string thirdCatalogNote  = "This third catalog is the first one with all basic info about mods. No reviews yet.";
 
 
-        /// Defaults for settings that will be available to users through mod options within the game [Todo 0.7]
+        /// Defaults for settings that will be available to users through mod options within the game [Todo 0.6]
 
         // Sort report by Name or Steam ID
         internal static bool ReportSortByName { get; private set; } = true;
 
-        // Which report(s) to create; will create text report if none; [Todo 0.6] Set HTML to true
+        // Which report(s) to create; will create text report if none; [Todo 1.1] Set HTML to true
         internal static bool HtmlReport { get; private set; } = false;
         internal static bool TextReport { get; private set; } = true | !HtmlReport;
 
@@ -210,7 +209,7 @@ namespace ModChecker.Util
 
 
 
-        /// Defaults for settings that will be available in a settings xml file [Todo 0.7]
+        /// Defaults for settings that will be available in a settings xml file [Todo 0.6]
 
         // Debug mode; this enables debug logging and logfile append
         internal static bool DebugMode { get; private set; } = true;
@@ -299,7 +298,7 @@ namespace ModChecker.Util
 
 
 
-        /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.7]
+        /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.6]
 
         // AutoUpdater enabled? AutoUpdater will only be enabled if the global updater is enabled
         internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && false;  // [Todo 0.3] false -> true

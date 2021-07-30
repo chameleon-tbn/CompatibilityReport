@@ -64,7 +64,7 @@ namespace ModChecker
             // Start the scan and create the report(s); will only be done once and only in the allowed scene
             Scanner.Scan(scene);
 
-            // Get the settings on the screen [Todo 0.7]
+            // Get the settings on the screen [Todo 0.6]
             // SettingsUI.Render(helper, scene);
         }
 
