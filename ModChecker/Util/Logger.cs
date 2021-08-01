@@ -11,11 +11,20 @@ namespace ModChecker.Util
 {
     internal static class Logger
     {
+        // LogLevel to differentiate between log messages
+        internal enum LogLevel
+        {
+            Info,
+            Warning,
+            Error,
+            Debug
+        }
+
         // Loglevel constants to make the Log calls more readable
-        internal const Enums.LogLevel info    = Enums.LogLevel.Info;
-        internal const Enums.LogLevel warning = Enums.LogLevel.Warning;
-        internal const Enums.LogLevel error   = Enums.LogLevel.Error;
-        internal const Enums.LogLevel debug   = Enums.LogLevel.Debug;
+        internal const LogLevel info    = LogLevel.Info;
+        internal const LogLevel warning = LogLevel.Warning;
+        internal const LogLevel error   = LogLevel.Error;
+        internal const LogLevel debug   = LogLevel.Debug;
 
         // The log, updater log and report instances; will be initialized on first use
         private static Filer log;
@@ -96,7 +105,7 @@ namespace ModChecker.Util
             }
 
             internal void WriteLine(string message,
-                                    Enums.LogLevel logLevel = info,
+                                    LogLevel logLevel = info,
                                     bool extraLine = false,
                                     bool duplicateToGameLog = false)
             {
@@ -154,7 +163,7 @@ namespace ModChecker.Util
 
         // Log a message to the mod log, and also to the game log if indicated
         internal static void Log(string message,
-                                 Enums.LogLevel logLevel = info,
+                                 LogLevel logLevel = info,
                                  bool extraLine = false,
                                  bool duplicateToGameLog = false)
         {
@@ -190,7 +199,7 @@ namespace ModChecker.Util
 
         // Log a message to the updater log
         internal static void UpdaterLog(string message,
-                                        Enums.LogLevel logLevel = info,
+                                        LogLevel logLevel = info,
                                         bool extraLine = false,
                                         bool duplicateToRegularLog = false)
         {

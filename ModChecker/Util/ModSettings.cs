@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "154";
+        internal const string build = "155";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -174,7 +174,7 @@ namespace ModChecker.Util
             "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" +
             Toolkit.GetWorkshopURL(modCheckerSteamID);
 
-        // Default HTML report intro and footer; [Todo 0.6]
+        // Default HTML report intro and footer; [Todo 1.1]
         internal static readonly string defaultIntroHtml = "";
 
         internal static readonly string defaultFooterHtml = "";

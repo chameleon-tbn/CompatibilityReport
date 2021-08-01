@@ -62,7 +62,7 @@
             Unknown,                                // Unused
             SourceURL,
             GameVersion,
-            Unlisted,
+            NoDescription,
             RequiredDLC,
             RequiredMod
         }
@@ -107,16 +107,6 @@
             Sunny_Breeze_Radio = 1531473,
             Content_Creator_Pack__Train_Station = 1531470,
             Content_Creator_Pack__Bridges_and_Piers = 1531471
-        }
-
-
-        // LogLevel to differentiate between log messages
-        internal enum LogLevel
-        {
-            Info,
-            Warning,
-            Error,
-            Debug
         }
     }
 }

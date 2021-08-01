@@ -23,13 +23,6 @@ namespace ModChecker.DataTypes
                 Convert.ToInt32(BuildConfig.APPLICATION_VERSION_C),
                 Convert.ToInt32(BuildConfig.APPLICATION_BUILD_NUMBER));
 
-            // Extra check for the conversion of the buildconfig info [Todo 0.5] Do we need this?
-            if (Formatted(Current) != BuildConfig.applicationVersion) 
-            {
-                Logger.Log($"Game version conversion went wrong: Current ({ Formatted(Current) }) != BuildConfig.applicationVersion " + 
-                    $"({ BuildConfig.applicationVersion }). { ModSettings.pleaseReportText }", Logger.error);
-            }
-
             // 1.13.2-f1 is Epic only; consider this to be 1.13.1-f1 to not overcomplicate this mod
             if (Current == Patch_1_13_2_f1)
             {
