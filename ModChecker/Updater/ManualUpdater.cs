@@ -5,14 +5,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ModChecker.DataTypes;
-using ModChecker.Util;
+using CompatibilityReport.DataTypes;
+using CompatibilityReport.Util;
 
 
 // Manual Updater updates the catalog with information from CSV files in de updater folder. See separate guide for details.
 
 
-namespace ModChecker.Updater
+namespace CompatibilityReport.Updater
 {
     internal static class ManualUpdater
     {
@@ -296,6 +296,10 @@ namespace ModChecker.Updater
                 case "add_groupmember":
                 case "remove_groupmember":
                     result = AddRemoveGroupMember(action, groupID: id, groupMember: secondID);
+                    break;
+
+                case "add_author":
+                    result = AddAuthor(authorID: id, authorURL: idString, name: extraData);
                     break;
 
                 case "add_authorid":
@@ -756,6 +760,15 @@ namespace ModChecker.Updater
             }
 
             return result;
+        }
+
+
+        // Add an author
+        private static string AddAuthor(ulong authorID, string authorURL, string name)
+        {
+            // [Todo 0.3]
+            // retired status, change notes?
+            return "";
         }
 
 

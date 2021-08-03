@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using ColossalFramework;
 using ColossalFramework.Plugins;
-using ModChecker.DataTypes;
-using ModChecker.Util;
+using CompatibilityReport.DataTypes;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker
+namespace CompatibilityReport
 {
     internal static class ActiveSubscriptions
     {

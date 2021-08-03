@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ModChecker.Util;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker.DataTypes
+namespace CompatibilityReport.DataTypes
 {
     // Needs to be public for XML serialization
     [Serializable] public class Compatibility

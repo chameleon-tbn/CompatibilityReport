@@ -1,13 +1,13 @@
 ﻿using System;
 using System.IO;
-using ModChecker.DataTypes;
+using CompatibilityReport.DataTypes;
 
 
 /// This class is based on the Logger class from Enhanced District Services by Tim / chronofanz:
 /// https://github.com/chronofanz/EnhancedDistrictServices/blob/master/Source/Logger.cs
 
 
-namespace ModChecker.Util
+namespace CompatibilityReport.Util
 {
     internal static class Logger
     {

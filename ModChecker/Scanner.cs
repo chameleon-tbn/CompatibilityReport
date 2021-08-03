@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using ModChecker.DataTypes;
-using ModChecker.Util;
+using CompatibilityReport.DataTypes;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker
+namespace CompatibilityReport
 {
     internal static class Scanner
     {

@@ -4,11 +4,11 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ModChecker.DataTypes;
-using ModChecker.Util;
+using CompatibilityReport.DataTypes;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker.Updater
+namespace CompatibilityReport.Updater
 {
     internal static class CatalogUpdater
     {
@@ -84,23 +84,25 @@ namespace ModChecker.Updater
             // Add or update all found mods
             UpdateAndAddMods();
 
-            // Add or update all collected groups
-            UpdateAndAddGroups();
-
             // Add or update all found authors
             UpdateAndAddAuthors();
 
-            // Retire authors that have no mods on the Steam Workshop anymore; only when running AutoUpdater, otherwise we won't have gathered all mods from Workshop
             if (AutoUpdater)
             {
-                RetireAuthors();
+                // Retire authors that have no mods on the Steam Workshop anymore; only when running AutoUpdater, otherwise we won't have gathered all mods from Workshop
+                RetireFormerAuthors();
             }
+            else
+            {
+                // Add or update all collected groups; only used in ManualUpdater
+                UpdateAndAddGroups();
+                
+                // Add or update all collected compatibilities; only used in ManualUpdater
+                UpdateAndAddCompatibilities();
 
-            // Add or update all collected compatibilities
-            UpdateAndAddCompatibilities();
-
-            // Remove all items from the collected removal list
-            Removals();
+                // Remove all items from the collected removal list; only used in ManualUpdater
+                Removals();
+            }
 
             // Only continue with catalog update if we found any changes to update the catalog
             if (ChangeNotesNewMods.Length + ChangeNotesUpdatedMods.Length + ChangeNotesRemovedMods.Length + 
@@ -144,7 +146,7 @@ namespace ModChecker.Updater
                     "\n" +
                 "*** The change notes were automatically created by the " + (AutoUpdater ? "Auto" : "Manual") + "Updater process ***";
 
-            // The filename for the new catalog and related files ('ModCheckerCatalog_v1.0001')
+            // The filename for the new catalog and related files ('CompatibilityReportCatalog_v1.0001')
             string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ ActiveCatalog.Instance.VersionString() }");
 
             // Save the new catalog
@@ -317,7 +319,7 @@ namespace ModChecker.Updater
 
 
         // Set retired status for authors in the catalog that we didn't find any mods for (anymore) in the Steam Workshop
-        internal static void RetireAuthors()
+        internal static void RetireFormerAuthors()
         {
             // Find authors by author ID
             foreach (ulong authorID in ActiveCatalog.Instance.AuthorIDDictionary.Keys)

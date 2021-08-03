@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using ModChecker.DataTypes;
-using ModChecker.Util;
+using CompatibilityReport.DataTypes;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker.Updater
+namespace CompatibilityReport.Updater
 {
     // Only needed to (re)create the catalog from scratch; catalog 1 is only builtin mods, catalog 2 is only basic info for all mods, catalog 3 is first 'real' catalog
     internal static class FirstCatalog
@@ -53,7 +53,7 @@ namespace ModChecker.Updater
 
             changeNotes += $"New author { author.ToString() }\n";
 
-            // Save the catalog as ModCheckerCatalog_v1.0001.xml and save the change notes in the same folder
+            // Save the catalog as 'CompatibilityReportCatalog_v1.0001.xml' and save the change notes in the same folder
             if (firstCatalog.Save(partialPath + ".xml"))
             {
                 Toolkit.SaveToFile($"Change Notes for Catalog { firstCatalog.VersionString() }\n" +

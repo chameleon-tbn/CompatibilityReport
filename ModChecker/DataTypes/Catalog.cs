@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
-using ModChecker.Util;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker.DataTypes
+namespace CompatibilityReport.DataTypes
 {
     // Needs to be public for XML serialization
     [XmlRoot(ModSettings.xmlRoot)] public class Catalog

@@ -1,6 +1,6 @@
-# Mod Checker
+# Compatibility Report
 
-Mod Checker mod for Cities: Skylines. This will review your subscribed mods and report on compatibility issues.
+Compatibility Report mod for Cities: Skylines. This will review your subscribed mods and report on compatibility issues.
 
 ### Current status
 This is still in early alpha stage and not yet available on the Steam Workshop. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.

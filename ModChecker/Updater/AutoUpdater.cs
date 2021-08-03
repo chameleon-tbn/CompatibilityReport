@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using ModChecker.DataTypes;
-using ModChecker.Util;
+using CompatibilityReport.DataTypes;
+using CompatibilityReport.Util;
 
 
 // Auto Updater updates the catalog with information from the Steam Workshop pages. The following is updated/added:
@@ -12,7 +12,7 @@ using ModChecker.Util;
 // * Author: name, last seen (only based on mod updates), retired (only remove on mod updates)
 
 
-namespace ModChecker.Updater
+namespace CompatibilityReport.Updater
 {
     internal static class AutoUpdater
     {

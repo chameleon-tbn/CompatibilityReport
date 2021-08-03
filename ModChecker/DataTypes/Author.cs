@@ -1,12 +1,12 @@
 ﻿using System;
-using ModChecker.Util;
+using CompatibilityReport.Util;
 
 
 // An author on Steam can be identified by a Steam ID, here called profile ID, and optionally (but often) a custom URL text
 // Converting from custom URL to author profile number can be done manually on some websites or automated through Steam API
 
 
-namespace ModChecker.DataTypes
+namespace CompatibilityReport.DataTypes
 {
     // Needs to be public for XML serialization
     [Serializable] public class Author

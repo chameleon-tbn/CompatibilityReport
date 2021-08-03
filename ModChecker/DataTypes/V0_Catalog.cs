@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
-using ModChecker.Util;
+using CompatibilityReport.Util;
 
 
 // This is a template for older structure versions. This class is not actually used in the mod because it is not needed for V0.
 // This is needed when the catalog structure changed enough to disrupt the XML (de)serializer. Only the fields exist that existed in the old structure.
 
 
-namespace ModChecker.DataTypes
+namespace CompatibilityReport.DataTypes
 {
     // Needs to be public for XML serialization
     [XmlRoot(ModSettings.xmlRoot)] public class V0_Catalog

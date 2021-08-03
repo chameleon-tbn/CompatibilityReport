@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ColossalFramework.PlatformServices;
-using ModChecker.DataTypes;
-using ModChecker.Util;
+using CompatibilityReport.DataTypes;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker
+namespace CompatibilityReport
 {
     internal static class Reporter
     {
@@ -285,7 +285,7 @@ namespace ModChecker
         private static string ThisMod(Subscription subscription,
                                       bool htmlReport = false)
         {
-            if (subscription.SteamID != ModSettings.modCheckerSteamID)
+            if (subscription.SteamID != ModSettings.OurOwnSteamID)
             {
                 return "";
             }

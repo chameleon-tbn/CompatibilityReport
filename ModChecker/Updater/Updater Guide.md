@@ -1,4 +1,4 @@
-# Mod Checker - ManualUpdater Guide
+# Compatibility Report - ManualUpdater Guide
 
 The ManualUpdater updates the catalog with manual changes and additions. It complements the AutoUpdater, which gathers information by crawling the Steam Workshop, including mod name, author, published/update dates, required DLC/mods, source URL, compatible game version and some statuses (removed from workshop, no description, author retirement). The ManualUpdater complements this with information that cannot be found by an automated proces, like compatibility information and suggestions for successor or alternative mods. It also allows the creation of mod groups to replace a required mod.
 
@@ -22,7 +22,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription and SourceUnavailable status)*
   * *Adding a SourceUnavailable status will remove the SourceURL from the mod*
-* Add_Note, \<mod ID\>, \<text\> *(this will add the text to the end of the note, if a note already exists*
+* Add_Note, \<mod ID\>, \<text\> *(this will add the text to the end of the note, if a note already exists)*
 * Add_ReviewDate, \<mod ID\> *(use for reviews without changes to the mod itself)*
 * Remove_Mod, \<mod ID\> *(only works on unlisted and removed mods)*
 * Remove_ArchiveURL, \<mod ID\>
@@ -51,6 +51,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_GroupMember, \<group ID\>, \<mod ID\>
 
 ### Available author actions
+* Add_Author, \<author ID\>, \<author custom URL\>, \<author name\> *(only need for 'removed' mods)*
 * Add_AuthorID, \<author custom URL\>, \<author ID\>
 * Add_AuthorURL, \<author ID\>, \<author custom URL\>
 * Add_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\>

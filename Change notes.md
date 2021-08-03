@@ -1,4 +1,8 @@
-# Mod Checker
+# Compatibility Report
+
+### Version 0.2   - Catalog auto updater
+...
+* Renamed from Mod Checker to Compatibility Report
 
 ### Version 0.2   - Catalog auto updater
 * Catalog auto updater method, based on web crawling the Steam Workshop

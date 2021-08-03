@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
-using ModChecker.Util;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker.DataTypes
+namespace CompatibilityReport.DataTypes
 {
     internal class Subscription
     {

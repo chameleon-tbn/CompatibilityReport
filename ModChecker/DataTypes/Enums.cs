@@ -1,4 +1,4 @@
-﻿namespace ModChecker.DataTypes
+﻿namespace CompatibilityReport.DataTypes
 {
     // Needs to be public for XML serialization
     public static class Enums

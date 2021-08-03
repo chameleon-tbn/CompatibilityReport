@@ -8,10 +8,10 @@ using System.Text;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
 using ICities;
-using ModChecker.DataTypes;
+using CompatibilityReport.DataTypes;
 
 
-namespace ModChecker.Util
+namespace CompatibilityReport.Util
 {
     internal static class Toolkit
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using ColossalFramework.IO;
-using ModChecker.DataTypes;
+using CompatibilityReport.DataTypes;
 
 
 /// Paths on Windows:
@@ -23,7 +23,7 @@ using ModChecker.DataTypes;
 ///   Sites with only TLS 1.2+   : GitHub
 
 
-namespace ModChecker.Util
+namespace CompatibilityReport.Util
 {
     internal static class ModSettings
     {
@@ -58,7 +58,7 @@ namespace ModChecker.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "155";
+        internal const string build = "156";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -69,9 +69,9 @@ namespace ModChecker.Util
         internal static readonly Version compatibleGameVersion = GameVersion.Patch_1_13_3_f9;
 
         // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
-        internal const string modName = "Mod Checker";                                                      // used in report filename, reporting and logging
+        internal const string modName = "Compatibility Report";                                             // used in report filename, reporting and logging
         internal const string displayName = modName + " " + version + " " + releaseType;                    // used in game options, Content Manager and AssemblyInfo
-        internal const string internalName = "ModChecker";                                                  // used in filenames, xmlRoot and game log
+        internal const string internalName = "CompatibilityReport";                                         // used in filenames, xmlRoot and game log
 
         // Mod description, shown in Content Manager; used in AssemblyInfo, must be a constant
         internal const string modDescription = "Checks your subscribed mods for compatibility. Version " + version + " " + releaseType;
@@ -86,7 +86,7 @@ namespace ModChecker.Util
         internal static readonly uint currentCatalogStructureVersion = 1;
 
         // This mods own Steam ID; [Todo 0.4]
-        internal static readonly ulong modCheckerSteamID = 101;
+        internal static readonly ulong OurOwnSteamID = 101;
 
         // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility, alternatives, etc.
         internal static Dictionary<string, ulong> BuiltinMods { get; } = new Dictionary<string, ulong>
@@ -127,7 +127,7 @@ namespace ModChecker.Util
         internal const uint downloadRetries = 2;
 
         // 'Please report' text to include in logs when something odd happens
-        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(modCheckerSteamID) } ";
+        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) } ";
 
         // Max width of the text report
         internal static readonly int maxReportWidth = 90;
@@ -172,7 +172,7 @@ namespace ModChecker.Util
 
         internal static readonly string defaultFooterText =
             "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" +
-            Toolkit.GetWorkshopURL(modCheckerSteamID);
+            Toolkit.GetWorkshopURL(OurOwnSteamID);
 
         // Default HTML report intro and footer; [Todo 1.1]
         internal static readonly string defaultIntroHtml = "";

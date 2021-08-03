@@ -1,8 +1,8 @@
 ﻿using System;
-using ModChecker.Util;
+using CompatibilityReport.Util;
 
 
-namespace ModChecker.DataTypes
+namespace CompatibilityReport.DataTypes
 {
     internal static class GameVersion
     {

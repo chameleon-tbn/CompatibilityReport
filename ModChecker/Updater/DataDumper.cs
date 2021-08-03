@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ModChecker.DataTypes;
-using ModChecker.Util;
+using CompatibilityReport.DataTypes;
+using CompatibilityReport.Util;
 
 
 // This dumps specific catalog data to a text file, to help with manual updating
 
 
-namespace ModChecker.Updater
+namespace CompatibilityReport.Updater
 {
     internal static class DataDumper
     {

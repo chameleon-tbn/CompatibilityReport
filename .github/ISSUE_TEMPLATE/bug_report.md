@@ -14,8 +14,8 @@ A clear and concise description of what the bug is.
 A clear and concise description of what you expected to happen.
 
 **Attach your log**
-Please attach your ModChecker.log file. You can find it in the Cities_Data subfolder of the game folder: 
-<Steam folder>\steamapps\common\Cities_Skylines\Cities_Data\ModChecker.log
+Please attach your CompatibilityReport.log file. You can find it in the Cities_Data subfolder of the game folder: 
+<Steam folder>\steamapps\common\Cities_Skylines\Cities_Data\CompatibilityReport.log
 
 **Your system:**
  - OS: [e.g. Window 10, Mac OS X, ...]

@@ -1,7 +1,7 @@
 ﻿using UnityEngine.SceneManagement;
 using ICities;
-using ModChecker.Updater;
-using ModChecker.Util;
+using CompatibilityReport.Updater;
+using CompatibilityReport.Util;
 
 
 /// This mod is inspired by & partially based on the Mod Compatibility Checker mod by aubergine18 / aubergine10:
@@ -23,9 +23,9 @@ using ModChecker.Util;
 ///     https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110
 
 
-namespace ModChecker
+namespace CompatibilityReport
 {
-    public class ModCheckerMod : IUserMod
+    public class CompatibilityReportMod : IUserMod
     {
         // The name and description of the mod, as seen in Content Manager and Options window
         public string Name => ModSettings.displayName;
