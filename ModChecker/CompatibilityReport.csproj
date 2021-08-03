@@ -7,8 +7,8 @@
     <ProjectGuid>{E43B190E-C881-4B71-AF47-D50D978D874C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ModChecker</RootNamespace>
-    <AssemblyName>ModChecker</AssemblyName>
+    <RootNamespace>CompatibilityReport</RootNamespace>
+    <AssemblyName>CompatibilityReport</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
