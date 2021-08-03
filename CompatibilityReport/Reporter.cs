@@ -379,10 +379,10 @@ namespace CompatibilityReport
             // Check if any of the mods that need this is actually subscribed; we don't care if it's enabled or not
             List<Mod> ModsRequiringThis = ActiveCatalog.Instance.Mods.FindAll(x => x.RequiredMods.Contains(subscription.SteamID));
 
-            // Check the same again for groups this is a member of and add these to the above list
-            List<ModGroup> GroupsContainingThis = ActiveCatalog.Instance.ModGroups.FindAll(x => x.SteamIDs.Contains(subscription.SteamID));
+            // Check the same again for a group this is a member of and add it to the above list
+            Group group = ActiveCatalog.Instance.GetGroup(subscription.SteamID);
 
-            foreach (ModGroup group in GroupsContainingThis)
+            if (group != default)
             {
                 ModsRequiringThis.AddRange(ActiveCatalog.Instance.Mods.FindAll(x => x.RequiredMods.Contains(group.GroupID)));
             }
@@ -497,7 +497,7 @@ namespace CompatibilityReport
         }
 
 
-        // Required mods, including the use of mod groups
+        // Required mods, including the use of groups
         private static string RequiredMods(Subscription subscription,
                                            bool htmlReport = false)
         {
@@ -513,8 +513,8 @@ namespace CompatibilityReport
             // Check every required mod
             foreach (ulong id in subscription.RequiredMods)
             {
-                // Check if it's a regular mod or a mod group
-                if ((id < ModSettings.lowestModGroupID) || (id > ModSettings.highestModGroupID))
+                // Check if it's a regular mod or a group
+                if ((id < ModSettings.lowestGroupID) || (id > ModSettings.highestGroupID))
                 {
                     // Regular mod. Try to find it in the list of subscribed mods
                     if (ActiveSubscriptions.All.ContainsKey(id))
@@ -556,8 +556,8 @@ namespace CompatibilityReport
                 }
                 else
                 {
-                    // Mod group. We have to dig a little deeper. First some error checks
-                    if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(id))
+                    // Group. We have to dig a little deeper. First some error checks
+                    if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(id))
                     {
                         // Group not found in catalog, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", htmlReport, ModSettings.bullet2);
@@ -566,7 +566,7 @@ namespace CompatibilityReport
 
                         continue;   // To the next required mod
                     }
-                    else if (ActiveCatalog.Instance.ModGroupDictionary[id].SteamIDs?.Any() != true)
+                    else if (ActiveCatalog.Instance.GroupDictionary[id].SteamIDs?.Any() != true)
                     {
                         // Group contains no Steam IDs, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", htmlReport, ModSettings.bullet2);
@@ -576,8 +576,8 @@ namespace CompatibilityReport
                         continue;   // To the next required mod
                     }
 
-                    // Get the mod group from the catalog
-                    ModGroup group = ActiveCatalog.Instance.ModGroupDictionary[id];
+                    // Get the group from the catalog
+                    Group group = ActiveCatalog.Instance.GroupDictionary[id];
 
                     // Some vars to keep track of all mods in the group, and check if at least one group member is subscribed and enabled
                     uint subscriptionsFound = 0;
@@ -620,7 +620,7 @@ namespace CompatibilityReport
                                 // Mod not found in the catalog
                                 missingModsText += ReviewLine($"[Steam ID { modID, 10 }] { subscription.Name }", htmlReport, ModSettings.bullet3);
 
-                                Logger.Log($"Mod { modID } from mod group { id } not found in catalog.", Logger.warning);
+                                Logger.Log($"Mod { modID } from group { id } not found in catalog.", Logger.warning);
                             }
                         }
                     }

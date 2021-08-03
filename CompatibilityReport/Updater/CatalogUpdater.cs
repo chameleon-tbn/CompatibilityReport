@@ -16,7 +16,7 @@ namespace CompatibilityReport.Updater
         internal static Dictionary<ulong, Mod> CollectedModInfo { get; private set; } = new Dictionary<ulong, Mod>();
         internal static Dictionary<ulong, Author> CollectedAuthorIDs { get; private set; } = new Dictionary<ulong, Author>();
         internal static Dictionary<string, Author> CollectedAuthorURLs { get; private set; } = new Dictionary<string, Author>();
-        internal static Dictionary<ulong, ModGroup> CollectedModGroupInfo { get; private set; } = new Dictionary<ulong, ModGroup>();
+        internal static Dictionary<ulong, Group> CollectedGroupInfo { get; private set; } = new Dictionary<ulong, Group>();
         internal static List<Compatibility> CollectedCompatibilities { get; private set; } = new List<Compatibility>();
         internal static List<ulong> CollectedRemovals { get; private set; } = new List<ulong>();
 
@@ -48,7 +48,7 @@ namespace CompatibilityReport.Updater
             CollectedModInfo.Clear();
             CollectedAuthorIDs.Clear();
             CollectedAuthorURLs.Clear();
-            CollectedModGroupInfo.Clear();
+            CollectedGroupInfo.Clear();
             CollectedCompatibilities.Clear();
             CollectedRemovals.Clear();
 
@@ -251,11 +251,11 @@ namespace CompatibilityReport.Updater
         // Update or add all collected groups
         internal static void UpdateAndAddGroups()
         {
-            foreach (ulong groupID in CollectedModGroupInfo.Keys)
+            foreach (ulong groupID in CollectedGroupInfo.Keys)
             {
-                if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID))
+                if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(groupID))
                 {
-                    // Add new group  [Todo 0.3] and replace required mod by new group
+                    // Add new group  [Todo 0.3] replace fake group ID by real; and replace required mod by new group
                     //AddGroup(groupID);
                 }
                 else
@@ -390,19 +390,19 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                // Mod Group
-                else if (id >= ModSettings.lowestModGroupID && id <= ModSettings.highestModGroupID)
+                // Group
+                else if (id >= ModSettings.lowestGroupID && id <= ModSettings.highestGroupID)
                 {
                     // Get the group
-                    ModGroup group = ActiveCatalog.Instance.ModGroupDictionary[id];
+                    Group group = ActiveCatalog.Instance.GroupDictionary[id];
 
                     // This has already been checked for existence and has been replaced in all required mods lists; can remove immediately
-                    ActiveCatalog.Instance.ModGroupDictionary.Remove(id);
+                    ActiveCatalog.Instance.GroupDictionary.Remove(id);
 
-                    ActiveCatalog.Instance.ModGroups.Remove(group);
+                    ActiveCatalog.Instance.Groups.Remove(group);
 
                     // Add to the 'authors' change notes, so it will go to the end of the changes notes
-                    ChangeNotesRemovedAuthors.AppendLine($"ModGroup \"{ group.Name }\" was removed from the catalog.");
+                    ChangeNotesRemovedAuthors.AppendLine($"Group \"{ group.Name }\" was removed from the catalog.");
                 }
 
                 // Catalog compatible game version
@@ -681,12 +681,12 @@ namespace CompatibilityReport.Updater
                 foreach (ulong requiredID in catalogMod.RequiredMods)
                 {
                     // Check if it's a mod or a group
-                    if (requiredID >= ModSettings.lowestModGroupID && requiredID <= ModSettings.highestModGroupID)
+                    if (requiredID >= ModSettings.lowestGroupID && requiredID <= ModSettings.highestGroupID)
                     {
                         // ID is a group; check if this is still required
                         bool stillRequired = false;
 
-                        foreach (ulong modID in ActiveCatalog.Instance.ModGroupDictionary[requiredID].SteamIDs)
+                        foreach (ulong modID in ActiveCatalog.Instance.GroupDictionary[requiredID].SteamIDs)
                         {
                             if (collectedMod.RequiredMods.Contains(modID))
                             {
@@ -702,10 +702,10 @@ namespace CompatibilityReport.Updater
                             // No longer required; remove the group
                             //catalogMod.RequiredMods.Remove(requiredID);     // [Todo 0.3] Illegal operation, cannot change within foreach
 
-                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod group { requiredID } removed";
+                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required group { requiredID } removed";
                         }
                     }
-                    else if (ActiveCatalog.Instance.ModGroups.Find(x => x.SteamIDs.Contains(requiredID)) != null)
+                    else if (ActiveCatalog.Instance.Groups.Find(x => x.SteamIDs.Contains(requiredID)) != null)
                     {
                         // ID is a mod that is a group member, so remove it; the group will be added below if still needed
                         //catalogMod.RequiredMods.Remove(requiredID);     // [Todo 0.3] Illegal operation, cannot change within foreach
@@ -725,9 +725,9 @@ namespace CompatibilityReport.Updater
                 foreach (ulong requiredModID in collectedMod.RequiredMods)
                 {
                     // Check if this required mod is part of a group
-                    ModGroup group = ActiveCatalog.Instance.ModGroups.Find(x => x.SteamIDs.Contains(requiredModID));
+                    Group group = ActiveCatalog.Instance.GetGroup(requiredModID);
 
-                    if (group == null)
+                    if (group == default)
                     {
                         // Add the required mod to the catalog mod's required list, if it isn't there already
                         if (!catalogMod.RequiredMods.Contains(requiredModID))
@@ -744,7 +744,7 @@ namespace CompatibilityReport.Updater
                         {
                             catalogMod.RequiredMods.Add(group.GroupID);
 
-                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod group { group.GroupID } added (instead of mod { requiredModID })";
+                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required group { group.GroupID } added (instead of mod { requiredModID })";
                         }
                     }
                 }

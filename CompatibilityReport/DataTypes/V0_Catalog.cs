@@ -28,7 +28,7 @@ namespace CompatibilityReport.DataTypes
 
         public List<Compatibility> ModCompatibilities { get; private set; } = new List<Compatibility>();
 
-        public List<ModGroup> ModGroups { get; private set; } = new List<ModGroup>();
+        public List<Group> Groups { get; private set; } = new List<Group>();
 
         public List<Author> ModAuthors { get; private set; } = new List<Author>();
 
@@ -76,7 +76,7 @@ namespace CompatibilityReport.DataTypes
 
             // Create and return the new catalog
             return new Catalog(v0_catalog.Version, v0_catalog.UpdateDate, v0_CompatibleGameVersion, note: "", reportIntroText: ModSettings.defaultIntroText, 
-                reportFooterText: ModSettings.defaultFooterText, v0_catalog.Mods, v0_catalog.ModCompatibilities, v0_catalog.ModGroups, v0_catalog.ModAuthors, 
+                reportFooterText: ModSettings.defaultFooterText, v0_catalog.Mods, v0_catalog.ModCompatibilities, v0_catalog.Groups, v0_catalog.ModAuthors, 
                 updateExclusions: null);
         }        
     }

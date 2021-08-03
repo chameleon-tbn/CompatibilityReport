@@ -227,20 +227,18 @@ namespace CompatibilityReport.DataTypes
 
             // Get all compatibilities (including note) where this mod is either the first or the second ID
             AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == SteamID), firstID: true);
+
             AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == SteamID), firstID: false);
 
-            // Get all mod groups that this mod is a member of
-            List<ModGroup> modGroups = ActiveCatalog.Instance.ModGroups.FindAll(x => x.SteamIDs.Contains(SteamID));
+            // Get the group that this mod is a member of
+            Group group = ActiveCatalog.Instance.GetGroup(SteamID);
 
-            if (modGroups != null)
+            if (group != default)
             {
-                // go through all found mod groups
-                foreach (ModGroup group in modGroups)
-                {
-                    // Get all compatibilities (including note) where the mod group is either the first or the second ID
-                    AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == group.GroupID), firstID: true);
-                    AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == group.GroupID), firstID: false);
-                }
+                // Get all compatibilities (including note) where the group is either the first or the second ID
+                AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == group.GroupID), firstID: true);
+
+                AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == group.GroupID), firstID: false);
             }
         }
 

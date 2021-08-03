@@ -36,7 +36,7 @@ namespace CompatibilityReport.DataTypes
         // Required DLCs
         public List<Enums.DLC> RequiredDLC { get; private set; } = new List<Enums.DLC>();
 
-        // Required mods for this mod (all are required); this is the only list that allows mod groups, meaning one (not all) of the mods in the group is required
+        // Required mods for this mod (all are required); this is the only list that allows groups, meaning one (not all) of the mods in the group is required
         [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();
 
         // Required assets for this mod; only used to collect info we gather from the Steam Workshop, not reported right now
@@ -45,7 +45,7 @@ namespace CompatibilityReport.DataTypes
         // Successors of this mod
         [XmlArrayItem("SteamID")] public List<ulong> Successors { get; private set; } = new List<ulong>();
 
-        // Alternatives for this mod; only used if this has compatibility issues
+        // Alternatives for this mod
         [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
 
         // Statuses for this mod

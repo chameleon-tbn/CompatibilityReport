@@ -69,7 +69,7 @@
     <Compile Include="DataTypes\Catalog.cs" />
     <Compile Include="DataTypes\Author.cs" />
     <Compile Include="DataTypes\Compatibility.cs" />
-    <Compile Include="DataTypes\ModGroup.cs" />
+    <Compile Include="DataTypes\Group.cs" />
     <Compile Include="DataTypes\Mod.cs" />
     <Compile Include="Reporter.cs" />
     <Compile Include="Scanner.cs" />

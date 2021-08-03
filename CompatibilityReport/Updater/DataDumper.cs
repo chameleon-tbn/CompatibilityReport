@@ -85,8 +85,7 @@ namespace CompatibilityReport.Updater
             foreach (Mod mod in ActiveCatalog.Instance.Mods)
             {
                 // List mods that are a required mod directly or by group membership
-                if (ActiveCatalog.Instance.Mods.Find(x => x.RequiredMods.Contains(mod.SteamID)) != default || 
-                    ActiveCatalog.Instance.ModGroups.Find(x => x.SteamIDs.Contains(mod.SteamID)) != default) 
+                if (ActiveCatalog.Instance.Mods.Find(x => x.RequiredMods.Contains(mod.SteamID)) != default || ActiveCatalog.Instance.IsGroupMember(mod.SteamID)) 
                 {
                     // Convert statuses to a string
                     string statuses = "";

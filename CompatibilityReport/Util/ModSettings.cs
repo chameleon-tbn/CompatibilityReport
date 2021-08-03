@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "159";
+        internal const string build = "160";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -98,14 +98,14 @@ namespace CompatibilityReport.Util
             { "Unlock All", 5 }
         };
 
-        // Lowest and highest fake Steam ID to use; should not overlap, be higher than BuiltinMods above and lower than real Steam IDs; mod group IDs are used in catalog
+        // Lowest and highest fake Steam ID to use; should not overlap, be higher than BuiltinMods above and lower than real Steam IDs; only group IDs are used in catalog
         internal static readonly ulong lowestUnknownBuiltinModID  = 11;
         internal static readonly ulong highestUnknownBuiltinModID = 99;
         internal static readonly ulong lowestLocalModID          = 101;
         internal static readonly ulong highestLocalModID        = 9999;
-        internal static readonly ulong lowestModGroupID        = 10001;
-        internal static readonly ulong highestModGroupID      = 999999;
-        internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestModGroupID);
+        internal static readonly ulong lowestGroupID        = 10001;
+        internal static readonly ulong highestGroupID      = 999999;
+        internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestGroupID);
         
         // Logfile location (Cities_Data)
         internal static readonly string logfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");

@@ -36,7 +36,7 @@ namespace CompatibilityReport.DataTypes
 
         public List<Compatibility> Compatibilities { get; private set; } = new List<Compatibility>();
 
-        public List<ModGroup> ModGroups { get; private set; } = new List<ModGroup>();
+        public List<Group> Groups { get; private set; } = new List<Group>();
 
         public List<Author> Authors { get; private set; } = new List<Author>();
 
@@ -47,7 +47,7 @@ namespace CompatibilityReport.DataTypes
         // Dictionaries to make searching easier and faster
         [XmlIgnore] public Dictionary<ulong, Mod> ModDictionary { get; private set; } = new Dictionary<ulong, Mod>();
         
-        [XmlIgnore] public Dictionary<ulong, ModGroup> ModGroupDictionary { get; private set; } = new Dictionary<ulong, ModGroup>();
+        [XmlIgnore] public Dictionary<ulong, Group> GroupDictionary { get; private set; } = new Dictionary<ulong, Group>();
 
         [XmlIgnore] public Dictionary<ulong, Author> AuthorIDDictionary { get; private set; } = new Dictionary<ulong, Author>();
 
@@ -93,7 +93,7 @@ namespace CompatibilityReport.DataTypes
 
         // Constructor with all parameters, used when converting an old catalog
         public Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
-            List<Mod> mods, List<Compatibility> modCompatibilities, List<ModGroup> modGroups, List<Author> modAuthors, List<Exclusion> updateExclusions)
+            List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<Exclusion> updateExclusions)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
@@ -115,7 +115,7 @@ namespace CompatibilityReport.DataTypes
 
             Compatibilities = modCompatibilities ?? new List<Compatibility>();
 
-            ModGroups = modGroups ?? new List<ModGroup>();
+            Groups = groups ?? new List<Group>();
 
             Authors = modAuthors ?? new List<Author>();
 
@@ -257,20 +257,34 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add a new mod group to the catalog; return the group, or null if the group couldn't be added; NOTE: a mod can only be in one group
-        internal ModGroup AddModGroup(string name, List<ulong> steamIDs)
+        // Get the group this mod is a member of
+        internal Group GetGroup(ulong steamID)
+        {
+            return Groups.FirstOrDefault(x => x.SteamIDs.Contains(steamID));
+        }
+
+
+        // Check if a mod is a group member
+        internal bool IsGroupMember(ulong steamID)
+        {
+            return GetGroup(steamID) != default;
+        }
+
+
+        // Add a new group to the catalog; return the group, or null if the group couldn't be added; NOTE: a mod can only be in one group
+        internal Group AddGroup(string name, List<ulong> steamIDs)
         {
             // Check if none of the steam IDs is already in a group, or is a group itself
             foreach (ulong steamID in steamIDs ?? new List<ulong>())
             {
-                if (steamID >= ModSettings.lowestModGroupID && steamID <= ModSettings.highestModGroupID)
+                if (steamID >= ModSettings.lowestGroupID && steamID <= ModSettings.highestGroupID)
                 {
                     Logger.Log($"Could not add a new group ({ name }) because { steamID } is a group and groups can't be nested.", Logger.error);
 
                     return null;
                 }
 
-                if (ModGroups.Find(x => x.SteamIDs.Contains(steamID)) != null)
+                if (IsGroupMember(steamID))
                 {
                     Logger.Log($"Could not add a new group ({ name }) because [Steam ID { steamID }] is already member of another group.", Logger.error);
 
@@ -281,36 +295,36 @@ namespace CompatibilityReport.DataTypes
             // Get a new group ID
             ulong newGroupID;
 
-            if (ModGroupDictionary?.Any() != true)
+            if (GroupDictionary?.Any() != true)
             {
                 // No groups yet, so use the lowest group ID
-                newGroupID = ModSettings.lowestModGroupID;
+                newGroupID = ModSettings.lowestGroupID;
             }
             else
             {
                 // Set it one higher than the highest used group ID
-                newGroupID = ModGroupDictionary.Keys.Max() + 1;
+                newGroupID = GroupDictionary.Keys.Max() + 1;
 
-                if (newGroupID > ModSettings.highestModGroupID)
+                if (newGroupID > ModSettings.highestGroupID)
                 {
-                    Logger.Log($"Could not add a new group ({ name }) because we ran out of mod group IDs.", Logger.error);
+                    Logger.Log($"Could not add a new group ({ name }) because we ran out of group IDs.", Logger.error);
 
                     return null;
                 }
             }
 
             // Add the new group to the list and dictionary
-            ModGroup modGroup = new ModGroup(newGroupID, name, steamIDs);
+            Group group = new Group(newGroupID, name, steamIDs);
 
-            ModGroups.Add(modGroup);
+            Groups.Add(group);
 
-            ModGroupDictionary.Add(newGroupID, modGroup);
+            GroupDictionary.Add(newGroupID, group);
 
             // Change required mods in the whole catalog from a group member to the group
-            foreach (ulong groupMemberID in modGroup.SteamIDs)
+            foreach (ulong groupMemberID in group.SteamIDs)
             {
                 // Get all mods that have this group member as required mod
-                List<Mod> modList = Mods.FindAll(x => x.RequiredMods.Contains(groupMemberID)) ?? new List<Mod>();
+                List<Mod> modList = Mods.FindAll(x => x.RequiredMods.Contains(groupMemberID));
 
                 foreach (Mod mod in modList)
                 {
@@ -319,13 +333,13 @@ namespace CompatibilityReport.DataTypes
 
                     mod.RequiredMods.Add(newGroupID);
 
-                    Logger.Log($"Changed required mod { ModDictionary[groupMemberID].ToString() } to { modGroup.ToString() }, for { mod.ToString(cutOff: false) }.",
+                    Logger.Log($"Changed required mod { ModDictionary[groupMemberID].ToString() } to { group.ToString() }, for { mod.ToString(cutOff: false) }.",
                         Logger.debug);
                 }
             }
 
             // Return a reference to the new group
-            return modGroup;
+            return group;
         }
 
 
@@ -335,15 +349,15 @@ namespace CompatibilityReport.DataTypes
                                                 List<Enums.CompatibilityStatus> statuses,
                                                 string note = "")
         {
-            if ((steamID1 >= ModSettings.lowestModGroupID && steamID1 <= ModSettings.highestModGroupID) 
-                || (steamID2 >= ModSettings.lowestModGroupID && steamID2 <= ModSettings.highestModGroupID))
+            if ((steamID1 >= ModSettings.lowestGroupID && steamID1 <= ModSettings.highestGroupID) 
+                || (steamID2 >= ModSettings.lowestGroupID && steamID2 <= ModSettings.highestGroupID))
             {
                 Logger.Log($"Tried to add a compatibility with a group instead of a mod, which is not supported. Compatibility NOT added.", Logger.error);
 
                 return null;
             }
 
-            if (Compatibilities.Find(x => x.SteamID1 == steamID1 && x.SteamID2 == steamID2) != null)
+            if (Compatibilities.Find(x => x.SteamID1 == steamID1 && x.SteamID2 == steamID2) != default)
             {
                 // A compatibility already exists between these Steam IDs
                 Logger.Log($"Tried to add a compatibility while one already exists between [Steam ID { steamID1 }] and [Steam ID { steamID2 }]. " + 
@@ -352,7 +366,7 @@ namespace CompatibilityReport.DataTypes
                 return null;
             }
 
-            if (Compatibilities.Find(x => x.SteamID1 == steamID2 && x.SteamID2 == steamID1) != null)
+            if (Compatibilities.Find(x => x.SteamID1 == steamID2 && x.SteamID2 == steamID1) != null)    // [Todo 0.3] Allow for some compatibility statuses
             {
                 // A compatibility already exists between these Steam IDs, but reversed
                 Logger.Log($"Tried to add a compatibility between [Steam ID { steamID1 }] and [Steam ID { steamID2 }] while a reversed one already exists . " +
@@ -475,7 +489,7 @@ namespace CompatibilityReport.DataTypes
         {
             // Clear the dictionaries
             ModDictionary.Clear();
-            ModGroupDictionary.Clear();
+            GroupDictionary.Clear();
             AuthorIDDictionary.Clear();
             AuthorURLDictionary.Clear();
 
@@ -492,16 +506,16 @@ namespace CompatibilityReport.DataTypes
                 }
             }
 
-            // Add mod groups to the dictionary
-            foreach (ModGroup group in ModGroups) 
+            // Add groups to the dictionary
+            foreach (Group group in Groups) 
             {
-                if (ModGroupDictionary.ContainsKey(group.GroupID))
+                if (GroupDictionary.ContainsKey(group.GroupID))
                 {
-                    Logger.Log($"Found a duplicate mod group ID in the catalog: { group.GroupID }.", Logger.error);
+                    Logger.Log($"Found a duplicate group ID in the catalog: { group.GroupID }.", Logger.error);
                 }
                 else
                 {
-                    ModGroupDictionary.Add(group.GroupID, group);
+                    GroupDictionary.Add(group.GroupID, group);
                 }
             }
 
