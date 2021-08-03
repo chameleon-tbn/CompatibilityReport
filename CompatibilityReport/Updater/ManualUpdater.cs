@@ -19,6 +19,8 @@ namespace CompatibilityReport.Updater
         // Stringbuilder to gather the combined CSVs, to be saved with the new catalog
         private static StringBuilder CSVCombined;
 
+        private static ulong FakeGroupID;
+
 
         // Start the manual updater; will load and process CSV files, update the active catalog and save it with a new version; including change notes
         internal static void Start()
@@ -40,8 +42,10 @@ namespace CompatibilityReport.Updater
             Logger.Log("Manual Updater started. See separate logfile for details.");
             Logger.UpdaterLog("Manual Updater started.");
 
-            // Initialize the dictionaries we need
+            // Initialize the CatalogUpdater dictionaries and our own variables
             CatalogUpdater.Init();
+
+            FakeGroupID = ModSettings.highestGroupID;
 
             CSVCombined = new StringBuilder();
 
@@ -290,7 +294,7 @@ namespace CompatibilityReport.Updater
                     break;
 
                 case "remove_group":
-                    result = RemoveGroup(groupID: id, replacementMod: secondID);
+                    result = RemoveGroup(groupID: id, replacementModID: secondID);
                     break;
 
                 case "add_groupmember":
@@ -402,8 +406,8 @@ namespace CompatibilityReport.Updater
             Mod collectedMod = CatalogUpdater.CollectedModInfo.FirstOrDefault(x => x.Value.RequiredMods.Contains(steamID) || 
                                                                                    x.Value.Successors.Contains(steamID) || 
                                                                                    x.Value.Alternatives.Contains(steamID)).Value;
-            ModGroup catalogGroup = ActiveCatalog.Instance.ModGroups.FirstOrDefault(x => x.SteamIDs.Contains(steamID));
-            ModGroup collectedGroup = CatalogUpdater.CollectedModGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(steamID)).Value;
+            Group catalogGroup = ActiveCatalog.Instance.GetGroup(steamID);
+            Group collectedGroup = CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(steamID)).Value;
 
             if (catalogMod != default || collectedMod != default || catalogGroup != default || collectedGroup != default)
             {
@@ -656,7 +660,7 @@ namespace CompatibilityReport.Updater
                 // Add exclusion
                 ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
             }
-            else if (action == "remove_requiredmod")    // [Todo 0.3] Needs additional logic for groups that took the place of mods; maybe in CatalogUpdater
+            else if (action == "remove_requiredmod")    // [Todo 0.3] Needs additional logic for groups that took the place of mods; maybe in CatalogUpdater?
             {
                 if (!newMod.RequiredMods.Contains(listMember))
                 {
@@ -766,8 +770,37 @@ namespace CompatibilityReport.Updater
         // Add an author
         private static string AddAuthor(ulong authorID, string authorURL, string name)
         {
-            // [Todo 0.3]
-            // retired status, change notes?
+            // Exit on an empty author ID/URL
+            if (authorID == 0 && string.IsNullOrEmpty(authorURL))
+            {
+                return "Invalid author ID/URL.";
+            }
+
+            // Exit if the name is empty
+            if (string.IsNullOrEmpty(name))
+            {
+                return "Invalid author name.";
+            }
+
+            // Empty the URL if the ID is not zero
+            authorURL = authorID == 0 ? authorURL : "";
+
+            // Exit if the author already exists in the catalog or collection
+            if (ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID) || CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID) ||
+                ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL) || CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
+            {
+                return "Author already exists.";
+            }
+
+            if (authorID != 0)
+            {
+                CatalogUpdater.CollectedAuthorIDs.Add(authorID, new Author(authorID, authorURL, name, retired: true));
+            }
+            else
+            {
+                CatalogUpdater.CollectedAuthorURLs.Add(authorURL, new Author(authorID, authorURL, name, retired: true));
+            }
+            
             return "";
         }
 
@@ -915,32 +948,72 @@ namespace CompatibilityReport.Updater
                     return $"Invalid Steam ID { steamID }.";
                 }
 
-                // [Todo 0.3] Check for group membership
+                // Exit if the new group member is already a member of another group
+                if (ActiveCatalog.Instance.IsGroupMember(steamID) || 
+                    CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(steamID)).Value != default)
+                {
+                    return $"Mod { steamID } is already in a group.";
+                }
             }
 
-            // [Todo 0.3] Find a way to add this to the catalogupdater
-            //ModGroup newGroup = new ModGroup(0, groupName, members);
-            //CatalogUpdater.CollectedModGroupInfo.Add(newGroup.GroupID, newGroup);
+            // Add the group to the collection with a fake group ID which will be replaced by the CatalogUpdater
+            Group newGroup = new Group(FakeGroupID, groupName, groupMembers);
+
+            CatalogUpdater.CollectedGroupInfo.Add(newGroup.GroupID, newGroup);
+
+            // Lower the fake group ID so they remain unique
+            FakeGroupID--;
 
             return "";
         }
 
 
         // Remove a group
-        private static string RemoveGroup(ulong groupID, ulong replacementMod)
+        private static string RemoveGroup(ulong groupID, ulong replacementModID)
         {
             // Exit if the group doesn't exist or is already in the collected removals
-            if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID) || CatalogUpdater.CollectedRemovals.Contains(groupID))
+            if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(groupID) || CatalogUpdater.CollectedRemovals.Contains(groupID))
             {
                 return "Invalid group ID.";
             }
 
-            // [Todo 0.3] replace group by replacement mod
+            // Exit if the replacement mod isn't valid
+            if (IsValidID(replacementModID))
+            {
+                return "Invalid replacement mod.";
+            }
 
-            // Add group to the removals list
+            // Exit if the replacement mod is a member of any group
+            if (ActiveCatalog.Instance.IsGroupMember(replacementModID))
+            {
+                return "Replacement mod is a group member and shouldn't be.";
+            }
+
+            // Get all mods that have this group as required mod
+            List<Mod> mods = ActiveCatalog.Instance.Mods.FindAll(x => x.RequiredMods.Contains(groupID));
+
+            foreach (Mod mod in mods)
+            {
+                // Add a copy of the catalog mod to the collection if it isn't there yet
+                if (!CatalogUpdater.CollectedModInfo.ContainsKey(mod.SteamID))
+                {
+                    CatalogUpdater.CollectedModInfo.Add(mod.SteamID, Mod.Copy(mod));
+                }
+
+                // Remove the group as required mod
+                CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Remove(groupID);
+
+                // Add the replacement mod as required mod, if it isn't there already
+                if (!CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Contains(replacementModID))
+                {
+                    CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Add(replacementModID);
+                }
+            }
+
+            // Add the group to the removals list
             CatalogUpdater.CollectedRemovals.Add(groupID);
 
-            return "Not implemented yet.";
+            return "";
         }
 
 
@@ -948,7 +1021,7 @@ namespace CompatibilityReport.Updater
         private static string AddRemoveGroupMember(string action, ulong groupID, ulong groupMember)
         {
             // Exit if the group does not exist in the catalog
-            if (!ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(groupID))
+            if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(groupID))
             {
                 return "Invalid group ID.";
             }
@@ -960,15 +1033,15 @@ namespace CompatibilityReport.Updater
             }
 
             // Exit if the group member to add is already in a group in the catalog or the collected dictionary
-            if (action == "add_groupmember" && (ActiveCatalog.Instance.ModGroups.Find(x => x.SteamIDs.Contains(groupMember)) != null ||
-                !CatalogUpdater.CollectedModGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(groupMember)).Equals(default(KeyValuePair<ulong, ModGroup>))))
+            if (action == "add_groupmember" && (ActiveCatalog.Instance.IsGroupMember(groupMember) ||
+                !CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(groupMember)).Equals(default(KeyValuePair<ulong, Group>))))
             {
                 return $"Mod { groupMember } is already a member of a group.";
             }
 
             // Get the catalog group from the collected groups dictionary or create a new copy
-            ModGroup group = CatalogUpdater.CollectedModGroupInfo.ContainsKey(groupID) ? CatalogUpdater.CollectedModGroupInfo[groupID] :
-                ModGroup.Copy(ActiveCatalog.Instance.ModGroupDictionary[groupID]);
+            Group group = CatalogUpdater.CollectedGroupInfo.ContainsKey(groupID) ? CatalogUpdater.CollectedGroupInfo[groupID] :
+                Group.Copy(ActiveCatalog.Instance.GroupDictionary[groupID]);
 
             string result = "";
 
@@ -996,9 +1069,9 @@ namespace CompatibilityReport.Updater
             }
 
             // Add the copied group to the collected groups dictionary if the change was successful
-            if (string.IsNullOrEmpty(result) && !CatalogUpdater.CollectedModGroupInfo.ContainsKey(groupID))
+            if (string.IsNullOrEmpty(result) && !CatalogUpdater.CollectedGroupInfo.ContainsKey(groupID))
             {
-                CatalogUpdater.CollectedModGroupInfo.Add(group.GroupID, group);
+                CatalogUpdater.CollectedGroupInfo.Add(group.GroupID, group);
             }
 
             return result;
@@ -1194,14 +1267,14 @@ namespace CompatibilityReport.Updater
             // Check if the ID a valid mod or group ID
             bool valid = id > ModSettings.highestFakeID || 
                          (allowBuiltin && ModSettings.BuiltinMods.ContainsValue(id)) ||
-                         (allowGroup && id >= ModSettings.lowestModGroupID && id <= ModSettings.highestModGroupID);
+                         (allowGroup && id >= ModSettings.lowestGroupID && id <= ModSettings.highestGroupID);
 
             // If the ID is valid, do further checks if it should (not) exist
             if (valid && (shouldExist || shouldNotExist))
             {
                 // Check if the mod or group already exists and is not in removal collection
-                bool exists = (ActiveCatalog.Instance.ModDictionary.ContainsKey(id) || ActiveCatalog.Instance.ModGroupDictionary.ContainsKey(id) || 
-                    CatalogUpdater.CollectedModInfo.ContainsKey(id) || CatalogUpdater.CollectedModGroupInfo.ContainsKey(id)) && 
+                bool exists = (ActiveCatalog.Instance.ModDictionary.ContainsKey(id) || ActiveCatalog.Instance.GroupDictionary.ContainsKey(id) || 
+                    CatalogUpdater.CollectedModInfo.ContainsKey(id) || CatalogUpdater.CollectedGroupInfo.ContainsKey(id)) && 
                     !CatalogUpdater.CollectedRemovals.Contains(id);
 
                 // Check if the mod existence is correct

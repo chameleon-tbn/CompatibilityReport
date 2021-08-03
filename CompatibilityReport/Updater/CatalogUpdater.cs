@@ -251,12 +251,16 @@ namespace CompatibilityReport.Updater
         // Update or add all collected groups
         internal static void UpdateAndAddGroups()
         {
-            foreach (ulong groupID in CollectedGroupInfo.Keys)
+            foreach (Group group in CollectedGroupInfo.Values)
             {
-                if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(groupID))
+                if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(group.GroupID))
                 {
-                    // Add new group  [Todo 0.3] replace fake group ID by real; and replace required mod by new group
-                    //AddGroup(groupID);
+                    // Add new group; group ID will be automatically assigned
+                    ActiveCatalog.Instance.AddGroup(group.Name, group.SteamIDs);
+
+                    // [Todo 0.3] replace required mod by new group in catalog
+
+                    ChangeNotesNewMods.AppendLine($"New group { group.ToString() }");
                 }
                 else
                 {

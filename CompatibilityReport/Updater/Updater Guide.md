@@ -1,10 +1,10 @@
 # Compatibility Report - ManualUpdater Guide
 
-The ManualUpdater updates the catalog with manual changes and additions. It complements the AutoUpdater, which gathers information by crawling the Steam Workshop, including mod name, author, published/update dates, required DLC/mods, source URL, compatible game version and some statuses (removed from workshop, no description, author retirement). The ManualUpdater complements this with information that cannot be found by an automated proces, like compatibility information and suggestions for successor or alternative mods. It also allows the creation of mod groups to replace a required mod.
+The ManualUpdater updates the catalog with manual changes and additions. It complements the AutoUpdater, which gathers information by crawling the Steam Workshop, including mod name, author, published/update dates, required DLC/mods, source URL, compatible game version and some statuses (removed from workshop, no description, author retirement). The ManualUpdater complements this with information that cannot be found by an automated proces, like compatibility information and suggestions for successor or alternative mods. It also allows the creation of groups to replace a required mod.
 
 The ManualUpdater gathers its information from CSV files. These should be placed in the Updater folder where the updated catalogs are written as well. Update actions can be bundled in one CSV file or split into multiple files. Multiple files will be read in alphabetical order. Filenames are not relevant, but should end in .csv. After updating, the processed CSV files will be combined into one file with the name of the new catalog and ending in '_ManualUpdates.txt'. The processed CSV files are then renamed to .txt to avoid duplicate additions to the catalog on a next updater run.
 
-Mod groups are used for mod requirements. A group will replace every group member as required mod, both for current mod requirements in the catalog and for mod requirements for new mods found in the future. For example, a group with both a stable and test version of the same mod, will accept the test version as valid if the stable version is set as required mod. This prevents unjustified 'required mod not found' messages in the report. A mod can only be a member of one group, and the ManualUpdater cannot remove a mod from one group and add it to another in the same update run. Groups cannot be used for compatibilities, successors or alternatives. Group IDs are automaticaly assigned.
+Groups are used for mod requirements. A group will replace every group member as required mod, both for current mod requirements in the catalog and for mod requirements for new mods found in the future. For example, a group with both a stable and test version of the same mod, will accept the test version as valid if the stable version is set as required mod. This prevents unjustified 'required mod not found' messages in the report. A mod can only be a member of one group, and the ManualUpdater cannot remove a mod from one group and add it to another in the same update run. Groups cannot be used for compatibilities, successors or alternatives. Group IDs are automaticaly assigned.
 
 The lines in the CSV files all start with an action, often followed by a steam ID (for the mod, group or author), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the AutoUpdater from overwriting these manual updates. Actions and parameters are not case sensitive (except for names etc. that appears in reports). Commas are the only allowed separators and spaces around the separators are ignored. Commas in mod name and notes are supported.
 
@@ -44,14 +44,14 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
   * *This will create many compatibilities, between each of these mods in pairs (1 with 2, 1 with 3, 2 with 3, etc.)*
 * Remove_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>
 
-### Available mod group actions (will not change reviewed date for included mods)
+### Available group actions (will not change reviewed date for included mods)
 * Add_Group, \<name\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
 * Add_GroupMember, \<group ID\>, \<mod ID\>
 * Remove_Group, \<group ID\>, \<replacement mod ID\>
 * Remove_GroupMember, \<group ID\>, \<mod ID\>
 
-### Available author actions
-* Add_Author, \<author ID\>, \<author custom URL\>, \<author name\> *(only need for 'removed' mods)*
+### Available author actions (use the author ID if the custom URL is a number)
+* Add_Author, \<<author ID | author custom URL\>, \<author name\> *(only need for 'removed' mods)*
 * Add_AuthorID, \<author custom URL\>, \<author ID\>
 * Add_AuthorURL, \<author ID\>, \<author custom URL\>
 * Add_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\>
