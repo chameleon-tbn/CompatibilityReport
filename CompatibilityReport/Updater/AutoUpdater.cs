@@ -6,7 +6,7 @@ using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
 
-// AutoUpdater gathers update information from the Steam Workshop pages. CatalogUpdater will then update the catalog with this. The following information is gathered:
+// AutoUpdater gathers update information from the Steam Workshop pages for all mods. This takes quite some time. The following information is gathered:
 // * Mod: name, author, publish and update dates, source url, compatible game version (from tag only), required DLC, required mods, 
 //        statuses: incompatible according to the workshop, removed from workshop, no description, no source available (remove only, when a source url is found)
 // * Author: name, profile ID and custom url, last seen date (based on mod updates, not on comments), retired status (no mod update in 1 year; removed on new mod update)
@@ -16,36 +16,17 @@ namespace CompatibilityReport.Updater
 {
     internal static class AutoUpdater
     {
-        // Did we run already this session (successful or not)
-        private static bool hasRun;
-
-
-        // Start the auto updater; will download Steam webpages, extract info, update the active catalog and save it with a new version; including change notes
+        // Start the auto updater. Should only be called from CatalogUpdater. Will download Steam webpages for all mods and extract info for the catalog.
         internal static void Start()
         {
-            // Exit if we ran already, the auto updater is not enabled in settings, or if we don't have and can't get an active catalog
-            if (hasRun || !ModSettings.AutoUpdaterEnabled || !ActiveCatalog.Init())
-            {
-                return;
-            }
-
-            hasRun = true;
-
-            // Initialize the dictionaries we need
-            CatalogUpdater.Init();
-
             // Get basic mod and author information from the Steam Workshop 'mod listing' pages; we always get this info for all mods and their authors
             if (GetBasicInfo())
             {
-                // Add mods from the catalog that we didn't find, for the detail check below
+                // Add mods from the catalog that we didn't find, so they will be included in GetDetails
                 AddUnfoundMods();
 
                 // Get detailed information from the individual mod pages; we get this info for all new mods and for a maximum number of known mods
-                if (GetDetails())
-                {
-                    // Update the catalog with the new info and save it to a new version
-                    CatalogUpdater.Start(autoUpdater: true);
-                }                    
+                GetDetails();
             }
 
             Logger.UpdaterLog("Auto Updater has shutdown.", extraLine: true, duplicateToRegularLog: true);
@@ -271,7 +252,7 @@ namespace CompatibilityReport.Updater
 
 
         // Get mod information from the individual mod pages on the Steam Workshop; we get this info for all new mods and for a maximum number of known mods
-        private static bool GetDetails()
+        private static void GetDetails()
         {
             // If the current active catalog is version 1, we're (re)building the catalog from scratch; version 2 should not yet include any details, so exit here
             if (ActiveCatalog.Instance.Version == 1)
@@ -280,7 +261,7 @@ namespace CompatibilityReport.Updater
 
                 CatalogUpdater.SetNote(ModSettings.secondCatalogNote);
 
-                return true;
+                return;
             }
 
             // If the current active catalog is version 2, we're still (re)building the catalog from scratch; version 3 will be the first 'full' catalog
@@ -366,9 +347,6 @@ namespace CompatibilityReport.Updater
 
             Logger.UpdaterLog($"Auto Updater finished downloading { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.", duplicateToRegularLog: true);
-
-            // return true if we downloaded at least one mod
-            return (knownModsDownloaded + newModsDownloaded) > 0;
         }
 
 
@@ -595,8 +573,8 @@ namespace CompatibilityReport.Updater
 
             if (steamIDmatched)
             {
-                // Indicate we checked details for this mod; this will be used by the CatalogUpdater class
-                mod.Update(changeNotes: "Details checked");
+                // Indicate we checked details for this mod. This will be used by the CatalogUpdater class.
+                mod.Update(changeNotes: "Detailed Info");
             }
             else
             {

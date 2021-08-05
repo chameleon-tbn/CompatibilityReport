@@ -16,22 +16,13 @@ namespace CompatibilityReport.Updater
 {
     internal static class ManualUpdater
     {
-        // Stringbuilder to gather the combined CSVs, to be saved with the new catalog
-        private static StringBuilder CSVCombined;
-
         // Fake group ID to assign to the next new group. This will be replaced with a real group ID by the CatalogUpdater when adding the group to the catalog
-        private static ulong FakeGroupID;
+        private static ulong fakeGroupID;
 
 
-        // Start the manual updater
+        // Start the manual updater. Should only be called from CatalogUpdater.
         internal static void Start()
         {
-            // Exit if the updater is not enabled in settings, or if we don't have and can't get an active catalog
-            if (!ModSettings.UpdaterEnabled || !ActiveCatalog.Init())
-            {
-                return;
-            }
-
             // If the current active catalog is version 1 or 2, we're (re)building the catalog from scratch; wait with manual updates until version 3 is done
             if (ActiveCatalog.Instance.Version < 3)
             {
@@ -43,34 +34,15 @@ namespace CompatibilityReport.Updater
             Logger.Log("Manual Updater started. See separate logfile for details.");
             Logger.UpdaterLog("Manual Updater started.");
 
-            // Initialize the CatalogUpdater collections and our own variables
-            CatalogUpdater.Init();
-
-            CSVCombined = new StringBuilder();
-
-            FakeGroupID = ModSettings.highestGroupID;
+            fakeGroupID = ModSettings.highestGroupID;
 
             // Read all the CSVs and import them into the CatalogUpdater collections
             ImportCSVs();
 
-            if (CSVCombined.Length == 0)
+            if (CatalogUpdater.CSVCombined.Length == 0)
             {
-                Logger.UpdaterLog("No CSV files found. No new catalog created.", duplicateToRegularLog: true);
+                Logger.UpdaterLog("No CSV files found.", duplicateToRegularLog: true);
             }
-            else
-            {
-                // Update the catalog with the new info and save it to a new version
-                string partialPath = CatalogUpdater.Start(autoUpdater: false);
-
-                // Save the combined CSVs, next to the catalog
-                if (!string.IsNullOrEmpty(partialPath))
-                {
-                    Toolkit.SaveToFile(CSVCombined.ToString(), partialPath + "_ManualUpdates.txt");
-                }
-            }
-
-            // Clean up
-            CSVCombined = null;
 
             Logger.UpdaterLog("Manual Updater has shutdown.", extraLine: true, duplicateToRegularLog: true);
         }
@@ -104,10 +76,10 @@ namespace CompatibilityReport.Updater
                 Logger.UpdaterLog($"Processing \"{ Toolkit.GetFileName(CSVfile) }\".");
 
                 // Add the filename to the combined CSV and increase the file counter
-                CSVCombined.AppendLine($"###################################################");
-                CSVCombined.AppendLine($"#### FILE: { Toolkit.GetFileName(CSVfile) }");
-                CSVCombined.AppendLine($"###################################################");
-                CSVCombined.AppendLine("");
+                CatalogUpdater.CSVCombined.AppendLine($"###################################################");
+                CatalogUpdater.CSVCombined.AppendLine($"#### FILE: { Toolkit.GetFileName(CSVfile) }");
+                CatalogUpdater.CSVCombined.AppendLine($"###################################################");
+                CatalogUpdater.CSVCombined.AppendLine("");
 
                 numberOfFiles++;
 
@@ -126,12 +98,12 @@ namespace CompatibilityReport.Updater
                         if (ProcessLine(line))
                         {
                             // Add this line to the combined CSV
-                            CSVCombined.AppendLine(line);
+                            CatalogUpdater.CSVCombined.AppendLine(line);
                         }
                         else
                         {
                             // Add the failed line with a comment to the combined CSV
-                            CSVCombined.AppendLine("# [NOT PROCESSED] " + line);
+                            CatalogUpdater.CSVCombined.AppendLine("# [NOT PROCESSED] " + line);
 
                             // Tag this file and the overall process as not fully successful
                             singleFileSuccess = false;
@@ -142,8 +114,8 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Add some space to the combined CSV
-                CSVCombined.AppendLine("");
-                CSVCombined.AppendLine("");
+                CatalogUpdater.CSVCombined.AppendLine("");
+                CatalogUpdater.CSVCombined.AppendLine("");
 
                 // Rename the processed CSV file to avoid processing it again next time
                 string newFileName = CSVfile + (singleFileSuccess ? ".processed.txt" : ".partially_processed.txt");
@@ -735,6 +707,9 @@ namespace CompatibilityReport.Updater
             // Set the review date to anything. It is only to indicate it should be updated by the CatalogUpdater, which uses its own update date.
             newMod.Update(reviewUpdated: DateTime.Now);
 
+            // Indicate that this mod has all detailed info. This will be used by the CatalogUpdater.
+            newMod.Update(changeNotes: "Detailed Info");
+
             // Add the copied mod to the collected mods dictionary
             if (!CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
             {
@@ -961,12 +936,12 @@ namespace CompatibilityReport.Updater
             }
 
             // Add the group to the collection with a fake group ID which will be replaced by the CatalogUpdater
-            Group newGroup = new Group(FakeGroupID, groupName, groupMembers);
+            Group newGroup = new Group(fakeGroupID, groupName, groupMembers);
 
             CatalogUpdater.CollectedGroupInfo.Add(newGroup.GroupID, newGroup);
 
             // Lower the fake group ID so they remain unique
-            FakeGroupID--;
+            fakeGroupID--;
 
             return "";
         }
