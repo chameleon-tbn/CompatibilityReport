@@ -573,8 +573,8 @@ namespace CompatibilityReport.Updater
 
             if (steamIDmatched)
             {
-                // Indicate we checked details for this mod. This will be used by the CatalogUpdater class.
-                mod.Update(changeNotes: "Detailed Info");
+                // Indicate we updated all fields for this mod. This will be used by the CatalogUpdater.
+                mod.Update(autoReviewUpdated: DateTime.Now);
             }
             else
             {

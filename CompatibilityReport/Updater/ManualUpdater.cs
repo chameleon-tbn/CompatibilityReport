@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
@@ -319,7 +318,7 @@ namespace CompatibilityReport.Updater
                     break;
 
                 case "updatedate":
-                    result = CatalogUpdater.SetUpdateDate(idString) ? "" : "Invalid date.";
+                    result = CatalogUpdater.SetCatalogUpdateDate(idString) ? "" : "Invalid date.";
                     break;
 
                 default:
@@ -707,9 +706,6 @@ namespace CompatibilityReport.Updater
             // Set the review date to anything. It is only to indicate it should be updated by the CatalogUpdater, which uses its own update date.
             newMod.Update(reviewUpdated: DateTime.Now);
 
-            // Indicate that this mod has all detailed info. This will be used by the CatalogUpdater.
-            newMod.Update(changeNotes: "Detailed Info");
-
             // Add the copied mod to the collected mods dictionary
             if (!CatalogUpdater.CollectedModInfo.ContainsKey(steamID))
             {
@@ -717,32 +713,6 @@ namespace CompatibilityReport.Updater
             }
 
             return "";
-        }
-
-
-        // Add an author item, by author profile ID
-        private static string ChangeAuthorItem(string action, ulong authorID, string itemData)
-        {
-            // Exit if the author ID is invalid or does not exist in the active catalog
-            if (authorID == 0 || !ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
-            {
-                return "Invalid author ID.";
-            }
-
-            // Get a copy of the catalog author from the collected authors dictionary or create a new copy
-            Author newAuthor = CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID) ? CatalogUpdater.CollectedAuthorIDs[authorID] : 
-                Author.Copy(ActiveCatalog.Instance.AuthorIDDictionary[authorID]);
-            
-            // Update the author
-            string result = ChangeAuthorItem(action, newAuthor, itemData, 0);
-
-            // Add the copied author to the collected mods dictionary if the change was successful
-            if (string.IsNullOrEmpty(result) && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
-            {
-                CatalogUpdater.CollectedAuthorIDs.Add(authorID, newAuthor);
-            }
-
-            return result;
         }
 
 
@@ -784,7 +754,33 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add an author item, by author custom URL
+        // Change an author item, by author profile ID
+        private static string ChangeAuthorItem(string action, ulong authorID, string itemData)
+        {
+            // Exit if the author ID is invalid or does not exist in the active catalog
+            if (authorID == 0 || !ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
+            {
+                return "Invalid author ID.";
+            }
+
+            // Get a copy of the catalog author from the collected authors dictionary or create a new copy
+            Author newAuthor = CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID) ? CatalogUpdater.CollectedAuthorIDs[authorID] :
+                Author.Copy(ActiveCatalog.Instance.AuthorIDDictionary[authorID]);
+
+            // Update the author
+            string result = ChangeAuthorItem(action, newAuthor, itemData, 0);
+
+            // Add the copied author to the collected mods dictionary if the change was successful
+            if (string.IsNullOrEmpty(result) && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
+            {
+                CatalogUpdater.CollectedAuthorIDs.Add(authorID, newAuthor);
+            }
+
+            return result;
+        }
+
+
+        // Change an author item, by author custom URL
         private static string ChangeAuthorItem(string action, string authorURL, string itemData, ulong newAuthorID = 0)
         {
             // Exit if the author custom URL is empty or does not exist in the active catalog
@@ -810,7 +806,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add an author item, by author type
+        // Change an author item, by author type
         private static string ChangeAuthorItem(string action, Author newAuthor, string itemData, ulong newAuthorID)
         {
             if (newAuthor == null)
@@ -903,7 +899,10 @@ namespace CompatibilityReport.Updater
             else
             {
                 return "Invalid action.";
-            }            
+            }
+
+            // Indicate that all fields for this author should be updated by the CatalogUpdater.
+            newAuthor.Update(updateAllFields: true);
 
             return "";
         }

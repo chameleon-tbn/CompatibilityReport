@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 using CompatibilityReport.Util;
 
 
@@ -26,6 +27,9 @@ namespace CompatibilityReport.DataTypes
 
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
         public string ChangeNotes { get; private set; }
+
+        // Indicate if the author was updated by the ManualUpdater. Only used by the updater, does not appear in the catalog.
+        [XmlIgnore] internal bool ManuallyUpdated { get; private set; }
 
 
         // Default constructor
@@ -78,7 +82,8 @@ namespace CompatibilityReport.DataTypes
                              string name = null,
                              DateTime? lastSeen = null,
                              bool? retired = null,
-                             string changeNotes = null)
+                             string changeNotes = null,
+                             bool? updateAllFields = null)
         {
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
 
@@ -96,6 +101,8 @@ namespace CompatibilityReport.DataTypes
 
             // Add a change note (on a new line) instead of replacing it
             ChangeNotes += string.IsNullOrEmpty(changeNotes) ? "" : (string.IsNullOrEmpty(ChangeNotes) ? "" : "\n") + changeNotes;
+
+            ManuallyUpdated = updateAllFields ?? ManuallyUpdated;
 
             // Debug message
             if ((ProfileID == 0) && string.IsNullOrEmpty(CustomURL))
@@ -117,7 +124,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Copy all fields from an author to a new author
+        // Copy all fields, except 'UpdateAllFields', from an author to a new author.
         internal static Author Copy(Author originalAuthor)
         {
             // Copy all value types directly
