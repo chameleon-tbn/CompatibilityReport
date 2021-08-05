@@ -170,12 +170,6 @@ namespace CompatibilityReport.DataTypes
             // Log the catalog name which is seen in the Steam Workshop; subscription name might differ and is seen in game in the Content Manager and Options
             Logger.Log($"Mod found: { catalogMod.ToString(cutOff: false) }");
 
-            if (catalogMod.Name.ToLower() != Name.ToLower())
-            {
-                // Log both names as input for manual changes in the catalog [Todo 0.3] Remove this
-                Logger.Log($"{ catalogMod.ToString() }: Steam Workshop name differs from subscription name ({ Name })", Logger.debug);
-            }
-
             // Check if the mod was manually reviewed
             IsReviewed = catalogMod.ReviewUpdated != DateTime.MinValue;
 

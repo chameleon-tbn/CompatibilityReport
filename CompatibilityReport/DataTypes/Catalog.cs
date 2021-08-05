@@ -366,9 +366,14 @@ namespace CompatibilityReport.DataTypes
                 return null;
             }
 
-            if (Compatibilities.Find(x => x.SteamID1 == steamID2 && x.SteamID2 == steamID1) != null)    // [Todo 0.3] Allow for some compatibility statuses
+            // Check if a mirrored compatibility already exists; this is allowed for some statuses, but not all  [Todo 0.4] Can we allow all compatibilities mirrored?
+            if (Compatibilities.Find(x => x.SteamID1 == steamID2 && x.SteamID2 == steamID1 && 
+                !x.Statuses.Contains(Enums.CompatibilityStatus.NewerVersion) &&
+                !x.Statuses.Contains(Enums.CompatibilityStatus.FunctionalityCovered) &&
+                !x.Statuses.Contains(Enums.CompatibilityStatus.IncompatibleAccordingToAuthor) &&
+                !x.Statuses.Contains(Enums.CompatibilityStatus.IncompatibleAccordingToUsers) &&
+                !x.Statuses.Contains(Enums.CompatibilityStatus.CompatibleAccordingToAuthor)) != null)
             {
-                // A compatibility already exists between these Steam IDs, but reversed
                 Logger.Log($"Tried to add a compatibility between [Steam ID { steamID1 }] and [Steam ID { steamID2 }] while a reversed one already exists . " +
                     "Compatibility NOT added.", Logger.error);
 

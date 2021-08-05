@@ -9,7 +9,7 @@ using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
 
-// Manual Updater updates the catalog with information from CSV files in de updater folder. See separate guide for details.
+// ManualUpdater gathers update information from CSV files in de updater folder. CatalogUpdater will then update the catalog with this. See Updater Guide for details.
 
 
 namespace CompatibilityReport.Updater
@@ -19,14 +19,15 @@ namespace CompatibilityReport.Updater
         // Stringbuilder to gather the combined CSVs, to be saved with the new catalog
         private static StringBuilder CSVCombined;
 
+        // Fake group ID to assign to the next new group. This will be replaced with a real group ID by the CatalogUpdater when adding the group to the catalog
         private static ulong FakeGroupID;
 
 
-        // Start the manual updater; will load and process CSV files, update the active catalog and save it with a new version; including change notes
+        // Start the manual updater
         internal static void Start()
         {
-            // Exit if the updater is not enabled in settings
-            if (!ModSettings.UpdaterEnabled)
+            // Exit if the updater is not enabled in settings, or if we don't have and can't get an active catalog
+            if (!ModSettings.UpdaterEnabled || !ActiveCatalog.Init())
             {
                 return;
             }
@@ -42,14 +43,14 @@ namespace CompatibilityReport.Updater
             Logger.Log("Manual Updater started. See separate logfile for details.");
             Logger.UpdaterLog("Manual Updater started.");
 
-            // Initialize the CatalogUpdater dictionaries and our own variables
+            // Initialize the CatalogUpdater collections and our own variables
             CatalogUpdater.Init();
-
-            FakeGroupID = ModSettings.highestGroupID;
 
             CSVCombined = new StringBuilder();
 
-            // Read all the CSVs and import them into the updater collections
+            FakeGroupID = ModSettings.highestGroupID;
+
+            // Read all the CSVs and import them into the CatalogUpdater collections
             ImportCSVs();
 
             if (CSVCombined.Length == 0)
@@ -90,18 +91,19 @@ namespace CompatibilityReport.Updater
             // Time the update process
             Stopwatch timer = Stopwatch.StartNew();
 
-            // Sort the list
-            CSVfiles.Sort();
-
+            // Track overall success and number of CSV files processed (succesful or not)
             bool overallSuccess = true;
             uint numberOfFiles = 0;
+
+            // Sort the filenames
+            CSVfiles.Sort();
 
             // Process all CSV files
             foreach (string CSVfile in CSVfiles)
             {
                 Logger.UpdaterLog($"Processing \"{ Toolkit.GetFileName(CSVfile) }\".");
 
-                // Add filename to the combined CSV file
+                // Add the filename to the combined CSV and increase the file counter
                 CSVCombined.AppendLine($"###################################################");
                 CSVCombined.AppendLine($"#### FILE: { Toolkit.GetFileName(CSVfile) }");
                 CSVCombined.AppendLine($"###################################################");
@@ -109,6 +111,7 @@ namespace CompatibilityReport.Updater
 
                 numberOfFiles++;
 
+                // assume success until proven otherwise
                 bool singleFileSuccess = true;
 
                 // Read a single CSV file
@@ -116,20 +119,21 @@ namespace CompatibilityReport.Updater
                 {
                     string line;
 
-                    // Read each line and process the command
+                    // Read each line
                     while ((line = reader.ReadLine()) != null)
                     {
-                        // Process a line
+                        // Process the line
                         if (ProcessLine(line))
                         {
-                            // Add this line to the complete list
+                            // Add this line to the combined CSV
                             CSVCombined.AppendLine(line);
                         }
                         else
                         {
-                            // Add the failed line with a comment to the complete list
+                            // Add the failed line with a comment to the combined CSV
                             CSVCombined.AppendLine("# [NOT PROCESSED] " + line);
 
+                            // Tag this file and the overall process as not fully successful
                             singleFileSuccess = false;
 
                             overallSuccess = false;
@@ -137,12 +141,12 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                // Add some space to the combined CSV file
+                // Add some space to the combined CSV
                 CSVCombined.AppendLine("");
                 CSVCombined.AppendLine("");
 
-                // Rename the processed CSV file
-                string newFileName = CSVfile + (singleFileSuccess ? ".processed.txt" : ".processed_partially.txt");
+                // Rename the processed CSV file to avoid processing it again next time
+                string newFileName = CSVfile + (singleFileSuccess ? ".processed.txt" : ".partially_processed.txt");
 
                 if (!Toolkit.MoveFile(CSVfile, newFileName))
                 {
@@ -152,14 +156,16 @@ namespace CompatibilityReport.Updater
 
             timer.Stop();
 
+            // Log number of processed files and elapsed time to updater log and regular log
             string s = numberOfFiles == 1 ? "" : "s";
 
-            // Log number of processed files and elapsed time to updater log, also to regular log
-            Logger.UpdaterLog($"{ numberOfFiles } CSV file{ s } processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" + 
-                (overallSuccess ? "." : ", with some errors."));
+            string logText = $"{ numberOfFiles } CSV file{ s } processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" +
+                (overallSuccess ? "." : ", with some errors.");
+
+            Logger.UpdaterLog(logText);
             
-            Logger.Log($"Manual Updater processed { numberOfFiles } CSV file{ s } in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" +
-                $"{ (overallSuccess ? "" : ", with some errors. Check separate logfile for details") }.", overallSuccess ? Logger.info : Logger.warning);
+            Logger.Log($"Manual Updater processed { logText }" + (overallSuccess ? "" : " Check separate logfile for details."), 
+                overallSuccess ? Logger.info : Logger.warning);
         }
 
 
@@ -175,14 +181,14 @@ namespace CompatibilityReport.Updater
             // Split the line
             string[] lineFragments = line.Split(',');
 
-            // Get the action
+            // First element: action
             string action = lineFragments[0].Trim().ToLower();
 
-            // Get the id as number (Steam ID or group ID) and as string (author custom url, exclusion category, game version string, catalog note)
+            // Second element: ID as number (Steam ID or group ID) and as string (author custom url, exclusion category, game version string, catalog note)
             string idString = lineFragments.Length < 2 ? "" : lineFragments[1].Trim();
             ulong id = Toolkit.ConvertToUlong(idString);
 
-            // Get the rest of the data, if present
+            // Third element: second ID or extraData string
             string extraData = "";
             ulong secondID = 0;
 
@@ -192,13 +198,13 @@ namespace CompatibilityReport.Updater
 
                 secondID = Toolkit.ConvertToUlong(extraData);
                 
-                // Set extraData to the 3rd element if that isn't numeric (secondID = 0), otherwise to the 4th element if available, otherwise to an empty string
+                // Fourth element (if a numeric second ID was found): extraData string
                 extraData = secondID == 0 ? extraData : (lineFragments.Length > 3 ? lineFragments[3].Trim() : "");
             }
 
             string result;
 
-            // Act on the action found with the additional data  [Todo 0.3] Check if all actions are updated in CatalogUpdater
+            // Act on the action found  [Todo 0.3] Check if all actions are updated in CatalogUpdater
             switch (action)
             {
                 case "add_mod":
@@ -225,27 +231,27 @@ namespace CompatibilityReport.Updater
                     result = ChangeModItem(action, id, extraData);
                     break;
 
+                case "add_note":
+                    // Join the lineFragments for the note, to allow for commas
+                    result = lineFragments.Length < 2 ? "Not enough parameters." :
+                        ChangeModItem(action, id, string.Join(",", lineFragments, 1, lineFragments.Length - 1).Trim());
+                    break;
+
+                case "add_requiredmod":
+                case "add_successor":
+                case "add_alternative":
+                case "remove_requiredmod":
+                case "remove_successor":
+                case "remove_alternative":
+                    result = ChangeLinkedMod(action, id, listMember: secondID);
+                    break;
+
                 case "add_reviewdate":
                 case "remove_archiveurl":
                 case "remove_sourceurl":
                 case "remove_gameversion":
                 case "remove_note":
                     result = ChangeModItem(action, id, "");
-                    break;
-
-                case "add_note":
-                    // Join the lineFragments for the note, to allow for commas
-                    result = lineFragments.Length < 2 ? "Not enough parameters." : 
-                        ChangeModItem(action, id, string.Join(",", lineFragments, 2, lineFragments.Length - 2).Trim());
-                    break;
-
-                case "add_requiredmod":
-                case "remove_requiredmod":
-                case "add_successor":
-                case "add_alternative":
-                case "remove_successor":
-                case "remove_alternative":
-                    result = ChangeLinkedMod(action, id, listMember: secondID);
                     break;
 
                 case "add_compatibility":
@@ -261,7 +267,7 @@ namespace CompatibilityReport.Updater
                 case "add_compatibilitiesforone":
                 case "add_compatibilitiesforall":
                 case "add_group":
-                    if ((lineFragments.Length < 5 && action[4] == 'c') || lineFragments.Length < 4)
+                    if (lineFragments.Length < 4)
                     {
                         result = "Not enough parameters.";
                         break;
@@ -270,23 +276,21 @@ namespace CompatibilityReport.Updater
                     // Get all line fragments as a list, converted to ulong
                     List<ulong> steamIDs = Toolkit.ConvertToUlong(lineFragments.ToList());
 
-                    // Remove the first two or three elements: action, first mod id, compatibility  /  action, group name
+                    // Remove the first two or three elements: action, first mod id, compatibility  /  action, compatibility  /  action, group name
                     steamIDs.RemoveRange(0, action == "add_compatibilitiesforone" ? 3 : 2);
 
-                    // Remove the last element if it starts with a '#', assuming a comment, but only if we keep at least two Steam IDs in the list
+                    // Remove the last element if it starts with a '#', assuming a comment
                     if (lineFragments.Last().Trim()[0] == '#') 
                     {
-                        if (steamIDs.Count < 3)
-                        {
-                            result = "Not enough parameters.";
-                            break;
-                        }
-
                         steamIDs.RemoveAt(steamIDs.Count - 1);
                     }
 
-                    // Sort the steamIDs
-                    steamIDs.Sort();
+                    // Exit if we don't have enough Steam IDs: 3 for compatibilitiesforall, otherwise 2
+                    if ((steamIDs.Count < 3 && action == "add_compatibilitiesforall") || steamIDs.Count < 2)
+                    {
+                        result = "Not enough parameters.";
+                        break;
+                    }
 
                     result = action == "add_compatibilitiesforone" ? AddCompatibilitiesForOne(id, compatibilityString: extraData, steamIDs) :
                              action == "add_compatibilitiesforall" ? AddCompatibilitiesForAll(compatibilityString: idString, steamIDs) :
@@ -977,36 +981,40 @@ namespace CompatibilityReport.Updater
                 return "Invalid group ID.";
             }
 
-            // Exit if the replacement mod isn't valid
-            if (IsValidID(replacementModID))
-            {
-                return "Invalid replacement mod.";
-            }
-
-            // Exit if the replacement mod is a member of any group
-            if (ActiveCatalog.Instance.IsGroupMember(replacementModID))
-            {
-                return "Replacement mod is a group member and shouldn't be.";
-            }
-
             // Get all mods that have this group as required mod
             List<Mod> mods = ActiveCatalog.Instance.Mods.FindAll(x => x.RequiredMods.Contains(groupID));
 
-            foreach (Mod mod in mods)
+            // Extra checks are only needed if the group is still in use. If it isn't, then replacement mod ID is irrelevant and can be zero.
+            if (mods.Count > 0)
             {
-                // Add a copy of the catalog mod to the collection if it isn't there yet
-                if (!CatalogUpdater.CollectedModInfo.ContainsKey(mod.SteamID))
+                // Exit if the replacement mod isn't valid
+                if (IsValidID(replacementModID))
                 {
-                    CatalogUpdater.CollectedModInfo.Add(mod.SteamID, Mod.Copy(mod));
+                    return "Invalid replacement mod.";
                 }
 
-                // Remove the group as required mod
-                CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Remove(groupID);
-
-                // Add the replacement mod as required mod, if it isn't there already
-                if (!CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Contains(replacementModID))
+                // Exit if the replacement mod is a member of any group
+                if (ActiveCatalog.Instance.IsGroupMember(replacementModID))
                 {
-                    CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Add(replacementModID);
+                    return "Replacement mod is a group member and shouldn't be.";
+                }
+
+                foreach (Mod mod in mods)
+                {
+                    // Add a copy of the catalog mod to the collection if it isn't there yet
+                    if (!CatalogUpdater.CollectedModInfo.ContainsKey(mod.SteamID))
+                    {
+                        CatalogUpdater.CollectedModInfo.Add(mod.SteamID, Mod.Copy(mod));
+                    }
+
+                    // Remove the group as required mod
+                    CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Remove(groupID);
+
+                    // Add the replacement mod as required mod, if it isn't there already
+                    if (!CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Contains(replacementModID))
+                    {
+                        CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Add(replacementModID);
+                    }
                 }
             }
 
@@ -1081,6 +1089,9 @@ namespace CompatibilityReport.Updater
         // Add a set of compatibilities between the first mod and each of the other mods
         private static string AddCompatibilitiesForOne(ulong steamID1, string compatibilityString, List<ulong> steamIDs)
         {
+            // Sort the steamIDs
+            steamIDs.Sort();
+
             ulong previousID = 0;
 
             // Add a compatibility between the first mod and each mod from the list  [Todo 0.3] Change to convert string-list to ulong-list and check all before adding anything
@@ -1111,6 +1122,9 @@ namespace CompatibilityReport.Updater
         // Add a set of compatibilities between each of the mods  [Todo 0.3] change this to use AddCompatibilitiesForOne
         private static string AddCompatibilitiesForAll(string compatibilityString, List<ulong> steamIDs)
         {
+            // Sort the steamIDs
+            steamIDs.Sort();
+
             // Loop from the first to the second-to-last  [Todo 0.3] Change to convert string-list to ulong-list and check all before adding anything
             for (int index1 = 0; index1 < steamIDs.Count - 1; index1++)
             {

@@ -6,10 +6,10 @@ using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
 
-// Auto Updater updates the catalog with information from the Steam Workshop pages. The following is updated/added:
-// * Mod: name, author, publish/update dates, source url, compatible game version, required DLC, required mods,
-//        statuses: incompatible according to the workshop, removed from workshop, no description, no source available (only remove when a source url is found)
-// * Author: name, last seen (only based on mod updates), retired (only remove on mod updates)
+// AutoUpdater gathers update information from the Steam Workshop pages. CatalogUpdater will then update the catalog with this. The following information is gathered:
+// * Mod: name, author, publish and update dates, source url, compatible game version (from tag only), required DLC, required mods, 
+//        statuses: incompatible according to the workshop, removed from workshop, no description, no source available (remove only, when a source url is found)
+// * Author: name, profile ID and custom url, last seen date (based on mod updates, not on comments), retired status (no mod update in 1 year; removed on new mod update)
 
 
 namespace CompatibilityReport.Updater
@@ -23,7 +23,7 @@ namespace CompatibilityReport.Updater
         // Start the auto updater; will download Steam webpages, extract info, update the active catalog and save it with a new version; including change notes
         internal static void Start()
         {
-            // Exit if we ran already, the auto updater is not enabled in settings, or if we can't get an active catalog
+            // Exit if we ran already, the auto updater is not enabled in settings, or if we don't have and can't get an active catalog
             if (hasRun || !ModSettings.AutoUpdaterEnabled || !ActiveCatalog.Init())
             {
                 return;
@@ -273,7 +273,7 @@ namespace CompatibilityReport.Updater
         // Get mod information from the individual mod pages on the Steam Workshop; we get this info for all new mods and for a maximum number of known mods
         private static bool GetDetails()
         {
-            // If the current active catalog is version 1, we're (re)building the catalog from scratch; version 2 should not include any details, so exit here
+            // If the current active catalog is version 1, we're (re)building the catalog from scratch; version 2 should not yet include any details, so exit here
             if (ActiveCatalog.Instance.Version == 1)
             {
                 Logger.UpdaterLog($"Auto Updater skipped checking individual Steam Workshop mod pages for the second catalog.");
@@ -283,7 +283,7 @@ namespace CompatibilityReport.Updater
                 return true;
             }
 
-            // If the current active catalog is version 2, we're still (re)building the catalog from scratch; version 3 is the first 'real' catalog
+            // If the current active catalog is version 2, we're still (re)building the catalog from scratch; version 3 will be the first 'full' catalog
             if (ActiveCatalog.Instance.Version == 2)
             {
                 CatalogUpdater.SetNote(ModSettings.thirdCatalogNote);

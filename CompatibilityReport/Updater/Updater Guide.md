@@ -47,7 +47,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 ### Available group actions (will not change reviewed date for included mods)
 * Add_Group, \<name\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
 * Add_GroupMember, \<group ID\>, \<mod ID\>
-* Remove_Group, \<group ID\>, \<replacement mod ID\>
+* Remove_Group, \<group ID\> [, \<replacement mod ID\>] *(replacement is mandatory if the group is still in use)*
 * Remove_GroupMember, \<group ID\>, \<mod ID\>
 
 ### Available author actions (use the author ID if the custom URL is a number)

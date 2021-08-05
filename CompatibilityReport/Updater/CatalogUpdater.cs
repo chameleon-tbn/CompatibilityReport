@@ -8,6 +8,9 @@ using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
 
+// CatalogUpdater uses information gathered by AutoUpdater and ManualUpdate to update the catalog and save this as a new version, with auto generated change notes.
+
+
 namespace CompatibilityReport.Updater
 {
     internal static class CatalogUpdater
@@ -42,39 +45,12 @@ namespace CompatibilityReport.Updater
         private static bool AutoUpdater;
 
 
-        // Initialize all variables
-        internal static void Init()
-        {
-            CollectedModInfo.Clear();
-            CollectedAuthorIDs.Clear();
-            CollectedAuthorURLs.Clear();
-            CollectedGroupInfo.Clear();
-            CollectedCompatibilities.Clear();
-            CollectedRemovals.Clear();
-
-            AuthorURLsToRemove.Clear();
-
-            // Setting the note to null instead of empty to avoid accidentally clearing the note when this field is never set
-            CatalogNote = null;
-
-            ChangeNotesNewMods = new StringBuilder();
-            ChangeNotesUpdatedMods = new StringBuilder();
-            ChangeNotesRemovedMods = new StringBuilder();
-            ChangeNotesNewAuthors = new StringBuilder();
-            ChangeNotesUpdatedAuthors = new StringBuilder();
-            ChangeNotesRemovedAuthors = new StringBuilder();
-            ChangeNotes = "";
-
-            UpdateDate = DateTime.Now;
-        }
-
-
         // Update the active catalog with the found information; returns the partial path of the new catalog
         // [Todo 0.3] Add exclusion checks in AutoUpdater and ManualUpdater
         internal static string Start(bool autoUpdater)
         {
-            // Exit if the updater is not enabled in settings
-            if (!ModSettings.UpdaterEnabled)
+            // Exit if the updater is not enabled in settings, or if we don't have and can't get an active catalog
+            if (!ModSettings.UpdaterEnabled || !ActiveCatalog.Init())
             {
                 return "";
             }
@@ -179,6 +155,33 @@ namespace CompatibilityReport.Updater
             Init();
 
             return partialPath;
+        }
+
+
+        // Initialize all variables
+        internal static void Init()
+        {
+            CollectedModInfo.Clear();
+            CollectedAuthorIDs.Clear();
+            CollectedAuthorURLs.Clear();
+            CollectedGroupInfo.Clear();
+            CollectedCompatibilities.Clear();
+            CollectedRemovals.Clear();
+
+            AuthorURLsToRemove.Clear();
+
+            // Setting the note to null instead of empty to avoid accidentally clearing the note when this field is never set
+            CatalogNote = null;
+
+            ChangeNotesNewMods = new StringBuilder();
+            ChangeNotesUpdatedMods = new StringBuilder();
+            ChangeNotesRemovedMods = new StringBuilder();
+            ChangeNotesNewAuthors = new StringBuilder();
+            ChangeNotesUpdatedAuthors = new StringBuilder();
+            ChangeNotesRemovedAuthors = new StringBuilder();
+            ChangeNotes = "";
+
+            UpdateDate = DateTime.Now;
         }
 
 
@@ -916,7 +919,7 @@ namespace CompatibilityReport.Updater
 
 
         // Set a new note for the catalog
-        internal static void SetNote(string catalogNote) => CatalogNote = catalogNote;
+        internal static void SetNote(string catalogNote) => CatalogNote = catalogNote ?? "";
 
 
         // Set an update date
