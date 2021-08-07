@@ -354,12 +354,6 @@ namespace CompatibilityReport.Updater
                 return $"Invalid Steam ID or mod already exists.";
             }
 
-            // Exit if both the author ID and URL are empty [Todo 0.3] Allow mods without author? (then check report/subscription classes; else make all params obligated)
-            if (authorID == 0 && string.IsNullOrEmpty(authorURL))
-            {
-                return "Invalid author.";
-            }
-
             // Create a new mod
             Mod newMod = new Mod(steamID, modName, authorID, authorURL);
 
@@ -643,11 +637,18 @@ namespace CompatibilityReport.Updater
                 // Add exclusion
                 ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
             }
-            else if (action == "remove_requiredmod")    // [Todo 0.3] Needs additional logic for groups that took the place of mods; maybe in CatalogUpdater?
+            else if (action == "remove_requiredmod")
             {
                 if (!newMod.RequiredMods.Contains(listMember))
                 {
-                    return "Mod is not required.";
+                    if (ActiveCatalog.Instance.IsGroupMember(listMember))
+                    {
+                        return "Mod is in a group. Try removing the group as required mod instead.";
+                    }
+                    else
+                    {
+                        return "Mod is not required.";
+                    }
                 }
 
                 newMod.RequiredMods.Remove(listMember);
@@ -1009,6 +1010,8 @@ namespace CompatibilityReport.Updater
                     {
                         CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Add(replacementModID);
                     }
+
+                    // [Todo 0.3] Update exclusions
                 }
             }
 

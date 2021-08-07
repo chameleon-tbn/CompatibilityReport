@@ -281,7 +281,7 @@ namespace CompatibilityReport.DataTypes
         // Get the group this mod is a member of
         internal Group GetGroup(ulong steamID)
         {
-            return Groups.FirstOrDefault(x => x.SteamIDs.Contains(steamID));
+            return steamID == 0 ? default : Groups.FirstOrDefault(x => x.SteamIDs.Contains(steamID));
         }
 
 
@@ -341,7 +341,7 @@ namespace CompatibilityReport.DataTypes
 
             GroupDictionary.Add(newGroupID, group);
 
-            // Change required mods in the whole catalog from a group member to the group
+            // Replace required mods in the whole catalog from a group member to the group
             foreach (ulong groupMemberID in group.SteamIDs)
             {
                 // Get all mods that have this group member as required mod
@@ -414,33 +414,70 @@ namespace CompatibilityReport.DataTypes
         // Check if an exclusion exists
         internal bool ExclusionExists(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
         {
-            return Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem) != default;
+            bool result = Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem) != default;
+
+            // If the exclusion doesn't exist, but the exclusion is about required mods, then check exclusion for group and group member(s)
+            if (!result && (category == Enums.ExclusionCategory.RequiredMod || category == Enums.ExclusionCategory.NotRequiredMod))
+            {
+                if  (IsGroupMember(subItem))
+                {
+                    // Check exclusion for the group subItem is a member of
+                    result = Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == GetGroup(subItem).GroupID) != default;
+                }
+                else if (GroupDictionary.ContainsKey(subItem))
+                {
+                    // SubItem is a group. Check exclusion for the group members. If any exist then the exclusion for the group will be considered to exist
+                    foreach(ulong groupMember in GroupDictionary[subItem].SteamIDs)
+                    {
+                        result = result || Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == groupMember) != default;
+                    }
+                }
+                    
+            }
+
+            return result;
         }
 
 
-        // Add a new exclusion to the catalog
+        // Add a new exclusion to the catalog.
         internal bool AddExclusion(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
         {
-            // Exit on a zero steam ID or an unknown category
-            if (steamID == 0 || category == Enums.ExclusionCategory.Unknown)
+            // Exit on a zero steam ID or an unknown category, or if the exclusion already exists
+            if (steamID == 0 || category == Enums.ExclusionCategory.Unknown || ExclusionExists(steamID, category, subItem))
             {
                 return false;
             }
 
             // Exit if the subitem is zero while required
-            if (subItem == 0 && (category == Enums.ExclusionCategory.RequiredDLC || category == Enums.ExclusionCategory.RequiredMod))
+            if (subItem == 0 && (category == Enums.ExclusionCategory.RequiredDLC || category == Enums.ExclusionCategory.RequiredMod || 
+                category == Enums.ExclusionCategory.NotRequiredMod))
             {
                 return false;
             }
 
-            // Exit if the exclusion already exists
-            if (ExclusionExists(steamID, category, subItem))
-            {
-                return false; 
-            }
-
             // Add exclusion
             Exclusions.Add(new Exclusion(steamID, category, subItem));
+
+            // If the exclusion is about required mods, then we need to check for groups, and add exclusions for both group and group members
+            if (category == Enums.ExclusionCategory.RequiredMod || category == Enums.ExclusionCategory.NotRequiredMod)
+            {
+                if (IsGroupMember(subItem))
+                {
+                    // SubItem is a group member. Add exclusion for the group and all members by calling AddExclusion with the group ID. This should not cause a loop.
+                    AddExclusion(steamID, category, GetGroup(subItem).GroupID);
+                }
+                else if (GroupDictionary.ContainsKey(subItem))
+                {
+                    // SubItem is a group. Add exclusion for all group members. This is done manually here and not by calling AddExclusion again, to avoid a loop.
+                    foreach (ulong groupMember in GroupDictionary[subItem].SteamIDs)
+                    {
+                        if (!ExclusionExists(steamID, category, groupMember))
+                        {
+                            Exclusions.Add(new Exclusion(steamID, category, groupMember));
+                        }
+                    }
+                }
+            }
 
             return true;
         }
@@ -459,7 +496,27 @@ namespace CompatibilityReport.DataTypes
             }
 
             // Remove the exclusion if it exists
-            return Exclusions.Remove(exclusion);
+            bool result = Exclusions.Remove(exclusion);
+
+            // If the exclusion is about required mods, then we need to check for groups, and remove exclusions for both group and group members
+            if (result && (category == Enums.ExclusionCategory.RequiredMod || category == Enums.ExclusionCategory.NotRequiredMod))
+            {
+                if (IsGroupMember(subItem))
+                {
+                    // SubItem is a group member. Remove exclusion for the group and all members by calling RemoveExclusion with the group ID. This should not cause a loop.
+                    RemoveExclusion(steamID, category, GetGroup(subItem).GroupID);
+                }
+                else if (GroupDictionary.ContainsKey(subItem))
+                {
+                    // SubItem is a group. Remove exclusion for all group members. This is done manually here and not by calling RemoveExclusion again, to avoid a loop.
+                    foreach (ulong groupMember in GroupDictionary[subItem].SteamIDs)
+                    {
+                        Exclusions.Remove(new Exclusion(steamID, category, groupMember));
+                    }
+                }
+            }
+
+            return result;
         }
 
 
