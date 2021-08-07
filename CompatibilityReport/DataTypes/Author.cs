@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using CompatibilityReport.Util;
 
@@ -26,7 +27,7 @@ namespace CompatibilityReport.DataTypes
         public bool Retired { get; private set; }
 
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
-        public string ChangeNotes { get; private set; }
+        [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
         // Indicate if the author was updated by the ManualUpdater. Only used by the updater, does not appear in the catalog.
         [XmlIgnore] internal bool ManuallyUpdated { get; private set; }
@@ -45,7 +46,7 @@ namespace CompatibilityReport.DataTypes
                         string name,
                         DateTime lastSeen = default,
                         bool retired = false,
-                        string changeNotes = "")
+                        List<string> changeNotes = null)
         {
             ProfileID = profileID;
 
@@ -57,7 +58,7 @@ namespace CompatibilityReport.DataTypes
             
             Retired = retired;
 
-            ChangeNotes = changeNotes;
+            ChangeNotes = changeNotes ?? new List<string>();
 
             // Debug messages
             if (ProfileID == 0 && string.IsNullOrEmpty(CustomURL))
@@ -82,8 +83,8 @@ namespace CompatibilityReport.DataTypes
                              string name = null,
                              DateTime? lastSeen = null,
                              bool? retired = null,
-                             string changeNotes = null,
-                             bool? updateAllFields = null)
+                             string extraChangeNote = null,
+                             bool? manuallyUpdated = null)
         {
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
 
@@ -99,10 +100,13 @@ namespace CompatibilityReport.DataTypes
 
             Retired = retired ?? Retired;
 
-            // Add a change note (on a new line) instead of replacing it
-            ChangeNotes += string.IsNullOrEmpty(changeNotes) ? "" : (string.IsNullOrEmpty(ChangeNotes) ? "" : "\n") + changeNotes;
+            // Add a change note
+            if (!string.IsNullOrEmpty(extraChangeNote))
+            {
+                ChangeNotes.Add(extraChangeNote);
+            }
 
-            ManuallyUpdated = updateAllFields ?? ManuallyUpdated;
+            ManuallyUpdated = manuallyUpdated ?? ManuallyUpdated;
 
             // Debug message
             if ((ProfileID == 0) && string.IsNullOrEmpty(CustomURL))
@@ -124,7 +128,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Copy all fields, except 'UpdateAllFields', from an author to a new author.
+        // Copy all fields, except 'ManuallyUpdated', from an author to a new author.
         internal static Author Copy(Author originalAuthor)
         {
             // Copy all value types directly
