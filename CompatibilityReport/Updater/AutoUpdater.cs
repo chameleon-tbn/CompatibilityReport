@@ -28,8 +28,6 @@ namespace CompatibilityReport.Updater
                 // Get detailed information from the individual mod pages; we get this info for all new mods and for a maximum number of known mods
                 GetDetails();
             }
-
-            Logger.UpdaterLog("Auto Updater has shutdown.", extraLine: true, duplicateToRegularLog: true);
         }
         
 
@@ -39,8 +37,7 @@ namespace CompatibilityReport.Updater
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
-            Logger.Log("Auto Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute. See separate logfile for details.");
-            Logger.UpdaterLog("Auto Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
+            Logger.UpdaterLog("Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
 
             uint totalPages = 0;
 
@@ -102,7 +99,7 @@ namespace CompatibilityReport.Updater
             // Log the elapsed time; note: >95% is download time; skipping lines with 'reader.Basestream.Seek' or stopping after 30 mods does nothing for speed
             timer.Stop();
 
-            Logger.UpdaterLog($"Auto Updater finished checking { totalPages } Steam Workshop 'mod listing' pages in " + 
+            Logger.UpdaterLog($"Updater finished checking { totalPages } Steam Workshop 'mod listing' pages in " + 
                 $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. { CatalogUpdater.CollectedModInfo.Count } mods and " + 
                 $"{ CatalogUpdater.CollectedAuthorIDs.Count + CatalogUpdater.CollectedAuthorURLs.Count } authors found.", duplicateToRegularLog: true);
 
@@ -154,18 +151,20 @@ namespace CompatibilityReport.Updater
                     // Get the author name
                     string authorName = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
 
-                    // Steam sometimes incorrectly puts the profile ID in place of the name; log if it happens. However, there are authors that actually have the ID as name
+                    // Steam sometimes incorrectly puts the profile ID in place of the name. However, there are authors that actually have the ID as name
                     if (authorName == authorID.ToString())
                     {
                         if (ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
                         {
                             if (ActiveCatalog.Instance.AuthorIDDictionary[authorID].Name != authorID.ToString())
                             {
+                                // Log this for an author that has a different name in the catalog
                                 Logger.UpdaterLog($"Author found in HTML with profile ID as name ({ authorID }). This could be a Steam error.", Logger.warning);
                             }
                         }
                         else
                         {
+                            // Log this for a newly found author
                             Logger.UpdaterLog($"Author found in HTML with profile ID as name ({ authorID }). This could be a Steam error.", Logger.warning);
                         }
                     }
@@ -254,10 +253,10 @@ namespace CompatibilityReport.Updater
         // Get mod information from the individual mod pages on the Steam Workshop; we get this info for all new mods and for a maximum number of known mods
         private static void GetDetails()
         {
-            // If the current active catalog is version 1, we're (re)building the catalog from scratch; version 2 should not yet include any details, so exit here
+            // If the current active catalog is version 1, we're (re)building the catalog from scratch. Version 2 should not yet include any details, so exit here.
             if (ActiveCatalog.Instance.Version == 1)
             {
-                Logger.UpdaterLog($"Auto Updater skipped checking individual Steam Workshop mod pages for the second catalog.");
+                Logger.UpdaterLog($"Updater skipped checking individual Steam Workshop mod pages for the second catalog.", duplicateToRegularLog: true);
 
                 CatalogUpdater.SetNote(ModSettings.secondCatalogNote);
 
@@ -280,9 +279,9 @@ namespace CompatibilityReport.Updater
             Stopwatch timer = Stopwatch.StartNew();
 
             // Estimated time in milliseconds is about half a second per download
-            long estimated = 550 * CatalogUpdater.CollectedModInfo.Count;
+            long estimated = 500 * CatalogUpdater.CollectedModInfo.Count;
 
-            Logger.UpdaterLog($"Auto Updater started checking individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.", 
+            Logger.UpdaterLog($"Updater started checking individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.", 
                 duplicateToRegularLog: true);
 
             // Initialize counters
@@ -345,7 +344,7 @@ namespace CompatibilityReport.Updater
             // Log the elapsed time
             timer.Stop();
 
-            Logger.UpdaterLog($"Auto Updater finished downloading { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
+            Logger.UpdaterLog($"Updater finished downloading { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.", duplicateToRegularLog: true);
         }
 
@@ -502,7 +501,7 @@ namespace CompatibilityReport.Updater
                         }
                     }
 
-                    // Required mods and assets
+                    // Required mods (and assets)
                     else if (line.Contains(ModSettings.steamModPageRequiredModFind))
                     {
                         // Try to find required mods until we find no more; max. 50 times to avoid infinite loops on code errors
@@ -529,7 +528,7 @@ namespace CompatibilityReport.Updater
                                 break;
                             }
 
-                            // Add the required mod
+                            // Add the required mod (or asset)
                             mod.RequiredMods.Add(requiredID);
 
                             // Skip three lines
@@ -598,19 +597,24 @@ namespace CompatibilityReport.Updater
         // Get the source URL; if more than one is found, pick the most likely; this is not foolproof and will need a manual update for some
         private static string GetSourceURL(string line, ulong steamID)
         {
-            string sourceURL = Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
+            string sourceURL = "https://github.com/" + Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
 
-            // Exit if we find none
-            if (string.IsNullOrEmpty(sourceURL))
+            // Exit if we found no source url
+            if (sourceURL == "https://github.com/")
             {
                 return null;
             }
 
-            // Complete the url and get ready to find another
-            sourceURL = "https://github.com/" + sourceURL;
+            // Some common source url's to always ignore
+            string pardeike  = "https://github.com/pardeike";
+            string sschoener = "https://github.com/sschoener/cities-skylines-detour";
 
+            // Keep track of discarded source url's
+            string discardedURLs = "";
+            string discardedSeparator = "\n                                                                            Discarded: ";
+
+            // Prepare to find another source url
             string secondSourceURL;
-
             uint tries = 0;
 
             // Keep comparing source url's until we find no more; max. 50 times to avoid infinite loops on code errors
@@ -623,31 +627,55 @@ namespace CompatibilityReport.Updater
                 line = line.Substring(index, line.Length - index);
 
                 // Get the second source url
-                secondSourceURL = Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
+                secondSourceURL = "https://github.com/" + Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
 
                 // Decide which source url to use if a second source url was found and both url's are not identical
-                if (!string.IsNullOrEmpty(secondSourceURL) && sourceURL != "https://github.com/" + secondSourceURL)
+                if (secondSourceURL != "https://github.com/" && sourceURL.ToLower() != secondSourceURL.ToLower())
                 {
-                    secondSourceURL = "https://github.com/" + secondSourceURL;
-
-                    string lower = sourceURL.ToLower();
-
-                    // We want an url without 'issue', 'wiki', 'documentation', 'readme', 'guide', 'translation', pardeike's Harmony or Sschoener's detour
-                    if (lower.Contains("issue") || lower.Contains("wiki") || lower.Contains("documentation") || lower.Contains("readme") || lower.Contains("guide")
-                        || lower.Contains("translation") 
-                        || lower.Contains("https://github.com/pardeike") || lower.Contains("https://github.com/sschoener/cities-skylines-detour"))
+                    // Discard a new source url with pardeike's Harmony or Sschoener's detour
+                    if (secondSourceURL.ToLower().Contains(pardeike) || secondSourceURL.ToLower().Contains(sschoener))
                     {
-                        // Keep the new
-                        Logger.UpdaterLog($"Found multiple source url's for [Steam ID { steamID, 10 }]: \"{ secondSourceURL }\" (kept) and \"{ sourceURL }\" (discarded)");
+                        continue;
+                    }
+
+                    string firstSourceURL = sourceURL.ToLower();
+
+                    // Discard a first source url with pardeike's Harmony or Sschoener's detour
+                    if (firstSourceURL.Contains(pardeike) || firstSourceURL.Contains(sschoener))
+                    {
+                        // Keep the new without logging the old
+                        sourceURL = secondSourceURL;
+                    }
+                    // We prefer an url without 'issue', 'wiki', 'documentation', 'readme', 'guide', 'translation'
+                    else if (firstSourceURL.Contains("issue") || firstSourceURL.Contains("wiki") || firstSourceURL.Contains("documentation") 
+                        || firstSourceURL.Contains("readme") || firstSourceURL.Contains("guide") || firstSourceURL.Contains("translation"))
+                    {
+                        // Keep the new and add the previous to the discarded list. The new URL could also have one of these keywords in it.
+                        discardedURLs += discardedSeparator + sourceURL;
 
                         sourceURL = secondSourceURL;
                     }
                     else
                     {
-                        // Keep the previous; keep finding the rest for complete logging of all source url's found
-                        Logger.UpdaterLog($"Found multiple source url's for [Steam ID { steamID, 10 }]: \"{ sourceURL }\" (kept) and \"{ secondSourceURL }\" (discarded)");
+                        // Keep the previous and add the new to the discarded list
+                        discardedURLs += discardedSeparator + secondSourceURL;
                     }
                 }
+            }
+
+            // Discard a source url with pardeike's Harmony or Sschoener's detour
+            if (sourceURL.Contains(pardeike) || sourceURL.Contains(sschoener))
+            {
+                sourceURL = null;
+            }
+
+            // Log the kept and discarded source URLs, if the kept source URL is different from the one in the catalog
+            string currentSourceURL = ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) ? ActiveCatalog.Instance.ModDictionary[steamID].SourceURL : "";
+
+            if (!string.IsNullOrEmpty(discardedURLs) && sourceURL != currentSourceURL)
+            {
+                Logger.UpdaterLog($"Found multiple source url's for [Steam ID { steamID,10 }]. Selected: { (string.IsNullOrEmpty(sourceURL) ? "none" : sourceURL) }" + 
+                    discardedURLs);
             }
 
             return sourceURL;

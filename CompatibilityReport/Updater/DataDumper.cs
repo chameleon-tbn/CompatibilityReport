@@ -15,16 +15,19 @@ namespace CompatibilityReport.Updater
     {
         internal static void Start()
         {
+            // Exit if the updater is not enabled
             if (!ModSettings.UpdaterEnabled)
             {
                 return;
             }
 
+            // Exit if we don't have and can't get an active catalog
             if (!ActiveCatalog.Init()) 
             {
                 return; 
             }
 
+            // Dump all relevant data
             DumpRequiredMods();
 
             DumpAuthorsWithMultipleMods();

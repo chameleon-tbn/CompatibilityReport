@@ -22,16 +22,15 @@ namespace CompatibilityReport.Updater
         // Start the manual updater. Should only be called from CatalogUpdater.
         internal static void Start()
         {
-            // If the current active catalog is version 1 or 2, we're (re)building the catalog from scratch; wait with manual updates until version 3 is done
+            // If the current active catalog is version 1 or 2, we're (re)building the catalog from scratch. Wait with manual updates until version 3 is done.
             if (ActiveCatalog.Instance.Version < 3)
             {
-                Logger.UpdaterLog($"ManualUpdater skipped.", extraLine: true);
+                Logger.UpdaterLog("Updater skipped importing CSV files until catalog version 3 is created.");
 
                 return;
             }
 
-            Logger.Log("Manual Updater started. See separate logfile for details.");
-            Logger.UpdaterLog("Manual Updater started.");
+            Logger.UpdaterLog("Updater started the CSV import.", duplicateToRegularLog: true);
 
             fakeGroupID = ModSettings.highestGroupID;
 
@@ -42,8 +41,6 @@ namespace CompatibilityReport.Updater
             {
                 Logger.UpdaterLog("No CSV files found.", duplicateToRegularLog: true);
             }
-
-            Logger.UpdaterLog("Manual Updater has shutdown.", extraLine: true, duplicateToRegularLog: true);
         }
 
 
@@ -116,12 +113,19 @@ namespace CompatibilityReport.Updater
                 CatalogUpdater.CSVCombined.AppendLine("");
                 CatalogUpdater.CSVCombined.AppendLine("");
 
-                // Rename the processed CSV file to avoid processing it again next time
-                string newFileName = CSVfile + (singleFileSuccess ? ".processed.txt" : ".partially_processed.txt");
-
-                if (!Toolkit.MoveFile(CSVfile, newFileName))
+                // Rename the processed CSV file to avoid processing it again next time; don't rename in debug mode
+                if (ModSettings.DebugMode)
                 {
-                    Logger.UpdaterLog($"Could not rename \"{ Toolkit.GetFileName(CSVfile) }\". Rename or delete it manually to avoid processing it again.", Logger.error);
+                    Logger.UpdaterLog($"\"{ Toolkit.GetFileName(CSVfile) }\" not renamed due to debug mode. Rename or delete it manually to avoid processing it again.");
+                }
+                else
+                {
+                    string newFileName = CSVfile + (singleFileSuccess ? ".processed.txt" : ".partially_processed.txt");
+
+                    if (!Toolkit.MoveFile(CSVfile, newFileName))
+                    {
+                        Logger.UpdaterLog($"Could not rename \"{ Toolkit.GetFileName(CSVfile) }\". Rename or delete it manually to avoid processing it again.", Logger.error);
+                    }
                 }
             }
 
@@ -134,9 +138,8 @@ namespace CompatibilityReport.Updater
                 (overallSuccess ? "." : ", with some errors.");
 
             Logger.UpdaterLog(logText);
-            
-            Logger.Log($"Manual Updater processed { logText }" + (overallSuccess ? "" : " Check separate logfile for details."), 
-                overallSuccess ? Logger.info : Logger.warning);
+
+            Logger.Log($"{ logText }" + (overallSuccess ? "" : " Check separate logfile for details."), overallSuccess ? Logger.info : Logger.warning);
         }
 
 
@@ -211,9 +214,11 @@ namespace CompatibilityReport.Updater
                 case "add_requiredmod":
                 case "add_successor":
                 case "add_alternative":
+                case "add_recommendation":
                 case "remove_requiredmod":
                 case "remove_successor":
                 case "remove_alternative":
+                case "remove_recommendation":
                     result = ChangeLinkedMod(action, id, listMember: secondID);
                     break;
 
@@ -238,7 +243,9 @@ namespace CompatibilityReport.Updater
                 case "add_compatibilitiesforone":
                 case "add_compatibilitiesforall":
                 case "add_group":
-                    if (lineFragments.Length < 4)
+                case "add_requiredassets":
+                case "remove_requiredassets":
+                    if ((action.Contains("requiredassets") && lineFragments.Length < 2) || (!action.Contains("assets") && lineFragments.Length < 4))
                     {
                         result = "Not enough parameters.";
                         break;
@@ -247,8 +254,8 @@ namespace CompatibilityReport.Updater
                     // Get all line fragments as a list, converted to ulong
                     List<ulong> steamIDs = Toolkit.ConvertToUlong(lineFragments.ToList());
 
-                    // Remove the first two or three elements: action, first mod id, compatibility  /  action, compatibility  /  action, group name
-                    steamIDs.RemoveRange(0, action == "add_compatibilitiesforone" ? 3 : 2);
+                    // Remove the first one to three elements: action, first mod id, compatibility  /  action, compatibility  /  action, group name  /  action
+                    steamIDs.RemoveRange(0, action == "add_compatibilitiesforone" ? 3 : action.Contains("requiredassets") ? 1 : 2);
 
                     // Remove the last element if it starts with a '#', assuming a comment
                     if (lineFragments.Last().Trim()[0] == '#') 
@@ -256,8 +263,8 @@ namespace CompatibilityReport.Updater
                         steamIDs.RemoveAt(steamIDs.Count - 1);
                     }
 
-                    // Exit if we don't have enough Steam IDs: 3 for compatibilitiesforall, otherwise 2
-                    if ((steamIDs.Count < 3 && action == "add_compatibilitiesforall") || steamIDs.Count < 2)
+                    // Exit if we don't have enough Steam IDs: 3 for compatibilitiesforall, 1 for requiredassets, 2 for the others
+                    if (steamIDs.Count < (action == "add_compatibilitiesforall" ? 3 : action.Contains("requiredassets") ? 1 : 2))
                     {
                         result = "Not enough parameters.";
                         break;
@@ -265,7 +272,8 @@ namespace CompatibilityReport.Updater
 
                     result = action == "add_compatibilitiesforone" ? AddCompatibilitiesForOne(id, compatibilityString: extraData, steamIDs) :
                              action == "add_compatibilitiesforall" ? AddCompatibilitiesForAll(compatibilityString: idString, steamIDs) :
-                             AddGroup(groupName: idString, groupMembers: steamIDs);
+                             action == "add_group" ? AddGroup(groupName: idString, groupMembers: steamIDs) :
+                             action == "add_requiredassets" ? AddRequiredAssets(steamIDs) : RemoveRequiredAssets(steamIDs);
                     break;
 
                 case "remove_group":
@@ -620,14 +628,14 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_requiredmod")
             {
-                if (!IsValidID(listMember, allowGroup: true))
-                {
-                    return $"Invalid Steam ID { listMember }.";
-                }
-
                 if (newMod.RequiredMods.Contains(listMember))
                 {
                     return "Mod is already required.";
+                }
+
+                if (ActiveCatalog.Instance.IsGroupMember(listMember))
+                {
+                    return "Mod is in a group. Add the group as required mod instead.";
                 }
 
                 newMod.RequiredMods.Add(listMember);
@@ -642,22 +650,21 @@ namespace CompatibilityReport.Updater
                     return "Mod is not required.";
                 }
 
-                if (!ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.RequiredMod, listMember))
-                {
-                    return "Cannot remove required mod because it was not manually added.";
-                }
-
                 newMod.RequiredMods.Remove(listMember);
 
-                ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
+                if (ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.RequiredMod, listMember))
+                {
+                    // Remove the existing exclusion; this required mod was manually added before
+                    ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
+                }
+                else
+                {
+                    // Add an exclusion for not requiring this mod; this required mod was found by the AutoUpdater  [Todo 0.3] requires exclusion check in autoupdater/catalogupdater
+                    ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.NotRequiredMod, listMember);
+                }
             }
             else if (action == "add_successor")
             {
-                if (!IsValidID(listMember))
-                {
-                    return $"Invalid Steam ID { listMember }.";
-                }
-
                 if (newMod.Successors.Contains(listMember))
                 {
                     return "Already a successor.";
@@ -676,11 +683,6 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_alternative")
             {
-                if (!IsValidID(listMember))
-                {
-                    return $"Invalid Steam ID { listMember }.";
-                }
-
                 if (newMod.Alternatives.Contains(listMember))
                 {
                     return "Already an alternative mod.";
@@ -696,6 +698,24 @@ namespace CompatibilityReport.Updater
                 }
 
                 newMod.Alternatives.Remove(listMember);
+            }
+            else if (action == "add_recommendation")
+            {
+                if (newMod.Recommendations.Contains(listMember))
+                {
+                    return "Already an recommended mod.";
+                }
+
+                newMod.Recommendations.Add(listMember);
+            }
+            else if (action == "remove_recommendation")
+            {
+                if (!newMod.Recommendations.Contains(listMember))
+                {
+                    return "Recommended mod not found.";
+                }
+
+                newMod.Recommendations.Remove(listMember);
             }
             else
             {
@@ -902,7 +922,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Indicate that all fields for this author should be updated by the CatalogUpdater.
-            newAuthor.Update(updateAllFields: true);
+            newAuthor.Update(manuallyUpdated: true);
 
             return "";
         }
@@ -1239,6 +1259,41 @@ namespace CompatibilityReport.Updater
             }
 
             return result;
+        }
+
+
+        // Add required assets to the catalog list of assets
+        private static string AddRequiredAssets(List<ulong> steamIDs)
+        {
+            foreach (ulong steamID in steamIDs)
+            {
+                if (!IsValidID(steamID, allowBuiltin: false, shouldNotExist: true))
+                {
+                    return $"Invalid Steam ID { steamID }.";
+                }
+
+                // If the asset is already in the list, then just ignore it without error
+                if (!ActiveCatalog.Instance.Assets.Contains(steamID))
+                {
+                    // Add the asset directly to the catalog. No need to show this in the change notes.
+                    ActiveCatalog.Instance.Assets.Add(steamID);
+                }
+            }
+
+            return "";
+        }
+
+
+        // Remove required assets from the catalog list of assets
+        private static string RemoveRequiredAssets(List<ulong> steamIDs)
+        {
+            foreach (ulong steamID in steamIDs)
+            {
+                // Remove the asset directly from the catalog. If the asset is not in the list, then just ignore it without error
+                ActiveCatalog.Instance.Assets.Remove(steamID);
+            }
+
+            return "";
         }
 
 

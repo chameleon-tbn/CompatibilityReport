@@ -1,8 +1,14 @@
 # Compatibility Report
 
-### Version 0.2   - Catalog auto updater
-...
-* Renamed from Mod Checker to Compatibility Report
+### Version 0.3   - Catalog manual updater
+* Catalog manual updater method, based on CSV import
+  - Imports new and changed Mods, Authors, Groups and Compatibilities
+  - Support for Exclusions, so manual changes are not overwritten by the auto updater
+  - Updater Guide created for easier sharing or taking over of mod support in the future
+* Auto updater enhanced:
+  - Detection of author retirement
+* Mod renamed to Compatibility Report
+* First catalogs rebuilt because of mod rename
 
 ### Version 0.2   - Catalog auto updater
 * Catalog auto updater method, based on web crawling the Steam Workshop

@@ -77,7 +77,7 @@ namespace CompatibilityReport.Util
                         // Indicate were the old info went if append was chosen but the file exceeded max. size
                         if (append)
                         {
-                            WriteLine($"Older info moved to \"{ Toolkit.PrivacyPath(fileName) }.old\".");
+                            WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".");
 
                             WriteLine(ModSettings.sessionSeparator);
                         }

@@ -18,10 +18,10 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            DateTime now = DateTime.Now;
+            DateTime updateDate = DateTime.Now;
 
             // Create a new catalog
-            Catalog firstCatalog = new Catalog(1, now, ModSettings.firstCatalogNote);
+            Catalog firstCatalog = new Catalog(1, updateDate, ModSettings.firstCatalogNote);
 
             // The filename for the catalog and change notes
             string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ firstCatalog.VersionString() }");
@@ -37,33 +37,29 @@ namespace CompatibilityReport.Updater
 
             DateTime gameRelease = DateTime.Parse("2015-03-10");
 
-            string modNotes = $"Added by Updater on { Toolkit.DateString(now) }.";
+            string modNotes = $"Added on { Toolkit.DateString(updateDate) }.";
 
             string changeNotes = "";
 
             foreach (KeyValuePair<string, ulong> modVP in ModSettings.BuiltinMods)
             {
-                Mod mod = firstCatalog.AddMod(modVP.Value, modVP.Key, published: gameRelease, statuses: sourceBundled, reviewUpdated: now, changeNotes: modNotes);
+                Mod mod = firstCatalog.AddMod(steamID: modVP.Value, name: modVP.Key, published: gameRelease, statuses: sourceBundled,
+                    reviewUpdated: updateDate, autoReviewUpdated: updateDate, changeNoteString: modNotes);
 
                 changeNotes += $"New mod { mod.ToString(cutOff: false) }\n";
             }
-
-            // Add author
-            Author author = firstCatalog.AddAuthor(76561198031001669, "finwickle", "Finwickle", lastSeen: now, retired: false, changeNotes: modNotes);
-
-            changeNotes += $"New author { author.ToString() }\n";
 
             // Save the catalog as 'CompatibilityReportCatalog_v1.0001.xml' and save the change notes in the same folder
             if (firstCatalog.Save(partialPath + ".xml"))
             {
                 Toolkit.SaveToFile($"Change Notes for Catalog { firstCatalog.VersionString() }\n" +
                     "-------------------------------\n" +
-                    $"{ now:D}, { now:t}\n" + 
+                    $"{ updateDate:D}, { updateDate:t}\n" + 
+                    "These change notes were automatically created by the updater process.\n" +
+                    "\n" +
                     "\n" +
                     "*** ADDED: ***\n" +
-                    changeNotes +
-                    "\n" +
-                    "*** The change notes were automatically created by the FirstCatalog process ***",
+                    changeNotes, 
                     partialPath + "_ChangeNotes.txt");
             }
         }

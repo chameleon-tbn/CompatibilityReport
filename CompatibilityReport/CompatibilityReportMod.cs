@@ -35,6 +35,7 @@ namespace CompatibilityReport
         // OnEnabled is called early during game startup, and when the mod is enabled manually; subscriptions are not yet available at this stage
         public void OnEnabled()
         {
+            // Debug message
             Logger.Log("OnEnabled called.", Logger.debug);
 
             // Create the first catalog; will only run if the updater is enabled and catalog v#.0001 doesn't exist yet
@@ -55,6 +56,7 @@ namespace CompatibilityReport
             // Check in which phase of game loading we are
             string scene = SceneManager.GetActiveScene().name;
 
+            // Debug message
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.debug);
 
             // Start the scan and create the report(s); will only be done once and only in the allowed scene
@@ -68,6 +70,7 @@ namespace CompatibilityReport
         // OnDisabled is called when the mod is disabled in the Content Manager, or when the mod is updated while the game is running        
         public void OnDisabled()
         {
+            // Debug message
             Logger.Log("OnDisabled called.", Logger.debug);
 
             // Clean up; mostly freeing some memory

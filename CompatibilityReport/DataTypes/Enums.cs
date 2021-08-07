@@ -64,7 +64,8 @@
             GameVersion,
             NoDescription,
             RequiredDLC,
-            RequiredMod
+            RequiredMod,
+            NotRequiredMod
         }
 
 
