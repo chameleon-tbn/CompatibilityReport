@@ -2,13 +2,13 @@
 
 The ManualUpdater updates the catalog with manual changes and additions. It complements the AutoUpdater, which gathers information by crawling the Steam Workshop, including mod name, author, published/update dates, required DLC/mods, source URL, compatible game version and some statuses (removed from workshop, no description, author retirement). The ManualUpdater complements this with information that cannot be found by an automated proces, like compatibility information and suggestions for successor or alternative mods. It also allows the creation of groups to replace a required mod.
 
-The ManualUpdater gathers its information from CSV files. These should be placed in the Updater folder where the updated catalogs are written as well. Update actions can be bundled in one CSV file or split into multiple files. Multiple files will be read in alphabetical order. Filenames are not relevant, but should end in .csv. After updating, the processed CSV files will be combined into one file with the name of the new catalog and ending in '_ManualUpdates.txt'. The processed CSV files are then renamed to .txt to avoid duplicate additions to the catalog on a next updater run.
+The ManualUpdater gathers its information from CSV files. These should be placed in the Updater folder where the updated catalogs are written as well. Update actions can be bundled in one CSV file or split into multiple files. Multiple files will be read in alphabetical order. Filenames are not relevant, but should end in .csv. After updating, the processed CSV files will be combined into one file with the name of the new catalog and ending in '_ManualUpdates.csv.txt'. The processed CSV files are then renamed to .txt to avoid duplicate additions to the catalog on a next updater run.
 
 Groups are used for mod requirements. A group will replace every group member as required mod, both for current mod requirements in the catalog and for mod requirements for new mods found in the future. For example, a group with both a stable and test version of the same mod, will accept the test version as valid if the stable version is set as required mod. This prevents unjustified 'required mod not found' messages in the report. A mod can only be a member of one group, and the ManualUpdater cannot remove a mod from one group and add it to another in the same update run. Groups cannot be used for compatibilities, successors or alternatives. Group IDs are automaticaly assigned.
 
 The lines in the CSV files all start with an action, often followed by a steam ID (for the mod, group or author), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the AutoUpdater from overwriting these manual updates. Actions and parameters are not case sensitive (except for names etc. that appears in reports). Commas are the only allowed separators and spaces around the separators are ignored. Commas in mod name and notes are supported.
 
-Lines starting with a '#' are considered comments and will be ignored by the updater. They will be copied to the combined file. Extra parameters not used on an action will be ignored as well and can be used for comments (except for Add_Mod, Add_Note and Add_CatalogNote).
+Lines starting with a '#' are considered comments and will be ignored by the updater. They will be copied to the combined file. Comments can also be added at the end of any action other than Add_Mod, Add_Note and Add_CatalogNote, as an extra parameter (so use a comma to separate them), but they have to start with a '#' and can't contain a comma themselves.
 
 ### Available mod actions
 Parameters enclosed in square brackets are optional. The symbol :zap: means an exclusion will be created.
@@ -20,6 +20,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
+* Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
 * Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription and SourceUnavailable status)*
   * *Adding a SourceUnavailable status will remove the SourceURL from the mod*
 * Add_Note, \<mod ID\>, \<text\> *(this will add the text to the end of the note, if a note already exists)*
@@ -29,9 +30,10 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_SourceURL, \<mod ID\> :zap:
 * Remove_GameVersion, \<mod ID\> *(only works if an exclusion exists)*
 * Remove_RequiredDLC, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*
-* Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\> *(only works if an exclusion exists)*
+* Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\>
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
+* Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
 * Remove_Status, \<mod ID\>, \<status string\>
 * Remove_Note, \<mod ID\>
 
@@ -67,6 +69,9 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_CatalogNote
 * UpdateDate, \<date: yyyy-mm-dd\> 
   * *Used as review update date; uses 'now' if omitted*
+* Add_RequiredAssets, \<mod ID\> [, \<mod ID\>, ...]
+  * *Only needed to differentiate between a required asset and a required mod that isn't in the catalog*
+* Remove_RequiredAssets, \<mod ID\> [, \<mod ID\>, ...]
 
 
-*See https://github.com/Finwickle/ModChecker/blob/dev/ModChecker/DataTypes/Enums.cs for available status, compatibility and DLC strings.*  [Todo 0.3] change url to main
+*See https://github.com/Finwickle/CompatibilityReport/blob/dev/CompatibilityReport/DataTypes/Enums.cs for available status, compatibility and DLC strings.*  [Todo 0.3] change url to main

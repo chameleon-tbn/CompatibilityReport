@@ -9,7 +9,7 @@ using CompatibilityReport.Util;
 namespace CompatibilityReport.DataTypes
 {
     // Needs to be public for XML serialization
-    [XmlRoot(ModSettings.xmlRoot)] public class Catalog
+    [Serializable][XmlRoot(ModSettings.xmlRoot)] public class Catalog
     {
         // Catalog structure version (major version); will only change on structural changes in the xml that make it incompatible with a previous structure version
         public uint StructureVersion { get; private set; }
@@ -20,7 +20,7 @@ namespace CompatibilityReport.DataTypes
         public DateTime UpdateDate { get; private set; }
 
         // Game version this catalog was created for; 'Version' is not serializable, so a converted string is used
-        [XmlIgnore] public Version CompatibleGameVersion { get; private set; }
+        [XmlIgnore] internal Version CompatibleGameVersion { get; private set; }
         public string CompatibleGameVersionString { get; private set; }
 
         // A note about the catalog, displayed in the report header
@@ -43,20 +43,23 @@ namespace CompatibilityReport.DataTypes
         // Update-exclusions; these prevent certain changes by the AutoUpdater
         public List<Exclusion> Exclusions { get; private set; } = new List<Exclusion>();
 
+        // Assets that show up as required items; listed to see the difference between a required asset and a required mod we don't know (unlisted or removed mod)
+        [XmlArrayItem("SteamID")] public List<ulong> Assets { get; private set; } = new List<ulong>();
+
 
         // Dictionaries to make searching easier and faster
-        [XmlIgnore] public Dictionary<ulong, Mod> ModDictionary { get; private set; } = new Dictionary<ulong, Mod>();
+        [XmlIgnore] internal Dictionary<ulong, Mod> ModDictionary { get; private set; } = new Dictionary<ulong, Mod>();
         
-        [XmlIgnore] public Dictionary<ulong, Group> GroupDictionary { get; private set; } = new Dictionary<ulong, Group>();
+        [XmlIgnore] internal Dictionary<ulong, Group> GroupDictionary { get; private set; } = new Dictionary<ulong, Group>();
 
-        [XmlIgnore] public Dictionary<ulong, Author> AuthorIDDictionary { get; private set; } = new Dictionary<ulong, Author>();
+        [XmlIgnore] internal Dictionary<ulong, Author> AuthorIDDictionary { get; private set; } = new Dictionary<ulong, Author>();
 
-        [XmlIgnore] public Dictionary<string, Author> AuthorURLDictionary { get; private set; } = new Dictionary<string, Author>();
+        [XmlIgnore] internal Dictionary<string, Author> AuthorURLDictionary { get; private set; } = new Dictionary<string, Author>();
 
 
         // The total number of mods in the catalog
-        [XmlIgnore] public int Count { get; private set; }
-        [XmlIgnore] public int ReviewCount { get; private set; }
+        [XmlIgnore] internal int Count { get; private set; }
+        [XmlIgnore] internal int ReviewCount { get; private set; }
 
 
         // Default constructor, used when creating an empty catalog for reading from disk
@@ -67,11 +70,11 @@ namespace CompatibilityReport.DataTypes
 
 
         // Constructor with 3 to 5 parameters, used when creating a new catalog
-        public Catalog(uint version,
-                       DateTime updateDate,
-                       string note,
-                       string reportIntroText = null,
-                       string reportFooterText = null)
+        internal Catalog(uint version,
+                         DateTime updateDate,
+                         string note,
+                         string reportIntroText = null,
+                         string reportFooterText = null)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
@@ -92,8 +95,8 @@ namespace CompatibilityReport.DataTypes
 
 
         // Constructor with all parameters, used when converting an old catalog
-        public Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
-            List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<Exclusion> updateExclusions)
+        internal Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
+            List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<Exclusion> exclusions, List<ulong> assets)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
@@ -119,7 +122,9 @@ namespace CompatibilityReport.DataTypes
 
             Authors = modAuthors ?? new List<Author>();
 
-            Exclusions = updateExclusions ?? new List<Exclusion>();
+            Exclusions = exclusions ?? new List<Exclusion>();
+
+            Assets = assets ?? new List<ulong>();
         }
 
 
@@ -142,7 +147,7 @@ namespace CompatibilityReport.DataTypes
 
 
         // Catalog version string, for reporting and logging
-        public string VersionString() => $"{ StructureVersion }.{ Version:D4}";
+        internal string VersionString() => $"{ StructureVersion }.{ Version:D4}";
 
 
         // Increase the version with a new update date (defaults to now); used for the Updater
@@ -183,14 +188,14 @@ namespace CompatibilityReport.DataTypes
                             string compatibleGameVersionString = null,
                             List<Enums.DLC> requiredDLC = null,
                             List<ulong> requiredMods = null,
-                            List<ulong> requiredAssets = null,
                             List<ulong> successors = null,
                             List<ulong> alternatives = null,
+                            List<ulong> recommendations = null,
                             List<Enums.ModStatus> statuses = null,
                             string note = null,
                             DateTime? reviewUpdated = null,
                             DateTime? autoReviewUpdated = null,
-                            string changeNotes = null)
+                            string changeNoteString = null)
         {
             // Create a new mod
             Mod mod = new Mod(steamID, name, authorID, authorURL);
@@ -210,9 +215,17 @@ namespace CompatibilityReport.DataTypes
                 Logger.Log($"Tried to add mod [{ steamID }] while it already existed. Updating existing mod instead.", Logger.error);
             }
 
+            // Create change notes list
+            List<string> changeNotes = new List<string>();
+
+            if (!string.IsNullOrEmpty(changeNoteString))
+            {
+                changeNotes.Add(changeNoteString);
+            }
+
             // Add all info to the mod
             mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods,
-                requiredAssets, successors, alternatives, statuses, note, reviewUpdated, autoReviewUpdated, changeNotes);
+                successors, alternatives, recommendations, statuses, note, reviewUpdated, autoReviewUpdated, changeNotes);
 
             // Return a reference to the new mod
             return mod;
@@ -225,7 +238,7 @@ namespace CompatibilityReport.DataTypes
                                   string name,
                                   DateTime lastSeen = default,
                                   bool retired = false,
-                                  string changeNotes = "")
+                                  string changeNoteString = null)
         {
             if (AuthorIDDictionary.ContainsKey(authorID) || AuthorURLDictionary.ContainsKey(authorURL ?? "")) 
             {
@@ -235,6 +248,14 @@ namespace CompatibilityReport.DataTypes
                 return null;
             }
 
+            // Create change notes list
+            List<string> changeNotes = new List<string>();
+
+            if (!string.IsNullOrEmpty(changeNoteString))
+            {
+                changeNotes.Add(changeNoteString);
+            }
+            
             // Create a new author
             Author author = new Author(authorID, authorURL, name, lastSeen, retired, changeNotes);
 

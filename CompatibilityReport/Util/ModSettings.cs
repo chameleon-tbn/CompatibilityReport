@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "164";
+        internal const string build = "165";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -70,7 +70,7 @@ namespace CompatibilityReport.Util
 
         // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
         internal const string modName = "Compatibility Report";                                             // used in report filename, reporting and logging
-        internal const string displayName = modName + " " + version + " " + releaseType;                    // used in game options, Content Manager and AssemblyInfo
+        internal const string displayName = modName + " v" + version + " " + releaseType;                   // used in game options, Content Manager and AssemblyInfo
         internal const string internalName = "CompatibilityReport";                                         // used in filenames, xmlRoot and game log
 
         // Mod description, shown in Content Manager; used in AssemblyInfo, must be a constant
@@ -111,8 +111,8 @@ namespace CompatibilityReport.Util
         internal static readonly string logfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
 
         // Report filename (with spaces), without path
-        internal static readonly string reportTextFileName = $"{ modName } Report.txt";
-        internal static readonly string reportHtmlFileName = $"{ modName } Report.html";
+        internal static readonly string reportTextFileName = $"{ modName }.txt";
+        internal static readonly string reportHtmlFileName = $"{ modName }.html";
 
         // Bundled Catalog location: in the same location as the mod itself (set in constructor)
         internal static readonly string bundledCatalogFullPath;
@@ -152,26 +152,26 @@ namespace CompatibilityReport.Util
         // Default text report intro and footer
         internal static readonly string defaultIntroText =
                        "Basic information about mods:\n" +
-            bullet + "Always exit to desktop before loading another save! (no 'Second Loading')\n" +
-            bullet + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
-            bullet + "Always unsubscribe mods you're not using. Disabling isn't always good enough.\n" +
-            bullet + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
-            bullet + "Savegame not loading? Use the optimization and safe mode options from Loading Screen:\n" +
+            bullet   + "Always exit to desktop before loading another save! (no 'Second Loading')\n" +
+            bullet   + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
+            bullet   + "Always unsubscribe mods you're not using. Disabling isn't always good enough.\n" +
+            bullet   + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
+            bullet   + "Savegame not loading? Use the optimization and safe mode options from Loading Screen:\n" +
             noBullet + Toolkit.GetWorkshopURL(667342976) + "\n" +
             "\n" +
                        "Some remarks about incompatibilities:\n" +
-            bullet + "Mods that do the same thing are generally incompatible with each other.\n" +
-            bullet + "Some issues are a conflict between more than two mods or a loading order issue,\n" +
+            bullet   + "Mods that do the same thing are generally incompatible with each other.\n" +
+            bullet   + "Some issues are a conflict between more than two mods or a loading order issue,\n" +
             noBullet + "making it hard to find the real culprit. This can lead to users blaming the\n" +
             noBullet + "wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
             "\n" +
                        "Disclaimer:\n" +
-            bullet + "We try to include only facts about incompatibilities and highly value the words of\n" +
-            noBullet + "mod creators in this. However, we will occasionally get it wrong or miss an update.\n" +
-            bullet + "Found a mistake? Please comment on the Workshop, especially as the creator of a mod.";
+            bullet   + "We try to include reliable, researched information about incompatibilities and highly\n" +
+            noBullet + "value the words of mod authors in this. However, we will occasionally get it wrong\n" +
+            bullet   + "or miss an update. Found a mistake? Please comment on the Workshop.";
 
         internal static readonly string defaultFooterText =
-            "Did this help? Do you miss anything? Leave a rating/comment at the workshop page.\n" +
+            "Did this help? Do you miss anything? Leave a comment at the workshop page.\n" +
             Toolkit.GetWorkshopURL(OurOwnSteamID);
 
         // Default HTML report intro and footer; [Todo 1.1]
@@ -181,8 +181,8 @@ namespace CompatibilityReport.Util
 
         // Catalog notes for the first few catalogs
         internal static readonly string firstCatalogNote  = "This first catalog only contains the builtin mods.";
-        internal static readonly string secondCatalogNote = "This second catalog only contains some basic info for all mods.";
-        internal static readonly string thirdCatalogNote  = "This third catalog is the first one with all basic info about mods. No reviews yet.";
+        internal static readonly string secondCatalogNote = "This catalog contains basic information about all Steam Workshop mods. No reviews yet.";
+        internal static readonly string thirdCatalogNote  = "This catalog contains detailed information about all Steam Workshop mods. No reviews yet.";
 
 
         /// Defaults for settings that will be available to users through mod options within the game [Todo 0.6]
@@ -291,17 +291,12 @@ namespace CompatibilityReport.Util
         internal static readonly string steamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized
         internal static readonly string steamModPageSourceURLRight = "\" ";
 
-        // Steam IDs of assets to ignore as required items; [Todo 0.3] Move to catalog
-        internal static readonly List<ulong> requiredIDsToIgnore = new List<ulong> { 1145223801, 2228643473, 1083162158, 1787627069, 2088550283, 2071058348, 
-            2071057587, 2013521990, 1866391549, 2128887855, 1568009578, 1779369015, 2008960441, 1899911682, 678303408, 1544460160, 1386088603, 816325876, 
-            698391006, 697218602, 597034783, 574281911, 548154065, 562337133, 545841631, 452680862, 482681213, 484657860, 489046338, 413776855, 2442974192};
-
 
 
         /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.6]
 
         // AutoUpdater enabled? AutoUpdater will only be enabled if the global updater is enabled
-        internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && false;  // [Todo 0.3] false -> true
+        internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && true;  // [Todo 0.3] false -> true
 
         // Max. number of failed downloads for individual pages before giving up altogether
         internal static uint SteamMaxFailedPages { get; private set; } = 4;

@@ -39,15 +39,15 @@ namespace CompatibilityReport.DataTypes
         // Required mods for this mod (all are required); this is the only list that allows groups, meaning one (not all) of the mods in the group is required
         [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();
 
-        // Required assets for this mod; only used to collect info we gather from the Steam Workshop, not reported right now
-        [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
-
         // Successors of this mod
         [XmlArrayItem("SteamID")] public List<ulong> Successors { get; private set; } = new List<ulong>();
 
         // Alternatives for this mod
         [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
 
+        // Recommended mods to use with this mod
+        [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
+        
         // Statuses for this mod
         public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
 
@@ -60,7 +60,7 @@ namespace CompatibilityReport.DataTypes
         public DateTime AutoReviewUpdated { get; private set; }
 
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
-        public string ChangeNotes { get; private set; }
+        [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
 
         // Default constructor
@@ -94,14 +94,15 @@ namespace CompatibilityReport.DataTypes
                              string compatibleGameVersionString = null,
                              List<Enums.DLC> requiredDLC = null,
                              List<ulong> requiredMods = null,
-                             List<ulong> requiredAssets = null,
                              List<ulong> successors = null,
                              List<ulong> alternatives = null,
+                             List<ulong> recommendations = null,
                              List<Enums.ModStatus> statuses = null,
                              string note = null,
                              DateTime? reviewUpdated = null,
                              DateTime? autoReviewUpdated = null,
-                             string changeNotes = null)
+                             List<string> replacementChangeNotes = null,
+                             string extraChangeNote = null)
         {
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
             Name = name ?? Name ?? "";
@@ -132,11 +133,11 @@ namespace CompatibilityReport.DataTypes
 
             RequiredMods = requiredMods ?? RequiredMods ?? new List<ulong>();
 
-            RequiredAssets = requiredAssets ?? RequiredAssets ?? new List<ulong>();
-
             Successors = successors ?? Successors ?? new List<ulong>();
 
             Alternatives = alternatives ?? Alternatives ?? new List<ulong>();
+
+            Recommendations = recommendations ?? Recommendations ?? new List<ulong>();
 
             Statuses = statuses ?? Statuses ?? new List<Enums.ModStatus>();
 
@@ -146,8 +147,17 @@ namespace CompatibilityReport.DataTypes
 
             AutoReviewUpdated = autoReviewUpdated ?? AutoReviewUpdated;
 
-            // Add a change note (on a new line) instead of replacing it
-            ChangeNotes += string.IsNullOrEmpty(changeNotes) ? "" : (string.IsNullOrEmpty(ChangeNotes) ? "" : "\n") + changeNotes;
+            // Replace the change notes
+            if (replacementChangeNotes != null)
+            {
+                ChangeNotes = replacementChangeNotes;
+            }
+
+            // Add a change note
+            if (!string.IsNullOrEmpty(extraChangeNote))
+            {
+                ChangeNotes.Add(extraChangeNote);
+            }
         }
 
 
@@ -198,7 +208,7 @@ namespace CompatibilityReport.DataTypes
             // Copy all value types directly, and all lists as new lists
             newMod.Update(originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL, originalMod.Published, originalMod.Updated, originalMod.ArchiveURL,
                 originalMod.SourceURL, originalMod.CompatibleGameVersionString, new List<Enums.DLC>(originalMod.RequiredDLC), new List<ulong>(originalMod.RequiredMods), 
-                new List<ulong>(originalMod.RequiredAssets), new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), 
+                new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), new List<ulong>(originalMod.Recommendations), 
                 new List<Enums.ModStatus>(originalMod.Statuses), originalMod.Note, originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
 
             return newMod;
