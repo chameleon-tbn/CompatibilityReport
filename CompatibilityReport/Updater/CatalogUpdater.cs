@@ -297,19 +297,35 @@ namespace CompatibilityReport.Updater
         // Update or add all collected groups
         private static void UpdateAndAddGroups()
         {
-            foreach (Group group in CollectedGroupInfo.Values)
+            foreach (Group collectedGroup in CollectedGroupInfo.Values)
             {
-                if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(group.GroupID))
+                if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(collectedGroup.GroupID))
                 {
-                    // Add new group, which will be automatically replace their group members as required mod. Catch the new group for the new group ID
-                    Group newGroup = ActiveCatalog.Instance.AddGroup(group.Name, group.SteamIDs);
+                    // Add new group, which will be automatically replace their group members as required mod.
+                    Group newGroup = ActiveCatalog.Instance.AddGroup(collectedGroup.Name, collectedGroup.SteamIDs);
 
                     changeNotesNewMods.AppendLine($"New group { newGroup.ToString() }");
                 }
                 else
                 {
-                    // Update existing group [Todo 0.3]
-                    //UpdateGroup(groupID);
+                    // Update existing group
+                    Group catalogGroup = ActiveCatalog.Instance.GroupDictionary[collectedGroup.GroupID];
+
+                    // Add new group members
+                    foreach (ulong newGroupMember in collectedGroup.SteamIDs.Except(catalogGroup.SteamIDs))
+                    {
+                        ActiveCatalog.Instance.AddGroupMember(catalogGroup.GroupID, newGroupMember);
+
+                        // [Todo 0.3] change notes
+                    }
+
+                    // Remove group members
+                    foreach (ulong formerGroupMember in catalogGroup.SteamIDs.Except(collectedGroup.SteamIDs))
+                    {
+                        // [Todo 0.3] remove group member; how to handle exclusions?
+
+                        // [Todo 0.3] change notes
+                    }
                 }
             }
         }

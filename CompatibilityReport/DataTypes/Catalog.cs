@@ -335,32 +335,79 @@ namespace CompatibilityReport.DataTypes
             }
 
             // Add the new group to the list and dictionary
-            Group group = new Group(newGroupID, name, steamIDs);
+            Group newGroup = new Group(newGroupID, name, steamIDs);
 
-            Groups.Add(group);
+            Groups.Add(newGroup);
 
-            GroupDictionary.Add(newGroupID, group);
+            GroupDictionary.Add(newGroup.GroupID, newGroup);
 
-            // Replace required mods in the whole catalog from a group member to the group
-            foreach (ulong groupMemberID in group.SteamIDs)
+            // Replace group members with the group, as required mods anywhere in the catalog
+            foreach (ulong groupMemberID in newGroup.SteamIDs)
             {
-                // Get all mods that have this group member as required mod
-                List<Mod> modList = Mods.FindAll(x => x.RequiredMods.Contains(groupMemberID));
-
-                foreach (Mod mod in modList)
-                {
-                    // Replace the mod ID with the group ID
-                    mod.RequiredMods.Remove(groupMemberID);
-
-                    mod.RequiredMods.Add(newGroupID);
-
-                    Logger.Log($"Changed required mod { ModDictionary[groupMemberID].ToString() } to { group.ToString() }, for { mod.ToString(cutOff: false) }.",
-                        Logger.debug);
-                }
+                ReplaceRequiredModByGroup(groupMemberID);
             }
 
             // Return a reference to the new group
-            return group;
+            return newGroup;
+        }
+
+
+        // Add a new member to a group; NOTE: a mod can only be in one group  [Todo 0.3] including adding/removing the correct exclusions
+        internal bool AddGroupMember(ulong groupID, ulong newGroupMember)
+        {
+            // Exit if the group or mod don't exist, or if the mod is already in a group
+            if (!GroupDictionary.ContainsKey(groupID) || !ModDictionary.ContainsKey(newGroupMember) || IsGroupMember(newGroupMember))
+            {
+                return false;
+            }
+
+            // Add the mod to the group
+            GroupDictionary[groupID].SteamIDs.Add(newGroupMember);
+
+            // Replace the mod as required mod by the group, everywhere in the catalog
+            ReplaceRequiredModByGroup(newGroupMember);
+
+            return true;
+        }
+
+
+        // Replace a required mod by the group it is a member of
+        internal bool ReplaceRequiredModByGroup(ulong requiredModID)
+        {
+            Group requiredGroup = GetGroup(requiredModID);
+
+            // Exit if this mod is not in a group
+            if (requiredGroup == default)
+            {
+                return false;
+            }
+
+            // Get all mods that have this required mod
+            List<Mod> modList = Mods.FindAll(x => x.RequiredMods.Contains(requiredModID));
+
+            // Exit if none required this mod
+            if (modList.Count == 0)
+            {
+                return false;
+            }
+
+            foreach (Mod mod in modList)
+            {
+                // Remove the mod ID and add the group ID
+                mod.RequiredMods.Remove(requiredModID);
+
+                mod.RequiredMods.Add(requiredGroup.GroupID);
+
+                Logger.Log($"Replaced required mod { ModDictionary[requiredModID].ToString() } with { requiredGroup.ToString() }, for { mod.ToString(cutOff: false) }.");
+
+                // Add exclusion for the group if it exists for the old required mod. This will automatically create exclusions for all group members.
+                if (ExclusionExists(mod.SteamID, Enums.ExclusionCategory.RequiredMod, requiredModID))
+                {
+                    AddExclusion(mod.SteamID, Enums.ExclusionCategory.RequiredMod, requiredGroup.GroupID);
+                }
+            }
+
+            return true;
         }
 
 
