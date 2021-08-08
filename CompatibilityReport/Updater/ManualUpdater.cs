@@ -629,7 +629,10 @@ namespace CompatibilityReport.Updater
 
                 if (ActiveCatalog.Instance.IsGroupMember(listMember))
                 {
-                    return "Mod is in a group. Add the group as required mod instead.";
+                    if (newMod.RequiredMods.Contains(ActiveCatalog.Instance.GetGroup(listMember).GroupID))
+                    {
+                        return "Mod is in a group and the group is already required.";
+                    }
                 }
 
                 newMod.RequiredMods.Add(listMember);
@@ -653,15 +656,34 @@ namespace CompatibilityReport.Updater
 
                 newMod.RequiredMods.Remove(listMember);
 
+                // Add or remove relevant exclusions
                 if (ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.RequiredMod, listMember))
                 {
-                    // Remove the existing exclusion; this required mod was manually added before
+                    // An exclusion exists, so this required mod was manually added. Remove the existing exclusion.
                     ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
+
+                    if (ActiveCatalog.Instance.GroupDictionary.ContainsKey(listMember))
+                    {
+                        // Required ID is a group, remove the exclusion for all group members
+                        foreach (ulong groupMember in ActiveCatalog.Instance.GroupDictionary[listMember].SteamIDs)
+                        {
+                            ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredMod, groupMember);
+                        }
+                    }
                 }
                 else
                 {
-                    // Add an exclusion for not requiring this mod; this required mod was found by the AutoUpdater  [Todo 0.3] requires exclusion check in autoupdater/catalogupdater
+                    // An exclusion does not exist, so this required mod was added by the AutoUpdater. Add an exclusion to prevent the required mod from returning.
                     ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.NotRequiredMod, listMember);
+
+                    if (ActiveCatalog.Instance.GroupDictionary.ContainsKey(listMember))
+                    {
+                        // Required ID is a group, add an exclusion for all group members
+                        foreach(ulong groupMember in ActiveCatalog.Instance.GroupDictionary[listMember].SteamIDs)
+                        {
+                            ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.NotRequiredMod, groupMember);
+                        }
+                    }
                 }
             }
             else if (action == "add_successor")

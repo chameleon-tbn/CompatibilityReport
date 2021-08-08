@@ -1,14 +1,14 @@
-# Compatibility Report - ManualUpdater Guide
+# Compatibility Report - Updater Guide
 
-The ManualUpdater updates the catalog with manual changes and additions. It complements the AutoUpdater, which gathers information by crawling the Steam Workshop, including mod name, author, published/update dates, required DLC/mods, source URL, compatible game version and some statuses (removed from workshop, no description, author retirement). The ManualUpdater complements this with information that cannot be found by an automated proces, like compatibility information and suggestions for successor or alternative mods. It also allows the creation of groups to replace a required mod.
+The Updater only runs when a settings xml file exists in the Updater folder, so it won't run for regular users. The updater has two parts. The AutoUpdater crawls the Steam Workshop for mod information, including mod name, author, published/update dates, required DLC/mods, source URL, compatible game version and some statuses (removed from workshop, no description, author retirement). The ManualUpdater imports data from CSV files, including information that cannot be found by an automated process, like compatibility and suggested successor/alternative mods. It also allows the creation of groups to replace a required mod. The updater creates a new catalog that can be uploaded to the download location, so all mod users get this new catalog on the next game start. If you think about enabling the updater for yourself, mind that the AutoUpdater downloads nearly 2000 webpages and takes about 15 minutes on a fast computer with decent internet connection.
 
-The ManualUpdater gathers its information from CSV files. These should be placed in the Updater folder where the updated catalogs are written as well. Update actions can be bundled in one CSV file or split into multiple files. Multiple files will be read in alphabetical order. Filenames are not relevant, but should end in .csv. After updating, the processed CSV files will be combined into one file with the name of the new catalog and ending in '_ManualUpdates.csv.txt'. The processed CSV files are then renamed to .txt to avoid duplicate additions to the catalog on a next updater run.
+The ManualUpdater gathers its information from CSV files. These should be placed in the Updater folder where the updated catalogs are written as well. Update actions can be bundled in one CSV file or split into multiple files. Multiple files will be read in alphabetical order. Filenames are not relevant, but should end in .csv. After updating, the processed CSV files are renamed to .txt to avoid duplicate additions to the catalog on a next updater run.
 
-Groups are used for mod requirements. A group will replace every group member as required mod, both for current mod requirements in the catalog and for mod requirements for new mods found in the future. For example, a group with both a stable and test version of the same mod, will accept the test version as valid if the stable version is set as required mod. This prevents unjustified 'required mod not found' messages in the report. A mod can only be a member of one group, and the ManualUpdater cannot remove a mod from one group and add it to another in the same update run. Groups cannot be used for compatibilities, successors or alternatives. Group IDs are automaticaly assigned.
+Groups are used for mod requirements. A group will replace every group member as required mod, both for current mod requirements in the catalog and for new mods found in the future. For example, a group with both a stable and test version of the same mod, will accept the test version as valid if the stable version is set as required mod. This prevents unjustified 'required mod not found' messages in the report. A mod can only be a member of one group, and the ManualUpdater cannot remove a mod from one group and add it to another in the same update run. Groups cannot be used for compatibilities, successors or alternatives. Group IDs are automaticaly assigned.
 
-The lines in the CSV files all start with an action, often followed by a steam ID (for the mod, group or author), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the AutoUpdater from overwriting these manual updates. Actions and parameters are not case sensitive (except for names etc. that appears in reports). Commas are the only allowed separators and spaces around the separators are ignored. Commas in mod name and notes are supported.
+The lines in the CSV files all start with an action, often followed by a steam ID (for the mod, group or author), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the AutoUpdater from overwriting these manual updates. Actions and parameters are not case sensitive (except for names and URLs that appears in the report). Commas are the only allowed separator and spaces around the separators are ignored. Commas in mod name and notes are supported.
 
-Lines starting with a '#' are considered comments and will be ignored by the updater. They will be copied to the combined file. Comments can also be added at the end of any action other than Add_Mod, Add_Note and Add_CatalogNote, as an extra parameter (so use a comma to separate them), but they have to start with a '#' and can't contain a comma themselves.
+Lines starting with a '#' are considered comments and will be ignored by the updater. Comments can also be added at the end of any action other than Add_Mod, Add_Note and Add_CatalogNote, as an extra parameter. Use a comma after the last parameter and start the comment with a '#'. Don't use commas in these comments.
 
 ### Available mod actions
 Parameters enclosed in square brackets are optional. The symbol :zap: means an exclusion will be created.
@@ -30,7 +30,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_SourceURL, \<mod ID\> :zap:
 * Remove_GameVersion, \<mod ID\> *(only works if an exclusion exists)*
 * Remove_RequiredDLC, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*
-* Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\>
+* Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
@@ -56,9 +56,9 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_Author, \<<author ID | author custom URL\>, \<author name\> *(only need for 'removed' mods)*
 * Add_AuthorID, \<author custom URL\>, \<author ID\>
 * Add_AuthorURL, \<author ID\>, \<author custom URL\>
-* Add_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\>
+* Add_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\> *(must be newer than the current known date)*
   * *Adding a last seen date reassesses the retired status*
-* Add_Retired, \<author ID | author custom URL\>
+* Add_Retired, \<author ID | author custom URL\> *(only works if last seen is at least a year ago)*
 * Remove_AuthorURL, \<author ID\>
 * Remove_Retired, \<author ID | author custom URL\>
 

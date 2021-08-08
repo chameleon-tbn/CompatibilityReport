@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "169";
+        internal const string build = "170";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -295,8 +295,9 @@ namespace CompatibilityReport.Util
 
         /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.6]
 
-        // AutoUpdater enabled? AutoUpdater will only be enabled if the global updater is enabled
-        internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && true;  // [Todo 0.3] false -> true
+        // AutoUpdater enabled? AutoUpdater will only be enabled if the global updater is enabled, but can be overruled by a '.disabled' file
+        internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && 
+            !File.Exists(Path.Combine(updaterPath, $"{ internalName }_AutoUpdater.disabled"));
 
         // Max. number of failed downloads for individual pages before giving up altogether
         internal static uint SteamMaxFailedPages { get; private set; } = 4;

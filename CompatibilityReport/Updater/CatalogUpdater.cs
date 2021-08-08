@@ -228,8 +228,8 @@ namespace CompatibilityReport.Updater
                         // We can't remove it here directly, because the RequiredMods list is used in the foreach loop, so we just collect here and remove below
                         removalList.Add(requiredID);
 
-                        // Add the asset to the list for logging, if it's not already there
-                        if (!requiredAssetsForLogging.Contains(requiredID))
+                        // Add the asset to the list for logging, if it's not already there or in the catalog
+                        if (!requiredAssetsForLogging.Contains(requiredID) && !ActiveCatalog.Instance.Assets.Contains(steamID))
                         {
                             requiredAssetsForLogging.Add(requiredID);
                         }
@@ -277,7 +277,7 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            // Log the combined list of required assets found, to ease adding a CSV action
+            // Log the combined list of new required assets found, to ease adding a CSV action
             if (requiredAssetsForLogging.Any())
             {
                 StringBuilder requiredAssetsCombined = new StringBuilder();
@@ -285,7 +285,6 @@ namespace CompatibilityReport.Updater
                 foreach(ulong steamID in requiredAssetsForLogging)
                 {
                     requiredAssetsCombined.Append(", ");
-
                     requiredAssetsCombined.Append(steamID.ToString());
                 }
 
@@ -769,30 +768,20 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                // Add new required mods, as mod or group
+                // Add new required mods
                 foreach (ulong requiredModID in collectedMod.RequiredMods)
                 {
-                    // Check if this required mod is part of a group
-                    Group group = ActiveCatalog.Instance.GetGroup(requiredModID);
-
-                    if (group == default)
+                    // Add the required mod to the catalog mod's required list, if it isn't there already
+                    if (!catalogMod.RequiredMods.Contains(requiredModID))
                     {
-                        // Add the required mod to the catalog mod's required list, if it isn't there already
-                        if (!catalogMod.RequiredMods.Contains(requiredModID))
-                        {
-                            catalogMod.RequiredMods.Add(requiredModID);
+                        catalogMod.RequiredMods.Add(requiredModID);
 
-                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod { requiredModID } added";
-                        }
-                    }
-                    else
-                    {
-                        // Add the group (instead of the required mod) to the catalog mod's required list, if it isn't there already
-                        if (!catalogMod.RequiredMods.Contains(group.GroupID))
-                        {
-                            catalogMod.RequiredMods.Add(group.GroupID);
+                        changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required mod { requiredModID } added";
 
-                            changes += (string.IsNullOrEmpty(changes) ? "" : ", ") + $"required group { group.GroupID } added (instead of mod { requiredModID })";
+                        // Replace the required mod by its group, if it is a group member
+                        if (ActiveCatalog.Instance.IsGroupMember(requiredModID))
+                        {
+                            ActiveCatalog.Instance.ReplaceRequiredModByGroup(requiredModID);
                         }
                     }
                 }
