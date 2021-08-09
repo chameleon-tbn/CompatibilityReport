@@ -76,8 +76,7 @@ namespace CompatibilityReport.DataTypes
 
             // Create and return the new catalog
             return new Catalog(v0_catalog.Version, v0_catalog.UpdateDate, v0_CompatibleGameVersion, note: "", reportIntroText: ModSettings.defaultIntroText, 
-                reportFooterText: ModSettings.defaultFooterText, v0_catalog.Mods, v0_catalog.ModCompatibilities, v0_catalog.Groups, v0_catalog.ModAuthors, 
-                exclusions: null, assets: null);
+                reportFooterText: ModSettings.defaultFooterText, v0_catalog.Mods, v0_catalog.ModCompatibilities, v0_catalog.Groups, v0_catalog.ModAuthors, assets: null);
         }        
     }
 }

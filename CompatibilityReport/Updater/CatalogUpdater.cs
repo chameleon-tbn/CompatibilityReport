@@ -13,7 +13,7 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Updater
 {
-    internal static class CatalogUpdater
+    internal static class CatalogUpdater        // [Todo 0.3] move actions to AutoUpdater & ManualUpdater, updater directly into catalog, fill changenotes from there
     {
         // Did we run already this session (successful or not)
         private static bool hasRun;
@@ -50,7 +50,7 @@ namespace CompatibilityReport.Updater
 
 
         // Update the active catalog with the found information; returns the partial path of the new catalog
-        // [Todo 0.3] Add exclusion checks in AutoUpdater and ManualUpdater; change handling of autoReviewUpdated and reviewUpdated
+        // [Todo 0.3] Change handling of autoReviewUpdated and reviewUpdated
         internal static void Start()
         {
             // Exit if we ran already, the updater is not enabled in settings, or if we don't have and can't get an active catalog
@@ -208,15 +208,16 @@ namespace CompatibilityReport.Updater
         // Update or add all found mods
         private static void UpdateAndAddMods()
         {
-            // Collect all the required assets
+            // Collect all the required assets from all mods for later logging
             List<ulong> requiredAssetsForLogging = new List<ulong>();
 
+            // Clean up the found information and then add or update the mod in the catalog
             foreach (ulong steamID in CollectedModInfo.Keys)
             {
                 // Get the found mod
                 Mod collectedMod = CollectedModInfo[steamID];
 
-                // Clean assets from the required mods list
+                // Collect assets from the required mods list
                 List<ulong> removalList = new List<ulong>();
 
                 foreach (ulong requiredID in collectedMod.RequiredMods)
@@ -243,7 +244,7 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                // Now really remove the asset IDs
+                // Now remove the found asset IDs
                 foreach (ulong requiredID in removalList)
                 {
                     collectedMod.RequiredMods.Remove(requiredID);
@@ -310,7 +311,7 @@ namespace CompatibilityReport.Updater
                     // Update existing group
                     Group catalogGroup = ActiveCatalog.Instance.GroupDictionary[collectedGroup.GroupID];
 
-                    // Add new group members
+                    // Add new group members. This will also spread existing exclusions to the new group members
                     foreach (ulong newGroupMember in collectedGroup.SteamIDs.Except(catalogGroup.SteamIDs))
                     {
                         ActiveCatalog.Instance.AddGroupMember(catalogGroup.GroupID, newGroupMember);
@@ -441,14 +442,6 @@ namespace CompatibilityReport.Updater
                     ActiveCatalog.Instance.Mods.Remove(mod);
 
                     changeNotesRemovedMods.AppendLine($"Mod \"{ mod.ToString(cutOff: false) }\" was removed from the catalog.");
-
-                    // Remove any exclusions for this mod
-                    List<Exclusion> ExclusionsToRemove = ActiveCatalog.Instance.Exclusions.FindAll(x => x.SteamID == id);
-
-                    foreach (Exclusion exclusion in ExclusionsToRemove)
-                    {
-                        ActiveCatalog.Instance.Exclusions.Remove(exclusion);
-                    }
                 }
 
                 // Group
@@ -479,13 +472,25 @@ namespace CompatibilityReport.Updater
         // Add a new mod to the active catalog
         private static void AddMod(ulong steamID)
         {
+            // Get the collected mod
             Mod collectedMod = CollectedModInfo[steamID];
 
+            // Create a new mod in the catalog
             Mod catalogMod = ActiveCatalog.Instance.AddMod(steamID);
 
+            // If the ReviewUpdated fields were filled, set the date to the CatalogUpdater reviewUpdateDate, so the datetime will be the same for all mods in this update
+            DateTime? modReviewUpdated = null;
+            modReviewUpdated = collectedMod.ReviewUpdated == default ? modReviewUpdated: reviewUpdateDate;
+
+            DateTime? modAutoReviewUpdated = null;
+            modAutoReviewUpdated = collectedMod.AutoReviewUpdated == default ? modAutoReviewUpdated : reviewUpdateDate;
+
+            // Update the new catalog mod with all the info, including a review update date 
             catalogMod.Update(collectedMod.Name, collectedMod.AuthorID, collectedMod.AuthorURL, collectedMod.Published, collectedMod.Updated, 
-                archiveURL: null, collectedMod.SourceURL, collectedMod.CompatibleGameVersionString, collectedMod.RequiredDLC, collectedMod.RequiredMods, 
-                successors: null, alternatives: null, recommendations: null, collectedMod.Statuses, note: null, reviewUpdated: null, reviewUpdateDate,
+                archiveURL: null, collectedMod.SourceURL, collectedMod.ExclusionForSourceURL, collectedMod.CompatibleGameVersionString, 
+                collectedMod.ExclusionForGameVersion, collectedMod.RequiredDLC, collectedMod.ExclusionForRequiredDLC, collectedMod.RequiredMods, 
+                collectedMod.ExclusionForRequiredMods, collectedMod.Successors, collectedMod.Alternatives, collectedMod.Recommendations, collectedMod.Statuses, 
+                collectedMod.ExclusionForNoDescription, collectedMod.Note, modReviewUpdated, modAutoReviewUpdated, 
                 extraChangeNote: $"Added on { Toolkit.DateString(reviewUpdateDate) }.");
 
             // Change notes
@@ -720,8 +725,7 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            // Required mods (only if details for this mod were checked), including updating existing NeededFor lists;
-            // [Todo 0.3] Check exclusions before replacing a mod with a group  [Todo 0.5] simplify (or split) this
+            // Required mods (only if details for this mod were checked)  [Todo 0.5] simplify (or split) this
             if (catalogMod.RequiredMods.Count + collectedMod.RequiredMods.Count != 0 && detailedUpdate)
             {
                 // Remove no longer needed mods and groups from the required list

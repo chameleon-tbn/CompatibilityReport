@@ -15,7 +15,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_Mod, \<mod ID\> [, \<author ID | author custom URL\> [, \<mod name\>] ] *(mod will have the 'unlisted' status)*
 * Add_ArchiveURL, \<mod ID\>, \<url\>
 * Add_SourceURL, \<mod ID\>, \<url\> :zap:
-* Add_GameVersion, \<mod ID\>, \<game version string\> :zap: *(exclusion only if Workshop has different game version tag)*
+* Add_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled if a newer game version is ever found)*
 * Add_RequiredDLC, \<mod ID\>, \<DLC string\> :zap:
 * Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
@@ -28,7 +28,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_Mod, \<mod ID\> *(only works on unlisted and removed mods)*
 * Remove_ArchiveURL, \<mod ID\>
 * Remove_SourceURL, \<mod ID\> :zap:
-* Remove_GameVersion, \<mod ID\> *(only works if an exclusion exists)*
+* Remove_GameVersion, \<mod ID\>
 * Remove_RequiredDLC, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*
 * Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
@@ -63,7 +63,6 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_Retired, \<author ID | author custom URL\>
 
 ### Available miscellaneous actions
-* Remove_Exclusion, \<mod ID\>, [\<mod ID | DLC appid\>,] \<exclusion category\>
 * Add_CatalogGameVersion, \<game version string\>
 * Add_CatalogNote, \<note\>
 * Remove_CatalogNote
@@ -72,6 +71,8 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_RequiredAssets, \<mod ID\> [, \<mod ID\>, ...]
   * *Only needed to differentiate between a required asset and a required mod that isn't in the catalog*
 * Remove_RequiredAssets, \<mod ID\> [, \<mod ID\>, ...]
+* Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required mod ID | DLC appid\>]
+  * *Available categories: SourceURL, GameVersion, RequiredDLC, RequiredMod, NoDescription*
 
 
 *See https://github.com/Finwickle/CompatibilityReport/blob/dev/CompatibilityReport/DataTypes/Enums.cs for available status, compatibility and DLC strings.*  [Todo 0.3] change url to main

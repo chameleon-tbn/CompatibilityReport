@@ -40,9 +40,6 @@ namespace CompatibilityReport.DataTypes
 
         public List<Author> Authors { get; private set; } = new List<Author>();
 
-        // Update-exclusions; these prevent certain changes by the AutoUpdater
-        public List<Exclusion> Exclusions { get; private set; } = new List<Exclusion>();
-
         // Assets that show up as required items; listed to see the difference between a required asset and a required mod we don't know (unlisted or removed mod)
         [XmlArrayItem("SteamID")] public List<ulong> Assets { get; private set; } = new List<ulong>();
 
@@ -96,7 +93,7 @@ namespace CompatibilityReport.DataTypes
 
         // Constructor with all parameters, used when converting an old catalog
         internal Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
-            List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<Exclusion> exclusions, List<ulong> assets)
+            List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<ulong> assets)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
@@ -121,8 +118,6 @@ namespace CompatibilityReport.DataTypes
             Groups = groups ?? new List<Group>();
 
             Authors = modAuthors ?? new List<Author>();
-
-            Exclusions = exclusions ?? new List<Exclusion>();
 
             Assets = assets ?? new List<ulong>();
         }
@@ -224,8 +219,9 @@ namespace CompatibilityReport.DataTypes
             }
 
             // Add all info to the mod
-            mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods,
-                successors, alternatives, recommendations, statuses, note, reviewUpdated, autoReviewUpdated, changeNotes);
+            mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, exclusionForSourceURL: false, compatibleGameVersionString, 
+                exclusionForGameVersion: false, requiredDLC, exclusionForRequiredDLC: null, requiredMods, exclusionForRequiredMods: null, 
+                successors, alternatives, recommendations, statuses, exclusionForNoDescription: false, note, reviewUpdated, autoReviewUpdated, changeNotes);
 
             // Return a reference to the new mod
             return mod;
@@ -352,7 +348,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add a new member to a group; NOTE: a mod can only be in one group  [Todo 0.3] including adding/removing the correct exclusions
+        // Add a new member to a group; NOTE: a mod can only be in one group
         internal bool AddGroupMember(ulong groupID, ulong newGroupMember)
         {
             // Exit if the group or mod don't exist, or if the mod is already in a group
@@ -364,7 +360,7 @@ namespace CompatibilityReport.DataTypes
             // Add the mod to the group
             GroupDictionary[groupID].SteamIDs.Add(newGroupMember);
 
-            // Replace the mod as required mod by the group, everywhere in the catalog
+            // Replace the mod as required mod by the group, everywhere in the catalog; this will also duplicate an exclusion (if any) to the group and other group members
             ReplaceRequiredModByGroup(newGroupMember);
 
             return true;
@@ -385,25 +381,22 @@ namespace CompatibilityReport.DataTypes
             // Get all mods that have this required mod
             List<Mod> modList = Mods.FindAll(x => x.RequiredMods.Contains(requiredModID));
 
-            // Exit if none required this mod
-            if (modList.Count == 0)
-            {
-                return false;
-            }
-
             foreach (Mod mod in modList)
             {
                 // Remove the mod ID and add the group ID
                 mod.RequiredMods.Remove(requiredModID);
 
-                mod.RequiredMods.Add(requiredGroup.GroupID);
+                if (!mod.RequiredMods.Contains(requiredGroup.GroupID))
+                {
+                    mod.RequiredMods.Add(requiredGroup.GroupID);
+                }
 
                 Logger.Log($"Replaced required mod { ModDictionary[requiredModID].ToString() } with { requiredGroup.ToString() }, for { mod.ToString(cutOff: false) }.");
 
-                // Add exclusion for the group if it exists for the old required mod. This will automatically create exclusions for all group members.
-                if (ExclusionExists(mod.SteamID, Enums.ExclusionCategory.RequiredMod, requiredModID))
+                // Add exclusion for the group if it exists for the old required mod or already exists for the group. This will create exclusions for all group members.
+                if (mod.ExclusionForRequiredMods.Contains(requiredModID) || mod.ExclusionForRequiredMods.Contains(requiredGroup.GroupID))
                 {
-                    AddExclusion(mod.SteamID, Enums.ExclusionCategory.RequiredMod, requiredGroup.GroupID);
+                    AddExclusionForRequiredMods(mod, requiredGroup.GroupID);
                 }
             }
 
@@ -458,108 +451,46 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Check if an exclusion exists
-        internal bool ExclusionExists(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
+        // Add an exclusion for a required mod, including for group and group members
+        internal void AddExclusionForRequiredMods(Mod mod, ulong requiredID)
         {
-            bool result = Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem) != default;
-
-            // If the exclusion doesn't exist, but the exclusion is about required mods, then check exclusion for group and group member(s)
-            if (!result && (category == Enums.ExclusionCategory.RequiredMod || category == Enums.ExclusionCategory.NotRequiredMod))
-            {
-                if  (IsGroupMember(subItem))
-                {
-                    // Check exclusion for the group subItem is a member of
-                    result = Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == GetGroup(subItem).GroupID) != default;
-                }
-                else if (GroupDictionary.ContainsKey(subItem))
-                {
-                    // SubItem is a group. Check exclusion for the group members. If any exist then the exclusion for the group will be considered to exist
-                    foreach(ulong groupMember in GroupDictionary[subItem].SteamIDs)
-                    {
-                        result = result || Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == groupMember) != default;
-                    }
-                }
-                    
-            }
-
-            return result;
-        }
-
-
-        // Add a new exclusion to the catalog.
-        internal bool AddExclusion(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
-        {
-            // Exit on a zero steam ID or an unknown category, or if the exclusion already exists
-            if (steamID == 0 || category == Enums.ExclusionCategory.Unknown || ExclusionExists(steamID, category, subItem))
-            {
-                return false;
-            }
-
-            // Exit if the subitem is zero while required
-            if (subItem == 0 && (category == Enums.ExclusionCategory.RequiredDLC || category == Enums.ExclusionCategory.RequiredMod || 
-                category == Enums.ExclusionCategory.NotRequiredMod))
-            {
-                return false;
-            }
-
             // Add exclusion
-            Exclusions.Add(new Exclusion(steamID, category, subItem));
+            mod.AddExclusionForRequiredMods(requiredID);
 
-            // If the exclusion is about required mods, then we need to check for groups, and add exclusions for both group and group members
-            if (category == Enums.ExclusionCategory.RequiredMod || category == Enums.ExclusionCategory.NotRequiredMod)
+            if (IsGroupMember(requiredID))
             {
-                if (IsGroupMember(subItem))
+                // SubItem is a group member. Add exclusion for the group and all members by calling AddExclusion with the group ID. Should not cause an infinite loop.
+                AddExclusionForRequiredMods(mod, GetGroup(requiredID).GroupID);
+            }
+            else if (GroupDictionary.ContainsKey(requiredID))
+            {
+                // SubItem is a group. Add exclusion for all group members. This is done manually here and not by calling AddExclusion again, to avoid an infinite loop.
+                foreach (ulong groupMember in GroupDictionary[requiredID].SteamIDs)
                 {
-                    // SubItem is a group member. Add exclusion for the group and all members by calling AddExclusion with the group ID. This should not cause a loop.
-                    AddExclusion(steamID, category, GetGroup(subItem).GroupID);
-                }
-                else if (GroupDictionary.ContainsKey(subItem))
-                {
-                    // SubItem is a group. Add exclusion for all group members. This is done manually here and not by calling AddExclusion again, to avoid a loop.
-                    foreach (ulong groupMember in GroupDictionary[subItem].SteamIDs)
-                    {
-                        if (!ExclusionExists(steamID, category, groupMember))
-                        {
-                            Exclusions.Add(new Exclusion(steamID, category, groupMember));
-                        }
-                    }
+                    mod.AddExclusionForRequiredMods(groupMember);
                 }
             }
-
-            return true;
         }
 
 
         // Remove an exclusion from the catalog
-        internal bool RemoveExclusion(ulong steamID, Enums.ExclusionCategory category, ulong subItem = 0)
+        internal bool RemoveExclusionForRequiredMods(Mod mod, ulong requiredID)
         {
-            // Get the exclusion
-            Exclusion exclusion = Exclusions.FirstOrDefault(x => x.SteamID == steamID && x.Category == category && x.SubItem == subItem);
+            // Remove exclusion
+            bool result = mod.ExclusionForRequiredMods.Remove(requiredID);
 
-            // Exit if it doesn't exist
-            if (exclusion == default)
+            // If the exclusion is about a required mod, then we need to check for groups, and remove exclusions for both group and group members
+            if (result && IsGroupMember(requiredID))
             {
-                return false;
+                // SubItem is a group member. Remove exclusion for the group and all members by calling RemoveExclusion with the group ID. This should not cause a loop.
+                RemoveExclusionForRequiredMods(mod, GetGroup(requiredID).GroupID);
             }
-
-            // Remove the exclusion if it exists
-            bool result = Exclusions.Remove(exclusion);
-
-            // If the exclusion is about required mods, then we need to check for groups, and remove exclusions for both group and group members
-            if (result && (category == Enums.ExclusionCategory.RequiredMod || category == Enums.ExclusionCategory.NotRequiredMod))
+            else if (result && GroupDictionary.ContainsKey(requiredID))
             {
-                if (IsGroupMember(subItem))
+                // SubItem is a group. Remove exclusion for all group members. This is done manually here and not by calling RemoveExclusion again, to avoid a loop.
+                foreach (ulong groupMember in GroupDictionary[requiredID].SteamIDs)
                 {
-                    // SubItem is a group member. Remove exclusion for the group and all members by calling RemoveExclusion with the group ID. This should not cause a loop.
-                    RemoveExclusion(steamID, category, GetGroup(subItem).GroupID);
-                }
-                else if (GroupDictionary.ContainsKey(subItem))
-                {
-                    // SubItem is a group. Remove exclusion for all group members. This is done manually here and not by calling RemoveExclusion again, to avoid a loop.
-                    foreach (ulong groupMember in GroupDictionary[subItem].SteamIDs)
-                    {
-                        Exclusions.Remove(new Exclusion(steamID, category, groupMember));
-                    }
+                    mod.ExclusionForRequiredMods.Remove(groupMember);
                 }
             }
 
@@ -747,7 +678,7 @@ namespace CompatibilityReport.DataTypes
             catch (Exception ex)
             {
                 // Loading failed
-                if (ex.ToString().Contains("There is an error in XML document"))
+                if (ex.ToString().Contains("There is an error in XML document") || ex.ToString().Contains("Document element did not appear"))
                 {
                     // XML error, log debug exception
                     Logger.Log($"XML error in catalog \"{ Toolkit.PrivacyPath(fullPath) }\". Catalog could not be loaded.", Logger.warning);

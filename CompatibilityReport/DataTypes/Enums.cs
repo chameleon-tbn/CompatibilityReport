@@ -56,19 +56,6 @@
         }
 
 
-        // Exclusion categories for the updater
-        public enum ExclusionCategory
-        {
-            Unknown,                                // Unused
-            SourceURL,
-            GameVersion,
-            NoDescription,
-            RequiredDLC,
-            RequiredMod,
-            NotRequiredMod
-        }
-
-
         // DLCs; the names are used in the report, with double underscores replacing colon+space, and single underscores replacing a space
         // Numbers are the AppIDs, as seen in the url of every DLC in the Steam shop (https://store.steampowered.com/app/255710/Cities_Skylines/)
         public enum DLC : uint

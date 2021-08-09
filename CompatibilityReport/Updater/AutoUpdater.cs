@@ -352,8 +352,25 @@ namespace CompatibilityReport.Updater
         // Extract detailed mod information from the downloaded mod page; return false if the Steam ID can't be found on this page
         private static void ReadModPage(ulong steamID)
         {
-            // Get the mod
+            // Get the mod, and the corresponding catalog mod
             Mod mod = CatalogUpdater.CollectedModInfo[steamID];
+
+            Mod catalogMod;
+
+            // Copy exclusions from the catalog mod
+            if (ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID))
+            {
+                catalogMod = ActiveCatalog.Instance.ModDictionary[steamID];
+
+                mod.Update(exclusionForSourceURL: catalogMod.ExclusionForSourceURL, exclusionForGameVersion: catalogMod.ExclusionForGameVersion,
+                    exclusionForRequiredDLC: catalogMod.ExclusionForRequiredDLC, exclusionForRequiredMods: catalogMod.ExclusionForRequiredMods,
+                    exclusionForNoDescription: catalogMod.ExclusionForNoDescription);
+            }
+            else
+            {
+                // If the mod is not in the catalog yet, set the catalogMod to the found mod
+                catalogMod = mod;
+            }
 
             // Keep track if we find the correct Steam ID on this page, to avoid messing up one mod with another mods info
             bool steamIDmatched = false;
@@ -442,10 +459,33 @@ namespace CompatibilityReport.Updater
                     // Compatible game version tag
                     else if (line.Contains(ModSettings.steamModPageVersionTagFind))
                     {
-                        string gameVersion = Toolkit.MidString(line, ModSettings.steamModPageVersionTagLeft, ModSettings.steamModPageVersionTagRight);
+                        string gameVersionString = Toolkit.MidString(line, ModSettings.steamModPageVersionTagLeft, ModSettings.steamModPageVersionTagRight);
 
-                        // Update the mod, but first convert the gameversion string back and forth to ensure a correctly formatted string
-                        mod.Update(compatibleGameVersionString: GameVersion.Formatted(Toolkit.ConvertToGameVersion(gameVersion)));
+                        // Convert the found string to a game version and to a formatted game version string, so we have a consistently formatted string
+                        Version gameVersion = Toolkit.ConvertToGameVersion(gameVersionString);
+
+                        gameVersionString = GameVersion.Formatted(gameVersion);
+
+                        // Check if an exclusion exists
+                        if (mod.ExclusionForGameVersion)
+                        {
+                            Version currentModGameVersion = Toolkit.ConvertToGameVersion(catalogMod.CompatibleGameVersionString);
+
+                            if (gameVersion > currentModGameVersion)
+                            {
+                                // Update the mod and remove the exclusion
+                                mod.Update(compatibleGameVersionString: gameVersionString, exclusionForGameVersion: false);
+                            }
+                            else 
+                            {
+                                // Don't update the game version
+                            }
+                        }
+                        else
+                        {
+                            // Update the mod
+                            mod.Update(compatibleGameVersionString: gameVersionString);
+                        }
                     }
 
                     // Publish and update dates; also update author last seen date and retired state
@@ -485,19 +525,15 @@ namespace CompatibilityReport.Updater
                         // Skip one line
                         line = reader.ReadLine();
 
+                        // Get the DLC as string and convert it to enum
                         string dlcString = Toolkit.MidString(line, ModSettings.steamModPageRequiredDLCLeft, ModSettings.steamModPageRequiredDLCRight);
+
+                        Enums.DLC dlc = Toolkit.ConvertToEnum<Enums.DLC>(dlcString);
                         
-                        if (!string.IsNullOrEmpty(dlcString))
+                        // If the DLC is valid, is not already added and no exclusion exists for it, then add it as required
+                        if (dlc != default && !mod.RequiredDLC.Contains(dlc) && !mod.ExclusionForRequiredDLC.Contains(dlc))
                         {
-                            try
-                            {
-                                // Convert the dlc string to number to enum and add it
-                                mod.RequiredDLC.Add((Enums.DLC)Convert.ToUInt32(dlcString));
-                            }
-                            catch
-                            {
-                                Logger.UpdaterLog($"Cannot convert \"{ dlcString }\" to DLC enum for { mod.ToString(cutOff: false) }.", Logger.warning);
-                            }
+                            mod.RequiredDLC.Add(dlc);
                         }
                     }
 
@@ -510,26 +546,28 @@ namespace CompatibilityReport.Updater
                             // Read the next line
                             line = reader.ReadLine();
 
-                            // Get the required Steam ID as string
+                            // Get the required Steam ID as string and convert it to ulong
                             string requiredString = Toolkit.MidString(line, ModSettings.steamModPageRequiredModLeft, ModSettings.steamModPageRequiredModRight);
 
-                            // Convert the required Steam ID string to ulong
                             ulong requiredID = Toolkit.ConvertToUlong(requiredString);
 
+                            // Exit the for loop if no valid Steam ID is found
                             if (requiredID == 0)
                             {
-                                // No more steam IDs found for required mods
                                 if (tries == 1)
                                 {
+                                    // Log we couldn't get at least one steam ID as required mod
                                     Logger.UpdaterLog($"Steam ID not recognized for required mod: { requiredString }.", Logger.warning);
                                 }
 
-                                // Exit the required mods loop
                                 break;
                             }
 
-                            // Add the required mod (or asset)
-                            mod.RequiredMods.Add(requiredID);
+                            // Add the required mod (or asset) if it wasn't added already and no exclusion exists for this ID
+                            if (!mod.RequiredMods.Contains(requiredID) && !mod.ExclusionForRequiredMods.Contains(requiredID))
+                            {
+                                mod.RequiredMods.Add(requiredID);
+                            }
 
                             // Skip three lines
                             line = reader.ReadLine();
@@ -548,20 +586,16 @@ namespace CompatibilityReport.Updater
                         int descriptionLength = line.Length - line.IndexOf(ModSettings.steamModPageDescriptionLeft) - 
                             ModSettings.steamModPageDescriptionLeft.Length - ModSettings.steamModPageDescriptionRight.Length;
 
-                        // Tag as 'no description' if the description is not at least a few characters longer than the mod name
-                        if (descriptionLength <= mod.Name.Length + 3)
+                        // Tag as 'no description' if the description is not at least a few characters longer than the mod name. Don't update if there is an exclusion.
+                        if (descriptionLength <= mod.Name.Length + 3 && !mod.ExclusionForNoDescription)
                         {
                             mod.Statuses.Add(Enums.ModStatus.NoDescription);
                         }
 
-                        // Get the source url, if any
-                        else if (line.Contains(ModSettings.steamModPageSourceURLLeft))
+                        // Get the source url, if any. Don't update if there is an exclusion.
+                        else if (line.Contains(ModSettings.steamModPageSourceURLLeft) && !mod.ExclusionForSourceURL)
                         {
-                            // Only if there is no exclusion
-                            if (!ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.SourceURL))
-                            {
-                                mod.Update(sourceURL: GetSourceURL(line, steamID));
-                            }
+                            mod.Update(sourceURL: GetSourceURL(line, steamID));
                         }
 
                         // Description is the last info we need from the page, so exit the while loop

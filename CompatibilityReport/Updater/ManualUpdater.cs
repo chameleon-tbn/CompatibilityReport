@@ -135,7 +135,7 @@ namespace CompatibilityReport.Updater
             string s = numberOfFiles == 1 ? "" : "s";
 
             string logText = $"{ numberOfFiles } CSV file{ s } processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" +
-                (overallSuccess ? "." : ", with some errors.");
+                (overallSuccess ? "." : ", with errors.");
 
             Logger.UpdaterLog(logText);
 
@@ -299,10 +299,6 @@ namespace CompatibilityReport.Updater
                         ChangeAuthorItem(action, authorID: id, extraData);
                     break;
 
-                case "remove_exclusion":
-                    result = RemoveExclusion(steamID: id, subitem: secondID, categoryString: extraData);
-                    break;
-
                 case "add_cataloggameversion":
                     result = SetCatalogGameVersion(gameVersionString: idString);
                     break;
@@ -327,6 +323,17 @@ namespace CompatibilityReport.Updater
 
                 case "updatedate":
                     result = CatalogUpdater.SetCatalogUpdateDate(idString) ? "" : "Invalid date.";
+                    break;
+
+                case "remove_exclusion":
+                    if (lineFragments.Length < 3 || (extraData.Contains("required") && lineFragments.Length < 4))
+                    {
+                        result = "Not enough parameters.";
+                    }
+                    else
+                    {
+                        result = RemoveExclusion(steamID: id, categoryString: extraData, subItem: (extraData.Contains("required") ? lineFragments[3] : ""));
+                    }
                     break;
 
                 default:
@@ -441,44 +448,51 @@ namespace CompatibilityReport.Updater
             Mod newMod = CatalogUpdater.CollectedModInfo.ContainsKey(steamID) ? CatalogUpdater.CollectedModInfo[steamID] : 
                 Mod.Copy(ActiveCatalog.Instance.ModDictionary[steamID]);
 
-            // Update the mod [Todo 0.3] Needs actions in CatalogUpdater
-            if (action == "add_archiveurl" || action == "remove_archiveurl")
+            // Update the mod
+            if (action == "add_archiveurl")
             {
-                if (!string.IsNullOrEmpty(itemData) && !itemData.StartsWith("http://") && !itemData.StartsWith("https://"))
+                if (!itemData.StartsWith("http://") && !itemData.StartsWith("https://"))
                 {
-                    return "Invalid archive URL.";
+                    return "Invalid URL.";
                 }
 
                 newMod.Update(archiveURL: itemData);
+            }
+            else if (action == "remove_archiveurl")
+            {
+                if (string.IsNullOrEmpty(newMod.ArchiveURL))
+                {
+                    return "No archive URL to remove.";
+                }
+
+                newMod.Update(archiveURL: "");
             }
             else if (action == "add_sourceurl")
             {
                 if (!itemData.StartsWith("http://") && !itemData.StartsWith("https://"))
                 {
-                    return "Invalid source URL.";
+                    return "Invalid URL.";
                 }
 
-                newMod.Update(sourceURL: itemData);
-                
+                // Add the source URL and set an exclusion
+                newMod.Update(sourceURL: itemData, exclusionForSourceURL: true);
+
                 // Remove the SourceUnavailable status if it was present
                 newMod.Statuses.Remove(Enums.ModStatus.SourceUnavailable);
-
-                ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.SourceURL);
             }
             else if (action == "remove_sourceurl")
             {
-                if (!ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.SourceURL))
+                if (string.IsNullOrEmpty(newMod.SourceURL))
                 {
-                    return "Cannot remove source URL because it was not manually added.";
+                    return "No source URL to remove.";
                 }
 
-                newMod.Update(sourceURL: "");
-
-                ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.SourceURL);
+                // Remove the source URL and swap the exclusion: if there was an exclusion, remove it; otherwise, add it
+                newMod.Update(sourceURL: "", exclusionForSourceURL: !newMod.ExclusionForSourceURL);
             }
             else if (action == "add_gameversion")
             {
-                // Convert the itemData string to gameversion and back to string, to make sure we have a correctly formatted gameversion string
+                // Convert the itemData string to gameversion and back to string, to make sure we have a consistently formatted gameversion string
                 string newGameVersionString = GameVersion.Formatted(Toolkit.ConvertToGameVersion(itemData));
 
                 if (newGameVersionString == GameVersion.Formatted(GameVersion.Unknown))
@@ -486,20 +500,18 @@ namespace CompatibilityReport.Updater
                     return $"Invalid gameversion.";
                 }
 
-                newMod.Update(compatibleGameVersionString: newGameVersionString);
-
-                ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.GameVersion);
+                // Add game version and exclusion
+                newMod.Update(compatibleGameVersionString: newGameVersionString, exclusionForGameVersion: true);
             }
             else if (action == "remove_gameversion")
             {
-                if (!ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.GameVersion))
+                if (!newMod.ExclusionForGameVersion)
                 {
                     return "Cannot remove compatible gameversion because it was not manually added.";
                 }
 
-                newMod.Update(compatibleGameVersionString: "");
-
-                ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.GameVersion);
+                // Remove the game version and the exclusion
+                newMod.Update(compatibleGameVersionString: "", exclusionForGameVersion: false);
             }
             else if (action == "add_requireddlc")
             {
@@ -516,9 +528,10 @@ namespace CompatibilityReport.Updater
                     return "DLC was already required.";
                 }
 
+                // Add DLC and exclusion
                 newMod.RequiredDLC.Add(dlc);
 
-                ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.RequiredDLC, (uint)dlc);
+                newMod.AddExclusionForRequiredDLC(dlc);
             }
             else if (action == "remove_requireddlc")
             {
@@ -535,47 +548,99 @@ namespace CompatibilityReport.Updater
                     return "DLC was not required.";
                 }
 
-                if (!ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.RequiredDLC, (uint)dlc))
+                if (!newMod.ExclusionForRequiredDLC.Contains(dlc))
                 {
                     return "Cannot remove required DLC because it was not manually added.";
                 }
 
+                // Remove the required DLC
                 if (!newMod.RequiredDLC.Remove(dlc))
                 {
                     return "Could not removed DLC.";
                 }
 
-                ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredDLC, (uint)dlc);
+                // Remove the exclusion
+                newMod.ExclusionForRequiredDLC.Remove(dlc);
             }
-            else if (action == "add_status")  // [Todo 0.3] Needs action in CatalogUpdater for additional statuses
+            else if (action == "add_status")
             {
                 // Convert the status string to enum
                 Enums.ModStatus status = Toolkit.ConvertToEnum<Enums.ModStatus>(itemData);
 
-                // Status IncompatibleAccordingToWorkshop cannot be manually added
-                if (status == default || status == Enums.ModStatus.IncompatibleAccordingToWorkshop)
+                // Status IncompatibleAccordingToWorkshop can only be manually added for a removed mod
+                if (status == Enums.ModStatus.Unknown || 
+                    (status == Enums.ModStatus.IncompatibleAccordingToWorkshop && !newMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop)))
                 {
                     return "Invalid status.";
+                }
+
+                // Exit if status cannot be combined with Removed
+                if ((status == Enums.ModStatus.NoCommentSectionOnWorkshop || status == Enums.ModStatus.NoDescription) && 
+                    newMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                {
+                    return "Conflict with existing 'RemovedFromWorkshop' status.";
                 }
 
                 if (newMod.Statuses.Contains(status))
                 {
                     return "Mod already has this status.";
                 }
-                    
+
+                // Add the new status
                 newMod.Statuses.Add(status);
 
-                // Add exclusion for some statuses
+                // Remove conflicting statuses, and some additional actions
                 if (status == Enums.ModStatus.NoDescription)
                 {
-                    ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.NoDescription);
+                    // Set exclusion
+                    newMod.Update(exclusionForNoDescription: true);
                 }
                 else if (status == Enums.ModStatus.SourceUnavailable)
                 {
-                    ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.SourceURL);
+                    newMod.Statuses.Remove(Enums.ModStatus.SourceBundled);
+                    newMod.Statuses.Remove(Enums.ModStatus.SourceNotUpdated);
+                    newMod.Statuses.Remove(Enums.ModStatus.SourceObfuscated);
 
-                    // Remove source URL if it was present
-                    newMod.Update(sourceURL: "");
+                    if (!string.IsNullOrEmpty(newMod.SourceURL))
+                    {
+                        // Remove source URL and set exclusion
+                        newMod.Update(sourceURL: "", exclusionForSourceURL: true);
+                    }
+                }
+                else if (status == Enums.ModStatus.SourceBundled || status == Enums.ModStatus.SourceNotUpdated || status == Enums.ModStatus.SourceObfuscated)
+                {
+                    newMod.Statuses.Remove(Enums.ModStatus.SourceUnavailable);
+                }
+                else if (status == Enums.ModStatus.UnlistedInWorkshop)
+                {
+                    newMod.Statuses.Remove(Enums.ModStatus.RemovedFromWorkshop);
+                }
+                else if (status == Enums.ModStatus.RemovedFromWorkshop)
+                {
+                    newMod.Statuses.Remove(Enums.ModStatus.UnlistedInWorkshop);
+                    newMod.Statuses.Remove(Enums.ModStatus.IncompatibleAccordingToWorkshop);
+                    newMod.Statuses.Remove(Enums.ModStatus.NoCommentSectionOnWorkshop);
+                    newMod.Statuses.Remove(Enums.ModStatus.NoDescription);
+                    newMod.Update(exclusionForNoDescription: false);
+                }
+                else if (status == Enums.ModStatus.NoLongerNeeded)
+                {
+                    newMod.Statuses.Remove(Enums.ModStatus.Abandoned);
+                }
+                else if (status == Enums.ModStatus.MusicCopyrighted)
+                {
+                    newMod.Statuses.Remove(Enums.ModStatus.MusicCopyrightFree);
+                    newMod.Statuses.Remove(Enums.ModStatus.MusicCopyrightUnknown);
+                }
+                else if (status == Enums.ModStatus.MusicCopyrightFree)
+                {
+                    newMod.Statuses.Remove(Enums.ModStatus.MusicCopyrighted);
+                    newMod.Statuses.Remove(Enums.ModStatus.MusicCopyrightUnknown);
+                }
+                else if (status == Enums.ModStatus.MusicCopyrightUnknown)
+                {
+                    newMod.Statuses.Remove(Enums.ModStatus.MusicCopyrighted);
+                    newMod.Statuses.Remove(Enums.ModStatus.MusicCopyrightFree);
                 }
             }
             else if (action == "remove_status")
@@ -584,26 +649,27 @@ namespace CompatibilityReport.Updater
                 Enums.ModStatus status = Toolkit.ConvertToEnum<Enums.ModStatus>(itemData);
 
                 // Status IncompatibleAccordingToWorkshop cannot be manually removed
-                if (status == default || status == Enums.ModStatus.IncompatibleAccordingToWorkshop)
+                if (status == Enums.ModStatus.Unknown || status == Enums.ModStatus.IncompatibleAccordingToWorkshop)
                 {
                     return "Invalid status.";
                 }
 
-                if (!newMod.Statuses.Contains(status))
+                // Remove the status, if it exists
+                if (!newMod.Statuses.Remove(status))
                 {
                     return "Status not found for this mod.";
                 }
 
-                newMod.Statuses.Remove(status);
-
-                // Remove exclusion for some statuses
+                // Add or remove exclusion for some statuses
                 if (status == Enums.ModStatus.NoDescription)
                 {
-                    ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.NoDescription);
+                    // If there was an exclusion, remove it; otherwise, add it
+                    newMod.Update(exclusionForNoDescription: !newMod.ExclusionForNoDescription);
                 }
                 else if (status == Enums.ModStatus.SourceUnavailable)
                 {
-                    ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.SourceURL);
+                    // Remove exclusion
+                    newMod.Update(exclusionForSourceURL: false);
                 }
             }
             else if (action == "add_note")
@@ -638,7 +704,7 @@ namespace CompatibilityReport.Updater
                 newMod.RequiredMods.Add(listMember);
 
                 // Add exclusion
-                ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
+                newMod.AddExclusionForRequiredMods(listMember);
             }
             else if (action == "remove_requiredmod")
             {
@@ -657,31 +723,31 @@ namespace CompatibilityReport.Updater
                 newMod.RequiredMods.Remove(listMember);
 
                 // Add or remove relevant exclusions
-                if (ActiveCatalog.Instance.ExclusionExists(steamID, Enums.ExclusionCategory.RequiredMod, listMember))
+                if (newMod.ExclusionForRequiredMods.Contains(listMember))
                 {
                     // An exclusion exists, so this required mod was manually added. Remove the existing exclusion.
-                    ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredMod, listMember);
+                    newMod.ExclusionForRequiredMods.Remove(listMember);
 
                     if (ActiveCatalog.Instance.GroupDictionary.ContainsKey(listMember))
                     {
                         // Required ID is a group, remove the exclusion for all group members
                         foreach (ulong groupMember in ActiveCatalog.Instance.GroupDictionary[listMember].SteamIDs)
                         {
-                            ActiveCatalog.Instance.RemoveExclusion(steamID, Enums.ExclusionCategory.RequiredMod, groupMember);
+                            newMod.ExclusionForRequiredMods.Remove(groupMember);
                         }
                     }
                 }
                 else
                 {
                     // An exclusion does not exist, so this required mod was added by the AutoUpdater. Add an exclusion to prevent the required mod from returning.
-                    ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.NotRequiredMod, listMember);
+                    newMod.AddExclusionForRequiredMods(listMember);
 
                     if (ActiveCatalog.Instance.GroupDictionary.ContainsKey(listMember))
                     {
                         // Required ID is a group, add an exclusion for all group members
                         foreach(ulong groupMember in ActiveCatalog.Instance.GroupDictionary[listMember].SteamIDs)
                         {
-                            ActiveCatalog.Instance.AddExclusion(steamID, Enums.ExclusionCategory.NotRequiredMod, groupMember);
+                            newMod.AddExclusionForRequiredMods(groupMember);
                         }
                     }
                 }
@@ -742,7 +808,7 @@ namespace CompatibilityReport.Updater
             }
             else
             {
-                // For when an extra action is added but not implemented here yet
+                // Throw an error for when an extra action is added but not implemented here yet
                 return "Not implemented yet.";
             }
 
@@ -1024,16 +1090,24 @@ namespace CompatibilityReport.Updater
                         CatalogUpdater.CollectedModInfo.Add(mod.SteamID, Mod.Copy(mod));
                     }
 
+                    Mod collectedMod = CatalogUpdater.CollectedModInfo[mod.SteamID];
+
                     // Remove the group as required mod
-                    CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Remove(groupID);
+                    collectedMod.RequiredMods.Remove(groupID);
 
                     // Add the replacement mod as required mod, if it isn't there already
-                    if (!CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Contains(replacementModID))
+                    if (!collectedMod.RequiredMods.Contains(replacementModID))
                     {
-                        CatalogUpdater.CollectedModInfo[mod.SteamID].RequiredMods.Add(replacementModID);
+                        collectedMod.RequiredMods.Add(replacementModID);
                     }
 
-                    // [Todo 0.3] Update exclusions
+                    // Remove an exclusions for the group and add one for the replacement ID
+                    collectedMod.ExclusionForRequiredMods.Remove(groupID);
+
+                    if (!collectedMod.ExclusionForRequiredMods.Contains(replacementModID))
+                    {
+                        collectedMod.ExclusionForRequiredMods.Add(replacementModID);
+                    }
                 }
             }
 
@@ -1234,31 +1308,57 @@ namespace CompatibilityReport.Updater
 
 
         // Remove an exclusion
-        private static string RemoveExclusion(ulong steamID, ulong subitem, string categoryString)
+        private static string RemoveExclusion(ulong steamID, string categoryString, string subItem)
         {
             // Exit if no valid Steam ID
-            if (steamID <= ModSettings.highestFakeID)
+            if (!ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID))
             {
                 return $"Invalid Steam ID { steamID }.";
             }
 
-            // Exit if the category is null
-            if (string.IsNullOrEmpty(categoryString))
+            Mod mod = ActiveCatalog.Instance.ModDictionary[steamID];
+
+            categoryString = categoryString.ToLower();
+
+            if (categoryString == "sourceurl")
+            {
+                mod.Update(exclusionForSourceURL: false);
+            }
+            else if (categoryString == "gameversion")
+            {
+                mod.Update(exclusionForGameVersion: false);
+            }
+            else if (categoryString == "nodescription")
+            {
+                mod.Update(exclusionForNoDescription: false);
+            }
+            else if (categoryString == "requireddlc")
+            {
+                // Convert the DLC from string to enum
+                Enums.DLC dlc = Toolkit.ConvertToEnum<Enums.DLC>(subItem);
+
+                // Remove the DLC exclusion, return an error if we can't
+                if (!mod.ExclusionForRequiredDLC.Remove(dlc))
+                {
+                    return "Invalid DLC or no exclusion exists.";
+                }
+            }
+            else if (categoryString == "RequiredMod")
+            {
+                ulong requiredModID = Toolkit.ConvertToUlong(subItem);
+
+                // Remove the exclusion for the required mod (or group), return an error if we can't
+                if (!ActiveCatalog.Instance.RemoveExclusionForRequiredMods(mod, requiredModID))
+                {
+                    return "Invalid required mod ID or no exclusion exists.";
+                }
+            }
+            else 
             {
                 return "Invalid category.";
             }
 
-            // Convert the category string to enum
-            Enums.ExclusionCategory category = Toolkit.ConvertToEnum<Enums.ExclusionCategory>(categoryString);
-
-            // Exit on incorrect exclusion
-            if (category == default)
-            {
-                return "Incorrect category.";
-            }
-
-            // Remove the exclusion; will return false if the exclusion didn't exist
-            return ActiveCatalog.Instance.RemoveExclusion(steamID, category, subitem) ? "" : "Could not remove exclusion. It probably didn't exist.";
+            return "";
         }
 
 
