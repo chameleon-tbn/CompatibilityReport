@@ -51,16 +51,17 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_GroupMember, \<group ID\>, \<mod ID\>
 * Remove_Group, \<group ID\> [, \<replacement mod ID\>] *(replacement is mandatory if the group is still in use)*
 * Remove_GroupMember, \<group ID\>, \<mod ID\>
+  * *Careful with this! Required mods and Exclusions might become a mess, so you might need some extra actions*
 
-### Available author actions (use the author ID if the custom URL is a number)
-* Add_Author, \<<author ID | author custom URL\>, \<author name\> *(only need for 'removed' mods)*
+### Available author actions (author ID is much more reliable, and mandatory if the custom URL is a number)
+* Add_Author, \<author ID | author custom URL\>, \<author name\> *(only need for 'removed' mods)*
 * Add_AuthorID, \<author custom URL\>, \<author ID\>
 * Add_AuthorURL, \<author ID\>, \<author custom URL\>
-* Add_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\> *(must be newer than the current known date)*
-  * *Adding a last seen date reassesses the retired status*
-* Add_Retired, \<author ID | author custom URL\> *(only works if last seen is at least a year ago)*
+* Add_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\> *(should be more recent than newest mod update)*
+  * *Author will be assumed retired if not seen for a year*
+* Add_Retired, \<author ID | author custom URL\> :zap:
 * Remove_AuthorURL, \<author ID\>
-* Remove_Retired, \<author ID | author custom URL\>
+* Remove_Retired, \<author ID | author custom URL\> *(only works if added manually before)*
 
 ### Available miscellaneous actions
 * Add_CatalogGameVersion, \<game version string\>

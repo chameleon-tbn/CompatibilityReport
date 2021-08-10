@@ -33,7 +33,7 @@ namespace CompatibilityReport
             // Don't do this again if already done
             if (All != null)
             {
-                Logger.Log("AllSubscription.Get called more than once.", Logger.warning);
+                Logger.Log("ActiveSubscriptions.Get called more than once.", Logger.warning);
 
                 return;
             }

@@ -324,6 +324,20 @@ namespace CompatibilityReport.Util
         internal static string DateString(DateTime date) => $"{ date:yyyy-MM-dd}";
 
 
+        // Convert a string to a datetime
+        internal static DateTime Date(string dateString)
+        {
+            try
+            {
+                return DateTime.ParseExact(dateString, "yyyy-MM-dd", new CultureInfo("en-GB"));
+            }
+            catch
+            {
+                return default;
+            }
+        }
+
+
         // Convert a string to a version type
         internal static Version ConvertToGameVersion(string versionString)
         {

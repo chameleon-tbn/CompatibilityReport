@@ -23,8 +23,11 @@ namespace CompatibilityReport.DataTypes
         // Date the author was last seen / heard from
         public DateTime LastSeen { get; private set; }
 
-        // Is the author retired; based on long absence or author announcement
+        // Is the author retired. Based on mod updates or author announcement. No mod updates for over a year means retired
         public bool Retired { get; private set; }
+
+        // Exclusion for retired, to allow setting an author to retired even with recent mod updates
+        public bool ExclusionForRetired { get; private set; }
 
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
@@ -58,6 +61,8 @@ namespace CompatibilityReport.DataTypes
             
             Retired = retired;
 
+            ExclusionForRetired = false;
+
             ChangeNotes = changeNotes ?? new List<string>();
 
             // Debug messages
@@ -83,6 +88,7 @@ namespace CompatibilityReport.DataTypes
                              string name = null,
                              DateTime? lastSeen = null,
                              bool? retired = null,
+                             bool? exclusionForRetired = null,
                              string extraChangeNote = null,
                              bool? manuallyUpdated = null)
         {
@@ -99,6 +105,8 @@ namespace CompatibilityReport.DataTypes
             LastSeen = lastSeen ?? LastSeen;
 
             Retired = retired ?? Retired;
+
+            ExclusionForRetired = exclusionForRetired ?? ExclusionForRetired;
 
             // Add a change note
             if (!string.IsNullOrEmpty(extraChangeNote))
@@ -132,7 +140,7 @@ namespace CompatibilityReport.DataTypes
         internal static Author Copy(Author originalAuthor)
         {
             // Copy all value types directly
-            return new Author(originalAuthor.ProfileID, originalAuthor.CustomURL, originalAuthor.Name,
+            return new Author(originalAuthor.ProfileID, originalAuthor.CustomURL, originalAuthor.Name, 
                 originalAuthor.LastSeen, originalAuthor.Retired, originalAuthor.ChangeNotes);
         }
     }

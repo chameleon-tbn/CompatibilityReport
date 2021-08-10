@@ -29,14 +29,15 @@ namespace CompatibilityReport
             Stopwatch timer = Stopwatch.StartNew();
 
             // Log mod and game version
-            Logger.Log($"{ ModSettings.modName } version { ModSettings.fullVersion }. Game version { GameVersion.Formatted(GameVersion.Current) }. ", duplicateToGameLog: true);
+            Logger.Log($"{ ModSettings.modName } version { ModSettings.fullVersion }. Game version { GameVersion.Formatted(GameVersion.Current) }. ", 
+                duplicateToGameLog: true);
 
             Logger.Log($"{ GameVersion.SpecialNote }", duplicateToGameLog: true);
 
             // Exit if Steam Workshop is not available in game
             if (!Toolkit.SteamWorkshopAvailable())
             {
-                Logger.Log("The game can't access the Steam Workshop, and thus has no subscriptions to check. No report was generated.\n" + 
+                Logger.Log("The game can't access the Steam Workshop, and thus has no subscriptions to check. No report was generated. " + 
                     "This is expected behaviour if you used the '--noWorkshop' parameter.", Logger.warning, duplicateToGameLog: true);
 
                 return;

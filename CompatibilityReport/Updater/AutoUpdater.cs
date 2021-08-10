@@ -205,14 +205,30 @@ namespace CompatibilityReport.Updater
                     {
                         if (!CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID))
                         {
-                            CatalogUpdater.CollectedAuthorIDs.Add(authorID, new Author(authorID, authorURL, authorName));
+                            Author newAuthor = new Author(authorID, authorURL, authorName);
+
+                            // Copy exclusion from catalog author
+                            if (ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
+                            {
+                                newAuthor.Update(exclusionForRetired: ActiveCatalog.Instance.AuthorIDDictionary[authorID].ExclusionForRetired);
+                            }
+
+                            CatalogUpdater.CollectedAuthorIDs.Add(authorID, newAuthor);
                         }
                     }
                     else if (!string.IsNullOrEmpty(authorURL))
                     {
                         if (!CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL))
                         {
-                            CatalogUpdater.CollectedAuthorURLs.Add(authorURL, new Author(authorID, authorURL, authorName));
+                            Author newAuthor = new Author(authorID, authorURL, authorName);
+
+                            // Copy exclusion from catalog author
+                            if (ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL))
+                            {
+                                newAuthor.Update(exclusionForRetired: ActiveCatalog.Instance.AuthorURLDictionary[authorURL].ExclusionForRetired);
+                            }
+
+                            CatalogUpdater.CollectedAuthorURLs.Add(authorURL, newAuthor);
                         }
                     }
                 }
@@ -253,26 +269,10 @@ namespace CompatibilityReport.Updater
         // Get mod information from the individual mod pages on the Steam Workshop; we get this info for all new mods and for a maximum number of known mods
         private static void GetDetails()
         {
-            // If the current active catalog is version 1, we're (re)building the catalog from scratch. Version 2 should not yet include any details, so exit here.
+            // If the current active catalog is version 1, we're still (re)building the catalog from scratch; version 2 will be the first 'full' catalog
             if (ActiveCatalog.Instance.Version == 1)
             {
-                Logger.UpdaterLog($"Updater skipped checking individual Steam Workshop mod pages for the second catalog.", duplicateToRegularLog: true);
-
                 CatalogUpdater.SetNote(ModSettings.secondCatalogNote);
-
-                return;
-            }
-
-            // If the current active catalog is version 2, we're still (re)building the catalog from scratch; version 3 will be the first 'full' catalog
-            if (ActiveCatalog.Instance.Version == 2)
-            {
-                CatalogUpdater.SetNote(ModSettings.thirdCatalogNote);
-            }
-
-            // Reset the catalog note if it is still the default note
-            else if (ActiveCatalog.Instance.Note == ModSettings.thirdCatalogNote)
-            {
-                CatalogUpdater.SetNote("");
             }
 
             // Time the download and processing

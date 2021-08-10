@@ -37,7 +37,7 @@ namespace CompatibilityReport.Updater
 
             DateTime gameRelease = DateTime.Parse("2015-03-10");
 
-            string modNotes = $"Added on { Toolkit.DateString(updateDate) }.";
+            string modNotes = $"{ Toolkit.DateString(updateDate) }: added";
 
             string changeNotes = "";
 

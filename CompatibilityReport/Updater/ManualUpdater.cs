@@ -22,12 +22,18 @@ namespace CompatibilityReport.Updater
         // Start the manual updater. Should only be called from CatalogUpdater.
         internal static void Start()
         {
-            // If the current active catalog is version 1 or 2, we're (re)building the catalog from scratch. Wait with manual updates until version 3 is done.
-            if (ActiveCatalog.Instance.Version < 3)
+            // If the current active catalog is version 1, we're (re)building the catalog from scratch. Wait with manual updates until version 2 is done.
+            if (ActiveCatalog.Instance.Version == 1)
             {
-                Logger.UpdaterLog("Updater skipped importing CSV files until catalog version 3 is created.");
+                Logger.UpdaterLog("Updater skipped importing CSV files until catalog version 2 is created.");
 
                 return;
+            }
+
+            // Reset the catalog note if it is still the default note  [Todo 0.3] Move to after we know if there are any CSV files
+            else if (ActiveCatalog.Instance.Note == ModSettings.secondCatalogNote)
+            {
+                CatalogUpdater.SetNote("");
             }
 
             Logger.UpdaterLog("Updater started the CSV import.", duplicateToRegularLog: true);
@@ -674,6 +680,12 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_note")
             {
+                // Check if the new note data is already present
+                if (newMod.Note.Contains(itemData))
+                {
+                    return "Note already added.";
+                }
+
                 string newNote = (string.IsNullOrEmpty(newMod.Note) ? "" : newMod.Note + "\n") + itemData;
 
                 newMod.Update(note: newNote);
@@ -813,6 +825,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Set the review date to anything. It is only to indicate it should be updated by the CatalogUpdater, which uses its own update date.
+            // [Todo 0.3] Flawed logic: copied mod might already have a non-default reviewupdated date
             newMod.Update(reviewUpdated: DateTime.Now);
 
             // Add the copied mod to the collected mods dictionary
@@ -966,24 +979,22 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_lastseen")
             {
-                DateTime lastSeen;
+                DateTime lastSeen = Toolkit.Date(itemData);
 
-                // Check if we have a valid date that is more recent than the current author last seen date
-                try
-                {
-                    lastSeen = DateTime.ParseExact(itemData, "yyyy-MM-dd", new CultureInfo("en-GB"));
-
-                    if (lastSeen < newAuthor.LastSeen)
-                    {
-                        return $"Last Seen date lower than current date in catalog ({ newAuthor.LastSeen }).";
-                    }
-                }
-                catch
+                // Check if we have a valid date
+                if (lastSeen == default)
                 {
                     return "Invalid date.";
                 }
 
+                // Update last seen date
                 newAuthor.Update(lastSeen: lastSeen);
+
+                // Update retired status, if no exclusion exists
+                if (!newAuthor.ExclusionForRetired)
+                {
+                    newAuthor.Update(retired: lastSeen.AddYears(1) < DateTime.Today);
+                }
             }
             else if (action == "add_retired")
             {
@@ -993,7 +1004,14 @@ namespace CompatibilityReport.Updater
                     return "Author already retired.";
                 }
 
+                // Set retired
                 newAuthor.Update(retired: true);
+
+                // Add exclusion if not retired based on last seen date
+                if (newAuthor.LastSeen.AddYears(1) >= DateTime.Today)
+                {
+                    newAuthor.Update(exclusionForRetired: true);
+                }
             }
             else if (action == "remove_retired")
             {
@@ -1003,7 +1021,14 @@ namespace CompatibilityReport.Updater
                     return "Author was not retired.";
                 }
 
-                newAuthor.Update(retired: false);
+                // Exit if the retired status was not manually added, or is now due to the last seen date being over a year ago
+                if (!newAuthor.ExclusionForRetired || newAuthor.LastSeen.AddYears(1) < DateTime.Today)
+                {
+                    return "Author retirement was not manually added.";
+                }
+
+                // Unset retired and remove exclusion
+                newAuthor.Update(retired: false, exclusionForRetired: false);
             }
             else
             {
@@ -1179,6 +1204,37 @@ namespace CompatibilityReport.Updater
         }
 
 
+        // Add a set of compatibilities between each of the mods
+        private static string AddCompatibilitiesForAll(string compatibilityString, List<ulong> steamIDs)
+        {
+            // Sort the steamIDs
+            steamIDs.Sort();
+
+            int numberOfSteamIDs = steamIDs.Count;
+
+            // Loop from the first to the second-to-last
+            for (int index1 = 0; index1 < numberOfSteamIDs - 1; index1++)
+            {
+                // Set the first element as SteamID1
+                ulong steamID1 = steamIDs[0];
+
+                // Remove the first element
+                steamIDs.RemoveAt(0);
+
+                // Add compatibilities for this SteamID1 with the rest of the list
+                string result = AddCompatibilitiesForOne(steamID1, compatibilityString, steamIDs);
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    // Stop if these compatibilities could not be added, without processing more compatibilities
+                    return result;
+                }
+            }
+
+            return "";
+        }
+
+
         // Add a set of compatibilities between the first mod and each of the other mods
         private static string AddCompatibilitiesForOne(ulong steamID1, string compatibilityString, List<ulong> steamIDs)
         {
@@ -1187,7 +1243,7 @@ namespace CompatibilityReport.Updater
 
             ulong previousID = 0;
 
-            // Add a compatibility between the first mod and each mod from the list  [Todo 0.3] Change to convert string-list to ulong-list and check all before adding anything
+            // Add a compatibility between the first mod and each mod from the list
             foreach (ulong steamID2 in steamIDs)
             {
                 // Check if the ID is the same as the previous
@@ -1195,8 +1251,6 @@ namespace CompatibilityReport.Updater
                 {
                     return "Duplicate Steam ID.";
                 }
-
-                previousID = steamID2;
 
                 // Add the compatibility
                 string result = AddRemoveCompatibility("add_compatibility", steamID1, steamID2, compatibilityString, note: "");
@@ -1206,47 +1260,8 @@ namespace CompatibilityReport.Updater
                     // Stop if this compatibility could not be added, without processing more compatibilities
                     return result;
                 }
-            }
 
-            return "";
-        }
-
-
-        // Add a set of compatibilities between each of the mods  [Todo 0.3] change this to use AddCompatibilitiesForOne
-        private static string AddCompatibilitiesForAll(string compatibilityString, List<ulong> steamIDs)
-        {
-            // Sort the steamIDs
-            steamIDs.Sort();
-
-            // Loop from the first to the second-to-last  [Todo 0.3] Change to convert string-list to ulong-list and check all before adding anything
-            for (int index1 = 0; index1 < steamIDs.Count - 1; index1++)
-            {
-                ulong steamID1 = steamIDs[index1];
-
-                ulong previousID = steamID1;
-
-                // Loop from the one after index1 to the last
-                for (int index2 = index1 + 1; index2 < steamIDs.Count; index2++)
-                {
-                    ulong steamID2 = steamIDs[index2];
-
-                    // Check if the ID is the same as the previous
-                    if (steamID2 == previousID)
-                    {
-                        return "Duplicate Steam ID.";
-                    }
-
-                    previousID = steamID2;
-
-                    // Add a compatibility between the list items at index1 and index2
-                    string result = AddRemoveCompatibility("add_compatibility", steamID1, steamID2, compatibilityString, note: "");
-
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        // Stop if this compatibility could not be added, without processing more compatibilities
-                        return result;
-                    }
-                }
+                previousID = steamID2;
             }
 
             return "";
@@ -1266,6 +1281,12 @@ namespace CompatibilityReport.Updater
             if (!IsValidID(steamID2))
             {
                 return $"Invalid Steam ID { steamID2 }.";
+            }
+
+            // Exit if SteamID1 and SteamID2 are identical
+            if (steamID1 == steamID2)
+            {
+                return $"Duplicate Steam ID { steamID1 }.";
             }
 
             // Get the compatibility status as enum
@@ -1398,10 +1419,10 @@ namespace CompatibilityReport.Updater
                 }
 
                 // If the asset is already in the list, then just ignore it without error
-                if (!ActiveCatalog.Instance.Assets.Contains(steamID))
+                if (!ActiveCatalog.Instance.RequiredAssets.Contains(steamID))
                 {
                     // Add the asset directly to the catalog. No need to show this in the change notes.
-                    ActiveCatalog.Instance.Assets.Add(steamID);
+                    ActiveCatalog.Instance.RequiredAssets.Add(steamID);
                 }
             }
 
@@ -1415,7 +1436,7 @@ namespace CompatibilityReport.Updater
             foreach (ulong steamID in steamIDs)
             {
                 // Remove the asset directly from the catalog. If the asset is not in the list, then just ignore it without error
-                ActiveCatalog.Instance.Assets.Remove(steamID);
+                ActiveCatalog.Instance.RequiredAssets.Remove(steamID);
             }
 
             return "";

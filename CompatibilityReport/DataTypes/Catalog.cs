@@ -41,7 +41,7 @@ namespace CompatibilityReport.DataTypes
         public List<Author> Authors { get; private set; } = new List<Author>();
 
         // Assets that show up as required items; listed to see the difference between a required asset and a required mod we don't know (unlisted or removed mod)
-        [XmlArrayItem("SteamID")] public List<ulong> Assets { get; private set; } = new List<ulong>();
+        [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
 
 
         // Dictionaries to make searching easier and faster
@@ -93,7 +93,7 @@ namespace CompatibilityReport.DataTypes
 
         // Constructor with all parameters, used when converting an old catalog
         internal Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
-            List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<ulong> assets)
+            List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<ulong> requiredAssets)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
@@ -119,7 +119,7 @@ namespace CompatibilityReport.DataTypes
 
             Authors = modAuthors ?? new List<Author>();
 
-            Assets = assets ?? new List<ulong>();
+            RequiredAssets = requiredAssets ?? new List<ulong>();
         }
 
 
