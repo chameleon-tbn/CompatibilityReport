@@ -22,16 +22,8 @@ namespace CompatibilityReport.Updater
         // Start the manual updater. Should only be called from CatalogUpdater.
         internal static void Start()
         {
-            // If the current active catalog is version 1, we're (re)building the catalog from scratch. Wait with manual updates until version 2 is done.
-            if (ActiveCatalog.Instance.Version == 1)
-            {
-                Logger.UpdaterLog("Updater skipped importing CSV files until catalog version 2 is created.");
-
-                return;
-            }
-
-            // Reset the catalog note if it is still the default note  [Todo 0.3] Move to after we know if there are any CSV files
-            else if (ActiveCatalog.Instance.Note == ModSettings.secondCatalogNote)
+            // Reset the catalog note when creating catalog version 3  [Todo 0.3] Move to after we know if there are any CSV files
+            if (ActiveCatalog.Instance.Version == 2 && ActiveCatalog.Instance.Note == ModSettings.secondCatalogNote)
             {
                 CatalogUpdater.SetNote("");
             }
@@ -122,7 +114,7 @@ namespace CompatibilityReport.Updater
                 // Rename the processed CSV file to avoid processing it again next time; don't rename in debug mode
                 if (ModSettings.DebugMode)
                 {
-                    Logger.UpdaterLog($"\"{ Toolkit.GetFileName(CSVfile) }\" not renamed due to debug mode. Rename or delete it manually to avoid processing it again.");
+                    Logger.UpdaterLog($"\"{ Toolkit.GetFileName(CSVfile) }\" not renamed because of debug mode. Rename or delete it manually to avoid processing it again.");
                 }
                 else
                 {
@@ -327,8 +319,8 @@ namespace CompatibilityReport.Updater
                     result = "";
                     break;
 
-                case "updatedate":
-                    result = CatalogUpdater.SetCatalogUpdateDate(idString) ? "" : "Invalid date.";
+                case "reviewdate":
+                    result = CatalogUpdater.SetReviewDate(idString) ? "" : "Invalid date.";
                     break;
 
                 case "remove_exclusion":

@@ -19,13 +19,13 @@ namespace CompatibilityReport.Updater
         // Start the auto updater. Should only be called from CatalogUpdater. Will download Steam webpages for all mods and extract info for the catalog.
         internal static void Start()
         {
-            // Get basic mod and author information from the Steam Workshop 'mod listing' pages; we always get this info for all mods and their authors
+            // Get basic mod and author information from the Steam Workshop 'mod listing' pages
             if (GetBasicInfo())
             {
                 // Add mods from the catalog that we didn't find, so they will be included in GetDetails
                 AddUnfoundMods();
 
-                // Get detailed information from the individual mod pages; we get this info for all new mods and for a maximum number of known mods
+                // Get detailed information from the individual mod pages
                 GetDetails();
             }
         }
@@ -39,8 +39,11 @@ namespace CompatibilityReport.Updater
 
             Logger.UpdaterLog("Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
 
+            // Keep track of things
             uint totalPages = 0;
-
+            uint totalMods = 0;
+            bool success = true;
+            
             // Go through the different mod listings: mods and camera scripts, both regular and incompatible
             foreach (string steamURL in ModSettings.steamModListingURLs)
             {
@@ -65,6 +68,8 @@ namespace CompatibilityReport.Updater
                         // Decrease the pageNumber to the last succesful page
                         pageNumber--;
 
+                        success = false;
+
                         // Stop downloading pages for this type of mod listing
                         break;
                     }
@@ -88,9 +93,17 @@ namespace CompatibilityReport.Updater
                     }
 
                     Logger.UpdaterLog($"Found { modsFoundThisPage } mods on page { pageNumber }.");
+
+                    totalMods += modsFoundThisPage;
                 }
 
                 totalPages += pageNumber;
+
+                // Stop downloading if we had a permanent error
+                if (!success)
+                {
+                    break;
+                }
             }
 
             // Delete the temporary file
@@ -100,7 +113,7 @@ namespace CompatibilityReport.Updater
             timer.Stop();
 
             Logger.UpdaterLog($"Updater finished checking { totalPages } Steam Workshop 'mod listing' pages in " + 
-                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. { CatalogUpdater.CollectedModInfo.Count } mods and " + 
+                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. { totalMods } mods and " + 
                 $"{ CatalogUpdater.CollectedAuthorIDs.Count + CatalogUpdater.CollectedAuthorURLs.Count } authors found.", duplicateToRegularLog: true);
 
             return (totalPages > 0) && (CatalogUpdater.CollectedModInfo.Count > 0);
@@ -108,7 +121,7 @@ namespace CompatibilityReport.Updater
 
 
         // Extract mod and author info from the downloaded mod listing page; returns the number of mods that were found on this page
-        private static uint ReadModListingPage(bool incompatible)
+        private static uint ReadModListingPage(bool incompatibleMods)
         {
             uint modsFoundThisPage = 0;
 
@@ -174,7 +187,7 @@ namespace CompatibilityReport.Updater
                     {
                         Mod mod = new Mod(steamID, name, authorID, authorURL);
 
-                        if (incompatible)
+                        if (incompatibleMods)
                         {
                             // Assign the incompatible status if we got the mod from an 'incompatible' mod listing page
                             mod.Update(statuses: new List<Enums.ModStatus> { Enums.ModStatus.IncompatibleAccordingToWorkshop });
@@ -285,8 +298,7 @@ namespace CompatibilityReport.Updater
                 duplicateToRegularLog: true);
 
             // Initialize counters
-            uint knownModsDownloaded = 0;
-            uint newModsDownloaded = 0;
+            uint modsDownloaded = 0;
             uint failedDownloads = 0;
 
             // Check all mods we gathered, one by one
@@ -319,19 +331,12 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Page downloaded, increase the counter
-                if (knownMod)
-                {
-                    knownModsDownloaded++;
-                }
-                else
-                {
-                    newModsDownloaded++;
-                }
+                modsDownloaded++;
 
                 // Log a sign of life every 100 mods
-                if ((knownModsDownloaded + newModsDownloaded) % 100 == 0)
+                if (modsDownloaded % 100 == 0)
                 {
-                    Logger.UpdaterLog($"{ knownModsDownloaded + newModsDownloaded } mods checked.");
+                    Logger.UpdaterLog($"{ modsDownloaded } mods checked.");
                 }
 
                 // Extract detailed info from the downloaded page
@@ -344,7 +349,7 @@ namespace CompatibilityReport.Updater
             // Log the elapsed time
             timer.Stop();
 
-            Logger.UpdaterLog($"Updater finished downloading { knownModsDownloaded + newModsDownloaded } individual Steam Workshop mod pages in " + 
+            Logger.UpdaterLog($"Updater finished downloading { modsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.", duplicateToRegularLog: true);
         }
 
@@ -375,6 +380,8 @@ namespace CompatibilityReport.Updater
             // Keep track if we find the correct Steam ID on this page, to avoid messing up one mod with another mods info
             bool steamIDmatched = false;
 
+            bool steamCantFindMod = false;
+
             // Read the page back from file
             string line;
 
@@ -388,8 +395,18 @@ namespace CompatibilityReport.Updater
                     {
                         steamIDmatched = line.Contains(ModSettings.steamModPageSteamID + steamID.ToString());
 
-                        // Don't update anything if we don't find the Steam ID first
-                        continue;
+                        steamCantFindMod = line.Contains(ModSettings.steamModPageItemNotFound);
+
+                        if (steamCantFindMod)
+                        {
+                            // Steam says it can't find the mod, stop processing the page further
+                            break;
+                        }
+                        else
+                        {
+                            // Keep trying to find the Steam ID before anything else
+                            continue;
+                        }
                     }
 
                     // We found the steam ID, so this mod is definitely not / no longer removed from the Steam Workshop (can still be unlisted)
@@ -604,12 +621,21 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            if (steamIDmatched)
+            if (steamCantFindMod)
             {
-                // Indicate we updated all fields for this mod. This will be used by the CatalogUpdater.
-                mod.Update(autoReviewUpdated: DateTime.Now);
+                if (mod.UpdatedThisSession)
+                {
+                    // We found the mod in the mod listing, but not now. Must be a Steam error. [Todo 0.3] We should retry download
+                    Logger.UpdaterLog($"We found this, but can't read the Steam mod page: { ActiveCatalog.Instance.ModDictionary[steamID].ToString(cutOff: false) }. " +
+                        "Mod info not updated.", Logger.warning);
+                }
+                else
+                {
+                    // Change the mod to removed [Todo 0.3] missing change note
+                    mod.Statuses.Add(Enums.ModStatus.RemovedFromWorkshop);
+                }
             }
-            else
+            else if (!steamIDmatched)
             {
                 // We didn't find this mod; if we gave the mod the unknown status before (at AddUnfoundMods), change it to removed
                 if (mod.Statuses.Contains(Enums.ModStatus.Unknown))
@@ -620,10 +646,15 @@ namespace CompatibilityReport.Updater
                 }
                 else
                 {
-                    // The download page for this mod couldn't be read correctly
-                    Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { CatalogUpdater.CollectedModInfo[steamID].ToString(cutOff: false) }. " +
-                        "Mod info not updated.", Logger.error);
+                    // We didn't find this mod, but also didn't find the normal error. Must be a download issue or other Steam error.
+                    Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { ActiveCatalog.Instance.ModDictionary[steamID].ToString(cutOff: false) }. " +
+                    "Mod info not updated.", Logger.error);
                 }
+            }
+            else
+            {
+                // Indicate we updated all fields for this mod. This will be used by the CatalogUpdater.
+                mod.Update(autoReviewUpdated: DateTime.Now);
             }
         }
 
@@ -640,8 +671,8 @@ namespace CompatibilityReport.Updater
             }
 
             // Some common source url's to always ignore
-            string pardeike  = "https://github.com/pardeike";
-            string sschoener = "https://github.com/sschoener/cities-skylines-detour";
+            const string pardeike  = "https://github.com/pardeike";
+            const string sschoener = "https://github.com/sschoener/cities-skylines-detour";
 
             // Keep track of discarded source url's
             string discardedURLs = "";
