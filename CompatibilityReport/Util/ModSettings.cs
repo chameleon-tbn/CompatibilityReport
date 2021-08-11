@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "172";
+        internal const string build = "173";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -266,6 +266,7 @@ namespace CompatibilityReport.Util
         internal static readonly string steamModListingAuthorNameRight = "</a>";
 
         // Search strings for individual mod pages
+        internal static readonly string steamModPageItemNotFound = "There was a problem accessing the item. Please try again.";
         internal static readonly string steamModPageSteamID = "var publishedfileid = '";                                                    // Followed by the Steam ID
         internal static readonly string steamModPageAuthorFind = "&gt;&nbsp;<a href=\"https://steamcommunity.com/";                         // Followed by 'id' or 'profiles'
         internal static readonly string steamModPageAuthorMid = "/myworkshopfiles/?appid=255710\">";                                        // Sits between ID/URL and name

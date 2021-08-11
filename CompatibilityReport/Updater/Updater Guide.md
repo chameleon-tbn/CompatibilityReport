@@ -10,6 +10,10 @@ The lines in the CSV files all start with an action, often followed by a steam I
 
 Lines starting with a '#' are considered comments and will be ignored by the updater. Comments can also be added at the end of any action other than Add_Mod, Add_Note and Add_CatalogNote, as an extra parameter. Use a comma after the last parameter and start the comment with a '#'. Don't use commas in these comments.
 
+### First action you should use
+* ReviewDate, \<date: yyyy-mm-dd\> 
+  * *Used as review update date. Should be the first action to avoid multiple dates within one update. Uses today if omitted.*
+
 ### Available mod actions
 Parameters enclosed in square brackets are optional. The symbol :zap: means an exclusion will be created.
 * Add_Mod, \<mod ID\> [, \<author ID | author custom URL\> [, \<mod name\>] ] *(mod will have the 'unlisted' status)*
@@ -67,8 +71,6 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_CatalogGameVersion, \<game version string\>
 * Add_CatalogNote, \<note\>
 * Remove_CatalogNote
-* UpdateDate, \<date: yyyy-mm-dd\> 
-  * *Used as review update date; uses 'now' if omitted*
 * Add_RequiredAssets, \<mod ID\> [, \<mod ID\>, ...]
   * *Only needed to differentiate between a required asset and a required mod that isn't in the catalog*
 * Remove_RequiredAssets, \<mod ID\> [, \<mod ID\>, ...]

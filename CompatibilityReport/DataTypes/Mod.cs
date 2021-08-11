@@ -14,15 +14,15 @@ namespace CompatibilityReport.DataTypes
 
         public string Name { get; private set; }
 
-        // Author Profile ID and Author Custom URL; only one is needed to identify the author; ID is more reliable
-        public ulong AuthorID { get; private set; }
-
-        public string AuthorURL { get; private set; }
-
         // Date the mod was published and last updated on the Steam Workshop
         public DateTime Published { get; private set; }
 
         public DateTime Updated { get; private set; }
+
+        // Author Profile ID and Author Custom URL; only one is needed to identify the author; ID is more reliable
+        public ulong AuthorID { get; private set; }
+
+        public string AuthorURL { get; private set; }
 
         // An archive page of the Steam Workshop page, for mods that were removed from the Steam Workshop
         public string ArchiveURL { get; private set; }
@@ -30,22 +30,14 @@ namespace CompatibilityReport.DataTypes
         // Public location of the source
         public string SourceURL { get; private set; }
 
-        public bool ExclusionForSourceURL { get; private set; }
-
         // Game version this mod is compatible with; 'Version' is not serializable, so we use a string; convert to Version when needed
         public string CompatibleGameVersionString { get; private set; }
 
-        public bool ExclusionForGameVersion { get; private set; }
-        
         // Required DLCs
         public List<Enums.DLC> RequiredDLC { get; private set; } = new List<Enums.DLC>();
 
-        public List<Enums.DLC> ExclusionForRequiredDLC { get; private set; } = new List<Enums.DLC>();
-
         // Required mods for this mod (all are required); this is the only list that allows groups, meaning one (not all) of the mods in the group is required
         [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();
-
-        public List<ulong> ExclusionForRequiredMods { get; private set; } = new List<ulong>();
 
         // Successors of this mod
         [XmlArrayItem("SteamID")] public List<ulong> Successors { get; private set; } = new List<ulong>();
@@ -59,10 +51,19 @@ namespace CompatibilityReport.DataTypes
         // Statuses for this mod
         public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
         
-        public bool ExclusionForNoDescription { get; private set; }
-
         // General note about this mod; this is included in the report
         public string Note { get; private set; }
+
+        // Exclusions
+        public bool ExclusionForSourceURL { get; private set; }
+
+        public bool ExclusionForGameVersion { get; private set; }
+
+        public bool ExclusionForNoDescription { get; private set; }
+
+        public List<Enums.DLC> ExclusionForRequiredDLC { get; private set; } = new List<Enums.DLC>();
+
+        [XmlArrayItem("SteamID")] public List<ulong> ExclusionForRequiredMods { get; private set; } = new List<ulong>();
 
         // Date this mod was last manually and automatically reviewed for changes in information and compatibilities
         public DateTime ReviewUpdated { get; private set; }
@@ -71,6 +72,9 @@ namespace CompatibilityReport.DataTypes
 
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
+
+        // Indicator to see if this was updated this session
+        [XmlIgnore] internal bool UpdatedThisSession { get; private set; }
 
 
         // Default constructor
@@ -95,67 +99,54 @@ namespace CompatibilityReport.DataTypes
 
         // Update a mod with new info; all fields can be updated except Steam ID; all fields are optional, only supplied fields are updated
         internal void Update(string name = null,
-                             ulong authorID = 0,
-                             string authorURL = null,
                              DateTime? published = null,
                              DateTime? updated = null,
+                             ulong authorID = 0,
+                             string authorURL = null,
                              string archiveURL = null,
                              string sourceURL = null,
-                             bool? exclusionForSourceURL = null,
                              string compatibleGameVersionString = null,
-                             bool? exclusionForGameVersion = null,
                              List<Enums.DLC> requiredDLC = null,
-                             List<Enums.DLC> exclusionForRequiredDLC = null,
                              List<ulong> requiredMods = null,
-                             List<ulong> exclusionForRequiredMods = null,
                              List<ulong> successors = null,
                              List<ulong> alternatives = null,
                              List<ulong> recommendations = null,
                              List<Enums.ModStatus> statuses = null,
-                             bool? exclusionForNoDescription = null,
                              string note = null,
+                             bool? exclusionForSourceURL = null,
+                             bool? exclusionForGameVersion = null,
+                             bool? exclusionForNoDescription = null,
+                             List<Enums.DLC> exclusionForRequiredDLC = null,
+                             List<ulong> exclusionForRequiredMods = null,
                              DateTime? reviewUpdated = null,
                              DateTime? autoReviewUpdated = null,
                              List<string> replacementChangeNotes = null,
                              string extraChangeNote = null)
         {
-            // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
+            // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings/lists instead of null
             Name = name ?? Name ?? "";
+
+            Published = published ?? Published;
+
+            // If the updated date is older than published, set it to published
+            Updated = updated ?? Updated;
+            Updated = Updated < Published ? Published : Updated;
 
             AuthorID = authorID == 0 ? AuthorID : authorID;
 
             AuthorURL = authorURL ?? AuthorURL ?? "";
 
-            Published = published ?? Published;
-
-            Updated = updated ?? Updated;
-
-            // If the updated date is older than published, set it to published
-            if (Updated < Published)
-            {
-                Updated = Published;
-            }
-
             ArchiveURL = archiveURL ?? ArchiveURL ?? "";
 
             SourceURL = sourceURL ?? SourceURL ?? "";
 
-            ExclusionForSourceURL = exclusionForSourceURL ?? ExclusionForSourceURL;
-
-            // If the string is null, set it to the unknown game version
+            // If the game version string is null, set it to the unknown game version
             CompatibleGameVersionString = compatibleGameVersionString ?? CompatibleGameVersionString ?? GameVersion.Unknown.ToString();
 
-            ExclusionForGameVersion = exclusionForGameVersion ?? ExclusionForGameVersion;
-
-            // Make sure the lists are empty lists instead of null
             RequiredDLC = requiredDLC ?? RequiredDLC ?? new List<Enums.DLC>();
-
-            ExclusionForRequiredDLC = exclusionForRequiredDLC ?? ExclusionForRequiredDLC ?? new List<Enums.DLC>();
 
             RequiredMods = requiredMods ?? RequiredMods ?? new List<ulong>();
 
-            ExclusionForRequiredMods = exclusionForRequiredMods ?? ExclusionForRequiredMods ?? new List<ulong>();
-            
             Successors = successors ?? Successors ?? new List<ulong>();
 
             Alternatives = alternatives ?? Alternatives ?? new List<ulong>();
@@ -164,25 +155,32 @@ namespace CompatibilityReport.DataTypes
 
             Statuses = statuses ?? Statuses ?? new List<Enums.ModStatus>();
 
+            Note = note ?? Note ?? "";
+
+            ExclusionForSourceURL = exclusionForSourceURL ?? ExclusionForSourceURL;
+
+            ExclusionForGameVersion = exclusionForGameVersion ?? ExclusionForGameVersion;
+
             ExclusionForNoDescription = exclusionForNoDescription ?? ExclusionForNoDescription;
 
-            Note = note ?? Note ?? "";
+            ExclusionForRequiredDLC = exclusionForRequiredDLC ?? ExclusionForRequiredDLC ?? new List<Enums.DLC>();
+
+            ExclusionForRequiredMods = exclusionForRequiredMods ?? ExclusionForRequiredMods ?? new List<ulong>();
 
             ReviewUpdated = reviewUpdated ?? ReviewUpdated;
 
             AutoReviewUpdated = autoReviewUpdated ?? AutoReviewUpdated;
 
-            // Replace the change notes
-            if (replacementChangeNotes != null)
-            {
-                ChangeNotes = replacementChangeNotes;
-            }
+            // Replace the change notes and/or add a note
+            ChangeNotes = replacementChangeNotes ?? ChangeNotes ?? new List<string>();
 
-            // Add a change note
             if (!string.IsNullOrEmpty(extraChangeNote))
             {
                 ChangeNotes.Add(extraChangeNote);
             }
+
+            // Set updated this session to true, independent of an actual value update
+            UpdatedThisSession = true;
         }
 
 
@@ -231,12 +229,12 @@ namespace CompatibilityReport.DataTypes
             Mod newMod = new Mod(originalMod.SteamID, originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL);
 
             // Copy all value types directly, and all lists as new lists
-            newMod.Update(originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL, originalMod.Published, originalMod.Updated, originalMod.ArchiveURL,
-                originalMod.SourceURL, originalMod.ExclusionForSourceURL, originalMod.CompatibleGameVersionString, originalMod.ExclusionForGameVersion, 
-                new List<Enums.DLC>(originalMod.RequiredDLC), new List<Enums.DLC>(originalMod.ExclusionForRequiredDLC), new List<ulong>(originalMod.RequiredMods), 
-                new List<ulong>(originalMod.ExclusionForRequiredMods), new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), 
-                new List<ulong>(originalMod.Recommendations), new List<Enums.ModStatus>(originalMod.Statuses), originalMod.ExclusionForNoDescription, 
-                originalMod.Note, originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
+            newMod.Update(originalMod.Name, originalMod.Published, originalMod.Updated, originalMod.AuthorID, originalMod.AuthorURL, originalMod.ArchiveURL,
+                originalMod.SourceURL, originalMod.CompatibleGameVersionString, new List<Enums.DLC>(originalMod.RequiredDLC), new List<ulong>(originalMod.RequiredMods), 
+                new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), new List<ulong>(originalMod.Recommendations), 
+                new List<Enums.ModStatus>(originalMod.Statuses), originalMod.Note, originalMod.ExclusionForSourceURL, originalMod.ExclusionForGameVersion, 
+                originalMod.ExclusionForNoDescription, new List<Enums.DLC>(originalMod.ExclusionForRequiredDLC), new List<ulong>(originalMod.ExclusionForRequiredMods),
+                originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
 
             return newMod;
         }

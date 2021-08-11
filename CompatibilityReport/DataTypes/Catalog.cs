@@ -171,32 +171,39 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add a new mod to the catalog
-        internal Mod AddMod(ulong steamID,
-                            string name = "",
-                            ulong authorID = 0,
-                            string authorURL = "",
-                            DateTime? published = null,
-                            DateTime? updated = null,
-                            string archiveURL = null,
-                            string sourceURL = null,
-                            string compatibleGameVersionString = null,
-                            List<Enums.DLC> requiredDLC = null,
-                            List<ulong> requiredMods = null,
-                            List<ulong> successors = null,
-                            List<ulong> alternatives = null,
-                            List<ulong> recommendations = null,
-                            List<Enums.ModStatus> statuses = null,
-                            string note = null,
-                            DateTime? reviewUpdated = null,
-                            DateTime? autoReviewUpdated = null,
-                            string changeNoteString = null)
+        // Add or update a catalog mod. Exclusions for required mods have a separate method
+        internal Mod AddOrUpdateMod(ulong steamID,
+                                    string name = "",
+                                    ulong authorID = 0,
+                                    string authorURL = "",
+                                    DateTime? published = null,
+                                    DateTime? updated = null,
+                                    string archiveURL = null,
+                                    string sourceURL = null,
+                                    string compatibleGameVersionString = null,
+                                    List<Enums.DLC> requiredDLC = null,
+                                    List<ulong> requiredMods = null,
+                                    List<ulong> successors = null,
+                                    List<ulong> alternatives = null,
+                                    List<ulong> recommendations = null,
+                                    List<Enums.ModStatus> statuses = null,
+                                    string note = null,
+                                    bool? exclusionForSourceURL = null, 
+                                    bool? exclusionForGameVersion = null, 
+                                    bool? exclusionForNoDescription = null,
+                                    List<Enums.DLC> exclusionForRequiredDLC = null,
+                                    DateTime? reviewUpdated = null,
+                                    DateTime? autoReviewUpdated = null,
+                                    string extraChangeNote = null)
         {
             // Create a new mod
-            Mod mod = new Mod(steamID, name, authorID, authorURL);
+            Mod mod;
 
             if (!ModDictionary.ContainsKey(steamID))
             {
+                // Mod doesn't exist yet
+                mod = new Mod(steamID, name, authorID, authorURL);
+
                 // Add the mod to the list and dictionary
                 Mods.Add(mod);
 
@@ -206,22 +213,12 @@ namespace CompatibilityReport.DataTypes
             {
                 // This mod already exists; update the existing one
                 mod = ModDictionary[steamID];
-
-                Logger.Log($"Tried to add mod [{ steamID }] while it already existed. Updating existing mod instead.", Logger.error);
-            }
-
-            // Create change notes list
-            List<string> changeNotes = new List<string>();
-
-            if (!string.IsNullOrEmpty(changeNoteString))
-            {
-                changeNotes.Add(changeNoteString);
             }
 
             // Add all info to the mod
-            mod.Update(name, authorID, authorURL, published, updated, archiveURL, sourceURL, exclusionForSourceURL: false, compatibleGameVersionString, 
-                exclusionForGameVersion: false, requiredDLC, exclusionForRequiredDLC: null, requiredMods, exclusionForRequiredMods: null, 
-                successors, alternatives, recommendations, statuses, exclusionForNoDescription: false, note, reviewUpdated, autoReviewUpdated, changeNotes);
+            mod.Update(name, published, updated, authorID, authorURL, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods, successors, 
+                alternatives, recommendations, statuses, note, exclusionForSourceURL, exclusionForGameVersion, exclusionForNoDescription, 
+                exclusionForRequiredDLC, exclusionForRequiredMods: null, reviewUpdated, autoReviewUpdated, extraChangeNote: extraChangeNote);
 
             // Return a reference to the new mod
             return mod;
