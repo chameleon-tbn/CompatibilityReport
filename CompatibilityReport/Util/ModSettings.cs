@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "174";
+        internal const string build = "175";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -130,7 +130,7 @@ namespace CompatibilityReport.Util
         internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) } ";
 
         // Max width of the text report
-        internal static readonly int maxReportWidth = 90;
+        internal const int maxReportWidth = 90;
 
         // Separators used in the logfile and text report
         internal static readonly string separator = new string('-', maxReportWidth);
@@ -150,29 +150,26 @@ namespace CompatibilityReport.Util
         /// Hardcoded defaults for data that comes from the catalog
 
         // Default text report intro and footer
-        internal static readonly string defaultIntroText =
-                       "Basic information about mods:\n" +
-            bullet   + "Always exit to desktop before loading another save! (no 'Second Loading')\n" +
-            bullet   + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
-            bullet   + "Always unsubscribe mods you're not using. Disabling isn't always good enough.\n" +
-            bullet   + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
-            bullet   + "Savegame not loading? Use the optimization and safe mode options from Loading Screen:\n" +
-            noBullet + Toolkit.GetWorkshopURL(667342976) + "\n" +
+        internal static readonly string defaultIntroText = 
+            "Basic information about mods:\n" +
+            bullet + "Always exit to desktop before loading another save! (no 'second loading')\n" +
+            bullet + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
+            bullet + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" +
+            bullet + "Savegame not loading? Use the optimization and safe mode options from Loading Screen: " + Toolkit.GetWorkshopURL(667342976) + "\n" +
+            bullet + "Getting errors despite all your mods being compatible? Try the Loading Order Mod: " + Toolkit.GetWorkshopURL(2448824112) + "\n" +
             "\n" +
-                       "Some remarks about incompatibilities:\n" +
-            bullet   + "Mods that do the same thing are generally incompatible with each other.\n" +
-            bullet   + "Some issues are a conflict between more than two mods or a loading order issue,\n" +
-            noBullet + "making it hard to find the real culprit. This can lead to users blaming the\n" +
-            noBullet + "wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
+            "Some remarks about incompatibilities:\n" +
+            bullet + "Mods that do the same thing are generally incompatible with each other.\n" +
+            bullet + "Some issues are a conflict between more than two mods or a loading order issue, making it hard to find the real culprit. " + 
+            "This can lead to users blaming the wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
+            bullet + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
             "\n" +
-                       "Disclaimer:\n" +
-            bullet   + "We try to include reliable, researched information about incompatibilities and highly\n" +
-            noBullet + "value the words of mod authors in this. However, we will occasionally get it wrong\n" +
-            bullet   + "or miss an update. Found a mistake? Please comment on the Workshop.";
+            "Disclaimer:\n" +
+            bullet + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " + 
+            "However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop: " + Toolkit.GetWorkshopURL(OurOwnSteamID);
 
         internal static readonly string defaultFooterText =
-            "Did this help? Do you miss anything? Leave a comment at the workshop page.\n" +
-            Toolkit.GetWorkshopURL(OurOwnSteamID);
+            "Did this help? Do you miss anything? Leave a comment at the workshop page: " + Toolkit.GetWorkshopURL(OurOwnSteamID);
 
         // Default HTML report intro and footer; [Todo 1.1]
         internal static readonly string defaultIntroHtml = "";

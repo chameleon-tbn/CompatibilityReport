@@ -64,18 +64,19 @@ namespace CompatibilityReport
             uint modsWithRemarks = 0;
 
             // Mod name and report date
-            Logger.TextReport($"{ ModSettings.modName } report, created on { createTime:D}, { createTime:t}.", extraLine: true);
+            Logger.TextReport(Toolkit.WordWrap($"{ ModSettings.modName }, created on { createTime:D}, { createTime:t}."), extraLine: true);
 
             // Mod version, catalog version and number of mods in the catalog and in game
-            Logger.TextReport($"Version { ModSettings.shortVersion } with catalog { ActiveCatalog.Instance.VersionString() }. The catalog contains " + 
-                $"{ ActiveCatalog.Instance.ReviewCount } reviewed mods and " + $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } mods\n" +
-                $"with basic information. Your game has { ActiveSubscriptions.All.Count } mods.", extraLine: true);
+            Logger.TextReport(Toolkit.WordWrap($"Version { ModSettings.shortVersion } with catalog { ActiveCatalog.Instance.VersionString() }. " + 
+                $"The catalog contains { ActiveCatalog.Instance.ReviewCount } reviewed mods and " + 
+                $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } mods with basic information. " + 
+                $"Your game has { ActiveSubscriptions.All.Count } mods."), extraLine: true);
 
             // Generic note from the catalog
-            Logger.TextReport(ActiveCatalog.Instance.Note, extraLine: true);
+            Logger.TextReport(Toolkit.WordWrap(ActiveCatalog.Instance.Note), extraLine: true);
 
             // Special note about specific game versions; will be empty for almost everyone
-            Logger.TextReport(GameVersion.SpecialNote, extraLine: true);
+            Logger.TextReport(Toolkit.WordWrap(GameVersion.SpecialNote), extraLine: true);
 
             // Warning about game version mismatch
             if (GameVersion.Current != ActiveCatalog.Instance.CompatibleGameVersion)
@@ -83,16 +84,15 @@ namespace CompatibilityReport
                 string olderNewer = (GameVersion.Current < ActiveCatalog.Instance.CompatibleGameVersion) ? "older" : "newer";
                 string catalogGameVersion = GameVersion.Formatted(ActiveCatalog.Instance.CompatibleGameVersion);
 
-                Logger.TextReport($"WARNING: The review catalog is made for game version { catalogGameVersion }. Your game is { olderNewer }.\n" + 
-                               "         Results may not be accurate.", extraLine: true);
+                Logger.TextReport(Toolkit.WordWrap($"WARNING: The review catalog is made for game version { catalogGameVersion }. Your game is { olderNewer }. " + 
+                    "Results may not be accurate.", indent: new string(' ', "WARNING: ".Length)), extraLine: true);
             }
 
             Logger.TextReport(ModSettings.separatorDouble, extraLine: true);
 
             // Intro text with generic remarks
-            Logger.TextReport(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportIntroText) ? 
-                ModSettings.defaultIntroText : 
-                ActiveCatalog.Instance.ReportIntroText, extraLine: true);
+            Logger.TextReport(Toolkit.WordWrap(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportIntroText) ? ModSettings.defaultIntroText : 
+                ActiveCatalog.Instance.ReportIntroText, indent: ModSettings.noBullet, indentAfterNewLine: ""), extraLine: true);
 
             // Gather all mod detail texts
             if (ModSettings.ReportSortByName)
@@ -148,7 +148,8 @@ namespace CompatibilityReport
             Logger.TextReport(ModSettings.separatorDouble, extraLine: true);
 
             // Footer text
-            Logger.TextReport(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportFooterText) ? ModSettings.defaultFooterText : ActiveCatalog.Instance.ReportFooterText);
+            Logger.TextReport(Toolkit.WordWrap(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportFooterText) ? ModSettings.defaultFooterText : 
+                ActiveCatalog.Instance.ReportFooterText));
 
             // Log the report location
             Logger.Log($"Text report ready at \"{ Toolkit.PrivacyPath(ModSettings.ReportTextFullPath) }\".", duplicateToGameLog: true);
@@ -194,7 +195,7 @@ namespace CompatibilityReport
                 }
             }
 
-            // Gather the review text; [Todo 0.4] Rethink which review texts to include in 'somethingToReport'
+            // Gather the review text; [Todo 0.3.1] Rethink which review texts to include in 'somethingToReport'; combine author retired and mod abandoned into one line
             StringBuilder modReview = new StringBuilder();
 
             modReview.Append(ThisMod(subscription));
@@ -217,10 +218,10 @@ namespace CompatibilityReport
             // Insert the 'not reviewed' text at the start of the text; we do this after the above boolean has been set
             modReview.Insert(0, NotReviewed(subscription));
 
-            // Make sure every mod has some text to display
+            // Report that we didn't find any incompatibilities [Todo 0.3.1] We should keep better track of issues; now this text doesn't show if the author is retired
             if (modReview.Length == 0)
             {
-                modReview.Append(ReviewLine("Nothing to report", htmlReport: false));
+                modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods.", htmlReport: false));
             }
             
             // Workshop url for Workshop mods
@@ -261,12 +262,20 @@ namespace CompatibilityReport
             
             bullet = bullet ?? ModSettings.bullet;
 
-            if (cutOff && ((bullet + message).Length > ModSettings.maxReportWidth))
+            if (bullet.Length + message.Length > ModSettings.maxReportWidth)
             {
-                // Cut off the message, so the 'bulleted' message stays within maximum width
-                message = message.Substring(0, ModSettings.maxReportWidth - bullet.Length - 3) + "...";
+                if (cutOff || htmlReport)
+                {
+                    // Cut off the message, so the 'bulleted' message stays within maximum width
+                    message = message.Substring(0, ModSettings.maxReportWidth - bullet.Length - 3) + "...";
 
-                Logger.Log($"Report line too long: " + message, Logger.debug);
+                    Logger.Log($"Report line too long: " + message, Logger.debug);
+                }
+                else
+                {
+                    // Word wrap the message
+                    message = Toolkit.WordWrap(message, indent: new string(' ', bullet.Length));
+                }
             }
 
             // Return 'bulleted' message
@@ -324,7 +333,7 @@ namespace CompatibilityReport
         private static string Note(Subscription subscription,
                                    bool htmlReport = false)
         {
-            return ReviewLine(subscription.Note, htmlReport);
+            return ReviewLine(subscription.Note, htmlReport, cutOff: htmlReport);
         }
 
 
@@ -332,12 +341,15 @@ namespace CompatibilityReport
         private static string GameVersionCompatible(Subscription subscription,
                                                     bool htmlReport = false)
         {
-            if (subscription.GameVersionCompatible != GameVersion.Current)
+            if (subscription.GameVersionCompatible < GameVersion.CurrentMajor)
             {
                 return "";
             }
 
-            return ReviewLine($"Created or updated for current game version { GameVersion.Formatted(GameVersion.Current) }. Less likely to have issues.", htmlReport);
+            string currentOrNot = subscription.GameVersionCompatible == GameVersion.Current ? "current " : "";
+
+            return ReviewLine($"Created or updated for { currentOrNot }game version { GameVersion.Formatted(GameVersion.Current) }. Less likely to have issues.", 
+                htmlReport);
         }
 
 
@@ -663,7 +675,7 @@ namespace CompatibilityReport
         }
 
 
-        // Mod statuses; not reported: UnconfirmedIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated
+        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated
         private static string Statuses(Subscription subscription,
                                        bool htmlReport = false)
         {
@@ -737,7 +749,7 @@ namespace CompatibilityReport
 
                 // Archive workshop page
                 text += string.IsNullOrEmpty(subscription.ArchiveURL) ? "" :
-                    ReviewLine("Old Workshop page:\n" + subscription.ArchiveURL, htmlReport, ModSettings.noBullet, cutOff: false);
+                    ReviewLine("Old Workshop page: " + subscription.ArchiveURL, htmlReport, ModSettings.noBullet, cutOff: false);
             }
 
             // Savegame affecting
@@ -800,7 +812,7 @@ namespace CompatibilityReport
                 // Get a formatted text with the name of the other mod and the corresponding compatibility note
                 string otherModText = ReviewLine(ActiveSubscriptions.All[compatibility.Key].ToString(showFakeID: false, showDisabled: true), 
                     htmlReport, ModSettings.bullet2) + 
-                    ReviewLine(subscription.ModNotes[compatibility.Key], htmlReport, ModSettings.bullet3);
+                    ReviewLine(subscription.ModNotes[compatibility.Key], htmlReport, ModSettings.bullet3, cutOff: htmlReport);
                 
                 // Different versions, releases or mod with the same functionality
                 if (statuses.Contains(Enums.CompatibilityStatus.OlderVersion))

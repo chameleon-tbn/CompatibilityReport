@@ -6,8 +6,10 @@ namespace CompatibilityReport.DataTypes
 {
     internal static class GameVersion
     {
-        // Current game version (major, minor, build, revision)
+        // Current full and major game version
         internal static readonly Version Current;
+
+        internal static readonly Version CurrentMajor;
 
         // Note about special versions, used in the log and report
         internal static readonly string SpecialNote;
@@ -23,12 +25,16 @@ namespace CompatibilityReport.DataTypes
                 Convert.ToInt32(BuildConfig.APPLICATION_VERSION_C),
                 Convert.ToInt32(BuildConfig.APPLICATION_BUILD_NUMBER));
 
+            CurrentMajor = new Version(
+                Convert.ToInt32(BuildConfig.APPLICATION_VERSION_A),
+                Convert.ToInt32(BuildConfig.APPLICATION_VERSION_B));
+
             // 1.13.2-f1 is Epic only; consider this to be 1.13.1-f1 to not overcomplicate this mod
             if (Current == Patch_1_13_2_f1)
             {
                 Current = Patch_1_13_1_f1;
 
-                SpecialNote = $"Your game version is { Formatted(Patch_1_13_2_f1) }, which is an Epic Store only patch.\n" + 
+                SpecialNote = $"Your game version is { Formatted(Patch_1_13_2_f1) }, which is an Epic Store only patch." + 
                     $"To avoid complexity this mod will treat it as version { Formatted(Current) }.";
             }
         }

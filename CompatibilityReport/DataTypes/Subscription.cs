@@ -146,9 +146,7 @@ namespace CompatibilityReport.DataTypes
             // Exit here if the mod is not in the catalog
             if (!ActiveCatalog.Instance.ModDictionary.ContainsKey(SteamID))
             {
-                // Mod not found in catalog; set to not reviewed
-                IsReviewed = false;
-                
+                // Mod not found in catalog
                 if (!IsLocal || IsBuiltin)
                 {
                     // Log that we didn't find this one in the catalog; probably an unlisted or removed mod
@@ -167,11 +165,14 @@ namespace CompatibilityReport.DataTypes
             // Get the mod from the catalog
             Mod catalogMod = ActiveCatalog.Instance.ModDictionary[SteamID];
 
-            // Log the catalog name which is seen in the Steam Workshop; subscription name might differ and is seen in game in the Content Manager and Options
+            // Change name from subscription, as seen in Content Manager and Options, to catalog, as seen in the Workshop. They often differ slightly, sometimes a lot.
+            Name = catalogMod.Name;
+
+            // Log the found mod
             Logger.Log($"Mod found: { catalogMod.ToString(cutOff: false) }");
 
             // Check if the mod was manually reviewed
-            IsReviewed = catalogMod.ReviewUpdated != DateTime.MinValue;
+            IsReviewed = catalogMod.ReviewUpdated != default;
 
             // Get information from the catalog
             Updated = catalogMod.Updated;

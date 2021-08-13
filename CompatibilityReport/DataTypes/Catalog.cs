@@ -677,18 +677,16 @@ namespace CompatibilityReport.DataTypes
                 // Loading failed
                 if (ex.ToString().Contains("There is an error in XML document") || ex.ToString().Contains("Document element did not appear"))
                 {
-                    // XML error, log debug exception
+                    // XML error
                     Logger.Log($"XML error in catalog \"{ Toolkit.PrivacyPath(fullPath) }\". Catalog could not be loaded.", Logger.warning);
-
-                    Logger.Exception(ex, debugOnly: true, duplicateToGameLog: false);
                 }
                 else
                 {
-                    // Other error, log exception
+                    // Other error
                     Logger.Log($"Can't load catalog \"{ Toolkit.PrivacyPath(fullPath) }\".", Logger.warning);
-
-                    Logger.Exception(ex);
                 }
+
+                Logger.Exception(ex);
 
                 return null;
             }

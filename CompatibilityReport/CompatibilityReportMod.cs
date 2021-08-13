@@ -63,7 +63,9 @@ namespace CompatibilityReport
             Scanner.Scan(scene);
 
             // Get the settings on the screen [Todo 0.6]
-            // SettingsUI.Render(helper, scene);
+            UIHelperBase modOptions = helper.AddGroup(ModSettings.modName);
+
+            // modOptions.Add...
         }
 
 

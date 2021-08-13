@@ -12,7 +12,7 @@
             Broken,                                 // Broken, as in doesn't really function
             MajorIssues,                            // Will function (at least partially), but with some serious issues
             MinorIssues,                            // Will function but you might run into minor issues
-            UnconfirmedIssues,                      // [Only used by the updater to keep track of possible issues]
+            UsersReportIssues,                      // Various user reports about issues, while others say it still works fine
             PerformanceImpact,                      // Negatively impacts performance: fps drops, stuttering, etc.
             LoadingTimeImpact,                      // Increases loading time for the game, but should not have an impact after
             BreaksEditors,                          // Gives serious issues in the map and/or asset editor, or prevents them from loading

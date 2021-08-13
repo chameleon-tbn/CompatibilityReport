@@ -321,7 +321,10 @@ namespace CompatibilityReport.Util
 
 
         // Return a formatted date string
-        internal static string DateString(DateTime date) => $"{ date:yyyy-MM-dd}";
+        internal static string DateString(DateTime date)
+        {
+            return $"{ date:yyyy-MM-dd}";
+        }
 
 
         // Convert a string to a datetime
@@ -399,7 +402,10 @@ namespace CompatibilityReport.Util
 
 
         // Clean a html string from html codes
-        internal static string CleanString(string text) => text == null ? "" : text.Replace("&amp;", "&").Replace("&quot;", "\"");
+        internal static string CleanHtmlString(string text)
+        {
+            return text == null ? "" : text.Replace("&amp;", "&").Replace("&quot;", "\"");
+        }
         
 
         // Get the substring between two search-string in a string
@@ -427,6 +433,67 @@ namespace CompatibilityReport.Util
             }
 
             return original.Substring(indexLeft, indexRight - indexLeft);
+        }
+
+
+        // Return a word-wrapped string, with an optional indent string for every line after the first
+        internal static string WordWrap(string unwrapped, 
+                                        uint maxWidth = ModSettings.maxReportWidth, 
+                                        string indent = "",
+                                        string indentAfterNewLine = null)
+        {
+            if (unwrapped == null || unwrapped.Length <= maxWidth)
+            {
+                return unwrapped;
+            }
+
+            if (unwrapped.Contains("\n"))
+            {
+                // Make sure a line end has a space in front of it for easier splitting later
+                unwrapped = unwrapped.Replace("\n", " \n").Replace("  \n", " \n");
+
+                // If no special indent string was supplied, assume the regular indent string for these lines
+                indentAfterNewLine = indentAfterNewLine ?? indent;
+            }
+
+            StringBuilder wrapped = new StringBuilder();
+
+            string line = "";
+
+            string[] words = unwrapped.Split(' ');
+
+            foreach (string word in words)
+            {
+                if (string.IsNullOrEmpty(word))
+                {
+                    // Write a space if we get an empty word, which could happen if a string has multiple concurrent spaces
+                    line += " ";
+                }
+                else if (word[0] == '\n')
+                {
+                    // Start on a new line if we encounter a new line character
+                    wrapped.AppendLine(line);
+
+                    // Get rid of the new line character from the word and insert an indent string
+                    line = word.Replace("\n", indentAfterNewLine) + " ";
+                }
+                else if (line.Length + word.Length >= maxWidth)
+                {
+                    // Start on a new line if we would go over the max width
+                    wrapped.AppendLine(line);
+
+                    line = indent + word + " ";
+                }
+                else
+                {
+                    line += word + " ";
+                }
+            }
+
+            // Add the last line
+            wrapped.Append(line);
+
+            return wrapped.ToString();
         }
 
 
