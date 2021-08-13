@@ -19,32 +19,14 @@ namespace CompatibilityReport.Updater
         private static ulong fakeGroupID;
 
 
-        // Start the manual updater. Should only be called from CatalogUpdater.
+        // Start the manual updater. Should only be called from CatalogUpdater. Read all the CSVs and import them into the CatalogUpdater collections
         internal static void Start()
         {
-            // Reset the catalog note when creating catalog version 3  [Todo 0.3] Move to after we know if there are any CSV files
-            if (ActiveCatalog.Instance.Version == 2 && ActiveCatalog.Instance.Note == ModSettings.secondCatalogNote)
-            {
-                CatalogUpdater.SetNote("");
-            }
-
             Logger.UpdaterLog("Updater started the CSV import.", duplicateToRegularLog: true);
 
+            // Initialize the fake group ID we will use for setting temporary group IDs
             fakeGroupID = ModSettings.highestGroupID;
 
-            // Read all the CSVs and import them into the CatalogUpdater collections
-            ImportCSVs();
-
-            if (CatalogUpdater.CSVCombined.Length == 0)
-            {
-                Logger.UpdaterLog("No CSV files found.", duplicateToRegularLog: true);
-            }
-        }
-
-
-        // Read all the CSVs and import them into the updater collections
-        private static void ImportCSVs()
-        {
             // Get all CSV filenames
             List<string> CSVfiles = Directory.GetFiles(ModSettings.updaterPath, "*.csv").ToList();
 
@@ -85,24 +67,30 @@ namespace CompatibilityReport.Updater
                 {
                     string line;
 
+                    uint lineNumber = 0;
+
                     // Read each line
                     while ((line = reader.ReadLine()) != null)
                     {
+                        lineNumber++;
+
                         // Process the line
-                        if (ProcessLine(line))
+                        string result = ProcessLine(line);
+
+                        if (string.IsNullOrEmpty(result))
                         {
                             // Add this line to the combined CSV
                             CatalogUpdater.CSVCombined.AppendLine(line);
                         }
                         else
                         {
+                            Logger.UpdaterLog(result + $" Line #{ lineNumber }: " + line, Logger.error);
+
                             // Add the failed line with a comment to the combined CSV
-                            CatalogUpdater.CSVCombined.AppendLine("# [NOT PROCESSED] " + line);
+                            CatalogUpdater.CSVCombined.AppendLine("# [ERROR] " + line);
 
                             // Tag this file and the overall process as not fully successful
-                            singleFileSuccess = false;
-
-                            overallSuccess = false;
+                            singleFileSuccess = overallSuccess = false;
                         }
                     }
                 }
@@ -129,25 +117,32 @@ namespace CompatibilityReport.Updater
 
             timer.Stop();
 
-            // Log number of processed files and elapsed time to updater log and regular log
-            string s = numberOfFiles == 1 ? "" : "s";
+            if (CatalogUpdater.CSVCombined.Length == 0)
+            {
+                Logger.UpdaterLog("No CSV files found.", duplicateToRegularLog: true);
+            }
+            else
+            {
+                // Log number of processed files and elapsed time to updater log and regular log
+                string s = numberOfFiles == 1 ? "" : "s";
 
-            string logText = $"{ numberOfFiles } CSV file{ s } processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" +
-                (overallSuccess ? "." : ", with errors.");
+                string logText = $"{ numberOfFiles } CSV file{ s } processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" +
+                    (overallSuccess ? "." : ", with errors.");
 
-            Logger.UpdaterLog(logText);
+                Logger.UpdaterLog(logText);
 
-            Logger.Log($"{ logText }" + (overallSuccess ? "" : " Check separate logfile for details."), overallSuccess ? Logger.info : Logger.warning);
+                Logger.Log($"{ logText }" + (overallSuccess ? "" : " Check separate logfile for details."), overallSuccess ? Logger.info : Logger.warning);
+            }
         }
 
 
         // Process a line from a CSV file
-        private static bool ProcessLine(string line)
+        private static string ProcessLine(string line)
         {
             // Skip empty lines and lines starting with a '#' (comments), without returning an error
             if (string.IsNullOrEmpty(line) || line.Trim()[0] == '#')
             {
-                return true;
+                return "";
             }
 
             // Split the line
@@ -179,6 +174,10 @@ namespace CompatibilityReport.Updater
             // Act on the action found  [Todo 0.3] Check if all actions are updated in CatalogUpdater
             switch (action)
             {
+                case "reviewdate":
+                    result = CatalogUpdater.SetReviewDate(idString) ? "" : "Invalid date.";
+                    break;
+
                 case "add_mod":
                     // Get the author URL if no author ID was found
                     string authorURL = secondID == 0 ? extraData : "";
@@ -205,8 +204,8 @@ namespace CompatibilityReport.Updater
 
                 case "add_note":
                     // Join the lineFragments for the note, to allow for commas
-                    result = lineFragments.Length < 2 ? "Not enough parameters." :
-                        ChangeModItem(action, id, string.Join(",", lineFragments, 1, lineFragments.Length - 1).Trim());
+                    result = lineFragments.Length < 3 ? "Not enough parameters." :
+                        ChangeModItem(action, id, string.Join(",", lineFragments, 2, lineFragments.Length - 2).Trim().Replace("\\n", "\n"));
                     break;
 
                 case "add_requiredmod":
@@ -220,7 +219,7 @@ namespace CompatibilityReport.Updater
                     result = ChangeLinkedMod(action, id, listMember: secondID);
                     break;
 
-                case "add_reviewdate":
+                case "add_review":
                 case "remove_archiveurl":
                 case "remove_sourceurl":
                 case "remove_gameversion":
@@ -228,11 +227,22 @@ namespace CompatibilityReport.Updater
                     result = ChangeModItem(action, id, "");
                     break;
 
+                case "remove_exclusion":
+                    if (lineFragments.Length < 3 || (extraData.Contains("required") && lineFragments.Length < 4))
+                    {
+                        result = "Not enough parameters.";
+                    }
+                    else
+                    {
+                        result = RemoveExclusion(steamID: id, categoryString: extraData, subItem: (extraData.Contains("required") ? lineFragments[3] : ""));
+                    }
+                    break;
+
                 case "add_compatibility":
                 case "remove_compatibility":
                     // Get the note, if available; if the note starts with a '#', assume a comment instead of an actual note
                     string note = lineFragments.Length < 5 ? "" : 
-                        lineFragments[4][0] == '#' ? "" : string.Join(",", lineFragments, 4, lineFragments.Length - 4).Trim();
+                        lineFragments[4][0] == '#' ? "" : string.Join(",", lineFragments, 4, lineFragments.Length - 4).Trim().Replace("\\n", "\n");
 
                     result = lineFragments.Length < 4 ? "Not enough parameters." : 
                         AddRemoveCompatibility(action, id, secondID, compatibilityString: extraData, note);
@@ -302,36 +312,17 @@ namespace CompatibilityReport.Updater
                     break;
 
                 case "add_catalognote":
-                    // Join the lineFragments to allow for commas in the note
-                    if (lineFragments.Length < 2)
-                    {
-                        result = "Not enough parameters.";
-                    }
-                    else
-                    {
-                        CatalogUpdater.SetNote(string.Join(",", lineFragments, 1, lineFragments.Length - 1).Trim());
-                        result = "";
-                    }
+                case "add_catalogheadertext":
+                case "add_catalogfootertext":
+                    // Join the lineFragments to allow for commas in the note/text
+                    result = lineFragments.Length < 2 ? "Not enough parameters." : 
+                        ChangeCatalogText(action, string.Join(",", lineFragments, 1, lineFragments.Length - 1).Trim().Replace("\\n", "\n"));
                     break;
 
                 case "remove_catalognote":
-                    CatalogUpdater.SetNote("");
-                    result = "";
-                    break;
-
-                case "reviewdate":
-                    result = CatalogUpdater.SetReviewDate(idString) ? "" : "Invalid date.";
-                    break;
-
-                case "remove_exclusion":
-                    if (lineFragments.Length < 3 || (extraData.Contains("required") && lineFragments.Length < 4))
-                    {
-                        result = "Not enough parameters.";
-                    }
-                    else
-                    {
-                        result = RemoveExclusion(steamID: id, categoryString: extraData, subItem: (extraData.Contains("required") ? lineFragments[3] : ""));
-                    }
+                case "remove_catalogheadertext":
+                case "remove_catalogfootertext":
+                    result = ChangeCatalogText(action, "");
                     break;
 
                 default:
@@ -339,14 +330,7 @@ namespace CompatibilityReport.Updater
                     break;
             }
 
-            if (!string.IsNullOrEmpty(result))
-            {
-                Logger.UpdaterLog(result + " Line: " + line, Logger.error);
-
-                return false;
-            }
-            
-            return true;
+            return result;
         }
 
 
@@ -389,7 +373,7 @@ namespace CompatibilityReport.Updater
                                                                                    x.Value.Successors.Contains(steamID) || 
                                                                                    x.Value.Alternatives.Contains(steamID)).Value;
             Group catalogGroup = ActiveCatalog.Instance.GetGroup(steamID);
-            Group collectedGroup = CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(steamID)).Value;
+            Group collectedGroup = CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.GroupMembers.Contains(steamID)).Value;
 
             if (catalogMod != default || collectedMod != default || catalogGroup != default || collectedGroup != default)
             {
@@ -437,7 +421,7 @@ namespace CompatibilityReport.Updater
 
             // Exit if itemData is empty and listmember is zero, except for actions that don't need a third parameter
             if (string.IsNullOrEmpty(itemData) && listMember == 0 && 
-                action != "add_reviewdate" && action != "remove_archiveurl" && action != "remove_sourceurl" && action != "remove_gameversion" && action != "remove_note")
+                action != "add_review" && action != "remove_archiveurl" && action != "remove_sourceurl" && action != "remove_gameversion" && action != "remove_note")
             {
                 return $"Not enough parameters.";
             }
@@ -673,20 +657,18 @@ namespace CompatibilityReport.Updater
             else if (action == "add_note")
             {
                 // Check if the new note data is already present
-                if (newMod.Note.Contains(itemData))
+                if (!string.IsNullOrEmpty(newMod.Note) && newMod.Note.Contains(itemData))
                 {
                     return "Note already added.";
                 }
 
-                string newNote = (string.IsNullOrEmpty(newMod.Note) ? "" : newMod.Note + "\n") + itemData;
-
-                newMod.Update(note: newNote);
+                newMod.Update(note: itemData);
             }
             else if (action == "remove_note")
             {
                 newMod.Update(note: "");
             }
-            else if (action == "add_reviewdate")
+            else if (action == "add_review")
             {
                 // Nothing to do here, date will be changed below
             }
@@ -735,7 +717,7 @@ namespace CompatibilityReport.Updater
                     if (ActiveCatalog.Instance.GroupDictionary.ContainsKey(listMember))
                     {
                         // Required ID is a group, remove the exclusion for all group members
-                        foreach (ulong groupMember in ActiveCatalog.Instance.GroupDictionary[listMember].SteamIDs)
+                        foreach (ulong groupMember in ActiveCatalog.Instance.GroupDictionary[listMember].GroupMembers)
                         {
                             newMod.ExclusionForRequiredMods.Remove(groupMember);
                         }
@@ -749,7 +731,7 @@ namespace CompatibilityReport.Updater
                     if (ActiveCatalog.Instance.GroupDictionary.ContainsKey(listMember))
                     {
                         // Required ID is a group, add an exclusion for all group members
-                        foreach(ulong groupMember in ActiveCatalog.Instance.GroupDictionary[listMember].SteamIDs)
+                        foreach(ulong groupMember in ActiveCatalog.Instance.GroupDictionary[listMember].GroupMembers)
                         {
                             newMod.AddExclusionForRequiredMods(groupMember);
                         }
@@ -871,8 +853,8 @@ namespace CompatibilityReport.Updater
         // Change an author item, by author profile ID
         private static string ChangeAuthorItem(string action, ulong authorID, string itemData)
         {
-            // Exit if the author ID is invalid or does not exist in the active catalog
-            if (authorID == 0 || !ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
+            // Exit if the author ID is invalid or does not exist in the active catalog or collection
+            if (authorID == 0 || (!ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID) && !CatalogUpdater.CollectedAuthorIDs.ContainsKey(authorID)))
             {
                 return "Invalid author ID.";
             }
@@ -898,7 +880,8 @@ namespace CompatibilityReport.Updater
         private static string ChangeAuthorItem(string action, string authorURL, string itemData, ulong newAuthorID = 0)
         {
             // Exit if the author custom URL is empty or does not exist in the active catalog
-            if (string.IsNullOrEmpty(authorURL) || !ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL))
+            if (string.IsNullOrEmpty(authorURL) || 
+                (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL) && !CatalogUpdater.CollectedAuthorURLs.ContainsKey(authorURL)))
             {
                 return "Invalid author custom URL.";
             }
@@ -979,13 +962,24 @@ namespace CompatibilityReport.Updater
                     return "Invalid date.";
                 }
 
+                // Exit if last seen is already this date, log if new date is lower
+                if (lastSeen == newAuthor.LastSeen)
+                {
+                    return "Author already has this last seen date.";
+                }
+                else if (lastSeen < newAuthor.LastSeen)
+                {
+                    Logger.UpdaterLog($"Lowered the last seen date for { newAuthor.ToString() }, " +
+                        $"from { Toolkit.DateString(newAuthor.LastSeen) } to { Toolkit.DateString(lastSeen) }.");
+                }
+
                 // Update last seen date
                 newAuthor.Update(lastSeen: lastSeen);
 
                 // Update retired status, if no exclusion exists
                 if (!newAuthor.ExclusionForRetired)
                 {
-                    newAuthor.Update(retired: lastSeen.AddYears(1) < DateTime.Today);
+                    newAuthor.Update(retired: lastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) < DateTime.Today);
                 }
             }
             else if (action == "add_retired")
@@ -1000,7 +994,7 @@ namespace CompatibilityReport.Updater
                 newAuthor.Update(retired: true);
 
                 // Add exclusion if not retired based on last seen date
-                if (newAuthor.LastSeen.AddYears(1) >= DateTime.Today)
+                if (newAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) >= DateTime.Today)
                 {
                     newAuthor.Update(exclusionForRetired: true);
                 }
@@ -1014,9 +1008,9 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Exit if the retired status was not manually added, or is now due to the last seen date being over a year ago
-                if (!newAuthor.ExclusionForRetired || newAuthor.LastSeen.AddYears(1) < DateTime.Today)
+                if (!newAuthor.ExclusionForRetired || newAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) < DateTime.Today)
                 {
-                    return "Author retirement was not manually added.";
+                    return "Author retirement is automatic and cannot be removed. Try adding a recent 'last seen' date.";
                 }
 
                 // Unset retired and remove exclusion
@@ -1054,7 +1048,7 @@ namespace CompatibilityReport.Updater
 
                 // Exit if the new group member is already a member of another group
                 if (ActiveCatalog.Instance.IsGroupMember(steamID) || 
-                    CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(steamID)).Value != default)
+                    CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.GroupMembers.Contains(steamID)).Value != default)
                 {
                     return $"Mod { steamID } is already in a group.";
                 }
@@ -1152,7 +1146,7 @@ namespace CompatibilityReport.Updater
 
             // Exit if the group member to add is already in a group in the catalog or the collected dictionary
             if (action == "add_groupmember" && (ActiveCatalog.Instance.IsGroupMember(groupMember) ||
-                !CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.SteamIDs.Contains(groupMember)).Equals(default(KeyValuePair<ulong, Group>))))
+                !CatalogUpdater.CollectedGroupInfo.FirstOrDefault(x => x.Value.GroupMembers.Contains(groupMember)).Equals(default(KeyValuePair<ulong, Group>))))
             {
                 return $"Mod { groupMember } is already a member of a group.";
             }
@@ -1166,24 +1160,24 @@ namespace CompatibilityReport.Updater
             if (action == "add_groupmember")
             {
                 // Add the new group member
-                group.SteamIDs.Add(groupMember);
+                group.GroupMembers.Add(groupMember);
             }
             else
             {
                 // Exit is the group member to remove is not actually a member of this group
-                if (!group.SteamIDs.Contains(groupMember))
+                if (!group.GroupMembers.Contains(groupMember))
                 {
                     return $"Mod { groupMember } is not a member of this group.";
                 }
 
                 // Exit if the group will not have at least 2 members after removal
-                if (group.SteamIDs.Count < 3)
+                if (group.GroupMembers.Count < 3)
                 {
                     return "Group does not have enough members to remove one. A group should always have at least two members.";
                 }
 
                 // Remove the group member
-                result = group.SteamIDs.Remove(groupMember) ? "" : $"Could not remove { groupMember } from group.";
+                result = group.GroupMembers.Remove(groupMember) ? "" : $"Could not remove { groupMember } from group.";
             }
 
             // Add the copied group to the collected groups dictionary if the change was successful
@@ -1400,6 +1394,26 @@ namespace CompatibilityReport.Updater
         }
 
 
+        // Set one of the text fields on the catalog
+        private static string ChangeCatalogText(string action, string text)
+        {
+            if (action.Contains("note"))
+            {
+                CatalogUpdater.SetNote(text);
+            }
+            else if (action.Contains("header"))
+            {
+                CatalogUpdater.SetHeaderText(text);
+            }
+            else // Footer
+            {
+                CatalogUpdater.SetFooterText(text);
+            }
+                                        
+            return "";
+        }
+
+
         // Add required assets to the catalog list of assets
         private static string AddRequiredAssets(List<ulong> steamIDs)
         {
@@ -1445,7 +1459,7 @@ namespace CompatibilityReport.Updater
             // 'ShouldNotExist' overrules 'shouldExist'
             shouldExist = !shouldNotExist && shouldExist;
 
-            // Check if the ID a valid mod or group ID
+            // Check if the ID is a valid mod or group ID
             bool valid = id > ModSettings.highestFakeID || 
                          (allowBuiltin && ModSettings.BuiltinMods.ContainsValue(id)) ||
                          (allowGroup && id >= ModSettings.lowestGroupID && id <= ModSettings.highestGroupID);

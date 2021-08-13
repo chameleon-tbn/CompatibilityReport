@@ -271,10 +271,10 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Get the group this mod is a member of
+        // Get the group this mod is a member of, if any
         internal Group GetGroup(ulong steamID)
         {
-            return steamID == 0 ? default : Groups.FirstOrDefault(x => x.SteamIDs.Contains(steamID));
+            return steamID == 0 ? default : Groups.FirstOrDefault(x => x.GroupMembers.Contains(steamID));
         }
 
 
@@ -286,21 +286,21 @@ namespace CompatibilityReport.DataTypes
 
 
         // Add a new group to the catalog; return the group, or null if the group couldn't be added; NOTE: a mod can only be in one group
-        internal Group AddGroup(string name, List<ulong> steamIDs)
+        internal Group AddGroup(string name, List<ulong> groupMembers)
         {
             // Check if none of the steam IDs is already in a group, or is a group itself
-            foreach (ulong steamID in steamIDs ?? new List<ulong>())
+            foreach (ulong groupMember in groupMembers ?? new List<ulong>())
             {
-                if (steamID >= ModSettings.lowestGroupID && steamID <= ModSettings.highestGroupID)
+                if (groupMember >= ModSettings.lowestGroupID && groupMember <= ModSettings.highestGroupID)
                 {
-                    Logger.Log($"Could not add a new group ({ name }) because { steamID } is a group and groups can't be nested.", Logger.error);
+                    Logger.Log($"Could not add a new group ({ name }) because { groupMember } is a group and groups can't be nested.", Logger.error);
 
                     return null;
                 }
 
-                if (IsGroupMember(steamID))
+                if (IsGroupMember(groupMember))
                 {
-                    Logger.Log($"Could not add a new group ({ name }) because [Steam ID { steamID }] is already member of another group.", Logger.error);
+                    Logger.Log($"Could not add a new group ({ name }) because [Steam ID { groupMember }] is already member of another group.", Logger.error);
 
                     return null;
                 }
@@ -328,14 +328,14 @@ namespace CompatibilityReport.DataTypes
             }
 
             // Add the new group to the list and dictionary
-            Group newGroup = new Group(newGroupID, name, steamIDs);
+            Group newGroup = new Group(newGroupID, name, groupMembers);
 
             Groups.Add(newGroup);
 
             GroupDictionary.Add(newGroup.GroupID, newGroup);
 
             // Replace group members with the group, as required mods anywhere in the catalog
-            foreach (ulong groupMemberID in newGroup.SteamIDs)
+            foreach (ulong groupMemberID in newGroup.GroupMembers)
             {
                 ReplaceRequiredModByGroup(groupMemberID);
             }
@@ -355,7 +355,7 @@ namespace CompatibilityReport.DataTypes
             }
 
             // Add the mod to the group
-            GroupDictionary[groupID].SteamIDs.Add(newGroupMember);
+            GroupDictionary[groupID].GroupMembers.Add(newGroupMember);
 
             // Replace the mod as required mod by the group, everywhere in the catalog; this will also duplicate an exclusion (if any) to the group and other group members
             ReplaceRequiredModByGroup(newGroupMember);
@@ -388,7 +388,17 @@ namespace CompatibilityReport.DataTypes
                     mod.RequiredMods.Add(requiredGroup.GroupID);
                 }
 
-                Logger.Log($"Replaced required mod { ModDictionary[requiredModID].ToString() } with { requiredGroup.ToString() }, for { mod.ToString(cutOff: false) }.");
+                // Log to the most likely log
+                if (ModSettings.UpdaterEnabled)
+                {
+                    Logger.UpdaterLog($"Replaced required mod { ModDictionary[requiredModID].ToString() } with { requiredGroup.ToString() }, " +
+                        $"for { mod.ToString(cutOff: false) }.");
+                }
+                else
+                {
+                    Logger.Log($"Replaced required mod { ModDictionary[requiredModID].ToString() } with { requiredGroup.ToString() }, " +
+                        $"for { mod.ToString(cutOff: false) }.");
+                }
 
                 // Add exclusion for the group if it exists for the old required mod or already exists for the group. This will create exclusions for all group members.
                 if (mod.ExclusionForRequiredMods.Contains(requiredModID) || mod.ExclusionForRequiredMods.Contains(requiredGroup.GroupID))
@@ -462,7 +472,7 @@ namespace CompatibilityReport.DataTypes
             else if (GroupDictionary.ContainsKey(requiredID))
             {
                 // SubItem is a group. Add exclusion for all group members. This is done manually here and not by calling AddExclusion again, to avoid an infinite loop.
-                foreach (ulong groupMember in GroupDictionary[requiredID].SteamIDs)
+                foreach (ulong groupMember in GroupDictionary[requiredID].GroupMembers)
                 {
                     mod.AddExclusionForRequiredMods(groupMember);
                 }
@@ -485,7 +495,7 @@ namespace CompatibilityReport.DataTypes
             else if (result && GroupDictionary.ContainsKey(requiredID))
             {
                 // SubItem is a group. Remove exclusion for all group members. This is done manually here and not by calling RemoveExclusion again, to avoid a loop.
-                foreach (ulong groupMember in GroupDictionary[requiredID].SteamIDs)
+                foreach (ulong groupMember in GroupDictionary[requiredID].GroupMembers)
                 {
                     mod.ExclusionForRequiredMods.Remove(groupMember);
                 }

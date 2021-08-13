@@ -207,6 +207,7 @@ namespace CompatibilityReport
             // Get all catalog filenames
             string[] files = Directory.GetFiles(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog*.xml");
 
+            // Silently exit if no updater catalogs are found
             if (files.Length == 0)
             {
                 return null;

@@ -220,7 +220,7 @@ namespace CompatibilityReport.Util
 
 
         // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(ulong profileID, string customURL, bool modsOnly = false)
+        internal static string GetAuthorWorkshop(ulong profileID, string customURL, bool modsOnly = true)
         {
             if (profileID != 0)
             {
@@ -438,7 +438,7 @@ namespace CompatibilityReport.Util
 
         // Return a word-wrapped string, with an optional indent string for every line after the first
         internal static string WordWrap(string unwrapped, 
-                                        uint maxWidth = ModSettings.maxReportWidth, 
+                                        int maxWidth = ModSettings.maxReportWidth, 
                                         string indent = "",
                                         string indentAfterNewLine = null)
         {

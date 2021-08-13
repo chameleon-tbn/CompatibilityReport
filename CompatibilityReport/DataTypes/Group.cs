@@ -23,7 +23,7 @@ namespace CompatibilityReport.DataTypes
         public string Name { get; private set; }
 
         // Steam IDs of mods in this group; nesting group IDs is not supported
-        [XmlArrayItem("SteamID")] public List<ulong> SteamIDs { get; private set; } = new List<ulong>();
+        [XmlArrayItem("SteamID")] public List<ulong> GroupMembers { get; private set; } = new List<ulong>();
 
 
         // Default constructor
@@ -34,20 +34,20 @@ namespace CompatibilityReport.DataTypes
 
 
         // Constructor with all parameters
-        internal Group(ulong groupID, string name, List<ulong> steamIDs)
+        internal Group(ulong groupID, string name, List<ulong> groupMembers)
         {
             GroupID = groupID;
 
             Name = name ?? "";
 
-            SteamIDs = steamIDs ?? new List<ulong>();
+            GroupMembers = groupMembers ?? new List<ulong>();
 
             if ((GroupID < ModSettings.lowestGroupID) || (GroupID > ModSettings.highestGroupID))
             {
                 Logger.Log($"Group ID out range: { this.ToString() }. This might give weird results in the report.", Logger.error);
             }
 
-            if (SteamIDs.Count < 2)
+            if (GroupMembers.Count < 2)
             {
                 Logger.Log($"Found Group with less than 2 members: { this.ToString() }.", Logger.warning);
             }
@@ -65,7 +65,7 @@ namespace CompatibilityReport.DataTypes
         internal static Group Copy(Group originalGroup)
         {
             // Copy the value types directly, and the list as a new list
-            return new Group(originalGroup.GroupID, originalGroup.Name, new List<ulong>(originalGroup.SteamIDs));
+            return new Group(originalGroup.GroupID, originalGroup.Name, new List<ulong>(originalGroup.GroupMembers));
         }
 
     }

@@ -274,7 +274,7 @@ namespace CompatibilityReport
                 else
                 {
                     // Word wrap the message
-                    message = Toolkit.WordWrap(message, indent: new string(' ', bullet.Length));
+                    message = Toolkit.WordWrap(message, ModSettings.maxReportWidth - bullet.Length, indent: new string(' ', bullet.Length));
                 }
             }
 
@@ -578,7 +578,7 @@ namespace CompatibilityReport
 
                         continue;   // To the next required mod
                     }
-                    else if (ActiveCatalog.Instance.GroupDictionary[id].SteamIDs?.Any() != true)
+                    else if (ActiveCatalog.Instance.GroupDictionary[id].GroupMembers?.Any() != true)
                     {
                         // Group contains no Steam IDs, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", htmlReport, ModSettings.bullet2);
@@ -598,7 +598,7 @@ namespace CompatibilityReport
                     string missingModsText = "";
 
                     // Check each mod in the group, and see if they are subscribed and enabled
-                    foreach (ulong modID in group.SteamIDs)
+                    foreach (ulong modID in group.GroupMembers)
                     {
                         if (ActiveSubscriptions.All.ContainsKey(modID))
                         {
@@ -771,7 +771,8 @@ namespace CompatibilityReport
             // Music
             if (subscription.Statuses.Contains(Enums.ModStatus.MusicCopyrightFree))
             {
-                text += ReviewLine("The included music is said to be copyright-free and safe for streaming.", htmlReport);
+                text += ReviewLine(Toolkit.WordWrap("The included music is said to be copyright-free and safe for streaming. " +
+                    "Some restrictions might still apply though."), htmlReport);
             }
             else if (subscription.Statuses.Contains(Enums.ModStatus.MusicCopyrighted))
             {

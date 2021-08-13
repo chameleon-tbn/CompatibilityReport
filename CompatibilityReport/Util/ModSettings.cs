@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "0";
-        internal const string build = "175";
+        internal const string build = "176";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -103,10 +103,10 @@ namespace CompatibilityReport.Util
         internal static readonly ulong highestUnknownBuiltinModID = 99;
         internal static readonly ulong lowestLocalModID          = 101;
         internal static readonly ulong highestLocalModID        = 9999;
-        internal static readonly ulong lowestGroupID        = 10001;
-        internal static readonly ulong highestGroupID      = 999999;
+        internal static readonly ulong lowestGroupID           = 10001;
+        internal static readonly ulong highestGroupID         = 999999;
         internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestGroupID);
-        
+
         // Logfile location (Cities_Data)
         internal static readonly string logfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
 
@@ -127,7 +127,7 @@ namespace CompatibilityReport.Util
         internal const uint downloadRetries = 2;
 
         // 'Please report' text to include in logs when something odd happens
-        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) } ";
+        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
 
         // Max width of the text report
         internal const int maxReportWidth = 90;
@@ -150,13 +150,12 @@ namespace CompatibilityReport.Util
         /// Hardcoded defaults for data that comes from the catalog
 
         // Default text report intro and footer
-        internal static readonly string defaultIntroText = 
-            "Basic information about mods:\n" +
+        internal static readonly string defaultIntroText = "Basic information about mods:\n" +
             bullet + "Always exit to desktop before loading another save! (no 'second loading')\n" +
             bullet + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
             bullet + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" +
-            bullet + "Savegame not loading? Use the optimization and safe mode options from Loading Screen: " + Toolkit.GetWorkshopURL(667342976) + "\n" +
-            bullet + "Getting errors despite all your mods being compatible? Try the Loading Order Mod: " + Toolkit.GetWorkshopURL(2448824112) + "\n" +
+            bullet + $"Savegame not loading? Use the optimization and safe mode options from Loading Screen: { Toolkit.GetWorkshopURL(667342976) }\n" +
+            bullet + $"Getting errors despite all your mods being compatible? Try the Loading Order Mod: { Toolkit.GetWorkshopURL(2448824112) }\n" +
             "\n" +
             "Some remarks about incompatibilities:\n" +
             bullet + "Mods that do the same thing are generally incompatible with each other.\n" +
@@ -166,10 +165,10 @@ namespace CompatibilityReport.Util
             "\n" +
             "Disclaimer:\n" +
             bullet + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " + 
-            "However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop: " + Toolkit.GetWorkshopURL(OurOwnSteamID);
+            $"However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop: { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
 
-        internal static readonly string defaultFooterText =
-            "Did this help? Do you miss anything? Leave a comment at the workshop page: " + Toolkit.GetWorkshopURL(OurOwnSteamID);
+        internal static readonly string defaultFooterText = "Did this help? Do you miss anything? Leave a comment at the workshop page: " +
+            Toolkit.GetWorkshopURL(OurOwnSteamID);
 
         // Default HTML report intro and footer; [Todo 1.1]
         internal static readonly string defaultIntroHtml = "";
@@ -224,7 +223,7 @@ namespace CompatibilityReport.Util
         internal static readonly string updaterPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Updater");
 
         // Updater settings file
-        internal static readonly string updaterSettingsXml = Path.Combine(updaterPath, $"{ internalName }_UpdaterSettings.xml");
+        internal static readonly string updaterSettingsFileFullPath = Path.Combine(updaterPath, $"{ internalName }_UpdaterSettings.xml");
 
         // Updater logfile location (Cities_Data)
         internal static readonly string updaterLogfileFullPath = Path.Combine(updaterPath, $"{ internalName }_Updater.log");
@@ -236,7 +235,10 @@ namespace CompatibilityReport.Util
         internal static readonly string steamDownloadedPageFullPath = Path.Combine(updaterPath, $"{ internalName }_Download.tmp");
 
         // Updater enabled
-        internal static bool UpdaterEnabled { get; private set; } = File.Exists(updaterSettingsXml);
+        internal static bool UpdaterEnabled { get; private set; } = File.Exists(updaterSettingsFileFullPath);
+
+        // Author retirement in months
+        internal static readonly int monthsOfInactivityToRetireAuthor = 12;
 
         // Max. number of Steam Workshop mod listing pages to download (per category), to avoid downloading for eternity; should be high enough to include all pages
         internal static readonly uint steamMaxModListingPages = 200;

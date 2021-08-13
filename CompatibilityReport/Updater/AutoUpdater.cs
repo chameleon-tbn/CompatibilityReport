@@ -151,7 +151,7 @@ namespace CompatibilityReport.Updater
                     }
 
                     // Get the mod name
-                    string name = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
+                    string name = Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
 
                     // Skip one line
                     line = reader.ReadLine();
@@ -162,7 +162,7 @@ namespace CompatibilityReport.Updater
                     string authorURL = Toolkit.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
                     
                     // Get the author name
-                    string authorName = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
+                    string authorName = Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
 
                     // Steam sometimes incorrectly puts the profile ID in place of the name. However, there are authors that actually have the ID as name
                     if (authorName == authorID.ToString())
@@ -282,19 +282,15 @@ namespace CompatibilityReport.Updater
         // Get mod information from the individual mod pages on the Steam Workshop; we get this info for all new mods and for a maximum number of known mods
         private static void GetDetails()
         {
-            // If the current active catalog is version 1, we're still (re)building the catalog from scratch; version 2 will be the first 'full' catalog
-            if (ActiveCatalog.Instance.Version == 1)
-            {
-                CatalogUpdater.SetNote(ModSettings.secondCatalogNote);
-            }
-
             // Time the download and processing
             Stopwatch timer = Stopwatch.StartNew();
 
-            // Estimated time in milliseconds is about half a second per download
-            long estimated = 500 * CatalogUpdater.CollectedModInfo.Count;
+            int totalNumberOfMods = CatalogUpdater.CollectedModInfo.Count;
 
-            Logger.UpdaterLog($"Updater started checking individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.", 
+            // Estimated time in milliseconds is about half a second per download
+            long estimated = 500 * totalNumberOfMods;
+
+            Logger.UpdaterLog($"Updater started checking { totalNumberOfMods } individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.", 
                 duplicateToRegularLog: true);
 
             // Initialize counters
@@ -336,7 +332,7 @@ namespace CompatibilityReport.Updater
                 // Log a sign of life every 100 mods
                 if (modsDownloaded % 100 == 0)
                 {
-                    Logger.UpdaterLog($"{ modsDownloaded } mods checked.");
+                    Logger.UpdaterLog($"{ modsDownloaded }/{ totalNumberOfMods } mods checked.");
                 }
 
                 // Extract detailed info from the downloaded page
@@ -434,7 +430,7 @@ namespace CompatibilityReport.Updater
                             authorURL = null;
                         }
 
-                        string authorName = Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
+                        string authorName = Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
                         
                         // Update the mod
                         mod.Update(authorID: authorID, authorURL: authorURL);
@@ -470,7 +466,7 @@ namespace CompatibilityReport.Updater
                     else if (line.Contains(ModSettings.steamModPageNameLeft) && mod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                     {
                         // Update the mod
-                        mod.Update(name: Toolkit.CleanString(Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)));
+                        mod.Update(name: Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)));
                     }
 
                     // Compatible game version tag
@@ -637,9 +633,14 @@ namespace CompatibilityReport.Updater
             }
             else if (!steamIDmatched)
             {
-                // We didn't find this mod; if we gave the mod the unknown status before (at AddUnfoundMods), change it to removed
-                if (mod.Statuses.Contains(Enums.ModStatus.Unknown))
+                // We didn't find this mod
+                if (mod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
                 {
+                    // Expected result, nothing to do here.
+                }
+                else if (mod.Statuses.Contains(Enums.ModStatus.Unknown))
+                {
+                    // We gave the mod the unknown status before (at AddUnfoundMods), change it to removed now
                     mod.Statuses.Remove(Enums.ModStatus.Unknown);
 
                     mod.Statuses.Add(Enums.ModStatus.RemovedFromWorkshop);
@@ -676,7 +677,7 @@ namespace CompatibilityReport.Updater
 
             // Keep track of discarded source url's
             string discardedURLs = "";
-            string discardedSeparator = "\n                                                                            Discarded: ";
+            const string discardedSeparator = "\n                                                                            Discarded: ";
 
             // Prepare to find another source url
             string secondSourceURL;

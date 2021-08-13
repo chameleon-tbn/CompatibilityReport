@@ -6,20 +6,20 @@ The ManualUpdater gathers its information from CSV files. These should be placed
 
 Groups are used for mod requirements. A group will replace every group member as required mod, both for current mod requirements in the catalog and for new mods found in the future. For example, a group with both a stable and test version of the same mod, will accept the test version as valid if the stable version is set as required mod. This prevents unjustified 'required mod not found' messages in the report. A mod can only be a member of one group, and the ManualUpdater cannot remove a mod from one group and add it to another in the same update run. Groups cannot be used for compatibilities, successors or alternatives. Group IDs are automaticaly assigned.
 
-The lines in the CSV files all start with an action, often followed by a steam ID (for the mod, group or author), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the AutoUpdater from overwriting these manual updates. Actions and parameters are not case sensitive (except for names and URLs that appears in the report). Commas are the only allowed separator and spaces around the separators are ignored. Commas in mod name and notes are supported.
+The lines in the CSV files all start with an action, often followed by a steam ID (for the mod, group or author), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the AutoUpdater from overwriting these manual updates. Actions and parameters are not case sensitive. Commas are the only allowed separator and spaces around the separators are ignored. Commas are supported in the mod name, notes and header/footer texts, but not in other parameters.
 
-Lines starting with a '#' are considered comments and will be ignored by the updater. Comments can also be added at the end of any action other than Add_Mod, Add_Note and Add_CatalogNote, as an extra parameter. Use a comma after the last parameter and start the comment with a '#'. Don't use commas in these comments.
+Lines starting with a '#' are considered comments and will be ignored by the updater. Comments can also be added as an extra parameter at the end of any action other than Add_Mod, Add_Note, Add_Compatibility and most Catalog actions. Use a comma after the last parameter and start the comment with a '#'. Commas in these end-of-line comments are not supported.
 
-### First action you should use
+### First action to use in any CSV file
 * ReviewDate, \<date: yyyy-mm-dd\> 
-  * *Used as review update date. Should be the first action to avoid multiple dates within one update. Uses today if omitted.*
+  * *Used as review update date for any following Mod actions. Can be used multiple times if you want different review dates for different actions. Uses today if omitted.*
 
 ### Available mod actions
 Parameters enclosed in square brackets are optional. The symbol :zap: means an exclusion will be created.
 * Add_Mod, \<mod ID\> [, \<author ID | author custom URL\> [, \<mod name\>] ] *(mod will have the 'unlisted' status)*
 * Add_ArchiveURL, \<mod ID\>, \<url\>
 * Add_SourceURL, \<mod ID\>, \<url\> :zap:
-* Add_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled if a newer game version is ever found)*
+* Add_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled when a newer game version is found)*
 * Add_RequiredDLC, \<mod ID\>, \<DLC string\> :zap:
 * Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
@@ -27,8 +27,8 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
 * Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription and SourceUnavailable status)*
   * *Adding a SourceUnavailable status will remove the SourceURL from the mod*
-* Add_Note, \<mod ID\>, \<text\> *(this will add the text to the end of the note, if a note already exists)*
-* Add_ReviewDate, \<mod ID\> *(use for reviews without changes to the mod itself)*
+* Add_Note, \<mod ID\>, \<text\>
+* Add_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
 * Remove_Mod, \<mod ID\> *(only works on unlisted and removed mods)*
 * Remove_ArchiveURL, \<mod ID\>
 * Remove_SourceURL, \<mod ID\> :zap:
@@ -40,10 +40,12 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
 * Remove_Status, \<mod ID\>, \<status string\>
 * Remove_Note, \<mod ID\>
+* Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required mod ID | DLC appid\>]
+  * *Available categories: SourceURL, GameVersion, RequiredDLC, RequiredMod, NoDescription*
 
 ### Available compatibility actions (will not change reviewed date for included mods)
 * Add_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>[, \<note\>]
-  * *The note will only be mentioned in the report for the first mod*
+  * *The note will only be mentioned in the report for the first mod, and cannot start with a '#'*
 * Add_CompatibilitiesForOne, \<first mod ID\>, \<compatibility status\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
   * *This will create compatibilities between the first mod and each of the other mods*
 * Add_CompatibilitiesForAll, \<compatibility status\>, \<mod ID\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
@@ -67,15 +69,19 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_AuthorURL, \<author ID\>
 * Remove_Retired, \<author ID | author custom URL\> *(only works if added manually before)*
 
-### Available miscellaneous actions
+### Available catalog actions
 * Add_CatalogGameVersion, \<game version string\>
-* Add_CatalogNote, \<note\>
+* Add_CatalogNote, \<text\>
+* Add_CatalogHeaderText, \<text\>
+* Add_CatalogFooterText, \<text\>
 * Remove_CatalogNote
-* Add_RequiredAssets, \<mod ID\> [, \<mod ID\>, ...]
+* Remove_CatalogHeaderText
+* Remove_CatalogFooterText
+
+### Available miscellaneous actions
+* Add_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
   * *Only needed to differentiate between a required asset and a required mod that isn't in the catalog*
-* Remove_RequiredAssets, \<mod ID\> [, \<mod ID\>, ...]
-* Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required mod ID | DLC appid\>]
-  * *Available categories: SourceURL, GameVersion, RequiredDLC, RequiredMod, NoDescription*
+* Remove_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
 
 
 *See https://github.com/Finwickle/CompatibilityReport/blob/dev/CompatibilityReport/DataTypes/Enums.cs for available status, compatibility and DLC strings.*  [Todo 0.3] change url to main
