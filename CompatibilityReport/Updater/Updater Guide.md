@@ -25,9 +25,11 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
+* Add_Stability, \<mod ID\>, \<stability string\>
+* Add_StabilityNote, \<mod ID\>, \<text\>
 * Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription and SourceUnavailable status)*
   * *Adding a SourceUnavailable status will remove the SourceURL from the mod*
-* Add_Note, \<mod ID\>, \<text\>
+* Add_GenericNote, \<mod ID\>, \<text\>
 * Add_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
 * Remove_Mod, \<mod ID\> *(only works on unlisted and removed mods)*
 * Remove_ArchiveURL, \<mod ID\>
@@ -38,8 +40,10 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
+* Remove_Stability, \<mod ID\>
+* Remove_StabilityNote, \<mod ID\>
 * Remove_Status, \<mod ID\>, \<status string\>
-* Remove_Note, \<mod ID\>
+* Remove_GenericNote, \<mod ID\>
 * Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required mod ID | DLC appid\>]
   * *Available categories: SourceURL, GameVersion, RequiredDLC, RequiredMod, NoDescription*
 
@@ -84,4 +88,4 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
 
 
-*See https://github.com/Finwickle/CompatibilityReport/blob/dev/CompatibilityReport/DataTypes/Enums.cs for available status, compatibility and DLC strings.*  [Todo 0.4] change url to main
+*See https://github.com/Finwickle/CompatibilityReport/blob/dev/CompatibilityReport/DataTypes/Enums.cs for available stability, status, compatibility and DLC strings.*  [Todo 0.4] change url to main

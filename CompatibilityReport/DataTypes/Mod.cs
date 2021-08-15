@@ -48,11 +48,17 @@ namespace CompatibilityReport.DataTypes
         // Recommended mods to use with this mod
         [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
         
+        // Mod stability
+        public Enums.ModStability Stability;
+
+        public string StabilityNote { get; private set; }
+
+
         // Statuses for this mod
         public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
-        
-        // General note about this mod; this is included in the report
-        public string Note { get; private set; }
+
+        // Generic note about this mod
+        public string GenericNote { get; private set; }
 
         // Exclusions
         public bool ExclusionForSourceURL { get; private set; }
@@ -84,8 +90,8 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Constructor with 4 parameters
-        internal Mod(ulong steamID, string name, ulong authorID, string authorURL)
+        // Constructor with 4 or 5 parameters
+        internal Mod(ulong steamID, string name, ulong authorID, string authorURL, bool incompatible = false)
         {
             SteamID = steamID;
 
@@ -94,6 +100,11 @@ namespace CompatibilityReport.DataTypes
             AuthorID = authorID;
 
             AuthorURL = authorURL ?? "";
+
+            if (incompatible)
+            {
+                Stability = Enums.ModStability.IncompatibleAccordingToWorkshop;
+            }
         }
 
 
@@ -111,8 +122,10 @@ namespace CompatibilityReport.DataTypes
                              List<ulong> successors = null,
                              List<ulong> alternatives = null,
                              List<ulong> recommendations = null,
+                             Enums.ModStability stability = Enums.ModStability.Undefined,
+                             string stabilityNote = null,
                              List<Enums.ModStatus> statuses = null,
-                             string note = null,
+                             string genericNote = null,
                              bool? exclusionForSourceURL = null,
                              bool? exclusionForGameVersion = null,
                              bool? exclusionForNoDescription = null,
@@ -153,9 +166,13 @@ namespace CompatibilityReport.DataTypes
 
             Recommendations = recommendations ?? Recommendations ?? new List<ulong>();
 
+            Stability = stability == Enums.ModStability.Undefined ? Stability : stability;
+
+            StabilityNote = stabilityNote ?? StabilityNote ?? "";
+
             Statuses = statuses ?? Statuses ?? new List<Enums.ModStatus>();
 
-            Note = note ?? Note ?? "";
+            GenericNote = genericNote ?? GenericNote ?? "";
 
             ExclusionForSourceURL = exclusionForSourceURL ?? ExclusionForSourceURL;
 
@@ -231,10 +248,10 @@ namespace CompatibilityReport.DataTypes
             // Copy all value types directly, and all lists as new lists
             newMod.Update(originalMod.Name, originalMod.Published, originalMod.Updated, originalMod.AuthorID, originalMod.AuthorURL, originalMod.ArchiveURL,
                 originalMod.SourceURL, originalMod.CompatibleGameVersionString, new List<Enums.DLC>(originalMod.RequiredDLC), new List<ulong>(originalMod.RequiredMods), 
-                new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), new List<ulong>(originalMod.Recommendations), 
-                new List<Enums.ModStatus>(originalMod.Statuses), originalMod.Note, originalMod.ExclusionForSourceURL, originalMod.ExclusionForGameVersion, 
-                originalMod.ExclusionForNoDescription, new List<Enums.DLC>(originalMod.ExclusionForRequiredDLC), new List<ulong>(originalMod.ExclusionForRequiredMods),
-                originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
+                new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), new List<ulong>(originalMod.Recommendations), originalMod.Stability,
+                originalMod.StabilityNote, new List<Enums.ModStatus>(originalMod.Statuses), originalMod.GenericNote, originalMod.ExclusionForSourceURL, 
+                originalMod.ExclusionForGameVersion, originalMod.ExclusionForNoDescription, new List<Enums.DLC>(originalMod.ExclusionForRequiredDLC), 
+                new List<ulong>(originalMod.ExclusionForRequiredMods), originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
 
             return newMod;
         }

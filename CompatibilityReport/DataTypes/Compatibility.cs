@@ -35,7 +35,7 @@ namespace CompatibilityReport.DataTypes
                 Logger.Log($"Found ModCompatibility object with two identical Steam IDs: { SteamID1 }.", Logger.warning);
 
                 // Overwrite status to avoid weird reporting of a mod being incompatible with itself
-                statuses = new List<Enums.CompatibilityStatus> { Enums.CompatibilityStatus.Unknown };
+                statuses = new List<Enums.CompatibilityStatus> { Enums.CompatibilityStatus.Undefined };
             }
 
             SteamID1 = steamID1;
@@ -45,7 +45,7 @@ namespace CompatibilityReport.DataTypes
             if (statuses?.Any() != true)
             {
                 // If no status is indicated, add an Unknown so we have at least one
-                Statuses = new List<Enums.CompatibilityStatus> { Enums.CompatibilityStatus.Unknown };
+                Statuses = new List<Enums.CompatibilityStatus> { Enums.CompatibilityStatus.Undefined };
 
                 Logger.Log($"Found ModCompatibility object with no status, Steam IDs: { SteamID1 } and { SteamID2 }.", Logger.error);
             }

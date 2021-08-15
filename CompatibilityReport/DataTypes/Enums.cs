@@ -3,37 +3,47 @@
     // Needs to be public for XML serialization
     public static class Enums
     {
-        // Statuses of a mod, can be none, one or more. Not all can be combined, for instance use only one of the 'issues'. [Todo 0.4] Not all are used (yet)
-        public enum ModStatus
+        // Stability of the mod. One is always active, defaults to unknown.
+        public enum ModStability
         {
-            Unknown,                                // [Only used by the Updater; should not appear in the catalog]
-            IncompatibleAccordingToWorkshop,        // The Workshop has an indication for seriously broken mods; incompatible with the game itself
+            Undefined,                              // [Only used by the Updater; should not appear in the catalog]
+            Unknown,                                // Stability unknown
+            UsersReportIssues,                      // Stability uncertain, but various user reports about issues, while others say it still works fine
+            IncompatibleAccordingToWorkshop,        // The Workshop has an indication for seriously broken mods; these are incompatible with the game itself
+            RequiresIncompatibleMod,                // This requires an incompatible mod and is thus indirectly incompatible
             GameBreaking,                           // Broken and also crashes or otherwise disrupts the game
             Broken,                                 // Broken, as in doesn't really function
             MajorIssues,                            // Will function (at least partially), but with some serious issues
             MinorIssues,                            // Will function but you might run into minor issues
-            UsersReportIssues,                      // Various user reports about issues, while others say it still works fine
-            PerformanceImpact,                      // Negatively impacts performance: fps drops, stuttering, etc.
-            LoadingTimeImpact,                      // Increases loading time for the game, but should not have an impact after
-            BreaksEditors,                          // Gives serious issues in the map and/or asset editor, or prevents them from loading
-            SavesCantLoadWithout,                   // This mod is needed to successfully load a savegame where it was previously used
-            TestVersion,                            // This is a test/beta/alpha/experimental version; use only when a stable version exists, to differentiate between them
-            Deprecated,                             // No longer supported and should not be used anymore
-            Abandoned,                              // No longer maintained and might give issues or break with future game updates
-            NoDescription,                          // For mods without a (real) description in the Workshop, which indicates a sparsely supported mod
-            NoCommentSectionOnWorkshop,             // This mods Workshop page has the comment section disabled, making it hard to see if people are experiencing issues
+            Stable                                  // Will function
+        }
+
+
+        // Statuses of a mod, can be none, one or more. Not all can be combined, for instance use only one of the 'music' or 'source'. [Todo 0.4] Not all are used (yet)
+        public enum ModStatus
+        {
+            Undefined,                              // [Only used by the Updater; should not appear in the catalog]
             UnlistedInWorkshop,                     // Available in the Workshop, but not listed anywhere or returned in searches; can only be found with a direct link
             RemovedFromWorkshop,                    // Once available in the Workshop, but no more; better not to use anymore
+            NoCommentSectionOnWorkshop,             // This mods Workshop page has the comment section disabled, making it hard to see if people are experiencing issues
+            NoDescription,                          // For mods without a (real) description in the Workshop, which indicates a sparsely supported mod
             NoLongerNeeded,                         // Obsolete, because whatever it did is now done by the game itself or by another mod it was a patch/addon for
+            Deprecated,                             // No longer supported and should not be used anymore
+            Abandoned,                              // No longer maintained and might give issues or break with future game updates
+            SavesCantLoadWithout,                   // This mod is needed to successfully load a savegame where it was previously used
+            BreaksEditors,                          // Gives serious issues in the map and/or asset editor, or prevents them from loading
+            PerformanceImpact,                      // Negatively impacts performance: fps drops, stuttering, etc.
+            LoadingTimeImpact,                      // Increases loading time for the game, but should not have an impact after
+            TestVersion,                            // This is a test/beta/alpha/experimental version; use only when a stable version exists, to differentiate between them
             DependencyMod,                          // This is only a dependency mod and adds no functionality on its own
             ModForModders,                          // Only needed for modders, to help in creating mods or assets; no use for regular players
-            MusicCopyrightFree,                     // This mod uses music, but only music that is copyright-free. Safe for videos and streaming
-            MusicCopyrighted,                       // This mod uses music with copyright. Should not be used in videos and streaming
-            MusicCopyrightUnknown,                  // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming
             SourceUnavailable,                      // No source files available; making it hard for other modders to support compatibility, or take over when abandoned
+            SourceBundled,                          // The source files are bundled with the mod and can be found in the mods folder
             SourceNotUpdated,                       // Source files are not updated; making it hard for other modders to support compatibility, or take over when abandoned
             SourceObfuscated,                       // The author has deliberately hidden the mod code from other modders; somewhat suspicious
-            SourceBundled                           // The source files are bundled with the mod and can be found in the mods folder
+            MusicCopyrightFree,                     // This mod uses music, but only music that is copyright-free. Safe for videos and streaming
+            MusicCopyrighted,                       // This mod uses music with copyright. Should not be used in videos and streaming
+            MusicCopyrightUnknown                   // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming
         }
 
 
@@ -41,18 +51,16 @@
         // All compatibilities are from the perspective of the first mod mentioned in the compatibility. Don't create 'mirrored' compatibilities, the mod handles this.
         public enum CompatibilityStatus
         {
-            Unknown,                                // [Only used by the Updater; should not appear in the catalog]
+            Undefined,                              // [Only used by the Updater; should not appear in the catalog]
             NewerVersion,                           // The first mod is a newer version of the second
             SameModDifferentReleaseType,            // Both mods are different release types ('stable' vs. 'beta', etc.) of the same mod; first should be the 'stable'
             SameFunctionality,                      // Both mods do the same thing, for instance different versions or similar mods from different authors
-            FunctionalityCovered, // [Todo 0.3] Needed?                // The first mod has all functionality of the second (and maybe more), so no need to have the second
             IncompatibleAccordingToAuthor,          // These mods are incompatible according to the author of the first mod
             IncompatibleAccordingToUsers,           // These mods are incompatible according to users of the first mod; should only be used on 'clear cases', not on a whim
             CompatibleAccordingToAuthor,            // These mods are fully compatible according to the author of the first mod
             MinorIssues,                            // These mods have minor issues when used together; use the compatibility note to clarify
             RequiresSpecificSettings,               // These mods require specific settings when used together; use the compatibility note to clarify
             OlderVersion,                           // [Only used by the Updater; use the 'NewerVersion' status]
-            FunctionalityCoveredByOther,  // [Todo 0.3] Needed?           // [Only used by the Updater; use the 'FunctionalityCovered' status]
         }
 
 

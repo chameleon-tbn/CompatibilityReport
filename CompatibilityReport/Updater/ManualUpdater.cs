@@ -196,13 +196,15 @@ namespace CompatibilityReport.Updater
                 case "add_sourceurl":
                 case "add_gameversion":
                 case "add_requireddlc":
+                case "add_stability":
                 case "add_status":
                 case "remove_requireddlc":
                 case "remove_status":
                     result = ChangeModItem(action, id, extraData);
                     break;
 
-                case "add_note":
+                case "add_stabilitynote":
+                case "add_genericnote":
                     // Join the lineFragments for the note, to allow for commas
                     result = lineFragments.Length < 3 ? "Not enough parameters." :
                         ChangeModItem(action, id, string.Join(",", lineFragments, 2, lineFragments.Length - 2).Trim().Replace("\\n", "\n"));
@@ -223,7 +225,9 @@ namespace CompatibilityReport.Updater
                 case "remove_archiveurl":
                 case "remove_sourceurl":
                 case "remove_gameversion":
-                case "remove_note":
+                case "remove_stability":
+                case "remove_stabilitynote":
+                case "remove_genericnote":
                     result = ChangeModItem(action, id, "");
                     break;
 
@@ -421,7 +425,8 @@ namespace CompatibilityReport.Updater
 
             // Exit if itemData is empty and listmember is zero, except for actions that don't need a third parameter
             if (string.IsNullOrEmpty(itemData) && listMember == 0 && 
-                action != "add_review" && action != "remove_archiveurl" && action != "remove_sourceurl" && action != "remove_gameversion" && action != "remove_note")
+                action != "add_review" && action != "remove_archiveurl" && action != "remove_sourceurl" && action != "remove_gameversion" && 
+                action != "remove_stabilitynote" && action != "remove_genericnote")
             {
                 return $"Not enough parameters.";
             }
@@ -544,14 +549,52 @@ namespace CompatibilityReport.Updater
                 // Remove the exclusion
                 newMod.ExclusionForRequiredDLC.Remove(dlc);
             }
+            else if (action == "add_stability")
+            {
+                // Convert the stability string to enum
+                Enums.ModStability stability = Toolkit.ConvertToEnum<Enums.ModStability>(itemData);
+
+                // Exit on an invalid modstatus
+                if (stability == Enums.ModStability.Undefined)
+                {
+                    return "Invalid stability.";
+                }
+
+                if (newMod.Stability == stability)
+                {
+                    return "Mod already has this stability.";
+                }
+
+                // IncompatibleAccordingToWorkshop can only be manually set or unset for a removed mod
+                if (stability == Enums.ModStability.IncompatibleAccordingToWorkshop && !newMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                {
+                    return "Invalid stability. This can only be set on a removed mod.";
+                } 
+                else if (newMod.Stability == Enums.ModStability.IncompatibleAccordingToWorkshop && !newMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                {
+                    return "Invalid stability. Mod has the Incompatible stability and that can only be changed for a removed mod.";
+                }
+
+                // Set the new stability
+                newMod.Update(stability: stability);
+            }
+            else if (action == "remove_stability")
+            {
+                if (newMod.Stability == Enums.ModStability.Undefined)
+                {
+                    return "Mod already has no stability set.";
+                }
+
+                // Set the 'null' stability
+                newMod.Update(stability: Enums.ModStability.Undefined);
+            }
             else if (action == "add_status")
             {
                 // Convert the status string to enum
                 Enums.ModStatus status = Toolkit.ConvertToEnum<Enums.ModStatus>(itemData);
 
-                // Status IncompatibleAccordingToWorkshop can only be manually added for a removed mod
-                if (status == Enums.ModStatus.Unknown || 
-                    (status == Enums.ModStatus.IncompatibleAccordingToWorkshop && !newMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop)))
+                // Exit on an invalid modstatus
+                if (status == Enums.ModStatus.Undefined)
                 {
                     return "Invalid status.";
                 }
@@ -571,10 +614,9 @@ namespace CompatibilityReport.Updater
                 // Add the new status
                 newMod.Statuses.Add(status);
 
-                // Remove conflicting statuses, and some additional actions
+                // Remove conflicting statuses, and change some exclusions
                 if (status == Enums.ModStatus.NoDescription)
                 {
-                    // Set exclusion
                     newMod.Update(exclusionForNoDescription: true);
                 }
                 else if (status == Enums.ModStatus.SourceUnavailable)
@@ -585,7 +627,6 @@ namespace CompatibilityReport.Updater
 
                     if (!string.IsNullOrEmpty(newMod.SourceURL))
                     {
-                        // Remove source URL and set exclusion
                         newMod.Update(sourceURL: "", exclusionForSourceURL: true);
                     }
                 }
@@ -600,7 +641,6 @@ namespace CompatibilityReport.Updater
                 else if (status == Enums.ModStatus.RemovedFromWorkshop)
                 {
                     newMod.Statuses.Remove(Enums.ModStatus.UnlistedInWorkshop);
-                    newMod.Statuses.Remove(Enums.ModStatus.IncompatibleAccordingToWorkshop);
                     newMod.Statuses.Remove(Enums.ModStatus.NoCommentSectionOnWorkshop);
                     newMod.Statuses.Remove(Enums.ModStatus.NoDescription);
                     newMod.Update(exclusionForNoDescription: false);
@@ -631,7 +671,7 @@ namespace CompatibilityReport.Updater
                 Enums.ModStatus status = Toolkit.ConvertToEnum<Enums.ModStatus>(itemData);
 
                 // Status IncompatibleAccordingToWorkshop cannot be manually removed
-                if (status == Enums.ModStatus.Unknown || status == Enums.ModStatus.IncompatibleAccordingToWorkshop)
+                if (status == Enums.ModStatus.Undefined)
                 {
                     return "Invalid status.";
                 }
@@ -654,19 +694,33 @@ namespace CompatibilityReport.Updater
                     newMod.Update(exclusionForSourceURL: false);
                 }
             }
-            else if (action == "add_note")
+            else if (action == "add_stabilitynote")
             {
                 // Check if the new note data is already present
-                if (!string.IsNullOrEmpty(newMod.Note) && newMod.Note.Contains(itemData))
+                if (!string.IsNullOrEmpty(newMod.StabilityNote) && newMod.StabilityNote == itemData)
                 {
                     return "Note already added.";
                 }
 
-                newMod.Update(note: itemData);
+                newMod.Update(stabilityNote: itemData);
             }
-            else if (action == "remove_note")
+            else if (action == "add_genericnote")
             {
-                newMod.Update(note: "");
+                // Check if the new note data is already present
+                if (!string.IsNullOrEmpty(newMod.GenericNote) && newMod.GenericNote == itemData)
+                {
+                    return "Note already added.";
+                }
+
+                newMod.Update(genericNote: itemData);
+            }
+            else if (action == "remove_stabilitynote")
+            {
+                newMod.Update(stabilityNote: "");
+            }
+            else if (action == "remove_genericnote")
+            {
+                newMod.Update(genericNote: "");
             }
             else if (action == "add_review")
             {

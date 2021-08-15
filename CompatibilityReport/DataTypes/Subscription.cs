@@ -39,6 +39,10 @@ namespace CompatibilityReport.DataTypes
         // Alternative mods; only for mods with issues and no successor
         internal List<ulong> Alternatives { get; private set; } = new List<ulong>();
 
+        // Mod stability
+        internal Enums.ModStability Stability { get; private set; }
+        internal string StabilityNote { get; private set; }
+
         // Status indicators
         internal bool IsEnabled { get; private set; }
         internal bool IsLocal { get; private set; }
@@ -50,7 +54,7 @@ namespace CompatibilityReport.DataTypes
         internal List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
 
         // Generic note
-        internal string Note { get; private set; }
+        internal string GenericNote { get; private set; }
 
         // Compatibilities
         internal Dictionary<ulong, List<Enums.CompatibilityStatus>> Compatibilities { get; private set; } = new Dictionary<ulong, List<Enums.CompatibilityStatus>>();
@@ -185,8 +189,10 @@ namespace CompatibilityReport.DataTypes
             Successors = catalogMod.Successors;
             Alternatives = catalogMod.Alternatives;
 
+            Stability = catalogMod.Stability;
+            StabilityNote = catalogMod.StabilityNote;
             Statuses = catalogMod.Statuses;
-            Note = catalogMod.Note;
+            GenericNote = catalogMod.GenericNote;
 
             // Get the author name and retirement status for Steam Workshop mods
             if (!IsLocal)
@@ -249,7 +255,7 @@ namespace CompatibilityReport.DataTypes
             // Add the compatibilities one by one
             foreach (Compatibility compatibility in compatibilities)
             {
-                if (compatibility.Statuses.Contains(Enums.CompatibilityStatus.Unknown))
+                if (compatibility.Statuses.Contains(Enums.CompatibilityStatus.Undefined))
                 {
                     // Unknown status indicates an empty status list; ignore this and continue with next compatibility
                     continue;
@@ -276,10 +282,6 @@ namespace CompatibilityReport.DataTypes
                         {
                             case Enums.CompatibilityStatus.NewerVersion:
                                 statuses.Add(Enums.CompatibilityStatus.OlderVersion);
-                                break;
-
-                            case Enums.CompatibilityStatus.FunctionalityCovered:
-                                statuses.Add(Enums.CompatibilityStatus.FunctionalityCoveredByOther);
                                 break;
 
                             default:

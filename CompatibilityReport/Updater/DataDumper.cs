@@ -75,7 +75,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod mod in ActiveCatalog.Instance.Mods)
             {
-                if (mod.ReviewUpdated == default && !mod.Statuses.Contains(Enums.ModStatus.IncompatibleAccordingToWorkshop))
+                if (mod.ReviewUpdated == default && mod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
                 {
                     Logger.DataDump($"{ mod.Name }, { Toolkit.GetWorkshopURL(mod.SteamID) }");
                 }

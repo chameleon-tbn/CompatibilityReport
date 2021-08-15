@@ -199,18 +199,20 @@ namespace CompatibilityReport
             StringBuilder modReview = new StringBuilder();
 
             modReview.Append(ThisMod(subscription));
+            modReview.Append(Stability(subscription));
+            modReview.Append(StabilityNote(subscription));
             modReview.Append(RequiredDLC(subscription));
             modReview.Append(RequiredMods(subscription));
-            modReview.Append(DependencyMod(subscription));
             modReview.Append(Compatibilities(subscription));
             modReview.Append(Statuses(subscription));
+            modReview.Append(DependencyMod(subscription));
             modReview.Append(Disabled(subscription));
             modReview.Append(RetiredAuthor(subscription));
             modReview.Append(GameVersionCompatible(subscription));
             modReview.Append(Successors(subscription));
             modReview.Append(Alternatives(subscription));
             modReview.Append(CameraScript(subscription));
-            modReview.Append(Note(subscription));
+            modReview.Append(GenericNote(subscription));
 
             // If the review text is not empty, then we found something to report
             bool somethingToReport = modReview.Length > 0;
@@ -330,10 +332,10 @@ namespace CompatibilityReport
 
 
         // Generic note for this mod
-        private static string Note(Subscription subscription,
-                                   bool htmlReport = false)
+        private static string GenericNote(Subscription subscription,
+                                          bool htmlReport = false)
         {
-            return ReviewLine(subscription.Note, htmlReport, cutOff: htmlReport);
+            return ReviewLine(subscription.GenericNote, htmlReport, cutOff: htmlReport);
         }
 
 
@@ -675,7 +677,54 @@ namespace CompatibilityReport
         }
 
 
-        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated
+        private static string Stability(Subscription subscription, 
+                                        bool htmlReport = false)
+        {
+            switch (subscription.Stability)
+            {
+                case Enums.ModStability.IncompatibleAccordingToWorkshop:
+                    return ReviewLine("UNSUBSCRIBE! This is totally incompatible with the current game version.", htmlReport);
+
+                case Enums.ModStability.RequiresIncompatibleMod:
+                    return ReviewLine("UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.", htmlReport);
+
+                case Enums.ModStability.GameBreaking:
+                    return ReviewLine("UNSUBSCRIBE! This breaks the game.", htmlReport);
+
+                case Enums.ModStability.Broken:
+                    return ReviewLine("Unsubscribe! This mod is broken.", htmlReport);
+
+                case Enums.ModStability.MajorIssues:
+                    return ReviewLine("Unsubscribe would be wise. This has major issues.", htmlReport);
+
+                case Enums.ModStability.MinorIssues:
+                    return ReviewLine("This has minor issues. Check its Workshop page for details.", htmlReport);
+
+                case Enums.ModStability.UsersReportIssues:
+                    return ReviewLine("Stability is uncertain. Some users are reporting issues. Check its Workshop page for details.", htmlReport);
+
+                case Enums.ModStability.Stable:
+                    return ReviewLine("This should be compatible with the current game version.", htmlReport);
+
+                case Enums.ModStability.Unknown:
+                    return ReviewLine("There is not enough information about this mod to know if it is compatible with the current game version.", htmlReport);
+
+                case Enums.ModStability.Undefined:
+                default:
+                    return "";
+            }
+        }
+
+
+        // Generic note for this mod
+        private static string StabilityNote(Subscription subscription,
+                                            bool htmlReport = false)
+        {
+            return ReviewLine(subscription.StabilityNote, htmlReport, cutOff: htmlReport);
+        }
+
+
+        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated, and more  [Todo 0.4] add all statuses
         private static string Statuses(Subscription subscription,
                                        bool htmlReport = false)
         {
@@ -692,27 +741,9 @@ namespace CompatibilityReport
                 text += ReviewLine("Unsubscribe. This is no longer needed.", htmlReport);
             }
 
-            // Gamebreaking issues
-            if (subscription.Statuses.Contains(Enums.ModStatus.IncompatibleAccordingToWorkshop))
+            if (subscription.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop && subscription.Stability != Enums.ModStability.RequiresIncompatibleMod &&
+                subscription.Stability != Enums.ModStability.GameBreaking && subscription.Stability != Enums.ModStability.Broken)
             {
-                text += ReviewLine("Unsubscribe! This is totally incompatible with current game version.", htmlReport);
-            }
-            else if (subscription.Statuses.Contains(Enums.ModStatus.GameBreaking))
-            {
-                text += ReviewLine("Unsubscribe! This breaks the game.", htmlReport);
-            }
-            else
-            {
-                // Issues, but not gamebreaking
-                if (subscription.Statuses.Contains(Enums.ModStatus.MajorIssues))
-                {
-                    text += ReviewLine("Unsubscribe would be wise. This has major issues.", htmlReport);
-                }
-                else if (subscription.Statuses.Contains(Enums.ModStatus.MinorIssues))
-                {
-                    text += ReviewLine("This has minor issues. Check its Workshop page for details.", htmlReport);
-                }
-
                 // Several statuses only listed if there are no gamebreaking issues
 
                 // Abandoned
@@ -823,10 +854,6 @@ namespace CompatibilityReport
                 else if (statuses.Contains(Enums.CompatibilityStatus.SameModDifferentReleaseType))
                 {
                     text += ReviewLine("Unsubscribe either this one or the other release of the same mod:", htmlReport) + otherModText;
-                }
-                else if (statuses.Contains(Enums.CompatibilityStatus.FunctionalityCoveredByOther))
-                {
-                    text += ReviewLine("Unsubscribe. It's functionality is already covered by:", htmlReport) + otherModText;
                 }
 
                 // Incompatible or minor issues

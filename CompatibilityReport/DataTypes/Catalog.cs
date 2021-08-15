@@ -186,8 +186,10 @@ namespace CompatibilityReport.DataTypes
                                     List<ulong> successors = null,
                                     List<ulong> alternatives = null,
                                     List<ulong> recommendations = null,
+                                    Enums.ModStability stability = Enums.ModStability.Undefined,
+                                    string stabilityNote = null,
                                     List<Enums.ModStatus> statuses = null,
-                                    string note = null,
+                                    string genericNote = null,
                                     bool? exclusionForSourceURL = null, 
                                     bool? exclusionForGameVersion = null, 
                                     bool? exclusionForNoDescription = null,
@@ -217,7 +219,7 @@ namespace CompatibilityReport.DataTypes
 
             // Add all info to the mod
             mod.Update(name, published, updated, authorID, authorURL, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods, successors, 
-                alternatives, recommendations, statuses, note, exclusionForSourceURL, exclusionForGameVersion, exclusionForNoDescription, 
+                alternatives, recommendations, stability, stabilityNote, statuses, genericNote, exclusionForSourceURL, exclusionForGameVersion, exclusionForNoDescription, 
                 exclusionForRequiredDLC, exclusionForRequiredMods: null, reviewUpdated, autoReviewUpdated, extraChangeNote: extraChangeNote);
 
             // Return a reference to the new mod
@@ -437,7 +439,6 @@ namespace CompatibilityReport.DataTypes
             // Check if a mirrored compatibility already exists; this is allowed for some statuses, but not all  [Todo 0.4] Can we allow all compatibilities mirrored?
             if (Compatibilities.Find(x => x.SteamID1 == steamID2 && x.SteamID2 == steamID1 && 
                 !x.Statuses.Contains(Enums.CompatibilityStatus.NewerVersion) &&
-                !x.Statuses.Contains(Enums.CompatibilityStatus.FunctionalityCovered) &&
                 !x.Statuses.Contains(Enums.CompatibilityStatus.IncompatibleAccordingToAuthor) &&
                 !x.Statuses.Contains(Enums.CompatibilityStatus.IncompatibleAccordingToUsers) &&
                 !x.Statuses.Contains(Enums.CompatibilityStatus.CompatibleAccordingToAuthor)) != null)
