@@ -25,7 +25,7 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport
 {
-    public class CompatibilityReportMod : IUserMod
+    public class CompatibilityReport : IUserMod
     {
         // The name and description of the mod, as seen in Content Manager and Options window
         public string Name => ModSettings.displayName;
@@ -62,7 +62,7 @@ namespace CompatibilityReport
             // Start the scan and create the report(s); will only be done once and only in the allowed scene
             Scanner.Scan(scene);
 
-            // Get the settings on the screen [Todo 0.6]
+            // Get the settings on the screen [Todo 0.7]
             UIHelperBase modOptions = helper.AddGroup(ModSettings.modName);
 
             // modOptions.Add...

@@ -109,7 +109,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons; [Todo 0.5] Something similar needed for Mac OS X or Linux?
+        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons; [Todo 0.6] Something similar needed for Mac OS X or Linux?
         internal static string PrivacyPath(string path)
         {
             // Get position of \appdata\local in the path

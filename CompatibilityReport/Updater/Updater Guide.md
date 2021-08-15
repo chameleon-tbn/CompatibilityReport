@@ -84,4 +84,4 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
 
 
-*See https://github.com/Finwickle/CompatibilityReport/blob/dev/CompatibilityReport/DataTypes/Enums.cs for available status, compatibility and DLC strings.*  [Todo 0.3] change url to main
+*See https://github.com/Finwickle/CompatibilityReport/blob/dev/CompatibilityReport/DataTypes/Enums.cs for available status, compatibility and DLC strings.*  [Todo 0.4] change url to main

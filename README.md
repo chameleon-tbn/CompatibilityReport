@@ -11,47 +11,46 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Review of subscribed mods with the catalog information
 * Text report, sorted by mod name; split into reviewed and non-reviewed mods
 * Automatic download of a new catalog; no need for a mod update for every new mod or compatibility
-* Use of mod groups, to allow different editions of mods as mod requirement
+* Use of mod groups, so both a test and stable version of a mod will be accepted as required mod
 * Catalog Updater method (for the author only), based on web crawling the Steam Workshop and CSV import
   * Detects new mods and changes in mod information (name, required dlc/mods, source url, etc.)
-  * Easy catalog maintenance with simple CSV files for updated mod and compatibility information
+  * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This also makes it easier to do catalog maintenance with multiple people.
   * Automatic change notes and catalog versioning
   * Upload to download location is done manually, to allow for quality assurance
 * Note: the current catalog only contains reviews for a limited set of mods
 
 ### Roadmap towards version 1.0 (subject to change)
-* 0.4 - Alpha release on GitHub and Steam Workshop (unlisted)
-  * Catalog with mod compatibilities and dependencies for all mods, from Workshop information
+* 0.4 - Code cleanup & major revision
+* 0.5 - Alpha release on GitHub and Steam Workshop (unlisted)
+  * Catalog with mod compatibilities and dependencies for most mods
   * Steam pinned discussions for submissions by mod authors and others
   * Alpha testing; hopefully also some Mac and Linux testing
   * Gather feedback from modders
-* 0.5 - Bugfixing and performance testing
+* 0.6 - Bugfixing and performance testing
   * Loading time and download time analysis
-  * Revision of the Reporter class
-  * Implement feedback if possible, or plan for future versions
-* 0.6 - Settings UI, Settings XML file
+  * Implement feedback where possible, or plan for future versions
+* 0.7 - Settings UI, Settings XML file
   * when to scan, on-demand scanning, report sorting, what to include in report, ...
-* 0.7 - Beta release
-  * Code cleanup
-  * Text revision
+* 0.8 - Beta release
+  * Further code cleanup and revision
   * Completing the catalog with info from other sources (MCC mod, compatibility guides, forum, ...)
-  * All catalog versions with their change notes will be publicly available
   * Public release on the Steam Workshop
+  * Public location for all catalog versions with their change notes
   * Test branch on GitHub
   * Gather feedback from users
   * Regular new catalog releases (weekly?)
 
 ### Future ideas (might not happen)
-* HTML report, categorized by severity; mod setting for text or HTML report
-* In-game popup with summary and button to open report
+* 1.1 HTML report, categorized by severity; mod setting for text or HTML report
+* 1.2 In-game popup with summary and button to open report
 * Version check before (down)loading a full catalog
 * Reviewing local mods
 * Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112))
+* Online catalog update procedure, supporting multiple simultaneous contributors
 * 'Second load' detection with warning popup
 * Catalog updater based on Steam API for much better performance, easier update detection and more reliable author links
-* Online catalog update procedure, supporting multiple simultaneous contributors
 * TLS 1.2 support for download, if possible (probably need to switch to .NET 4)
-* Detect missing mods for subscribed assets, like ETST, NExt2, Additive Shader, Trolleybus Trailer AI, etc.
+* Detect missing mods for subscribed assets, like ETST, NExt2, Additive Shader, Trolleybus Trailer AI, etc. (probably needs Steam API)
 * Localization
 
 ### Credits
@@ -66,4 +65,4 @@ This mod uses code snippets from:
 A big thanks to these modders and all those others for making their code available for education and re-use.
 
 ### Disclaimer
-I'm not an experienced programmer. I knew some programming fundamentals and taught myself C# with online tutorials, reading other peoples code and lots of experimenting. My code might be sloppy and inefficient. I'm open to suggestions and constructive feedback in the discussions.
+I'm not an experienced programmer. I knew some programming fundamentals and taught myself C# with online tutorials, reading other peoples code, browsing Stack Overflow and lots of experimenting. My code is surely sloppy, inefficient and ignoring lots of conventions. I'm open to suggestions and constructive feedback in the discussions.

@@ -57,8 +57,8 @@ namespace CompatibilityReport.Util
 
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
-        internal const string revision = "0";
-        internal const string build = "176";
+        internal const string revision = "1";
+        internal const string build = "177";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -85,7 +85,7 @@ namespace CompatibilityReport.Util
         // The current catalog structure version
         internal static readonly uint currentCatalogStructureVersion = 1;
 
-        // This mods own Steam ID; [Todo 0.4]
+        // This mods own Steam ID; [Todo 0.5]
         internal static readonly ulong OurOwnSteamID = 101;
 
         // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility, alternatives, etc.
@@ -180,7 +180,7 @@ namespace CompatibilityReport.Util
         internal static readonly string secondCatalogNote = "This catalog contains detailed information about all Steam Workshop mods. No reviews yet.";
 
 
-        /// Defaults for settings that will be available to users through mod options within the game [Todo 0.6]
+        /// Defaults for settings that will be available to users through mod options within the game [Todo 0.7]
 
         // Sort report by Name or Steam ID
         internal static bool ReportSortByName { get; private set; } = true;
@@ -204,7 +204,7 @@ namespace CompatibilityReport.Util
 
 
 
-        /// Defaults for settings that will be available in a settings xml file [Todo 0.6]
+        /// Defaults for settings that will be available in a settings xml file [Todo 0.7]
 
         // Debug mode; this enables debug logging and logfile append
         internal static bool DebugMode { get; private set; } = true;
@@ -292,7 +292,7 @@ namespace CompatibilityReport.Util
 
 
 
-        /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.6]
+        /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.7]
 
         // AutoUpdater enabled? AutoUpdater will only be enabled if the global updater is enabled, but can be overruled by a '.disabled' file
         internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && 

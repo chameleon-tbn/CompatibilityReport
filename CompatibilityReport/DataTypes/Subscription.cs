@@ -71,7 +71,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Constructor with plugin parameter; get all information from plugin and catalog [Todo 0.5] This constructor is large, is that problematic?
+        // Constructor with plugin parameter; get all information from plugin and catalog [Todo 0.4] This constructor is large, is that problematic?
         internal Subscription(PluginManager.PluginInfo plugin)
         {
             // Make sure we got a real plugin
@@ -89,7 +89,7 @@ namespace CompatibilityReport.DataTypes
             IsBuiltin = plugin.isBuiltin;
             IsCameraScript = plugin.isCameraScript;
 
-            // Get the time this mod was downloaded/updated; [Todo 0.5] How reliable is this? Is ToLocalTime needed?
+            // Get the time this mod was downloaded/updated; [Todo 0.4] How reliable is this? Is ToLocalTime needed? Check how Loading Order Mod does this
             Downloaded = PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime();
 
             // Get the Steam ID or assign a fake ID

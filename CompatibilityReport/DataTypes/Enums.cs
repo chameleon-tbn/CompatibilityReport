@@ -45,14 +45,14 @@
             NewerVersion,                           // The first mod is a newer version of the second
             SameModDifferentReleaseType,            // Both mods are different release types ('stable' vs. 'beta', etc.) of the same mod; first should be the 'stable'
             SameFunctionality,                      // Both mods do the same thing, for instance different versions or similar mods from different authors
-            FunctionalityCovered,                   // The first mod has all functionality of the second (and maybe more), so no need to have the second
+            FunctionalityCovered, // [Todo 0.3] Needed?                // The first mod has all functionality of the second (and maybe more), so no need to have the second
             IncompatibleAccordingToAuthor,          // These mods are incompatible according to the author of the first mod
             IncompatibleAccordingToUsers,           // These mods are incompatible according to users of the first mod; should only be used on 'clear cases', not on a whim
             CompatibleAccordingToAuthor,            // These mods are fully compatible according to the author of the first mod
             MinorIssues,                            // These mods have minor issues when used together; use the compatibility note to clarify
             RequiresSpecificSettings,               // These mods require specific settings when used together; use the compatibility note to clarify
             OlderVersion,                           // [Only used by the Updater; use the 'NewerVersion' status]
-            FunctionalityCoveredByOther,            // [Only used by the Updater; use the 'FunctionalityCovered' status]
+            FunctionalityCoveredByOther,  // [Todo 0.3] Needed?           // [Only used by the Updater; use the 'FunctionalityCovered' status]
         }
 
 

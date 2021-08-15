@@ -19,7 +19,7 @@ Please attach your CompatibilityReport.log file. You can find it in the Cities_D
 
 **Your system:**
  - OS: [e.g. Window 10, Mac OS X, ...]
- - Mod version: [e.g. 0.1.0.70]
+ - Mod version: [e.g. 0.3.1.177]
 
 **Additional context**
 Add any other context about the problem here.

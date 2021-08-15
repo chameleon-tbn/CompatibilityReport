@@ -80,7 +80,7 @@
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="DataTypes\GameVersion.cs" />
     <Compile Include="Util\Logger.cs" />
-    <Compile Include="CompatibilityReportMod.cs" />
+    <Compile Include="CompatibilityReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataTypes\Subscription.cs" />
     <Compile Include="DataTypes\Enums.cs" />

@@ -195,7 +195,7 @@ namespace CompatibilityReport
                 }
             }
 
-            // Gather the review text; [Todo 0.3.1] Rethink which review texts to include in 'somethingToReport'; combine author retired and mod abandoned into one line
+            // Gather the review text; [Todo 0.3.2] Rethink which review texts to include in 'somethingToReport'; combine author retired and mod abandoned into one line
             StringBuilder modReview = new StringBuilder();
 
             modReview.Append(ThisMod(subscription));
@@ -218,7 +218,7 @@ namespace CompatibilityReport
             // Insert the 'not reviewed' text at the start of the text; we do this after the above boolean has been set
             modReview.Insert(0, NotReviewed(subscription));
 
-            // Report that we didn't find any incompatibilities [Todo 0.3.1] We should keep better track of issues; now this text doesn't show if the author is retired
+            // Report that we didn't find any incompatibilities [Todo 0.3.2] We should keep better track of issues; now this text doesn't show if the author is retired
             if (modReview.Length == 0)
             {
                 modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods.", htmlReport: false));
