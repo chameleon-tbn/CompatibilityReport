@@ -142,7 +142,10 @@ namespace CompatibilityReport.DataTypes
 
 
         // Catalog version string, for reporting and logging
-        internal string VersionString() => $"{ StructureVersion }.{ Version:D4}";
+        internal string VersionString()
+        {
+            return $"{ StructureVersion }.{ Version:D4}";
+        }
 
 
         // Increase the version with a new update date (defaults to now); used for the Updater
@@ -224,6 +227,24 @@ namespace CompatibilityReport.DataTypes
 
             // Return a reference to the new mod
             return mod;
+        }
+
+
+        // Get the author, or return null when the author doesn't exist
+        internal Author GetAuthor(ulong authorID, string authorURL)
+        {
+            if (authorID != 0 && AuthorIDDictionary.ContainsKey(authorID))
+            {
+                return AuthorIDDictionary[authorID];
+            }
+            else if (!string.IsNullOrEmpty(authorURL) && AuthorURLDictionary.ContainsKey(authorURL))
+            {
+                return AuthorURLDictionary[authorURL];
+            }
+            else
+            {
+                return null;
+            }
         }
 
 
@@ -366,7 +387,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Replace a required mod by the group it is a member of
+        // Replace a required mod by the group it is a member of. Returns true if the mod was replaced.
         internal bool ReplaceRequiredModByGroup(ulong requiredModID)
         {
             Group requiredGroup = GetGroup(requiredModID);

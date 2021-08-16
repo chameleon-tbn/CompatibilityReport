@@ -342,7 +342,7 @@ namespace CompatibilityReport.Updater
         private static string AddMod(ulong steamID, ulong authorID, string authorURL, string modName)
         {
             // Exit if Steam ID is not valid or exists in the catalog or collected modinfo
-            if (!IsValidID(steamID, allowBuiltin: false, shouldNotExist: true))
+            if (!IsValidID(steamID, allowBuiltin: false, shouldExist: false))
             {
                 return $"Invalid Steam ID or mod already exists.";
             }
@@ -1473,7 +1473,7 @@ namespace CompatibilityReport.Updater
         {
             foreach (ulong steamID in steamIDs)
             {
-                if (!IsValidID(steamID, allowBuiltin: false, shouldNotExist: true))
+                if (!IsValidID(steamID, allowBuiltin: false, shouldExist: false))
                 {
                     return $"Invalid Steam ID { steamID }.";
                 }
@@ -1503,34 +1503,23 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Check if the ID is valid, and if it exists or not (if asked)
-        private static bool IsValidID(ulong id,
+        // Check if the ID is valid, and if it exists or not (if asked)  [Todo 0.3] Move to Catalog class
+        internal static bool IsValidID(ulong id,
                                       bool allowBuiltin = true, 
                                       bool allowGroup = false,
-                                      bool shouldExist = true,
-                                      bool shouldNotExist = false)
+                                      bool shouldExist = true)
         {
-            // 'ShouldNotExist' overrules 'shouldExist'
-            shouldExist = !shouldNotExist && shouldExist;
-
             // Check if the ID is a valid mod or group ID
             bool valid = id > ModSettings.highestFakeID || 
                          (allowBuiltin && ModSettings.BuiltinMods.ContainsValue(id)) ||
                          (allowGroup && id >= ModSettings.lowestGroupID && id <= ModSettings.highestGroupID);
 
-            // If the ID is valid, do further checks if it should (not) exist
-            if (valid && (shouldExist || shouldNotExist))
-            {
-                // Check if the mod or group already exists and is not in removal collection
-                bool exists = (ActiveCatalog.Instance.ModDictionary.ContainsKey(id) || ActiveCatalog.Instance.GroupDictionary.ContainsKey(id) || 
-                    CatalogUpdater.CollectedModInfo.ContainsKey(id) || CatalogUpdater.CollectedGroupInfo.ContainsKey(id)) && 
-                    !CatalogUpdater.CollectedRemovals.Contains(id);
+            // Check if the mod or group already exists and is not in removal collection
+            bool exists = (ActiveCatalog.Instance.ModDictionary.ContainsKey(id) || ActiveCatalog.Instance.GroupDictionary.ContainsKey(id) || 
+                CatalogUpdater.CollectedModInfo.ContainsKey(id) || CatalogUpdater.CollectedGroupInfo.ContainsKey(id)) && 
+                !CatalogUpdater.CollectedRemovals.Contains(id);
 
-                // Check if the mod existence is correct
-                valid = shouldExist ? exists : !exists;
-            }
-
-            return valid;
+            return valid && (shouldExist ? exists : !exists);
         }
     }
 }
