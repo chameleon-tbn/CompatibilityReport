@@ -134,9 +134,9 @@ namespace CompatibilityReport.Updater
 
                     modsFoundThisPage++;
 
-                    Mod catalogMod = CatalogUpdater.GetOrAddMod(steamID, incompatibleMods);
-
                     string name = Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
+
+                    Mod catalogMod = CatalogUpdater.GetOrAddMod(steamID, name, incompatibleMods);
 
                     // Skip one line
                     line = reader.ReadLine();

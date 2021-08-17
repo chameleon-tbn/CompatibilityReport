@@ -1044,6 +1044,7 @@ namespace CompatibilityReport.Updater
 
         // Add or get a mod. When adding, an unlisted, removed or incompatible status can be supplied. Those will be ignored on existing mods.
         internal static Mod GetOrAddMod(ulong steamID,
+                                        string name = null,
                                         bool incompatible = false,
                                         bool removed = false,
                                         bool unlisted = false)
@@ -1065,7 +1066,7 @@ namespace CompatibilityReport.Updater
             else
             {
                 // Add a new mod
-                catalogMod = ActiveCatalog.Instance.AddOrUpdateMod(steamID);
+                catalogMod = ActiveCatalog.Instance.AddOrUpdateMod(steamID, name);
 
                 string modType = "Mod";
 

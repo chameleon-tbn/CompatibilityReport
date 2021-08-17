@@ -176,7 +176,7 @@ namespace CompatibilityReport.DataTypes
 
         // Add or update a catalog mod. Exclusions for required mods have a separate method
         internal Mod AddOrUpdateMod(ulong steamID,
-                                    string name = "",
+                                    string name = null,
                                     ulong authorID = 0,
                                     string authorURL = "",
                                     DateTime? published = null,
