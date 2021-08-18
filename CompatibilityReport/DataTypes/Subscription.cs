@@ -176,7 +176,7 @@ namespace CompatibilityReport.DataTypes
             Logger.Log($"Mod found: { catalogMod.ToString(cutOff: false) }");
 
             // Check if the mod was manually reviewed
-            IsReviewed = catalogMod.ReviewUpdated != default;
+            IsReviewed = catalogMod.ReviewDate != default;
 
             // Get information from the catalog
             Updated = catalogMod.Updated;

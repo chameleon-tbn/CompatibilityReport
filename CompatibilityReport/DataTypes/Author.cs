@@ -33,7 +33,7 @@ namespace CompatibilityReport.DataTypes
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
         // Indicate if the author was updated by the ManualUpdater. Only used by the updater, does not appear in the catalog.
-        [XmlIgnore] internal bool ManuallyUpdated { get; private set; }
+        [XmlIgnore] internal bool UpdatedByImporter { get; private set; }
 
 
         // Default constructor
@@ -90,7 +90,7 @@ namespace CompatibilityReport.DataTypes
                              bool? retired = null,
                              bool? exclusionForRetired = null,
                              string extraChangeNote = null,
-                             bool? manuallyUpdated = null)
+                             bool? updatedByImporter = null)
         {
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
 
@@ -114,7 +114,7 @@ namespace CompatibilityReport.DataTypes
                 ChangeNotes.Add(extraChangeNote);
             }
 
-            ManuallyUpdated = manuallyUpdated ?? ManuallyUpdated;
+            UpdatedByImporter = updatedByImporter ?? UpdatedByImporter;
 
             // Debug message
             if ((ProfileID == 0) && string.IsNullOrEmpty(CustomURL))

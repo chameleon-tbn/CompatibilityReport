@@ -6,8 +6,8 @@
         // Stability of the mod. One is always active, defaults to unknown.
         public enum ModStability
         {
-            Undefined,                              // [Only used by the Updater; should not appear in the catalog]
-            Unknown,                                // Stability unknown
+            Undefined,                              // Stability not reviewed yet
+            Unknown,                                // Stability unknown, because we don't have enough information to determine it
             UsersReportIssues,                      // Stability uncertain, but various user reports about issues, while others say it still works fine
             IncompatibleAccordingToWorkshop,        // The Workshop has an indication for seriously broken mods; these are incompatible with the game itself
             RequiresIncompatibleMod,                // This requires an incompatible mod and is thus indirectly incompatible

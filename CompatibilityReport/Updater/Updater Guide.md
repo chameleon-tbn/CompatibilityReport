@@ -17,67 +17,66 @@ Lines starting with a '#' are considered comments and will be ignored by the upd
 ### Available mod actions
 Parameters enclosed in square brackets are optional. The symbol :zap: means an exclusion will be created.
 * Add_Mod, \<mod ID\> [, \<author ID | author custom URL\> [, \<mod name\>] ] *(mod will have the 'unlisted' status)*
-* Add_ArchiveURL, \<mod ID\>, \<url\>
-* Add_SourceURL, \<mod ID\>, \<url\> :zap:
-* Add_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled when a newer game version is found)*
+* Set_ArchiveURL, \<mod ID\>, \<url\>
+* Set_SourceURL, \<mod ID\>, \<url\> :zap:
+* Set_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled when a newer game version is found)*
 * Add_RequiredDLC, \<mod ID\>, \<DLC string\> :zap:
-* Add_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
+* Add_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
-* Add_Stability, \<mod ID\>, \<stability string\>
-* Add_StabilityNote, \<mod ID\>, \<text\>
+* Set_Stability, \<mod ID\>, \<stability string\>
+* Set_StabilityNote, \<mod ID\>, \<text\>
 * Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription and SourceUnavailable status)*
   * *Adding a SourceUnavailable status will remove the SourceURL from the mod*
-* Add_GenericNote, \<mod ID\>, \<text\>
-* Add_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
-* Remove_Mod, \<mod ID\> *(only works on unlisted and removed mods)*
+* Set_GenericNote, \<mod ID\>, \<text\>
+* Update_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
+* Remove_Mod, \<mod ID\> *(only works on mods that are removed from the Workshop)*
 * Remove_ArchiveURL, \<mod ID\>
 * Remove_SourceURL, \<mod ID\> :zap:
-* Remove_GameVersion, \<mod ID\>
+* Remove_GameVersion, \<mod ID\> *(only works if an exclusion exists)*
 * Remove_RequiredDLC, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*
-* Remove_RequiredMod, \<mod ID\>, \<required mod or group ID\> :zap:
+* Remove_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
-* Remove_Stability, \<mod ID\>
 * Remove_StabilityNote, \<mod ID\>
 * Remove_Status, \<mod ID\>, \<status string\>
 * Remove_GenericNote, \<mod ID\>
-* Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required mod ID | DLC appid\>]
+* Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required DLC string | mod ID\>]
   * *Available categories: SourceURL, GameVersion, RequiredDLC, RequiredMod, NoDescription*
 
 ### Available compatibility actions (will not change reviewed date for included mods)
 * Add_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>[, \<note\>]
   * *The note will only be mentioned in the report for the first mod, and cannot start with a '#'*
 * Add_CompatibilitiesForOne, \<first mod ID\>, \<compatibility status\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
-  * *This will create compatibilities between the first mod and each of the other mods*
+  * *This will create compatibilities between the first mod and each of the other mods. Not every status works.*
 * Add_CompatibilitiesForAll, \<compatibility status\>, \<mod ID\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
-  * *This will create many compatibilities, between each of these mods in pairs (1 with 2, 1 with 3, 2 with 3, etc.)*
+  * *This will create compatibilities, between each of these mods in pairs (1 with 2, 1 with 3, 2 with 3, etc.). Not every status works.*
 * Remove_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>
 
 ### Available group actions (will not change reviewed date for included mods)
 * Add_Group, \<name\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
 * Add_GroupMember, \<group ID\>, \<mod ID\>
-* Remove_Group, \<group ID\> [, \<replacement mod ID\>] *(replacement is mandatory if the group is still in use)*
+* Remove_Group, \<group ID\>
 * Remove_GroupMember, \<group ID\>, \<mod ID\>
   * *Careful with this! Required mods and Exclusions might become a mess, so you might need some extra actions*
 
 ### Available author actions (author ID is much more reliable, and mandatory if the custom URL is a number)
-* Add_Author, \<author ID | author custom URL\>, \<author name\> *(only need for 'removed' mods)*
-* Add_AuthorID, \<author custom URL\>, \<author ID\>
-* Add_AuthorURL, \<author ID\>, \<author custom URL\>
-* Add_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\> *(should be more recent than newest mod update)*
+* Add_Author, \<author ID | author custom URL\>, \<author name\> *(only needed for unknown authors of 'removed' mods)*
+* Set_AuthorID, \<author custom URL\>, \<author ID\>
+* Set_AuthorURL, \<author ID\>, \<author custom URL\>
+* Set_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\> *(should be more recent than newest mod update)*
   * *Author will be assumed retired if not seen for a year*
-* Add_Retired, \<author ID | author custom URL\> :zap:
+* Set_Retired, \<author ID | author custom URL\> :zap:
 * Remove_AuthorURL, \<author ID\>
 * Remove_Retired, \<author ID | author custom URL\> *(only works if added manually before)*
 
 ### Available catalog actions
-* Add_CatalogGameVersion, \<game version string\>
-* Add_CatalogNote, \<text\>
-* Add_CatalogHeaderText, \<text\>
-* Add_CatalogFooterText, \<text\>
+* Set_CatalogGameVersion, \<game version string\>
+* Set_CatalogNote, \<text\>
+* Set_CatalogHeaderText, \<text\>
+* Set_CatalogFooterText, \<text\>
 * Remove_CatalogNote
 * Remove_CatalogHeaderText
 * Remove_CatalogFooterText

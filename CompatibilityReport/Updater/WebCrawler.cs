@@ -1,24 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
 
-// WebCrawler gathers update information from the Steam Workshop pages for all mods. This takes quite some time. The following information is gathered:
-// * Mod: name, author, publish and update dates, source url (GitHub only), compatible game version (from tag only), required DLC, required mods, stability: incompatible
+// WebCrawler gathers information from the Steam Workshop pages for all mods and updates the catalog with this. This process takes quite some time (roughly 15 minutes).
+// The following information is gathered:
+// * Mod: name, author, publish and update dates, source url (GitHub only), compatible game version (from tag only), required DLC, required mods, incompatible stability
 //        statuses: removed from workshop, unlisted in workshop, no description, no source available (remove only, when a source url is found)
-// * Author: name, profile ID and custom url, last seen date (based on mod updates, not on comments), retired status (no mod update in x time; removed on new mod update)
+// * Author: name, profile ID and custom url, last seen date (based on mod updates, not on comments), retired status (no mod update in x months; removed on new mod update)
 
 
 namespace CompatibilityReport.Updater
 {
     internal static class WebCrawler
     {
-        // Start the web crawler. Should only be called from CatalogUpdater. Will download Steam webpages for all mods and extract info for the catalog.
+        // Start the WebCrawler. Download Steam webpages for all mods and updates the catalog with found information.
         internal static void Start()
         {
+            CatalogUpdater.SetReviewDate(DateTime.Now);
+
             // Get basic mod and author information from the Steam Workshop 'mod listing' pages
             if (GetBasicInfo())
             {
@@ -95,8 +97,7 @@ namespace CompatibilityReport.Updater
             timer.Stop();
 
             Logger.UpdaterLog($"Updater finished checking Steam Workshop 'mod listing' pages in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. " +
-                $"{ totalMods } mods and { CatalogUpdater.CollectedAuthorIDs.Count + CatalogUpdater.CollectedAuthorURLs.Count } authors found.", 
-                duplicateToRegularLog: true);
+                $"{ totalMods } mods found.", duplicateToRegularLog: true);
 
             return totalMods > 0;
         }
@@ -138,10 +139,20 @@ namespace CompatibilityReport.Updater
 
                     Mod catalogMod = CatalogUpdater.GetOrAddMod(steamID, name, incompatibleMods);
 
+                    // (Re)set incompatible stability on existing mods, if it changed in the Steam Workshop
+                    if (incompatibleMods && catalogMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
+                    {
+                        CatalogUpdater.UpdateMod(catalogMod, stability: Enums.ModStability.IncompatibleAccordingToWorkshop, updatedByWebCrawler: true);
+                    }
+                    else if (!incompatibleMods && catalogMod.Stability == Enums.ModStability.IncompatibleAccordingToWorkshop)
+                    {
+                        CatalogUpdater.UpdateMod(catalogMod, stability: Enums.ModStability.Undefined, updatedByWebCrawler: true);
+                    }
+
                     // Skip one line
                     line = reader.ReadLine();
 
-                    // Get the author ID or custom URL. One will be found, the other will be zero / empty
+                    // Get the author ID or custom URL. One will be found, the other will be zero / empty   [Todo 0.3] Add a check for author URL changes, to prevent creating a new author
                     ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModListingAuthorIDLeft, ModSettings.steamModListingAuthorRight));
 
                     string authorURL = Toolkit.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
@@ -152,7 +163,7 @@ namespace CompatibilityReport.Updater
                     CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop);
 
                     // Update the mod. This will also set the UpdatedThisSession, which is used in GetDetails()
-                    CatalogUpdater.UpdateMod(catalogMod, name, authorID: authorID, authorURL: authorURL, manualUpdate: false);
+                    CatalogUpdater.UpdateMod(catalogMod, name, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
 
                     string authorName = Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, 
                         ModSettings.steamModListingAuthorNameRight));
@@ -184,7 +195,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
             {
-                if (!ManualUpdater.IsValidID(catalogMod.SteamID, allowBuiltin: false))
+                if (!ActiveCatalog.Instance.IsValidID(catalogMod.SteamID, allowBuiltin: false))
                 {
                     // Skip builtin mods
                     continue;
@@ -272,7 +283,7 @@ namespace CompatibilityReport.Updater
                             else
                             {
                                 // Change the mod to removed
-                                CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.RemovedFromWorkshop);
+                                CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.RemovedFromWorkshop, updatedByWebCrawler: true);
 
                                 // Return true because no retry on download is needed
                                 return true;
@@ -288,18 +299,18 @@ namespace CompatibilityReport.Updater
                     // Update removed and unlisted statuses: no longer removed and only unlisted if not found during GetBasicInfo()
                     CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.RemovedFromWorkshop);
 
-                    if (!catalogMod.UpdatedThisSession && !catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
+                    if (catalogMod.UpdatedThisSession)
                     {
-                        CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop);
+                        CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop, updatedByWebCrawler: true);
                     }
-                    else if (catalogMod.UpdatedThisSession && catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
+                    else
                     {
-                        CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop);
+                        CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop, updatedByWebCrawler: true);
                     }
 
                     // Try to find data on this line of the mod page
 
-                    // Author profile ID, custom URL and author name; only for unlisted mods (we have this info for other mods already)
+                    // Author profile ID, custom URL and author name; only for unlisted mods (we have this info for other mods already)  [Todo 0.3] Add a check for author URL changes, to prevent creating a new author
                     if (line.Contains(ModSettings.steamModPageAuthorFind) && catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                     {
                         ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/",
@@ -321,7 +332,7 @@ namespace CompatibilityReport.Updater
                     else if (line.Contains(ModSettings.steamModPageNameLeft) && catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                     {
                         CatalogUpdater.UpdateMod(catalogMod, name: Toolkit.CleanHtmlString(
-                            Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)), manualUpdate: false);
+                            Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)), updatedByWebCrawler: true);
                     }
 
                     // Compatible game version tag
@@ -337,7 +348,7 @@ namespace CompatibilityReport.Updater
                         // Update the mod, unless an exclusion exists and the found gameversion is lower than in the catalog. Remove the exclusion on update.
                         if (!catalogMod.ExclusionForGameVersion || gameVersion > Toolkit.ConvertToGameVersion(catalogMod.CompatibleGameVersionString))
                         {
-                            CatalogUpdater.UpdateMod(catalogMod, compatibleGameVersionString: gameVersionString, manualUpdate: false);
+                            CatalogUpdater.UpdateMod(catalogMod, compatibleGameVersionString: gameVersionString, updatedByWebCrawler: true);
 
                             catalogMod.Update(exclusionForGameVersion: false);
                         }
@@ -356,7 +367,7 @@ namespace CompatibilityReport.Updater
 
                         DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
 
-                        CatalogUpdater.UpdateMod(catalogMod, published: published, updated: updated, manualUpdate: false);
+                        CatalogUpdater.UpdateMod(catalogMod, published: published, updated: updated, updatedByWebCrawler: true);
 
                         // Update the authors last seen date if the mod updated date is more recent.
                         Author catalogAuthor = ActiveCatalog.Instance.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorURL);
@@ -424,16 +435,20 @@ namespace CompatibilityReport.Updater
                         // A 'no description' status is when the description is not at least a few characters longer than the mod name.
                         if (descriptionLength < catalogMod.Name.Length + 5 && !catalogMod.ExclusionForNoDescription)
                         {
-                            CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.NoDescription);
+                            CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.NoDescription, updatedByWebCrawler: true);
+                        }
+                        else if (descriptionLength > catalogMod.Name.Length + 5 && !catalogMod.ExclusionForNoDescription)
+                        {
+                            CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.NoDescription, updatedByWebCrawler: true);
                         }
 
-                        // Get the source url, if any, unless there is an exclusion.
+                        // Try to get the source url, unless there is an exclusion.
                         else if (line.Contains(ModSettings.steamModPageSourceURLLeft) && !catalogMod.ExclusionForSourceURL)
                         {
                             catalogMod.Update(sourceURL: GetSourceURL(line, catalogMod));
                         }
 
-                        // Description is the last info we need from the page, so exit the while loop
+                        // Description is the last info we need from the page, so break out of the while loop
                         break;
                     }
                 }

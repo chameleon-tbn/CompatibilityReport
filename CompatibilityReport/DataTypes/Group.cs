@@ -44,12 +44,12 @@ namespace CompatibilityReport.DataTypes
 
             if ((GroupID < ModSettings.lowestGroupID) || (GroupID > ModSettings.highestGroupID))
             {
-                Logger.Log($"Group ID out range: { this.ToString() }. This might give weird results in the report.", Logger.error);
+                Logger.Log($"Group ID out of range: { this.ToString() }. This might give weird results in the report.", Logger.error);
             }
 
             if (GroupMembers.Count < 2)
             {
-                Logger.Log($"Found Group with less than 2 members: { this.ToString() }.", Logger.warning);
+                Logger.Log($"Found a group with less than 2 members: { this.ToString() }.", Logger.debug);
             }
         }
 
@@ -59,14 +59,5 @@ namespace CompatibilityReport.DataTypes
         {
             return $"[Group { GroupID }] { Name }";
         }
-
-
-        // Copy all fields from a group to a new group
-        internal static Group Copy(Group originalGroup)
-        {
-            // Copy the value types directly, and the list as a new list
-            return new Group(originalGroup.GroupID, originalGroup.Name, new List<ulong>(originalGroup.GroupMembers));
-        }
-
     }
 }

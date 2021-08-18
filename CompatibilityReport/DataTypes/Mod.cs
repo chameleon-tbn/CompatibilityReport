@@ -72,9 +72,9 @@ namespace CompatibilityReport.DataTypes
         [XmlArrayItem("SteamID")] public List<ulong> ExclusionForRequiredMods { get; private set; } = new List<ulong>();
 
         // Date this mod was last manually and automatically reviewed for changes in information and compatibilities
-        public DateTime ReviewUpdated { get; private set; }
+        public DateTime ReviewDate { get; private set; }
 
-        public DateTime AutoReviewUpdated { get; private set; }
+        public DateTime AutoReviewDate { get; private set; }
 
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
@@ -131,8 +131,8 @@ namespace CompatibilityReport.DataTypes
                              bool? exclusionForNoDescription = null,
                              List<Enums.DLC> exclusionForRequiredDLC = null,
                              List<ulong> exclusionForRequiredMods = null,
-                             DateTime? reviewUpdated = null,
-                             DateTime? autoReviewUpdated = null,
+                             DateTime? reviewDate = null,
+                             DateTime? autoReviewDate = null,
                              List<string> replacementChangeNotes = null,
                              string extraChangeNote = null)
         {
@@ -184,9 +184,9 @@ namespace CompatibilityReport.DataTypes
 
             ExclusionForRequiredMods = exclusionForRequiredMods ?? ExclusionForRequiredMods ?? new List<ulong>();
 
-            ReviewUpdated = reviewUpdated ?? ReviewUpdated;
+            ReviewDate = reviewDate ?? ReviewDate;
 
-            AutoReviewUpdated = autoReviewUpdated ?? AutoReviewUpdated;
+            AutoReviewDate = autoReviewDate ?? AutoReviewDate;
 
             // Replace the change notes and/or add a note
             ChangeNotes = replacementChangeNotes ?? ChangeNotes ?? new List<string>();
@@ -251,7 +251,7 @@ namespace CompatibilityReport.DataTypes
                 new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), new List<ulong>(originalMod.Recommendations), originalMod.Stability,
                 originalMod.StabilityNote, new List<Enums.ModStatus>(originalMod.Statuses), originalMod.GenericNote, originalMod.ExclusionForSourceURL, 
                 originalMod.ExclusionForGameVersion, originalMod.ExclusionForNoDescription, new List<Enums.DLC>(originalMod.ExclusionForRequiredDLC), 
-                new List<ulong>(originalMod.ExclusionForRequiredMods), originalMod.ReviewUpdated, originalMod.AutoReviewUpdated, originalMod.ChangeNotes);
+                new List<ulong>(originalMod.ExclusionForRequiredMods), originalMod.ReviewDate, originalMod.AutoReviewDate, originalMod.ChangeNotes);
 
             return newMod;
         }

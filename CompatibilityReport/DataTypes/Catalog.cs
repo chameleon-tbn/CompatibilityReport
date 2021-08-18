@@ -174,6 +174,24 @@ namespace CompatibilityReport.DataTypes
         }
 
 
+        // Check if the ID is a valid existing or non-existing ID
+        internal bool IsValidID(ulong steamID,
+                                bool allowBuiltin = true,
+                                bool allowGroup = false,
+                                bool shouldExist = true)
+        {
+            // Check if the ID is a valid mod or group ID
+            bool valid = steamID > ModSettings.highestFakeID ||
+                         (allowBuiltin && ModSettings.BuiltinMods.ContainsValue(steamID)) ||
+                         (allowGroup && steamID >= ModSettings.lowestGroupID && steamID <= ModSettings.highestGroupID);
+
+            // Check if the mod or group already exists
+            bool exists = ActiveCatalog.Instance.ModDictionary.ContainsKey(steamID) || ActiveCatalog.Instance.GroupDictionary.ContainsKey(steamID);
+
+            return valid && (shouldExist ? exists : !exists);
+        }
+
+
         // Add or update a catalog mod. Exclusions for required mods have a separate method
         internal Mod AddOrUpdateMod(ulong steamID,
                                     string name = null,
@@ -551,7 +569,7 @@ namespace CompatibilityReport.DataTypes
             Count = Mods.Count;
 
             // Count the number of mods with a manual review in the catalog
-            List<Mod> reviewedMods = Mods.FindAll(x => x.ReviewUpdated != DateTime.MinValue);
+            List<Mod> reviewedMods = Mods.FindAll(x => x.ReviewDate != DateTime.MinValue);
 
             ReviewCount = reviewedMods?.Any() == null ? 0 : reviewedMods.Count;
 
