@@ -99,7 +99,7 @@ namespace CompatibilityReport.Updater
         // Dump name, statuses and workshop url for all required mods that are not in a group
         private static void DumpRequiredUngroupedMods()
         {
-            DumpTitle("All required mods:");
+            DumpTitle("All required mods that are not in a group:");
 
             foreach (Mod mod in ActiveCatalog.Instance.Mods)
             {

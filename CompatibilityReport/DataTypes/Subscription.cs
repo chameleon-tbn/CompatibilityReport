@@ -244,20 +244,20 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add compatibilities to the list of compatibilities with the correct statuses; also add the corresponding note
-        private void AddCompatibility(List<Compatibility> compatibilities, bool firstID)
+        // Add compatibilities to the list of compatibilities with the correct statuses; also add the corresponding note    [Todo 0.3] needs work
+        private void AddCompatibility(List<Compatibility> newCompatibilities, bool firstID)
         {
-            if (compatibilities == null)
+            if (newCompatibilities == null)
             {
                 return;
             }
 
             // Add the compatibilities one by one
-            foreach (Compatibility compatibility in compatibilities)
+            foreach (Compatibility newCompatibility in newCompatibilities)
             {
-                if (compatibility.Statuses.Contains(Enums.CompatibilityStatus.Undefined))
+                if (newCompatibility.Status == default)
                 {
-                    // Unknown status indicates an empty status list; ignore this and continue with next compatibility
+                    // Default status indicates an empty status list; ignore this and continue with next compatibility
                     continue;
                 }
 
@@ -265,36 +265,43 @@ namespace CompatibilityReport.DataTypes
                 if (firstID)
                 {
                     // Add the compatibility status to the list, with the Steam ID for the other mod or group
-                    Compatibilities.Add(compatibility.SteamID2, compatibility.Statuses);
+                    if (Compatibilities.ContainsKey(newCompatibility.SteamID2))
+                    {
+                        Compatibilities[newCompatibility.SteamID2].Add(newCompatibility.Status);
+                    }
+                    else
+                    {
+                        Compatibilities.Add(newCompatibility.SteamID2, new List<Enums.CompatibilityStatus> { newCompatibility.Status });
+                    }
 
                     // Add the compatibility note to the list
-                    ModNotes.Add(compatibility.SteamID2, compatibility.Note);
+                    ModNotes.Add(newCompatibility.SteamID2, newCompatibility.Note);
                 }
                 else
                 {
-                    // We need to 'mirror' some statuses without affecting the catalog, so gather the statuses in a new list first
-                    List<Enums.CompatibilityStatus> statuses = new List<Enums.CompatibilityStatus>();
+                    // We need to 'mirror' some statuses without affecting the catalog
+                    Enums.CompatibilityStatus newStatus = newCompatibility.Status;
 
-                    // Add each status to this new list
-                    foreach (Enums.CompatibilityStatus status in compatibility.Statuses)
+                    if (newCompatibility.Status == Enums.CompatibilityStatus.NewerVersion)
                     {
-                        switch (status)
-                        {
-                            case Enums.CompatibilityStatus.NewerVersion:
-                                statuses.Add(Enums.CompatibilityStatus.OlderVersion);
-                                break;
-
-                            default:
-                                // Add statuses we don't need to mirror
-                                statuses.Add(status);
-                                break;
-                        }
-
-                        // Add the compatibility status to the list, with the Steam ID for the other mod or group
-                        Compatibilities.Add(compatibility.SteamID1, statuses);
-
-                        // The compatibility note should only be displayed for the first mod in the compatibility, so skip it here
+                        newStatus = Enums.CompatibilityStatus.OlderVersion;
                     }
+                    else if (newCompatibility.Status == Enums.CompatibilityStatus.FunctionalityCovered)
+                    {
+                        newStatus = Enums.CompatibilityStatus.FunctionalityCoveredByOther;
+                    }
+
+                    // Add the compatibility status to the list, with the Steam ID for the other mod or group
+                    if (Compatibilities.ContainsKey(newCompatibility.SteamID1))
+                    {
+                        Compatibilities[newCompatibility.SteamID1].Add(newStatus);
+                    }
+                    else
+                    {
+                        Compatibilities.Add(newCompatibility.SteamID1, new List<Enums.CompatibilityStatus> { newStatus });
+                    }
+
+                    // The compatibility note should only be displayed for the first mod in the compatibility, so skip it here  [Todo 0.3] Not really true, fix this
                 }
             }
         }

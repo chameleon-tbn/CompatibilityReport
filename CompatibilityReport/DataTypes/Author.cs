@@ -32,9 +32,6 @@ namespace CompatibilityReport.DataTypes
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
-        // Indicate if the author was updated by the ManualUpdater. Only used by the updater, does not appear in the catalog.
-        [XmlIgnore] internal bool UpdatedByImporter { get; private set; }
-
 
         // Default constructor
         public Author()
@@ -89,8 +86,7 @@ namespace CompatibilityReport.DataTypes
                              DateTime? lastSeen = null,
                              bool? retired = null,
                              bool? exclusionForRetired = null,
-                             string extraChangeNote = null,
-                             bool? updatedByImporter = null)
+                             string extraChangeNote = null)
         {
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
 
@@ -113,8 +109,6 @@ namespace CompatibilityReport.DataTypes
             {
                 ChangeNotes.Add(extraChangeNote);
             }
-
-            UpdatedByImporter = updatedByImporter ?? UpdatedByImporter;
 
             // Debug message
             if ((ProfileID == 0) && string.IsNullOrEmpty(CustomURL))

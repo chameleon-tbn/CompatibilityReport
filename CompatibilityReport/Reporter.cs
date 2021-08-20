@@ -91,8 +91,8 @@ namespace CompatibilityReport
             Logger.TextReport(ModSettings.separatorDouble, extraLine: true);
 
             // Intro text with generic remarks
-            Logger.TextReport(Toolkit.WordWrap(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportIntroText) ? ModSettings.defaultIntroText : 
-                ActiveCatalog.Instance.ReportIntroText, indent: ModSettings.noBullet, indentAfterNewLine: ""), extraLine: true);
+            Logger.TextReport(Toolkit.WordWrap(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportHeaderText) ? ModSettings.defaultHeaderText : 
+                ActiveCatalog.Instance.ReportHeaderText, indent: ModSettings.noBullet, indentAfterNewLine: ""), extraLine: true);
 
             // Gather all mod detail texts
             if (ModSettings.ReportSortByName)
@@ -706,10 +706,10 @@ namespace CompatibilityReport
                 case Enums.ModStability.Stable:
                     return ReviewLine("This should be compatible with the current game version.", htmlReport);
 
-                case Enums.ModStability.Unknown:
+                case Enums.ModStability.NotEnoughInformation:
                     return ReviewLine("There is not enough information about this mod to know if it is compatible with the current game version.", htmlReport);
 
-                case Enums.ModStability.Undefined:
+                case Enums.ModStability.NotReviewed:
                 default:
                     return "";
             }
@@ -756,18 +756,6 @@ namespace CompatibilityReport
                 if (subscription.Statuses.Contains(Enums.ModStatus.BreaksEditors))
                 {
                     text += ReviewLine("This gives major issues in the asset editor and/or map editor.", htmlReport);
-                }
-
-                // Performance
-                if (subscription.Statuses.Contains(Enums.ModStatus.PerformanceImpact))
-                {
-                    text += ReviewLine("This might negatively impact game performance.", htmlReport);
-                }
-
-                // Loading time
-                if (subscription.Statuses.Contains(Enums.ModStatus.LoadingTimeImpact))
-                {
-                    text += ReviewLine("This might increase loading time.", htmlReport);
                 }
             }
 
@@ -820,6 +808,8 @@ namespace CompatibilityReport
 
         // Compatibilities with other mods; result could be multiple mods and also multiple statuses for each mod
         // Not reported: NewerVersionOfTheSameMod, FunctionalityCoveredByThisMod, RequiresSpecificConfigForOtherMod, CompatibleAccordingToAuthor
+        // [Todo 0.3] exception "System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary." for <ulong, string> dictionary
+        //            might be modNotes
         private static string Compatibilities(Subscription subscription,
                                               bool htmlReport = false)
         {

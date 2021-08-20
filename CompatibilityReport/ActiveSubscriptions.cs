@@ -122,8 +122,7 @@ namespace CompatibilityReport
                 }
             }
 
-            Logger.Log($"{ All.Count } mods ready for review, including { TotalBuiltin } builtin and { TotalLocal } local mods, " +
-                "but not including builtin mods that are disabled.");
+            Logger.Log($"{ All.Count } mods ready for review, including { TotalBuiltin } builtin and { TotalLocal } local mods.");
 
             // Sort the lists
             AllSteamIDs.Sort();

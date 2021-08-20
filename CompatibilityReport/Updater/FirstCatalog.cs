@@ -43,8 +43,8 @@ namespace CompatibilityReport.Updater
 
             foreach (KeyValuePair<string, ulong> modVP in ModSettings.BuiltinMods)
             {
-                Mod mod = firstCatalog.AddOrUpdateMod(steamID: modVP.Value, name: modVP.Key, published: gameRelease, statuses: sourceBundled,
-                    reviewUpdated: updateDate, autoReviewUpdated: updateDate, extraChangeNote: modNotes);
+                Mod mod = firstCatalog.AddOrUpdateMod(steamID: modVP.Value, name: modVP.Key, published: gameRelease, stability: Enums.ModStability.Stable,
+                    statuses: sourceBundled,reviewUpdated: updateDate, autoReviewUpdated: updateDate, extraChangeNote: modNotes);
 
                 changeNotes += $"New mod { mod.ToString(cutOff: false) }\n";
             }

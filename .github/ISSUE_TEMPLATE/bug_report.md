@@ -7,19 +7,19 @@ assignees: ''
 
 ---
 
-**Describe the bug**
+### **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Expected behavior**
+### **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Attach your log**
+### **Attach your log**
 Please attach your CompatibilityReport.log file. You can find it in the Cities_Data subfolder of the game folder: 
 <Steam folder>\steamapps\common\Cities_Skylines\Cities_Data\CompatibilityReport.log
 
-**Your system:**
+### **Your system:**
  - OS: [e.g. Window 10, Mac OS X, ...]
  - Mod version: [e.g. 0.3.1.177]
 
-**Additional context**
+### **Additional context**
 Add any other context about the problem here.

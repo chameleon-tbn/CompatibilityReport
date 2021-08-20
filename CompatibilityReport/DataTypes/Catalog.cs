@@ -27,7 +27,7 @@ namespace CompatibilityReport.DataTypes
         public string Note { get; private set; }
 
         // Intro and footer for the text report
-        public string ReportIntroText { get; private set; }
+        public string ReportHeaderText { get; private set; }
 
         public string ReportFooterText { get; private set; }
 
@@ -70,7 +70,7 @@ namespace CompatibilityReport.DataTypes
         internal Catalog(uint version,
                          DateTime updateDate,
                          string note,
-                         string reportIntroText = null,
+                         string reportHeaderText = null,
                          string reportFooterText = null)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
@@ -85,14 +85,14 @@ namespace CompatibilityReport.DataTypes
 
             Note = note ?? "";
 
-            ReportIntroText = reportIntroText ?? ModSettings.defaultIntroText;
+            ReportHeaderText = reportHeaderText ?? ModSettings.defaultHeaderText;
 
             ReportFooterText = reportFooterText ?? ModSettings.defaultFooterText;
         }
 
 
         // Constructor with all parameters, used when converting an old catalog
-        internal Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportIntroText, string reportFooterText, 
+        internal Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportHeaderText, string reportFooterText, 
             List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<ulong> requiredAssets)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
@@ -107,7 +107,7 @@ namespace CompatibilityReport.DataTypes
 
             Note = note ?? "";
 
-            ReportIntroText = reportIntroText ?? "";
+            ReportHeaderText = reportHeaderText ?? "";
 
             ReportFooterText = reportFooterText ?? "";
 
@@ -126,7 +126,7 @@ namespace CompatibilityReport.DataTypes
         // Update the catalog; all fields are optional, only supplied fields are updated; the lists can be updated directly, version has it's own update method
         internal void Update(string note = null, 
                              Version compatibleGameVersion = null, 
-                             string reportIntroText = null, 
+                             string reportHeaderText = null, 
                              string reportFooterText = null)
         {
             Note = note ?? Note;
@@ -135,7 +135,7 @@ namespace CompatibilityReport.DataTypes
 
             CompatibleGameVersionString = CompatibleGameVersion.ToString();
 
-            ReportIntroText = reportIntroText ?? ReportIntroText;
+            ReportHeaderText = reportHeaderText ?? ReportHeaderText;
 
             ReportFooterText = reportFooterText ?? ReportFooterText;
         }
@@ -207,7 +207,7 @@ namespace CompatibilityReport.DataTypes
                                     List<ulong> successors = null,
                                     List<ulong> alternatives = null,
                                     List<ulong> recommendations = null,
-                                    Enums.ModStability stability = Enums.ModStability.Undefined,
+                                    Enums.ModStability stability = default,
                                     string stabilityNote = null,
                                     List<Enums.ModStatus> statuses = null,
                                     string genericNote = null,
@@ -248,74 +248,10 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Get the author, or return null when the author doesn't exist
-        internal Author GetAuthor(ulong authorID, string authorURL)
-        {
-            if (authorID != 0 && AuthorIDDictionary.ContainsKey(authorID))
-            {
-                return AuthorIDDictionary[authorID];
-            }
-            else if (!string.IsNullOrEmpty(authorURL) && AuthorURLDictionary.ContainsKey(authorURL))
-            {
-                return AuthorURLDictionary[authorURL];
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-
-        // Add a new author to the catalog; return the author or null if they couldn't be added
-        internal Author AddAuthor(ulong authorID,
-                                  string authorURL,
-                                  string name,
-                                  DateTime lastSeen = default,
-                                  bool retired = false,
-                                  string changeNoteString = null)
-        {
-            if (AuthorIDDictionary.ContainsKey(authorID) || AuthorURLDictionary.ContainsKey(authorURL ?? "")) 
-            {
-                // Author already exists
-                Logger.Log($"Tried to add an author with a profile ID ({ authorID }) or custom URL ({ authorURL }) that is already used. Author NOT added.", Logger.error);
-
-                return null;
-            }
-
-            // Create change notes list
-            List<string> changeNotes = new List<string>();
-
-            if (!string.IsNullOrEmpty(changeNoteString))
-            {
-                changeNotes.Add(changeNoteString);
-            }
-            
-            // Create a new author
-            Author author = new Author(authorID, authorURL, name, lastSeen, retired, changeNotes);
-
-            // Add the author to the list
-            Authors.Add(author);
-
-            // Add the new author to one or two dictionaries
-            if (authorID != 0)
-            {
-                AuthorIDDictionary.Add(authorID, author);
-            }
-
-            if (!string.IsNullOrEmpty(authorURL))
-            {
-                AuthorURLDictionary.Add(authorURL, author);
-            }
-
-            // Return a reference to the new author
-            return author;
-        }
-
-
         // Get the group this mod is a member of, if any
         internal Group GetGroup(ulong steamID)
         {
-            return steamID == 0 ? default : Groups.FirstOrDefault(x => x.GroupMembers.Contains(steamID));
+            return Groups.FirstOrDefault(x => x.GroupMembers.Contains(steamID));
         }
 
 
@@ -375,10 +311,10 @@ namespace CompatibilityReport.DataTypes
 
             GroupDictionary.Add(newGroup.GroupID, newGroup);
 
-            // Replace group members with the group, as required mods anywhere in the catalog
+            // Replace group members with the group, as required mods anywhere in the catalog   [Todo 0.3]
             foreach (ulong groupMemberID in newGroup.GroupMembers)
             {
-                ReplaceRequiredModByGroup(groupMemberID);
+                AddRequiredGroupForAllMods(groupMemberID);
             }
 
             // Return a reference to the new group
@@ -389,7 +325,6 @@ namespace CompatibilityReport.DataTypes
         // Add a new member to a group; NOTE: a mod can only be in one group
         internal bool AddGroupMember(ulong groupID, ulong newGroupMember)
         {
-            // Exit if the group or mod don't exist, or if the mod is already in a group
             if (!GroupDictionary.ContainsKey(groupID) || !ModDictionary.ContainsKey(newGroupMember) || IsGroupMember(newGroupMember))
             {
                 return false;
@@ -398,15 +333,15 @@ namespace CompatibilityReport.DataTypes
             // Add the mod to the group
             GroupDictionary[groupID].GroupMembers.Add(newGroupMember);
 
-            // Replace the mod as required mod by the group, everywhere in the catalog; this will also duplicate an exclusion (if any) to the group and other group members
-            ReplaceRequiredModByGroup(newGroupMember);
+            // Replace the mod as required mod by the group, everywhere in the catalog; this will also duplicate an exclusion (if any) to the group and other group members [Todo 0.3]
+            AddRequiredGroupForAllMods(newGroupMember);
 
             return true;
         }
 
 
         // Replace a required mod by the group it is a member of. Returns true if the mod was replaced.
-        internal bool ReplaceRequiredModByGroup(ulong requiredModID)
+        internal bool AddRequiredGroupForAllMods(ulong requiredModID)
         {
             Group requiredGroup = GetGroup(requiredModID);
 
@@ -421,9 +356,7 @@ namespace CompatibilityReport.DataTypes
 
             foreach (Mod mod in modList)
             {
-                // Remove the mod ID and add the group ID
-                mod.RequiredMods.Remove(requiredModID);
-
+                // Add the group ID
                 if (!mod.RequiredMods.Contains(requiredGroup.GroupID))
                 {
                     mod.RequiredMods.Add(requiredGroup.GroupID);
@@ -432,19 +365,11 @@ namespace CompatibilityReport.DataTypes
                 // Log to the most likely log
                 if (ModSettings.UpdaterEnabled)
                 {
-                    Logger.UpdaterLog($"Replaced required mod { ModDictionary[requiredModID].ToString() } with { requiredGroup.ToString() }, " +
-                        $"for { mod.ToString(cutOff: false) }.");
+                    Logger.UpdaterLog($"Added { requiredGroup.ToString() } as required mod for { mod.ToString(cutOff: false) }.");
                 }
                 else
                 {
-                    Logger.Log($"Replaced required mod { ModDictionary[requiredModID].ToString() } with { requiredGroup.ToString() }, " +
-                        $"for { mod.ToString(cutOff: false) }.");
-                }
-
-                // Add exclusion for the group if it exists for the old required mod or already exists for the group. This will create exclusions for all group members.
-                if (mod.ExclusionForRequiredMods.Contains(requiredModID) || mod.ExclusionForRequiredMods.Contains(requiredGroup.GroupID))
-                {
-                    AddExclusionForRequiredMods(mod, requiredGroup.GroupID);
+                    Logger.Log($"Added { requiredGroup.ToString() } as required mod for { mod.ToString(cutOff: false) }.");
                 }
             }
 
@@ -452,49 +377,67 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add a new compatibility to the catalog; return the compatibility, or null if the compatibility couldn't be added
-        internal Compatibility AddCompatibility(ulong steamID1,
-                                                ulong steamID2,
-                                                List<Enums.CompatibilityStatus> statuses,
-                                                string note = "")
+        // Get the author, or return null when the author doesn't exist
+        internal Author GetAuthor(ulong authorID, string authorURL)
         {
-            if ((steamID1 >= ModSettings.lowestGroupID && steamID1 <= ModSettings.highestGroupID) 
-                || (steamID2 >= ModSettings.lowestGroupID && steamID2 <= ModSettings.highestGroupID))
+            if (authorID != 0 && AuthorIDDictionary.ContainsKey(authorID))
             {
-                Logger.Log($"Tried to add a compatibility with a group instead of a mod, which is not supported. Compatibility NOT added.", Logger.error);
+                return AuthorIDDictionary[authorID];
+            }
+            else if (!string.IsNullOrEmpty(authorURL) && AuthorURLDictionary.ContainsKey(authorURL))
+            {
+                return AuthorURLDictionary[authorURL];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        // Add a new author to the catalog; return the author or null if they couldn't be added
+        internal Author AddAuthor(ulong authorID,
+                                  string authorURL,
+                                  string name,
+                                  DateTime lastSeen = default,
+                                  bool retired = false,
+                                  string changeNoteString = null)
+        {
+            if (AuthorIDDictionary.ContainsKey(authorID) || AuthorURLDictionary.ContainsKey(authorURL ?? ""))
+            {
+                // Author already exists
+                Logger.Log($"Tried to add an author with a profile ID ({ authorID }) or custom URL ({ authorURL }) that is already used. Author NOT added.", Logger.error);
 
                 return null;
             }
 
-            if (Compatibilities.Find(x => x.SteamID1 == steamID1 && x.SteamID2 == steamID2) != default)
-            {
-                // A compatibility already exists between these Steam IDs
-                Logger.Log($"Tried to add a compatibility while one already exists between [Steam ID { steamID1 }] and [Steam ID { steamID2 }]. " + 
-                    "Compatibility NOT added.", Logger.error);
+            // Create change notes list
+            List<string> changeNotes = new List<string>();
 
-                return null;
+            if (!string.IsNullOrEmpty(changeNoteString))
+            {
+                changeNotes.Add(changeNoteString);
             }
 
-            // Check if a mirrored compatibility already exists; this is allowed for some statuses, but not all  [Todo 0.4] Can we allow all compatibilities mirrored?
-            if (Compatibilities.Find(x => x.SteamID1 == steamID2 && x.SteamID2 == steamID1 && 
-                !x.Statuses.Contains(Enums.CompatibilityStatus.NewerVersion) &&
-                !x.Statuses.Contains(Enums.CompatibilityStatus.IncompatibleAccordingToAuthor) &&
-                !x.Statuses.Contains(Enums.CompatibilityStatus.IncompatibleAccordingToUsers) &&
-                !x.Statuses.Contains(Enums.CompatibilityStatus.CompatibleAccordingToAuthor)) != null)
-            {
-                Logger.Log($"Tried to add a compatibility between [Steam ID { steamID1 }] and [Steam ID { steamID2 }] while a reversed one already exists . " +
-                    "Compatibility NOT added.", Logger.error);
+            // Create a new author
+            Author author = new Author(authorID, authorURL, name, lastSeen, retired, changeNotes);
 
-                return null;
+            // Add the author to the list
+            Authors.Add(author);
+
+            // Add the new author to one or two dictionaries
+            if (authorID != 0)
+            {
+                AuthorIDDictionary.Add(authorID, author);
             }
 
-            // Add a new compatibility to the list
-            Compatibility compatibility = new Compatibility(steamID1, steamID2, statuses, note);
+            if (!string.IsNullOrEmpty(authorURL))
+            {
+                AuthorURLDictionary.Add(authorURL, author);
+            }
 
-            Compatibilities.Add(compatibility);
-            
-            // Return a reference to the new compatibility
-            return compatibility;
+            // Return a reference to the new author
+            return author;
         }
 
 

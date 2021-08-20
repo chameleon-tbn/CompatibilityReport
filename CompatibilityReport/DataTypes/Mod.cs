@@ -47,7 +47,7 @@ namespace CompatibilityReport.DataTypes
 
         // Recommended mods to use with this mod
         [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
-        
+
         // Mod stability
         public Enums.ModStability Stability;
 
@@ -122,7 +122,7 @@ namespace CompatibilityReport.DataTypes
                              List<ulong> successors = null,
                              List<ulong> alternatives = null,
                              List<ulong> recommendations = null,
-                             Enums.ModStability stability = Enums.ModStability.Undefined,
+                             Enums.ModStability stability = default,
                              string stabilityNote = null,
                              List<Enums.ModStatus> statuses = null,
                              string genericNote = null,
@@ -166,7 +166,7 @@ namespace CompatibilityReport.DataTypes
 
             Recommendations = recommendations ?? Recommendations ?? new List<ulong>();
 
-            Stability = stability == Enums.ModStability.Undefined ? Stability : stability;
+            Stability = stability == default ? Stability : stability;
 
             StabilityNote = stabilityNote ?? StabilityNote ?? "";
 

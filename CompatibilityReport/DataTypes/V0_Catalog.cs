@@ -14,9 +14,7 @@ namespace CompatibilityReport.DataTypes
     // Needs to be public for XML serialization
     [XmlRoot(ModSettings.xmlRoot)] public class V0_Catalog
     {
-        // StructureVersion didn't exist in V0, but is used for logging
-        [XmlIgnore] private static uint StructureVersion { get; set; } = 0;
-
+        private static uint StructureVersion { get; set; } = 0;
 
         // Catalog version and date
         public uint Version { get; private set; }
@@ -26,11 +24,11 @@ namespace CompatibilityReport.DataTypes
         // The actual data in four lists
         public List<Mod> Mods { get; private set; } = new List<Mod>();
 
-        public List<Compatibility> ModCompatibilities { get; private set; } = new List<Compatibility>();
+        public List<Compatibility> Compatibilities { get; private set; } = new List<Compatibility>();
 
         public List<Group> Groups { get; private set; } = new List<Group>();
 
-        public List<Author> ModAuthors { get; private set; } = new List<Author>();
+        public List<Author> Authors { get; private set; } = new List<Author>();
 
 
         // Load an old catalog from disk and convert it to a new catalog
@@ -75,8 +73,8 @@ namespace CompatibilityReport.DataTypes
             // ... Whatever else is needed should be done here, for instance a to-be-created V0_Mods.Convert() if mods change too much ...
 
             // Create and return the new catalog
-            return new Catalog(v0_catalog.Version, v0_catalog.UpdateDate, v0_CompatibleGameVersion, note: "", reportIntroText: ModSettings.defaultIntroText, 
-                reportFooterText: ModSettings.defaultFooterText, v0_catalog.Mods, v0_catalog.ModCompatibilities, v0_catalog.Groups, v0_catalog.ModAuthors, 
+            return new Catalog(v0_catalog.Version, v0_catalog.UpdateDate, v0_CompatibleGameVersion, note: "", reportHeaderText: ModSettings.defaultHeaderText, 
+                reportFooterText: ModSettings.defaultFooterText, v0_catalog.Mods, v0_catalog.Compatibilities, v0_catalog.Groups, v0_catalog.Authors, 
                 requiredAssets: null);
         }        
     }

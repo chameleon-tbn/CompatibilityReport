@@ -14,8 +14,8 @@ namespace CompatibilityReport.DataTypes
 
         public ulong SteamID2 { get; private set; }
 
-        // Compatibility status of these two mods, from the perspective of ID1 ('this mod'); can be one or more statuses
-        public List<Enums.CompatibilityStatus> Statuses { get; private set; } = new List<Enums.CompatibilityStatus>();
+        // Compatibility status of these two mods, from the perspective of ID1 ('this mod')
+        public Enums.CompatibilityStatus Status { get; private set; }
 
         // Note about this compatibility
         public string Note { get; private set; }
@@ -28,31 +28,23 @@ namespace CompatibilityReport.DataTypes
 
 
         // Constructor with all parameters
-        internal Compatibility(ulong steamID1, ulong steamID2, List<Enums.CompatibilityStatus> statuses, string note)
+        internal Compatibility(ulong steamID1, ulong steamID2, Enums.CompatibilityStatus status, string note)
         {
             if (steamID1 == steamID2)
             {
-                Logger.Log($"Found ModCompatibility object with two identical Steam IDs: { SteamID1 }.", Logger.warning);
+                Logger.Log($"Found compatibility with two identical Steam IDs: { SteamID1 }.", Logger.error);
 
-                // Overwrite status to avoid weird reporting of a mod being incompatible with itself
-                statuses = new List<Enums.CompatibilityStatus> { Enums.CompatibilityStatus.Undefined };
+                // Use fake values to avoid weird reporting of a mod being incompatible with itself
+                steamID1 = steamID2 = 1;
+
+                status = default;
             }
 
             SteamID1 = steamID1;
 
             SteamID2 = steamID2;
 
-            if (statuses?.Any() != true)
-            {
-                // If no status is indicated, add an Unknown so we have at least one
-                Statuses = new List<Enums.CompatibilityStatus> { Enums.CompatibilityStatus.Undefined };
-
-                Logger.Log($"Found ModCompatibility object with no status, Steam IDs: { SteamID1 } and { SteamID2 }.", Logger.error);
-            }
-            else
-            {
-                Statuses = statuses;
-            }
+            Status = status;
 
             Note = note ?? "";
         }

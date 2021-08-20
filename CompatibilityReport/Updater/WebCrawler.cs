@@ -78,7 +78,7 @@ namespace CompatibilityReport.Updater
                         // Log something if no mods were found at all
                         if (pageNumber == 0)
                         {
-                            Logger.UpdaterLog("Found no mods on page 1");
+                            Logger.UpdaterLog("Found no mods on page 1.");
                         }
 
                         break;
@@ -181,7 +181,7 @@ namespace CompatibilityReport.Updater
         {
             Stopwatch timer = Stopwatch.StartNew();
 
-            int numberOfMods = ActiveCatalog.Instance.Mods.Count;   // [Todo 0.3] Includes builtin
+            int numberOfMods = ActiveCatalog.Instance.Mods.Count - ModSettings.BuiltinMods.Count;
 
             // Estimated time is about half a second (500 milliseconds) per download. Note: 90+% of the total time is download, less than 10% is processing
             long estimated = 500 * numberOfMods;

@@ -7,12 +7,12 @@ using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
 
-// CatalogUpdater uses information gathered by AutoUpdater and ManualUpdate to update the catalog and save this as a new version, with auto generated change notes.
+// CatalogUpdater uses information gathered by WebCrawler and FileImporter to update the catalog and save this as a new version, with auto generated change notes.
 
 
 namespace CompatibilityReport.Updater
 {
-    internal static class CatalogUpdater        // [Todo 0.3] move actions to AutoUpdater & ManualUpdater, updater directly into catalog, fill changenotes from there
+    internal static class CatalogUpdater    // [Todo 0.3] move some actions from FileImporter to here; move some actions between here and Catalog
     {
         // Did we run already this session (successful or not)
         private static bool hasRun;
@@ -67,7 +67,7 @@ namespace CompatibilityReport.Updater
                 WebCrawler.Start();
             }
             
-            // Run the ManualUpdater for catalog version 3 and higher   [Todo 0.4] Remove requirement
+            // Run the FileImporter for catalog version 3 and higher   [Todo 0.4] Remove requirement
             if (ActiveCatalog.Instance.Version > 2)
             {
                 FileImporter.Start();
@@ -82,8 +82,8 @@ namespace CompatibilityReport.Updater
                 Logger.UpdaterLog("CSV action for adding assets to the catalog (after verification): Add_RequiredAssets" + UnknownRequiredAssets.ToString());
             }
 
-            // Only continue with catalog update if we found any changes to update the catalog
-            if (changeNotesCatalog.Length + changeNotesNewMods.Length + changeNotesNewGroups.Length + changeNotesNewCompatibilities.Length + changeNotesNewAuthors.Length + 
+            // Only continue with catalog update if we found any changes to update the catalog (ignoring the pure catalog changes)
+            if (changeNotesNewMods.Length + changeNotesNewGroups.Length + changeNotesNewCompatibilities.Length + changeNotesNewAuthors.Length + 
                 changeNotesUpdatedMods.Count + changeNotesUpdatedAuthorsByID.Count + changeNotesUpdatedAuthorsByURL.Count + 
                 changeNotesRemovedMods.Length + changeNotesRemovedGroups.Length + changeNotesRemovedCompatibilities.Length == 0)
             {
@@ -102,7 +102,7 @@ namespace CompatibilityReport.Updater
                     Toolkit.SaveToFile(changeNotes.ToString(), partialPath + "_ChangeNotes.txt");
 
                     // Save the combined CSVs, in the same folder as the new catalog
-                    Toolkit.SaveToFile(CSVCombined.ToString(), partialPath + "_ManualUpdates.csv.txt");
+                    Toolkit.SaveToFile(CSVCombined.ToString(), partialPath + "_Imports.csv.txt");
 
                     Logger.UpdaterLog($"New catalog { ActiveCatalog.Instance.VersionString() } created and change notes saved.");
 
@@ -336,7 +336,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Update a mod with newly found information, including exclusions  [Todo 0.3] Needs more logic for authorID/authorURL, all lists, ... (combine with ManualUpdater)
+        // Update a mod with newly found information, including exclusions  [Todo 0.3] Needs more logic for authorID/authorURL, all lists, ... (combine with FileImporter)
         internal static void UpdateMod(Mod catalogMod,
                                        string name = null,
                                        DateTime published = default,
