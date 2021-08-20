@@ -70,7 +70,7 @@ namespace CompatibilityReport.Updater
             // Run the ManualUpdater for catalog version 3 and higher   [Todo 0.4] Remove requirement
             if (ActiveCatalog.Instance.Version > 2)
             {
-                ManualUpdater.Start();
+                FileImporter.Start();
             }
 
             // Retire authors that are now eligible
@@ -791,7 +791,7 @@ namespace CompatibilityReport.Updater
                     // requiredID is a mod
                     AddUpdatedModChangeNote(catalogMod, $"required Mod { requiredID } removed");
 
-                    // If an exclusion exists (it was added by Importer) remove it, otherwise (added by WebCrawler) add it to prevent the required mod from returning
+                    // If an exclusion exists (it was added by FileImporter) remove it, otherwise (added by WebCrawler) add it to prevent the required mod from returning
                     if (catalogMod.ExclusionForRequiredMods.Contains(requiredID))
                     {
                         catalogMod.ExclusionForRequiredMods.Remove(requiredID);

@@ -76,7 +76,7 @@
     <Compile Include="Updater\CatalogUpdater.cs" />
     <Compile Include="Updater\FirstCatalog.cs" />
     <Compile Include="Updater\DataDumper.cs" />
-    <Compile Include="Updater\ManualUpdater.cs" />
+    <Compile Include="Updater\FileImporter.cs" />
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="DataTypes\GameVersion.cs" />
     <Compile Include="Util\Logger.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataTypes\Subscription.cs" />
     <Compile Include="DataTypes\Enums.cs" />
-    <Compile Include="Util\Temp.cs" />
+    <Compile Include="Updater\Temp.cs" />
     <Compile Include="Util\Toolkit.cs" />
   </ItemGroup>
   <ItemGroup>

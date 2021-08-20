@@ -12,7 +12,7 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Updater
 {
-    internal static class ManualUpdater // [Todo 0.3] Rename to FileImporter
+    internal static class FileImporter
     {
         internal static void Start()
         {

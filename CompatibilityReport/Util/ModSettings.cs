@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "1";
-        internal const string build = "181";
+        internal const string build = "182";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -150,7 +150,7 @@ namespace CompatibilityReport.Util
         /// Hardcoded defaults for data that comes from the catalog
 
         // Default text report intro and footer
-        internal static readonly string defaultIntroText = "Basic information about mods:\n" +
+        internal static readonly string defaultHeaderText = "Basic information about mods:\n" +
             bullet + "Always exit to desktop before loading another save! (no 'second loading')\n" +
             bullet + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
             bullet + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" +
@@ -294,9 +294,9 @@ namespace CompatibilityReport.Util
 
         /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.7]
 
-        // AutoUpdater enabled? AutoUpdater will only be enabled if the global updater is enabled, but can be overruled by a '.disabled' file
-        internal static bool AutoUpdaterEnabled { get; private set; } = UpdaterEnabled && 
-            !File.Exists(Path.Combine(updaterPath, $"{ internalName }_AutoUpdater.disabled"));
+        // WebCrawler enabled? WebCrawler will only be enabled if the global updater is enabled, but can be overruled by a '.disabled' file
+        internal static bool WebCrawlerEnabled { get; private set; } = UpdaterEnabled && 
+            !File.Exists(Path.Combine(updaterPath, $"{ internalName }_WebCrawler.disabled"));
 
         // Max. number of failed downloads for individual pages before giving up altogether
         internal static uint SteamMaxFailedPages { get; private set; } = 4;
