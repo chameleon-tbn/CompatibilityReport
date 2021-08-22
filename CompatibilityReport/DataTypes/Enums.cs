@@ -31,6 +31,7 @@
             NoLongerNeeded,                         // Obsolete, because whatever it did is now done by the game itself or by another mod it was a patch/addon for
             Deprecated,                             // No longer supported and should not be used anymore
             Abandoned,                              // No longer maintained and might give issues or break with future game updates
+            Reupload,                               // This is reupload from another persons mod and should not be used
             SavesCantLoadWithout,                   // This mod is needed to successfully load a savegame where it was previously used
             BreaksEditors,                          // Gives serious issues in the map and/or asset editor, or prevents them from loading
             TestVersion,                            // This is a test/beta/alpha/experimental version; use only when a stable version exists, to differentiate between them

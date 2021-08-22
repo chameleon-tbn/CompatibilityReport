@@ -373,6 +373,13 @@ namespace CompatibilityReport.Util
         }
 
 
+        // Convert a DLC enum to a formatted string
+        internal static string ConvertDLCtoString(Enums.DLC dlc)
+        {
+            return dlc.ToString().Replace("__", ": ").Replace('_', ' ');
+        }
+
+
         // Convert a string to ulong, for Steam IDs
         internal static ulong ConvertToUlong(string numericString)
         {

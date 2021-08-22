@@ -63,7 +63,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
   * *Careful with this! Required mods and Exclusions might become a mess, so you might need some extra actions*
 
 ### Available author actions (author ID is much more reliable, and mandatory if the custom URL is a number)
-* Add_Author, \<author ID | author custom URL\>, \<author name\> *(only needed for unknown authors of 'removed' mods)*
+* Add_Author, \<author ID | author custom URL\>, \<author name\> *(only needed for unknown authors of 'removed' mods, will be added as retired)*
 * Set_AuthorID, \<author custom URL\>, \<author ID\>
 * Set_AuthorURL, \<author ID\>, \<author custom URL\>
 * Set_LastSeen, \<author ID | author custom URL\>, \<date: yyyy-mm-dd\> *(should be more recent than newest mod update)*

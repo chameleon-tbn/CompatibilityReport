@@ -9,15 +9,18 @@ namespace CompatibilityReport.DataTypes
     // Needs to be public for XML serialization
     [Serializable] public class Compatibility
     {
-        // Steam IDs of two mods
-        public ulong SteamID1 { get; private set; }
+        public ulong FirstModID { get; private set; }
 
-        public ulong SteamID2 { get; private set; }
+        // The mod names are only for catalog readability, they are not being used
+        public string FirstModName { get; private set; }
 
-        // Compatibility status of these two mods, from the perspective of ID1 ('this mod')
+        public ulong SecondModID { get; private set; }
+
+        public string SecondModName { get; private set; }
+
+        // Compatibility status of these two mods, from the perspective of the first mod
         public Enums.CompatibilityStatus Status { get; private set; }
 
-        // Note about this compatibility
         public string Note { get; private set; }
 
         // Default constructor
@@ -28,21 +31,25 @@ namespace CompatibilityReport.DataTypes
 
 
         // Constructor with all parameters
-        internal Compatibility(ulong steamID1, ulong steamID2, Enums.CompatibilityStatus status, string note)
+        internal Compatibility(ulong firstModID, string firstModName, ulong secondModID, string secondModName, Enums.CompatibilityStatus status, string note)
         {
-            if (steamID1 == steamID2)
+            if (firstModID == secondModID)
             {
-                Logger.Log($"Found compatibility with two identical Steam IDs: { SteamID1 }.", Logger.error);
+                Logger.Log($"Found compatibility with two identical Steam IDs: { FirstModID }.", Logger.error);
 
                 // Use fake values to avoid weird reporting of a mod being incompatible with itself
-                steamID1 = steamID2 = 1;
+                firstModID = secondModID = 1;
 
                 status = default;
             }
 
-            SteamID1 = steamID1;
+            FirstModID = firstModID;
 
-            SteamID2 = steamID2;
+            FirstModName = firstModName;
+
+            SecondModID = secondModID;
+
+            SecondModName = secondModName;
 
             Status = status;
 

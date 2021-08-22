@@ -211,7 +211,7 @@ namespace CompatibilityReport.Updater
                     {
                         // Download error might be mod specific. Go to the next mod.
                         Logger.UpdaterLog("Permanent error while downloading Steam Workshop page for " + 
-                            $"{ catalogMod.ToString(cutOff: false) }. Will continue with next mod.", Logger.error);
+                            $"{ catalogMod.ToString() }. Will continue with next mod.", Logger.error);
 
                         continue;
                     }
@@ -219,7 +219,7 @@ namespace CompatibilityReport.Updater
                     {
                         // Too many failed downloads. Stop downloading
                         Logger.UpdaterLog("Permanent error while downloading Steam Workshop page for " + 
-                            $"{ catalogMod.ToString(cutOff: false) }. Download process stopped.", Logger.error);
+                            $"{ catalogMod.ToString() }. Download process stopped.", Logger.error);
 
                         break;
                     }
@@ -235,7 +235,7 @@ namespace CompatibilityReport.Updater
                 // Extract detailed info from the downloaded page
                 if (!ReadModPage(catalogMod))
                 {
-                    // Redownload and try again
+                    // Redownload and try again, to work around cut-off downloads
                     Toolkit.Download(Toolkit.GetWorkshopURL(catalogMod.SteamID), ModSettings.steamDownloadedPageFullPath);
 
                     ReadModPage(catalogMod);
@@ -245,6 +245,7 @@ namespace CompatibilityReport.Updater
             // Delete the temporary file
             Toolkit.DeleteFile(ModSettings.steamDownloadedPageFullPath);
 
+            // Note: about 90% of the total time is downloading, the other 10% is processing
             timer.Stop();
 
             Logger.UpdaterLog($"Updater finished downloading { modsDownloaded } individual Steam Workshop mod pages in " + 
@@ -274,8 +275,7 @@ namespace CompatibilityReport.Updater
                             if (catalogMod.UpdatedThisSession)
                             {
                                 // We found the mod in the mod listing, but not now. Must be a Steam error.
-                                Logger.UpdaterLog($"We found this, but can't read the Steam page for { catalogMod.ToString(cutOff: false) }. Mod info not updated.", 
-                                    Logger.warning);
+                                Logger.UpdaterLog($"We found this, but can't read the Steam page for { catalogMod.ToString() }. Mod info not updated.", Logger.warning);
 
                                 // Return false to trigger a retry on the download
                                 return false;
@@ -368,14 +368,6 @@ namespace CompatibilityReport.Updater
                         DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
 
                         CatalogUpdater.UpdateMod(catalogMod, published: published, updated: updated, updatedByWebCrawler: true);
-
-                        // Update the authors last seen date if the mod updated date is more recent.
-                        Author catalogAuthor = ActiveCatalog.Instance.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorURL);
-
-                        if (catalogMod.Updated > catalogAuthor.LastSeen)
-                        {
-                            CatalogUpdater.NewUpdateAuthor(catalogAuthor, lastSeen: catalogMod.Updated);
-                        }
                     }
 
                     // Required DLC. This line can be found multiple times.
@@ -443,9 +435,9 @@ namespace CompatibilityReport.Updater
                         }
 
                         // Try to get the source url, unless there is an exclusion.
-                        else if (line.Contains(ModSettings.steamModPageSourceURLLeft) && !catalogMod.ExclusionForSourceURL)
+                        if (line.Contains(ModSettings.steamModPageSourceURLLeft) && !catalogMod.ExclusionForSourceURL)
                         {
-                            catalogMod.Update(sourceURL: GetSourceURL(line, catalogMod));
+                            CatalogUpdater.UpdateMod(catalogMod, sourceURL: GetSourceURL(line, catalogMod), updatedByWebCrawler: true);
                         }
 
                         // Description is the last info we need from the page, so break out of the while loop
@@ -457,7 +449,7 @@ namespace CompatibilityReport.Updater
             if (!steamIDmatched)
             {
                 // We didn't find a Steam ID on the page, but no error page either. Must be a download issue or other Steam error.
-                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString(cutOff: false) }. Mod info not updated.", Logger.error);
+                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }. Mod info not updated.", Logger.error);
             }
 
             return true;
@@ -479,8 +471,6 @@ namespace CompatibilityReport.Updater
             const string sschoener = "https://github.com/sschoener/cities-skylines-detour";
 
             string discardedURLs = "";
-
-            const string discardedSeparator = "\n                                                                            Discarded: ";
 
             uint tries = 0;
 
@@ -515,14 +505,14 @@ namespace CompatibilityReport.Updater
                 else if (firstLower.Contains("issue") || firstLower.Contains("wiki") || firstLower.Contains("documentation") 
                     || firstLower.Contains("readme") || firstLower.Contains("guide") || firstLower.Contains("translation"))
                 {
-                    discardedURLs += discardedSeparator + sourceURL;
+                    discardedURLs += "\n                      Discarded: " + sourceURL;
 
                     sourceURL = nextSourceURL;
                 }
                 // Otherwise discard the new source url
                 else
                 {
-                    discardedURLs += discardedSeparator + nextSourceURL;
+                    discardedURLs += "\n                      Discarded: " + nextSourceURL;
                 }
             }
 
@@ -535,8 +525,8 @@ namespace CompatibilityReport.Updater
             // Log the selected and discarded source URLs, if the selected source URL is different from the one in the catalog
             if (!string.IsNullOrEmpty(discardedURLs) && sourceURL != catalogMod.SourceURL)
             {
-                Logger.UpdaterLog($"Found multiple source url's for [Steam ID { catalogMod.SteamID,10 }]. " +
-                    $"Selected: { (string.IsNullOrEmpty(sourceURL) ? "none" : sourceURL) } { discardedURLs }");
+                Logger.UpdaterLog($"Found multiple source url's for { catalogMod.ToString() }" +
+                    $"\n                      Selected:  { (string.IsNullOrEmpty(sourceURL) ? "none" : sourceURL) }{ discardedURLs }");
             }
 
             return sourceURL;

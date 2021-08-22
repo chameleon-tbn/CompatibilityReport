@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
 
-// This dumps specific catalog data to a text file, to help with creating CSV files for the import
+// This dumps specific catalog data to a text file, to help with creating CSV files for the FileImporter
 
 
 namespace CompatibilityReport.Updater
@@ -19,6 +17,8 @@ namespace CompatibilityReport.Updater
             {
                 return; 
             }
+
+            Stopwatch timer = Stopwatch.StartNew();
 
             Logger.DataDump($"{ ModSettings.modName } { ModSettings.fullVersion }, catalog { ActiveCatalog.Instance.VersionString() }. " +
                 $"DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
@@ -45,12 +45,15 @@ namespace CompatibilityReport.Updater
             DumpModsWithoutReview();
 
             // Mods with an old review, to know which to review again
-            DumpModsWithOldReview(weeks: 6);
+            DumpModsWithOldReview(months: 2);
 
             // All mods, to have easy access to all workshop URLs
             // DumpAllMods();
 
-            Logger.UpdaterLog($"Datadump created as \"{ Toolkit.GetFileName(ModSettings.dataDumpFullPath) }\".");
+            timer.Stop();
+
+            Logger.UpdaterLog($"Datadump created in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }, as " +
+                $"{ Toolkit.GetFileName(ModSettings.dataDumpFullPath) }.");
         }
 
 
@@ -59,9 +62,9 @@ namespace CompatibilityReport.Updater
         {
             DumpTitle("All mods in the catalog:");
 
-            foreach (Mod mod in ActiveCatalog.Instance.Mods)
+            foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
             {
-                Logger.DataDump($"{ mod.Name }, { Toolkit.GetWorkshopURL(mod.SteamID) }");
+                Logger.DataDump($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
             }
         }
 
@@ -71,26 +74,28 @@ namespace CompatibilityReport.Updater
         {
             DumpTitle("Mods without a review:");
 
-            foreach (Mod mod in ActiveCatalog.Instance.Mods)
+            foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
             {
-                if (mod.ReviewDate == default && mod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
+                if (catalogMod.ReviewDate == default && catalogMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
                 {
-                    Logger.DataDump($"{ mod.Name }, { Toolkit.GetWorkshopURL(mod.SteamID) }");
+                    Logger.DataDump($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
                 }
             }
         }
 
 
-        // Dump name and workshop url for all non-incompatible mods that have not been reviewed in the last month
-        private static void DumpModsWithOldReview(int weeks)
+        // Dump last review date, name and workshop url for all non-incompatible mods that have not been reviewed in the last month
+        private static void DumpModsWithOldReview(int months)
         {
-            DumpTitle($"Mods wit a old review (> { weeks } weeks):");
+            DumpTitle($"Mods wit a old review (> { months } months):");
 
-            foreach (Mod mod in ActiveCatalog.Instance.Mods)
+            foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
             {
-                if (mod.ReviewDate.AddDays(weeks * 7) < DateTime.Now && mod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
+                if (catalogMod.ReviewDate != default && catalogMod.ReviewDate.AddMonths(months) < DateTime.Now && 
+                    catalogMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
                 {
-                    Logger.DataDump($"last review { Toolkit.DateString(mod.ReviewDate) }: { mod.Name }, { Toolkit.GetWorkshopURL(mod.SteamID) }");
+                    Logger.DataDump($"last review { Toolkit.DateString(catalogMod.ReviewDate) }: { catalogMod.Name }, " +
+                        Toolkit.GetWorkshopURL(catalogMod.SteamID));
                 }
             }
         }
@@ -101,20 +106,20 @@ namespace CompatibilityReport.Updater
         {
             DumpTitle("All required mods that are not in a group:");
 
-            foreach (Mod mod in ActiveCatalog.Instance.Mods)
+            foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
             {
-                if (ActiveCatalog.Instance.IsGroupMember(mod.SteamID))
+                if (ActiveCatalog.Instance.IsGroupMember(catalogMod.SteamID))
                 {
                     continue;
                 }
 
                 // Find a mod that require this mod
-                if (ActiveCatalog.Instance.Mods.Find(x => x.RequiredMods.Contains(mod.SteamID)) != default) 
+                if (ActiveCatalog.Instance.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID)) != default) 
                 {
                     // Get statuses
                     string statuses = "";
 
-                    foreach (Enums.ModStatus status in mod.Statuses)
+                    foreach (Enums.ModStatus status in catalogMod.Statuses)
                     {
                         statuses += ", " + status.ToString();
                     }
@@ -124,7 +129,7 @@ namespace CompatibilityReport.Updater
                         statuses = " [" + statuses.Substring(2) + "]";
                     }
 
-                    Logger.DataDump($"{ mod.Name }{ statuses }, { Toolkit.GetWorkshopURL(mod.SteamID) }");
+                    Logger.DataDump($"{ catalogMod.Name }{ statuses }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
                 }
             }
         }
@@ -135,47 +140,50 @@ namespace CompatibilityReport.Updater
         {
             DumpTitle("Unused groups:");
 
-            foreach (Group group in ActiveCatalog.Instance.Groups)
+            foreach (Group catalogGroup in ActiveCatalog.Instance.Groups)
             {
                 // List groups that are not used as a required mod
-                if (ActiveCatalog.Instance.Mods.Find(x => x.RequiredMods.Contains(group.GroupID)) == default)
+                if (ActiveCatalog.Instance.Mods.Find(x => x.RequiredMods.Contains(catalogGroup.GroupID)) == default)
                 {
-                    Logger.DataDump(group.ToString());
+                    Logger.DataDump(catalogGroup.ToString());
                 }
             }
         }
 
 
+        // Dump group ID and name, and remaining groupmember, for all groups with less than two members
         private static void DumpEmptyGroups()
         {
             DumpTitle("Groups with less than 2 members:");
 
-            foreach (Group group in ActiveCatalog.Instance.Groups)
+            foreach (Group catalogGroup in ActiveCatalog.Instance.Groups)
             {
-                if (group.GroupMembers.Count == 0)
+                if (catalogGroup.GroupMembers.Count == 0)
                 {
-                    Logger.DataDump(group.ToString() + ": no members");
+                    Logger.DataDump(catalogGroup.ToString() + ": no members");
                 }
-                else if (group.GroupMembers.Count == 1)
+                else if (catalogGroup.GroupMembers.Count == 1)
                 {
-                    Logger.DataDump(group.ToString() + $": only member is { ActiveCatalog.Instance.ModDictionary[group.GroupMembers[0]].ToString(cutOff: false) }");
+                    Logger.DataDump(catalogGroup.ToString() + $": only member is " +
+                        ActiveCatalog.Instance.ModDictionary[catalogGroup.GroupMembers[0]].ToString());
                 }
             }
         }
 
 
-        // Dump name and workshop url for all authors with more than one mod; gives false positives for mods that contain both author ID and URLwwwwwww
+        // Dump name and workshop url for all authors with more than one mod; gives false positives for mods that contain both author ID and URL
         private static void DumpAuthorsWithMultipleMods()
         {
             DumpTitle("Authors with more than one mod:");
 
-            foreach (Author author in ActiveCatalog.Instance.Authors)
+            foreach (Author catalogAuthor in ActiveCatalog.Instance.Authors)
             {
                 // List authors that have at least two mods
-                if ((author.ProfileID != 0 ? ActiveCatalog.Instance.Mods.FindAll(x => x.AuthorID == author.ProfileID).Count : 0) +
-                    (!string.IsNullOrEmpty(author.CustomURL) ? ActiveCatalog.Instance.Mods.FindAll(x => x.AuthorURL == author.CustomURL).Count : 0) > 1)
+                if ((catalogAuthor.ProfileID != 0 ? ActiveCatalog.Instance.Mods.FindAll(x => x.AuthorID == catalogAuthor.ProfileID).Count : 0) +
+                    (!string.IsNullOrEmpty(catalogAuthor.CustomURL) ? ActiveCatalog.Instance.Mods.FindAll(x => x.AuthorURL == catalogAuthor.CustomURL).Count : 0) > 1)
                 {
-                    Logger.DataDump($"{ author.Name }{ (author.Retired ? " [retired]" : "") }, { Toolkit.GetAuthorWorkshop(author.ProfileID, author.CustomURL) }");
+                    Logger.DataDump($"{ catalogAuthor.Name }{ (catalogAuthor.Retired ? " [retired]" : "") }, " +
+                        $"{ Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
                 }
             }
         }
@@ -186,11 +194,11 @@ namespace CompatibilityReport.Updater
         {
             DumpTitle("Retired authors:");
 
-            foreach (Author author in ActiveCatalog.Instance.Authors)
+            foreach (Author catalogAuthor in ActiveCatalog.Instance.Authors)
             {
-                if (author.Retired)
+                if (catalogAuthor.Retired)
                 {
-                    Logger.DataDump($"{ author.Name }, { Toolkit.GetAuthorWorkshop(author.ProfileID, author.CustomURL) }");
+                    Logger.DataDump($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
                 }
             }
         }
@@ -201,11 +209,11 @@ namespace CompatibilityReport.Updater
         {
             DumpTitle($"Authors that will retire within { months } months:");
 
-            foreach (Author author in ActiveCatalog.Instance.Authors)
+            foreach (Author catalogAuthor in ActiveCatalog.Instance.Authors)
             {
-                if (!author.Retired && author.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor - months) < DateTime.Now)
+                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor - months) >= DateTime.Now)
                 {
-                    Logger.DataDump($"{ author.Name }, { Toolkit.GetAuthorWorkshop(author.ProfileID, author.CustomURL) }");
+                    Logger.DataDump($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
                 }
             }
         }

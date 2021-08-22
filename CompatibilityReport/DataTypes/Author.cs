@@ -83,7 +83,7 @@ namespace CompatibilityReport.DataTypes
         internal void Update(ulong profileID = 0,
                              string customURL = null,
                              string name = null,
-                             DateTime? lastSeen = null,
+                             DateTime lastSeen = default,
                              bool? retired = null,
                              bool? exclusionForRetired = null,
                              string extraChangeNote = null)
@@ -98,7 +98,7 @@ namespace CompatibilityReport.DataTypes
             // Avoid an empty name or the profile ID as name; Steam sometimes incorrectly puts the profile ID in the name field in mod listing HTML pages
             Name = string.IsNullOrEmpty(name) || name == ProfileID.ToString() ? Name : name;
 
-            LastSeen = lastSeen ?? LastSeen;
+            LastSeen = lastSeen == default ? LastSeen : lastSeen;
 
             Retired = retired ?? Retired;
 

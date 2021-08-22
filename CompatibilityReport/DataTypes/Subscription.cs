@@ -173,7 +173,7 @@ namespace CompatibilityReport.DataTypes
             Name = catalogMod.Name;
 
             // Log the found mod
-            Logger.Log($"Mod found: { catalogMod.ToString(cutOff: false) }");
+            Logger.Log($"Mod found: { catalogMod.ToString() }");
 
             // Check if the mod was manually reviewed
             IsReviewed = catalogMod.ReviewDate != default;
@@ -227,9 +227,9 @@ namespace CompatibilityReport.DataTypes
             }
 
             // Get all compatibilities (including note) where this mod is either the first or the second ID
-            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == SteamID), firstID: true);
+            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.FirstModID == SteamID), firstID: true);
 
-            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == SteamID), firstID: false);
+            AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SecondModID == SteamID), firstID: false);
 
             // Get the group that this mod is a member of
             Group group = ActiveCatalog.Instance.GetGroup(SteamID);
@@ -237,9 +237,9 @@ namespace CompatibilityReport.DataTypes
             if (group != default)
             {
                 // Get all compatibilities (including note) where the group is either the first or the second ID
-                AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID1 == group.GroupID), firstID: true);
+                AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.FirstModID == group.GroupID), firstID: true);
 
-                AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SteamID2 == group.GroupID), firstID: false);
+                AddCompatibility(ActiveCatalog.Instance.Compatibilities.FindAll(x => x.SecondModID == group.GroupID), firstID: false);
             }
         }
 
@@ -265,17 +265,17 @@ namespace CompatibilityReport.DataTypes
                 if (firstID)
                 {
                     // Add the compatibility status to the list, with the Steam ID for the other mod or group
-                    if (Compatibilities.ContainsKey(newCompatibility.SteamID2))
+                    if (Compatibilities.ContainsKey(newCompatibility.SecondModID))
                     {
-                        Compatibilities[newCompatibility.SteamID2].Add(newCompatibility.Status);
+                        Compatibilities[newCompatibility.SecondModID].Add(newCompatibility.Status);
                     }
                     else
                     {
-                        Compatibilities.Add(newCompatibility.SteamID2, new List<Enums.CompatibilityStatus> { newCompatibility.Status });
+                        Compatibilities.Add(newCompatibility.SecondModID, new List<Enums.CompatibilityStatus> { newCompatibility.Status });
                     }
 
                     // Add the compatibility note to the list
-                    ModNotes.Add(newCompatibility.SteamID2, newCompatibility.Note);
+                    ModNotes.Add(newCompatibility.SecondModID, newCompatibility.Note);
                 }
                 else
                 {
@@ -292,13 +292,13 @@ namespace CompatibilityReport.DataTypes
                     }
 
                     // Add the compatibility status to the list, with the Steam ID for the other mod or group
-                    if (Compatibilities.ContainsKey(newCompatibility.SteamID1))
+                    if (Compatibilities.ContainsKey(newCompatibility.FirstModID))
                     {
-                        Compatibilities[newCompatibility.SteamID1].Add(newStatus);
+                        Compatibilities[newCompatibility.FirstModID].Add(newStatus);
                     }
                     else
                     {
-                        Compatibilities.Add(newCompatibility.SteamID1, new List<Enums.CompatibilityStatus> { newStatus });
+                        Compatibilities.Add(newCompatibility.FirstModID, new List<Enums.CompatibilityStatus> { newStatus });
                     }
 
                     // The compatibility note should only be displayed for the first mod in the compatibility, so skip it here  [Todo 0.3] Not really true, fix this

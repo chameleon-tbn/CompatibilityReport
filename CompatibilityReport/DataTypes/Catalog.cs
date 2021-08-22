@@ -219,7 +219,6 @@ namespace CompatibilityReport.DataTypes
                                     DateTime? autoReviewUpdated = null,
                                     string extraChangeNote = null)
         {
-            // Create a new mod
             Mod mod;
 
             if (!ModDictionary.ContainsKey(steamID))
@@ -365,11 +364,11 @@ namespace CompatibilityReport.DataTypes
                 // Log to the most likely log
                 if (ModSettings.UpdaterEnabled)
                 {
-                    Logger.UpdaterLog($"Added { requiredGroup.ToString() } as required mod for { mod.ToString(cutOff: false) }.");
+                    Logger.UpdaterLog($"Added { requiredGroup.ToString() } as required mod for { mod.ToString() }.");
                 }
                 else
                 {
-                    Logger.Log($"Added { requiredGroup.ToString() } as required mod for { mod.ToString(cutOff: false) }.");
+                    Logger.Log($"Added { requiredGroup.ToString() } as required mod for { mod.ToString() }.");
                 }
             }
 
@@ -512,7 +511,7 @@ namespace CompatibilityReport.DataTypes
             Count = Mods.Count;
 
             // Count the number of mods with a manual review in the catalog
-            List<Mod> reviewedMods = Mods.FindAll(x => x.ReviewDate != DateTime.MinValue);
+            List<Mod> reviewedMods = Mods.FindAll(x => x.ReviewDate != default);
 
             ReviewCount = reviewedMods?.Any() == null ? 0 : reviewedMods.Count;
 

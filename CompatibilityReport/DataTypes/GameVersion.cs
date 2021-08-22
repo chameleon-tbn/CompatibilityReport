@@ -76,7 +76,7 @@ namespace CompatibilityReport.DataTypes
         // 2015-05-19 Tunnels and European themed buildings and maps added
         internal static readonly Version Patch_1_1_0b = new Version(1, 1, 0, 2);
 
-        // 2015-07-01 IUserMod changed; any mod older than this is very broken
+        // 2015-07-01 IUserMod changed; mods older than this are more likely to be broken
         internal static readonly Version Patch_1_1_1 = new Version(1, 1, 1, 0);
 
         

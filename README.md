@@ -31,7 +31,8 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
   * Implement feedback where possible, or plan for future versions
 * 0.7 - Settings UI, Settings XML file
   * when to scan, on-demand scanning, report sorting, what to include in report, ...
-* 0.8 - Beta release
+* 0.8 - Standalone Updater tool for easier scheduling
+* 0.9 - Beta release
   * Further code cleanup and revision
   * Completing the catalog with info from other sources (MCC mod, compatibility guides, forum, ...)
   * Public release on the Steam Workshop
@@ -39,15 +40,17 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
   * Test branch on GitHub
   * Gather feedback from users
   * Regular new catalog releases (weekly?)
+* 1.0 - Stable release
 
 ### Future ideas (might not happen)
 * 1.1 HTML report, categorized by severity; mod setting for text or HTML report
 * 1.2 In-game popup with summary and button to open report
 * Version check before (down)loading a full catalog
-* Reviewing local mods
 * Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112))
-* Online catalog update procedure, supporting multiple simultaneous contributors
+* Reviewing local mods
 * 'Second load' detection with warning popup
+* Online catalog update procedure, supporting multiple simultaneous contributors
+* Interface for getting info about a random, unsubscribed mod
 * Catalog updater based on Steam API for much better performance, easier update detection and more reliable author links
 * TLS 1.2 support for download, if possible (probably need to switch to .NET 4)
 * Detect missing mods for subscribed assets, like ETST, NExt2, Additive Shader, Trolleybus Trailer AI, etc. (probably needs Steam API)

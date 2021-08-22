@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "1";
-        internal const string build = "183";
+        internal const string build = "184";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -154,14 +154,14 @@ namespace CompatibilityReport.Util
             bullet + "Always exit to desktop before loading another save! (no 'second loading')\n" +
             bullet + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
             bullet + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" +
-            bullet + $"Savegame not loading? Use the optimization and safe mode options from Loading Screen: { Toolkit.GetWorkshopURL(667342976) }\n" +
-            bullet + $"Getting errors despite all your mods being compatible? Try the Loading Order Mod: { Toolkit.GetWorkshopURL(2448824112) }\n" +
+            bullet + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
             "\n" +
             "Some remarks about incompatibilities:\n" +
             bullet + "Mods that do the same thing are generally incompatible with each other.\n" +
             bullet + "Some issues are a conflict between more than two mods or a loading order issue, making it hard to find the real culprit. " + 
             "This can lead to users blaming the wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
-            bullet + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
+            bullet + $"Savegame not loading? Use the optimization and safe mode options from Loading Screen: { Toolkit.GetWorkshopURL(667342976) }\n" +
+            bullet + $"Getting errors despite all your mods being compatible? Try the Loading Order Mod: { Toolkit.GetWorkshopURL(2448824112) }\n" +
             "\n" +
             "Disclaimer:\n" +
             bullet + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " + 

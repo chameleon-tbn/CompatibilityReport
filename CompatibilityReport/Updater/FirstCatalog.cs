@@ -46,7 +46,7 @@ namespace CompatibilityReport.Updater
                 Mod mod = firstCatalog.AddOrUpdateMod(steamID: modVP.Value, name: modVP.Key, published: gameRelease, stability: Enums.ModStability.Stable,
                     statuses: sourceBundled,reviewUpdated: updateDate, autoReviewUpdated: updateDate, extraChangeNote: modNotes);
 
-                changeNotes += $"New mod { mod.ToString(cutOff: false) }\n";
+                changeNotes += $"New mod { mod.ToString() }\n";
             }
 
             // Save the catalog as 'CompatibilityReportCatalog_v1.0001.xml' and save the change notes in the same folder

@@ -9,7 +9,7 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport
 {
-    internal static class Reporter
+    internal static class Reporter      // [Todo 0.3.2] Change from Logger to StringBuilder(512)
     {
         // Strings to collect the review text for all mods
         private static StringBuilder reviewedModsText;
@@ -433,7 +433,7 @@ namespace CompatibilityReport
                 if (ActiveCatalog.Instance.ModDictionary.ContainsKey(id))
                 {
                     // Mod found in the catalog, list Steam ID and name
-                    text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
+                    text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false, cutOff: true), htmlReport, ModSettings.bullet2);
                 }
                 else
                 {
@@ -466,7 +466,7 @@ namespace CompatibilityReport
                 if (ActiveCatalog.Instance.ModDictionary.ContainsKey(id))
                 {
                     // Mod found in the catalog, list Steam ID and name
-                    text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
+                    text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false, cutOff: true), htmlReport, ModSettings.bullet2);
                 }
                 else
                 {
@@ -498,7 +498,7 @@ namespace CompatibilityReport
                 if (!PlatformService.IsDlcInstalled((uint) dlc))
                 {
                     // Add the missing dlc, replacing the underscores in the DLC enum name with spaces and semicolons
-                    dlcs += ReviewLine(dlc.ToString().Replace("__", ": ").Replace('_', ' '), htmlReport, ModSettings.bullet2);
+                    dlcs += ReviewLine(Toolkit.ConvertDLCtoString(dlc), htmlReport, ModSettings.bullet2);
                 }
             }
 
@@ -552,7 +552,7 @@ namespace CompatibilityReport
                         if (ActiveCatalog.Instance.ModDictionary.ContainsKey(id))
                         {
                             // Mod found in the catalog
-                            text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false), htmlReport, ModSettings.bullet2);
+                            text += ReviewLine(ActiveCatalog.Instance.ModDictionary[id].ToString(showFakeID: false, cutOff: true), htmlReport, ModSettings.bullet2);
                         }
                         else
                         {
@@ -627,7 +627,8 @@ namespace CompatibilityReport
                             if (ActiveCatalog.Instance.ModDictionary.ContainsKey(modID))
                             {
                                 // Mod found in the catalog
-                                missingModsText += ReviewLine(ActiveCatalog.Instance.ModDictionary[modID].ToString(showFakeID: false), htmlReport, ModSettings.bullet3);
+                                missingModsText += ReviewLine(ActiveCatalog.Instance.ModDictionary[modID].ToString(showFakeID: false, cutOff: true), 
+                                    htmlReport, ModSettings.bullet3);
                             }
                             else
                             {
@@ -724,7 +725,7 @@ namespace CompatibilityReport
         }
 
 
-        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated, and more  [Todo 0.4] add all statuses
+        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated, and more  [Todo 0.3.2] add all statuses
         private static string Statuses(Subscription subscription,
                                        bool htmlReport = false)
         {
@@ -739,6 +740,10 @@ namespace CompatibilityReport
             if (subscription.Statuses.Contains(Enums.ModStatus.NoLongerNeeded))
             {
                 text += ReviewLine("Unsubscribe. This is no longer needed.", htmlReport);
+            }
+            else if (subscription.Statuses.Contains(Enums.ModStatus.Reupload))
+            {
+                text += ReviewLine("Unsubscribe. This is a re-upload of another mod, use that one instead.", htmlReport);
             }
 
             if (subscription.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop && subscription.Stability != Enums.ModStability.RequiresIncompatibleMod &&

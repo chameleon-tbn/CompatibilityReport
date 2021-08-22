@@ -195,7 +195,7 @@ namespace CompatibilityReport.Updater
                 case "add_compatibility":
                 case "remove_compatibility":
                     // Get the note, if available. If the note starts with a '#', it is a comment instead of a note.
-                    string compatibilityNote = lineElements.Length < 5 ? "" : lineElements[4][0] == '#' ? "" : 
+                    string compatibilityNote = lineElements.Length < 5 ? "" : lineElements[4].Trim()[0] == '#' ? "" : 
                         string.Join(",", lineElements, 4, lineElements.Length - 4).Trim().Replace("\\n", "\n");
 
                     return lineElements.Length < 4 ? "Not enough parameters." : 
@@ -282,7 +282,7 @@ namespace CompatibilityReport.Updater
                 return $"Invalid Steam ID or mod already exists.";
             }
 
-            Mod newMod = CatalogUpdater.GetOrAddMod(modID, modName, unlisted: true);
+            Mod newMod = CatalogUpdater.GetOrAddMod(modID, modName == "" ? null : modName, unlisted: true);
 
             CatalogUpdater.UpdateMod(newMod, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true);
 
@@ -317,7 +317,7 @@ namespace CompatibilityReport.Updater
                 return $"Mod can't be removed because it is still referenced by other mods (required, successor, alternative or recommendation).";
             }
 
-            CatalogUpdater.AddRemovedModChangeNote($"Mod removed: { catalogMod.ToString(cutOff: false) }");
+            CatalogUpdater.AddRemovedModChangeNote($"Mod removed: { catalogMod.ToString() }");
 
             ActiveCatalog.Instance.Mods.Remove(catalogMod);     // [Todo 0.3] Move to Catalog class
 
@@ -686,7 +686,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add an author
+        // Add an author, as retired
         private static string AddAuthor(ulong authorID, string authorURL, string authorName)
         {
             if ((authorID == 0 && string.IsNullOrEmpty(authorURL)) || string.IsNullOrEmpty(authorName))
@@ -699,7 +699,9 @@ namespace CompatibilityReport.Updater
                 return "Author already exists.";
             }
 
-            CatalogUpdater.GetOrAddAuthor(authorID, authorURL, authorName);
+            Author newAuthor = CatalogUpdater.GetOrAddAuthor(authorID, authorURL, authorName);
+
+            CatalogUpdater.UpdateAuthor(newAuthor, retired: true);
             
             return "";
         }
@@ -747,7 +749,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid Author ID.";
                 }
 
-                CatalogUpdater.NewUpdateAuthor(catalogAuthor, authorID);
+                CatalogUpdater.UpdateAuthor(catalogAuthor, authorID);
             }
             else if (action == "set_authorurl")
             {
@@ -761,7 +763,7 @@ namespace CompatibilityReport.Updater
                     return "This custom URL is already active.";
                 }
 
-                CatalogUpdater.NewUpdateAuthor(catalogAuthor, authorURL: itemData);
+                CatalogUpdater.UpdateAuthor(catalogAuthor, authorURL: itemData);
             }
             else if (action == "remove_authorurl")
             {
@@ -770,7 +772,7 @@ namespace CompatibilityReport.Updater
                     return "No custom URL active.";
                 }
 
-                CatalogUpdater.NewUpdateAuthor(catalogAuthor, authorURL: "");
+                CatalogUpdater.UpdateAuthor(catalogAuthor, authorURL: "");
             }
             else if (action == "set_lastseen")
             {
@@ -791,7 +793,7 @@ namespace CompatibilityReport.Updater
                         $"from { Toolkit.DateString(catalogAuthor.LastSeen) } to { Toolkit.DateString(lastSeen) }.");
                 }
 
-                CatalogUpdater.NewUpdateAuthor(catalogAuthor, lastSeen: lastSeen);
+                CatalogUpdater.UpdateAuthor(catalogAuthor, lastSeen: lastSeen);
             }
             else if (action == "set_retired")
             {
@@ -800,7 +802,7 @@ namespace CompatibilityReport.Updater
                     return "Author already retired.";
                 }
 
-                CatalogUpdater.NewUpdateAuthor(catalogAuthor, retired: true);
+                CatalogUpdater.UpdateAuthor(catalogAuthor, retired: true);
             }
             else if (action == "remove_retired")
             {
@@ -814,7 +816,7 @@ namespace CompatibilityReport.Updater
                     return "Author retirement is automatic and cannot be removed. Try adding a recent 'last seen' date.";
                 }
 
-                CatalogUpdater.NewUpdateAuthor(catalogAuthor, retired: false);
+                CatalogUpdater.UpdateAuthor(catalogAuthor, retired: false);
             }
             else
             {
@@ -1007,7 +1009,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Check if a compatibility exists for these steam IDs and this compatibility status
-            bool compatibilityExists = ActiveCatalog.Instance.Compatibilities.Find(x => x.SteamID1 == firstModID && x.SteamID2 == secondModID && 
+            bool compatibilityExists = ActiveCatalog.Instance.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID && 
                 x.Status == compatibilityStatus) != default;
 
             if (action == "add_compatibility")
@@ -1026,7 +1028,7 @@ namespace CompatibilityReport.Updater
                 if (compatibilityStatus == Enums.CompatibilityStatus.SameModDifferentReleaseType || compatibilityStatus == Enums.CompatibilityStatus.SameFunctionality ||
                     compatibilityStatus == Enums.CompatibilityStatus.MinorIssues || compatibilityStatus == Enums.CompatibilityStatus.RequiresSpecificSettings)
                 {
-                    bool mirroredCompatibilityExists = ActiveCatalog.Instance.Compatibilities.Find(x => x.SteamID1 == secondModID && x.SteamID2 == firstModID && 
+                    bool mirroredCompatibilityExists = ActiveCatalog.Instance.Compatibilities.Find(x => x.FirstModID == secondModID && x.SecondModID == firstModID && 
                         x.Status == compatibilityStatus) != default;
 
                     if (mirroredCompatibilityExists)
@@ -1035,7 +1037,8 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                CatalogUpdater.AddCompatibility(firstModID, secondModID, compatibilityStatus, note);
+                CatalogUpdater.AddCompatibility(firstModID, ActiveCatalog.Instance.ModDictionary[firstModID].Name, 
+                    secondModID, ActiveCatalog.Instance.ModDictionary[secondModID].Name, compatibilityStatus, note);
             }
             else
             {

@@ -204,7 +204,7 @@ namespace CompatibilityReport.DataTypes
         // Return a max length, formatted string with the Steam ID and name
         internal string ToString(bool nameFirst = false,
                                  bool showFakeID = true,
-                                 bool cutOff = true)
+                                 bool cutOff = false)
         {
             string id;
 
@@ -237,23 +237,6 @@ namespace CompatibilityReport.DataTypes
             {
                 return id + " " + name;
             }
-        }
-
-
-        // Copy all fields from a mod to a new mod
-        internal static Mod Copy(Mod originalMod)
-        {
-            Mod newMod = new Mod(originalMod.SteamID, originalMod.Name, originalMod.AuthorID, originalMod.AuthorURL);
-
-            // Copy all value types directly, and all lists as new lists
-            newMod.Update(originalMod.Name, originalMod.Published, originalMod.Updated, originalMod.AuthorID, originalMod.AuthorURL, originalMod.ArchiveURL,
-                originalMod.SourceURL, originalMod.CompatibleGameVersionString, new List<Enums.DLC>(originalMod.RequiredDLC), new List<ulong>(originalMod.RequiredMods), 
-                new List<ulong>(originalMod.Successors), new List<ulong>(originalMod.Alternatives), new List<ulong>(originalMod.Recommendations), originalMod.Stability,
-                originalMod.StabilityNote, new List<Enums.ModStatus>(originalMod.Statuses), originalMod.GenericNote, originalMod.ExclusionForSourceURL, 
-                originalMod.ExclusionForGameVersion, originalMod.ExclusionForNoDescription, new List<Enums.DLC>(originalMod.ExclusionForRequiredDLC), 
-                new List<ulong>(originalMod.ExclusionForRequiredMods), originalMod.ReviewDate, originalMod.AutoReviewDate, originalMod.ChangeNotes);
-
-            return newMod;
         }
 
 
