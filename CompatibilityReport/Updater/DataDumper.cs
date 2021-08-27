@@ -5,6 +5,7 @@ using CompatibilityReport.Util;
 
 
 // This dumps specific catalog data to a text file, to help with creating CSV files for the FileImporter
+// It's inefficient with all the foreach loops, but 90ms don't count up to the 12 to 15 minutes from the WebCrawler, and I like to keep the code simple
 
 
 namespace CompatibilityReport.Updater
@@ -35,17 +36,17 @@ namespace CompatibilityReport.Updater
             // Authors that retire soon, to check them for activity in comments
             DumpAuthorsSoonRetired(months: 2);
 
-            // Retired authors, for a one time check at the start of this mod for activity in comments
-            DumpRetiredAuthors();
-
             // Authors with multiple mods, for a check of different version of the same mods (test vs stable)
             DumpAuthorsWithMultipleMods();
+
+            // Mods with an old review, to know which to review again
+            DumpModsWithOldReview(months: 2);
 
             // Mods without a review, to know which to review yet
             DumpModsWithoutReview();
 
-            // Mods with an old review, to know which to review again
-            DumpModsWithOldReview(months: 2);
+            // Retired authors, for a one time check at the start of this mod for activity in comments
+            DumpRetiredAuthors();
 
             // All mods, to have easy access to all workshop URLs
             // DumpAllMods();
@@ -84,7 +85,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump last review date, name and workshop url for all non-incompatible mods that have not been reviewed in the last month
+        // Dump last review date, name and workshop url for all non-incompatible mods that have not been reviewed in the last x months
         private static void DumpModsWithOldReview(int months)
         {
             DumpTitle($"Mods wit a old review (> { months } months):");
@@ -204,14 +205,14 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump name and workshop url for all authors that will get the retired status within 2 months
+        // Dump name and workshop url for all authors that will get the retired status within x months
         private static void DumpAuthorsSoonRetired(int months)
         {
             DumpTitle($"Authors that will retire within { months } months:");
 
             foreach (Author catalogAuthor in ActiveCatalog.Instance.Authors)
             {
-                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor - months) >= DateTime.Now)
+                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor - months) < DateTime.Now)
                 {
                     Logger.DataDump($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
                 }

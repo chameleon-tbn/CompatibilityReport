@@ -67,14 +67,9 @@ namespace CompatibilityReport.Updater
                 WebCrawler.Start();
             }
             
-            // Run the FileImporter for catalog version 3 and higher   [Todo 0.4] Remove requirement
-            if (ActiveCatalog.Instance.Version > 2)
-            {
-                FileImporter.Start();
-            }
+            FileImporter.Start();
 
-            // Retire authors that are now eligible
-            RetireEligibleAuthors();
+            UpdateAuthorRetirement();
 
             // Log a CSV action for required assets that are missing in the catalog
             if (UnknownRequiredAssets.Length > 0)
@@ -341,8 +336,8 @@ namespace CompatibilityReport.Updater
         // Update a mod with newly found information, including exclusions  [Todo 0.3] Needs more logic for authorID/authorURL, all lists, ... (combine with FileImporter)
         internal static void UpdateMod(Mod catalogMod,
                                        string name = null,
-                                       DateTime published = default,
-                                       DateTime updated = default,
+                                       DateTime? published = null,
+                                       DateTime? updated = null,
                                        ulong authorID = 0,
                                        string authorURL = null,
                                        string archiveURL = null,
@@ -368,7 +363,7 @@ namespace CompatibilityReport.Updater
             // Set the change note for all changed values
             string addedChangeNote =
                 (name == null || name == catalogMod.Name ? "" : ", mod name changed") +
-                (updated == default || updated == catalogMod.Updated ? "" : ", new update") +
+                (updated == null || updated == catalogMod.Updated ? "" : ", new update") +
                 (authorID == 0 || authorID == catalogMod.AuthorID ? "" : ", author ID added") +
                 (authorURL == null || authorURL == catalogMod.AuthorURL ? "" : ", author URL") +
                 (archiveURL == null || archiveURL == catalogMod.ArchiveURL ? "" : ", archive URL") +
@@ -570,21 +565,6 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            // Update retirement on a new last seen date, which could be newer or older than the current last seen date
-            if (lastSeen != default)
-            {
-                if (lastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) < DateTime.Today)
-                {
-                    // Set to retired if past the time for retirement
-                    retired = true;
-                }
-                else
-                {
-                    // set recently active author to retired only if retired was requested or if an exclusion already exists
-                    retired = retired == true || catalogAuthor.ExclusionForRetired;
-                }
-            }
-
             // Set the change note for all changed values
             string addedChangeNote =
                 (authorID == 0 || authorID == catalogAuthor.ProfileID || catalogAuthor.ProfileID != 0 ? "" : ", profile ID added") +
@@ -594,46 +574,77 @@ namespace CompatibilityReport.Updater
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
 
             AddUpdatedAuthorChangeNote(catalogAuthor, addedChangeNote);
-            
-            // Update the author
-            catalogAuthor.Update(authorID, authorURL, name, lastSeen, retired);
 
-            // Set exclusion for early retirement and remove it otherwise
-            if (catalogAuthor.Retired == true && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) >= DateTime.Today)
-            {
-                catalogAuthor.Update(exclusionForRetired: true);
-            }
-            else
-            {
-                catalogAuthor.Update(exclusionForRetired: false);
-            }
+            // Update the author
+            catalogAuthor.Update(authorID, authorURL, name, lastSeen, retired, exclusionForRetired: catalogAuthor.ExclusionForRetired || retired == true);
 
             // [Todo 0.3] new author ID -> add authorID to all mods from this author; changed author URL -> change authorURL to all mods from this author
             // [Todo 0.3] Changenotes
         }
 
 
-        // Retire authors that are now eligible due to last seen date, and authors that don't have a non-removed mod in the workshop anymore
-        private static void RetireEligibleAuthors()     // [Todo 0.3] More complicated: also set retired if remaining mods are removedfromworkshop
+        // Retire authors that are now eligible due to last seen date, and authors that don't have a mod in the Steam Workshop anymore
+        private static void UpdateAuthorRetirement()
         {
+            // Make temporary lists of all authors that have at least one Workshop mod
+            List<ulong> ActiveAuthorIDs = new List<ulong>();
+
+            List<string> ActiveAuthorURLs = new List<string>();
+
+            foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
+            {
+                if (!catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                {
+                    if (catalogMod.AuthorID != 0 && !ActiveAuthorIDs.Contains(catalogMod.AuthorID))
+                    {
+                        ActiveAuthorIDs.Add(catalogMod.AuthorID);
+                    }
+
+                    if (!string.IsNullOrEmpty(catalogMod.AuthorURL) && !ActiveAuthorURLs.Contains(catalogMod.AuthorURL))
+                    {
+                        ActiveAuthorURLs.Add(catalogMod.AuthorURL);
+                    }
+                }
+            }
+
+            // Check and update retirement for all authors
             foreach (Author catalogAuthor in ActiveCatalog.Instance.Authors)
             {
-                if (!catalogAuthor.Retired && catalogAuthor.ProfileID != 0 && ActiveCatalog.Instance.Mods.Find(x => x.AuthorID == catalogAuthor.ProfileID) == default)
+                // Set exclusion for early retirement and remove it otherwise
+                if (catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) >= DateTime.Today)
                 {
+                    catalogAuthor.Update(exclusionForRetired: true);
+                }
+                else
+                {
+                    catalogAuthor.Update(exclusionForRetired: false);
+                }
+
+                // Set retirement
+                if (!ActiveAuthorIDs.Contains(catalogAuthor.ProfileID) && !ActiveAuthorURLs.Contains(catalogAuthor.CustomURL))
+                {
+                    // Authors without a mod in the Workshop
+                    if (!catalogAuthor.Retired)
+                    {
+                        // Only update if they weren't set to retired yet
+                        AddUpdatedAuthorChangeNote(catalogAuthor, "no longer has mods on the workshop");
+
+                        UpdateAuthor(catalogAuthor, retired: true);
+                    }
+                }
+
+                else if (catalogAuthor.LastSeen != default && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) < DateTime.Today)
+                {
+                    // Authors that are retired based on last seen date
                     UpdateAuthor(catalogAuthor, retired: true);
 
-                    AddUpdatedAuthorChangeNote(catalogAuthor, "no longer has mods on the workshop");
+                    catalogAuthor.Update(exclusionForRetired: false);
                 }
-                else if (!catalogAuthor.Retired && catalogAuthor.ProfileID == 0 && ActiveCatalog.Instance.Mods.Find(x => x.AuthorURL == catalogAuthor.CustomURL) == default)
-                {
-                    UpdateAuthor(catalogAuthor, retired: true);
 
-                    AddUpdatedAuthorChangeNote(catalogAuthor, "no longer has mods on the workshop");
-                }
-                else if (!catalogAuthor.Retired && catalogAuthor.LastSeen != default && 
-                    catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) < DateTime.Today)
+                else if (!catalogAuthor.ExclusionForRetired)
                 {
-                    UpdateAuthor(catalogAuthor, retired: true);
+                    // Authors that have mods in the Workshop, and are recently enough seen, and don't have an exclusion for retired
+                    UpdateAuthor(catalogAuthor, retired: false);
                 }
             }
         }
@@ -797,7 +808,7 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            // If the requiredID is not a known ID, it's probably an asset.
+            // If the requiredID is not a known ID, it's probably an asset. [Todo 0.3] This doesn't account for add_asset in CSV
             else if (ActiveCatalog.Instance.IsValidID(requiredID, allowBuiltin: false, shouldExist: false) && !ActiveCatalog.Instance.RequiredAssets.Contains(requiredID))
             {
                 UnknownRequiredAssets.Append($", { requiredID }");
