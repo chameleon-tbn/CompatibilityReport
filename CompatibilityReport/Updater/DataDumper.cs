@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
 using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
 
@@ -12,6 +13,8 @@ namespace CompatibilityReport.Updater
 {
     internal static class DataDumper
     {
+        static StringBuilder DataDump;
+
         internal static void Start()
         {
             if (!ModSettings.UpdaterEnabled || !ActiveCatalog.Init()) 
@@ -21,7 +24,9 @@ namespace CompatibilityReport.Updater
 
             Stopwatch timer = Stopwatch.StartNew();
 
-            Logger.DataDump($"{ ModSettings.modName } { ModSettings.fullVersion }, catalog { ActiveCatalog.Instance.VersionString() }. " +
+            DataDump = new StringBuilder(512);
+
+            DataDump.AppendLine($"{ ModSettings.modName } { ModSettings.fullVersion }, catalog { ActiveCatalog.Instance.VersionString() }. " +
                 $"DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
 
             // Unused groups, to see if we can clean up
@@ -51,6 +56,10 @@ namespace CompatibilityReport.Updater
             // All mods, to have easy access to all workshop URLs
             // DumpAllMods();
 
+            Toolkit.SaveToFile(DataDump.ToString(), ModSettings.dataDumpFullPath, createBackup: true);
+
+            DataDump = new StringBuilder();
+
             timer.Stop();
 
             Logger.UpdaterLog($"Datadump created in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }, as " +
@@ -65,7 +74,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
             {
-                Logger.DataDump($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
+                DataDump.AppendLine($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
             }
         }
 
@@ -79,7 +88,7 @@ namespace CompatibilityReport.Updater
             {
                 if (catalogMod.ReviewDate == default && catalogMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
                 {
-                    Logger.DataDump($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
+                    DataDump.AppendLine($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
                 }
             }
         }
@@ -95,7 +104,7 @@ namespace CompatibilityReport.Updater
                 if (catalogMod.ReviewDate != default && catalogMod.ReviewDate.AddMonths(months) < DateTime.Now && 
                     catalogMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
                 {
-                    Logger.DataDump($"last review { Toolkit.DateString(catalogMod.ReviewDate) }: { catalogMod.Name }, " +
+                    DataDump.AppendLine($"last review { Toolkit.DateString(catalogMod.ReviewDate) }: { catalogMod.Name }, " +
                         Toolkit.GetWorkshopURL(catalogMod.SteamID));
                 }
             }
@@ -130,7 +139,7 @@ namespace CompatibilityReport.Updater
                         statuses = " [" + statuses.Substring(2) + "]";
                     }
 
-                    Logger.DataDump($"{ catalogMod.Name }{ statuses }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
+                    DataDump.AppendLine($"{ catalogMod.Name }{ statuses }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
                 }
             }
         }
@@ -146,7 +155,7 @@ namespace CompatibilityReport.Updater
                 // List groups that are not used as a required mod
                 if (ActiveCatalog.Instance.Mods.Find(x => x.RequiredMods.Contains(catalogGroup.GroupID)) == default)
                 {
-                    Logger.DataDump(catalogGroup.ToString());
+                    DataDump.AppendLine(catalogGroup.ToString());
                 }
             }
         }
@@ -161,11 +170,11 @@ namespace CompatibilityReport.Updater
             {
                 if (catalogGroup.GroupMembers.Count == 0)
                 {
-                    Logger.DataDump(catalogGroup.ToString() + ": no members");
+                    DataDump.AppendLine(catalogGroup.ToString() + ": no members");
                 }
                 else if (catalogGroup.GroupMembers.Count == 1)
                 {
-                    Logger.DataDump(catalogGroup.ToString() + $": only member is " +
+                    DataDump.AppendLine(catalogGroup.ToString() + $": only member is " +
                         ActiveCatalog.Instance.ModDictionary[catalogGroup.GroupMembers[0]].ToString());
                 }
             }
@@ -183,7 +192,7 @@ namespace CompatibilityReport.Updater
                 if ((catalogAuthor.ProfileID != 0 ? ActiveCatalog.Instance.Mods.FindAll(x => x.AuthorID == catalogAuthor.ProfileID).Count : 0) +
                     (!string.IsNullOrEmpty(catalogAuthor.CustomURL) ? ActiveCatalog.Instance.Mods.FindAll(x => x.AuthorURL == catalogAuthor.CustomURL).Count : 0) > 1)
                 {
-                    Logger.DataDump($"{ catalogAuthor.Name }{ (catalogAuthor.Retired ? " [retired]" : "") }, " +
+                    DataDump.AppendLine($"{ catalogAuthor.Name }{ (catalogAuthor.Retired ? " [retired]" : "") }, " +
                         $"{ Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
                 }
             }
@@ -199,7 +208,7 @@ namespace CompatibilityReport.Updater
             {
                 if (catalogAuthor.Retired)
                 {
-                    Logger.DataDump($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
+                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
                 }
             }
         }
@@ -214,7 +223,7 @@ namespace CompatibilityReport.Updater
             {
                 if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor - months) < DateTime.Now)
                 {
-                    Logger.DataDump($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
+                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
                 }
             }
         }
@@ -224,7 +233,7 @@ namespace CompatibilityReport.Updater
         {
             string separator = new string('=', title.Length);
 
-            Logger.DataDump("\n\n" + separator + "\n" + title + "\n" + separator + "\n");
+            DataDump.AppendLine("\n\n" + separator + "\n" + title + "\n" + separator + "\n");
         }
     }
 }

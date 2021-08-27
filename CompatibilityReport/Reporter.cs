@@ -127,44 +127,45 @@ namespace CompatibilityReport
         // Create text report
         private static void CreateTextReport(DateTime createTime)
         {
-            // Keep track of the number of mods without a review in the catalog, but with remarks to report
-            uint modsWithRemarks = 0;
+            StringBuilder TextReport = new StringBuilder(512);
 
-            // Mod name and report date
-            Logger.TextReport(Toolkit.WordWrap($"{ ModSettings.modName }, created on { createTime:D}, { createTime:t}."), extraLine: true);
+            uint modsWithOnlyRemarks = 0;
 
-            // Mod version, catalog version and number of mods in the catalog and in game
-            Logger.TextReport(Toolkit.WordWrap($"Version { ModSettings.shortVersion } with catalog { ActiveCatalog.Instance.VersionString() }. " + 
+            TextReport.AppendLine(Toolkit.WordWrap($"{ ModSettings.modName }, created on { createTime:D}, { createTime:t}.\n"));
+
+            TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.shortVersion } with catalog { ActiveCatalog.Instance.VersionString() }. " + 
                 $"The catalog contains { ActiveCatalog.Instance.ReviewCount } reviewed mods and " + 
                 $"{ ActiveCatalog.Instance.Count - ActiveCatalog.Instance.ReviewCount } mods with basic information. " + 
-                $"Your game has { ActiveSubscriptions.All.Count } mods."), extraLine: true);
+                $"Your game has { ActiveSubscriptions.All.Count } mods.\n"));
 
-            // Generic note from the catalog
-            Logger.TextReport(Toolkit.WordWrap(ActiveCatalog.Instance.Note), extraLine: true);
+            if (!string.IsNullOrEmpty(ActiveCatalog.Instance.Note))
+            {
+                TextReport.AppendLine(Toolkit.WordWrap(ActiveCatalog.Instance.Note) + "\n");
+            }
 
-            // Special note about specific game versions; will be empty for almost everyone
-            Logger.TextReport(Toolkit.WordWrap(GameVersion.SpecialNote), extraLine: true);
+            if (!string.IsNullOrEmpty(GameVersion.SpecialNote))
+            {
+                TextReport.AppendLine(Toolkit.WordWrap(GameVersion.SpecialNote) + "\n");
+            }
 
-            // Warning about game version mismatch
             if (GameVersion.Current != ActiveCatalog.Instance.CompatibleGameVersion)
             {
                 string olderNewer = (GameVersion.Current < ActiveCatalog.Instance.CompatibleGameVersion) ? "older" : "newer";
                 string catalogGameVersion = GameVersion.Formatted(ActiveCatalog.Instance.CompatibleGameVersion);
 
-                Logger.TextReport(Toolkit.WordWrap($"WARNING: The review catalog is made for game version { catalogGameVersion }. Your game is { olderNewer }. " + 
-                    "Results may not be accurate.", indent: new string(' ', "WARNING: ".Length)), extraLine: true);
+                TextReport.AppendLine(Toolkit.WordWrap($"WARNING: The review catalog is made for game version { catalogGameVersion }. Your game is { olderNewer }. " + 
+                    "Results may not be accurate.", indent: new string(' ', "WARNING: ".Length)) + "\n");
             }
 
-            Logger.TextReport(ModSettings.separatorDouble, extraLine: true);
+            TextReport.AppendLine(ModSettings.separatorDouble + "\n");
 
-            // Intro text with generic remarks
-            Logger.TextReport(Toolkit.WordWrap(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportHeaderText) ? ModSettings.defaultHeaderText : 
-                ActiveCatalog.Instance.ReportHeaderText, indent: ModSettings.noBullet, indentAfterNewLine: ""), extraLine: true);
+            TextReport.AppendLine(Toolkit.WordWrap(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportHeaderText) ? ModSettings.defaultHeaderText : 
+                ActiveCatalog.Instance.ReportHeaderText, indent: ModSettings.noBullet, indentAfterNewLine: "") + "\n");
 
             // Gather all mod detail texts
             if (ModSettings.ReportSortByName)
             {
-                // Sort by name
+                // Sorted by name
                 foreach (string name in ActiveSubscriptions.AllNames)
                 {
                     // Get the Steam ID(s) for this mod name; could be multiple (which will be sorted by Steam ID)
@@ -173,20 +174,20 @@ namespace CompatibilityReport
                         // Get the mod text, and increase the counter if it was a mod without review but with remarks
                         if (GetModText(steamID, nameFirst: true))
                         {
-                            modsWithRemarks++;
+                            modsWithOnlyRemarks++;
                         }
                     }
                 }
             }
             else
             {
-                // Sort by Steam ID
+                // Sorted by Steam ID
                 foreach (ulong steamID in ActiveSubscriptions.AllSteamIDs)
                 {
                     // Get the mod text, and increase the counter if it was a mod without review but with remarks
                     if (GetModText(steamID, nameFirst: false))
                     {
-                        modsWithRemarks++;
+                        modsWithOnlyRemarks++;
                     }
                 }
             }
@@ -194,29 +195,32 @@ namespace CompatibilityReport
              // Log detail of reviewed mods and other mods with issues
             if (reviewedModsText.Length > 0)
             {
-                Logger.TextReport(ModSettings.separatorDouble);
+                TextReport.AppendLine(ModSettings.separatorDouble);
 
-                Logger.TextReport($"REVIEWED MODS ({ ActiveSubscriptions.TotalReviewed })" + 
-                    (modsWithRemarks == 0 ? ":" : $" AND OTHER MODS WITH REMARKS ({ modsWithRemarks }): "));
+                TextReport.AppendLine($"REVIEWED MODS ({ ActiveSubscriptions.TotalReviewed })" + 
+                    (modsWithOnlyRemarks == 0 ? ":" : $" AND OTHER MODS WITH REMARKS ({ modsWithOnlyRemarks }): "));
 
-                Logger.TextReport(reviewedModsText.ToString());
+                TextReport.AppendLine(reviewedModsText.ToString());
             }
 
             // Log details of non-reviewed mods
             if (nonReviewedModsText.Length > 0)
             {
-                Logger.TextReport(ModSettings.separatorDouble);
+                TextReport.AppendLine(ModSettings.separatorDouble);
 
-                Logger.TextReport($"MODS NOT REVIEWED YET ({ ActiveSubscriptions.All.Count - ActiveSubscriptions.TotalReviewed - modsWithRemarks }):");
+                TextReport.AppendLine($"MODS NOT REVIEWED YET ({ ActiveSubscriptions.All.Count - ActiveSubscriptions.TotalReviewed - modsWithOnlyRemarks }):");
 
-                Logger.TextReport(nonReviewedModsText.ToString());
+                TextReport.AppendLine(nonReviewedModsText.ToString());
             }
 
-            Logger.TextReport(ModSettings.separatorDouble, extraLine: true);
+            TextReport.AppendLine(ModSettings.separatorDouble + "\n");
 
-            // Footer text
-            Logger.TextReport(Toolkit.WordWrap(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportFooterText) ? ModSettings.defaultFooterText : 
+            TextReport.AppendLine(Toolkit.WordWrap(string.IsNullOrEmpty(ActiveCatalog.Instance.ReportFooterText) ? ModSettings.defaultFooterText : 
                 ActiveCatalog.Instance.ReportFooterText));
+
+            Toolkit.SaveToFile(TextReport.ToString(), ModSettings.ReportTextFullPath, createBackup: true);
+
+            TextReport = new StringBuilder();
 
             // Log the report location
             Logger.Log($"Text report ready at \"{ Toolkit.PrivacyPath(ModSettings.ReportTextFullPath) }\".", duplicateToGameLog: true);

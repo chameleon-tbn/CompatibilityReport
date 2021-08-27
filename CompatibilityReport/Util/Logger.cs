@@ -29,14 +29,10 @@ namespace CompatibilityReport.Util
         // The log, updater log and report instances; will be initialized on first use
         private static Filer log;
         private static Filer updaterLog;
-        private static Filer report;
-        private static Filer dataDump;
 
         // Keep track if we already written to the log; used to initialize the file on first use
         private static bool logWritten;
         private static bool updaterLogWritten;
-        private static bool reportWritten;
-        private static bool dataDumpWritten;
 
         // Here the actual file writing happens
         private class Filer : UnityEngine.MonoBehaviour
@@ -60,7 +56,7 @@ namespace CompatibilityReport.Util
                     }
                     else if (!append || (new FileInfo(fileName).Length > ModSettings.LogMaxSize))
                     {
-                        // If overwrite is chosen or the filesize exceeds the maximum, make a backup of the old file; can't use Tools.CopyFile here because it logs
+                        // If overwrite is chosen or the filesize exceeds the maximum, make a backup of the old file; can't use Toolkit.CopyFile here because it logs
                         try
                         {
                             File.Copy(fileName, fileName + ".old", overwrite: true);
@@ -222,39 +218,6 @@ namespace CompatibilityReport.Util
             {
                 Log(message, logLevel, extraLine: extraLine);
             }
-        }
-
-
-        // Log a message to the report
-        internal static void TextReport(string message,
-                                        bool extraLine = false)
-        {
-            // Initialize the file on the first message
-            if (!reportWritten)
-            {
-                report = new Filer(ModSettings.ReportTextFullPath, timeStamp: false, append: false);
-
-                reportWritten = true;
-            }
-
-            // Write the message to file
-            report.WriteLine(message, extraLine: extraLine);
-        }
-
-
-        // Log a message to the data dump file
-        internal static void DataDump(string message)
-        {
-            // Initialize the file on the first message
-            if (!dataDumpWritten)
-            {
-                dataDump = new Filer(ModSettings.dataDumpFullPath, timeStamp: false, append: false);
-
-                dataDumpWritten = true;
-            }
-
-            // Write the message to file
-            dataDump.WriteLine(message);
         }
 
 

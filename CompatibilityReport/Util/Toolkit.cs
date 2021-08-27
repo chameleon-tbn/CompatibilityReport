@@ -80,11 +80,17 @@ namespace CompatibilityReport.Util
         // Save string to file
         internal static bool SaveToFile(string message,
                                         string fileFullPath,
-                                        bool append = false)
+                                        bool append = false,
+                                        bool createBackup = false)
         {
             if (string.IsNullOrEmpty(message))
             {
                 return false;
+            }
+
+            if (createBackup)
+            {
+                CopyFile(fileFullPath, fileFullPath + ".old");
             }
 
             try
