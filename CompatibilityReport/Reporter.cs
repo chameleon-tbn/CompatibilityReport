@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using ColossalFramework.PlatformServices;
@@ -11,25 +12,91 @@ namespace CompatibilityReport
 {
     internal static class Reporter      // [Todo 0.3.2] Change from Logger to StringBuilder(512)
     {
+        private static bool reportCreated;
+        
         // Strings to collect the review text for all mods
         private static StringBuilder reviewedModsText;
         private static StringBuilder nonReviewedModsText;
 
 
-        // Create the report(s)
-        internal static void Create()
+        // Start the reporter
+        internal static void Start(string scene)
         {
+            // If not an on-demand report, check if report wasn't already created and if we're in the right 'scene': IntroScreen or Game, depening on user setting
+            if (scene != "On-demand")
+            {
+                if (reportCreated || (ModSettings.ScanBeforeMainMenu && (scene != "IntroScreen")) || (!ModSettings.ScanBeforeMainMenu && (scene != "Game")))
+                {
+                    return;
+                }
+            }
+
+            Logger.Log($"{ ModSettings.modName } version { ModSettings.fullVersion }. Game version { GameVersion.Formatted(GameVersion.Current) }. ",
+                duplicateToGameLog: true);
+
+            Logger.Log($"{ GameVersion.SpecialNote }", duplicateToGameLog: true);
+
+            if (!Toolkit.SteamWorkshopAvailable())
+            {
+                Logger.Log("The game can't access the Steam Workshop, and thus has no subscriptions to check. No report was generated. " +
+                    "This is expected behaviour if you used the '--noWorkshop' parameter.", Logger.warning, duplicateToGameLog: true);
+
+                return;
+            }
+
+            // Initialize the catalog; exit if no valid catalog can be loaded
+            if (!ActiveCatalog.Init())
+            {
+                Logger.Log("Can't load bundled catalog and can't download a new catalog. No report was generated.", Logger.error, duplicateToGameLog: true);
+
+                return;
+            }
+
+            string message = (scene == "IntroScreen") ? "Reporter started during game startup, before main menu." : 
+                ((scene == "Game") ? "Reporter started during map loading." : "On-demand report started.");
+
+            Logger.Log(message, duplicateToGameLog: true);
+
+            // Get all subscriptions, including all builtin and local mods, with info from game and catalog
+            ActiveSubscriptions.Get();
+
+            if (GameVersion.Current != ActiveCatalog.Instance.CompatibleGameVersion)
+            {
+                string olderNewer = (GameVersion.Current < ActiveCatalog.Instance.CompatibleGameVersion) ? "an older" : "a newer";
+
+                Logger.Log($"The catalog was updated for game version { GameVersion.Formatted(ActiveCatalog.Instance.CompatibleGameVersion) }. " +
+                    $"You're using { olderNewer } version of the game. Results may not be accurate.", Logger.warning, duplicateToGameLog: true);
+            }
+
+            CreateReports();
+
+            Logger.Log($"Reviewed { ActiveSubscriptions.TotalReviewed } of your { ActiveSubscriptions.All.Count } mods ", duplicateToGameLog: true);
+
+            reportCreated = true;
+
+            // Clean up memory
+            ActiveSubscriptions.Clear();
+
+            ActiveCatalog.Close();
+
+            Logger.Log("Mod has shutdown.", duplicateToGameLog: true);
+        }
+
+
+        // Create the report(s)
+        private static void CreateReports()
+        {
+            // Date and time the reports are created
+            DateTime createTime = DateTime.Now;
+
             // Initiate the strings
             reviewedModsText = new StringBuilder();
             nonReviewedModsText = new StringBuilder();
 
-            // Date and time the reports are created
-            DateTime createTime = DateTime.Now;
-
             // Create the HTML report if selected in settings
             if (ModSettings.HtmlReport)
             {
-                CreateHtml(createTime);
+                CreateHtmlReport(createTime);
             }
 
             // Reset the strings for re-use
@@ -39,7 +106,7 @@ namespace CompatibilityReport
             // Create the text report if selected in settings, or if somehow no report was selected in options
             if (ModSettings.TextReport || !ModSettings.HtmlReport)
             {
-                CreateText(createTime);
+                CreateTextReport(createTime);
             }
 
             // Clean up memory
@@ -49,7 +116,7 @@ namespace CompatibilityReport
 
 
         // Create HTML report
-        private static void CreateHtml(DateTime createTime)
+        private static void CreateHtmlReport(DateTime createTime)
         {
             // [Todo 1.1] Create HTML report
 
@@ -58,7 +125,7 @@ namespace CompatibilityReport
 
 
         // Create text report
-        private static void CreateText(DateTime createTime)
+        private static void CreateTextReport(DateTime createTime)
         {
             // Keep track of the number of mods without a review in the catalog, but with remarks to report
             uint modsWithRemarks = 0;

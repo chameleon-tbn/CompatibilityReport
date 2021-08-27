@@ -32,24 +32,7 @@ namespace CompatibilityReport
         public string Description => ModSettings.modDescription;
 
 
-        // OnEnabled is called early during game startup, and when the mod is enabled manually; subscriptions are not yet available at this stage
-        public void OnEnabled()
-        {
-            // Debug message
-            Logger.Log("OnEnabled called.", Logger.debug);
-
-            // Create the first catalog; will only run if the updater is enabled and catalog v#.0001 doesn't exist yet
-            FirstCatalog.Create();
-
-            // Initialize the scanner: basic checks and loading the catalog
-            Scanner.Init();
-
-            // Start the updater; will only run if the updater is enabled
-            CatalogUpdater.Start();
-        }
-
-
-        // OnSettingsUI is called when the game needs the Settings UI, including at the end of loading the game to the main menu (IntroScreen) 
+        // OnSettingsUI is called at the end of loading the game to the main menu (IntroScreen), when all subscriptions will be available,
         //      and again when loading a map (Game); and presumably when opening the mod options
         public void OnSettingsUI(UIHelperBase helper)
         {
@@ -59,24 +42,16 @@ namespace CompatibilityReport
             // Debug message
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.debug);
 
-            // Start the scan and create the report(s); will only be done once and only in the allowed scene
-            Scanner.Scan(scene);
+            // Start the updater; will only run if the updater is enabled, and only on the first call
+            CatalogUpdater.Start();
+
+            // Create a report; will only be done once and only in the allowed scene
+            Reporter.Start(scene);
 
             // Get the settings on the screen [Todo 0.7]
             UIHelperBase modOptions = helper.AddGroup(ModSettings.modName);
 
             // modOptions.Add...
-        }
-
-
-        // OnDisabled is called when the mod is disabled in the Content Manager, or when the mod is updated while the game is running        
-        public void OnDisabled()
-        {
-            // Debug message
-            Logger.Log("OnDisabled called.", Logger.debug);
-
-            // Clean up; mostly freeing some memory
-            Scanner.Close();
         }
     }
 }

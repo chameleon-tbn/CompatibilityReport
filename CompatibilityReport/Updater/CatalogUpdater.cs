@@ -62,6 +62,9 @@ namespace CompatibilityReport.Updater
 
             Init();
 
+            // Create a first catalog, if it doesn't exist yet locally
+            FirstCatalog.Create();
+
             if (ModSettings.WebCrawlerEnabled)
             {
                 WebCrawler.Start();

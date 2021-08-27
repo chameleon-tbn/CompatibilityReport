@@ -71,7 +71,6 @@
     <Compile Include="DataTypes\Group.cs" />
     <Compile Include="DataTypes\Mod.cs" />
     <Compile Include="Reporter.cs" />
-    <Compile Include="Scanner.cs" />
     <Compile Include="Updater\WebCrawler.cs" />
     <Compile Include="Updater\CatalogUpdater.cs" />
     <Compile Include="Updater\FirstCatalog.cs" />
