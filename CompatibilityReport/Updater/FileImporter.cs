@@ -14,8 +14,12 @@ namespace CompatibilityReport.Updater
 {
     internal static class FileImporter
     {
-        internal static void Start()
+        private static Catalog ActiveCatalog;
+
+        internal static void Start(Catalog activeCat)
         {
+            ActiveCatalog = activeCat;
+
             CatalogUpdater.SetReviewDate(DateTime.Today);
 
             Logger.UpdaterLog("Updater started the CSV import.", duplicateToRegularLog: true);
@@ -45,6 +49,8 @@ namespace CompatibilityReport.Updater
 
             Logger.UpdaterLog($"{ CSVfiles.Count } CSV files processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" + 
                 (withoutErrors ? "." : ", with errors."), withoutErrors ? Logger.info : Logger.warning, duplicateToRegularLog: true);
+
+            ActiveCatalog = null;
         }
 
 
@@ -186,7 +192,7 @@ namespace CompatibilityReport.Updater
                 case "remove_successor":
                 case "remove_alternative":
                 case "remove_recommendation":
-                    return !ActiveCatalog.Instance.IsValidID(numericThird) ? $"Invalid mod ID { numericThird }." :
+                    return !ActiveCatalog.IsValidID(numericThird) ? $"Invalid mod ID { numericThird }." :
                         ChangeModItem(action, modID: numericSecond, "", listMember: numericThird);
 
                 case "remove_exclusion":
@@ -277,7 +283,7 @@ namespace CompatibilityReport.Updater
         // Add an unlisted mod
         private static string AddMod(ulong modID, ulong authorID, string authorURL, string modName)
         {
-            if (!ActiveCatalog.Instance.IsValidID(modID, allowBuiltin: false, shouldExist: false))
+            if (!ActiveCatalog.IsValidID(modID, allowBuiltin: false, shouldExist: false))
             {
                 return $"Invalid Steam ID or mod already exists.";
             }
@@ -293,25 +299,25 @@ namespace CompatibilityReport.Updater
         // Remove a removed mod from the catalog
         private static string RemoveMod(ulong modID)
         {
-            if (!ActiveCatalog.Instance.IsValidID(modID, allowBuiltin: false))
+            if (!ActiveCatalog.IsValidID(modID, allowBuiltin: false))
             {
                 return $"Invalid Steam ID or mod does not exist.";
             }
 
-            Mod catalogMod = ActiveCatalog.Instance.ModDictionary[modID];
+            Mod catalogMod = ActiveCatalog.ModDictionary[modID];
 
             if (!catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
             {
                 return "Mod can't be removed because it is not removed from the Steam Workshop.";
             }
 
-            if (ActiveCatalog.Instance.IsGroupMember(modID))
+            if (ActiveCatalog.IsGroupMember(modID))
             {
                 return $"Mod can't be removed because it is still in a group.";
             }
 
             // Check if the mod is listed as required, successor, alternative or recommended mod anywhere
-            if (ActiveCatalog.Instance.Mods.FirstOrDefault(x => x.RequiredMods.Contains(modID) || x.Successors.Contains(modID) ||
+            if (ActiveCatalog.Mods.FirstOrDefault(x => x.RequiredMods.Contains(modID) || x.Successors.Contains(modID) ||
                                                                 x.Alternatives.Contains(modID) || x.Recommendations.Contains(modID)) != default)
             {
                 return $"Mod can't be removed because it is still referenced by other mods (required, successor, alternative or recommendation).";
@@ -319,9 +325,9 @@ namespace CompatibilityReport.Updater
 
             CatalogUpdater.AddRemovedModChangeNote($"Mod removed: { catalogMod.ToString() }");
 
-            ActiveCatalog.Instance.Mods.Remove(catalogMod);     // [Todo 0.3] Move to Catalog class
+            ActiveCatalog.Mods.Remove(catalogMod);     // [Todo 0.3] Move to Catalog class
 
-            ActiveCatalog.Instance.ModDictionary.Remove(modID);
+            ActiveCatalog.ModDictionary.Remove(modID);
 
             return "";
         }
@@ -330,12 +336,12 @@ namespace CompatibilityReport.Updater
         // Change a mod item
         private static string ChangeModItem(string action, ulong modID, string itemData = "", ulong listMember = 0)
         {
-            if (!ActiveCatalog.Instance.IsValidID(modID))
+            if (!ActiveCatalog.IsValidID(modID))
             {
                 return $"Invalid mod ID { modID }.";
             }
 
-            Mod catalogMod = ActiveCatalog.Instance.ModDictionary[modID];
+            Mod catalogMod = ActiveCatalog.ModDictionary[modID];
 
             // Act on the action
             if (action == "set_archiveurl")
@@ -629,7 +635,7 @@ namespace CompatibilityReport.Updater
         // Remove an exclusion for SourceURL, GameVersion, RequiredDLC, RequiredMod or NoDescription
         private static string RemoveExclusion(ulong modID, string categoryString, string dlcString, ulong requiredID)
         {
-            if (!ActiveCatalog.Instance.IsValidID(modID))
+            if (!ActiveCatalog.IsValidID(modID))
             {
                 return $"Invalid Steam ID { modID }.";
             }
@@ -639,7 +645,7 @@ namespace CompatibilityReport.Updater
                 return "Not enough parameters.";
             }
 
-            Mod catalogMod = ActiveCatalog.Instance.ModDictionary[modID];
+            Mod catalogMod = ActiveCatalog.ModDictionary[modID];
 
             if (categoryString == "sourceurl")
             {
@@ -694,7 +700,7 @@ namespace CompatibilityReport.Updater
                 return "Not enough parameters.";
             }
 
-            if (ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID) || ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL))
+            if (ActiveCatalog.AuthorIDDictionary.ContainsKey(authorID) || ActiveCatalog.AuthorURLDictionary.ContainsKey(authorURL))
             {
                 return "Author already exists.";
             }
@@ -714,21 +720,21 @@ namespace CompatibilityReport.Updater
 
             if (authorID != 0)
             {
-                if (!ActiveCatalog.Instance.AuthorIDDictionary.ContainsKey(authorID))
+                if (!ActiveCatalog.AuthorIDDictionary.ContainsKey(authorID))
                 {
                     return "Invalid author ID.";
                 }
 
-                catalogAuthor = ActiveCatalog.Instance.AuthorIDDictionary[authorID];
+                catalogAuthor = ActiveCatalog.AuthorIDDictionary[authorID];
             }
             else
             {
-                if (!ActiveCatalog.Instance.AuthorURLDictionary.ContainsKey(authorURL))
+                if (!ActiveCatalog.AuthorURLDictionary.ContainsKey(authorURL))
                 {
                     return "Invalid author custom URL.";
                 }
 
-                catalogAuthor = ActiveCatalog.Instance.AuthorURLDictionary[authorURL];
+                catalogAuthor = ActiveCatalog.AuthorURLDictionary[authorURL];
             }
 
             if (catalogAuthor == null)
@@ -835,19 +841,19 @@ namespace CompatibilityReport.Updater
                 return "Not enough parameters.";
             }
 
-            if (ActiveCatalog.Instance.Groups.Find(x => x.Name == groupName) != default)
+            if (ActiveCatalog.Groups.Find(x => x.Name == groupName) != default)
             {
                 return "A group with that name already exists.";
             }
 
             foreach (ulong groupMember in groupMembers)
             {
-                if (!ActiveCatalog.Instance.IsValidID(groupMember))
+                if (!ActiveCatalog.IsValidID(groupMember))
                 {
                     return $"Invalid mod ID { groupMember }.";
                 }
 
-                if (ActiveCatalog.Instance.IsGroupMember(groupMember))
+                if (ActiveCatalog.IsGroupMember(groupMember))
                 {
                     return $"Mod { groupMember } is already in a group and a mod can only be in one.";
                 }
@@ -862,7 +868,7 @@ namespace CompatibilityReport.Updater
         // Remove a group
         private static string RemoveGroup(ulong groupID)
         {
-            if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(groupID))
+            if (!ActiveCatalog.GroupDictionary.ContainsKey(groupID))
             {
                 return "Invalid group ID.";
             }
@@ -876,21 +882,21 @@ namespace CompatibilityReport.Updater
         // Add or remove a group member
         private static string AddRemoveGroupMember(string action, ulong groupID, ulong groupMember)
         {
-            if (!ActiveCatalog.Instance.GroupDictionary.ContainsKey(groupID))
+            if (!ActiveCatalog.GroupDictionary.ContainsKey(groupID))
             {
                 return "Invalid group ID.";
             }
 
-            if (!ActiveCatalog.Instance.IsValidID(groupMember))
+            if (!ActiveCatalog.IsValidID(groupMember))
             {
                 return $"Invalid mod ID { groupMember }.";
             }
 
-            Group group = ActiveCatalog.Instance.GroupDictionary[groupID];
+            Group group = ActiveCatalog.GroupDictionary[groupID];
 
             if (action == "add_groupmember")
             {
-                if (ActiveCatalog.Instance.IsGroupMember(groupMember))
+                if (ActiveCatalog.IsGroupMember(groupMember))
                 {
                     return $"Mod { groupMember } is already in a group and a mod can only be in one.";
                 }
@@ -999,17 +1005,17 @@ namespace CompatibilityReport.Updater
             {
                 return $"Duplicate Steam ID { firstModID }.";
             }
-            else if (!ActiveCatalog.Instance.IsValidID(firstModID))
+            else if (!ActiveCatalog.IsValidID(firstModID))
             {
                 return $"Invalid Steam ID { firstModID }.";
             }
-            else if (!ActiveCatalog.Instance.IsValidID(secondModID))
+            else if (!ActiveCatalog.IsValidID(secondModID))
             {
                 return $"Invalid Steam ID { secondModID }.";
             }
 
             // Check if a compatibility exists for these steam IDs and this compatibility status
-            bool compatibilityExists = ActiveCatalog.Instance.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID && 
+            bool compatibilityExists = ActiveCatalog.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID && 
                 x.Status == compatibilityStatus) != default;
 
             if (action == "add_compatibility")
@@ -1028,7 +1034,7 @@ namespace CompatibilityReport.Updater
                 if (compatibilityStatus == Enums.CompatibilityStatus.SameModDifferentReleaseType || compatibilityStatus == Enums.CompatibilityStatus.SameFunctionality ||
                     compatibilityStatus == Enums.CompatibilityStatus.MinorIssues || compatibilityStatus == Enums.CompatibilityStatus.RequiresSpecificSettings)
                 {
-                    bool mirroredCompatibilityExists = ActiveCatalog.Instance.Compatibilities.Find(x => x.FirstModID == secondModID && x.SecondModID == firstModID && 
+                    bool mirroredCompatibilityExists = ActiveCatalog.Compatibilities.Find(x => x.FirstModID == secondModID && x.SecondModID == firstModID && 
                         x.Status == compatibilityStatus) != default;
 
                     if (mirroredCompatibilityExists)
@@ -1037,8 +1043,8 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                CatalogUpdater.AddCompatibility(firstModID, ActiveCatalog.Instance.ModDictionary[firstModID].Name, 
-                    secondModID, ActiveCatalog.Instance.ModDictionary[secondModID].Name, compatibilityStatus, note);
+                CatalogUpdater.AddCompatibility(firstModID, ActiveCatalog.ModDictionary[firstModID].Name, 
+                    secondModID, ActiveCatalog.ModDictionary[secondModID].Name, compatibilityStatus, note);
             }
             else
             {
@@ -1065,7 +1071,7 @@ namespace CompatibilityReport.Updater
                 return "Incorrect gameversion.";
             }
 
-            if (!ActiveCatalog.Instance.UpdateGameVersion(newGameVersion))
+            if (!ActiveCatalog.UpdateGameVersion(newGameVersion))
             {
                 return "Could not update gameversion.";
             }
@@ -1101,14 +1107,14 @@ namespace CompatibilityReport.Updater
         {
             foreach (ulong assetID in assetIDs)
             {
-                if (!ActiveCatalog.Instance.IsValidID(assetID, allowBuiltin: false, shouldExist: false))
+                if (!ActiveCatalog.IsValidID(assetID, allowBuiltin: false, shouldExist: false))
                 {
                     return $"Invalid asset ID { assetID }.";
                 }
 
-                if (!ActiveCatalog.Instance.RequiredAssets.Contains(assetID))
+                if (!ActiveCatalog.RequiredAssets.Contains(assetID))
                 {
-                    ActiveCatalog.Instance.RequiredAssets.Add(assetID);
+                    ActiveCatalog.RequiredAssets.Add(assetID);
                 }
             }
 
@@ -1121,7 +1127,7 @@ namespace CompatibilityReport.Updater
         {
             foreach (ulong assetID in assetIDs)
             {
-                ActiveCatalog.Instance.RequiredAssets.Remove(assetID);
+                ActiveCatalog.RequiredAssets.Remove(assetID);
             }
 
             return "";

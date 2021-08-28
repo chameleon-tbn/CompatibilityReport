@@ -7,17 +7,11 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Updater
 {
-    // Only needed to (re)create the catalog from scratch; catalog 1 is only builtin mods, catalog 2 is only basic info for all mods, catalog 3 is first 'real' catalog
+    // Only needed to (re)create the catalog from scratch; catalog 1 is only builtin mods
     internal static class FirstCatalog
     {
-        internal static void Create()
+        internal static Catalog Create()
         {
-            // Exit if the updater is not enabled in settings
-            if (!ModSettings.UpdaterEnabled)
-            {
-                return;
-            }
-
             DateTime updateDate = DateTime.Now;
 
             // Create a new catalog
@@ -29,7 +23,7 @@ namespace CompatibilityReport.Updater
             // Exit if the first catalog already exists
             if (File.Exists(partialPath + ".xml"))
             {
-                return;
+                return null;
             }
 
             // Add builtin mods with the correct fixed fake Steam ID
@@ -62,6 +56,8 @@ namespace CompatibilityReport.Updater
                     changeNotes, 
                     partialPath + "_ChangeNotes.txt");
             }
+
+            return firstCatalog;
         }
     }
 }

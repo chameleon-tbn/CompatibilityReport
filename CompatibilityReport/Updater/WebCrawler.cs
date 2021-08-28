@@ -17,7 +17,7 @@ namespace CompatibilityReport.Updater
     internal static class WebCrawler
     {
         // Start the WebCrawler. Download Steam webpages for all mods and updates the catalog with found information.
-        internal static void Start()
+        internal static void Start(Catalog ActiveCatalog)
         {
             CatalogUpdater.SetReviewDate(DateTime.Now);
 
@@ -25,7 +25,7 @@ namespace CompatibilityReport.Updater
             if (GetBasicInfo())
             {
                 // Get more details from the individual mod pages
-                GetDetails();
+                GetDetails(ActiveCatalog);
             }
         }
         
@@ -177,11 +177,11 @@ namespace CompatibilityReport.Updater
 
 
         // Get mod information from the individual mod pages on the Steam Workshop
-        private static void GetDetails()
+        private static void GetDetails(Catalog ActiveCatalog)
         {
             Stopwatch timer = Stopwatch.StartNew();
 
-            int numberOfMods = ActiveCatalog.Instance.Mods.Count - ModSettings.BuiltinMods.Count;
+            int numberOfMods = ActiveCatalog.Mods.Count - ModSettings.BuiltinMods.Count;
 
             // Estimated time is about half a second (500 milliseconds) per download. Note: 90+% of the total time is download, less than 10% is processing
             long estimated = 500 * numberOfMods;
@@ -193,9 +193,9 @@ namespace CompatibilityReport.Updater
 
             uint failedDownloads = 0;
 
-            foreach (Mod catalogMod in ActiveCatalog.Instance.Mods)
+            foreach (Mod catalogMod in ActiveCatalog.Mods)
             {
-                if (!ActiveCatalog.Instance.IsValidID(catalogMod.SteamID, allowBuiltin: false))
+                if (!ActiveCatalog.IsValidID(catalogMod.SteamID, allowBuiltin: false))
                 {
                     // Skip builtin mods
                     continue;

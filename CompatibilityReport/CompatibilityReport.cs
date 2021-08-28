@@ -1,6 +1,5 @@
 ﻿using UnityEngine.SceneManagement;
 using ICities;
-using CompatibilityReport.Updater;
 using CompatibilityReport.Util;
 
 
@@ -32,8 +31,8 @@ namespace CompatibilityReport
         public string Description => ModSettings.modDescription;
 
 
-        // OnSettingsUI is called at the end of loading the game to the main menu (IntroScreen), when all subscriptions will be available,
-        //      and again when loading a map (Game); and presumably when opening the mod options
+        // OnSettingsUI is called at the end of loading the game to the main menu (scene IntroScreen), when all subscriptions will be available.
+        // Called again when loading a map (scene Game), and presumably when opening the mod options.
         public void OnSettingsUI(UIHelperBase helper)
         {
             // Check in which phase of game loading we are
@@ -43,7 +42,7 @@ namespace CompatibilityReport
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.debug);
 
             // Start the updater; will only run if the updater is enabled, and only on the first call
-            CatalogUpdater.Start();
+            Updater.CatalogUpdater.Start();
 
             // Create a report; will only be done once and only in the allowed scene
             Reporter.Start(scene);
