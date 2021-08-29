@@ -272,7 +272,7 @@ namespace CompatibilityReport
                 }
             }
 
-            // Gather the review text; [Todo 0.3.2] Rethink which review texts to include in 'somethingToReport'; combine author retired and mod abandoned into one line
+            // Gather the review text; [Todo 0.4] Rethink which review texts to include in 'somethingToReport'; combine author retired and mod abandoned into one line
             StringBuilder modReview = new StringBuilder();
 
             modReview.Append(ThisMod(subscription));
@@ -297,7 +297,7 @@ namespace CompatibilityReport
             // Insert the 'not reviewed' text at the start of the text; we do this after the above boolean has been set
             modReview.Insert(0, NotReviewed(subscription));
 
-            // Report that we didn't find any incompatibilities [Todo 0.3.2] We should keep better track of issues; now this text doesn't show if the author is retired
+            // Report that we didn't find any incompatibilities [Todo 0.4] We should keep better track of issues; now this text doesn't show if the author is retired
             if (modReview.Length == 0)
             {
                 modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods.", htmlReport: false));
@@ -802,7 +802,7 @@ namespace CompatibilityReport
         }
 
 
-        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated, and more  [Todo 0.3.2] add all statuses
+        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated, and more  [Todo 0.4] add all statuses
         private static string Statuses(Subscription subscription,
                                        bool htmlReport = false)
         {
@@ -890,8 +890,6 @@ namespace CompatibilityReport
 
         // Compatibilities with other mods; result could be multiple mods and also multiple statuses for each mod
         // Not reported: NewerVersionOfTheSameMod, FunctionalityCoveredByThisMod, RequiresSpecificConfigForOtherMod, CompatibleAccordingToAuthor
-        // [Todo 0.3] exception "System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary." for <ulong, string> dictionary
-        //            might be modNotes
         private static string Compatibilities(Subscription subscription,
                                               bool htmlReport = false)
         {
@@ -914,9 +912,13 @@ namespace CompatibilityReport
                 List<Enums.CompatibilityStatus> statuses = compatibility.Value;
 
                 // Get a formatted text with the name of the other mod and the corresponding compatibility note
-                string otherModText = ReviewLine(ActiveSubscriptions.All[compatibility.Key].ToString(showFakeID: false, showDisabled: true), 
-                    htmlReport, ModSettings.bullet2) + 
-                    ReviewLine(subscription.ModNotes[compatibility.Key], htmlReport, ModSettings.bullet3, cutOff: htmlReport);
+                string otherModText = ReviewLine(ActiveSubscriptions.All[compatibility.Key].ToString(showFakeID: false, showDisabled: true),
+                    htmlReport, ModSettings.bullet2);
+                
+                if (subscription.ModNotes.ContainsKey(compatibility.Key))
+                {
+                    otherModText += ReviewLine(subscription.ModNotes[compatibility.Key], htmlReport, ModSettings.bullet3, cutOff: htmlReport);
+                }
                 
                 // Different versions, releases or mod with the same functionality
                 if (statuses.Contains(Enums.CompatibilityStatus.OlderVersion))

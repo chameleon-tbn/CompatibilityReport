@@ -169,6 +169,11 @@ namespace CompatibilityReport.Util
                 return;
             }
 
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+
             // Initialize the file on the first message
             if (!logWritten)
             {
