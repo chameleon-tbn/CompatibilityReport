@@ -318,7 +318,7 @@ namespace CompatibilityReport.DataTypes
 
             GroupDictionary.Add(newGroup.GroupID, newGroup);
 
-            // Replace group members with the group, as required mods anywhere in the catalog   [Todo 0.3]
+            // Replace group members with the group, as required mods anywhere in the catalog   [Todo 0.4]
             foreach (ulong groupMemberID in newGroup.GroupMembers)
             {
                 AddRequiredGroupForAllMods(groupMemberID);
@@ -340,7 +340,7 @@ namespace CompatibilityReport.DataTypes
             // Add the mod to the group
             GroupDictionary[groupID].GroupMembers.Add(newGroupMember);
 
-            // Replace the mod as required mod by the group, everywhere in the catalog; this will also duplicate an exclusion (if any) to the group and other group members [Todo 0.3]
+            // Replace the mod as required mod by the group, everywhere in the catalog; this will also duplicate an exclusion (if any) to the group and other group members [Todo 0.4]
             AddRequiredGroupForAllMods(newGroupMember);
 
             return true;
@@ -702,20 +702,16 @@ namespace CompatibilityReport.DataTypes
                 return Active;
             }
 
-            // Load the catalog that was included with the mod
-            Catalog bundledCatalog = LoadBundled();
+            Catalog previouslyDownloadedCatalog = LoadPreviouslyDownloaded();
 
-            // Load the previously downloaded catalog
-            Catalog previousCatalog = LoadPreviouslyDownloaded();
+            Catalog downloadedCatalog = Download(previouslyDownloadedCatalog == null ? 0 : previouslyDownloadedCatalog.Version);
 
-            // Download a new catalog
-            Catalog downloadedCatalog = Download(previousCatalog == null ? 0 : previousCatalog.Version);
+            Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
 
-            // Download the latest updated catalog
-            Catalog updatedCatalog = LoadUpdater();
+            Catalog updatedCatalog = LoadUpdaterCatalog();
 
             // The newest catalog becomes the active catalog
-            Active = Newest(bundledCatalog, previousCatalog, downloadedCatalog, updatedCatalog);
+            Active = Newest(downloadedCatalog, bundledCatalog, previouslyDownloadedCatalog, updatedCatalog);
 
             if (Active != null)
             {
@@ -874,7 +870,7 @@ namespace CompatibilityReport.DataTypes
 
 
         // Load updated catalog, if the updater is enabled
-        private static Catalog LoadUpdater()
+        private static Catalog LoadUpdaterCatalog()
         {
             if (!ModSettings.UpdaterEnabled)
             {
