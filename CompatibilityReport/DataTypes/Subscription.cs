@@ -244,7 +244,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add compatibilities to the list of compatibilities with the correct statuses; also add the corresponding note    [Todo 0.3] needs work
+        // Add compatibilities to the list of compatibilities with the correct statuses; also add the corresponding note    [Todo 0.4] needs work
         private void AddCompatibility(List<Compatibility> newCompatibilities, bool firstID)
         {
             if (newCompatibilities == null)
@@ -301,7 +301,7 @@ namespace CompatibilityReport.DataTypes
                         Compatibilities.Add(newCompatibility.FirstModID, new List<Enums.CompatibilityStatus> { newStatus });
                     }
 
-                    // The compatibility note should only be displayed for the first mod in the compatibility, so skip it here  [Todo 0.3] Not really true, fix this
+                    // The compatibility note should only be displayed for the first mod in the compatibility, so skip it here  [Todo 0.4] Not really true, fix this
                 }
             }
         }

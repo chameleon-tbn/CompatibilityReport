@@ -11,7 +11,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Review of subscribed mods with the catalog information
 * Text report, sorted by mod name; split into reviewed and non-reviewed mods
 * Automatic download of a new catalog; no need for a mod update for every new mod or compatibility
-* Use of mod groups, so both a test and stable version of a mod will be accepted as required mod
+* Use of mod groups, so both a test and stable version of a mod can be accepted as required mod
 * Catalog Updater method (for the author only), based on web crawling the Steam Workshop and CSV import
   * Detects new mods and changes in mod information (name, required dlc/mods, source url, etc.)
   * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This also makes it easier to do catalog maintenance with multiple people.
@@ -20,7 +20,7 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 * Note: the current catalog only contains reviews for a limited set of mods
 
 ### Roadmap towards version 1.0 (subject to change)
-* 0.4 - Code cleanup & major revision
+* 0.4 - Code revision & cleanup
 * 0.5 - Alpha release on GitHub and Steam Workshop (unlisted)
   * Catalog with mod compatibilities and dependencies for most mods
   * Steam pinned discussions for submissions by mod authors and others
@@ -33,8 +33,8 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
   * when to scan, on-demand scanning, report sorting, what to include in report, ...
 * 0.8 - Standalone Updater tool for easier scheduling
 * 0.9 - Beta release
-  * Further code cleanup and revision
-  * Completing the catalog with info from other sources (MCC mod, compatibility guides, forum, ...)
+  * Code cleanup
+  * Completing the catalog with info from other sources (MCC mod, compatibility guides, forum, discords, ...)
   * Public release on the Steam Workshop
   * Public location for all catalog versions with their change notes
   * Test branch on GitHub
@@ -45,21 +45,21 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 ### Future ideas (might not happen)
 * 1.1 HTML report, categorized by severity; mod setting for text or HTML report
 * 1.2 In-game popup with summary and button to open report
+* 2.0 Localization
 * Version check before (down)loading a full catalog
 * Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112))
-* Reviewing local mods
 * 'Second load' detection with warning popup
+* Reviewing local mods
 * Online catalog update procedure, supporting multiple simultaneous contributors
 * Interface for getting info about a random, unsubscribed mod
 * Catalog updater based on Steam API for much better performance, easier update detection and more reliable author links
-* TLS 1.2 support for download, if possible (probably need to switch to .NET 4)
+* TLS 1.2 support for download, if possible (probably needs .NET 4)
 * Detect missing mods for subscribed assets, like ETST, NExt2, Additive Shader, Trolleybus Trailer AI, etc. (probably needs Steam API)
-* Localization
 
 ### Credits
 This mod is inspired by [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine.
 
-This mod uses code snippets from:
+This mod uses (or used) code snippets from:
 * **Mod Compatibility Checker** by aubergine10 a.k.a. aubergine18 ([GitHub](https://github.com/CitiesSkylinesMods/AutoRepair) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132))
 * **Enhanced District Services** by chronofanz a.k.a. Tim ([GitHub](https://github.com/chronofanz/EnhancedDistrictServices) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2303997489))
 * **Customize It Extended** by Celisuis a.k.a. C# ([GitHub](https://github.com/Celisuis/CustomizeItExtended) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1806759255))

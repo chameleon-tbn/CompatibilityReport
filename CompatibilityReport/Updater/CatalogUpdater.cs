@@ -12,7 +12,7 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Updater
 {
-    internal static class CatalogUpdater    // [Todo 0.3] move some actions from FileImporter to here; move some actions between here and Catalog
+    internal static class CatalogUpdater    // [Todo 0.4] move some actions from FileImporter to here; move some actions between here and Catalog
     {
         // Did we run already this session (successful or not)
         private static bool hasRun;

@@ -152,7 +152,7 @@ namespace CompatibilityReport.Updater
                     // Skip one line
                     line = reader.ReadLine();
 
-                    // Get the author ID or custom URL. One will be found, the other will be zero / empty   [Todo 0.3] Add a check for author URL changes, to prevent creating a new author
+                    // Get the author ID or custom URL. One will be found, the other will be zero / empty   [Todo 0.4] Add a check for author URL changes, to prevent creating a new author
                     ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModListingAuthorIDLeft, ModSettings.steamModListingAuthorRight));
 
                     string authorURL = Toolkit.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
@@ -310,7 +310,7 @@ namespace CompatibilityReport.Updater
 
                     // Try to find data on this line of the mod page
 
-                    // Author profile ID, custom URL and author name; only for unlisted mods (we have this info for other mods already)  [Todo 0.3] Add a check for author URL changes, to prevent creating a new author
+                    // Author profile ID, custom URL and author name; only for unlisted mods (we have this info for other mods already)  [Todo 0.4] Add a check for author URL changes, to prevent creating a new author
                     if (line.Contains(ModSettings.steamModPageAuthorFind) && catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                     {
                         ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/",

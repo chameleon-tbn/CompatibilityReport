@@ -47,7 +47,7 @@ namespace CompatibilityReport.DataTypes
                 Logger.Log($"Group ID out of range: { this.ToString() }. This might give weird results in the report.", Logger.error);
             }
 
-            if (GroupMembers.Count < 2)     // [Todo 0.3] useless because of how we create a group in CatalogUpdater
+            if (GroupMembers.Count < 2)     // [Todo 0.4] gives false warnings for new groups added by FileImporter, because of how we create a group in CatalogUpdater
             {
                 Logger.Log($"Found a group with less than 2 members: { this.ToString() }.", Logger.debug);
             }
