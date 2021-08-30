@@ -26,8 +26,9 @@ namespace CompatibilityReport.Updater
 
             DataDump = new StringBuilder(512);
 
-            DataDump.AppendLine($"{ ModSettings.modName } { ModSettings.fullVersion }, catalog { ActiveCatalog.VersionString() }. " +
-                $"DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
+            DataDump.AppendLine($"{ ModSettings.modName } DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
+
+            DataDump.AppendLine($"Version { ModSettings.fullVersion } with catalog { ActiveCatalog.VersionString() }.");
 
             // Unused groups, to see if we can clean up
             DumpUnusedGroups(ActiveCatalog);

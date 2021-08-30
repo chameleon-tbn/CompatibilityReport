@@ -194,7 +194,7 @@ namespace CompatibilityReport.DataTypes
                          (allowGroup && steamID >= ModSettings.lowestGroupID && steamID <= ModSettings.highestGroupID);
 
             // Check if the mod or group already exists
-            bool exists = Active.ModDictionary.ContainsKey(steamID) || Active.GroupDictionary.ContainsKey(steamID);
+            bool exists = ModDictionary.ContainsKey(steamID) || GroupDictionary.ContainsKey(steamID);
 
             return valid && (shouldExist ? exists : !exists);
         }
@@ -321,7 +321,7 @@ namespace CompatibilityReport.DataTypes
             // Replace group members with the group, as required mods anywhere in the catalog   [Todo 0.4]
             foreach (ulong groupMemberID in newGroup.GroupMembers)
             {
-                AddRequiredGroupForAllMods(groupMemberID);
+                AddRequiredGroup(groupMemberID);
             }
 
             // Return a reference to the new group
@@ -341,21 +341,21 @@ namespace CompatibilityReport.DataTypes
             GroupDictionary[groupID].GroupMembers.Add(newGroupMember);
 
             // Replace the mod as required mod by the group, everywhere in the catalog; this will also duplicate an exclusion (if any) to the group and other group members [Todo 0.4]
-            AddRequiredGroupForAllMods(newGroupMember);
+            AddRequiredGroup(newGroupMember);
 
             return true;
         }
 
 
-        // Replace a required mod by the group it is a member of. Returns true if the mod was replaced.
-        internal bool AddRequiredGroupForAllMods(ulong requiredModID)
+        // Add a group as required mod for all mods that have the given group member as required mod
+        internal void AddRequiredGroup(ulong requiredModID)
         {
             Group requiredGroup = GetGroup(requiredModID);
 
             // Exit if this mod is not in a group
             if (requiredGroup == default)
             {
-                return false;
+                return;
             }
 
             // Get all mods that have this required mod
@@ -369,18 +369,8 @@ namespace CompatibilityReport.DataTypes
                     mod.RequiredMods.Add(requiredGroup.GroupID);
                 }
 
-                // Log to the most likely log
-                if (ModSettings.UpdaterEnabled)
-                {
-                    Logger.UpdaterLog($"Added { requiredGroup.ToString() } as required mod for { mod.ToString() }.");
-                }
-                else
-                {
-                    Logger.Log($"Added { requiredGroup.ToString() } as required mod for { mod.ToString() }.");
-                }
+                Logger.UpdaterLog($"Added { requiredGroup.ToString() } as required mod for { mod.ToString() }.");
             }
-
-            return true;
         }
 
 

@@ -325,7 +325,7 @@ namespace CompatibilityReport.Updater
 
             CatalogUpdater.AddRemovedModChangeNote($"Mod removed: { catalogMod.ToString() }");
 
-            ActiveCatalog.Mods.Remove(catalogMod);     // [Todo 0.3] Move to Catalog class
+            ActiveCatalog.Mods.Remove(catalogMod);     // [Todo 0.4] Move to Catalog class as RemoveMod?
 
             ActiveCatalog.ModDictionary.Remove(modID);
 
@@ -912,7 +912,7 @@ namespace CompatibilityReport.Updater
                     return $"Mod { groupMember } is not a member of this group.";
                 }
 
-                return group.GroupMembers.Remove(groupMember) ? "" : $"Could not remove { groupMember } from group.";
+                return CatalogUpdater.RemoveGroupMember(group, groupMember) ? "" : $"Could not remove { groupMember } from group.";
             }
         }
 

@@ -347,7 +347,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Update a mod with newly found information, including exclusions  [Todo 0.3] Needs more logic for authorID/authorURL, all lists, ... (combine with FileImporter)
+        // Update a mod with newly found information, including exclusions
         internal static void UpdateMod(Mod catalogMod,
                                        string name = null,
                                        DateTime? published = null,
@@ -357,14 +357,8 @@ namespace CompatibilityReport.Updater
                                        string archiveURL = null,
                                        string sourceURL = null,
                                        string compatibleGameVersionString = null,
-                                       List<Enums.DLC> requiredDLC = null,
-                                       List<ulong> requiredMods = null,
-                                       List<ulong> successors = null,
-                                       List<ulong> alternatives = null,
-                                       List<ulong> recommendations = null,
                                        Enums.ModStability stability = default,
                                        string stabilityNote = null,
-                                       List<Enums.ModStatus> statuses = null,
                                        string genericNote = null,
                                        bool alwaysUpdateReviewDate = false,
                                        bool updatedByWebCrawler = false)
@@ -378,19 +372,13 @@ namespace CompatibilityReport.Updater
             string addedChangeNote =
                 (name == null || name == catalogMod.Name ? "" : ", mod name changed") +
                 (updated == null || updated == catalogMod.Updated ? "" : ", new update") +
-                (authorID == 0 || authorID == catalogMod.AuthorID ? "" : ", author ID added") +
+                (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 ? "" : ", author ID added") +
                 (authorURL == null || authorURL == catalogMod.AuthorURL ? "" : ", author URL") +
                 (archiveURL == null || archiveURL == catalogMod.ArchiveURL ? "" : ", archive URL") +
                 (sourceURL == null || sourceURL == catalogMod.SourceURL ? "" : ", source URL") +
                 (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : ", compatible game version") +
-                (requiredDLC == null || requiredDLC == catalogMod.RequiredDLC ? "" : ", required DLC") +
-                (requiredMods == null || requiredMods == catalogMod.RequiredMods ? "" : ", required mod") +
-                (successors == null || successors == catalogMod.Successors ? "" : ", successor mod") +
-                (alternatives == null || alternatives == catalogMod.Alternatives ? "" : ", alternative mod") +
-                (recommendations == null || recommendations == catalogMod.Recommendations ? "" : ", recommended mod") +
                 (stability == default | stability == catalogMod.Stability ? "" : ", stability") +
                 (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : ", stability note") +
-                (statuses == null || statuses == catalogMod.Statuses ? "" : ", status") +
                 (genericNote == null || genericNote == catalogMod.GenericNote ? "" : ", generic note");
 
             AddUpdatedModChangeNote(catalogMod, addedChangeNote);
@@ -407,13 +395,22 @@ namespace CompatibilityReport.Updater
                 modAutoReviewDate = updatedByWebCrawler ? reviewDate : modAutoReviewDate;
             }
 
-            // [Todo 0.3] Exclusions:
-            //      sourceurl (set on add, swap on remove), gameversion (if different than current, remove if higher gameversion set on auto-update and on remove)
-            //      nodescription (manually set and unset)
+            // Update exclusions on certain imported changes
+            if (!updatedByWebCrawler && sourceURL != null && sourceURL != catalogMod.SourceURL)
+            {
+                // Add exclusion on new or changed url, and swap exclusion on removal
+                catalogMod.Update(exclusionForSourceURL: sourceURL != "" || !catalogMod.ExclusionForSourceURL);
+            }
+
+            if (!updatedByWebCrawler && compatibleGameVersionString != null && compatibleGameVersionString != catalogMod.CompatibleGameVersionString)
+            {
+                catalogMod.Update(exclusionForGameVersion: true);
+            }
 
             // Update the mod
-            catalogMod.Update(name, published, updated, authorID, authorURL, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods,
-                successors, alternatives, recommendations, stability, stabilityNote, statuses, genericNote, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
+            catalogMod.Update(name, published, updated, authorID, authorURL, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC: null, requiredMods: null,
+            successors: null, alternatives: null, recommendations: null, stability, stabilityNote, statuses: null, genericNote, 
+            reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update
             Author modAuthor = ActiveCatalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorURL);
@@ -429,8 +426,6 @@ namespace CompatibilityReport.Updater
         internal static void AddGroup(string groupName, List<ulong> groupMembers)
         {
             Group newGroup = ActiveCatalog.AddGroup(groupName, new List<ulong>());
-
-            // [Todo 0.3] Add group as required group where groupmembers are required mod
 
             if (newGroup != null)
             {
@@ -476,7 +471,7 @@ namespace CompatibilityReport.Updater
         {
             group.GroupMembers.Add(groupMember);
 
-            // [Todo 0.3] Add group as required group where this new groupmember is a required mod
+            ActiveCatalog.AddRequiredGroup(groupMember);
 
             AddUpdatedModChangeNote(ActiveCatalog.ModDictionary[groupMember], $"added to { group.ToString() }");
         }
@@ -490,7 +485,26 @@ namespace CompatibilityReport.Updater
                 return false;
             }
 
-            // [Todo 0.3] Remove group as required group if where this was the only groupmembers as required mod
+            // Get all mods that have this former groupmember as required mod
+            List<Mod> modList = ActiveCatalog.Mods.FindAll(x => x.RequiredMods.Contains(groupMember));
+
+            // Remove the group as required mod if no other group member is required
+            foreach (Mod mod in modList)
+            {
+                bool removeRequiredGroup = true;
+
+                foreach (ulong otherGroupMember in group.GroupMembers)
+                {
+                    removeRequiredGroup = removeRequiredGroup && !mod.RequiredMods.Contains(otherGroupMember);
+                }
+
+                if (removeRequiredGroup)
+                {
+                    mod.RequiredMods.Remove(group.GroupID);
+
+                    Logger.UpdaterLog($"Removed { group.ToString() } as required mod for { mod.ToString() }.");
+                }
+            }
 
             AddUpdatedModChangeNote(ActiveCatalog.ModDictionary[groupMember], $"removed from { group.ToString() }");
 
@@ -551,8 +565,10 @@ namespace CompatibilityReport.Updater
                 
                 if (namesakeAuthor != default)
                 {
-                    Logger.UpdaterLog($"Found two authors with the same name \"{ authorName }\": " +
-                        $"{ namesakeAuthor.ProfileID } / { namesakeAuthor.CustomURL } and { authorID } / { authorURL }", Logger.debug);
+                    string authors = (authorID == 0 ? authorURL : authorID.ToString()) + "and" + 
+                        (namesakeAuthor.ProfileID == 0 ? namesakeAuthor.CustomURL : namesakeAuthor.ProfileID.ToString());
+
+                    Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\", which could be coincidence or an error. Authors { authors }.", Logger.warning);
                 }
 
                 catalogAuthor = ActiveCatalog.AddAuthor(authorID, authorURL, authorName);
@@ -571,7 +587,7 @@ namespace CompatibilityReport.Updater
                                           ulong authorID = 0,
                                           string authorURL = null,
                                           string name = null,
-                                          DateTime lastSeen = default,
+                                          DateTime? lastSeen = null,
                                           bool? retired = null)
         {
             if (catalogAuthor == null)
@@ -579,7 +595,7 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            // Set the change note for all changed values
+            // Set the change note for all changed values   [Todo 0.4] causes duplicates in change notes, especially for last seen
             string addedChangeNote =
                 (authorID == 0 || authorID == catalogAuthor.ProfileID || catalogAuthor.ProfileID != 0 ? "" : ", profile ID added") +
                 (authorURL == null || authorURL == catalogAuthor.CustomURL ? "" : ", custom URL") +
@@ -592,8 +608,7 @@ namespace CompatibilityReport.Updater
             // Update the author
             catalogAuthor.Update(authorID, authorURL, name, lastSeen, retired, exclusionForRetired: catalogAuthor.ExclusionForRetired || retired == true);
 
-            // [Todo 0.3] new author ID -> add authorID to all mods from this author; changed author URL -> change authorURL to all mods from this author
-            // [Todo 0.3] Changenotes
+            // [Todo 0.4] Not implemented yet: distribute new ID or changed URL to all mods
         }
 
 
@@ -822,7 +837,7 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            // If the requiredID is not a known ID, it's probably an asset. [Todo 0.3] This doesn't account for add_asset in CSV
+            // If the requiredID is not a known ID, it's probably an asset. [Todo 0.4] This still gives warnings if the asset is added by add_asset in CSV
             else if (ActiveCatalog.IsValidID(requiredID, allowBuiltin: false, shouldExist: false) && !ActiveCatalog.RequiredAssets.Contains(requiredID))
             {
                 UnknownRequiredAssets.Append($", { requiredID }");

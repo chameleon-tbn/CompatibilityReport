@@ -34,19 +34,19 @@ namespace CompatibilityReport.Util
             try
             {
                 // This will work if we are a Steam Workshop mod, otherwise it throws an exception
-                bundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }Catalog.xml");
+                bundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }_Catalog.xml");
             }
             catch
             {
                 try
                 {
                     // Get the mod path again, now for if we are a local mod
-                    bundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }Catalog.xml");
+                    bundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }_Catalog.xml");
                 }
                 catch
                 {
                     // Weirdly, we couldn't get the mod path; just set it to the game folder so we have a valid path
-                    bundledCatalogFullPath = Path.Combine(DataLocation.applicationBase, $"{ internalName }Catalog.xml");
+                    bundledCatalogFullPath = Path.Combine(DataLocation.applicationBase, $"{ internalName }_Catalog.xml");
                 }
 
             }
@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "1";
-        internal const string build = "191";
+        internal const string build = "192";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -121,7 +121,7 @@ namespace CompatibilityReport.Util
         internal static readonly string catalogURL = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
 
         // Downloaded Catalog local location
-        internal static readonly string downloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Catalog.xml");
+        internal static readonly string downloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }_Downloaded_Catalog.xml");
 
         // Number of retries on failed downloads; used as default parameter, must be a constant
         internal const uint downloadRetries = 2;

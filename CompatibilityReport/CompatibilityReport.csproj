@@ -82,7 +82,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataTypes\Subscription.cs" />
     <Compile Include="DataTypes\Enums.cs" />
-    <Compile Include="Updater\Temp.cs" />
     <Compile Include="Util\Toolkit.cs" />
   </ItemGroup>
   <ItemGroup>

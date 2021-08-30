@@ -13,7 +13,7 @@ namespace CompatibilityReport.DataTypes
     // Needs to be public for XML serialization
     [Serializable] public class Author
     {
-        // Profile ID and custom URL as seen on the Steam Workshop
+        // Profile ID and custom URL as seen on the Steam Workshop  [Todo 0.4] Create fake ID for connection to mods
         public ulong ProfileID { get; private set; }
         public string CustomURL { get; private set; }
 
@@ -83,7 +83,7 @@ namespace CompatibilityReport.DataTypes
         internal void Update(ulong profileID = 0,
                              string customURL = null,
                              string name = null,
-                             DateTime lastSeen = default,
+                             DateTime? lastSeen = null,
                              bool? retired = null,
                              bool? exclusionForRetired = null,
                              string extraChangeNote = null)
@@ -98,7 +98,7 @@ namespace CompatibilityReport.DataTypes
             // Avoid an empty name or the profile ID as name; Steam sometimes incorrectly puts the profile ID in the name field in mod listing HTML pages
             Name = string.IsNullOrEmpty(name) || name == ProfileID.ToString() ? Name : name;
 
-            LastSeen = lastSeen == default ? LastSeen : lastSeen;
+            LastSeen = lastSeen ?? LastSeen;
 
             Retired = retired ?? Retired;
 
