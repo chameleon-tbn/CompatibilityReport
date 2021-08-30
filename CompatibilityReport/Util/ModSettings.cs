@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.3";
         internal const string revision = "1";
-        internal const string build = "192";
+        internal const string build = "193";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -151,7 +151,8 @@ namespace CompatibilityReport.Util
 
         // Default text report intro and footer
         internal static readonly string defaultHeaderText = "Basic information about mods:\n" +
-            bullet + "Always exit to desktop before loading another save! (no 'second loading')\n" +
+            bullet + "Always exit to desktop and restart the game when loading another save! Exiting to main menu and " +
+            "loading another savegame (called 'second loading') gives lots of mod issues.\n" +
             bullet + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
             bullet + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" +
             bullet + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
@@ -165,9 +166,9 @@ namespace CompatibilityReport.Util
             "\n" +
             "Disclaimer:\n" +
             bullet + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " + 
-            $"However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop: { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
+            $"However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
 
-        internal static readonly string defaultFooterText = "Did this help? Do you miss anything? Leave a comment at the workshop page: " +
+        internal static readonly string defaultFooterText = "Did this help? Do you miss anything? Leave a comment at the workshop page " +
             Toolkit.GetWorkshopURL(OurOwnSteamID);
 
         // Default HTML report intro and footer; [Todo 1.1]

@@ -85,10 +85,14 @@ namespace CompatibilityReport.Updater
 
             UpdateAuthorRetirement();
 
-            // Log a CSV action for required assets that are missing in the catalog
-            if (UnknownRequiredAssets.Length > 0)
+            // Set a special catalog note for version 2, and reset it again for version 3
+            if (ActiveCatalog.Version == 2 && ActiveCatalog.Note == ModSettings.firstCatalogNote)
             {
-                Logger.UpdaterLog("CSV action for adding assets to the catalog (after verification): Add_RequiredAssets" + UnknownRequiredAssets.ToString());
+                SetNote(ModSettings.secondCatalogNote);
+            }
+            else if (ActiveCatalog.Version == 3 && ActiveCatalog.Note == ModSettings.secondCatalogNote)
+            {
+                SetNote("");
             }
 
             // Only continue with catalog update if we found any changes to update the catalog (ignoring the pure catalog changes)
@@ -102,7 +106,7 @@ namespace CompatibilityReport.Updater
             {
                 UpdateChangeNotes();
 
-                string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ ActiveCatalog.VersionString() }");
+                string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ ActiveCatalog.VersionString() }");
 
                 // Save the new catalog
                 if (ActiveCatalog.Save(partialPath + ".xml"))
@@ -122,6 +126,12 @@ namespace CompatibilityReport.Updater
                 {
                     Logger.UpdaterLog("Could not save the new catalog. All updates were lost.", Logger.error);
                 }
+            }
+
+            // Log a CSV action for required assets that are missing in the catalog
+            if (UnknownRequiredAssets.Length > 0)
+            {
+                Logger.UpdaterLog("CSV action for adding assets to the catalog (after verification): Add_RequiredAssets" + UnknownRequiredAssets.ToString());
             }
 
             // Empty the dictionaries and change notes to free memory
@@ -165,16 +175,6 @@ namespace CompatibilityReport.Updater
             ActiveCatalog.NewVersion(DateTime.Now);
 
             catalogDateString = Toolkit.DateString(ActiveCatalog.UpdateDate.Date);
-
-            // Set a special catalog note for version 2, and reset it again for version 3
-            if (ActiveCatalog.Version == 2)
-            {
-                SetNote(ModSettings.secondCatalogNote);
-            }
-            else if (ActiveCatalog.Version == 3)
-            {
-                SetNote("");
-            }
         }
 
 
@@ -315,7 +315,7 @@ namespace CompatibilityReport.Updater
                 // Log an empty mod name. This could be an error, although there is a workshop mod without a name (ofcourse there is)
                 if (name == "")
                 {
-                    Logger.UpdaterLog($"Mod name not found for { steamID }. This could be a Steam error.", Logger.warning);
+                    Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.warning);
                 }
                 
                 catalogMod = ActiveCatalog.AddOrUpdateMod(steamID, name);
@@ -371,9 +371,9 @@ namespace CompatibilityReport.Updater
             // Set the change note for all changed values
             string addedChangeNote =
                 (name == null || name == catalogMod.Name ? "" : ", mod name changed") +
-                (updated == null || updated == catalogMod.Updated ? "" : ", new update") +
-                (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 ? "" : ", author ID added") +
-                (authorURL == null || authorURL == catalogMod.AuthorURL ? "" : ", author URL") +
+                (updated == null || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update") +
+                (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
+                (authorURL == null || authorURL == catalogMod.AuthorURL || catalogMod.AddedThisSession ? "" : ", author URL") +
                 (archiveURL == null || archiveURL == catalogMod.ArchiveURL ? "" : ", archive URL") +
                 (sourceURL == null || sourceURL == catalogMod.SourceURL ? "" : ", source URL") +
                 (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : ", compatible game version") +
@@ -520,7 +520,8 @@ namespace CompatibilityReport.Updater
 
             ActiveCatalog.Compatibilities.Add(compatibility);
 
-            changeNotesNewCompatibilities.AppendLine($"Compatibility added between { firstModID } and { secondModID }: \"{ compatibilityStatus }\", { note }");
+            changeNotesNewCompatibilities.AppendLine($"Compatibility added between { firstModID, 10 } and { secondModID, 10 }: { compatibilityStatus }" +
+                (string.IsNullOrEmpty(note) ? "" : ", " + note));
         }
 
 
@@ -557,7 +558,7 @@ namespace CompatibilityReport.Updater
                 // Log if the author name is equal to the author ID. Could be an error, although some authors have their ID as name (ofcourse they do)
                 if (authorID != 0 && authorName == authorID.ToString())
                 {
-                    Logger.UpdaterLog($"Author found with profile ID as name ({ authorID }). This could be a Steam error.", Logger.warning);
+                    Logger.UpdaterLog($"Author found with profile ID as name: { authorID }. Some authors do this, but it could also be a Steam error.", Logger.warning);
                 }
 
                 // Log if we have two authors with the same name, which could an existing author we missed when a custom URL has changed
@@ -565,10 +566,10 @@ namespace CompatibilityReport.Updater
                 
                 if (namesakeAuthor != default)
                 {
-                    string authors = (authorID == 0 ? authorURL : authorID.ToString()) + "and" + 
+                    string authors = (authorID == 0 ? authorURL : authorID.ToString()) + " and " + 
                         (namesakeAuthor.ProfileID == 0 ? namesakeAuthor.CustomURL : namesakeAuthor.ProfileID.ToString());
 
-                    Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\", which could be coincidence or an error. Authors { authors }.", Logger.warning);
+                    Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\": { authors }. This could be a coincidence or an error.", Logger.warning);
                 }
 
                 catalogAuthor = ActiveCatalog.AddAuthor(authorID, authorURL, authorName);
@@ -600,7 +601,7 @@ namespace CompatibilityReport.Updater
                 (authorID == 0 || authorID == catalogAuthor.ProfileID || catalogAuthor.ProfileID != 0 ? "" : ", profile ID added") +
                 (authorURL == null || authorURL == catalogAuthor.CustomURL ? "" : ", custom URL") +
                 (name == null || name == catalogAuthor.Name ? "" : ", name") +
-                (lastSeen == null || lastSeen == catalogAuthor.LastSeen ? "" : ", last seen date") +
+                (lastSeen == null || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : ", last seen date") +
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
 
             AddUpdatedAuthorChangeNote(catalogAuthor, addedChangeNote);

@@ -79,8 +79,11 @@ namespace CompatibilityReport.DataTypes
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
-        // Indicator to see if this was updated this session
+        // Used by the Updater: Indicator to see if this was updated and/or added this session
         [XmlIgnore] internal bool UpdatedThisSession { get; private set; }
+        [XmlIgnore] public bool AddedThisSession { get; private set; }
+
+
 
 
         // Default constructor
@@ -134,7 +137,8 @@ namespace CompatibilityReport.DataTypes
                              DateTime? reviewDate = null,
                              DateTime? autoReviewDate = null,
                              List<string> replacementChangeNotes = null,
-                             string extraChangeNote = null)
+                             string extraChangeNote = null,
+                             bool addedThisSession = false)
         {
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings/lists instead of null
             Name = name ?? Name ?? "";
@@ -196,8 +200,10 @@ namespace CompatibilityReport.DataTypes
                 ChangeNotes.Add(extraChangeNote);
             }
 
-            // Set updated this session to true, independent of an actual value update
+            // Set updated-this-session to true, independent of an actual value update. Set added-this-session to true if specified (this time or previous).
             UpdatedThisSession = true;
+
+            AddedThisSession = AddedThisSession || addedThisSession;
         }
 
 

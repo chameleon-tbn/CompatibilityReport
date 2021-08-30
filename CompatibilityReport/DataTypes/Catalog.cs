@@ -234,6 +234,8 @@ namespace CompatibilityReport.DataTypes
                 // Mod doesn't exist yet
                 mod = new Mod(steamID, name, authorID, authorURL);
 
+                mod.Update(addedThisSession: true);
+
                 // Add the mod to the list and dictionary
                 Mods.Add(mod);
 
@@ -418,6 +420,8 @@ namespace CompatibilityReport.DataTypes
 
             // Create a new author
             Author author = new Author(authorID, authorURL, name, lastSeen, retired, changeNotes);
+
+            author.Update(addedThisSession: true);
 
             // Add the author to the list
             Authors.Add(author);
@@ -868,7 +872,7 @@ namespace CompatibilityReport.DataTypes
             }
 
             // Get all catalog filenames
-            string[] files = Directory.GetFiles(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog*.xml");
+            string[] files = Directory.GetFiles(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog*.xml");
 
             // Silently exit if no updater catalogs are found
             if (files.Length == 0)

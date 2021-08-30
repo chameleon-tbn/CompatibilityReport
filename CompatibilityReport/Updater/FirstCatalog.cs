@@ -18,7 +18,7 @@ namespace CompatibilityReport.Updater
             Catalog firstCatalog = new Catalog(1, updateDate, ModSettings.firstCatalogNote);
 
             // The filename for the catalog and change notes
-            string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }Catalog_v{ firstCatalog.VersionString() }");
+            string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ firstCatalog.VersionString() }");
 
             // Exit if the first catalog already exists
             if (File.Exists(partialPath + ".xml"))

@@ -32,6 +32,9 @@ namespace CompatibilityReport.DataTypes
         // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
+        // Used by the Updater: was this author added this session?
+        [XmlIgnore] public bool AddedThisSession { get; private set; }
+
 
         // Default constructor
         public Author()
@@ -86,7 +89,8 @@ namespace CompatibilityReport.DataTypes
                              DateTime? lastSeen = null,
                              bool? retired = null,
                              bool? exclusionForRetired = null,
-                             string extraChangeNote = null)
+                             string extraChangeNote = null,
+                             bool addedThisSession = false)
         {
             // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
 
@@ -104,6 +108,9 @@ namespace CompatibilityReport.DataTypes
 
             ExclusionForRetired = exclusionForRetired ?? ExclusionForRetired;
 
+            // Set added-this-session to true if specified (this time or previous)
+            AddedThisSession = AddedThisSession || addedThisSession;
+
             // Add a change note
             if (!string.IsNullOrEmpty(extraChangeNote))
             {
@@ -113,10 +120,10 @@ namespace CompatibilityReport.DataTypes
             // Debug message
             if ((ProfileID == 0) && string.IsNullOrEmpty(CustomURL))
             {
-                Logger.Log($"Updated author left without profile ID and custom URL: { Name }", Logger.debug);
+                Logger.Log($"Updated author now has no profile ID and no custom URL: { Name }", Logger.debug);
             }
 
-            if (name == ProfileID.ToString())
+            if (name == ProfileID.ToString() && name != Name)
             {
                 Logger.Log($"Author updated with profile ID as name ({ name }). This change was discarded, old name is still used.", Logger.debug);
             }

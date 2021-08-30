@@ -98,7 +98,7 @@ namespace CompatibilityReport.Updater
         // Dump last review date, name and workshop url for all non-incompatible mods that have not been reviewed in the last x months
         private static void DumpModsWithOldReview(Catalog ActiveCatalog, int months)
         {
-            DumpTitle($"Mods wit a old review (> { months } months):");
+            DumpTitle($"Mods with a old review (> { months } months old):");
 
             foreach (Mod catalogMod in ActiveCatalog.Mods)
             {

@@ -61,9 +61,6 @@ namespace CompatibilityReport
 
             Logger.Log(message, duplicateToGameLog: true);
 
-            // Get all subscriptions, including all builtin and local mods, with info from game and catalog
-            ActiveSubscriptions.Get();
-
             if (GameVersion.Current != ActiveCatalog.CompatibleGameVersion)
             {
                 string olderNewer = (GameVersion.Current < ActiveCatalog.CompatibleGameVersion) ? "an older" : "a newer";
@@ -72,9 +69,12 @@ namespace CompatibilityReport
                     $"You're using { olderNewer } version of the game. Results may not be accurate.", Logger.warning, duplicateToGameLog: true);
             }
 
-            CreateReports();
+            // Get all subscriptions, including all builtin and local mods, with info from game and catalog
+            ActiveSubscriptions.Get();
 
-            Logger.Log($"Reviewed { ActiveSubscriptions.TotalReviewed } of your { ActiveSubscriptions.All.Count } mods ", duplicateToGameLog: true);
+            Logger.Log($"Reviewed { ActiveSubscriptions.TotalReviewed } of your { ActiveSubscriptions.All.Count } mods ", duplicateToGameLog: true); 
+            
+            CreateReports();
 
             reportCreated = true;
 
