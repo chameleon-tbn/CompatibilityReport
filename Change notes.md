@@ -1,11 +1,14 @@
 # Compatibility Report
 
+### Version 0.4 - Code revision and cleanup
+* ...
+
 ### Version 0.3 - Catalog Updater: CSV import
 * Catalog updater method based on CSV import, in addition to the web crawler
   - Simple CSV actions for easy maintenance  
   - Imports new and changed mods, groups, compatibilities and authors
   - Support for exclusions, to avoid manual changes being overwritten by the web crawler
-  - Updater Guide created for easier sharing or taking over of mod support in the future
+  - [Updater Guide](https://github.com/Finwickle/CompatibilityReport/blob/main/CompatibilityReport/Updater/Updater%20Guide.md) created for easier sharing or taking over of mod support in the future
 * Web crawler enhanced:
   - Detection of author retirement (no mod updates for at least a year)
 * Mod renamed to Compatibility Report. 

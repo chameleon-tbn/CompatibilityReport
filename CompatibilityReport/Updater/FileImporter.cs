@@ -154,8 +154,8 @@ namespace CompatibilityReport.Updater
 
                 case "add_mod":
                     // Use the author URL only if no author ID was found. Join the lineFragments for the mod name, to allow for commas
-                    return AddMod(modID: numericSecond, authorID: numericThird, authorURL: numericThird == 0 ? stringThird : "", 
-                        modName: lineElements.Length < 4 ? "" : string.Join(",", lineElements, 3, lineElements.Length - 3).Trim());
+                    return AddMod(modID: numericSecond, status: stringThird.ToLower(), authorID: numericFourth, authorURL: numericFourth == 0 ? stringFourth : "", 
+                        modName: lineElements.Length < 5 ? "" : string.Join(",", lineElements, 4, lineElements.Length - 4).Trim());
 
                 case "remove_mod":
                     return RemoveMod(modID: numericSecond); 
@@ -280,15 +280,20 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add an unlisted mod
-        private static string AddMod(ulong modID, ulong authorID, string authorURL, string modName)
+        // Add an unlisted or removed mod
+        private static string AddMod(ulong modID, string status, ulong authorID, string authorURL, string modName)
         {
             if (!ActiveCatalog.IsValidID(modID, allowBuiltin: false, shouldExist: false))
             {
                 return $"Invalid Steam ID or mod already exists.";
             }
 
-            Mod newMod = CatalogUpdater.GetOrAddMod(modID, modName == "" ? null : modName, unlisted: true);
+            if (status != "unlisted" && status != "removed")
+            {
+                return "Invalid status, must be 'unlisted' or 'removed'.";
+            }
+
+            Mod newMod = CatalogUpdater.GetOrAddMod(modID, modName == "" ? null : modName, unlisted: status == "unlisted", removed: status == "removed");
 
             CatalogUpdater.UpdateMod(newMod, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true);
 

@@ -56,9 +56,9 @@ namespace CompatibilityReport.Util
         /// Hardcoded settings that can't be changed by users
 
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
-        internal const string shortVersion = "0.3";
-        internal const string revision = "1";
-        internal const string build = "195";
+        internal const string shortVersion = "0.4";
+        internal const string revision = "0";
+        internal const string build = "196";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -178,7 +178,7 @@ namespace CompatibilityReport.Util
 
         // Catalog notes for the first few catalogs
         internal static readonly string firstCatalogNote  = "This first catalog only contains the builtin mods.";
-        internal static readonly string secondCatalogNote = "This catalog contains detailed information about all Steam Workshop mods. No reviews yet.";
+        internal static readonly string secondCatalogNote = "This catalog contains basic information about all Steam Workshop mods. No reviews yet.";
 
 
         /// Defaults for settings that will be available to users through mod options within the game [Todo 0.7]
