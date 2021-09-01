@@ -36,8 +36,6 @@ namespace CompatibilityReport
             Logger.Log($"{ ModSettings.modName } version { ModSettings.fullVersion }. Game version { GameVersion.Formatted(GameVersion.Current) }. ",
                 duplicateToGameLog: true);
 
-            Logger.Log(GameVersion.SpecialNote);
-
             if (!Toolkit.SteamWorkshopAvailable())
             {
                 Logger.Log("The game can't access the Steam Workshop, and thus has no subscriptions to check. No report was generated. " +
@@ -149,11 +147,6 @@ namespace CompatibilityReport
                 TextReport.AppendLine(Toolkit.WordWrap(ActiveCatalog.Note) + "\n");
             }
 
-            if (!string.IsNullOrEmpty(GameVersion.SpecialNote))
-            {
-                TextReport.AppendLine(Toolkit.WordWrap(GameVersion.SpecialNote) + "\n");
-            }
-
             if (GameVersion.Current != ActiveCatalog.CompatibleGameVersion)
             {
                 string olderNewer = (GameVersion.Current < ActiveCatalog.CompatibleGameVersion) ? "older" : "newer";
@@ -225,8 +218,6 @@ namespace CompatibilityReport
                 ActiveCatalog.ReportFooterText));
 
             Toolkit.SaveToFile(TextReport.ToString(), ModSettings.ReportTextFullPath, createBackup: true);
-
-            TextReport = new StringBuilder();
 
             // Log the report location
             Logger.Log($"Text report ready at \"{ Toolkit.PrivacyPath(ModSettings.ReportTextFullPath) }\".", duplicateToGameLog: true);
@@ -348,7 +339,7 @@ namespace CompatibilityReport
                     // Cut off the message, so the 'bulleted' message stays within maximum width
                     message = message.Substring(0, ModSettings.maxReportWidth - bullet.Length - 3) + "...";
 
-                    Logger.Log($"Report line too long: " + message, Logger.debug);
+                    Logger.Log("Report line too long: " + message, Logger.debug);
                 }
                 else
                 {
@@ -584,7 +575,7 @@ namespace CompatibilityReport
                 return "";
             }
 
-            return ReviewLine($"Unsubscribe. This requires DLC you don't have:", htmlReport) + dlcs;
+            return ReviewLine("Unsubscribe. This requires DLC you don't have:", htmlReport) + dlcs;
         }
 
 

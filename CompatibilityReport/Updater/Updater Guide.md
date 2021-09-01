@@ -16,7 +16,7 @@ Lines starting with a '#' are considered comments and will be ignored by the upd
 
 ### Available mod actions
 Parameters enclosed in square brackets are optional. The symbol :zap: means an exclusion will be created.
-* Add_Mod, \<mod ID\>, \<unlisted | removed\> [, \<author ID | author custom URL\> [, \<mod name\>] ]
+* Add_Mod, \<mod ID\>, Unlisted | Removed [, \<author ID | author custom URL\> [, \<mod name\>] ]
 * Set_ArchiveURL, \<mod ID\>, \<url\>
 * Set_SourceURL, \<mod ID\>, \<url\> :zap:
 * Set_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled when a newer game version is found)*

@@ -285,7 +285,7 @@ namespace CompatibilityReport.Updater
         {
             if (!ActiveCatalog.IsValidID(modID, allowBuiltin: false, shouldExist: false))
             {
-                return $"Invalid Steam ID or mod already exists.";
+                return "Invalid Steam ID or mod already exists.";
             }
 
             if (status != "unlisted" && status != "removed")
@@ -306,7 +306,7 @@ namespace CompatibilityReport.Updater
         {
             if (!ActiveCatalog.IsValidID(modID, allowBuiltin: false))
             {
-                return $"Invalid Steam ID or mod does not exist.";
+                return "Invalid Steam ID or mod does not exist.";
             }
 
             Mod catalogMod = ActiveCatalog.ModDictionary[modID];
@@ -318,14 +318,14 @@ namespace CompatibilityReport.Updater
 
             if (ActiveCatalog.IsGroupMember(modID))
             {
-                return $"Mod can't be removed because it is still in a group.";
+                return "Mod can't be removed because it is still in a group.";
             }
 
             // Check if the mod is listed as required, successor, alternative or recommended mod anywhere
             if (ActiveCatalog.Mods.FirstOrDefault(x => x.RequiredMods.Contains(modID) || x.Successors.Contains(modID) ||
                                                                 x.Alternatives.Contains(modID) || x.Recommendations.Contains(modID)) != default)
             {
-                return $"Mod can't be removed because it is still referenced by other mods (required, successor, alternative or recommendation).";
+                return "Mod can't be removed because it is still referenced by other mods (required, successor, alternative or recommendation).";
             }
 
             CatalogUpdater.AddRemovedModChangeNote($"Mod removed: { catalogMod.ToString() }");
@@ -394,7 +394,7 @@ namespace CompatibilityReport.Updater
 
                 if (newGameVersionString == GameVersion.Formatted(GameVersion.Unknown))
                 {
-                    return $"Invalid gameversion.";
+                    return "Invalid gameversion.";
                 }
 
                 CatalogUpdater.UpdateMod(catalogMod, compatibleGameVersionString: newGameVersionString);

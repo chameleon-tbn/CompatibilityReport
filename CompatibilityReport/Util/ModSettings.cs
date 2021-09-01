@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.4";
         internal const string revision = "0";
-        internal const string build = "196";
+        internal const string build = "197";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 

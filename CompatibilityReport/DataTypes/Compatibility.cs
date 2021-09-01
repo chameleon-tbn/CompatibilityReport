@@ -23,6 +23,7 @@ namespace CompatibilityReport.DataTypes
 
         public string Note { get; private set; }
 
+
         // Default constructor
         public Compatibility()
         {

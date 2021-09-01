@@ -3,7 +3,7 @@
     // Needs to be public for XML serialization
     public static class Enums
     {
-        // Stability of the mod. One is always active, defaults to undefined.
+        // Stability of the mod, one is always active.
         public enum ModStability
         {
             Undefined,                              // [Only used by the Updater, cannot be set manually]

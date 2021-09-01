@@ -175,7 +175,7 @@ namespace CompatibilityReport.Updater
                 }
                 else if (catalogGroup.GroupMembers.Count == 1)
                 {
-                    DataDump.AppendLine(catalogGroup.ToString() + $": only member is " +
+                    DataDump.AppendLine(catalogGroup.ToString() + ": only member is " +
                         ActiveCatalog.ModDictionary[catalogGroup.GroupMembers[0]].ToString());
                 }
             }

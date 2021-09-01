@@ -21,7 +21,7 @@ namespace CompatibilityReport.DataTypes
         public DateTime UpdateDate { get; private set; }
 
         // Game version this catalog was created for; 'Version' is not serializable, so a converted string is used
-        [XmlIgnore] internal Version CompatibleGameVersion { get; private set; }
+        [XmlIgnore] public Version CompatibleGameVersion { get; private set; }
         public string CompatibleGameVersionString { get; private set; }
 
         // A note about the catalog, displayed in the report header
@@ -61,10 +61,10 @@ namespace CompatibilityReport.DataTypes
 
 
         // Instance for the active catalog  [Todo 0.4] Can we get rid of this?
-        internal static Catalog Active { get; private set; }
+        [XmlIgnore] internal static Catalog Active { get; private set; }
 
         // Did we download a catalog already this session
-        private static bool downloadedValidCatalog;
+        [XmlIgnore] private static bool downloadedValidCatalog;
 
 
         // Default constructor, used when creating an empty catalog for reading from disk
@@ -200,7 +200,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add or update a catalog mod. Exclusions for required mods have a separate method
+        // Add or update a catalog mod. Exclusions for required mods have a separate method     [Todo 0.4] Why not split into add mod and update mod (already exists in Mod)?
         internal Mod AddOrUpdateMod(ulong steamID,
                                     string name = null,
                                     ulong authorID = 0,
@@ -331,7 +331,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add a new member to a group; NOTE: a mod can only be in one group
+        // Add a new member to a group; NOTE: a mod can only be in one group    [Todo 0.4] not used
         internal bool AddGroupMember(ulong groupID, ulong newGroupMember)
         {
             if (!GroupDictionary.ContainsKey(groupID) || !ModDictionary.ContainsKey(newGroupMember) || IsGroupMember(newGroupMember))
@@ -443,7 +443,7 @@ namespace CompatibilityReport.DataTypes
 
 
         // Add an exclusion for a required mod, including for group and group members
-        internal void AddExclusionForRequiredMods(Mod mod, ulong requiredID)
+        private void AddExclusionForRequiredMods(Mod mod, ulong requiredID)
         {
             // Add exclusion
             mod.AddExclusionForRequiredMods(requiredID);
@@ -465,7 +465,7 @@ namespace CompatibilityReport.DataTypes
 
 
         // Remove an exclusion from the catalog
-        internal bool RemoveExclusionForRequiredMods(Mod mod, ulong requiredID)
+        private bool RemoveExclusionForRequiredMods(Mod mod, ulong requiredID)
         {
             // Remove exclusion
             bool result = mod.ExclusionForRequiredMods.Remove(requiredID);
@@ -536,8 +536,8 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Prepare a catalog for searching
-        internal void CreateIndex()
+        // Prepare a catalog for searching  [Todo 0.4] combine with Validate()
+        private void CreateIndex()
         {
             // Clear the dictionaries
             ModDictionary.Clear();
@@ -630,7 +630,7 @@ namespace CompatibilityReport.DataTypes
 
 
         // Load a catalog from disk and validate it
-        internal static Catalog Load(string fullPath)
+        private static Catalog Load(string fullPath)
         {
             // Check if file exists
             if (!File.Exists(fullPath))
@@ -722,7 +722,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Close the active catalog
+        // Close the active catalog     [Todo 0.4] No longer needed if we get rid of Active here
         internal static void CloseActive()
         {
             // Nullify the active catalog
@@ -888,7 +888,7 @@ namespace CompatibilityReport.DataTypes
 
             if (catalog == null)
             {
-                Logger.Log($"Can't load updater catalog.", Logger.warning);
+                Logger.Log("Can't load updater catalog.", Logger.warning);
             }
             else
             {

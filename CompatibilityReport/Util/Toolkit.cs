@@ -37,7 +37,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Rename a file
+        // Move or rename a file
         internal static bool MoveFile(string sourceFullPath, string destinationFullPath)
         {
             try
@@ -77,10 +77,9 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Save string to file
+        // Save a string to a file
         internal static bool SaveToFile(string message,
                                         string fileFullPath,
-                                        bool append = false,
                                         bool createBackup = false)
         {
             if (string.IsNullOrEmpty(message))
@@ -95,14 +94,7 @@ namespace CompatibilityReport.Util
 
             try
             {
-                if (append)
-                {
-                    File.AppendAllText(fileFullPath, message);
-                }
-                else
-                {
-                    File.WriteAllText(fileFullPath, message);
-                }
+                File.WriteAllText(fileFullPath, message);
 
                 return true;
             }
@@ -118,9 +110,7 @@ namespace CompatibilityReport.Util
         // Remove the Windows username from the '...\AppData\Local' path for privacy reasons; [Todo 0.6] Something similar needed for Mac OS X or Linux?
         internal static string PrivacyPath(string path)
         {
-            // Get position of \appdata\local in the path
             int index = path.ToLower().IndexOf("\\appdata\\local");
-            int indexPlus = index + "\\appdata\\local".Length;
 
             if (index == -1)
             {
@@ -129,8 +119,10 @@ namespace CompatibilityReport.Util
             }
             else
             {
-                // Replace everything up to and including \appdata\local with %LocalAppData%; path will still work in Windows and is now more privacy-proof
-                return "%LocalAppData%" + path.Substring(indexPlus);
+                index += "\\appdata\\local".Length;
+
+                // Replace everything up to and including \appdata\local with %LocalAppData%; path will still work in Windows and is now a bit more privacy-proof
+                return "%LocalAppData%" + path.Substring(index);
             }
         }
 

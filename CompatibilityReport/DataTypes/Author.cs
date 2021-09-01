@@ -33,7 +33,7 @@ namespace CompatibilityReport.DataTypes
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
         // Used by the Updater: was this author added this session?
-        [XmlIgnore] public bool AddedThisSession { get; private set; }
+        [XmlIgnore] internal bool AddedThisSession { get; private set; }
 
 
         // Default constructor
@@ -134,15 +134,6 @@ namespace CompatibilityReport.DataTypes
         internal new string ToString()
         {
             return $"[{ (ProfileID != 0 ? ProfileID.ToString() : CustomURL) }] { Name }";
-        }
-
-
-        // Copy all fields, except 'ManuallyUpdated', from an author to a new author.
-        internal static Author Copy(Author originalAuthor)
-        {
-            // Copy all value types directly
-            return new Author(originalAuthor.ProfileID, originalAuthor.CustomURL, originalAuthor.Name, 
-                originalAuthor.LastSeen, originalAuthor.Retired, originalAuthor.ChangeNotes);
         }
     }
 }
