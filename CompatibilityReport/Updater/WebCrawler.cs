@@ -135,7 +135,7 @@ namespace CompatibilityReport.Updater
 
                     modsFoundThisPage++;
 
-                    string name = Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
+                    string name = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
 
                     Mod catalogMod = CatalogUpdater.GetOrAddMod(steamID, name, incompatibleMods);
 
@@ -165,7 +165,7 @@ namespace CompatibilityReport.Updater
                     // Update the mod. This will also set the UpdatedThisSession, which is used in GetDetails()
                     CatalogUpdater.UpdateMod(catalogMod, name, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
 
-                    string authorName = Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, 
+                    string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, 
                         ModSettings.steamModListingAuthorNameRight));
 
                     CatalogUpdater.GetOrAddAuthor(authorID, authorURL, authorName);
@@ -321,7 +321,7 @@ namespace CompatibilityReport.Updater
                         // Empty the author custom URL if author ID was found or if custom URL was not found, preventing updating the custom URL to an empty string
                         authorURL = authorID != 0 || string.IsNullOrEmpty(authorURL) ? null : authorURL;
 
-                        string authorName = Toolkit.CleanHtmlString(Toolkit.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
+                        string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
 
                         catalogMod.Update(authorID: authorID, authorURL: authorURL);
 
@@ -331,7 +331,7 @@ namespace CompatibilityReport.Updater
                     // Mod name; only for unlisted mods (we have this info for other mods already)
                     else if (line.Contains(ModSettings.steamModPageNameLeft) && catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                     {
-                        CatalogUpdater.UpdateMod(catalogMod, name: Toolkit.CleanHtmlString(
+                        CatalogUpdater.UpdateMod(catalogMod, name: Toolkit.CleanHtml(
                             Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)), updatedByWebCrawler: true);
                     }
 
@@ -343,7 +343,7 @@ namespace CompatibilityReport.Updater
 
                         Version gameVersion = Toolkit.ConvertToGameVersion(gameVersionString);
 
-                        gameVersionString = GameVersion.Formatted(gameVersion);
+                        gameVersionString = Toolkit.ConvertGameVersionToString(gameVersion);
 
                         // Update the mod, unless an exclusion exists and the found gameversion is lower than in the catalog. Remove the exclusion on update.
                         if (!catalogMod.ExclusionForGameVersion || gameVersion > Toolkit.ConvertToGameVersion(catalogMod.CompatibleGameVersionString))

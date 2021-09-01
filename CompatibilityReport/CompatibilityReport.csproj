@@ -76,7 +76,6 @@
     <Compile Include="Updater\DataDumper.cs" />
     <Compile Include="Updater\FileImporter.cs" />
     <Compile Include="Util\ModSettings.cs" />
-    <Compile Include="DataTypes\GameVersion.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="CompatibilityReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -390,9 +390,9 @@ namespace CompatibilityReport.Updater
             else if (action == "set_gameversion")
             {
                 // Convert the itemData string to gameversion and back to string, to make sure we have a consistently formatted gameversion string
-                string newGameVersionString = GameVersion.Formatted(Toolkit.ConvertToGameVersion(itemData));
+                string newGameVersionString = Toolkit.ConvertGameVersionToString(Toolkit.ConvertToGameVersion(itemData));
 
-                if (newGameVersionString == GameVersion.Formatted(GameVersion.Unknown))
+                if (newGameVersionString == Toolkit.ConvertGameVersionToString(Toolkit.UnknownVersion))
                 {
                     return "Invalid gameversion.";
                 }
@@ -1071,7 +1071,7 @@ namespace CompatibilityReport.Updater
         // Set the compatible game version for the catalog
         private static string SetCatalogGameVersion(Version newGameVersion)
         {
-            if (newGameVersion == GameVersion.Unknown)
+            if (newGameVersion == Toolkit.UnknownVersion)
             {
                 return "Incorrect gameversion.";
             }
@@ -1081,7 +1081,7 @@ namespace CompatibilityReport.Updater
                 return "Could not update gameversion.";
             }
 
-            CatalogUpdater.AddCatalogChangeNote($"Catalog was updated to game version { GameVersion.Formatted(newGameVersion) }.");
+            CatalogUpdater.AddCatalogChangeNote($"Catalog was updated to game version { Toolkit.ConvertGameVersionToString(newGameVersion) }.");
 
             return "";
         }

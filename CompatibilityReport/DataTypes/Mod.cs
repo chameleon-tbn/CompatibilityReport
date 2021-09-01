@@ -158,7 +158,7 @@ namespace CompatibilityReport.DataTypes
             SourceURL = sourceURL ?? SourceURL ?? "";
 
             // If the game version string is null, set it to the unknown game version
-            CompatibleGameVersionString = compatibleGameVersionString ?? CompatibleGameVersionString ?? GameVersion.Unknown.ToString();
+            CompatibleGameVersionString = compatibleGameVersionString ?? CompatibleGameVersionString ?? Toolkit.UnknownVersion.ToString();
 
             RequiredDLC = requiredDLC ?? RequiredDLC ?? new List<Enums.DLC>();
 

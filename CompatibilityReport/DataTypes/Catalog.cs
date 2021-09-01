@@ -87,7 +87,7 @@ namespace CompatibilityReport.DataTypes
 
             UpdateDate = updateDate;
 
-            CompatibleGameVersion = GameVersion.Current;
+            CompatibleGameVersion = Toolkit.CurrentGameVersion;
 
             CompatibleGameVersionString = CompatibleGameVersion.ToString();
 
@@ -518,11 +518,11 @@ namespace CompatibilityReport.DataTypes
             ReviewedModCount = reviewedMods?.Any() != true ? 0 : reviewedMods.Count;
 
             // If the compatible gameversion for the catalog is unknown, try to convert the string field
-            if ((CompatibleGameVersion == null) || (CompatibleGameVersion == GameVersion.Unknown))
+            if ((CompatibleGameVersion == null) || (CompatibleGameVersion == Toolkit.UnknownVersion))
             {
                 CompatibleGameVersion = Toolkit.ConvertToGameVersion(CompatibleGameVersionString);
 
-                if (CompatibleGameVersion == GameVersion.Unknown) 
+                if (CompatibleGameVersion == Toolkit.UnknownVersion) 
                 {
                     // Conversion failed, assume it's the mods compatible game version
                     CompatibleGameVersion = ModSettings.compatibleGameVersion;

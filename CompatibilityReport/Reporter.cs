@@ -33,7 +33,7 @@ namespace CompatibilityReport
                 }
             }
 
-            Logger.Log($"{ ModSettings.modName } version { ModSettings.fullVersion }. Game version { GameVersion.Formatted(GameVersion.Current) }. ",
+            Logger.Log($"{ ModSettings.modName } version { ModSettings.fullVersion }. Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion) }. ",
                 duplicateToGameLog: true);
 
             if (!Toolkit.SteamWorkshopAvailable())
@@ -59,11 +59,11 @@ namespace CompatibilityReport
 
             Logger.Log(message, duplicateToGameLog: true);
 
-            if (GameVersion.Current != ActiveCatalog.CompatibleGameVersion)
+            if (Toolkit.CurrentGameVersion != ActiveCatalog.CompatibleGameVersion)
             {
-                string olderNewer = (GameVersion.Current < ActiveCatalog.CompatibleGameVersion) ? "an older" : "a newer";
+                string olderNewer = (Toolkit.CurrentGameVersion < ActiveCatalog.CompatibleGameVersion) ? "an older" : "a newer";
 
-                Logger.Log($"The catalog was updated for game version { GameVersion.Formatted(ActiveCatalog.CompatibleGameVersion) }. " +
+                Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(ActiveCatalog.CompatibleGameVersion) }. " +
                     $"You're using { olderNewer } version of the game. Results may not be accurate.", Logger.warning, duplicateToGameLog: true);
             }
 
@@ -147,10 +147,10 @@ namespace CompatibilityReport
                 TextReport.AppendLine(Toolkit.WordWrap(ActiveCatalog.Note) + "\n");
             }
 
-            if (GameVersion.Current != ActiveCatalog.CompatibleGameVersion)
+            if (Toolkit.CurrentGameVersion != ActiveCatalog.CompatibleGameVersion)
             {
-                string olderNewer = (GameVersion.Current < ActiveCatalog.CompatibleGameVersion) ? "older" : "newer";
-                string catalogGameVersion = GameVersion.Formatted(ActiveCatalog.CompatibleGameVersion);
+                string olderNewer = (Toolkit.CurrentGameVersion < ActiveCatalog.CompatibleGameVersion) ? "older" : "newer";
+                string catalogGameVersion = Toolkit.ConvertGameVersionToString(ActiveCatalog.CompatibleGameVersion);
 
                 TextReport.AppendLine(Toolkit.WordWrap($"WARNING: The review catalog is made for game version { catalogGameVersion }. Your game is { olderNewer }. " + 
                     "Results may not be accurate.", indent: new string(' ', "WARNING: ".Length)) + "\n");
@@ -411,15 +411,15 @@ namespace CompatibilityReport
         private static string GameVersionCompatible(Subscription subscription,
                                                     bool htmlReport = false)
         {
-            if (subscription.GameVersionCompatible < GameVersion.CurrentMajor)
+            if (subscription.GameVersionCompatible < Toolkit.CurrentGameMajorVersion)
             {
                 return "";
             }
 
-            string currentOrNot = subscription.GameVersionCompatible == GameVersion.Current ? "current " : "";
+            string currentOrNot = subscription.GameVersionCompatible == Toolkit.CurrentGameVersion ? "current " : "";
 
-            return ReviewLine($"Created or updated for { currentOrNot }game version { GameVersion.Formatted(GameVersion.Current) }. Less likely to have issues.", 
-                htmlReport);
+            return ReviewLine($"Created or updated for { currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion) }. " +
+                "Less likely to have issues.", htmlReport);
         }
 
 

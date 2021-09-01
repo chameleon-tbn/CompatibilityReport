@@ -15,6 +15,19 @@ namespace CompatibilityReport.Util
 {
     internal static class Toolkit
     {
+        // Current full and major game version
+        internal static readonly Version CurrentGameVersion = new Version(
+                (int)BuildConfig.APPLICATION_VERSION_A,
+                (int)BuildConfig.APPLICATION_VERSION_B,
+                (int)BuildConfig.APPLICATION_VERSION_C,
+                (int)BuildConfig.APPLICATION_BUILD_NUMBER);
+
+        internal static readonly Version CurrentGameMajorVersion = new Version(CurrentGameVersion.Major, CurrentGameVersion.Minor);
+
+        // Unknown version; a null field written to the catalog comes back like this
+        internal static readonly Version UnknownVersion = new Version(0, 0);
+
+
         // Delete a file
         internal static bool DeleteFile(string fullPath)
         {
@@ -352,11 +365,26 @@ namespace CompatibilityReport.Util
             catch
             {
                 // Conversion failed
-                return GameVersion.Unknown;
+                return UnknownVersion;
             }
         }
 
 
+        // Convert a game version to a formatted string, in the commonly used format as shown on the Main Menu and the Paradox Launcher
+        internal static string ConvertGameVersionToString(Version version)
+        {
+            try
+            {
+                // This will throw an exception on a short Version like (0, 0)
+                return $"{ version.ToString(3) }-f{ version.Revision }";
+            }
+            catch
+            {
+                return version.ToString();
+            }
+        }
+        
+        
         // Convert a string to enum
         internal static T ConvertToEnum<T>(string enumString)
         {
@@ -406,8 +434,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Clean a html string from html codes
-        internal static string CleanHtmlString(string text)
+        // Clean a html string from certain html codes
+        internal static string CleanHtml(string text)
         {
             return text == null ? "" : text.Replace("&amp;", "&").Replace("&quot;", "\"");
         }

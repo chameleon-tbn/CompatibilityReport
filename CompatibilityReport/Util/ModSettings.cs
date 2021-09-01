@@ -58,7 +58,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.4";
         internal const string revision = "0";
-        internal const string build = "197";
+        internal const string build = "198";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -66,7 +66,7 @@ namespace CompatibilityReport.Util
         internal const string releaseType = "alpha";
 
         // The game version this mod is updated for; the catalog overrules this
-        internal static readonly Version compatibleGameVersion = GameVersion.Patch_1_13_3_f9;
+        internal static readonly Version compatibleGameVersion = new Version(1, 13, 3, 9);
 
         // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
         internal const string modName = "Compatibility Report";                                             // used in report filename, reporting and logging

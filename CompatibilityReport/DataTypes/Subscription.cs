@@ -27,7 +27,7 @@ namespace CompatibilityReport.DataTypes
         internal string SourceURL { get; private set; }
 
         // Gameversion compatibility
-        internal Version GameVersionCompatible { get; private set; } = GameVersion.Unknown;
+        internal Version GameVersionCompatible { get; private set; } = Toolkit.UnknownVersion;
 
         // Required DLC and mods
         internal List<Enums.DLC> RequiredDLC { get; private set; } = new List<Enums.DLC>();

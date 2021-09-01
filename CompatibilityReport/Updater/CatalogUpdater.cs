@@ -72,7 +72,7 @@ namespace CompatibilityReport.Updater
             hasRun = true;
 
             Logger.UpdaterLog($"Catalog Updater started. { ModSettings.modName } version { ModSettings.fullVersion }. " +
-                $"Game version { GameVersion.Formatted(GameVersion.Current) }. Current catalog version { ActiveCatalog.VersionString() }.");
+                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion) }. Current catalog version { ActiveCatalog.VersionString() }.");
 
             Init();
 
