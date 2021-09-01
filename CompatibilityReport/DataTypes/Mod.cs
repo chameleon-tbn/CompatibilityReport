@@ -49,7 +49,7 @@ namespace CompatibilityReport.DataTypes
         [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
 
         // Mod stability
-        public Enums.ModStability Stability;
+        public Enums.ModStability Stability { get; private set; }
 
         public string StabilityNote { get; private set; }
 
