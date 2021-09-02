@@ -16,19 +16,19 @@ namespace CompatibilityReport.Updater
     {
         private static Catalog ActiveCatalog;
 
-        internal static void Start(Catalog activeCat)
+        internal static void Start(Catalog activeCatalog)
         {
-            ActiveCatalog = activeCat;
+            ActiveCatalog = activeCatalog;
 
             CatalogUpdater.SetReviewDate(DateTime.Today);
 
-            Logger.UpdaterLog("Updater started the CSV import.", duplicateToRegularLog: true);
+            Logger.UpdaterLog("Updater started the CSV import.");
 
-            List<string> CSVfiles = Directory.GetFiles(ModSettings.updaterPath, "*.csv").ToList();
+            List<string> CSVfilenames = Directory.GetFiles(ModSettings.updaterPath, "*.csv").ToList();
 
-            if (!CSVfiles.Any())
+            if (!CSVfilenames.Any())
             {
-                Logger.UpdaterLog("No CSV files found.", duplicateToRegularLog: true);
+                Logger.UpdaterLog("No CSV files found.");
 
                 return;
             }
@@ -36,38 +36,40 @@ namespace CompatibilityReport.Updater
             Stopwatch timer = Stopwatch.StartNew();
 
             // Sort the filenames, so we get a predictable processing order
-            CSVfiles.Sort();
+            CSVfilenames.Sort();
 
             bool withoutErrors = true;
 
-            foreach (string CSVfile in CSVfiles)
+            foreach (string CSVfilename in CSVfilenames)
             {
-                withoutErrors = withoutErrors && ReadCSV(CSVfile);
+                withoutErrors = withoutErrors && ReadCSV(CSVfilename);
             }
 
             timer.Stop();
 
-            Logger.UpdaterLog($"{ CSVfiles.Count } CSV files processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" + 
-                (withoutErrors ? "." : ", with errors."), withoutErrors ? Logger.info : Logger.warning, duplicateToRegularLog: true);
+            Logger.UpdaterLog($"{ CSVfilenames.Count } CSV files processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" + 
+                (withoutErrors ? "." : ", with errors."), withoutErrors ? Logger.info : Logger.warning);
+
+            Logger.Log("Updater found errors while processing CSV files. See separate log for details.", Logger.warning);
 
             ActiveCatalog = null;
         }
 
 
         // Read a CSV file. Returns false on errors.
-        private static bool ReadCSV(string CSVfile)
+        private static bool ReadCSV(string CSVfileFullPath)
         {
-            string fileName = Toolkit.GetFileName(CSVfile);
+            string filename = Toolkit.GetFileName(CSVfileFullPath);
 
             bool withoutErrors = true;
 
-            Logger.UpdaterLog($"Processing \"{ fileName }\".");
+            Logger.UpdaterLog($"Processing \"{ filename }\".");
 
             CatalogUpdater.CSVCombined.AppendLine("###################################################");
-            CatalogUpdater.CSVCombined.AppendLine($"#### FILE: { fileName }");
+            CatalogUpdater.CSVCombined.AppendLine($"#### FILE: { filename }");
             CatalogUpdater.CSVCombined.AppendLine("###################################################\n");
 
-            using (StreamReader reader = File.OpenText(CSVfile))
+            using (StreamReader reader = File.OpenText(CSVfileFullPath))
             {
                 string line;
 
@@ -100,15 +102,15 @@ namespace CompatibilityReport.Updater
 
             if (ModSettings.DebugMode)
             {
-                Logger.UpdaterLog($"\"{ fileName }\" not renamed because of debug mode. Rename or delete it manually to avoid processing it again.", Logger.warning);
+                Logger.UpdaterLog($"\"{ filename }\" not renamed because of debug mode. Rename or delete it manually to avoid processing it again.", Logger.warning);
             }
             else
             {
-                string newFileName = CSVfile + (withoutErrors ? ".processed.txt" : ".partially_processed.txt");
+                string newFileName = CSVfileFullPath + (withoutErrors ? ".processed.txt" : ".partially_processed.txt");
 
-                if (!Toolkit.MoveFile(CSVfile, newFileName))
+                if (!Toolkit.MoveFile(CSVfileFullPath, newFileName))
                 {
-                    Logger.UpdaterLog($"Could not rename \"{ fileName }\". Rename or delete it manually to avoid processing it again.", Logger.error);
+                    Logger.UpdaterLog($"Could not rename \"{ filename }\". Rename or delete it manually to avoid processing it again.", Logger.error);
                 }
             }
 
@@ -150,7 +152,7 @@ namespace CompatibilityReport.Updater
             switch (action)
             {
                 case "reviewdate":
-                    return CatalogUpdater.SetReviewDate(Toolkit.Date(stringSecond));
+                    return CatalogUpdater.SetReviewDate(Toolkit.ConvertDate(stringSecond));
 
                 case "add_mod":
                     // Use the author URL only if no author ID was found. Join the lineFragments for the mod name, to allow for commas
@@ -193,7 +195,7 @@ namespace CompatibilityReport.Updater
                 case "remove_alternative":
                 case "remove_recommendation":
                     return !ActiveCatalog.IsValidID(numericThird) ? $"Invalid mod ID { numericThird }." :
-                        ChangeModItem(action, modID: numericSecond, "", listMember: numericThird);
+                        ChangeModItem(action, modID: numericSecond, listMember: numericThird);
 
                 case "remove_exclusion":
                     return RemoveExclusion(modID: numericSecond, categoryString: stringThird.ToLower(), dlcString: stringFourth, requiredID: numericFourth);
@@ -235,8 +237,8 @@ namespace CompatibilityReport.Updater
                         }
                     }
 
-                    return action == "add_compatibilitiesforone" ? AddCompatibilitiesForOne(firstModID: numericSecond, compatibilityString: stringThird.ToLower(), modIDs) :
-                           action == "add_compatibilitiesforall" ? AddCompatibilitiesForAll(compatibilityString: stringSecond.ToLower(), modIDs) :
+                    return action == "add_compatibilitiesforone" ? AddCompatibilitiesForOne(firstModID: numericSecond, compatibilityStatusString: stringThird.ToLower(), modIDs) :
+                           action == "add_compatibilitiesforall" ? AddCompatibilitiesForAll(compatibilityStatusString: stringSecond.ToLower(), modIDs) :
                            action == "add_group" ? AddGroup(groupName: stringSecond, groupMembers: modIDs) :
                            action == "add_requiredassets" ? AddRequiredAssets(modIDs) : RemoveRequiredAssets(modIDs);
 
@@ -283,7 +285,7 @@ namespace CompatibilityReport.Updater
         // Add an unlisted or removed mod
         private static string AddMod(ulong modID, string status, ulong authorID, string authorURL, string modName)
         {
-            if (!ActiveCatalog.IsValidID(modID, allowBuiltin: false, shouldExist: false))
+            if (!ActiveCatalog.IsValidID(modID, shouldExist: false))
             {
                 return "Invalid Steam ID or mod already exists.";
             }
@@ -328,7 +330,7 @@ namespace CompatibilityReport.Updater
                 return "Mod can't be removed because it is still referenced by other mods (required, successor, alternative or recommendation).";
             }
 
-            CatalogUpdater.AddRemovedModChangeNote($"Mod removed: { catalogMod.ToString() }");
+            CatalogUpdater.AddRemovedModChangeNote(catalogMod);
 
             ActiveCatalog.Mods.Remove(catalogMod);     // [Todo 0.4] Move to Catalog class as RemoveMod?
 
@@ -719,7 +721,7 @@ namespace CompatibilityReport.Updater
 
 
         // Change an author item, by author type
-        private static string ChangeAuthorItem(string action, ulong authorID, string authorURL, string itemData, ulong newAuthorID = 0)
+        private static string ChangeAuthorItem(string action, ulong authorID, string authorURL, string itemData, ulong newAuthorID)
         {
             Author catalogAuthor;
 
@@ -787,7 +789,7 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "set_lastseen")
             {
-                DateTime lastSeen = Toolkit.Date(itemData);
+                DateTime lastSeen = Toolkit.ConvertDate(itemData);
 
                 if (lastSeen == default)
                 {
@@ -798,7 +800,8 @@ namespace CompatibilityReport.Updater
                 {
                     return "Author already has this last seen date.";
                 }
-                else if (lastSeen < catalogAuthor.LastSeen)
+                
+                if (lastSeen < catalogAuthor.LastSeen)
                 {
                     Logger.UpdaterLog($"Lowered the last seen date for { catalogAuthor.ToString() }, " +
                         $"from { Toolkit.DateString(catalogAuthor.LastSeen) } to { Toolkit.DateString(lastSeen) }.");
@@ -923,11 +926,11 @@ namespace CompatibilityReport.Updater
 
 
         // Add a set of compatibilities between each of the mods in a list
-        private static string AddCompatibilitiesForAll(string compatibilityString, List<ulong> steamIDs)
+        private static string AddCompatibilitiesForAll(string compatibilityStatusString, List<ulong> steamIDs)
         {
-            if (compatibilityString == "newerversion" || compatibilityString == "functionalitycovered" || 
-                compatibilityString == "incompatibleaccordingtoauthor" || compatibilityString == "incompatibleaccordingtousers" || 
-                compatibilityString == "compatibleaccordingtoauthor")
+            if (compatibilityStatusString == "newerversion" || compatibilityStatusString == "functionalitycovered" || 
+                compatibilityStatusString == "incompatibleaccordingtoauthor" || compatibilityStatusString == "incompatibleaccordingtousers" || 
+                compatibilityStatusString == "compatibleaccordingtoauthor")
             {
                 return "This compatibility status cannot be used for \"CompatibilitiesForAll\".";
             }
@@ -946,7 +949,7 @@ namespace CompatibilityReport.Updater
                 steamIDs.RemoveAt(0);
 
                 // Add compatibilities between this mod and each mod from the list
-                string result = AddCompatibilitiesForOne(firstModID, compatibilityString, steamIDs);
+                string result = AddCompatibilitiesForOne(firstModID, compatibilityStatusString, steamIDs);
 
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -960,9 +963,9 @@ namespace CompatibilityReport.Updater
 
 
         // Add a set of compatibilities between one mod and a list of others
-        private static string AddCompatibilitiesForOne(ulong firstModID, string compatibilityString, List<ulong> steamIDs)
+        private static string AddCompatibilitiesForOne(ulong firstModID, string compatibilityStatusString, List<ulong> steamIDs)
         {
-            if (compatibilityString == "minorissues" || compatibilityString == "requiresspecificsettings")
+            if (compatibilityStatusString == "minorissues" || compatibilityStatusString == "requiresspecificsettings")
             {
                 return "This compatibility status needs a note and cannot be used in an action with multiple compatibilities.";
             }
@@ -981,7 +984,7 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Add the compatibility
-                string result = AddRemoveCompatibility("add_compatibility", firstModID, secondModID, compatibilityString, note: "");
+                string result = AddRemoveCompatibility("add_compatibility", firstModID, secondModID, compatibilityStatusString, compatibilityNote: "");
 
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -997,7 +1000,7 @@ namespace CompatibilityReport.Updater
 
 
         // Add or remove a compatibility between two mods
-        private static string AddRemoveCompatibility(string action, ulong firstModID, ulong secondModID, string compatibilityString, string note)
+        private static string AddRemoveCompatibility(string action, ulong firstModID, ulong secondModID, string compatibilityString, string compatibilityNote)
         {
             Enums.CompatibilityStatus compatibilityStatus = Toolkit.ConvertToEnum<Enums.CompatibilityStatus>(compatibilityString);
 
@@ -1049,7 +1052,7 @@ namespace CompatibilityReport.Updater
                 }
 
                 CatalogUpdater.AddCompatibility(firstModID, ActiveCatalog.ModDictionary[firstModID].Name, 
-                    secondModID, ActiveCatalog.ModDictionary[secondModID].Name, compatibilityStatus, note);
+                    secondModID, ActiveCatalog.ModDictionary[secondModID].Name, compatibilityStatus, compatibilityNote);
             }
             else
             {
@@ -1078,7 +1081,7 @@ namespace CompatibilityReport.Updater
 
             if (!ActiveCatalog.UpdateGameVersion(newGameVersion))
             {
-                return "Could not update gameversion.";
+                return "Could not update game version, it should be higher than the current game version.";
             }
 
             CatalogUpdater.AddCatalogChangeNote($"Catalog was updated to game version { Toolkit.ConvertGameVersionToString(newGameVersion) }.");
@@ -1107,12 +1110,12 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add required assets to the catalog list of assets. This will not be noted in the change notes and 'already exists' errors will not be logged.
+        // Add required assets to the catalog list of assets. This will not be mentioned in the change notes and 'already exists' errors will not be logged.
         private static string AddRequiredAssets(List<ulong> assetIDs)
         {
             foreach (ulong assetID in assetIDs)
             {
-                if (!ActiveCatalog.IsValidID(assetID, allowBuiltin: false, shouldExist: false))
+                if (!ActiveCatalog.IsValidID(assetID, shouldExist: false))
                 {
                     return $"Invalid asset ID { assetID }.";
                 }

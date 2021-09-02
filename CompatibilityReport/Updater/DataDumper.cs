@@ -54,9 +54,6 @@ namespace CompatibilityReport.Updater
             // Retired authors, for a one time check at the start of this mod for activity in comments
             DumpRetiredAuthors(ActiveCatalog);
 
-            // All mods, to have easy access to all workshop URLs
-            // DumpAllMods();
-
             Toolkit.SaveToFile(DataDump.ToString(), ModSettings.dataDumpFullPath, createBackup: true);
 
             DataDump = new StringBuilder();
@@ -65,18 +62,6 @@ namespace CompatibilityReport.Updater
 
             Logger.UpdaterLog($"Datadump created in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }, as " +
                 $"{ Toolkit.GetFileName(ModSettings.dataDumpFullPath) }.");
-        }
-
-
-        // Dump name and workshop url for all mods
-        private static void DumpAllMods(Catalog ActiveCatalog)
-        {
-            DumpTitle("All mods in the catalog:");
-
-            foreach (Mod catalogMod in ActiveCatalog.Mods)
-            {
-                DataDump.AppendLine($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
-            }
         }
 
 

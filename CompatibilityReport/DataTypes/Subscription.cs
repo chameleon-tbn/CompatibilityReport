@@ -11,19 +11,21 @@ namespace CompatibilityReport.DataTypes
     {
         // The Steam ID, name and author
         internal ulong SteamID { get; private set; }
+
         internal string Name { get; private set; }
+
         internal string AuthorName { get; private set; }
 
-        // Date the mod was last updated
+        // Date the mod was last updated  [Todo 0.4] Unused
         internal DateTime Updated { get; private set; }
 
-        // Date the files on disk were last downloaded
+        // Date the files on disk were last downloaded  [Todo 0.4] Unused
         internal DateTime Downloaded { get; private set; }
 
         // URL for an archived Steam Workshop page; only for mods no longer on the Steam Workshop
         internal string ArchiveURL { get; private set; }
 
-        // Source URL
+        // Source URL  [Todo 0.4] Unused
         internal string SourceURL { get; private set; }
 
         // Gameversion compatibility
@@ -31,16 +33,18 @@ namespace CompatibilityReport.DataTypes
 
         // Required DLC and mods
         internal List<Enums.DLC> RequiredDLC { get; private set; } = new List<Enums.DLC>();
+
         internal List<ulong> RequiredMods { get; private set; } = new List<ulong>();
 
         // Successor(s); only for mods with issues
         internal List<ulong> Successors { get; private set; } = new List<ulong>();
 
-        // Alternative mods; only for mods with issues and no successor
+        // Alternative mods; only for mods with issues and no successor [Todo 0.4] Recommendations is missing
         internal List<ulong> Alternatives { get; private set; } = new List<ulong>();
 
         // Mod stability
         internal Enums.ModStability Stability { get; private set; }
+
         internal string StabilityNote { get; private set; }
 
         // Status indicators
@@ -65,6 +69,7 @@ namespace CompatibilityReport.DataTypes
 
         // fake Steam IDs to assign to local mods and unknown builtin mods
         private static ulong localModID = ModSettings.lowestLocalModID;
+
         private static ulong unknownBuiltinModID = ModSettings.lowestUnknownBuiltinModID;
 
 
@@ -308,28 +313,26 @@ namespace CompatibilityReport.DataTypes
 
 
         // Return a max length, formatted string with the Steam ID and name
-        internal string ToString(bool nameFirst = false,
-                                 bool showFakeID = true,
-                                 bool showDisabled = false)
+        internal string ToString(bool nameFirst = false, bool hideFakeID = false)
         {
             string id;
 
             if (IsBuiltin)
             {
-                id = "[builtin mod" + (showFakeID ? " " + SteamID.ToString() : "") + "]";
+                id = $"[builtin mod{ (hideFakeID ? "" : " " + SteamID.ToString()) }]";
             }
             else if (IsLocal)
             {
-                id = "[local mod" + (showFakeID ? " " + SteamID.ToString() : "") + "]";
+                id = $"[local mod{ (hideFakeID ? "" : " " + SteamID.ToString()) }]";
             }
             else
             {
                 id = $"[Steam ID { SteamID, 10 }]";
             }
 
-            string disabledPrefix = (showDisabled && !IsEnabled) ? "[Disabled] " : "";
+            string disabledPrefix = IsEnabled ? "" : "[Disabled] ";
 
-            int maxNameLength = ModSettings.maxReportWidth - 1 - id.Length - disabledPrefix.Length;
+            int maxNameLength = ModSettings.ReportWidth - 1 - id.Length - disabledPrefix.Length;
 
             string name = (Name.Length <= maxNameLength) ? Name : Name.Substring(0, maxNameLength - 3) + "...";
 

@@ -4,9 +4,8 @@ using System.Xml.Serialization;
 using CompatibilityReport.Util;
 
 
-// Groups are only used for Required Mods in the Mod class, in a way that one of the mods from a group is a requirement (not all together)
-// NOTE: A mod can only be a member of one group, and that group is automatically used instead of a required mod when found by the updater
-
+// Groups are only used for Required Mods in the Mod class, in such a way that one of the mods from a group is a requirement (not all together)
+// NOTE: A mod can only be a member of one group, and that group is automatically added as required mod everywhere the group member is a required mod
 
 // N O T E !!!! - The updater will replace required mods with the group they're a member of. Make sure this is always appropriate! (or use an exclusion)
 
@@ -33,23 +32,16 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Constructor with all parameters
-        internal Group(ulong groupID, string name, List<ulong> groupMembers)
+        // Constructor with 2 parameters
+        internal Group(ulong groupID, string name)
         {
             GroupID = groupID;
 
             Name = name ?? "";
 
-            GroupMembers = groupMembers ?? new List<ulong>();
-
             if ((GroupID < ModSettings.lowestGroupID) || (GroupID > ModSettings.highestGroupID))
             {
                 Logger.Log($"Group ID out of range: { this.ToString() }. This might give weird results in the report.", Logger.error);
-            }
-
-            if (GroupMembers.Count < 2)     // [Todo 0.4] gives false warnings for new groups added by FileImporter, because of how we create a group in CatalogUpdater
-            {
-                Logger.Log($"Found a group with less than 2 members: { this.ToString() }.", Logger.debug);
             }
         }
 

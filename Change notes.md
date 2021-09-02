@@ -1,7 +1,9 @@
 # Compatibility Report
 
 ### Version 0.4 - Code revision and cleanup
-* ...
+* Code restructure
+* Removed unused code
+* Bugfixes
 
 ### Version 0.3 - Catalog Updater: CSV import
 * Catalog updater method based on CSV import, in addition to the web crawler

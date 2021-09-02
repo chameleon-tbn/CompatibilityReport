@@ -64,7 +64,7 @@ namespace CompatibilityReport.DataTypes
         [XmlIgnore] internal static Catalog Active { get; private set; }
 
         // Did we download a catalog already this session
-        [XmlIgnore] private static bool downloadedValidCatalog;
+        [XmlIgnore] private static bool downloadedThisSession;
 
 
         // Default constructor, used when creating an empty catalog for reading from disk
@@ -74,60 +74,16 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Constructor with 3 to 5 parameters, used when creating a new catalog
-        internal Catalog(uint version,
-                         DateTime updateDate,
-                         string note,
-                         string reportHeaderText = null,
-                         string reportFooterText = null)
+        // Constructor with 1 parameter, used when creating a new catalog
+        internal Catalog(uint version)
         {
             StructureVersion = ModSettings.currentCatalogStructureVersion;
 
             Version = version;
 
-            UpdateDate = updateDate;
-
-            CompatibleGameVersion = Toolkit.CurrentGameVersion;
+            CompatibleGameVersion = Toolkit.UnknownVersion;
 
             CompatibleGameVersionString = CompatibleGameVersion.ToString();
-
-            Note = note ?? "";
-
-            ReportHeaderText = reportHeaderText ?? ModSettings.defaultHeaderText;
-
-            ReportFooterText = reportFooterText ?? ModSettings.defaultFooterText;
-        }
-
-
-        // Constructor with all parameters, used when converting an old catalog
-        internal Catalog(uint version, DateTime updateDate, Version compatibleGameVersion, string note, string reportHeaderText, string reportFooterText, 
-            List<Mod> mods, List<Compatibility> modCompatibilities, List<Group> groups, List<Author> modAuthors, List<ulong> requiredAssets)
-        {
-            StructureVersion = ModSettings.currentCatalogStructureVersion;
-
-            Version = version;
-
-            UpdateDate = updateDate;
-
-            CompatibleGameVersion = compatibleGameVersion;
-            
-            CompatibleGameVersionString = CompatibleGameVersion.ToString();
-
-            Note = note ?? "";
-
-            ReportHeaderText = reportHeaderText ?? "";
-
-            ReportFooterText = reportFooterText ?? "";
-
-            Mods = mods ?? new List<Mod>();
-
-            Compatibilities = modCompatibilities ?? new List<Compatibility>();
-
-            Groups = groups ?? new List<Group>();
-
-            Authors = modAuthors ?? new List<Author>();
-
-            RequiredAssets = requiredAssets ?? new List<ulong>();
         }
 
 
@@ -138,7 +94,7 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Increase the version with a new update date.
+        // Increase the version with a new update date
         internal void NewVersion(DateTime updated)
         {
             Version++;
@@ -147,17 +103,10 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Update the catalog; all fields are optional, only supplied fields are updated; the lists can be updated directly, version has it's own update method
-        internal void Update(string note = null, 
-                             Version compatibleGameVersion = null, 
-                             string reportHeaderText = null, 
-                             string reportFooterText = null)
+        // Update the catalog, only supplied parameters are updated; the lists can be updated directly, version and gameversion have their own update method
+        internal void Update(string note = null, string reportHeaderText = null, string reportFooterText = null)
         {
             Note = note ?? Note;
-
-            CompatibleGameVersion = compatibleGameVersion ?? CompatibleGameVersion;
-
-            CompatibleGameVersionString = CompatibleGameVersion.ToString();
 
             ReportHeaderText = reportHeaderText ?? ReportHeaderText;
 
@@ -182,11 +131,8 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Check if the ID is a valid existing or non-existing ID
-        internal bool IsValidID(ulong steamID,
-                                bool allowBuiltin = true,
-                                bool allowGroup = false,
-                                bool shouldExist = true)
+        // Check if the ID is a valid existing or non-existing ID   [Todo 0.4] Change 'true' default values to false default values
+        internal bool IsValidID(ulong steamID, bool allowGroup = false, bool allowBuiltin = true, bool shouldExist = true)
         {
             // Check if the ID is a valid mod or group ID
             bool valid = steamID > ModSettings.highestFakeID ||
@@ -200,39 +146,15 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add or update a catalog mod. Exclusions for required mods have a separate method     [Todo 0.4] Why not split into add mod and update mod (already exists in Mod)?
-        internal Mod AddOrUpdateMod(ulong steamID,
-                                    string name = null,
-                                    ulong authorID = 0,
-                                    string authorURL = "",
-                                    DateTime? published = null,
-                                    DateTime? updated = null,
-                                    string archiveURL = null,
-                                    string sourceURL = null,
-                                    string compatibleGameVersionString = null,
-                                    List<Enums.DLC> requiredDLC = null,
-                                    List<ulong> requiredMods = null,
-                                    List<ulong> successors = null,
-                                    List<ulong> alternatives = null,
-                                    List<ulong> recommendations = null,
-                                    Enums.ModStability stability = default,
-                                    string stabilityNote = null,
-                                    List<Enums.ModStatus> statuses = null,
-                                    string genericNote = null,
-                                    bool? exclusionForSourceURL = null, 
-                                    bool? exclusionForGameVersion = null, 
-                                    bool? exclusionForNoDescription = null,
-                                    List<Enums.DLC> exclusionForRequiredDLC = null,
-                                    DateTime? reviewUpdated = null,
-                                    DateTime? autoReviewUpdated = null,
-                                    string extraChangeNote = null)
+        // Add or update a catalog mod.
+        internal Mod GetOrAddMod(ulong steamID)
         {
             Mod mod;
 
             if (!ModDictionary.ContainsKey(steamID))
             {
                 // Mod doesn't exist yet
-                mod = new Mod(steamID, name, authorID, authorURL);
+                mod = new Mod(steamID);
 
                 mod.Update(addedThisSession: true);
 
@@ -246,11 +168,6 @@ namespace CompatibilityReport.DataTypes
                 // This mod already exists; update the existing one
                 mod = ModDictionary[steamID];
             }
-
-            // Add all info to the mod
-            mod.Update(name, published, updated, authorID, authorURL, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC, requiredMods, successors, 
-                alternatives, recommendations, stability, stabilityNote, statuses, genericNote, exclusionForSourceURL, exclusionForGameVersion, exclusionForNoDescription, 
-                exclusionForRequiredDLC, exclusionForRequiredMods: null, reviewUpdated, autoReviewUpdated, extraChangeNote: extraChangeNote);
 
             // Return a reference to the new mod
             return mod;
@@ -271,85 +188,32 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Add a new group to the catalog; return the group, or null if the group couldn't be added; NOTE: a mod can only be in one group
-        internal Group AddGroup(string name, List<ulong> groupMembers)
+        // Add a new group to the catalog; return the group, or null if the group couldn't be added
+        internal Group AddGroup(string name)
         {
-            // Check if none of the steam IDs is already in a group, or is a group itself
-            foreach (ulong groupMember in groupMembers ?? new List<ulong>())
+            // Get a new group ID, either the default lowest id if we have no groups yet, or the highest current group ID + 1
+            ulong newGroupID = GroupDictionary?.Any() != true ? ModSettings.lowestGroupID : GroupDictionary.Keys.Max() + 1;
+
+            if (newGroupID > ModSettings.highestGroupID)
             {
-                if (groupMember >= ModSettings.lowestGroupID && groupMember <= ModSettings.highestGroupID)
-                {
-                    Logger.Log($"Could not add a new group ({ name }) because { groupMember } is a group and groups can't be nested.", Logger.error);
+                Logger.Log($"Could not add a new group ({ name }) because we ran out of group IDs.", Logger.error);
 
-                    return null;
-                }
-
-                if (IsGroupMember(groupMember))
-                {
-                    Logger.Log($"Could not add a new group ({ name }) because [Steam ID { groupMember }] is already member of another group.", Logger.error);
-
-                    return null;
-                }
-            }
-
-            // Get a new group ID
-            ulong newGroupID;
-
-            if (GroupDictionary?.Any() != true)
-            {
-                // No groups yet, so use the lowest group ID
-                newGroupID = ModSettings.lowestGroupID;
-            }
-            else
-            {
-                // Set it one higher than the highest used group ID
-                newGroupID = GroupDictionary.Keys.Max() + 1;
-
-                if (newGroupID > ModSettings.highestGroupID)
-                {
-                    Logger.Log($"Could not add a new group ({ name }) because we ran out of group IDs.", Logger.error);
-
-                    return null;
-                }
+                return null;
             }
 
             // Add the new group to the list and dictionary
-            Group newGroup = new Group(newGroupID, name, groupMembers);
+            Group newGroup = new Group(newGroupID, name);
 
             Groups.Add(newGroup);
 
             GroupDictionary.Add(newGroup.GroupID, newGroup);
-
-            // Replace group members with the group, as required mods anywhere in the catalog   [Todo 0.4]
-            foreach (ulong groupMemberID in newGroup.GroupMembers)
-            {
-                AddRequiredGroup(groupMemberID);
-            }
 
             // Return a reference to the new group
             return newGroup;
         }
 
 
-        // Add a new member to a group; NOTE: a mod can only be in one group    [Todo 0.4] not used
-        internal bool AddGroupMember(ulong groupID, ulong newGroupMember)
-        {
-            if (!GroupDictionary.ContainsKey(groupID) || !ModDictionary.ContainsKey(newGroupMember) || IsGroupMember(newGroupMember))
-            {
-                return false;
-            }
-
-            // Add the mod to the group
-            GroupDictionary[groupID].GroupMembers.Add(newGroupMember);
-
-            // Replace the mod as required mod by the group, everywhere in the catalog; this will also duplicate an exclusion (if any) to the group and other group members [Todo 0.4]
-            AddRequiredGroup(newGroupMember);
-
-            return true;
-        }
-
-
-        // Add a group as required mod for all mods that have the given group member as required mod
+        // Add a group as required mod for all mods that have the given group member as required mod    [Todo 0.4] Move to CatalogUpdater; Name is not very descriptive
         internal void AddRequiredGroup(ulong requiredModID)
         {
             Group requiredGroup = GetGroup(requiredModID);
@@ -369,9 +233,9 @@ namespace CompatibilityReport.DataTypes
                 if (!mod.RequiredMods.Contains(requiredGroup.GroupID))
                 {
                     mod.RequiredMods.Add(requiredGroup.GroupID);
-                }
 
-                Logger.UpdaterLog($"Added { requiredGroup.ToString() } as required mod for { mod.ToString() }.");
+                    Logger.UpdaterLog($"Added { requiredGroup.ToString() } as required mod for { mod.ToString() }.");
+                }
             }
         }
 
@@ -395,12 +259,7 @@ namespace CompatibilityReport.DataTypes
 
 
         // Add a new author to the catalog; return the author or null if they couldn't be added
-        internal Author AddAuthor(ulong authorID,
-                                  string authorURL,
-                                  string name,
-                                  DateTime lastSeen = default,
-                                  bool retired = false,
-                                  string changeNoteString = null)
+        internal Author AddAuthor(ulong authorID, string authorURL, string name)
         {
             if (AuthorIDDictionary.ContainsKey(authorID) || AuthorURLDictionary.ContainsKey(authorURL ?? ""))
             {
@@ -410,16 +269,8 @@ namespace CompatibilityReport.DataTypes
                 return null;
             }
 
-            // Create change notes list
-            List<string> changeNotes = new List<string>();
-
-            if (!string.IsNullOrEmpty(changeNoteString))
-            {
-                changeNotes.Add(changeNoteString);
-            }
-
             // Create a new author
-            Author author = new Author(authorID, authorURL, name, lastSeen, retired, changeNotes);
+            Author author = new Author(authorID, authorURL, name);
 
             author.Update(addedThisSession: true);
 
@@ -465,18 +316,18 @@ namespace CompatibilityReport.DataTypes
 
 
         // Remove an exclusion from the catalog
-        private bool RemoveExclusionForRequiredMods(Mod mod, ulong requiredID)
+        private void RemoveExclusionForRequiredMods(Mod mod, ulong requiredID)
         {
             // Remove exclusion
-            bool result = mod.ExclusionForRequiredMods.Remove(requiredID);
+            bool removedSuccesful = mod.ExclusionForRequiredMods.Remove(requiredID);
 
             // If the exclusion is about a required mod, then we need to check for groups, and remove exclusions for both group and group members
-            if (result && IsGroupMember(requiredID))
+            if (removedSuccesful && IsGroupMember(requiredID))
             {
                 // SubItem is a group member. Remove exclusion for the group and all members by calling RemoveExclusion with the group ID. This should not cause a loop.
                 RemoveExclusionForRequiredMods(mod, GetGroup(requiredID).GroupID);
             }
-            else if (result && GroupDictionary.ContainsKey(requiredID))
+            else if (removedSuccesful && GroupDictionary.ContainsKey(requiredID))
             {
                 // SubItem is a group. Remove exclusion for all group members. This is done manually here and not by calling RemoveExclusion again, to avoid a loop.
                 foreach (ulong groupMember in GroupDictionary[requiredID].GroupMembers)
@@ -484,31 +335,12 @@ namespace CompatibilityReport.DataTypes
                     mod.ExclusionForRequiredMods.Remove(groupMember);
                 }
             }
-
-            return result;
         }
 
 
-        // Validate a catalog, including counting the number of mods and checking the compatible game version
-        private bool Validate()
+        // Prepare a catalog for searching  [Todo 0.4] combine with Validate()
+        private void CreateIndex()
         {
-            // Not valid if Version is 0 or UpdateDate is the lowest value
-            if ((Version == 0) || (UpdateDate == DateTime.MinValue))
-            {
-                Logger.Log($"Catalog { VersionString() } has incorrect version or update date ({ Toolkit.DateString(UpdateDate) }).", 
-                    Logger.error);
-
-                return false;
-            }
-
-            // Not valid if there are no mods
-            if (Mods?.Any() != true)
-            {
-                Logger.Log($"Catalog { VersionString() } contains no mods.", Logger.error); 
-                
-                return false;
-            }
-
             // Count the number of mods in the catalog
             ModCount = Mods.Count;
 
@@ -522,7 +354,7 @@ namespace CompatibilityReport.DataTypes
             {
                 CompatibleGameVersion = Toolkit.ConvertToGameVersion(CompatibleGameVersionString);
 
-                if (CompatibleGameVersion == Toolkit.UnknownVersion) 
+                if (CompatibleGameVersion == Toolkit.UnknownVersion)
                 {
                     // Conversion failed, assume it's the mods compatible game version
                     CompatibleGameVersion = ModSettings.compatibleGameVersion;
@@ -532,13 +364,6 @@ namespace CompatibilityReport.DataTypes
             // Set the version string, so it matches (again) with the version object
             CompatibleGameVersionString = CompatibleGameVersion.ToString();
 
-            return true;
-        }
-
-
-        // Prepare a catalog for searching  [Todo 0.4] combine with Validate()
-        private void CreateIndex()
-        {
             // Clear the dictionaries
             ModDictionary.Clear();
             GroupDictionary.Clear();
@@ -640,7 +465,7 @@ namespace CompatibilityReport.DataTypes
                 return null;
             }
 
-            Catalog catalog = new Catalog();
+            Catalog loadedCatalog = new Catalog();
 
             try
             {
@@ -649,22 +474,19 @@ namespace CompatibilityReport.DataTypes
 
                 using (TextReader reader = new StreamReader(fullPath))
                 {
-                    catalog = (Catalog)serializer.Deserialize(reader);
+                    loadedCatalog = (Catalog)serializer.Deserialize(reader);
                 }
 
                 // Validate loaded catalog
-                if (catalog.Validate())
+                if (loadedCatalog.Version == 0 || loadedCatalog.UpdateDate == default)
                 {
-                    // Valid
-                    return catalog;
-                }
-                else
-                {
-                    // Invalid, don't return the catalog
-                    Logger.Log($"Discarded invalid catalog \"{ Toolkit.PrivacyPath(fullPath) }\".", Logger.warning);
+                    Logger.Log($"Discarded invalid catalog \"{ Toolkit.PrivacyPath(fullPath) }\". It has an incorrect version ({ loadedCatalog.VersionString() }) " +
+                        $"or date ({ Toolkit.DateString(loadedCatalog.UpdateDate) }).", Logger.error);
 
                     return null;
                 }
+                
+                return loadedCatalog;
             }
             catch (Exception ex)
             {
@@ -678,9 +500,9 @@ namespace CompatibilityReport.DataTypes
                 {
                     // Other error
                     Logger.Log($"Can't load catalog \"{ Toolkit.PrivacyPath(fullPath) }\".", Logger.warning);
-                }
 
-                Logger.Exception(ex);
+                    Logger.Exception(ex);
+                }
 
                 return null;
             }
@@ -696,16 +518,18 @@ namespace CompatibilityReport.DataTypes
                 return Active;
             }
 
-            Catalog previouslyDownloadedCatalog = LoadPreviouslyDownloaded();
+            Catalog downloadedCatalog = Download();
 
-            Catalog downloadedCatalog = Download(previouslyDownloadedCatalog == null ? 0 : previouslyDownloadedCatalog.Version);
+            // Download catalog should always be the same or a higher version than both the previous download and the bundled catalog
+            Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
 
-            Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
+            Catalog bundledCatalog = downloadedCatalog == null && previouslyDownloadedCatalog == null ? LoadBundled() : null;
 
+            // Always try to load the Updater catalog, since that could be newer than the download
             Catalog updatedCatalog = LoadUpdaterCatalog();
 
             // The newest catalog becomes the active catalog
-            Active = Newest(downloadedCatalog, bundledCatalog, previouslyDownloadedCatalog, updatedCatalog);
+            Active = Newest(Newest(downloadedCatalog, bundledCatalog), Newest(previouslyDownloadedCatalog, updatedCatalog));
 
             if (Active != null)
             {
@@ -735,18 +559,18 @@ namespace CompatibilityReport.DataTypes
         // Load bundled catalog
         private static Catalog LoadBundled()
         {
-            Catalog catalog = Catalog.Load(ModSettings.bundledCatalogFullPath);
+            Catalog bundledCatalog = Load(ModSettings.bundledCatalogFullPath);
 
-            if (catalog == null)
+            if (bundledCatalog == null)
             {
                 Logger.Log($"Can't load bundled catalog. { ModSettings.pleaseReportText }", Logger.error, duplicateToGameLog: true);
             }
             else
             {
-                Logger.Log($"Bundled catalog is version { catalog.VersionString() }.");
+                Logger.Log($"Bundled catalog is version { bundledCatalog.VersionString() }.");
             }
 
-            return catalog;
+            return bundledCatalog;
         }
 
 
@@ -762,11 +586,11 @@ namespace CompatibilityReport.DataTypes
             }
 
             // Try to load it
-            Catalog previousCatalog = Catalog.Load(ModSettings.downloadedCatalogFullPath);
+            Catalog previouslyDownloadedCatalog = Load(ModSettings.downloadedCatalogFullPath);
 
-            if (previousCatalog != null)
+            if (previouslyDownloadedCatalog != null)
             {
-                Logger.Log($"Previously downloaded catalog is version { previousCatalog.VersionString() }.");
+                Logger.Log($"Previously downloaded catalog is version { previouslyDownloadedCatalog.VersionString() }.");
             }
             // Can't be loaded; try to delete it
             else if (Toolkit.DeleteFile(ModSettings.downloadedCatalogFullPath))
@@ -779,24 +603,27 @@ namespace CompatibilityReport.DataTypes
                     "This prevents saving a newly downloaded catalog for future sessions.", Logger.error);
             }
 
-            return previousCatalog;
+            return previouslyDownloadedCatalog;
         }
 
 
         // Download a new catalog
-        private static Catalog Download(uint previousVersion)
+        private static Catalog Download()
         {
             // Exit if we already downloaded this session
-            if (downloadedValidCatalog)
+            if (downloadedThisSession)
             {
                 return null;
             }
 
+            // Indicate we downloaded (or at least tried), so we won't do that again this session
+            downloadedThisSession = true;
+
             // Temporary filename for the newly downloaded catalog
-            string newCatalogTemporaryFullPath = ModSettings.downloadedCatalogFullPath + ".part";
+            string downloadedCatalogTemporaryFullPath = ModSettings.downloadedCatalogFullPath + ".part";
 
             // Delete temporary catalog if it was left over from a previous session; exit if we can't delete it
-            if (!Toolkit.DeleteFile(newCatalogTemporaryFullPath))
+            if (!Toolkit.DeleteFile(downloadedCatalogTemporaryFullPath))
             {
                 Logger.Log("Partially downloaded catalog still exists from a previous session and can't be deleted. This prevents a new download.", Logger.error);
 
@@ -806,26 +633,26 @@ namespace CompatibilityReport.DataTypes
             // Download new catalog and time it
             Stopwatch timer = Stopwatch.StartNew();
 
-            Exception exception = Toolkit.Download(ModSettings.catalogURL, newCatalogTemporaryFullPath);
+            Exception ex = Toolkit.Download(ModSettings.catalogURL, downloadedCatalogTemporaryFullPath);
 
-            if (exception != null)
+            if (ex != null)
             {
                 Logger.Log($"Can't download catalog from { ModSettings.catalogURL }", Logger.warning);
 
                 // Check if the issue is TLS 1.2; only log regular exception if it isn't
-                if (exception.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
+                if (ex.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
                 {
                     Logger.Log("It looks like the webserver only supports TLS 1.2 or higher, while Cities: Skylines modding only supports TLS 1.1 and lower.");
 
-                    Logger.Exception(exception, debugOnly: true, duplicateToGameLog: false);
+                    Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
                 }
                 else
                 {
-                    Logger.Exception(exception);
+                    Logger.Exception(ex);
                 }
 
                 // Delete empty temporary file and exit
-                Toolkit.DeleteFile(newCatalogTemporaryFullPath);
+                Toolkit.DeleteFile(downloadedCatalogTemporaryFullPath);
 
                 return null;
             }
@@ -836,30 +663,24 @@ namespace CompatibilityReport.DataTypes
             Logger.Log($"Catalog downloaded in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) } from { ModSettings.catalogURL }");
 
             // Load newly downloaded catalog
-            Catalog newCatalog = Catalog.Load(newCatalogTemporaryFullPath);
+            Catalog downloadedCatalog = Load(downloadedCatalogTemporaryFullPath);
 
-            if (newCatalog == null)
+            if (downloadedCatalog == null)
             {
                 Logger.Log("Could not load newly downloaded catalog.", Logger.error);
             }
             else
             {
-                Logger.Log($"Downloaded catalog is version { newCatalog.VersionString() }.");
+                Logger.Log($"Downloaded catalog is version { downloadedCatalog.VersionString() }.");
 
-                // Indicate we downloaded a valid catalog, so we won't do that again this session
-                downloadedValidCatalog = true;
-
-                // Copy the temporary file over the previously downloaded catalog if it's newer
-                if (newCatalog.Version > previousVersion)
-                {
-                    downloadedValidCatalog = Toolkit.CopyFile(newCatalogTemporaryFullPath, ModSettings.downloadedCatalogFullPath);
-                }
+                // Copy the temporary file over the previously downloaded catalog
+                Toolkit.CopyFile(downloadedCatalogTemporaryFullPath, ModSettings.downloadedCatalogFullPath);
             }
 
             // Delete temporary file
-            Toolkit.DeleteFile(newCatalogTemporaryFullPath);
+            Toolkit.DeleteFile(downloadedCatalogTemporaryFullPath);
 
-            return newCatalog;
+            return downloadedCatalog;
         }
 
 
@@ -899,25 +720,18 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Return the newest of four catalogs
-        private static Catalog Newest(Catalog catalog1, Catalog catalog2, Catalog catalog3, Catalog catalog4)
-        {
-            return (NewestOfTwo(NewestOfTwo(catalog1, catalog2), NewestOfTwo(catalog3, catalog4)));
-        }
-
-
         // Return the newest of two catalogs; return catalog1 if both are the same version
-        private static Catalog NewestOfTwo(Catalog catalog1, Catalog catalog2)
+        private static Catalog Newest(Catalog catalog1, Catalog catalog2)
         {
-            if ((catalog1 != null) && (catalog2 != null))
-            {
-                // Age is only determinend by Version, independent of StructureVersion
-                return (catalog1.Version >= catalog2.Version) ? catalog1 : catalog2;
-            }
-            else
+            if (catalog1 == null || catalog2 == null)
             {
                 // Return the catalog that is not null, or null if both are
                 return catalog1 ?? catalog2;
+            }
+            else
+            {
+                // Age is only determinend by Version, independent of StructureVersion
+                return (catalog1.Version >= catalog2.Version) ? catalog1 : catalog2;
             }
         }
     }

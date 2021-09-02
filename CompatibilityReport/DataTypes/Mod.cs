@@ -48,11 +48,10 @@ namespace CompatibilityReport.DataTypes
         // Recommended mods to use with this mod
         [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
 
-        // Mod stability
+        // Mod stability and related note
         public Enums.ModStability Stability { get; private set; }
 
         public string StabilityNote { get; private set; }
-
 
         // Statuses for this mod
         public List<Enums.ModStatus> Statuses { get; private set; } = new List<Enums.ModStatus>();
@@ -71,19 +70,18 @@ namespace CompatibilityReport.DataTypes
 
         [XmlArrayItem("SteamID")] public List<ulong> ExclusionForRequiredMods { get; private set; } = new List<ulong>();
 
-        // Date this mod was last manually and automatically reviewed for changes in information and compatibilities
+        // Date this mod was last manually (FileImporter) and automatically (WebCrawler) reviewed for changes in information and compatibilities
         public DateTime ReviewDate { get; private set; }
 
         public DateTime AutoReviewDate { get; private set; }
 
-        // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
+        // Change notes, automatically filled by the Updater; not displayed in report or log, but visible in the catalog
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
-        // Used by the Updater: Indicator to see if this was updated and/or added this session
+        // Indicators used by the Updater, to see if this mod was updated or added this session
         [XmlIgnore] internal bool UpdatedThisSession { get; private set; }
-        [XmlIgnore] public bool AddedThisSession { get; private set; }
 
-
+        [XmlIgnore] internal bool AddedThisSession { get; private set; }
 
 
         // Default constructor
@@ -93,25 +91,14 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Constructor with 4 or 5 parameters
-        internal Mod(ulong steamID, string name, ulong authorID, string authorURL, bool incompatible = false)
+        // Constructor with 1 parameter: Steam ID
+        internal Mod(ulong steamID)
         {
             SteamID = steamID;
-
-            Name = name ?? "";
-
-            AuthorID = authorID;
-
-            AuthorURL = authorURL ?? "";
-
-            if (incompatible)
-            {
-                Stability = Enums.ModStability.IncompatibleAccordingToWorkshop;
-            }
         }
 
 
-        // Update a mod with new info; all fields can be updated except Steam ID; all fields are optional, only supplied fields are updated
+        // Update a mod with new info. All fields are optional, only supplied fields are updated.
         internal void Update(string name = null,
                              DateTime? published = null,
                              DateTime? updated = null,
@@ -120,11 +107,6 @@ namespace CompatibilityReport.DataTypes
                              string archiveURL = null,
                              string sourceURL = null,
                              string compatibleGameVersionString = null,
-                             List<Enums.DLC> requiredDLC = null,
-                             List<ulong> requiredMods = null,
-                             List<ulong> successors = null,
-                             List<ulong> alternatives = null,
-                             List<ulong> recommendations = null,
                              Enums.ModStability stability = default,
                              string stabilityNote = null,
                              List<Enums.ModStatus> statuses = null,
@@ -132,15 +114,12 @@ namespace CompatibilityReport.DataTypes
                              bool? exclusionForSourceURL = null,
                              bool? exclusionForGameVersion = null,
                              bool? exclusionForNoDescription = null,
-                             List<Enums.DLC> exclusionForRequiredDLC = null,
-                             List<ulong> exclusionForRequiredMods = null,
                              DateTime? reviewDate = null,
                              DateTime? autoReviewDate = null,
-                             List<string> replacementChangeNotes = null,
                              string extraChangeNote = null,
                              bool addedThisSession = false)
         {
-            // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings/lists instead of null
+            // Only update supplied fields, so ignore every null value; make sure strings and lists are set to empty strings/lists instead of null
             Name = name ?? Name ?? "";
 
             Published = published ?? Published;
@@ -160,16 +139,6 @@ namespace CompatibilityReport.DataTypes
             // If the game version string is null, set it to the unknown game version
             CompatibleGameVersionString = compatibleGameVersionString ?? CompatibleGameVersionString ?? Toolkit.UnknownVersion.ToString();
 
-            RequiredDLC = requiredDLC ?? RequiredDLC ?? new List<Enums.DLC>();
-
-            RequiredMods = requiredMods ?? RequiredMods ?? new List<ulong>();
-
-            Successors = successors ?? Successors ?? new List<ulong>();
-
-            Alternatives = alternatives ?? Alternatives ?? new List<ulong>();
-
-            Recommendations = recommendations ?? Recommendations ?? new List<ulong>();
-
             Stability = stability == default ? Stability : stability;
 
             StabilityNote = stabilityNote ?? StabilityNote ?? "";
@@ -184,19 +153,15 @@ namespace CompatibilityReport.DataTypes
 
             ExclusionForNoDescription = exclusionForNoDescription ?? ExclusionForNoDescription;
 
-            ExclusionForRequiredDLC = exclusionForRequiredDLC ?? ExclusionForRequiredDLC ?? new List<Enums.DLC>();
-
-            ExclusionForRequiredMods = exclusionForRequiredMods ?? ExclusionForRequiredMods ?? new List<ulong>();
-
             ReviewDate = reviewDate ?? ReviewDate;
 
             AutoReviewDate = autoReviewDate ?? AutoReviewDate;
 
-            // Replace the change notes and/or add a note
-            ChangeNotes = replacementChangeNotes ?? ChangeNotes ?? new List<string>();
-
             if (!string.IsNullOrEmpty(extraChangeNote))
             {
+                // Make sure we have an empty list instead of null
+                ChangeNotes = ChangeNotes ?? new List<string>();
+
                 ChangeNotes.Add(extraChangeNote);
             }
 
@@ -208,41 +173,32 @@ namespace CompatibilityReport.DataTypes
 
 
         // Return a max length, formatted string with the Steam ID and name
-        internal string ToString(bool nameFirst = false,
-                                 bool showFakeID = true,
-                                 bool cutOff = false)
+        internal string ToString(bool hideFakeID = false, bool cutOff = false)
         {
-            string id;
+            string idString;
 
             if (SteamID > ModSettings.highestFakeID)
             {
                 // Workshop mod
-                id = $"[Steam ID { SteamID, 10 }]";
+                idString = $"[Steam ID { SteamID, 10 }] ";
             }
             else if ((SteamID >= ModSettings.lowestLocalModID) && (SteamID <= ModSettings.highestLocalModID))
             {
                 // Local mod
-                id = "[local mod" + (showFakeID ? " " + SteamID.ToString() : "") + "]";
+                idString = $"[local mod{ (hideFakeID ? "" : " " + SteamID.ToString()) }] ";
             }
             else
             {
                 // Builtin mod
-                id = "[builtin mod" + (showFakeID ? " " + SteamID.ToString() : "") + "]";
+                idString = $"[builtin mod{ (hideFakeID ? "" : " " + SteamID.ToString()) }] ";
             }
 
-            int maxNameLength = ModSettings.maxReportWidth - 1 - id.Length;
+            int maxNameLength = ModSettings.ReportWidth - idString.Length;
 
             // Cut off the name to max. length, if the cutOff parameter is true
             string name = (Name.Length <= maxNameLength) || !cutOff ? Name : Name.Substring(0, maxNameLength - 3) + "...";
 
-            if (nameFirst)
-            {
-                return name + " " + id;
-            }
-            else
-            {
-                return id + " " + name;
-            }
+            return idString + name;
         }
 
 

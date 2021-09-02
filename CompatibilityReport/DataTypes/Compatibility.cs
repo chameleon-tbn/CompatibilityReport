@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using CompatibilityReport.Util;
 
 
@@ -11,7 +9,7 @@ namespace CompatibilityReport.DataTypes
     {
         public ulong FirstModID { get; private set; }
 
-        // The mod names are only for catalog readability, they are not being used
+        // The mod names are only for catalog readability, they are not used anywhere else
         public string FirstModName { get; private set; }
 
         public ulong SecondModID { get; private set; }

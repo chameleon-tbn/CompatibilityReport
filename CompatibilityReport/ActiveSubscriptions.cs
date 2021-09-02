@@ -24,6 +24,7 @@ namespace CompatibilityReport
 
         // Keep track of local and enabled builtin mods for logging
         private static uint TotalBuiltin;
+
         private static uint TotalLocal;
 
 
@@ -33,8 +34,6 @@ namespace CompatibilityReport
             // Don't do this again if already done
             if (All != null)
             {
-                Logger.Log("ActiveSubscriptions.Get called more than once.", Logger.warning);
-
                 return;
             }
 

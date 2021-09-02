@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using CompatibilityReport.DataTypes;
 using CompatibilityReport.Util;
@@ -31,7 +30,7 @@ namespace CompatibilityReport.Updater
         // Stringbuilder to gather the combined CSVs, to be saved with the new catalog
         internal static StringBuilder CSVCombined;
 
-        // Change notes, separate parts and combined
+        // Change notes, in separate parts and combined
         private static StringBuilder changeNotesCatalog;
         private static StringBuilder changeNotesNewMods;
         private static StringBuilder changeNotesNewGroups;
@@ -147,7 +146,9 @@ namespace CompatibilityReport.Updater
 
             Catalog.CloseActive();
 
-            Logger.UpdaterLog("Catalog Updater has finished.", extraLine: true, duplicateToRegularLog: true);
+            Logger.UpdaterLog("Catalog Updater has finished.\n");
+
+            Logger.Log("Catalog Updater has finished.\n");
         }
 
 
@@ -297,11 +298,7 @@ namespace CompatibilityReport.Updater
 
         // Add or get a mod. When adding, a mod name, incompatible stability and/or unlisted/removed status can be supplied. On existing mods this is ignored.
         // A review date is not set, that is only done on UpdateMod()
-        internal static Mod GetOrAddMod(ulong steamID,
-                                        string name,
-                                        bool incompatible = false,
-                                        bool unlisted = false,
-                                        bool removed = false)
+        internal static Mod GetOrAddMod(ulong steamID, string name, bool incompatible = false, bool unlisted = false, bool removed = false)
         {
             Mod catalogMod;
 
@@ -318,7 +315,9 @@ namespace CompatibilityReport.Updater
                     Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.warning);
                 }
                 
-                catalogMod = ActiveCatalog.AddOrUpdateMod(steamID, name);
+                catalogMod = ActiveCatalog.GetOrAddMod(steamID);
+
+                catalogMod.Update(name: name, extraChangeNote: $"{ catalogDateString }: added");
 
                 string modType = "Mod";
 
@@ -337,8 +336,6 @@ namespace CompatibilityReport.Updater
 
                     modType = (unlisted ? "Unlisted " : "Removed ") + modType.ToLower();
                 }
-
-                catalogMod.Update(extraChangeNote: $"{ catalogDateString }: added");
 
                 changeNotesNewMods.AppendLine($"{ modType } added: { catalogMod.ToString() }");
             }
@@ -408,9 +405,8 @@ namespace CompatibilityReport.Updater
             }
 
             // Update the mod
-            catalogMod.Update(name, published, updated, authorID, authorURL, archiveURL, sourceURL, compatibleGameVersionString, requiredDLC: null, requiredMods: null,
-            successors: null, alternatives: null, recommendations: null, stability, stabilityNote, statuses: null, genericNote, 
-            reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
+            catalogMod.Update(name, published, updated, authorID, authorURL, archiveURL, sourceURL, compatibleGameVersionString, stability, stabilityNote, 
+                statuses: null, genericNote, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update
             Author modAuthor = ActiveCatalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorURL);
@@ -425,7 +421,7 @@ namespace CompatibilityReport.Updater
         // Add a group
         internal static void AddGroup(string groupName, List<ulong> groupMembers)
         {
-            Group newGroup = ActiveCatalog.AddGroup(groupName, new List<ulong>());
+            Group newGroup = ActiveCatalog.AddGroup(groupName);
 
             if (newGroup != null)
             {
@@ -514,14 +510,14 @@ namespace CompatibilityReport.Updater
 
         // Add a compatibility
         internal static void AddCompatibility(ulong firstModID, string firstModname, ulong secondModID, string secondModName, 
-            Enums.CompatibilityStatus compatibilityStatus, string note)
+            Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
         {
-            Compatibility compatibility = new Compatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, note);
+            Compatibility compatibility = new Compatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, compatibilityNote);
 
             ActiveCatalog.Compatibilities.Add(compatibility);
 
             changeNotesNewCompatibilities.AppendLine($"Compatibility added between { firstModID, 10 } and { secondModID, 10 }: { compatibilityStatus }" +
-                (string.IsNullOrEmpty(note) ? "" : ", " + note));
+                (string.IsNullOrEmpty(compatibilityNote) ? "" : ", " + compatibilityNote));
         }
 
 
@@ -839,7 +835,7 @@ namespace CompatibilityReport.Updater
             }
 
             // If the requiredID is not a known ID, it's probably an asset. [Todo 0.4] This still gives warnings if the asset is added by add_asset in CSV
-            else if (ActiveCatalog.IsValidID(requiredID, allowBuiltin: false, shouldExist: false) && !ActiveCatalog.RequiredAssets.Contains(requiredID))
+            else if (ActiveCatalog.IsValidID(requiredID, shouldExist: false) && !ActiveCatalog.RequiredAssets.Contains(requiredID))
             {
                 UnknownRequiredAssets.Append($", { requiredID }");
                 
@@ -951,7 +947,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Remove a successor, including change notes
+        // Remove a recommendation, including change notes
         internal static void RemoveRecommendation(Mod catalogMod, ulong recommendationID)
         {
             if (catalogMod.Recommendations.Remove(recommendationID))
@@ -962,7 +958,7 @@ namespace CompatibilityReport.Updater
 
 
         // Add a change note for an updated mod.
-        internal static void AddUpdatedModChangeNote(Mod catalogMod, string extraChangeNote)
+        private static void AddUpdatedModChangeNote(Mod catalogMod, string extraChangeNote)
         {
             if (catalogMod == null || string.IsNullOrEmpty(extraChangeNote))
             {
@@ -988,14 +984,14 @@ namespace CompatibilityReport.Updater
 
 
         // Add a change note for a removed mod
-        internal static void AddRemovedModChangeNote(string extraLine)
+        internal static void AddRemovedModChangeNote(Mod catalogMod)
         {
-            changeNotesRemovedMods.AppendLine(extraLine);
+            changeNotesRemovedMods.AppendLine($"Mod removed: { catalogMod.ToString() }");
         }
         
         
         // Add a change note for an updated author.
-        internal static void AddUpdatedAuthorChangeNote(Author catalogAuthor, string extraChangeNote)
+        private static void AddUpdatedAuthorChangeNote(Author catalogAuthor, string extraChangeNote)
         {
             if (catalogAuthor == null || string.IsNullOrEmpty(extraChangeNote))
             {

@@ -43,13 +43,8 @@ namespace CompatibilityReport.DataTypes
         }
 
 
-        // Constructor with 3 to all parameters
-        internal Author(ulong profileID,
-                        string customURL,
-                        string name,
-                        DateTime lastSeen = default,
-                        bool retired = false,
-                        List<string> changeNotes = null)
+        // Constructor with 3 parameters
+        internal Author(ulong profileID, string customURL, string name)
         {
             ProfileID = profileID;
 
@@ -57,15 +52,9 @@ namespace CompatibilityReport.DataTypes
 
             Name = name ?? "";
 
-            LastSeen = lastSeen;
-            
-            Retired = retired;
-
             ExclusionForRetired = false;
 
-            ChangeNotes = changeNotes ?? new List<string>();
-
-            // Debug messages
+            // Debug messages       [Todo 0.4] Move this to CatalogUpdater
             if (ProfileID == 0 && string.IsNullOrEmpty(CustomURL))
             {
                 Logger.Log($"Author created without profile ID and custom URL: { Name }", Logger.debug);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using CompatibilityReport.DataTypes;
 
 
 /// This class is based on the Logger class from Enhanced District Services by Tim / chronofanz:
@@ -34,15 +33,16 @@ namespace CompatibilityReport.Util
         private static bool logWritten;
         private static bool updaterLogWritten;
 
-        // Here the actual file writing happens
+
+        // Here the actual file writing happens     [Todo 0.4] What is the use of deriving this from MonoBehaviour?
         private class Filer : UnityEngine.MonoBehaviour
         {
             private readonly StreamWriter file = null;
-            private readonly bool useTimeStamps = false;
+
             private readonly string fileName = "";
 
             // Constructor
-            internal Filer(string fileFullPath, bool timeStamp, bool append)
+            internal Filer(string fileFullPath, bool append)
             {
                 fileName = fileFullPath;
 
@@ -64,7 +64,7 @@ namespace CompatibilityReport.Util
                         catch (Exception ex2)
                         {
                             // Log error to the game log; only place we can safely log to at this point
-                            Game($"[ERROR] Can't create backup file \"{ Toolkit.PrivacyPath(fileName) }.old\". { ex2.GetType().Name }: { ex2.Message }");
+                            GameLog($"[ERROR] Can't create backup file \"{ Toolkit.PrivacyPath(fileName) }.old\". { ex2.GetType().Name }: { ex2.Message }");
                         }
 
                         // Overwrite old file by creating a new one
@@ -73,9 +73,9 @@ namespace CompatibilityReport.Util
                         // Indicate were the old info went if append was chosen but the file exceeded max. size
                         if (append)
                         {
-                            WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".");
+                            WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".", noTimestamp: true);
 
-                            WriteLine(ModSettings.sessionSeparator);
+                            WriteLine(ModSettings.sessionSeparator, noTimestamp: true);
                         }
                     }
                     else
@@ -84,26 +84,20 @@ namespace CompatibilityReport.Util
                         file = File.AppendText(fileName);
 
                         // Write a separator to indicate a new session
-                        WriteLine(ModSettings.sessionSeparator);
+                        WriteLine(ModSettings.sessionSeparator, noTimestamp: true);
                     }
 
                     // Auto flush file buffer after every write
                     file.AutoFlush = true;
-
-                    // Change useTimeStamps here and not earlier, so the session separator is written without timestamp
-                    useTimeStamps = timeStamp;
                 }
                 catch (Exception ex)
                 {
                     // Log error to the game log; only place we can safely log to at this point
-                    Game($"[ERROR] Can't create file \"{ Toolkit.PrivacyPath(fileName) }\". { ex.GetType().Name }: { ex.Message }");
+                    GameLog($"[ERROR] Can't create file \"{ Toolkit.PrivacyPath(fileName) }\". { ex.GetType().Name }: { ex.Message }");
                 }
             }
 
-            internal void WriteLine(string message,
-                                    LogLevel logLevel = info,
-                                    bool extraLine = false,
-                                    bool duplicateToGameLog = false)
+            internal void WriteLine(string message, LogLevel logLevel = info, bool duplicateToGameLog = false, bool noTimestamp = false)
             {
                 // Don't write anything if we don't have a message
                 if (string.IsNullOrEmpty(message))
@@ -112,7 +106,7 @@ namespace CompatibilityReport.Util
                 }
                 
                 // Date and time as prefix when indicated
-                string timeStamp = useTimeStamps ? $"{ DateTime.Now:yyyy-MM-dd HH:mm:ss} - " : "";
+                string timeStamp = noTimestamp ? "" : $"{ DateTime.Now:yyyy-MM-dd HH:mm:ss} - ";
 
                 // Loglevel prefix for anything other than info
                 string logLevelPrefix = (logLevel == info) ? "" : $"[{ Convert.ToString(logLevel).ToUpper() }] ";
@@ -122,13 +116,13 @@ namespace CompatibilityReport.Util
                     // Use a lock for when the updater gets its own executable but still uses the same log file
                     lock (file)
                     {
-                        file.WriteLine(timeStamp + logLevelPrefix + message + (extraLine ? "\n" : ""));
+                        file.WriteLine(timeStamp + logLevelPrefix + message);
                     }
                 }
                 catch
                 {
                     // Log error to the game log; only place we can safely log to at this point
-                    Game($"[ERROR] Can't write to file \"{ Toolkit.PrivacyPath(fileName) }\".");
+                    GameLog($"[ERROR] Can't write to file \"{ Toolkit.PrivacyPath(fileName) }\".");
 
                     // Log to the game log instead
                     duplicateToGameLog = true;
@@ -137,14 +131,22 @@ namespace CompatibilityReport.Util
                 // Duplicate message to game log if indicated, including loglevel prefix
                 if (duplicateToGameLog)
                 {
-                    Game(logLevelPrefix + message);
+                    GameLog(logLevelPrefix + message);
+                }
+
+                // Log a debug message when a path is found that might contain the OS username; don't include path to avoid infinite loop
+                string lowerCaseMessage = message.ToLower();
+
+                if (lowerCaseMessage.Contains("\\appdata\\local") || lowerCaseMessage.Contains("c:\\users\\") || lowerCaseMessage.Contains("/users/"))
+                {
+                    Log("Path probably needs more privacy.", logLevel: debug);
                 }
             }
         }
 
 
         // Log a message to the game log; only called from within the Logger class
-        private static void Game(string message)
+        private static void GameLog(string message)
         {
             // Don't write anything if we don't have a message
             if (string.IsNullOrEmpty(message))
@@ -158,10 +160,7 @@ namespace CompatibilityReport.Util
 
 
         // Log a message to the mod log, and also to the game log if indicated
-        internal static void Log(string message,
-                                 LogLevel logLevel = info,
-                                 bool extraLine = false,
-                                 bool duplicateToGameLog = false)
+        internal static void Log(string message, LogLevel logLevel = info, bool duplicateToGameLog = false)
         {
             // Don't log if it's a debug message and we're not in debugmode
             if ((logLevel == debug) && !ModSettings.DebugMode)
@@ -169,71 +168,45 @@ namespace CompatibilityReport.Util
                 return;
             }
 
-            if (string.IsNullOrEmpty(message))
-            {
-                return;
-            }
-
             // Initialize the file on the first message
             if (!logWritten)
             {
-                log = new Filer(ModSettings.logfileFullPath, timeStamp: true, append: ModSettings.LogAppend);
+                log = new Filer(ModSettings.logfileFullPath, append: ModSettings.LogAppend);
 
                 logWritten = true;
 
                 // Log the logfile location to the game log
-                Game($"Detailed logging for this mod can be found in \"{ Toolkit.PrivacyPath(ModSettings.logfileFullPath) }\"");
-            }
-
-            // Log a debug message when '\appdata\local' or '/Users/' path found, which contains the username; don't include path to avoid infinite loop
-            string lowerCaseMessage = message.ToLower();
-
-            if (lowerCaseMessage.Contains("\\appdata\\local") || lowerCaseMessage.Contains("c:\\users\\") || lowerCaseMessage.Contains("/users/"))
-            {
-                Log("Path probably needs more privacy.", logLevel: debug);
+                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.PrivacyPath(ModSettings.logfileFullPath) }\"");
             }
 
             // Write the message to file, with loglevel prefix, and duplicate to game log if indicated
-            log.WriteLine(message, logLevel, extraLine: extraLine, duplicateToGameLog);
+            log.WriteLine(message, logLevel, duplicateToGameLog);
         }
 
 
         // Log a message to the updater log
-        internal static void UpdaterLog(string message,
-                                        LogLevel logLevel = info,
-                                        bool extraLine = false,
-                                        bool duplicateToRegularLog = false)
+        internal static void UpdaterLog(string message, LogLevel logLevel = info)
         {
             // Initialize the file on the first message
             if (!updaterLogWritten) 
             {
-                updaterLog = new Filer(ModSettings.updaterLogfileFullPath, timeStamp: true, append: false);
+                updaterLog = new Filer(ModSettings.updaterLogfileFullPath, append: false);
 
                 updaterLogWritten = true;
 
                 // Log the updater logfile location to the game log
-                Game($"Logging for the updater can be found in \"{ Toolkit.PrivacyPath(ModSettings.updaterLogfileFullPath) }\"");
+                GameLog($"Logging for the updater can be found in \"{ Toolkit.PrivacyPath(ModSettings.updaterLogfileFullPath) }\"");
             }
 
             // Write the message to file, with loglevel prefix
-            updaterLog.WriteLine(message, logLevel, extraLine: extraLine);
-
-            // Duplicate the message to the regular log if indicated
-            if (duplicateToRegularLog)
-            {
-                Log(message, logLevel, extraLine: extraLine);
-            }
+            updaterLog.WriteLine(message, logLevel);
         }
 
 
         // Log exception to mod log or updater log; duplicates to game log if indicated; includes stack trace to help debug the problem
-        internal static void Exception(Exception ex,
-                                       bool debugOnly = false,
-                                       bool toUpdaterLog = false,
-                                       bool duplicateToGameLog = true,
-                                       bool stackTrace = true)
+        internal static void Exception(Exception ex, bool hideFromGameLog = false, bool debugOnly = false)
         {
-            // Don't write to log files when DebugModeOnly is requested and we are not in debug mode
+            // Don't log if it's a debug message and we're not in debugmode
             if (debugOnly && !ModSettings.DebugMode)
             {
                 return;
@@ -242,38 +215,20 @@ namespace CompatibilityReport.Util
             // Log with regular or debug prefix
             string logPrefix = debugOnly ? "[DEBUG EXCEPTION]" : "[EXCEPTION]";
 
-            // Set up the message with or without stack trace
-            string message;
-
+            // Log the exception with or without stack trace
             if (ModSettings.DebugMode)
             {
                 // Debug mode: exception with full stacktrace
-                message = $"{ logPrefix } { ex }";
+                Log($"{ logPrefix } { ex }");
             }
-            else if (stackTrace)
+            else
             {
                 // Exception with short(er) stacktrace
-                message = $"{ logPrefix } { ex.GetType().Name }: { ex.Message }\n" +
-                    $"{ ex.StackTrace }";
-            }
-            else
-            {
-                // Exception without stacktrace
-                message = $"{logPrefix} { ex.GetType().Name }: { ex.Message }";
-            }                
-
-            // Log exception to the requested log file
-            if (toUpdaterLog)
-            {
-                UpdaterLog(message);
-            }
-            else
-            {
-                Log(message);
+                Log($"{ logPrefix } { ex.GetType().Name }: { ex.Message }\n{ ex.StackTrace }");
             }
 
             // Log exception to the game log if indicated
-            if (duplicateToGameLog)
+            if (!hideFromGameLog)
             {
                 UnityEngine.Debug.LogException(ex);
             }                

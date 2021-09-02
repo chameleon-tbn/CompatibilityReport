@@ -59,7 +59,7 @@ namespace CompatibilityReport.Updater
                     {
                         Logger.UpdaterLog($"Download process interrupted due to permanent error while downloading { url }", Logger.error);
 
-                        Logger.Exception(ex, toUpdaterLog: true);
+                        Logger.Exception(ex);
 
                         // Decrease the pageNumber to the last succesful page
                         pageNumber--;
@@ -97,7 +97,7 @@ namespace CompatibilityReport.Updater
             timer.Stop();
 
             Logger.UpdaterLog($"Updater finished checking Steam Workshop 'mod listing' pages in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. " +
-                $"{ totalMods } mods found.", duplicateToRegularLog: true);
+                $"{ totalMods } mods found.");
 
             return totalMods > 0;
         }
@@ -186,8 +186,7 @@ namespace CompatibilityReport.Updater
             // Estimated time is about half a second (500 milliseconds) per download. Note: 90+% of the total time is download, less than 10% is processing
             long estimated = 500 * numberOfMods;
 
-            Logger.UpdaterLog($"Updater started checking { numberOfMods } individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.", 
-                duplicateToRegularLog: true);
+            Logger.UpdaterLog($"Updater started checking { numberOfMods } individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.");
 
             uint modsDownloaded = 0;
 
@@ -249,7 +248,7 @@ namespace CompatibilityReport.Updater
             timer.Stop();
 
             Logger.UpdaterLog($"Updater finished downloading { modsDownloaded } individual Steam Workshop mod pages in " + 
-                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.", duplicateToRegularLog: true);
+                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.");
         }
 
 

@@ -15,7 +15,13 @@ namespace CompatibilityReport.Updater
             DateTime updateDate = DateTime.Now;
 
             // Create a new catalog
-            Catalog firstCatalog = new Catalog(1, updateDate, ModSettings.firstCatalogNote);
+            Catalog firstCatalog = new Catalog(version: 0);
+
+            firstCatalog.NewVersion(updateDate);
+
+            firstCatalog.UpdateGameVersion(Toolkit.CurrentGameVersion);
+            
+            firstCatalog.Update(ModSettings.firstCatalogNote, ModSettings.defaultHeaderText, ModSettings.defaultFooterText);
 
             // The filename for the catalog and change notes
             string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ firstCatalog.VersionString() }");
@@ -31,14 +37,16 @@ namespace CompatibilityReport.Updater
 
             DateTime gameRelease = DateTime.Parse("2015-03-10");
 
-            string modNotes = $"{ Toolkit.DateString(updateDate) }: added";
+            string modNote = $"{ Toolkit.DateString(updateDate) }: added";
 
             string changeNotes = "";
 
             foreach (KeyValuePair<string, ulong> modVP in ModSettings.BuiltinMods)
             {
-                Mod mod = firstCatalog.AddOrUpdateMod(steamID: modVP.Value, name: modVP.Key, published: gameRelease, stability: Enums.ModStability.Stable,
-                    statuses: sourceBundled,reviewUpdated: updateDate, autoReviewUpdated: updateDate, extraChangeNote: modNotes);
+                Mod mod = firstCatalog.GetOrAddMod(steamID: modVP.Value);
+                
+                mod.Update(name: modVP.Key, published: gameRelease, stability: Enums.ModStability.Stable, statuses: sourceBundled, 
+                    reviewDate: updateDate, autoReviewDate: updateDate, extraChangeNote: modNote);
 
                 changeNotes += $"New mod { mod.ToString() }\n";
             }

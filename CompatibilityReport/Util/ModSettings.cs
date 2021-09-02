@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using ColossalFramework.IO;
-using CompatibilityReport.DataTypes;
 
 
 /// Paths on Windows:
@@ -38,17 +37,8 @@ namespace CompatibilityReport.Util
             }
             catch
             {
-                try
-                {
-                    // Get the mod path again, now for if we are a local mod
-                    bundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }_Catalog.xml");
-                }
-                catch
-                {
-                    // Weirdly, we couldn't get the mod path; just set it to the game folder so we have a valid path
-                    bundledCatalogFullPath = Path.Combine(DataLocation.applicationBase, $"{ internalName }_Catalog.xml");
-                }
-
+                // Get the mod path again, now for if we are a local mod
+                bundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }_Catalog.xml");
             }
         }
 
@@ -58,7 +48,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.4";
         internal const string revision = "0";
-        internal const string build = "199";
+        internal const string build = "200";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -130,11 +120,11 @@ namespace CompatibilityReport.Util
         internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
 
         // Max width of the text report
-        internal const int maxReportWidth = 90;
+        internal const int ReportWidth = 90;
 
         // Separators used in the logfile and text report
-        internal static readonly string separator = new string('-', maxReportWidth);
-        internal static readonly string separatorDouble = new string('=', maxReportWidth);
+        internal static readonly string separator = new string('-', ReportWidth);
+        internal static readonly string separatorDouble = new string('=', ReportWidth);
 
         // Separator to use in logfiles when appending
         internal static readonly string sessionSeparator = "\n\n" + separatorDouble + "\n\n";

@@ -70,13 +70,11 @@ namespace CompatibilityReport.Util
 
 
         // Copy a file
-        internal static bool CopyFile(string sourceFullPath,
-                                      string destinationFullPath,
-                                      bool overwrite = true)
+        internal static bool CopyFile(string sourceFullPath, string destinationFullPath)
         {
             try
             {
-                File.Copy(sourceFullPath, destinationFullPath, overwrite);
+                File.Copy(sourceFullPath, destinationFullPath, overwrite: true);
 
                 return true;
             }
@@ -91,13 +89,11 @@ namespace CompatibilityReport.Util
 
 
         // Save a string to a file
-        internal static bool SaveToFile(string message,
-                                        string fileFullPath,
-                                        bool createBackup = false)
+        internal static void SaveToFile(string message, string fileFullPath, bool createBackup = false)
         {
             if (string.IsNullOrEmpty(message))
             {
-                return false;
+                return;
             }
 
             if (createBackup)
@@ -108,14 +104,10 @@ namespace CompatibilityReport.Util
             try
             {
                 File.WriteAllText(fileFullPath, message);
-
-                return true;
             }
             catch (Exception ex)
             {
                 Logger.Log($"Could not save text to file \"{ PrivacyPath(fileFullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.error);
-
-                return false;
             }
         }
 
@@ -150,20 +142,17 @@ namespace CompatibilityReport.Util
 
             int index = path.LastIndexOf('\\');
 
-            return index == 0 || index == path.Length ? path : path.Substring(index + 1, path.Length - index - 1);
+            return index < 1 || index == path.Length ? path : path.Substring(index + 1, path.Length - index - 1);
         }
 
 
-        // ValidationCallback gets rid of "The authentication or decryption has failed" errors when downloading
-        // This allows to download from sites that still support TLS 1.1 or worse, but not from sites that only support TLS 1.2+
+        // ValidationCallback gets rid of "The authentication or decryption has failed" errors when downloading, allowing sites that still support TLS 1.1 or worse
         // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
         private static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;
 
 
         // Download a file, return the exception for custom logging
-        internal static Exception Download(string url,
-                                           string fullPath,
-                                           uint retriesOnError = ModSettings.downloadRetries)
+        internal static Exception Download(string url, string fullPath)
         {
             Exception exception = null;
 
@@ -173,7 +162,7 @@ namespace CompatibilityReport.Util
             ServicePointManager.ServerCertificateValidationCallback += TLSCallback;
 
             // Download with retries
-            while (failedAttempts <= retriesOnError)
+            while (failedAttempts <= ModSettings.downloadRetries)
             {
                 using (WebClient webclient = new WebClient())
                 {
@@ -181,7 +170,7 @@ namespace CompatibilityReport.Util
                     {
                         webclient.DownloadFile(url, fullPath);
 
-                        // Reset the exception value to return
+                        // Reset the exception value
                         exception = null;
 
                         // No (more) retries needed
@@ -193,7 +182,7 @@ namespace CompatibilityReport.Util
                         failedAttempts++;
 
                         Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
-                            (failedAttempts <= retriesOnError ? ", will retry. " : ". Skipped. ") + 
+                            (failedAttempts <= ModSettings.downloadRetries ? ", will retry. " : ". Skipped. ") + 
                             (ex.Message.Contains("(502) Bad Gateway") ? "Error: 502 Bad Gateway" : $"Exception: { ex.GetType().Name } { ex.Message }"), Logger.debug);
 
                         exception = ex;
@@ -209,7 +198,7 @@ namespace CompatibilityReport.Util
 
 
         // Is the Steam Workshop available in game?
-        internal static bool SteamWorkshopAvailable()
+        internal static bool IsSteamWorkshopAvailable()
         {
             return (PlatformService.platformType == PlatformType.Steam) && !PluginManager.noWorkshop;
         }
@@ -231,15 +220,15 @@ namespace CompatibilityReport.Util
 
 
         // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(ulong profileID, string customURL, bool modsOnly = true)
+        internal static string GetAuthorWorkshop(ulong profileID, string customURL)
         {
             if (profileID != 0)
             {
-                return $"https://steamcommunity.com/profiles/{ profileID }/myworkshopfiles/?appid=255710" + (modsOnly ? "&requiredtags[]=Mod" : "");
+                return $"https://steamcommunity.com/profiles/{ profileID }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
             }
             else if (!string.IsNullOrEmpty(customURL))
             {
-                return $"https://steamcommunity.com/id/{ customURL }/myworkshopfiles/?appid=255710" + (modsOnly ? "&requiredtags[]=Mod" : "");
+                return $"https://steamcommunity.com/id/{ customURL }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
             }
             else
             {
@@ -248,15 +237,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Return Steam Store url for a DLC
-        internal static string GetDLCStorePage(uint appID)
-        {
-            return $"https://store.steampowered.com/app/{ appID }";
-        }
-
-
         // Get the name of a mod, as safely as possible.
-        // Some mods run code in their IUserMod.Name property, or run code in their static or instance constructors, which can cause exceptions - this method handles those.
+        // Some mods run code in their IUserMod.Name property, or run code in their constructors, which can cause exceptions - this method handles those.
         // Code based on https://github.com/CitiesSkylinesMods/AutoRepair/blob/master/AutoRepair/AutoRepair/Descriptors/Subscription.cs by aubergine10
         internal static string GetPluginName(PluginManager.PluginInfo plugin)
         {
@@ -274,7 +256,7 @@ namespace CompatibilityReport.Util
                 }
                 else if (string.IsNullOrEmpty(plugin.name))
                 {
-                    Logger.Log("GetPluginName: both userModInstance and plugin.name are null/empty.", Logger.debug);
+                    Logger.Log("Can't retrieve plugin name. Both userModInstance and plugin.name are null/empty.", Logger.warning);
                 }
                 else
                 {
@@ -283,9 +265,9 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log("Can't retrieve plugin name.", Logger.debug);
+                Logger.Log("Can't retrieve plugin name.", Logger.warning);
 
-                Logger.Exception(ex, debugOnly: true, duplicateToGameLog: false);
+                Logger.Exception(ex, hideFromGameLog: true);
 
                 name = "";
             }
@@ -294,18 +276,18 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Converts the string date/time on Steam Workshop pages and return it as a proper datetime
+        // Converts the string date/time on Steam Workshop pages to a DateTime
         internal static DateTime ConvertWorkshopDateTime(string dateTimeString)
         {
-            // Only convert if we really have a string; MinValue is the DateTime equivalent of null
+            // Only convert if we really have a string
             if (string.IsNullOrEmpty(dateTimeString))
             {
-                return DateTime.MinValue;
+                return default;
             }
 
             DateTime convertedDate;
 
-            // Date format on the workshop is either like "12 Mar, 2019 @ 6:11am", or "24 May @ 11:27pm" for current year
+            // Date format on the workshop is either like "12 Mar, 2019 @ 6:11am", or like "24 May @ 11:27pm" for current year
             if (!dateTimeString.Contains(", 20"))
             {
                 // Date without year; insert the current year
@@ -322,7 +304,7 @@ namespace CompatibilityReport.Util
             catch
             {
                 // Couldn't convert; probably got a faulty string
-                convertedDate = DateTime.MinValue;
+                convertedDate = default;
 
                 Logger.Log($"Failed to convert workshop datetime: { dateTimeString }.", Logger.warning);
             }
@@ -339,7 +321,7 @@ namespace CompatibilityReport.Util
 
 
         // Convert a string to a datetime
-        internal static DateTime Date(string dateString)
+        internal static DateTime ConvertDate(string dateString)
         {
             try
             {
@@ -423,25 +405,25 @@ namespace CompatibilityReport.Util
         // Convert a list of strings to a list of ulongs, for Steam IDs
         internal static List<ulong> ConvertToUlong(List<string> numericStrings)
         {
-            List<ulong> ulongs = new List<ulong>();
+            List<ulong> ulongList = new List<ulong>();
 
             foreach(string numericString in numericStrings)
             {
-                ulongs.Add(ConvertToUlong(numericString));
+                ulongList.Add(ConvertToUlong(numericString));
             }
 
-            return ulongs;
+            return ulongList;
         }
 
 
         // Clean a html string from certain html codes
         internal static string CleanHtml(string text)
         {
-            return text == null ? "" : text.Replace("&amp;", "&").Replace("&quot;", "\"");
+            return string.IsNullOrEmpty(text) ? "" : text.Replace("&quot;", "\"").Replace("&amp;", "&");
         }
         
 
-        // Get the substring between two search-string in a string
+        // Get the substring between two search-strings
         internal static string MidString(string original, string leftBoundary, string rightBoundary)
         {
             // Get the position of the left boundary string
@@ -469,15 +451,12 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Return a word-wrapped string, with an optional indent string for every line after the first
-        internal static string WordWrap(string unwrapped, 
-                                        int maxWidth = ModSettings.maxReportWidth, 
-                                        string indent = "",
-                                        string indentAfterNewLine = null)
+        // Return a word-wrapped string, with optional indent string"s for every line after the first
+        internal static string WordWrap(string unwrapped, int maxWidth = ModSettings.ReportWidth, string indent = "", string indentAfterNewLine = null)
         {
             if (unwrapped == null || unwrapped.Length <= maxWidth)
             {
-                return unwrapped;
+                return unwrapped ?? "";
             }
 
             if (unwrapped.Contains("\n"))
@@ -531,8 +510,7 @@ namespace CompatibilityReport.Util
 
 
         // Return a formatted elapsed time string, in seconds or minutes or both
-        internal static string ElapsedTime(double milliseconds,
-                                           bool alwaysShowSeconds = false)
+        internal static string ElapsedTime(double milliseconds, bool alwaysShowSeconds = false)
         {
             // Return the time in milliseconds if it's less than 0.1 seconds
             if (milliseconds < 100)
