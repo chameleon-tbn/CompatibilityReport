@@ -24,9 +24,6 @@ namespace CompatibilityReport.DataTypes
 
         public string AuthorURL { get; private set; }
 
-        // An archive page of the Steam Workshop page, for mods that were removed from the Steam Workshop
-        public string ArchiveURL { get; private set; }
-
         // Public location of the source
         public string SourceURL { get; private set; }
 
@@ -104,7 +101,6 @@ namespace CompatibilityReport.DataTypes
                              DateTime? updated = null,
                              ulong authorID = 0,
                              string authorURL = null,
-                             string archiveURL = null,
                              string sourceURL = null,
                              string compatibleGameVersionString = null,
                              Enums.ModStability stability = default,
@@ -131,8 +127,6 @@ namespace CompatibilityReport.DataTypes
             AuthorID = authorID == 0 ? AuthorID : authorID;
 
             AuthorURL = authorURL ?? AuthorURL ?? "";
-
-            ArchiveURL = archiveURL ?? ArchiveURL ?? "";
 
             SourceURL = sourceURL ?? SourceURL ?? "";
 

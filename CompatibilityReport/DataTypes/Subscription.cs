@@ -22,9 +22,6 @@ namespace CompatibilityReport.DataTypes
         // Date the files on disk were last downloaded  [Todo 0.4] Unused
         internal DateTime Downloaded { get; private set; }
 
-        // URL for an archived Steam Workshop page; only for mods no longer on the Steam Workshop
-        internal string ArchiveURL { get; private set; }
-
         // Source URL  [Todo 0.4] Unused
         internal string SourceURL { get; private set; }
 
@@ -185,7 +182,6 @@ namespace CompatibilityReport.DataTypes
 
             // Get information from the catalog
             Updated = catalogMod.Updated;
-            ArchiveURL = catalogMod.ArchiveURL;
             SourceURL = catalogMod.SourceURL;
             GameVersionCompatible = Toolkit.ConvertToGameVersion(catalogMod.CompatibleGameVersionString);
 

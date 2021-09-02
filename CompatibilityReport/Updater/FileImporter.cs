@@ -162,7 +162,6 @@ namespace CompatibilityReport.Updater
                 case "remove_mod":
                     return RemoveMod(modID: numericSecond); 
 
-                case "set_archiveurl":
                 case "set_sourceurl":
                 case "set_gameversion":
                 case "add_requireddlc":
@@ -179,7 +178,6 @@ namespace CompatibilityReport.Updater
                         ChangeModItem(action, modID: numericSecond, string.Join(",", lineElements, 2, lineElements.Length - 2).Trim().Replace("\\n", "\n"));
 
                 case "update_review":
-                case "remove_archiveurl":
                 case "remove_sourceurl":
                 case "remove_gameversion":
                 case "remove_stabilitynote":
@@ -351,25 +349,7 @@ namespace CompatibilityReport.Updater
             Mod catalogMod = ActiveCatalog.ModDictionary[modID];
 
             // Act on the action
-            if (action == "set_archiveurl")
-            {
-                if (!itemData.StartsWith("http://") && !itemData.StartsWith("https://"))
-                {
-                    return "Invalid URL.";
-                }
-
-                CatalogUpdater.UpdateMod(catalogMod, archiveURL: itemData);
-            }
-            else if (action == "remove_archiveurl")
-            {
-                if (string.IsNullOrEmpty(catalogMod.ArchiveURL))
-                {
-                    return "No archive URL to remove.";
-                }
-
-                CatalogUpdater.UpdateMod(catalogMod, archiveURL: "");
-            }
-            else if (action == "set_sourceurl")
+            if (action == "set_sourceurl")
             {
                 if (!itemData.StartsWith("http://") && !itemData.StartsWith("https://"))
                 {

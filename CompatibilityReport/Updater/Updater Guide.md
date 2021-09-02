@@ -17,7 +17,6 @@ Lines starting with a '#' are considered comments and will be ignored by the upd
 ### Available mod actions
 Parameters enclosed in square brackets are optional. The symbol :zap: means an exclusion will be created.
 * Add_Mod, \<mod ID\>, Unlisted | Removed [, \<author ID | author custom URL\> [, \<mod name\>] ]
-* Set_ArchiveURL, \<mod ID\>, \<url\>
 * Set_SourceURL, \<mod ID\>, \<url\> :zap:
 * Set_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled when a newer game version is found)*
 * Add_RequiredDLC, \<mod ID\>, \<DLC string\> :zap:
@@ -32,7 +31,6 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Set_GenericNote, \<mod ID\>, \<text\>
 * Update_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
 * Remove_Mod, \<mod ID\> *(only works on mods that are removed from the Workshop)*
-* Remove_ArchiveURL, \<mod ID\>
 * Remove_SourceURL, \<mod ID\> :zap:
 * Remove_GameVersion, \<mod ID\> *(only works if an exclusion exists)*
 * Remove_RequiredDLC, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*

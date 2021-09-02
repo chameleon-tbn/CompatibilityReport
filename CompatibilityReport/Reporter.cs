@@ -819,10 +819,6 @@ namespace CompatibilityReport
             if (subscription.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
             {
                 text += ReviewLine("Unsubscribe is wise. This is no longer available on the Workshop.", htmlReport);
-
-                // Archive workshop page
-                text += string.IsNullOrEmpty(subscription.ArchiveURL) ? "" :
-                    ReviewLine("Old Workshop page: " + subscription.ArchiveURL, htmlReport, ModSettings.noBullet);
             }
 
             // Savegame affecting

@@ -351,7 +351,6 @@ namespace CompatibilityReport.Updater
                                        DateTime? updated = null,
                                        ulong authorID = 0,
                                        string authorURL = null,
-                                       string archiveURL = null,
                                        string sourceURL = null,
                                        string compatibleGameVersionString = null,
                                        Enums.ModStability stability = default,
@@ -371,7 +370,6 @@ namespace CompatibilityReport.Updater
                 (updated == null || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update") +
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
                 (authorURL == null || authorURL == catalogMod.AuthorURL || catalogMod.AddedThisSession ? "" : ", author URL") +
-                (archiveURL == null || archiveURL == catalogMod.ArchiveURL ? "" : ", archive URL") +
                 (sourceURL == null || sourceURL == catalogMod.SourceURL ? "" : ", source URL") +
                 (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : ", compatible game version") +
                 (stability == default | stability == catalogMod.Stability ? "" : ", stability") +
@@ -405,7 +403,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Update the mod
-            catalogMod.Update(name, published, updated, authorID, authorURL, archiveURL, sourceURL, compatibleGameVersionString, stability, stabilityNote, 
+            catalogMod.Update(name, published, updated, authorID, authorURL, sourceURL, compatibleGameVersionString, stability, stabilityNote, 
                 statuses: null, genericNote, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update
