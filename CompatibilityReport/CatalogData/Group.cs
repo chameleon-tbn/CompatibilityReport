@@ -10,7 +10,7 @@ using CompatibilityReport.Util;
 // N O T E !!!! - The updater will replace required mods with the group they're a member of. Make sure this is always appropriate! (or use an exclusion)
 
 
-namespace CompatibilityReport.DataTypes
+namespace CompatibilityReport.CatalogData
 {
     // Needs to be public for XML serialization
     [Serializable] public class Group

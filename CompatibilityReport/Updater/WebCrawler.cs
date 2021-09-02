@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using CompatibilityReport.DataTypes;
+using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
 

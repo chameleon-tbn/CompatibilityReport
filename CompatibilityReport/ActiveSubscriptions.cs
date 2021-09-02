@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ColossalFramework;
 using ColossalFramework.Plugins;
-using CompatibilityReport.DataTypes;
+using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
 

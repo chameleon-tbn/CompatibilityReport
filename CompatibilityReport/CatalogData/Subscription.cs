@@ -5,7 +5,7 @@ using ColossalFramework.Plugins;
 using CompatibilityReport.Util;
 
 
-namespace CompatibilityReport.DataTypes
+namespace CompatibilityReport.CatalogData
 {
     internal class Subscription
     {

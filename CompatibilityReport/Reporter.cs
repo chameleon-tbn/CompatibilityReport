@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ColossalFramework.PlatformServices;
-using CompatibilityReport.DataTypes;
+using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
 

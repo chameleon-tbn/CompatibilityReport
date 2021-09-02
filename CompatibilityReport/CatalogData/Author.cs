@@ -8,7 +8,7 @@ using CompatibilityReport.Util;
 // Converting from custom URL to author profile number can be done manually on some websites or automated through Steam API
 
 
-namespace CompatibilityReport.DataTypes
+namespace CompatibilityReport.CatalogData
 {
     // Needs to be public for XML serialization
     [Serializable] public class Author

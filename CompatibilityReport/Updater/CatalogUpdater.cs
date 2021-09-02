@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using CompatibilityReport.DataTypes;
+using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
 

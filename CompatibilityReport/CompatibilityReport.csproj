@@ -63,11 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActiveSubscriptions.cs" />
-    <Compile Include="DataTypes\Catalog.cs" />
-    <Compile Include="DataTypes\Author.cs" />
-    <Compile Include="DataTypes\Compatibility.cs" />
-    <Compile Include="DataTypes\Group.cs" />
-    <Compile Include="DataTypes\Mod.cs" />
+    <Compile Include="CatalogData\Catalog.cs" />
+    <Compile Include="CatalogData\Author.cs" />
+    <Compile Include="CatalogData\Compatibility.cs" />
+    <Compile Include="CatalogData\Group.cs" />
+    <Compile Include="CatalogData\Mod.cs" />
     <Compile Include="Reporter.cs" />
     <Compile Include="Updater\WebCrawler.cs" />
     <Compile Include="Updater\CatalogUpdater.cs" />
@@ -78,8 +78,8 @@
     <Compile Include="Util\Logger.cs" />
     <Compile Include="CompatibilityReport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataTypes\Subscription.cs" />
-    <Compile Include="DataTypes\Enums.cs" />
+    <Compile Include="CatalogData\Subscription.cs" />
+    <Compile Include="CatalogData\Enums.cs" />
     <Compile Include="Util\Toolkit.cs" />
   </ItemGroup>
   <ItemGroup>

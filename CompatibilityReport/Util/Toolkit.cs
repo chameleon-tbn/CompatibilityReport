@@ -8,7 +8,7 @@ using System.Text;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
 using ICities;
-using CompatibilityReport.DataTypes;
+using CompatibilityReport.CatalogData;
 
 
 namespace CompatibilityReport.Util

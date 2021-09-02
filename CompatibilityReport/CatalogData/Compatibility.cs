@@ -2,7 +2,7 @@
 using CompatibilityReport.Util;
 
 
-namespace CompatibilityReport.DataTypes
+namespace CompatibilityReport.CatalogData
 {
     // Needs to be public for XML serialization
     [Serializable] public class Compatibility

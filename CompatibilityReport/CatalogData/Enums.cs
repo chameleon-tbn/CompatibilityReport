@@ -1,4 +1,4 @@
-﻿namespace CompatibilityReport.DataTypes
+﻿namespace CompatibilityReport.CatalogData
 {
     // Needs to be public for XML serialization
     public static class Enums

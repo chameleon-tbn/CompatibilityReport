@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using CompatibilityReport.Util;
 
 
-namespace CompatibilityReport.DataTypes
+namespace CompatibilityReport.CatalogData
 {
     // Needs to be public for XML serialization
     [Serializable][XmlRoot(ModSettings.xmlRoot)] public class Catalog
