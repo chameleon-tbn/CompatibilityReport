@@ -1,6 +1,7 @@
 ﻿using UnityEngine.SceneManagement;
 using ICities;
 using CompatibilityReport.Util;
+using CompatibilityReport.Reporter;
 
 
 /// This mod is inspired by & partially based on the Mod Compatibility Checker mod by aubergine18 / aubergine10:
@@ -41,11 +42,11 @@ namespace CompatibilityReport
             // Debug message
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.debug);
 
-            // Start the updater; will only run if the updater is enabled, and only on the first call
+            // Start the updater; will only run if the updater is enabled, and only on the first call   [Todo 0.8] Move to standalone tool
             Updater.CatalogUpdater.Start();
 
             // Create a report; will only be done once and only in the allowed scene
-            Reporter.Start(scene);
+            Report.Create(scene);
 
             // Get the settings on the screen [Todo 0.7]
             UIHelperBase modOptions = helper.AddGroup(ModSettings.modName);

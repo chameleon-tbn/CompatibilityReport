@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using ColossalFramework;
 using ColossalFramework.Plugins;
-using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
 
-namespace CompatibilityReport
+namespace CompatibilityReport.Reporter
 {
     internal static class ActiveSubscriptions
     {

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
+using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
 
-namespace CompatibilityReport.CatalogData
+namespace CompatibilityReport.Reporter
 {
     internal class Subscription
     {
@@ -77,7 +78,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Constructor with plugin parameter; get all information from plugin and catalog [Todo 0.4] This constructor is large, is that problematic?
+        // Constructor with plugin parameter; get all information from plugin and catalog   [Todo 0.4] Split all action from constructor
         internal Subscription(PluginManager.PluginInfo plugin)
         {
             // Make sure we got a real plugin
