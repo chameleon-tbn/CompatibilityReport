@@ -1,4 +1,7 @@
-﻿using CompatibilityReport.CatalogData;
+﻿using System.Collections.Generic;
+using ColossalFramework;
+using ColossalFramework.Plugins;
+using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
 
@@ -52,9 +55,9 @@ namespace CompatibilityReport.Reporter
             }
 
             // Get all subscriptions, including all builtin and local mods, with info from game and catalog
-            ActiveSubscriptions.Get();
+            GetSubscriptions();
 
-            Logger.Log($"Reviewed { ActiveSubscriptions.TotalReviewed } of your { ActiveSubscriptions.All.Count } mods ");
+            Logger.Log($"Reviewed { TotalReviewedSubscriptions } of your { AllSubscriptions.Count } mods ");
 
             // Create the HTML report if selected in settings
             if (ModSettings.HtmlReport)
@@ -69,11 +72,139 @@ namespace CompatibilityReport.Reporter
             }
 
             // Clean up memory
-            ActiveSubscriptions.Clear();
+            AllSubscriptions = null;
+
+            AllSubscriptionNamesAndIDs = null;
+
+            AllSubscriptionSteamIDs = null;
+
+            AllSubscriptionNames = null;
+
+            TotalReviewedSubscriptions = 0;
 
             Catalog.CloseActive();
 
             Logger.Log("Mod has shutdown.", duplicateToGameLog: true);
+        }
+
+
+
+
+
+
+        // Dictionary for all subscribed mods, keyed by Steam ID
+        internal static Dictionary<ulong, Subscription> AllSubscriptions { get; private set; } = null;
+
+        // Dictionary for all mod names with their Steam IDs; names are not unique, so one name could refer to multiple Steam IDs; used for reporting sorted by name
+        internal static Dictionary<string, List<ulong>> AllSubscriptionNamesAndIDs { get; private set; } = null;
+
+        // Lists with all SteamIDs and Names for sorted reporting
+        internal static List<ulong> AllSubscriptionSteamIDs { get; private set; }
+        internal static List<string> AllSubscriptionNames { get; private set; }
+
+        // Keep track of the number of local, builtin and reviewed mods for logging and reporting
+        internal static uint TotalReviewedSubscriptions { get; private set; }
+
+
+        // Gather all subscribed and local mods, except disabled builtin mods
+        private static void GetSubscriptions()
+        {
+            // Don't do this again if already done
+            if (AllSubscriptions != null)
+            {
+                return;
+            }
+
+            // Initiate the dictionary and lists and reset the counters
+            AllSubscriptions = new Dictionary<ulong, Subscription>();
+            AllSubscriptionNamesAndIDs = new Dictionary<string, List<ulong>>();
+            AllSubscriptionSteamIDs = new List<ulong>();
+            AllSubscriptionNames = new List<string>();
+
+            // Keep track of local and enabled builtin mods for logging
+            uint TotalBuiltinSubscriptions = 0;
+            uint TotalLocalSubscriptions = 0;
+            TotalReviewedSubscriptions = 0;
+
+            // Get all subscribed and local mods
+            List<PluginManager.PluginInfo> plugins = new List<PluginManager.PluginInfo>();
+
+            PluginManager manager = Singleton<PluginManager>.instance;
+
+            // Get all regular mods and cinematic camera scripts
+            plugins.AddRange(manager.GetPluginsInfo());
+            plugins.AddRange(manager.GetCameraPluginInfos());
+
+            Logger.Log($"Game reports { plugins.Count } mods.");
+
+            // Add subscriptions to the dictionary; at least one plugin should be found (this mod), so no null check needed
+            foreach (PluginManager.PluginInfo plugin in plugins)
+            {
+                // Get the info for this subscription from plugin and catalog; also assigns correct fake Steam IDs to local and builtin mods
+                Subscription subscription = new Subscription(plugin);
+
+                if (subscription.SteamID == 0)
+                {
+                    // Ran out of fake IDs for this mod. It can't be added.
+                    string builtinOrLocal = (subscription.IsBuiltin) ? "builtin" : "local";
+
+                    Logger.Log($"Ran out of internal IDs for { builtinOrLocal } mods. Some mods were not added to the subscription list. " +
+                        ModSettings.pleaseReportText, Logger.error);
+                }
+                else
+                {
+                    // Skip disabled builtin mods, since they shouldn't influence anything; disabled local mods are still added
+                    if (subscription.IsBuiltin && !subscription.IsEnabled)
+                    {
+                        continue;       // To next plugin in foreach
+                    }
+
+                    // Add Steam Workshop mod to the dictionary
+                    AllSubscriptions.Add(subscription.SteamID, subscription);
+
+                    // Add Steam ID to the list
+                    AllSubscriptionSteamIDs.Add(subscription.SteamID);
+
+                    // Multiple mods can have the same name, but names should only appear once in the list and dictionary
+                    if (AllSubscriptionNames.Contains(subscription.Name))
+                    {
+                        // Name found earlier; only add the Steam ID to the dictionary (more precise: to the list inside the dictionary)
+                        AllSubscriptionNamesAndIDs[subscription.Name].Add(subscription.SteamID);
+
+                        // Sort the list inside the dictionary
+                        AllSubscriptionNamesAndIDs[subscription.Name].Sort();
+                    }
+                    else
+                    {
+                        // Name not found yet; add it to the list and dictionary
+                        AllSubscriptionNames.Add(subscription.Name);
+
+                        AllSubscriptionNamesAndIDs.Add(subscription.Name, new List<ulong> { subscription.SteamID });
+                    }
+
+                    // Keep track of builtin and local mods added; builtin mods are also local, but should not be counted twice
+                    if (subscription.IsBuiltin)
+                    {
+                        TotalBuiltinSubscriptions++;
+                    }
+                    else if (subscription.IsLocal)
+                    {
+                        TotalLocalSubscriptions++;
+                    }
+
+                    // Keep track of the number of reviewed subscriptions
+                    if (subscription.IsReviewed)
+                    {
+                        TotalReviewedSubscriptions++;
+                    }
+                }
+            }
+
+            Logger.Log($"{ AllSubscriptions.Count } mods ready for review, including { TotalBuiltinSubscriptions } builtin and { TotalLocalSubscriptions } local mods.");
+
+            // Sort the lists
+            AllSubscriptionSteamIDs.Sort();
+            AllSubscriptionNames.Sort();
         }
     }
 }

@@ -62,7 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Reporter\ActiveSubscriptions.cs" />
     <Compile Include="CatalogData\Catalog.cs" />
     <Compile Include="CatalogData\Author.cs" />
     <Compile Include="CatalogData\Compatibility.cs" />
