@@ -6,7 +6,7 @@
         // Stability of the mod, one is always active.
         public enum ModStability
         {
-            Undefined,                              // [Only used by the Updater, cannot be set manually]
+            Undefined,                              // Only used by the Updater, cannot be set manually
             NotReviewed,                            // Stability not reviewed yet. Assigned by default, and can also be assigned manually
             NotEnoughInformation,                   // Stability unknown, because we don't have enough information to determine it
             IncompatibleAccordingToWorkshop,        // The Workshop has an indication for seriously broken mods; these are incompatible with the game itself
@@ -23,7 +23,7 @@
         // Statuses of a mod, can be none, one or more. Not all can be combined, for instance use only one of the 'music' or 'source'. [Todo 0.4] Not all are used (yet)
         public enum ModStatus
         {
-            Undefined,                              // [Only used by the Updater, should not appear in the catalog]
+            Undefined,                              // Unused
             UnlistedInWorkshop,                     // Available in the Workshop, but not listed anywhere or returned in searches; can only be found with a direct link
             RemovedFromWorkshop,                    // Once available in the Workshop, but no more; better not to use anymore
             NoCommentSectionOnWorkshop,             // This mods Workshop page has the comment section disabled, making it hard to see if people are experiencing issues
@@ -47,22 +47,19 @@
         }
 
 
-        // Compatibility statuses between two mods, can be one or more. Not all can be combined, for instance use only one of the 'newer/same/covered' statuses.
-        // All compatibilities are from the perspective of the first mod mentioned in the compatibility. Don't create 'mirrored' compatibilities, the mod handles this.
+        // Compatibility statuses between two mods. Don't create 'mirrored' compatibilities, the mod handles this.
         public enum CompatibilityStatus
         {
-            Undefined,                              // [Only used by the Updater, should not appear in the catalog]
-            NewerVersion,                           // The first mod is a newer version of the second
-            SameModDifferentReleaseType,            // Both mods are different release types ('stable' vs. 'beta', etc.) of the same mod; first should be the 'stable'
+            Undefined,                              // Unused
+            NewerVersion,                           // The first mod is an newer version of the second. Compatibility note will only be reported for the second mod
+            FunctionalityCovered,                   // The first mod has all functionality of the second mod, and more. Note will only be reported for the second mod
+            SameModDifferentReleaseType,            // Both mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable'
             SameFunctionality,                      // Both mods do the same thing, for instance different versions or similar mods from different authors
-            FunctionalityCovered,                   // The first mod has all functionality of the other mod, and more. No need to use the other mod.
-            IncompatibleAccordingToAuthor,          // These mods are incompatible according to the author of the first mod
-            IncompatibleAccordingToUsers,           // These mods are incompatible according to users of the first mod; should only be used on 'clear cases', not on a whim
-            CompatibleAccordingToAuthor,            // These mods are fully compatible according to the author of the first mod
+            IncompatibleAccordingToAuthor,          // These mods are incompatible according to the author of one of the mods
+            IncompatibleAccordingToUsers,           // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim
+            CompatibleAccordingToAuthor,            // These mods are fully compatible according to the author of one of the mods
             MinorIssues,                            // These mods have minor issues when used together; use the compatibility note to clarify
-            RequiresSpecificSettings,               // These mods require specific settings when used together; use the compatibility note to clarify
-            OlderVersion,                           // [Only used by the Reporter, should not appear in the catalog. Use the 'NewerVersion' status]
-            FunctionalityCoveredByOther,            // [Only used by the Reporter, should not appear in the catalog. Use the 'FunctionalityCovered' status]
+            RequiresSpecificSettings                // These mods require specific settings when used together; use the compatibility note to clarify
         }
 
 

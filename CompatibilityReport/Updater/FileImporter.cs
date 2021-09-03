@@ -1008,11 +1008,6 @@ namespace CompatibilityReport.Updater
 
             if (action == "add_compatibility")
             {
-                if (compatibilityStatus == Enums.CompatibilityStatus.FunctionalityCoveredByOther || compatibilityStatus == Enums.CompatibilityStatus.OlderVersion)
-                {
-                    return "Invalid compatibility status. This is only for internal use by the Reporter.";
-                }
-
                 if (compatibilityExists)
                 {
                     return "Compatibility already exists.";

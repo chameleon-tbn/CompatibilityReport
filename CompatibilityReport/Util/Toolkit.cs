@@ -89,11 +89,11 @@ namespace CompatibilityReport.Util
 
 
         // Save a string to a file
-        internal static void SaveToFile(string message, string fileFullPath, bool createBackup = false)
+        internal static bool SaveToFile(string message, string fileFullPath, bool createBackup = false)
         {
             if (string.IsNullOrEmpty(message))
             {
-                return;
+                return false;
             }
 
             if (createBackup)
@@ -104,10 +104,14 @@ namespace CompatibilityReport.Util
             try
             {
                 File.WriteAllText(fileFullPath, message);
+
+                return true;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not save text to file \"{ PrivacyPath(fileFullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.error);
+                Logger.Log($"Could not save to file \"{ PrivacyPath(fileFullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.error);
+
+                return false;
             }
         }
 
@@ -222,7 +226,7 @@ namespace CompatibilityReport.Util
         // Return Steam Workshop url for an author
         internal static string GetAuthorWorkshop(ulong profileID, string customURL)
         {
-            if (profileID != 0)
+            if (profileID != 0 && profileID != ModSettings.fakeAuthorIDforColossalOrder)
             {
                 return $"https://steamcommunity.com/profiles/{ profileID }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
             }

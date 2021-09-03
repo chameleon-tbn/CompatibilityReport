@@ -48,7 +48,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.4";
         internal const string revision = "0";
-        internal const string build = "205";
+        internal const string build = "206";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -88,15 +88,13 @@ namespace CompatibilityReport.Util
             { "Unlock All", 5 }
         };
 
-        // Lowest and highest fake Steam ID to use; should not overlap, be higher than BuiltinMods above and lower than real Steam IDs; only group IDs are used in catalog
-        internal static readonly ulong fakeAuthorIDforColossalOrder = 1;
-        internal static readonly ulong lowestUnknownBuiltinModID   = 11;
-        internal static readonly ulong highestUnknownBuiltinModID  = 99;
-        internal static readonly ulong lowestLocalModID           = 101;
-        internal static readonly ulong highestLocalModID         = 9999;
-        internal static readonly ulong lowestGroupID            = 10001;
-        internal static readonly ulong highestGroupID          = 999999;
-        internal static readonly ulong highestFakeID = Math.Max(Math.Max(highestUnknownBuiltinModID, highestLocalModID), highestGroupID);
+        // Fake Steam ID to use. These should not conflict with each other, BuiltinMods or Steam IDs. LocalModIDs are not are used in catalog.
+        internal static readonly ulong fakeAuthorIDforColossalOrder = 101;
+        internal static readonly ulong lowestLocalModID =            1001;
+        internal static readonly ulong highestLocalModID =           9999;
+        internal static readonly ulong lowestGroupID =              10001;
+        internal static readonly ulong highestGroupID =             99999;
+        internal static readonly ulong highestFakeID = Math.Max(highestLocalModID, highestGroupID);
 
         // Logfile location (Cities_Data)
         internal static readonly string logfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
@@ -120,8 +118,8 @@ namespace CompatibilityReport.Util
         // 'Please report' text to include in logs when something odd happens
         internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
 
-        // Max width of the text report
-        internal const int ReportWidth = 90;
+        // Max width of the text report, minimum of 90
+        internal const int ReportWidth = 100;
 
         // Separators used in the logfile and text report
         internal static readonly string separator = new string('-', ReportWidth);

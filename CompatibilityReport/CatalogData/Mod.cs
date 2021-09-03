@@ -75,6 +75,13 @@ namespace CompatibilityReport.CatalogData
         // Change notes, automatically filled by the Updater; not displayed in report or log, but visible in the catalog
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
+        // Values used by the reporter for subscribed mods
+        [XmlIgnore] internal bool IsDisabled { get; private set; }
+
+        [XmlIgnore] internal bool IsCameraScript { get; private set; }
+
+        [XmlIgnore] internal DateTime DownloadedTime { get; private set; }
+
         // Indicators used by the Updater, to see if this mod was updated or added this session
         [XmlIgnore] internal bool UpdatedThisSession { get; private set; }
 
@@ -166,33 +173,46 @@ namespace CompatibilityReport.CatalogData
         }
 
 
+        // Update a mod with the values used for a subscription
+        internal void UpdateSubscription(bool isDisabled, bool isCameraScript, DateTime downloadedTime)
+        {
+            IsDisabled = isDisabled;
+
+            IsCameraScript = isCameraScript;
+
+            DownloadedTime = downloadedTime;
+        }
+
+
         // Return a max length, formatted string with the Steam ID and name
-        internal string ToString(bool hideFakeID = false, bool cutOff = false)
+        internal string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false)
         {
             string idString;
 
             if (SteamID > ModSettings.highestFakeID)
             {
-                // Workshop mod
-                idString = $"[Steam ID { SteamID, 10 }] ";
+                // Steam Workshop mod
+                idString = $"[Steam ID { SteamID, 10 }]";
             }
             else if ((SteamID >= ModSettings.lowestLocalModID) && (SteamID <= ModSettings.highestLocalModID))
             {
                 // Local mod
-                idString = $"[local mod{ (hideFakeID ? "" : " " + SteamID.ToString()) }] ";
+                idString = $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
             }
             else
             {
                 // Builtin mod
-                idString = $"[builtin mod{ (hideFakeID ? "" : " " + SteamID.ToString()) }] ";
+                idString = $"[builtin mod{ (hideFakeID ? "" : $" { SteamID }") }]";
             }
 
-            int maxNameLength = ModSettings.ReportWidth - idString.Length;
+            string disabledPrefix = IsDisabled ? "[Disabled] " : "";
+
+            int maxNameLength = ModSettings.ReportWidth - idString.Length - 1 - disabledPrefix.Length;
 
             // Cut off the name to max. length, if the cutOff parameter is true
             string name = (Name.Length <= maxNameLength) || !cutOff ? Name : Name.Substring(0, maxNameLength - 3) + "...";
 
-            return idString + name;
+            return nameFirst ? disabledPrefix + name + " " + idString : disabledPrefix + idString + " " + name;
         }
 
 
