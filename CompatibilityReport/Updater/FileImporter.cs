@@ -791,8 +791,7 @@ namespace CompatibilityReport.Updater
                 
                 if (lastSeen < catalogAuthor.LastSeen)
                 {
-                    Logger.UpdaterLog($"Lowered the last seen date for { catalogAuthor.ToString() }, " +
-                        $"from { Toolkit.DateString(catalogAuthor.LastSeen) } to { Toolkit.DateString(lastSeen) }.");
+                    return "Author already has a more recent last seen date.";
                 }
 
                 CatalogUpdater.UpdateAuthor(catalogAuthor, lastSeen: lastSeen);
