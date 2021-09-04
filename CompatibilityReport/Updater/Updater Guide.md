@@ -26,8 +26,7 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
 * Set_Stability, \<mod ID\>, \<stability string\>
 * Set_StabilityNote, \<mod ID\>, \<text\>
-* Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription and SourceUnavailable status)*
-  * *Adding a SourceUnavailable status will remove the SourceURL from the mod*
+* Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription status)*
 * Set_GenericNote, \<mod ID\>, \<text\>
 * Update_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
 * Remove_Mod, \<mod ID\> *(only works on mods that are removed from the Workshop)*

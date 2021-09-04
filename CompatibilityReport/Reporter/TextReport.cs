@@ -736,7 +736,7 @@ namespace CompatibilityReport.Reporter
             }
 
             // Source code
-            if (subscribedMod.Statuses.Contains(Enums.ModStatus.SourceUnavailable))
+            if (!subscribedMod.Statuses.Contains(Enums.ModStatus.SourceBundled) && string.IsNullOrEmpty(subscribedMod.SourceURL))
             {
                 text += ReviewLine("No public source code found, making it hard to continue if this gets abandoned.");
             }

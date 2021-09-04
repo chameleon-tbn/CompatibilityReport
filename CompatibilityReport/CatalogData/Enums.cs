@@ -37,10 +37,9 @@
             TestVersion,                            // This is a test/beta/alpha/experimental version; use only when a stable version exists, to differentiate between them
             DependencyMod,                          // This is only a dependency mod and adds no functionality on its own
             ModForModders,                          // Only needed for modders, to help in creating mods or assets; no use for regular players
-            SourceUnavailable,                      // No source files available; making it hard for other modders to support compatibility, or take over when abandoned
             SourceBundled,                          // The source files are bundled with the mod and can be found in the mods folder
             SourceNotUpdated,                       // Source files are not updated; making it hard for other modders to support compatibility, or take over when abandoned
-            SourceObfuscated,                       // The author has deliberately hidden the mod code from other modders; somewhat suspicious
+            SourceObfuscated,                       // The author has deliberately hidden the mod code from other modders; somewhat suspicious  [Todo 0.4] unused
             MusicCopyrightFree,                     // This mod uses music, but only music that is copyright-free. Safe for videos and streaming
             MusicCopyrighted,                       // This mod uses music with copyright. Should not be used in videos and streaming
             MusicCopyrightUnknown                   // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming

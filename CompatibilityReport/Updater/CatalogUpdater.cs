@@ -667,7 +667,7 @@ namespace CompatibilityReport.Updater
 
 
         // Add a mod status, including exclusions and removing conflicting statuses.
-        internal static void AddStatus(Catalog catalog, Mod catalogMod, Enums.ModStatus status, bool updatedByWebCrawler = false)
+        internal static void AddStatus(Mod catalogMod, Enums.ModStatus status, bool updatedByWebCrawler = false)
         {
             if (status == default || catalogMod.Statuses.Contains(status))
             {
@@ -710,23 +710,6 @@ namespace CompatibilityReport.Updater
                 RemoveStatus(catalogMod, Enums.ModStatus.NoLongerNeeded);
                 RemoveStatus(catalogMod, Enums.ModStatus.Deprecated);
             }
-            else if (status == Enums.ModStatus.SourceUnavailable)
-            {
-                RemoveStatus(catalogMod, Enums.ModStatus.SourceBundled);
-                RemoveStatus(catalogMod, Enums.ModStatus.SourceNotUpdated);
-                RemoveStatus(catalogMod, Enums.ModStatus.SourceObfuscated);
-
-                if (!string.IsNullOrEmpty(catalogMod.SourceURL))
-                {
-                    UpdateMod(catalog, catalogMod, sourceURL: "", updatedByWebCrawler: updatedByWebCrawler);
-
-                    catalogMod.Update(exclusionForSourceURL: true);
-                }
-            }
-            else if (status == Enums.ModStatus.SourceBundled || status == Enums.ModStatus.SourceNotUpdated || status == Enums.ModStatus.SourceObfuscated)
-            {
-                RemoveStatus(catalogMod, Enums.ModStatus.SourceUnavailable);
-            }
             else if (status == Enums.ModStatus.MusicCopyrighted)
             {
                 RemoveStatus(catalogMod, Enums.ModStatus.MusicCopyrightFree);
@@ -760,11 +743,6 @@ namespace CompatibilityReport.Updater
                     // Only if the status is removed by the FileImporter: if there was an exclusion, remove it, otherwise add it.
                     catalogMod.Update(exclusionForNoDescription: !catalogMod.ExclusionForNoDescription);
                 }
-                else if (status == Enums.ModStatus.SourceUnavailable)
-                {
-                    catalogMod.Update(exclusionForSourceURL: false);
-                }
-
             }
 
             return success;

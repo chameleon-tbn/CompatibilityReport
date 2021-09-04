@@ -365,8 +365,6 @@ namespace CompatibilityReport.Updater
                 }
 
                 CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: itemData);
-
-                CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.SourceUnavailable);
             }
             else if (action == "remove_sourceurl")
             {
@@ -489,7 +487,7 @@ namespace CompatibilityReport.Updater
                     return "Mod already has this status.";
                 }
 
-                CatalogUpdater.AddStatus(catalog, catalogMod, status);
+                CatalogUpdater.AddStatus(catalogMod, status);
             }
             else if (action == "remove_status")
             {

@@ -8,7 +8,7 @@ using CompatibilityReport.Util;
 // WebCrawler gathers information from the Steam Workshop pages for all mods and updates the catalog with this. This process takes quite some time (roughly 15 minutes).
 // The following information is gathered:
 // * Mod: name, author, publish and update dates, source url (GitHub only), compatible game version (from tag only), required DLC, required mods, incompatible stability
-//        statuses: removed from workshop, unlisted in workshop, no description, no source available (remove only, when a source url is found)
+//        statuses: removed from workshop, unlisted in workshop, no description
 // * Author: name, profile ID and custom url, last seen date (based on mod updates, not on comments), retired status (no mod update in x months; removed on new mod update)
 
 
@@ -288,7 +288,7 @@ namespace CompatibilityReport.Updater
                             else
                             {
                                 // Change the mod to removed
-                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.ModStatus.RemovedFromWorkshop, updatedByWebCrawler: true);
+                                CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.RemovedFromWorkshop, updatedByWebCrawler: true);
 
                                 // Return true because no retry on download is needed
                                 return true;
@@ -306,7 +306,7 @@ namespace CompatibilityReport.Updater
 
                     if (!catalogMod.UpdatedThisSession)
                     {
-                        CatalogUpdater.AddStatus(catalog, catalogMod, Enums.ModStatus.UnlistedInWorkshop, updatedByWebCrawler: true);
+                        CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop, updatedByWebCrawler: true);
                     }
 
                     // Try to find data on this line of the mod page
@@ -429,7 +429,7 @@ namespace CompatibilityReport.Updater
                         // A 'no description' status is when the description is not at least a few characters longer than the mod name.
                         if (descriptionLength < catalogMod.Name.Length + 5 && !catalogMod.ExclusionForNoDescription)
                         {
-                            CatalogUpdater.AddStatus(catalog, catalogMod, Enums.ModStatus.NoDescription, updatedByWebCrawler: true);
+                            CatalogUpdater.AddStatus(catalogMod, Enums.ModStatus.NoDescription, updatedByWebCrawler: true);
                         }
                         else if (descriptionLength > catalogMod.Name.Length + 5 && !catalogMod.ExclusionForNoDescription)
                         {
