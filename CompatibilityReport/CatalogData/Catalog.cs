@@ -60,9 +60,6 @@ namespace CompatibilityReport.CatalogData
         [XmlIgnore] internal int ReviewedModCount { get; private set; }
 
 
-        // Instance for the active catalog  [Todo 0.4] Can we get rid of this?
-        [XmlIgnore] internal static Catalog Active { get; private set; }
-
         // Did we download a catalog already this session
         [XmlIgnore] private static bool downloadedThisSession;
 
@@ -114,7 +111,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Change the compatible game version to a higher version
+        // Change the compatible game version to a higher version   [Todo 0.4] Move to CatalogUpdater
         internal bool UpdateGameVersion(Version newGameVersion)
         {
             // Exit on incorrect game version, or if the new game version is not higher than the current
@@ -338,7 +335,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Prepare a catalog for searching  [Todo 0.4] combine with Validate()
+        // Prepare a catalog for searching
         private void CreateIndex()
         {
             // Count the number of mods in the catalog
@@ -454,8 +451,8 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Load a catalog from disk and validate it
-        private static Catalog Load(string fullPath)
+        // Load a catalog from disk
+        private static Catalog LoadFromDisk(string fullPath)
         {
             // Check if file exists
             if (!File.Exists(fullPath))
@@ -509,27 +506,22 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Load and download catalogs and make the newest the active catalog
-        internal static Catalog InitActive()
+        // Load and download catalogs and return the newest
+        internal static Catalog Load()
         {
-            // Skip if we already have an active catalog
-            if (Active != null)
-            {
-                return Active;
-            }
-
             Catalog downloadedCatalog = Download();
 
-            // Download catalog should always be the same or a higher version than both the previous download and the bundled catalog
+            // Only load the previously downloaded catalog if we didn't download a new one
             Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
 
-            Catalog bundledCatalog = downloadedCatalog == null && previouslyDownloadedCatalog == null ? LoadBundled() : null;
+            // Only load the bundled catalog if we didn't download a new one. The previously downloaded catalog could be older than the bundled catalog
+            Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
 
             // Always try to load the Updater catalog, since that could be newer than the download
             Catalog updatedCatalog = LoadUpdaterCatalog();
 
-            // The newest catalog becomes the active catalog
-            Active = Newest(Newest(downloadedCatalog, bundledCatalog), Newest(previouslyDownloadedCatalog, updatedCatalog));
+            // Find the newest catalog
+            Catalog Active = Newest(Newest(downloadedCatalog, bundledCatalog), Newest(previouslyDownloadedCatalog, updatedCatalog));
 
             if (Active != null)
             {
@@ -543,67 +535,6 @@ namespace CompatibilityReport.CatalogData
             }
 
             return Active;
-        }
-
-
-        // Close the active catalog     [Todo 0.4] No longer needed if we get rid of Active here
-        internal static void CloseActive()
-        {
-            // Nullify the active catalog
-            Active = null;
-
-            Logger.Log("Catalog closed.");
-        }
-
-
-        // Load bundled catalog
-        private static Catalog LoadBundled()
-        {
-            Catalog bundledCatalog = Load(ModSettings.bundledCatalogFullPath);
-
-            if (bundledCatalog == null)
-            {
-                Logger.Log($"Can't load bundled catalog. { ModSettings.pleaseReportText }", Logger.error, duplicateToGameLog: true);
-            }
-            else
-            {
-                Logger.Log($"Bundled catalog is version { bundledCatalog.VersionString() }.");
-            }
-
-            return bundledCatalog;
-        }
-
-
-        // Load the previously downloaded catalog if it exists
-        private static Catalog LoadPreviouslyDownloaded()
-        {
-            // Check if previously downloaded catalog exists
-            if (!File.Exists(ModSettings.downloadedCatalogFullPath))
-            {
-                Logger.Log("No previously downloaded catalog exists. This is expected when the mod has never downloaded a new catalog.");
-
-                return null;
-            }
-
-            // Try to load it
-            Catalog previouslyDownloadedCatalog = Load(ModSettings.downloadedCatalogFullPath);
-
-            if (previouslyDownloadedCatalog != null)
-            {
-                Logger.Log($"Previously downloaded catalog is version { previouslyDownloadedCatalog.VersionString() }.");
-            }
-            // Can't be loaded; try to delete it
-            else if (Toolkit.DeleteFile(ModSettings.downloadedCatalogFullPath))
-            {
-                Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.warning);
-            }
-            else
-            {
-                Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. " +
-                    "This prevents saving a newly downloaded catalog for future sessions.", Logger.error);
-            }
-
-            return previouslyDownloadedCatalog;
         }
 
 
@@ -635,6 +566,8 @@ namespace CompatibilityReport.CatalogData
 
             Exception ex = Toolkit.Download(ModSettings.catalogURL, downloadedCatalogTemporaryFullPath);
 
+            timer.Stop();
+
             if (ex != null)
             {
                 Logger.Log($"Can't download catalog from { ModSettings.catalogURL }", Logger.warning);
@@ -657,13 +590,10 @@ namespace CompatibilityReport.CatalogData
                 return null;
             }
 
-            // Log elapsed time
-            timer.Stop();
-
             Logger.Log($"Catalog downloaded in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) } from { ModSettings.catalogURL }");
 
             // Load newly downloaded catalog
-            Catalog downloadedCatalog = Load(downloadedCatalogTemporaryFullPath);
+            Catalog downloadedCatalog = LoadFromDisk(downloadedCatalogTemporaryFullPath);
 
             if (downloadedCatalog == null)
             {
@@ -681,6 +611,57 @@ namespace CompatibilityReport.CatalogData
             Toolkit.DeleteFile(downloadedCatalogTemporaryFullPath);
 
             return downloadedCatalog;
+        }
+
+
+        // Load the previously downloaded catalog if it exists
+        private static Catalog LoadPreviouslyDownloaded()
+        {
+            // Check if previously downloaded catalog exists
+            if (!File.Exists(ModSettings.downloadedCatalogFullPath))
+            {
+                Logger.Log("No previously downloaded catalog exists. This is expected when the mod has never downloaded a new catalog.");
+
+                return null;
+            }
+
+            // Try to load it
+            Catalog previouslyDownloadedCatalog = LoadFromDisk(ModSettings.downloadedCatalogFullPath);
+
+            if (previouslyDownloadedCatalog != null)
+            {
+                Logger.Log($"Previously downloaded catalog is version { previouslyDownloadedCatalog.VersionString() }.");
+            }
+            // Can't be loaded; try to delete it
+            else if (Toolkit.DeleteFile(ModSettings.downloadedCatalogFullPath))
+            {
+                Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.warning);
+            }
+            else
+            {
+                Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. " +
+                    "This prevents saving a newly downloaded catalog for future sessions.", Logger.error);
+            }
+
+            return previouslyDownloadedCatalog;
+        }
+
+
+        // Load bundled catalog
+        private static Catalog LoadBundled()
+        {
+            Catalog bundledCatalog = LoadFromDisk(ModSettings.bundledCatalogFullPath);
+
+            if (bundledCatalog == null)
+            {
+                Logger.Log($"Can't load bundled catalog. { ModSettings.pleaseReportText }", Logger.error, duplicateToGameLog: true);
+            }
+            else
+            {
+                Logger.Log($"Bundled catalog is version { bundledCatalog.VersionString() }.");
+            }
+
+            return bundledCatalog;
         }
 
 
@@ -705,7 +686,7 @@ namespace CompatibilityReport.CatalogData
             Array.Sort(files);
 
             // Load the last updated catalog
-            Catalog catalog = Catalog.Load(files[files.Length - 1]);
+            Catalog catalog = LoadFromDisk(files[files.Length - 1]);
 
             if (catalog == null)
             {

@@ -4,9 +4,9 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Reporter
 {
-    class HtmlReport
+    internal static class HtmlReport
     {
-        internal static bool Create(Catalog ActiveCatalog)
+        internal static bool Create(Catalog catalog)
         {
             // [Todo 1.1] Create HTML report
 

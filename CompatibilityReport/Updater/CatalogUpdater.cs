@@ -16,15 +16,13 @@ namespace CompatibilityReport.Updater
         // Did we run already this session (successful or not)
         private static bool hasRun;
 
-        private static Catalog ActiveCatalog;
-
         // Date of the catalog creation, always 'today'. This is used in mod/author change notes.
         private static string catalogDateString;
 
         // Date of the review update for affected mods. This can be set in the CSV file and is used in mod review dates.
         private static DateTime reviewDate;
 
-        // Stringbuilder to collect new required assets we found
+        // Stringbuilder to collect new required assets we found        [Todo 0.4] what to do with the static stringbuilders/dictionaries?
         private static StringBuilder UnknownRequiredAssets;
 
         // Stringbuilder to gather the combined CSVs, to be saved with the new catalog
@@ -44,7 +42,7 @@ namespace CompatibilityReport.Updater
         private static StringBuilder changeNotesRemovedCompatibilities;
         private static string changeNotes;
 
-        
+
         // Update the active catalog with the found information; returns the partial path of the new catalog
         internal static void Start()
         {
@@ -55,14 +53,14 @@ namespace CompatibilityReport.Updater
 
             Logger.Log("Catalog Updater started. See separate logfile for details.");
 
-            ActiveCatalog = Catalog.InitActive();
+            Catalog catalog = Catalog.Load();
 
             // Init the active catalog. If we can't, then create a first catalog if it doesn't exist yet and init the active catalog again
-            if (ActiveCatalog == null)
+            if (catalog == null)
             {
-                ActiveCatalog = FirstCatalog.Create();
+                catalog = FirstCatalog.Create();
 
-                if (ActiveCatalog == null)
+                if (catalog == null)
                 {
                     return;
                 }
@@ -71,27 +69,32 @@ namespace CompatibilityReport.Updater
             hasRun = true;
 
             Logger.UpdaterLog($"Catalog Updater started. { ModSettings.modName } version { ModSettings.fullVersion }. " +
-                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion) }. Current catalog version { ActiveCatalog.VersionString() }.");
+                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion) }. Current catalog version { catalog.VersionString() }.");
 
-            Init();
+            // Increase the catalog version and update date
+            catalog.NewVersion(DateTime.Now);
+
+            catalogDateString = Toolkit.DateString(catalog.UpdateDate.Date);
+
+            EmptyStringbuildersAndDictionaries();
 
             if (ModSettings.WebCrawlerEnabled)
             {
-                WebCrawler.Start(ActiveCatalog);
+                WebCrawler.Start(catalog);
             }
             
-            FileImporter.Start(ActiveCatalog);
+            FileImporter.Start(catalog);
 
-            UpdateAuthorRetirement();
+            UpdateAuthorRetirement(catalog);
 
             // Set a special catalog note for version 2, and reset it again for version 3
-            if (ActiveCatalog.Version == 2 && ActiveCatalog.Note == ModSettings.firstCatalogNote)
+            if (catalog.Version == 2 && catalog.Note == ModSettings.firstCatalogNote)
             {
-                SetNote(ModSettings.secondCatalogNote);
+                SetNote(catalog, ModSettings.secondCatalogNote);
             }
-            else if (ActiveCatalog.Version == 3 && ActiveCatalog.Note == ModSettings.secondCatalogNote)
+            else if (catalog.Version == 3 && catalog.Note == ModSettings.secondCatalogNote)
             {
-                SetNote("");
+                SetNote(catalog, "");
             }
 
             // Only continue with catalog update if we found any changes to update the catalog (ignoring the pure catalog changes)
@@ -103,12 +106,12 @@ namespace CompatibilityReport.Updater
             }
             else
             {
-                UpdateChangeNotes();
+                UpdateChangeNotes(catalog);
 
-                string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ ActiveCatalog.VersionString() }");
+                string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ catalog.VersionString() }");
 
                 // Save the new catalog
-                if (ActiveCatalog.Save(partialPath + ".xml"))
+                if (catalog.Save(partialPath + ".xml"))
                 {
                     // Save change notes, in the same folder as the new catalog
                     Toolkit.SaveToFile(changeNotes.ToString(), partialPath + "_ChangeNotes.txt");
@@ -116,7 +119,7 @@ namespace CompatibilityReport.Updater
                     // Save the combined CSVs, in the same folder as the new catalog
                     Toolkit.SaveToFile(CSVCombined.ToString(), partialPath + "_Imports.csv.txt");
 
-                    Logger.UpdaterLog($"New catalog { ActiveCatalog.VersionString() } created and change notes saved.");
+                    Logger.UpdaterLog($"New catalog { catalog.VersionString() } created and change notes saved.");
 
                     // Copy the updater logfile to the same folder as the new catalog
                     Toolkit.CopyFile(ModSettings.updaterLogfileFullPath, partialPath + "_Updater.log");
@@ -133,18 +136,11 @@ namespace CompatibilityReport.Updater
                 Logger.UpdaterLog("CSV action for adding assets to the catalog (after verification): Add_RequiredAssets" + UnknownRequiredAssets.ToString());
             }
 
-            // Empty the dictionaries and change notes to free memory
-            Init();
-
             // Run the DataDumper
-            DataDumper.Start(ActiveCatalog);
+            DataDumper.Start(catalog);
 
-            // Close the active catalog to get rid of loose ends, if any
-            Logger.UpdaterLog("Closing the active catalog.");
-
-            ActiveCatalog = null;
-
-            Catalog.CloseActive();
+            // Empty the dictionaries and stringbuilders to free memory
+            EmptyStringbuildersAndDictionaries();
 
             Logger.UpdaterLog("Catalog Updater has finished.\n");
 
@@ -152,10 +148,12 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Get all variables and the catalog ready for updating
-        private static void Init()
+        // Set all static StringBuilders, Strings and Dictionaries to the empty state
+        private static void EmptyStringbuildersAndDictionaries()
         {
             UnknownRequiredAssets = new StringBuilder();
+
+            CSVCombined = new StringBuilder();
 
             changeNotesCatalog = new StringBuilder();
             changeNotesNewMods = new StringBuilder();
@@ -169,18 +167,11 @@ namespace CompatibilityReport.Updater
             changeNotesRemovedGroups = new StringBuilder();
             changeNotesRemovedCompatibilities = new StringBuilder();
             changeNotes = "";
-
-            CSVCombined = new StringBuilder();
-
-            // Increase the catalog version and update date
-            ActiveCatalog.NewVersion(DateTime.Now);
-
-            catalogDateString = Toolkit.DateString(ActiveCatalog.UpdateDate.Date);
         }
 
 
         // Update change notes in the mod and author change note fields, and combine the change notes for the change notes file
-        private static void UpdateChangeNotes()
+        private static void UpdateChangeNotes(Catalog catalog)
         {
             StringBuilder changeNotesUpdatedModsCombined = new StringBuilder();
 
@@ -192,9 +183,9 @@ namespace CompatibilityReport.Updater
                 {
                     string cleanedChangeNote = modNotes.Value.Substring(2);
 
-                    ActiveCatalog.ModDictionary[modNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                    catalog.ModDictionary[modNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
 
-                    changeNotesUpdatedModsCombined.AppendLine($"Mod { ActiveCatalog.ModDictionary[modNotes.Key].ToString() }: " +
+                    changeNotesUpdatedModsCombined.AppendLine($"Mod { catalog.ModDictionary[modNotes.Key].ToString() }: " +
                         $"{ cleanedChangeNote }");
                 }
             }
@@ -203,9 +194,9 @@ namespace CompatibilityReport.Updater
             {
                 string cleanedChangeNote = authorNotes.Value.Substring(2);
 
-                ActiveCatalog.AuthorIDDictionary[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                catalog.AuthorIDDictionary[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
 
-                changeNotesUpdatedAuthorsCombined.AppendLine($"Author { ActiveCatalog.AuthorIDDictionary[authorNotes.Key].ToString() }: " +
+                changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorIDDictionary[authorNotes.Key].ToString() }: " +
                     $"{ cleanedChangeNote }");
             }
 
@@ -213,16 +204,16 @@ namespace CompatibilityReport.Updater
             {
                 string cleanedChangeNote = authorNotes.Value.Substring(2);
 
-                ActiveCatalog.AuthorURLDictionary[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                catalog.AuthorURLDictionary[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
 
-                changeNotesUpdatedAuthorsCombined.AppendLine($"Author { ActiveCatalog.AuthorURLDictionary[authorNotes.Key].ToString() }: " +
+                changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorURLDictionary[authorNotes.Key].ToString() }: " +
                     $"{ cleanedChangeNote }");
             }
 
             // Combine the total change notes
-            changeNotes = $"Change Notes for Catalog { ActiveCatalog.VersionString() }\n" +
+            changeNotes = $"Change Notes for Catalog { catalog.VersionString() }\n" +
                 "-------------------------------\n" +
-                $"{ ActiveCatalog.UpdateDate:D}, { ActiveCatalog.UpdateDate:t}\n" +
+                $"{ catalog.UpdateDate:D}, { catalog.UpdateDate:t}\n" +
                 "These change notes were automatically created by the updater process.\n" +
                 "\n" +
                 (changeNotesCatalog.Length == 0 ? "" :
@@ -264,33 +255,33 @@ namespace CompatibilityReport.Updater
 
 
         // Set a new note for the catalog
-        internal static void SetNote(string newCatalogNote)
+        internal static void SetNote(Catalog catalog, string newCatalogNote)
         {
-            string change = string.IsNullOrEmpty(newCatalogNote) ? "removed" : string.IsNullOrEmpty(ActiveCatalog.Note) ? "added" : "changed";
+            string change = string.IsNullOrEmpty(newCatalogNote) ? "removed" : string.IsNullOrEmpty(catalog.Note) ? "added" : "changed";
 
-            ActiveCatalog.Update(note: newCatalogNote);
+            catalog.Update(note: newCatalogNote);
 
             AddCatalogChangeNote($"Catalog note { change }.");
         }
 
 
         // Set a new header text for the catalog
-        internal static void SetHeaderText(string text)
+        internal static void SetHeaderText(Catalog catalog, string text)
         {
-            string change = string.IsNullOrEmpty(text) ? "removed" : string.IsNullOrEmpty(ActiveCatalog.ReportHeaderText) ? "added" : "changed";
+            string change = string.IsNullOrEmpty(text) ? "removed" : string.IsNullOrEmpty(catalog.ReportHeaderText) ? "added" : "changed";
 
-            ActiveCatalog.Update(reportHeaderText: text);
+            catalog.Update(reportHeaderText: text);
 
             AddCatalogChangeNote($"Catalog header text { change }.");
         }
 
 
         // Set a new footer text for the catalog
-        internal static void SetFooterText(string text)
+        internal static void SetFooterText(Catalog catalog, string text)
         {
-            string change = string.IsNullOrEmpty(text) ? "removed" : string.IsNullOrEmpty(ActiveCatalog.ReportFooterText) ? "added" : "changed";
+            string change = string.IsNullOrEmpty(text) ? "removed" : string.IsNullOrEmpty(catalog.ReportFooterText) ? "added" : "changed";
             
-            ActiveCatalog.Update(reportFooterText: text);
+            catalog.Update(reportFooterText: text);
 
             AddCatalogChangeNote($"Catalog footer text { change }.");
         }
@@ -298,14 +289,14 @@ namespace CompatibilityReport.Updater
 
         // Add or get a mod. When adding, a mod name, incompatible stability and/or unlisted/removed status can be supplied. On existing mods this is ignored.
         // A review date is not set, that is only done on UpdateMod()
-        internal static Mod GetOrAddMod(ulong steamID, string name, bool incompatible = false, bool unlisted = false, bool removed = false)
+        internal static Mod GetOrAddMod(Catalog catalog, ulong steamID, string name, bool incompatible = false, bool unlisted = false, bool removed = false)
         {
             Mod catalogMod;
 
             // Get the mod from the catalog, or add a new one
-            if (ActiveCatalog.ModDictionary.ContainsKey(steamID))
+            if (catalog.ModDictionary.ContainsKey(steamID))
             {
-                catalogMod = ActiveCatalog.ModDictionary[steamID];
+                catalogMod = catalog.ModDictionary[steamID];
             }
             else
             {
@@ -315,7 +306,7 @@ namespace CompatibilityReport.Updater
                     Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.warning);
                 }
                 
-                catalogMod = ActiveCatalog.GetOrAddMod(steamID);
+                catalogMod = catalog.GetOrAddMod(steamID);
 
                 catalogMod.Update(name: name, extraChangeNote: $"{ catalogDateString }: added");
 
@@ -345,7 +336,8 @@ namespace CompatibilityReport.Updater
 
 
         // Update a mod with newly found information, including exclusions
-        internal static void UpdateMod(Mod catalogMod,
+        internal static void UpdateMod(Catalog catalog, 
+                                       Mod catalogMod,
                                        string name = null,
                                        DateTime? published = null,
                                        DateTime? updated = null,
@@ -407,7 +399,7 @@ namespace CompatibilityReport.Updater
                 statuses: null, genericNote, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update
-            Author modAuthor = ActiveCatalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorURL);
+            Author modAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorURL);
 
             if (modAuthor != null && catalogMod.Updated > modAuthor.LastSeen)
             {
@@ -417,16 +409,16 @@ namespace CompatibilityReport.Updater
 
 
         // Add a group
-        internal static void AddGroup(string groupName, List<ulong> groupMembers)
+        internal static void AddGroup(Catalog catalog, string groupName, List<ulong> groupMembers)
         {
-            Group newGroup = ActiveCatalog.AddGroup(groupName);
+            Group newGroup = catalog.AddGroup(groupName);
 
             if (newGroup != null)
             {
                 // Add group members separately to get change notes on all group members
                 foreach (ulong groupMember in groupMembers)
                 {
-                    AddGroupMember(newGroup, groupMember);
+                    AddGroupMember(catalog, newGroup, groupMember);
                 }
 
                 changeNotesNewGroups.AppendLine($"Group added: { newGroup.ToString() }");
@@ -435,44 +427,44 @@ namespace CompatibilityReport.Updater
 
 
         // Remove a group
-        internal static void RemoveGroup(ulong groupID)
+        internal static void RemoveGroup(Catalog catalog, ulong groupID)
         {
             // Remove the group from all required mod lists
-            foreach (Mod catalogMod in ActiveCatalog.Mods)
+            foreach (Mod catalogMod in catalog.Mods)
             {
                 catalogMod.RequiredMods.Remove(groupID);
             }
 
-            Group oldGroup = ActiveCatalog.GroupDictionary[groupID];
+            Group oldGroup = catalog.GroupDictionary[groupID];
 
-            if (ActiveCatalog.Groups.Remove(oldGroup))
+            if (catalog.Groups.Remove(oldGroup))
             {
-                ActiveCatalog.GroupDictionary.Remove(groupID);
+                catalog.GroupDictionary.Remove(groupID);
 
                 changeNotesRemovedGroups.AppendLine($"Group removed: { oldGroup.ToString() }");
 
                 // Remove group members to get change notes on all former group members
                 foreach (ulong groupMember in oldGroup.GroupMembers)
                 {
-                    AddUpdatedModChangeNote(ActiveCatalog.ModDictionary[groupMember], $"removed from { oldGroup.ToString() }");
+                    AddUpdatedModChangeNote(catalog.ModDictionary[groupMember], $"removed from { oldGroup.ToString() }");
                 }
             }
         }
 
 
         // Add a group member
-        internal static void AddGroupMember(Group group, ulong groupMember)
+        internal static void AddGroupMember(Catalog catalog, Group group, ulong groupMember)
         {
             group.GroupMembers.Add(groupMember);
 
-            ActiveCatalog.AddRequiredGroup(groupMember);
+            catalog.AddRequiredGroup(groupMember);
 
-            AddUpdatedModChangeNote(ActiveCatalog.ModDictionary[groupMember], $"added to { group.ToString() }");
+            AddUpdatedModChangeNote(catalog.ModDictionary[groupMember], $"added to { group.ToString() }");
         }
 
 
         // Remove a group member
-        internal static bool RemoveGroupMember(Group group, ulong groupMember)
+        internal static bool RemoveGroupMember(Catalog catalog, Group group, ulong groupMember)
         {
             if (!group.GroupMembers.Remove(groupMember))
             {
@@ -480,7 +472,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Get all mods that have this former groupmember as required mod
-            List<Mod> modList = ActiveCatalog.Mods.FindAll(x => x.RequiredMods.Contains(groupMember));
+            List<Mod> modList = catalog.Mods.FindAll(x => x.RequiredMods.Contains(groupMember));
 
             // Remove the group as required mod if no other group member is required
             foreach (Mod mod in modList)
@@ -500,19 +492,19 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            AddUpdatedModChangeNote(ActiveCatalog.ModDictionary[groupMember], $"removed from { group.ToString() }");
+            AddUpdatedModChangeNote(catalog.ModDictionary[groupMember], $"removed from { group.ToString() }");
 
             return true;
         }
 
 
         // Add a compatibility
-        internal static void AddCompatibility(ulong firstModID, string firstModname, ulong secondModID, string secondModName, 
+        internal static void AddCompatibility(Catalog catalog, ulong firstModID, string firstModname, ulong secondModID, string secondModName, 
             Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
         {
             Compatibility compatibility = new Compatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, compatibilityNote);
 
-            ActiveCatalog.Compatibilities.Add(compatibility);
+            catalog.Compatibilities.Add(compatibility);
 
             changeNotesNewCompatibilities.AppendLine($"Compatibility added between { firstModID, 10 } and { secondModID, 10 }: { compatibilityStatus }" +
                 (string.IsNullOrEmpty(compatibilityNote) ? "" : ", " + compatibilityNote));
@@ -520,12 +512,12 @@ namespace CompatibilityReport.Updater
 
 
         // Remove a compatibility
-        internal static bool RemoveCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus)
+        internal static bool RemoveCompatibility(Catalog catalog, ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus)
         {
-            Compatibility catalogCompatibility = ActiveCatalog.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID &&
+            Compatibility catalogCompatibility = catalog.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID &&
                 x.Status == compatibilityStatus);
 
-            if (!ActiveCatalog.Compatibilities.Remove(catalogCompatibility))
+            if (!catalog.Compatibilities.Remove(catalogCompatibility))
             {
                 return false;
             }
@@ -537,9 +529,9 @@ namespace CompatibilityReport.Updater
 
 
         // Add or get an author
-        internal static Author GetOrAddAuthor(ulong authorID, string authorURL, string authorName)
+        internal static Author GetOrAddAuthor(Catalog catalog, ulong authorID, string authorURL, string authorName)
         {
-            Author catalogAuthor = ActiveCatalog.GetAuthor(authorID, authorURL);
+            Author catalogAuthor = catalog.GetAuthor(authorID, authorURL);
 
             // Get the author from the catalog, or add a new one
             if (catalogAuthor != null)
@@ -556,7 +548,7 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Log if we have two authors with the same name, which could an existing author we missed when a custom URL has changed
-                Author namesakeAuthor = ActiveCatalog.Authors.Find(x => x.Name == authorName);
+                Author namesakeAuthor = catalog.Authors.Find(x => x.Name == authorName);
                 
                 if (namesakeAuthor != default)
                 {
@@ -566,7 +558,7 @@ namespace CompatibilityReport.Updater
                     Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\": { authors }. This could be a coincidence or an error.", Logger.warning);
                 }
 
-                catalogAuthor = ActiveCatalog.AddAuthor(authorID, authorURL, authorName);
+                catalogAuthor = catalog.AddAuthor(authorID, authorURL, authorName);
 
                 catalogAuthor.Update(extraChangeNote: $"{ catalogDateString }: added");
 
@@ -608,14 +600,14 @@ namespace CompatibilityReport.Updater
 
 
         // Retire authors that are now eligible due to last seen date, and authors that don't have a mod in the Steam Workshop anymore
-        private static void UpdateAuthorRetirement()
+        private static void UpdateAuthorRetirement(Catalog catalog)
         {
             // Make temporary lists of all authors that have at least one Workshop mod
             List<ulong> ActiveAuthorIDs = new List<ulong>();
 
             List<string> ActiveAuthorURLs = new List<string>();
 
-            foreach (Mod catalogMod in ActiveCatalog.Mods)
+            foreach (Mod catalogMod in catalog.Mods)
             {
                 if (!catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
                 {
@@ -632,7 +624,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Check and update retirement for all authors
-            foreach (Author catalogAuthor in ActiveCatalog.Authors)
+            foreach (Author catalogAuthor in catalog.Authors)
             {
                 // Set exclusion for early retirement and remove it otherwise
                 if (catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) >= DateTime.Today)
@@ -675,7 +667,7 @@ namespace CompatibilityReport.Updater
 
 
         // Add a mod status, including exclusions and removing conflicting statuses.
-        internal static void AddStatus(Mod catalogMod, Enums.ModStatus status, bool updatedByWebCrawler = false)
+        internal static void AddStatus(Catalog catalog, Mod catalogMod, Enums.ModStatus status, bool updatedByWebCrawler = false)
         {
             if (status == default || catalogMod.Statuses.Contains(status))
             {
@@ -726,7 +718,7 @@ namespace CompatibilityReport.Updater
 
                 if (!string.IsNullOrEmpty(catalogMod.SourceURL))
                 {
-                    UpdateMod(catalogMod, sourceURL: "", updatedByWebCrawler: updatedByWebCrawler);
+                    UpdateMod(catalog, catalogMod, sourceURL: "", updatedByWebCrawler: updatedByWebCrawler);
 
                     catalogMod.Update(exclusionForSourceURL: true);
                 }
@@ -806,13 +798,13 @@ namespace CompatibilityReport.Updater
 
 
         // Add a required mod, including exclusion, required group and change notes
-        internal static void AddRequiredMod(Mod catalogMod, ulong requiredID)
+        internal static void AddRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID)
         {
-            if (ActiveCatalog.IsValidID(requiredID, allowGroup: true) && !catalogMod.RequiredMods.Contains(requiredID))
+            if (catalog.IsValidID(requiredID, allowGroup: true) && !catalogMod.RequiredMods.Contains(requiredID))
             {
                 catalogMod.RequiredMods.Add(requiredID);
 
-                if (ActiveCatalog.GroupDictionary.ContainsKey(requiredID))
+                if (catalog.GroupDictionary.ContainsKey(requiredID))
                 {
                     // requiredID is a group
                     AddUpdatedModChangeNote(catalogMod, $"required group { requiredID } added");
@@ -824,16 +816,16 @@ namespace CompatibilityReport.Updater
 
                     catalogMod.AddExclusionForRequiredMods(requiredID);
 
-                    if (ActiveCatalog.IsGroupMember(requiredID))
+                    if (catalog.IsGroupMember(requiredID))
                     {
                         // Also add the group that requiredID is a member of
-                        AddRequiredMod(catalogMod, ActiveCatalog.GetGroup(requiredID).GroupID);
+                        AddRequiredMod(catalog, catalogMod, catalog.GetGroup(requiredID).GroupID);
                     }
                 }
             }
 
             // If the requiredID is not a known ID, it's probably an asset. [Todo 0.4] This still gives warnings if the asset is added by add_asset in CSV
-            else if (ActiveCatalog.IsValidID(requiredID, shouldExist: false) && !ActiveCatalog.RequiredAssets.Contains(requiredID))
+            else if (catalog.IsValidID(requiredID, shouldExist: false) && !catalog.RequiredAssets.Contains(requiredID))
             {
                 UnknownRequiredAssets.Append($", { requiredID }");
                 
@@ -843,11 +835,11 @@ namespace CompatibilityReport.Updater
 
 
         // Remove a required mod from a mod, including exclusion, group and change notes
-        internal static void RemoveRequiredMod(Mod catalogMod, ulong requiredID)
+        internal static void RemoveRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID)
         {
             if (catalogMod.RequiredMods.Remove(requiredID))
             {
-                if (ActiveCatalog.GroupDictionary.ContainsKey(requiredID))
+                if (catalog.GroupDictionary.ContainsKey(requiredID))
                 {
                     // requiredID is a group
                     AddUpdatedModChangeNote(catalogMod, $"required Group { requiredID } removed");
@@ -867,7 +859,7 @@ namespace CompatibilityReport.Updater
                         catalogMod.ExclusionForRequiredMods.Add(requiredID);
                     }
 
-                    Group group = ActiveCatalog.GetGroup(requiredID);
+                    Group group = catalog.GetGroup(requiredID);
 
                     if (group != null)
                     {
@@ -881,7 +873,7 @@ namespace CompatibilityReport.Updater
 
                         if (canRemoveGroup)
                         {
-                            RemoveRequiredMod(catalogMod, group.GroupID);
+                            RemoveRequiredMod(catalog, catalogMod, group.GroupID);
                         }
                     }
                 }

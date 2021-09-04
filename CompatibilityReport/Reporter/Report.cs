@@ -10,7 +10,7 @@ namespace CompatibilityReport.Reporter
 {
     internal static class Report
     {
-        // List and dictionary with SteamIDs and Names of all subscribed mods, used for sorted reporting
+        // List and dictionary with SteamIDs and Names of all subscribed mods, used for sorted reporting    [Todo 0.4] static properties -> parameters
         internal static List<ulong> AllSubscriptionSteamIDs { get; private set; }
 
         internal static Dictionary<string, List<ulong>> AllSubscriptionNamesAndIDs { get; private set; }
@@ -49,9 +49,9 @@ namespace CompatibilityReport.Reporter
             }
 
             // Load the catalog
-            Catalog ActiveCatalog = Catalog.InitActive();
+            Catalog catalog = Catalog.Load();
 
-            if (ActiveCatalog == null)
+            if (catalog == null)
             {
                 Logger.Log("Can't load bundled catalog and can't download a new catalog. No report was generated.", Logger.error, duplicateToGameLog: true);
 
@@ -61,28 +61,28 @@ namespace CompatibilityReport.Reporter
             Logger.Log(scene == "IntroScreen" ? "Reporter started during game startup." : 
                 (scene == "Game" ? "Reporter started during map loading." : "Reporter started for an on-demand report."));
 
-            if (Toolkit.CurrentGameVersion != ActiveCatalog.CompatibleGameVersion)
+            if (Toolkit.CurrentGameVersion != catalog.CompatibleGameVersion)
             {
-                Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(ActiveCatalog.CompatibleGameVersion) }. " +
-                    $"You're using { (Toolkit.CurrentGameVersion < ActiveCatalog.CompatibleGameVersion ? "an older" : "a newer") } version of the game. " +
+                Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(catalog.CompatibleGameVersion) }. " +
+                    $"You're using { (Toolkit.CurrentGameVersion < catalog.CompatibleGameVersion ? "an older" : "a newer") } version of the game. " +
                     "Results may not be accurate.", Logger.warning, duplicateToGameLog: true);
             }
 
             // Get all subscriptions, including all builtin and local mods, with info from game and catalog
-            GetSubscriptions(ActiveCatalog);
+            GetSubscriptions(catalog);
 
             Logger.Log($"Reviewed { TotalReviewedSubscriptions } of your { AllSubscriptionSteamIDs.Count } mods.");
 
             // Create the HTML report if selected in settings
             if (ModSettings.HtmlReport)
             {
-                reportCreated = HtmlReport.Create(ActiveCatalog);
+                reportCreated = HtmlReport.Create(catalog);
             }
 
             // Create the text report if selected in settings, or if somehow no report was selected in options
             if (ModSettings.TextReport || !ModSettings.HtmlReport)
             {
-                reportCreated = reportCreated || TextReport.Create(ActiveCatalog);
+                reportCreated = reportCreated || TextReport.Create(catalog);
             }
 
             // Free some memory
@@ -92,14 +92,12 @@ namespace CompatibilityReport.Reporter
 
             SubscribedCompatibilities = null;
 
-            Catalog.CloseActive();
-
             Logger.Log("Mod has shutdown.", duplicateToGameLog: true);
         }
 
 
         // Get all subscribed and local mods and merge the found info into the catalog. Local mods are temporarily added to the catalog in memory.
-        private static void GetSubscriptions(Catalog ActiveCatalog)
+        private static void GetSubscriptions(Catalog catalog)
         {
             // Get a list of all subscribed, local and builtin mods, including camera scripts
             List<PluginManager.PluginInfo> plugins = new List<PluginManager.PluginInfo>();
@@ -135,9 +133,9 @@ namespace CompatibilityReport.Reporter
                     // Steam Workshop mod
                     ulong steamID = plugin.publishedFileID.AsUInt64;
 
-                    foundInCatalog = ActiveCatalog.ModDictionary.ContainsKey(steamID);
+                    foundInCatalog = catalog.ModDictionary.ContainsKey(steamID);
 
-                    subscribedMod = ActiveCatalog.GetOrAddMod(steamID);
+                    subscribedMod = catalog.GetOrAddMod(steamID);
                 }
                 else if (plugin.isBuiltin)
                 {
@@ -155,9 +153,9 @@ namespace CompatibilityReport.Reporter
                     {
                         ulong fakeSteamID = ModSettings.BuiltinMods[modName];
 
-                        foundInCatalog = ActiveCatalog.ModDictionary.ContainsKey(fakeSteamID);
+                        foundInCatalog = catalog.ModDictionary.ContainsKey(fakeSteamID);
 
-                        subscribedMod = ActiveCatalog.GetOrAddMod(fakeSteamID);
+                        subscribedMod = catalog.GetOrAddMod(fakeSteamID);
                     }
                     else
                     {
@@ -178,7 +176,7 @@ namespace CompatibilityReport.Reporter
                     }
 
                     // Add the mod to the catalog. Matching local mods to catalog mods is a future idea not accounted for here.
-                    subscribedMod = ActiveCatalog.GetOrAddMod(nextLocalModID);
+                    subscribedMod = catalog.GetOrAddMod(nextLocalModID);
 
                     nextLocalModID++;
 
@@ -221,7 +219,7 @@ namespace CompatibilityReport.Reporter
             }
 
             // Fill the dictionary with all compatibilities where both Steam IDs are subscribed
-            foreach(Compatibility catalogCompatibility in ActiveCatalog.Compatibilities)
+            foreach(Compatibility catalogCompatibility in catalog.Compatibilities)
             {
                 if (AllSubscriptionSteamIDs.Contains(catalogCompatibility.FirstModID) && AllSubscriptionSteamIDs.Contains(catalogCompatibility.SecondModID))
                 {

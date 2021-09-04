@@ -14,12 +14,8 @@ namespace CompatibilityReport.Updater
 {
     internal static class FileImporter
     {
-        private static Catalog ActiveCatalog;
-
-        internal static void Start(Catalog activeCatalog)
+        internal static void Start(Catalog catalog)
         {
-            ActiveCatalog = activeCatalog;
-
             CatalogUpdater.SetReviewDate(DateTime.Today);
 
             Logger.UpdaterLog("Updater started the CSV import.");
@@ -42,7 +38,7 @@ namespace CompatibilityReport.Updater
 
             foreach (string CSVfilename in CSVfilenames)
             {
-                withoutErrors = withoutErrors && ReadCSV(CSVfilename);
+                withoutErrors = withoutErrors && ReadCSV(catalog, CSVfilename);
             }
 
             timer.Stop();
@@ -51,13 +47,11 @@ namespace CompatibilityReport.Updater
                 (withoutErrors ? "." : ", with errors."), withoutErrors ? Logger.info : Logger.warning);
 
             Logger.Log("Updater found errors while processing CSV files. See separate log for details.", Logger.warning);
-
-            ActiveCatalog = null;
         }
 
 
         // Read a CSV file. Returns false on errors.
-        private static bool ReadCSV(string CSVfileFullPath)
+        private static bool ReadCSV(Catalog catalog, string CSVfileFullPath)
         {
             string filename = Toolkit.GetFileName(CSVfileFullPath);
 
@@ -80,7 +74,7 @@ namespace CompatibilityReport.Updater
                 {
                     lineNumber++;
 
-                    string errorMessage = ReadLine(line);
+                    string errorMessage = ReadLine(catalog, line);
 
                     if (string.IsNullOrEmpty(errorMessage))
                     {
@@ -119,7 +113,7 @@ namespace CompatibilityReport.Updater
 
 
         // Read and process one CSV line. Returns an error message, if any.
-        private static string ReadLine(string line)
+        private static string ReadLine(Catalog catalog, string line)
         {
             // Skip empty lines and lines starting with a '#' (comments), without returning an error
             if (string.IsNullOrEmpty(line) || line.Trim()[0] == '#')
@@ -156,11 +150,12 @@ namespace CompatibilityReport.Updater
 
                 case "add_mod":
                     // Use the author URL only if no author ID was found. Join the lineFragments for the mod name, to allow for commas
-                    return AddMod(modID: numericSecond, status: stringThird.ToLower(), authorID: numericFourth, authorURL: numericFourth == 0 ? stringFourth : "", 
+                    return AddMod(catalog, modID: numericSecond, status: stringThird.ToLower(), authorID: numericFourth, 
+                        authorURL: numericFourth == 0 ?  stringFourth : "", 
                         modName: lineElements.Length < 5 ? "" : string.Join(",", lineElements, 4, lineElements.Length - 4).Trim());
 
                 case "remove_mod":
-                    return RemoveMod(modID: numericSecond); 
+                    return RemoveMod(catalog, modID: numericSecond); 
 
                 case "set_sourceurl":
                 case "set_gameversion":
@@ -169,20 +164,20 @@ namespace CompatibilityReport.Updater
                 case "add_status":
                 case "remove_requireddlc":
                 case "remove_status":
-                    return string.IsNullOrEmpty(stringThird) ? "Not enough parameters." : ChangeModItem(action, modID: numericSecond, stringThird); 
+                    return string.IsNullOrEmpty(stringThird) ? "Not enough parameters." : ChangeModItem(catalog, action, modID: numericSecond, stringThird); 
 
                 case "set_stabilitynote":
                 case "set_genericnote":
                     // Join the lineFragments for the note, to allow for commas. Replace "\n" in CSV text by real '\n' characters
                     return lineElements.Length < 3 ? "Not enough parameters." :
-                        ChangeModItem(action, modID: numericSecond, string.Join(",", lineElements, 2, lineElements.Length - 2).Trim().Replace("\\n", "\n"));
+                        ChangeModItem(catalog, action, modID: numericSecond, string.Join(",", lineElements, 2, lineElements.Length - 2).Trim().Replace("\\n", "\n"));
 
                 case "update_review":
                 case "remove_sourceurl":
                 case "remove_gameversion":
                 case "remove_stabilitynote":
                 case "remove_genericnote":
-                    return ChangeModItem(action, modID: numericSecond);
+                    return ChangeModItem(catalog, action, modID: numericSecond);
 
                 case "add_requiredmod":
                 case "add_successor":
@@ -192,11 +187,11 @@ namespace CompatibilityReport.Updater
                 case "remove_successor":
                 case "remove_alternative":
                 case "remove_recommendation":
-                    return !ActiveCatalog.IsValidID(numericThird) ? $"Invalid mod ID { numericThird }." :
-                        ChangeModItem(action, modID: numericSecond, listMember: numericThird);
+                    return !catalog.IsValidID(numericThird) ? $"Invalid mod ID { numericThird }." :
+                        ChangeModItem(catalog, action, modID: numericSecond, listMember: numericThird);
 
                 case "remove_exclusion":
-                    return RemoveExclusion(modID: numericSecond, categoryString: stringThird.ToLower(), dlcString: stringFourth, requiredID: numericFourth);
+                    return RemoveExclusion(catalog, modID: numericSecond, categoryString: stringThird.ToLower(), dlcString: stringFourth, requiredID: numericFourth);
 
                 case "add_compatibility":
                 case "remove_compatibility":
@@ -205,7 +200,8 @@ namespace CompatibilityReport.Updater
                         string.Join(",", lineElements, 4, lineElements.Length - 4).Trim().Replace("\\n", "\n");
 
                     return lineElements.Length < 4 ? "Not enough parameters." : 
-                        AddRemoveCompatibility(action, firstModID: numericSecond, secondModID: numericThird, compatibilityString: stringFourth.ToLower(), compatibilityNote);
+                        AddRemoveCompatibility(catalog, action, firstModID: numericSecond, secondModID: numericThird, 
+                            compatibilityString: stringFourth.ToLower(), compatibilityNote);
 
                 case "add_compatibilitiesforone":
                 case "add_compatibilitiesforall":
@@ -235,21 +231,21 @@ namespace CompatibilityReport.Updater
                         }
                     }
 
-                    return action == "add_compatibilitiesforone" ? AddCompatibilitiesForOne(firstModID: numericSecond, compatibilityStatusString: stringThird.ToLower(), modIDs) :
-                           action == "add_compatibilitiesforall" ? AddCompatibilitiesForAll(compatibilityStatusString: stringSecond.ToLower(), modIDs) :
-                           action == "add_group" ? AddGroup(groupName: stringSecond, groupMembers: modIDs) :
-                           action == "add_requiredassets" ? AddRequiredAssets(modIDs) : RemoveRequiredAssets(modIDs);
+                    return action == "add_compatibilitiesforone" ? AddCompatibilitiesForOne(catalog, firstModID: numericSecond, compatibilityStatusString: stringThird.ToLower(), modIDs) :
+                           action == "add_compatibilitiesforall" ? AddCompatibilitiesForAll(catalog, compatibilityStatusString: stringSecond.ToLower(), modIDs) :
+                           action == "add_group" ? AddGroup(catalog, groupName: stringSecond, groupMembers: modIDs) :
+                           action == "add_requiredassets" ? AddRequiredAssets(catalog, modIDs) : RemoveRequiredAssets(catalog, modIDs);
 
                 case "remove_group":
-                    return RemoveGroup(groupID: numericSecond);
+                    return RemoveGroup(catalog, groupID: numericSecond);
 
                 case "add_groupmember":
                 case "remove_groupmember":
-                    return AddRemoveGroupMember(action, groupID: numericSecond, groupMember: numericThird);
+                    return AddRemoveGroupMember(catalog, action, groupID: numericSecond, groupMember: numericThird);
 
                 case "add_author":
                     // Use author url only if author ID was not found
-                    return AddAuthor(authorID: numericSecond, authorURL: numericSecond == 0 ? stringSecond : "", authorName: stringThird);
+                    return AddAuthor(catalog, authorID: numericSecond, authorURL: numericSecond == 0 ? stringSecond : "", authorName: stringThird);
 
                 case "set_authorid":
                 case "set_authorurl":
@@ -257,22 +253,22 @@ namespace CompatibilityReport.Updater
                 case "set_lastseen":
                 case "set_retired":
                 case "remove_retired":
-                    return ChangeAuthorItem(action, authorID: numericSecond, authorURL: stringSecond, itemData: stringThird, newAuthorID: numericThird);
+                    return ChangeAuthorItem(catalog, action, authorID: numericSecond, authorURL: stringSecond, itemData: stringThird, newAuthorID: numericThird);
 
                 case "set_cataloggameversion":
-                    return SetCatalogGameVersion(newGameVersion: Toolkit.ConvertToGameVersion(stringSecond));
+                    return SetCatalogGameVersion(catalog, newGameVersion: Toolkit.ConvertToGameVersion(stringSecond));
 
                 case "set_catalognote":
                 case "set_catalogheadertext":
                 case "set_catalogfootertext":
                     // Join the lineFragments for the note, to allow for commas. Replace "\n" in CSV text by real '\n' characters
                     return lineElements.Length < 2 ? "Not enough parameters." : 
-                        ChangeCatalogText(action, string.Join(",", lineElements, 1, lineElements.Length - 1).Trim().Replace("\\n", "\n"));
+                        ChangeCatalogText(catalog, action, string.Join(",", lineElements, 1, lineElements.Length - 1).Trim().Replace("\\n", "\n"));
 
                 case "remove_catalognote":
                 case "remove_catalogheadertext":
                 case "remove_catalogfootertext":
-                    return ChangeCatalogText(action, "");
+                    return ChangeCatalogText(catalog, action, "");
 
                 default:
                     return "Invalid action.";
@@ -281,9 +277,9 @@ namespace CompatibilityReport.Updater
 
 
         // Add an unlisted or removed mod
-        private static string AddMod(ulong modID, string status, ulong authorID, string authorURL, string modName)
+        private static string AddMod(Catalog catalog, ulong modID, string status, ulong authorID, string authorURL, string modName)
         {
-            if (!ActiveCatalog.IsValidID(modID, shouldExist: false))
+            if (!catalog.IsValidID(modID, shouldExist: false))
             {
                 return "Invalid Steam ID or mod already exists.";
             }
@@ -293,36 +289,36 @@ namespace CompatibilityReport.Updater
                 return "Invalid status, must be 'unlisted' or 'removed'.";
             }
 
-            Mod newMod = CatalogUpdater.GetOrAddMod(modID, modName == "" ? null : modName, unlisted: status == "unlisted", removed: status == "removed");
+            Mod newMod = CatalogUpdater.GetOrAddMod(catalog, modID, modName == "" ? null : modName, unlisted: status == "unlisted", removed: status == "removed");
 
-            CatalogUpdater.UpdateMod(newMod, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true);
+            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true);
 
             return "";
         }
 
 
         // Remove a removed mod from the catalog
-        private static string RemoveMod(ulong modID)
+        private static string RemoveMod(Catalog catalog, ulong modID)
         {
-            if (!ActiveCatalog.IsValidID(modID, allowBuiltin: false))
+            if (!catalog.IsValidID(modID, allowBuiltin: false))
             {
                 return "Invalid Steam ID or mod does not exist.";
             }
 
-            Mod catalogMod = ActiveCatalog.ModDictionary[modID];
+            Mod catalogMod = catalog.ModDictionary[modID];
 
             if (!catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
             {
                 return "Mod can't be removed because it is not removed from the Steam Workshop.";
             }
 
-            if (ActiveCatalog.IsGroupMember(modID))
+            if (catalog.IsGroupMember(modID))
             {
                 return "Mod can't be removed because it is still in a group.";
             }
 
             // Check if the mod is listed as required, successor, alternative or recommended mod anywhere
-            if (ActiveCatalog.Mods.FirstOrDefault(x => x.RequiredMods.Contains(modID) || x.Successors.Contains(modID) ||
+            if (catalog.Mods.FirstOrDefault(x => x.RequiredMods.Contains(modID) || x.Successors.Contains(modID) ||
                                                                 x.Alternatives.Contains(modID) || x.Recommendations.Contains(modID)) != default)
             {
                 return "Mod can't be removed because it is still referenced by other mods (required, successor, alternative or recommendation).";
@@ -330,23 +326,23 @@ namespace CompatibilityReport.Updater
 
             CatalogUpdater.AddRemovedModChangeNote(catalogMod);
 
-            ActiveCatalog.Mods.Remove(catalogMod);     // [Todo 0.4] Move to Catalog class as RemoveMod?
+            catalog.Mods.Remove(catalogMod);     // [Todo 0.4] Move to Catalog class as RemoveMod?
 
-            ActiveCatalog.ModDictionary.Remove(modID);
+            catalog.ModDictionary.Remove(modID);
 
             return "";
         }
 
 
         // Change a mod item
-        private static string ChangeModItem(string action, ulong modID, string itemData = "", ulong listMember = 0)
+        private static string ChangeModItem(Catalog catalog, string action, ulong modID, string itemData = "", ulong listMember = 0)
         {
-            if (!ActiveCatalog.IsValidID(modID))
+            if (!catalog.IsValidID(modID))
             {
                 return $"Invalid mod ID { modID }.";
             }
 
-            Mod catalogMod = ActiveCatalog.ModDictionary[modID];
+            Mod catalogMod = catalog.ModDictionary[modID];
 
             // Act on the action
             if (action == "set_sourceurl")
@@ -356,7 +352,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid URL.";
                 }
 
-                CatalogUpdater.UpdateMod(catalogMod, sourceURL: itemData);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: itemData);
 
                 CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.SourceUnavailable);
             }
@@ -367,7 +363,7 @@ namespace CompatibilityReport.Updater
                     return "No source URL to remove.";
                 }
 
-                CatalogUpdater.UpdateMod(catalogMod, sourceURL: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: "");
             }
             else if (action == "set_gameversion")
             {
@@ -379,7 +375,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid gameversion.";
                 }
 
-                CatalogUpdater.UpdateMod(catalogMod, compatibleGameVersionString: newGameVersionString);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: newGameVersionString);
             }
             else if (action == "remove_gameversion")
             {
@@ -389,7 +385,7 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Remove the game version and the exclusion
-                CatalogUpdater.UpdateMod(catalogMod, compatibleGameVersionString: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: "");
             }
             else if (action == "add_requireddlc")
             {
@@ -451,7 +447,7 @@ namespace CompatibilityReport.Updater
                     return "Mod has the Incompatible stability and that can only be changed for a removed mod.";
                 }
 
-                CatalogUpdater.UpdateMod(catalogMod, stability: stability);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability);
             }
             else if (action == "add_status")
             {
@@ -481,7 +477,7 @@ namespace CompatibilityReport.Updater
                     return "Mod already has this status.";
                 }
 
-                CatalogUpdater.AddStatus(catalogMod, status);
+                CatalogUpdater.AddStatus(catalog, catalogMod, status);
             }
             else if (action == "remove_status")
             {
@@ -504,7 +500,7 @@ namespace CompatibilityReport.Updater
                     return "Note already added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalogMod, stabilityNote: itemData);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, stabilityNote: itemData);
             }
             else if (action == "set_genericnote")
             {
@@ -513,7 +509,7 @@ namespace CompatibilityReport.Updater
                     return "Note already added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalogMod, genericNote: itemData);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: itemData);
             }
             else if (action == "remove_stabilitynote")
             {
@@ -522,7 +518,7 @@ namespace CompatibilityReport.Updater
                     return "Note already empty.";
                 }
 
-                CatalogUpdater.UpdateMod(catalogMod, stabilityNote: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, stabilityNote: "");
             }
             else if (action == "remove_genericnote")
             {
@@ -531,11 +527,11 @@ namespace CompatibilityReport.Updater
                     return "Note already empty.";
                 }
 
-                CatalogUpdater.UpdateMod(catalogMod, genericNote: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: "");
             }
             else if (action == "update_review")
             {
-                CatalogUpdater.UpdateMod(catalogMod, alwaysUpdateReviewDate: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, alwaysUpdateReviewDate: true);
             }
             else if (action == "add_requiredmod")
             {
@@ -544,7 +540,7 @@ namespace CompatibilityReport.Updater
                     return "Mod is already required.";
                 }
 
-                CatalogUpdater.AddRequiredMod(catalogMod, listMember);
+                CatalogUpdater.AddRequiredMod(catalog, catalogMod, listMember);
             }
             else if (action == "remove_requiredmod")
             {
@@ -553,7 +549,7 @@ namespace CompatibilityReport.Updater
                     return "Mod is not required.";
                 }
 
-                CatalogUpdater.RemoveRequiredMod(catalogMod, listMember);
+                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, listMember);
             }
             else if (action == "add_successor")
             {
@@ -620,9 +616,9 @@ namespace CompatibilityReport.Updater
 
 
         // Remove an exclusion for SourceURL, GameVersion, RequiredDLC, RequiredMod or NoDescription
-        private static string RemoveExclusion(ulong modID, string categoryString, string dlcString, ulong requiredID)
+        private static string RemoveExclusion(Catalog catalog, ulong modID, string categoryString, string dlcString, ulong requiredID)
         {
-            if (!ActiveCatalog.IsValidID(modID))
+            if (!catalog.IsValidID(modID))
             {
                 return $"Invalid Steam ID { modID }.";
             }
@@ -632,7 +628,7 @@ namespace CompatibilityReport.Updater
                 return "Not enough parameters.";
             }
 
-            Mod catalogMod = ActiveCatalog.ModDictionary[modID];
+            Mod catalogMod = catalog.ModDictionary[modID];
 
             if (categoryString == "sourceurl")
             {
@@ -680,19 +676,19 @@ namespace CompatibilityReport.Updater
 
 
         // Add an author, as retired
-        private static string AddAuthor(ulong authorID, string authorURL, string authorName)
+        private static string AddAuthor(Catalog catalog, ulong authorID, string authorURL, string authorName)
         {
             if ((authorID == 0 && string.IsNullOrEmpty(authorURL)) || string.IsNullOrEmpty(authorName))
             {
                 return "Not enough parameters.";
             }
 
-            if (ActiveCatalog.AuthorIDDictionary.ContainsKey(authorID) || ActiveCatalog.AuthorURLDictionary.ContainsKey(authorURL))
+            if (catalog.AuthorIDDictionary.ContainsKey(authorID) || catalog.AuthorURLDictionary.ContainsKey(authorURL))
             {
                 return "Author already exists.";
             }
 
-            Author newAuthor = CatalogUpdater.GetOrAddAuthor(authorID, authorURL, authorName);
+            Author newAuthor = CatalogUpdater.GetOrAddAuthor(catalog, authorID, authorURL, authorName);
 
             CatalogUpdater.UpdateAuthor(newAuthor, retired: true);
             
@@ -701,27 +697,27 @@ namespace CompatibilityReport.Updater
 
 
         // Change an author item, by author type
-        private static string ChangeAuthorItem(string action, ulong authorID, string authorURL, string itemData, ulong newAuthorID)
+        private static string ChangeAuthorItem(Catalog catalog, string action, ulong authorID, string authorURL, string itemData, ulong newAuthorID)
         {
             Author catalogAuthor;
 
             if (authorID != 0)
             {
-                if (!ActiveCatalog.AuthorIDDictionary.ContainsKey(authorID))
+                if (!catalog.AuthorIDDictionary.ContainsKey(authorID))
                 {
                     return "Invalid author ID.";
                 }
 
-                catalogAuthor = ActiveCatalog.AuthorIDDictionary[authorID];
+                catalogAuthor = catalog.AuthorIDDictionary[authorID];
             }
             else
             {
-                if (!ActiveCatalog.AuthorURLDictionary.ContainsKey(authorURL))
+                if (!catalog.AuthorURLDictionary.ContainsKey(authorURL))
                 {
                     return "Invalid author custom URL.";
                 }
 
-                catalogAuthor = ActiveCatalog.AuthorURLDictionary[authorURL];
+                catalogAuthor = catalog.AuthorURLDictionary[authorURL];
             }
 
             if (catalogAuthor == null)
@@ -822,74 +818,74 @@ namespace CompatibilityReport.Updater
 
 
         // Add a group
-        private static string AddGroup(string groupName, List<ulong> groupMembers)
+        private static string AddGroup(Catalog catalog, string groupName, List<ulong> groupMembers)
         {
             if (string.IsNullOrEmpty(groupName) || groupMembers == null || groupMembers.Count < 2)
             {
                 return "Not enough parameters.";
             }
 
-            if (ActiveCatalog.Groups.Find(x => x.Name == groupName) != default)
+            if (catalog.Groups.Find(x => x.Name == groupName) != default)
             {
                 return "A group with that name already exists.";
             }
 
             foreach (ulong groupMember in groupMembers)
             {
-                if (!ActiveCatalog.IsValidID(groupMember))
+                if (!catalog.IsValidID(groupMember))
                 {
                     return $"Invalid mod ID { groupMember }.";
                 }
 
-                if (ActiveCatalog.IsGroupMember(groupMember))
+                if (catalog.IsGroupMember(groupMember))
                 {
                     return $"Mod { groupMember } is already in a group and a mod can only be in one.";
                 }
             }
 
-            CatalogUpdater.AddGroup(groupName, groupMembers);
+            CatalogUpdater.AddGroup(catalog, groupName, groupMembers);
 
             return "";
         }
 
 
         // Remove a group
-        private static string RemoveGroup(ulong groupID)
+        private static string RemoveGroup(Catalog catalog, ulong groupID)
         {
-            if (!ActiveCatalog.GroupDictionary.ContainsKey(groupID))
+            if (!catalog.GroupDictionary.ContainsKey(groupID))
             {
                 return "Invalid group ID.";
             }
 
-            CatalogUpdater.RemoveGroup(groupID);
+            CatalogUpdater.RemoveGroup(catalog, groupID);
 
             return "";
         }
 
 
         // Add or remove a group member
-        private static string AddRemoveGroupMember(string action, ulong groupID, ulong groupMember)
+        private static string AddRemoveGroupMember(Catalog catalog, string action, ulong groupID, ulong groupMember)
         {
-            if (!ActiveCatalog.GroupDictionary.ContainsKey(groupID))
+            if (!catalog.GroupDictionary.ContainsKey(groupID))
             {
                 return "Invalid group ID.";
             }
 
-            if (!ActiveCatalog.IsValidID(groupMember))
+            if (!catalog.IsValidID(groupMember))
             {
                 return $"Invalid mod ID { groupMember }.";
             }
 
-            Group group = ActiveCatalog.GroupDictionary[groupID];
+            Group group = catalog.GroupDictionary[groupID];
 
             if (action == "add_groupmember")
             {
-                if (ActiveCatalog.IsGroupMember(groupMember))
+                if (catalog.IsGroupMember(groupMember))
                 {
                     return $"Mod { groupMember } is already in a group and a mod can only be in one.";
                 }
 
-                CatalogUpdater.AddGroupMember(group, groupMember);
+                CatalogUpdater.AddGroupMember(catalog, group, groupMember);
 
                 return "";
             }
@@ -900,13 +896,13 @@ namespace CompatibilityReport.Updater
                     return $"Mod { groupMember } is not a member of this group.";
                 }
 
-                return CatalogUpdater.RemoveGroupMember(group, groupMember) ? "" : $"Could not remove { groupMember } from group.";
+                return CatalogUpdater.RemoveGroupMember(catalog, group, groupMember) ? "" : $"Could not remove { groupMember } from group.";
             }
         }
 
 
         // Add a set of compatibilities between each of the mods in a list
-        private static string AddCompatibilitiesForAll(string compatibilityStatusString, List<ulong> steamIDs)
+        private static string AddCompatibilitiesForAll(Catalog catalog, string compatibilityStatusString, List<ulong> steamIDs)
         {
             if (compatibilityStatusString == "newerversion" || compatibilityStatusString == "functionalitycovered" || 
                 compatibilityStatusString == "incompatibleaccordingtoauthor" || compatibilityStatusString == "incompatibleaccordingtousers" || 
@@ -929,7 +925,7 @@ namespace CompatibilityReport.Updater
                 steamIDs.RemoveAt(0);
 
                 // Add compatibilities between this mod and each mod from the list
-                string result = AddCompatibilitiesForOne(firstModID, compatibilityStatusString, steamIDs);
+                string result = AddCompatibilitiesForOne(catalog, firstModID, compatibilityStatusString, steamIDs);
 
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -943,7 +939,7 @@ namespace CompatibilityReport.Updater
 
 
         // Add a set of compatibilities between one mod and a list of others
-        private static string AddCompatibilitiesForOne(ulong firstModID, string compatibilityStatusString, List<ulong> steamIDs)
+        private static string AddCompatibilitiesForOne(Catalog catalog, ulong firstModID, string compatibilityStatusString, List<ulong> steamIDs)
         {
             if (compatibilityStatusString == "minorissues" || compatibilityStatusString == "requiresspecificsettings")
             {
@@ -964,7 +960,7 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Add the compatibility
-                string result = AddRemoveCompatibility("add_compatibility", firstModID, secondModID, compatibilityStatusString, compatibilityNote: "");
+                string result = AddRemoveCompatibility(catalog, "add_compatibility", firstModID, secondModID, compatibilityStatusString, compatibilityNote: "");
 
                 if (!string.IsNullOrEmpty(result))
                 {
@@ -980,7 +976,8 @@ namespace CompatibilityReport.Updater
 
 
         // Add or remove a compatibility between two mods
-        private static string AddRemoveCompatibility(string action, ulong firstModID, ulong secondModID, string compatibilityString, string compatibilityNote)
+        private static string AddRemoveCompatibility(Catalog catalog, string action, ulong firstModID, ulong secondModID, 
+            string compatibilityString, string compatibilityNote)
         {
             Enums.CompatibilityStatus compatibilityStatus = Toolkit.ConvertToEnum<Enums.CompatibilityStatus>(compatibilityString);
 
@@ -993,17 +990,17 @@ namespace CompatibilityReport.Updater
             {
                 return $"Duplicate Steam ID { firstModID }.";
             }
-            else if (!ActiveCatalog.IsValidID(firstModID))
+            else if (!catalog.IsValidID(firstModID))
             {
                 return $"Invalid Steam ID { firstModID }.";
             }
-            else if (!ActiveCatalog.IsValidID(secondModID))
+            else if (!catalog.IsValidID(secondModID))
             {
                 return $"Invalid Steam ID { secondModID }.";
             }
 
             // Check if a compatibility exists for these steam IDs and this compatibility status
-            bool compatibilityExists = ActiveCatalog.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID && 
+            bool compatibilityExists = catalog.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID && 
                 x.Status == compatibilityStatus) != default;
 
             if (action == "add_compatibility")
@@ -1017,7 +1014,7 @@ namespace CompatibilityReport.Updater
                 if (compatibilityStatus == Enums.CompatibilityStatus.SameModDifferentReleaseType || compatibilityStatus == Enums.CompatibilityStatus.SameFunctionality ||
                     compatibilityStatus == Enums.CompatibilityStatus.MinorIssues || compatibilityStatus == Enums.CompatibilityStatus.RequiresSpecificSettings)
                 {
-                    bool mirroredCompatibilityExists = ActiveCatalog.Compatibilities.Find(x => x.FirstModID == secondModID && x.SecondModID == firstModID && 
+                    bool mirroredCompatibilityExists = catalog.Compatibilities.Find(x => x.FirstModID == secondModID && x.SecondModID == firstModID && 
                         x.Status == compatibilityStatus) != default;
 
                     if (mirroredCompatibilityExists)
@@ -1026,8 +1023,8 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                CatalogUpdater.AddCompatibility(firstModID, ActiveCatalog.ModDictionary[firstModID].Name, 
-                    secondModID, ActiveCatalog.ModDictionary[secondModID].Name, compatibilityStatus, compatibilityNote);
+                CatalogUpdater.AddCompatibility(catalog, firstModID, catalog.ModDictionary[firstModID].Name, 
+                    secondModID, catalog.ModDictionary[secondModID].Name, compatibilityStatus, compatibilityNote);
             }
             else
             {
@@ -1036,7 +1033,7 @@ namespace CompatibilityReport.Updater
                     return "Compatibility does not exists.";
                 }
 
-                if (!CatalogUpdater.RemoveCompatibility(firstModID, secondModID, compatibilityStatus))
+                if (!CatalogUpdater.RemoveCompatibility(catalog, firstModID, secondModID, compatibilityStatus))
                 {
                     return "Compatibility could not be removed.";
                 }
@@ -1047,14 +1044,14 @@ namespace CompatibilityReport.Updater
 
 
         // Set the compatible game version for the catalog
-        private static string SetCatalogGameVersion(Version newGameVersion)
+        private static string SetCatalogGameVersion(Catalog catalog, Version newGameVersion)
         {
             if (newGameVersion == Toolkit.UnknownVersion)
             {
                 return "Incorrect gameversion.";
             }
 
-            if (!ActiveCatalog.UpdateGameVersion(newGameVersion))
+            if (!catalog.UpdateGameVersion(newGameVersion))
             {
                 return "Could not update game version, it should be higher than the current game version.";
             }
@@ -1066,19 +1063,19 @@ namespace CompatibilityReport.Updater
 
 
         // Set one of the text fields on the catalog
-        private static string ChangeCatalogText(string action, string text)
+        private static string ChangeCatalogText(Catalog catalog, string action, string text)
         {
             if (action.Contains("note"))
             {
-                CatalogUpdater.SetNote(text);
+                CatalogUpdater.SetNote(catalog, text);
             }
             else if (action.Contains("header"))
             {
-                CatalogUpdater.SetHeaderText(text);
+                CatalogUpdater.SetHeaderText(catalog, text);
             }
             else // Footer
             {
-                CatalogUpdater.SetFooterText(text);
+                CatalogUpdater.SetFooterText(catalog, text);
             }
                                         
             return "";
@@ -1086,18 +1083,18 @@ namespace CompatibilityReport.Updater
 
 
         // Add required assets to the catalog list of assets. This will not be mentioned in the change notes and 'already exists' errors will not be logged.
-        private static string AddRequiredAssets(List<ulong> assetIDs)
+        private static string AddRequiredAssets(Catalog catalog, List<ulong> assetIDs)
         {
             foreach (ulong assetID in assetIDs)
             {
-                if (!ActiveCatalog.IsValidID(assetID, shouldExist: false))
+                if (!catalog.IsValidID(assetID, shouldExist: false))
                 {
                     return $"Invalid asset ID { assetID }.";
                 }
 
-                if (!ActiveCatalog.RequiredAssets.Contains(assetID))
+                if (!catalog.RequiredAssets.Contains(assetID))
                 {
-                    ActiveCatalog.RequiredAssets.Add(assetID);
+                    catalog.RequiredAssets.Add(assetID);
                 }
             }
 
@@ -1106,11 +1103,11 @@ namespace CompatibilityReport.Updater
 
 
         // Remove required assets from the catalog list of assets. This will not be noted in the change notes and errors will not be logged.
-        private static string RemoveRequiredAssets(List<ulong> assetIDs)
+        private static string RemoveRequiredAssets(Catalog catalog, List<ulong> assetIDs)
         {
             foreach (ulong assetID in assetIDs)
             {
-                ActiveCatalog.RequiredAssets.Remove(assetID);
+                catalog.RequiredAssets.Remove(assetID);
             }
 
             return "";
