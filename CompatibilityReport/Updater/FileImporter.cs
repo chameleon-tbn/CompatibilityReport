@@ -29,24 +29,36 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            Stopwatch timer = Stopwatch.StartNew();
-
             // Sort the filenames, so we get a predictable processing order
             CSVfilenames.Sort();
 
-            bool withoutErrors = true;
+            uint errorCounter = 0;
+
+            Stopwatch timer = Stopwatch.StartNew();
 
             foreach (string CSVfilename in CSVfilenames)
             {
-                withoutErrors = withoutErrors && ReadCSV(catalog, CSVfilename);
+                if (!ReadCSV(catalog, CSVfilename))
+                {
+                    errorCounter++;
+                }
             }
 
             timer.Stop();
 
-            Logger.UpdaterLog($"{ CSVfilenames.Count } CSV files processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }" + 
-                (withoutErrors ? "." : ", with errors."), withoutErrors ? Logger.info : Logger.warning);
+            if (errorCounter == 0)
+            {
+                Logger.UpdaterLog($"{ CSVfilenames.Count } CSV files processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }.");
 
-            Logger.Log("Updater found errors while processing CSV files. See separate log for details.", Logger.warning);
+                Logger.Log($"{ CSVfilenames.Count } CSV files processed.");
+            }
+            else
+            {
+                Logger.UpdaterLog($"{ CSVfilenames.Count } CSV files processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }, with { errorCounter } errors.",
+                    Logger.warning);
+
+                Logger.Log($"{ CSVfilenames.Count } CSV files processed, with { errorCounter } errors. See separate log for details.", Logger.warning);
+            }
         }
 
 
