@@ -97,6 +97,15 @@ namespace CompatibilityReport.Updater
                 SetNote(catalog, "");
             }
 
+            // Log a CSV action for required assets that are missing in the catalog
+            if (UnknownRequiredAssets.Length > 0)
+            {
+                Logger.UpdaterLog("CSV action for adding assets to the catalog (after verification): Add_RequiredAssets" + UnknownRequiredAssets.ToString());
+            }
+
+            // Run the DataDumper
+            DataDumper.Start(catalog);
+
             // Only continue with catalog update if we found any changes to update the catalog (ignoring the pure catalog changes)
             if (changeNotesNewMods.Length + changeNotesNewGroups.Length + changeNotesNewCompatibilities.Length + changeNotesNewAuthors.Length + 
                 changeNotesUpdatedMods.Count + changeNotesUpdatedAuthorsByID.Count + changeNotesUpdatedAuthorsByURL.Count + 
@@ -130,19 +139,10 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            // Log a CSV action for required assets that are missing in the catalog
-            if (UnknownRequiredAssets.Length > 0)
-            {
-                Logger.UpdaterLog("CSV action for adding assets to the catalog (after verification): Add_RequiredAssets" + UnknownRequiredAssets.ToString());
-            }
-
-            // Run the DataDumper
-            DataDumper.Start(catalog);
-
             // Empty the dictionaries and stringbuilders to free memory
             EmptyStringbuildersAndDictionaries();
 
-            Logger.UpdaterLog("Catalog Updater has finished.\n");
+            Logger.UpdaterLog("Catalog Updater has finished.");
 
             Logger.Log("Catalog Updater has finished.\n");
         }
