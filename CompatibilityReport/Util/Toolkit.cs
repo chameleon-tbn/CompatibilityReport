@@ -420,7 +420,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Clean a html string from certain html codes
+        // Clean a html string from certain html codes      [Todo 0.4] Is this really needed?
         internal static string CleanHtml(string text)
         {
             return string.IsNullOrEmpty(text) ? "" : text.Replace("&quot;", "\"").Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">");
@@ -516,8 +516,8 @@ namespace CompatibilityReport.Util
         // Return a formatted elapsed time string, in seconds or minutes or both
         internal static string ElapsedTime(double milliseconds, bool alwaysShowSeconds = false)
         {
-            // Return the time in milliseconds if it's less than 0.1 seconds
-            if (milliseconds < 100)
+            // Return the time in milliseconds if it's less than 0.2 seconds
+            if (milliseconds < 200)
             {
                 return $"{ milliseconds } ms";
             }

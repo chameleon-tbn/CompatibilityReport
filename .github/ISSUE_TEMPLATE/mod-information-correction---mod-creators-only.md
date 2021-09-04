@@ -17,19 +17,18 @@ Choose what applies to your mod (you only need to included info that is now miss
 - Mod is (not) purely a dependency mod; it is needed for other mods but adds no functionality to the game on itself
 - Mod is (not) gamebreaking
 - Mod is (not) broken
-- Mod has (no) major issues
-- Mod has (no) minor issues
+- Mod has (no) major issues (please elaborate below)
+- Mod has (no) minor issues (please elaborate below)
 - Mod has (no) performance impact (please elaborate below)
 - Mod has (no) impact on loading time (please elaborate below)
 - Mod does (not) break editors
-- Mod is (not) a test version (please note Steam ID for stable version below)
-- Mod is (not) only for modders; regular users don't need this
+- Mod is a test version (please note Steam ID for stable version below)
+- Mod is only for modders; regular users don't need this
 - Mod is unlisted in the Workshop
 - Can (not) load savegames created with this mod after unsubscribing the mod
 - Mod is no longer needed; functionality is now incorporated in the game
-- Mod is deprecated
-- Mod is abandoned; it will no longer be supported or updated
-- Source code is not available / bundled with mod / available at <url>
+- Mod is deprecated; it will no longer be supported or updated
+- Source code is available at <url> / bundled with mod / not available
 - Mod uses copyright-free music, safe for streaming
 - Mod uses copyrighted music and should not be used while streaming
 

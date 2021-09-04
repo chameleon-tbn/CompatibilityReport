@@ -46,7 +46,6 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 
 ### Available compatibility actions (will not change reviewed date for included mods)
 * Add_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>[, \<note\>]
-  * *For some statuses the note will only be mentioned in the report for the second mod*
 * Add_CompatibilitiesForOne, \<first mod ID\>, \<compatibility status\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
   * *This will create compatibilities between the first mod and each of the other mods. Not every status works.*
 * Add_CompatibilitiesForAll, \<compatibility status\>, \<mod ID\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]

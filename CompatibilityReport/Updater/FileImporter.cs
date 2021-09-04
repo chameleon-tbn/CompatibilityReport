@@ -48,16 +48,16 @@ namespace CompatibilityReport.Updater
 
             if (errorCounter == 0)
             {
-                Logger.UpdaterLog($"{ CSVfilenames.Count } CSV files processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }.");
+                Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }.");
 
-                Logger.Log($"{ CSVfilenames.Count } CSV files processed.");
+                Logger.Log($"Updater processed { CSVfilenames.Count } CSV files.");
             }
             else
             {
-                Logger.UpdaterLog($"{ CSVfilenames.Count } CSV files processed in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }, with { errorCounter } errors.",
-                    Logger.warning);
+                Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }, " +
+                    $"with { errorCounter } errors.", Logger.warning);
 
-                Logger.Log($"{ CSVfilenames.Count } CSV files processed, with { errorCounter } errors. See separate log for details.", Logger.warning);
+                Logger.Log($"Updater processed { CSVfilenames.Count } CSV files and encountered { errorCounter } errors. See separate log for details.", Logger.warning);
             }
         }
 

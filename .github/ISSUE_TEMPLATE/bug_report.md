@@ -18,8 +18,8 @@ Please attach your CompatibilityReport.log file. You can find it in the Cities_D
 <Steam folder>\steamapps\common\Cities_Skylines\Cities_Data\CompatibilityReport.log
 
 ### **Your system:**
- - OS: [e.g. Window 10, Mac OS X, ...]
- - Mod version: [e.g. 0.3.1.177]
+ - OS and OS version: [e.g. Window 10, MacOS 10.15, ...]
+ - Mod version: [e.g. 0.4.0.215]
 
 ### **Additional context**
 Add any other context about the problem here.

@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Use this to provide information about compatibility for your OWN mod with another mod (from you or someone else). Multiple mods with the same (in)compatibility can be added in the same request. Make sure to get the Steam IDs right, don't send me on a hunt :-)
+Use this to provide information about compatibility for your OWN mod with another mod (from you or someone else). Multiple mods with the same (in)compatibility can be added in the same request.
 
 ### **Your mod(s)**
 Steam ID - Mod name
@@ -19,6 +19,7 @@ Steam ID - Mod name
 Choose one or more of the following:
 - **Incompatible** - the other mod is incompatible with your mod; they shouldn't be used together
 - **Same Functionality** - both mods provide the same functionality / change the same thing, making them incompatible
+- **Different Release** - your mod and the other mod are the same mod in different release types, like stable vs. testing (please describe below which is which)
 - **Minor Issues** - using both mods together give minor issues (please describe below)
 - **Specific Settings** - using both mods together requires specific settings for your mod or the other mod (please describe)
 - **Compatible** - your mod is fully compatible with the other mod
@@ -26,7 +27,6 @@ Choose one or more of the following:
 - **Predecessor** - the other mod is a successor of your mod
 - **Newer** - your mod is a newer version of the other mod (direct continuation, usually by the same modder)
 - **Older**
-- **Different Release** - your mod and the other mod are the same mod in different release types, like stable vs. testing (please describe below which is which)
 
 ### **Additional information**
 Any additional information that will help understand the compatibility between these mods.

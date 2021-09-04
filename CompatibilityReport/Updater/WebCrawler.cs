@@ -96,7 +96,7 @@ namespace CompatibilityReport.Updater
             // Note: about 75% of the total time is downloading, the other 25% is processing
             timer.Stop();
 
-            Logger.UpdaterLog($"Updater finished checking Steam Workshop 'mod listing' pages in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. " +
+            Logger.UpdaterLog($"Updater finished downloading Steam Workshop 'mod listing' pages in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. " +
                 $"{ totalMods } mods found.");
 
             return totalMods > 0;
@@ -185,7 +185,7 @@ namespace CompatibilityReport.Updater
             // Estimated time is about half a second (500 milliseconds) per download. Note: 90+% of the total time is download, less than 10% is processing
             long estimated = 500 * numberOfMods;
 
-            Logger.UpdaterLog($"Updater started checking { numberOfMods } individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.");
+            Logger.UpdaterLog($"Updater started downloading { numberOfMods } individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.");
 
             uint modsDownloaded = 0;
 
@@ -228,7 +228,7 @@ namespace CompatibilityReport.Updater
                 // Log a sign of life every 100 mods
                 if (modsDownloaded % 100 == 0)
                 {
-                    Logger.UpdaterLog($"{ modsDownloaded }/{ numberOfMods } mods checked.");
+                    Logger.UpdaterLog($"{ modsDownloaded }/{ numberOfMods } mod pages downloaded.");
                 }
 
                 // Extract detailed info from the downloaded page
@@ -249,6 +249,8 @@ namespace CompatibilityReport.Updater
 
             Logger.UpdaterLog($"Updater finished downloading { modsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.");
+
+            Logger.Log($"Updater processed { modsDownloaded } Steam Workshop mod pages.");
         }
 
 
