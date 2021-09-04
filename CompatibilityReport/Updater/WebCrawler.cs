@@ -158,9 +158,9 @@ namespace CompatibilityReport.Updater
                     string authorURL = Toolkit.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
 
                     // Remove the removed and unlisted statuses, if they exist
-                    CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.RemovedFromWorkshop);
+                    CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.RemovedFromWorkshop, updatedByWebCrawler: true);
 
-                    CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop);
+                    CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop, updatedByWebCrawler: true);
 
                     // Update the mod. This will also set the UpdatedThisSession, which is used in GetDetails()
                     CatalogUpdater.UpdateMod(catalog, catalogMod, modName, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
@@ -222,6 +222,7 @@ namespace CompatibilityReport.Updater
                         break;
                     }
                 }
+
                 modsDownloaded++;
 
                 // Log a sign of life every 100 mods
@@ -297,11 +298,7 @@ namespace CompatibilityReport.Updater
                     // Update removed and unlisted statuses: no longer removed and only unlisted if not found during GetBasicInfo()
                     CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.RemovedFromWorkshop);
 
-                    if (catalogMod.UpdatedThisSession)
-                    {
-                        CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop, updatedByWebCrawler: true);
-                    }
-                    else
+                    if (!catalogMod.UpdatedThisSession)
                     {
                         CatalogUpdater.AddStatus(catalog, catalogMod, Enums.ModStatus.UnlistedInWorkshop, updatedByWebCrawler: true);
                     }
@@ -445,7 +442,7 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            if (!steamIDmatched)
+            if (!steamIDmatched && !catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
             {
                 // We didn't find a Steam ID on the page, but no error page either. Must be a download issue or other Steam error.
                 Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }. Mod info not updated.", Logger.error);
