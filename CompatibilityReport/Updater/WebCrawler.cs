@@ -135,9 +135,9 @@ namespace CompatibilityReport.Updater
 
                     modsFoundThisPage++;
 
-                    string name = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
+                    string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
 
-                    Mod catalogMod = CatalogUpdater.GetOrAddMod(catalog, steamID, name, incompatibleMods);
+                    Mod catalogMod = CatalogUpdater.GetOrAddMod(catalog, steamID, modName, incompatibleMods);
 
                     // (Re)set incompatible stability on existing mods, if it changed in the Steam Workshop
                     if (incompatibleMods && catalogMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
@@ -163,10 +163,9 @@ namespace CompatibilityReport.Updater
                     CatalogUpdater.RemoveStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop);
 
                     // Update the mod. This will also set the UpdatedThisSession, which is used in GetDetails()
-                    CatalogUpdater.UpdateMod(catalog, catalogMod, name, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
+                    CatalogUpdater.UpdateMod(catalog, catalogMod, modName, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
 
-                    string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, 
-                        ModSettings.steamModListingAuthorNameRight));
+                    string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
 
                     CatalogUpdater.GetOrAddAuthor(catalog, authorID, authorURL, authorName);
                 }
@@ -330,8 +329,9 @@ namespace CompatibilityReport.Updater
                     // Mod name; only for unlisted mods (we have this info for other mods already)
                     else if (line.Contains(ModSettings.steamModPageNameLeft) && catalogMod.Statuses.Contains(Enums.ModStatus.UnlistedInWorkshop))
                     {
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, name: Toolkit.CleanHtml(
-                            Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)), updatedByWebCrawler: true);
+                        string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)); 
+
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, modName , updatedByWebCrawler: true);
                     }
 
                     // Compatible game version tag

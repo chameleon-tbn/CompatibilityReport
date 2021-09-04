@@ -423,7 +423,7 @@ namespace CompatibilityReport.Util
         // Clean a html string from certain html codes
         internal static string CleanHtml(string text)
         {
-            return string.IsNullOrEmpty(text) ? "" : text.Replace("&quot;", "\"").Replace("&amp;", "&");
+            return string.IsNullOrEmpty(text) ? "" : text.Replace("&quot;", "\"").Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">");
         }
         
 
