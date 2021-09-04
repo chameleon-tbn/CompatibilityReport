@@ -798,7 +798,7 @@ namespace CompatibilityReport.Updater
 
 
         // Add a required mod, including exclusion, required group and change notes
-        internal static void AddRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID)
+        internal static void AddRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID, bool updatedByWebCrawler)
         {
             if (catalog.IsValidID(requiredID, allowGroup: true) && !catalogMod.RequiredMods.Contains(requiredID))
             {
@@ -814,12 +814,15 @@ namespace CompatibilityReport.Updater
                     // requiredID is a mod
                     AddUpdatedModChangeNote(catalogMod, $"required mod { requiredID } added");
 
-                    catalogMod.AddExclusionForRequiredMods(requiredID);
+                    if (!updatedByWebCrawler)
+                    {
+                        catalogMod.AddExclusionForRequiredMods(requiredID);
+                    }
 
                     if (catalog.IsGroupMember(requiredID))
                     {
                         // Also add the group that requiredID is a member of
-                        AddRequiredMod(catalog, catalogMod, catalog.GetGroup(requiredID).GroupID);
+                        AddRequiredMod(catalog, catalogMod, catalog.GetGroup(requiredID).GroupID, updatedByWebCrawler);
                     }
                 }
             }

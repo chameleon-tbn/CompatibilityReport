@@ -405,7 +405,7 @@ namespace CompatibilityReport.Updater
                             // Add the required mod (or asset) if it wasn't added already and no exclusion exists for this ID
                             if (!catalogMod.ExclusionForRequiredMods.Contains(requiredID))
                             {
-                                CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID);
+                                CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByWebCrawler: true);
                             }
 
                             line = reader.ReadLine();

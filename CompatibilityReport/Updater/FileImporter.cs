@@ -540,7 +540,7 @@ namespace CompatibilityReport.Updater
                     return "Mod is already required.";
                 }
 
-                CatalogUpdater.AddRequiredMod(catalog, catalogMod, listMember);
+                CatalogUpdater.AddRequiredMod(catalog, catalogMod, listMember, updatedByWebCrawler: false);
             }
             else if (action == "remove_requiredmod")
             {
