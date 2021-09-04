@@ -340,7 +340,7 @@ namespace CompatibilityReport.Updater
                                        Mod catalogMod,
                                        string name = null,
                                        DateTime? published = null,
-                                       DateTime? updated = null,
+                                       DateTime updated = default,
                                        ulong authorID = 0,
                                        string authorURL = null,
                                        string sourceURL = null,
@@ -359,7 +359,7 @@ namespace CompatibilityReport.Updater
             // Set the change note for all changed values
             string addedChangeNote =
                 (name == null || name == catalogMod.Name ? "" : ", mod name changed") +
-                (updated == null || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update") +
+                (updated == default || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update") +
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
                 (authorURL == null || authorURL == catalogMod.AuthorURL || catalogMod.AddedThisSession ? "" : ", author URL") +
                 (sourceURL == null || sourceURL == catalogMod.SourceURL ? "" : ", source URL") +

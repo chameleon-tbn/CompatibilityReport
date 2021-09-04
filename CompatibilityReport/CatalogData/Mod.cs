@@ -105,7 +105,7 @@ namespace CompatibilityReport.CatalogData
         // Update a mod with new info. All fields are optional, only supplied fields are updated.
         internal void Update(string name = null,
                              DateTime? published = null,
-                             DateTime? updated = null,
+                             DateTime updated = default,
                              ulong authorID = 0,
                              string authorURL = null,
                              string sourceURL = null,
@@ -128,7 +128,7 @@ namespace CompatibilityReport.CatalogData
             Published = published ?? Published;
 
             // If the updated date is older than published, set it to published
-            Updated = updated ?? Updated;
+            Updated = updated == default ? Updated : updated;
             Updated = Updated < Published ? Published : Updated;
 
             AuthorID = authorID == 0 ? AuthorID : authorID;
