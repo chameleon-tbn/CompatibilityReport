@@ -660,14 +660,14 @@ namespace CompatibilityReport.Reporter
                     return ReviewLine("Unsubscribe! This mod is broken.") + note;
 
                 case Enums.ModStability.MajorIssues:
-                    return ReviewLine("Unsubscribe would be wise. This has major issues.") + note;
+                    return ReviewLine($"Unsubscribe would be wise. This has major issues{ (string.IsNullOrEmpty(note) ? "." : ":") }") + note;
 
                 case Enums.ModStability.MinorIssues:
-                    return ReviewLine("This has minor issues. Check its Workshop page for details.") + note;
+                    return ReviewLine($"This has minor issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + note;
 
                 case Enums.ModStability.UsersReportIssues:
-                    return ReviewLine("Stability is uncertain. Some users are reporting issues. " +
-                        (string.IsNullOrEmpty(note) ? "Check its Workshop page for details." : "")) + note;
+                    return ReviewLine("Stability is uncertain. Some users are reporting issues" +
+                        (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ": ")) + note;
 
                 case Enums.ModStability.Stable:
                     bool isBuiltin = subscribedMod.SteamID <= ModSettings.BuiltinMods.Values.Max();
