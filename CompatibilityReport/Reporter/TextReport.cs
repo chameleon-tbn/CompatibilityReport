@@ -670,7 +670,8 @@ namespace CompatibilityReport.Reporter
                         (string.IsNullOrEmpty(note) ? "Check its Workshop page for details." : "")) + note;
 
                 case Enums.ModStability.Stable:
-                    return ReviewLine("This should be compatible with the current game version.") + note;
+                    bool isBuiltin = subscribedMod.SteamID <= ModSettings.BuiltinMods.Values.Max();
+                    return ReviewLine($"This { (isBuiltin ? "is" : "should be") } compatible with the current game version.") + note;
 
                 case Enums.ModStability.NotEnoughInformation:
                     return ReviewLine("There is not enough information about this mod to know if it is compatible with the current game version.") + note;
@@ -731,7 +732,7 @@ namespace CompatibilityReport.Reporter
             // Savegame affecting
             if (subscribedMod.Statuses.Contains(Enums.ModStatus.SavesCantLoadWithout))
             {
-                text += ReviewLine("Caution. After using this mod, savegames won't easily load without it anymore.");
+                text += ReviewLine("NOTE: After using this mod, savegames won't easily load without it anymore.");
             }
 
             // Source code
