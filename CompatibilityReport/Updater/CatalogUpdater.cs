@@ -300,7 +300,7 @@ namespace CompatibilityReport.Updater
             }
             else
             {
-                // Log an empty mod name. This could be an error, although there is a workshop mod without a name (ofcourse there is)
+                // New mod. Log an empty mod name, which might be an error, although there is a workshop mod without a name (ofcourse there is)
                 if (name == "")
                 {
                     Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.warning);

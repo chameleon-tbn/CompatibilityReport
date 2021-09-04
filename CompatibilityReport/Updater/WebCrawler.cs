@@ -38,6 +38,8 @@ namespace CompatibilityReport.Updater
             Logger.UpdaterLog("Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
 
             uint totalMods = 0;
+
+            uint totalPages = 0;
             
             // Go through the different mod listings: mods and camera scripts, both regular and incompatible
             foreach (string steamURL in ModSettings.steamModListingURLs)
@@ -88,6 +90,8 @@ namespace CompatibilityReport.Updater
 
                     Logger.UpdaterLog($"Found { modsFoundThisPage } mods on page { pageNumber }.");
                 }
+
+                totalPages += pageNumber;
             }
 
             // Delete the temporary file
@@ -96,8 +100,8 @@ namespace CompatibilityReport.Updater
             // Note: about 75% of the total time is downloading, the other 25% is processing
             timer.Stop();
 
-            Logger.UpdaterLog($"Updater finished downloading Steam Workshop 'mod listing' pages in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. " +
-                $"{ totalMods } mods found.");
+            Logger.UpdaterLog($"Updater finished downloading { totalPages } Steam Workshop 'mod listing' pages in " +
+                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. { totalMods } mods found.");
 
             return totalMods > 0;
         }

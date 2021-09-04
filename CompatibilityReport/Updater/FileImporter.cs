@@ -144,7 +144,7 @@ namespace CompatibilityReport.Updater
             ulong numericSecond = Toolkit.ConvertToUlong(stringSecond);
 
             // Third element - numeric: required mod or group ID, successor/alternative/recommended mod ID, mod ID for compatibility/group, author ID, asset ID
-            //              and string: author custom url, source/archive url, game version, dlc string, stability, stability/generic note, mod/compatibility status,
+            //              and string: author custom url, source url, game version, dlc string, stability, stability/generic note, mod/compatibility status,
             //                          exclusion category, author name, last seen date
             string stringThird = lineElements.Length < 3 ? "" : lineElements[2].Trim();
             ulong numericThird = Toolkit.ConvertToUlong(stringThird); ;

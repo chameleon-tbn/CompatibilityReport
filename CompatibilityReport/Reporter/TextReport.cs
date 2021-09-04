@@ -182,7 +182,6 @@ namespace CompatibilityReport.Reporter
 
             modReview.Append(ThisMod(subscribedMod));
             modReview.Append(Stability(subscribedMod));
-            modReview.Append(StabilityNote(subscribedMod));
             modReview.Append(RequiredDLC(subscribedMod));
             modReview.Append(RequiredMods(catalog, subscribedMod));
             modReview.Append(Compatibilities(catalog, subscribedMod));
@@ -644,46 +643,42 @@ namespace CompatibilityReport.Reporter
         // Mod stability
         private static string Stability(Mod subscribedMod)
         {
+            string note = ReviewLine(subscribedMod.StabilityNote, ModSettings.bullet2);
+
             switch (subscribedMod.Stability)
             {
                 case Enums.ModStability.IncompatibleAccordingToWorkshop:
-                    return ReviewLine("UNSUBSCRIBE! This is totally incompatible with the current game version.");
+                    return ReviewLine("UNSUBSCRIBE! This is totally incompatible with the current game version.") + note;
 
                 case Enums.ModStability.RequiresIncompatibleMod:
-                    return ReviewLine("UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.");
+                    return ReviewLine("UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.") + note;
 
                 case Enums.ModStability.GameBreaking:
-                    return ReviewLine("UNSUBSCRIBE! This breaks the game.");
+                    return ReviewLine("UNSUBSCRIBE! This breaks the game.") + note;
 
                 case Enums.ModStability.Broken:
-                    return ReviewLine("Unsubscribe! This mod is broken.");
+                    return ReviewLine("Unsubscribe! This mod is broken.") + note;
 
                 case Enums.ModStability.MajorIssues:
-                    return ReviewLine("Unsubscribe would be wise. This has major issues.");
+                    return ReviewLine("Unsubscribe would be wise. This has major issues.") + note;
 
                 case Enums.ModStability.MinorIssues:
-                    return ReviewLine("This has minor issues. Check its Workshop page for details.");
+                    return ReviewLine("This has minor issues. Check its Workshop page for details.") + note;
 
                 case Enums.ModStability.UsersReportIssues:
-                    return ReviewLine("Stability is uncertain. Some users are reporting issues. Check its Workshop page for details.");
+                    return ReviewLine("Stability is uncertain. Some users are reporting issues. " +
+                        (string.IsNullOrEmpty(note) ? "Check its Workshop page for details." : "")) + note;
 
                 case Enums.ModStability.Stable:
-                    return ReviewLine("This should be compatible with the current game version.");
+                    return ReviewLine("This should be compatible with the current game version.") + note;
 
                 case Enums.ModStability.NotEnoughInformation:
-                    return ReviewLine("There is not enough information about this mod to know if it is compatible with the current game version.");
+                    return ReviewLine("There is not enough information about this mod to know if it is compatible with the current game version.") + note;
 
                 case Enums.ModStability.NotReviewed:
                 default:
                     return "";
             }
-        }
-
-
-        // Stability note for this mod
-        private static string StabilityNote(Mod subscribedMod)
-        {
-            return ReviewLine(subscribedMod.StabilityNote);
         }
 
 

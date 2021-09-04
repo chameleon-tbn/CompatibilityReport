@@ -8,16 +8,12 @@ using CompatibilityReport.Reporter;
 ///     https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132
 ///     https://github.com/CitiesSkylinesMods/AutoRepair
 ///
-/// It also uses (or used) code snippets from:
+/// It also uses code snippets from:
 ///
 ///   * Enhanced District Services by Tim / chronofanz
 ///     https://github.com/chronofanz/EnhancedDistrictServices
 ///     https://steamcommunity.com/sharedfiles/filedetails/?id=2303997489
 ///
-///   * Customize It Extended by C# / Celisuis
-///     https://github.com/Celisuis/CustomizeItExtended
-///     https://steamcommunity.com/sharedfiles/filedetails/?id=1806759255
-///     
 ///   * Change Loading Screen 2 by bloodypenguin
 ///     https://github.com/bloodypenguin/ChangeLoadingImage
 ///     https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110

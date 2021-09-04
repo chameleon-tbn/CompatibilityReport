@@ -5,7 +5,7 @@ Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/2
 ### Current status
 This is still in early alpha stage and not yet available on the Steam Workshop. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
 
-Due to the early development stage and very frequent changes to all parts of the code, pull requests and issue reports are discouraged right now. The [Discussions](https://github.com/Finwickle/CompatibilityReport/discussions) section is open for questions and feedback.
+Due to the early development stage and very frequent changes to all parts of the code, pull requests are discouraged right now. The [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) is open for questions and feedback.
 
 ### Implemented features
 * Detection of subscribed and local mods
@@ -61,13 +61,12 @@ Due to the early development stage and very frequent changes to all parts of the
 ### Credits
 This mod is inspired by [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine.
 
-This mod uses (or used) code snippets from:
+This mod uses code snippets from:
 * **Mod Compatibility Checker** by aubergine10 a.k.a. aubergine18 ([GitHub](https://github.com/CitiesSkylinesMods/AutoRepair) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132))
 * **Enhanced District Services** by chronofanz a.k.a. Tim ([GitHub](https://github.com/chronofanz/EnhancedDistrictServices) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2303997489))
-* **Customize It Extended** by Celisuis a.k.a. C# ([GitHub](https://github.com/Celisuis/CustomizeItExtended) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1806759255))
 * **Change Loading Screen 2** by BloodyPenguin ([GitHub](https://github.com/bloodypenguin/ChangeLoadingImage) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110))
 
 A big thanks to these modders and all those others for making their code available for education and re-use.
 
 ### Disclaimer
-I'm not an experienced programmer. I knew programming fundamentals and taught myself C# with online tutorials, reading other peoples code, browsing Stack Overflow and lots of experimenting. My code is surely sloppy, inefficient and ignoring lots of conventions. I'm open to suggestions and constructive feedback in the discussions.
+I'm not an experienced programmer. I knew programming fundamentals and taught myself C# with online tutorials, reading other peoples code, browsing Stack Overflow and lots of experimenting. My code is surely sloppy, inefficient and ignoring lots of conventions. I'm open to suggestions and constructive feedback in the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions).
