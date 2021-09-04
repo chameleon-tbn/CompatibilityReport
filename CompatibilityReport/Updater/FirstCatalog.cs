@@ -35,8 +35,8 @@ namespace CompatibilityReport.Updater
             DateTime gameRelease = DateTime.Parse("2015-03-10");
 
             // Add author "Colossal Order" with fake ID and high LastSeen date to avoid retirement (but lower than max to avoid out-of-range errors at retirement check)
-            Author colossalOrder = new Author(ModSettings.fakeAuthorIDforColossalOrder, customURL: "", name: "Colossal Order");
-
+            Author colossalOrder = firstCatalog.AddAuthor(ModSettings.fakeAuthorIDforColossalOrder, authorURL: "", name: "Colossal Order");
+            
             colossalOrder.Update(lastSeen: gameRelease.AddYears(1000));
 
             // Add builtin mods with the correct fixed fake Steam ID, and with a high ReviewDate to avoid the mods review being considered out-of-date
