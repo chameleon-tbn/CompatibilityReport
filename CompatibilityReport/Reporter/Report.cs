@@ -180,7 +180,8 @@ namespace CompatibilityReport.Reporter
 
                     nextLocalModID++;
 
-                    foundInCatalog = false;
+                    // Set found in catalog true for better logging below
+                    foundInCatalog = true;
                 }
 
                 // Update the name for local mods and Steam mods that weren't found in the catalog
