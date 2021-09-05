@@ -30,8 +30,8 @@ namespace CompatibilityReport.Reporter
 
             TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.shortVersion } with catalog { catalog.VersionString() }. " +
                 $"The catalog contains { catalog.ReviewedModCount } reviewed mods and " +
-                $"{ catalog.ModCount - catalog.ReviewedModCount } mods with basic information. " +
-                $"Your game has { Report.AllSubscriptionSteamIDs.Count } mods.\n"));
+                $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. " +
+                $"Your game has { catalog.SubscriptionIDs.Count } mods.\n"));
 
             if (!string.IsNullOrEmpty(catalog.Note))
             {
@@ -57,14 +57,14 @@ namespace CompatibilityReport.Reporter
             if (ModSettings.ReportSortByName)
             {
                 // Sorted by name
-                List<string> AllSubscriptionNames = new List<string>(Report.AllSubscriptionNamesAndIDs.Keys);
+                List<string> AllSubscriptionNames = new List<string>(catalog.SubscriptionNamesAndIDs.Keys);
 
                 AllSubscriptionNames.Sort();
 
                 foreach (string name in AllSubscriptionNames)
                 {
                     // Get the Steam ID(s) for this mod name; could be multiple (which will be sorted by Steam ID)
-                    foreach (ulong steamID in Report.AllSubscriptionNamesAndIDs[name])
+                    foreach (ulong steamID in catalog.SubscriptionNamesAndIDs[name])
                     {
                         // Get the mod text, and increase the counter if it was a mod without review but with remarks
                         if (GetModText(catalog, steamID, nameFirst: true))
@@ -77,9 +77,9 @@ namespace CompatibilityReport.Reporter
             else
             {
                 // Sorted by Steam ID
-                Report.AllSubscriptionSteamIDs.Sort();
+                catalog.SubscriptionIDs.Sort();
 
-                foreach (ulong steamID in Report.AllSubscriptionSteamIDs)
+                foreach (ulong steamID in catalog.SubscriptionIDs)
                 {
                     // Get the mod text, and increase the counter if it was a mod without review but with remarks
                     if (GetModText(catalog, steamID, nameFirst: false))
@@ -94,7 +94,7 @@ namespace CompatibilityReport.Reporter
             {
                 TextReport.AppendLine(ModSettings.separatorDouble);
 
-                TextReport.AppendLine($"REVIEWED MODS ({ Report.TotalReviewedSubscriptions })" +
+                TextReport.AppendLine($"REVIEWED MODS ({ catalog.ReviewedSubscriptionCount })" +
                     (modsWithOnlyRemarks == 0 ? ":" : $" AND OTHER MODS WITH REMARKS ({ modsWithOnlyRemarks }): "));
 
                 TextReport.AppendLine(reviewedModsText.ToString());
@@ -107,7 +107,7 @@ namespace CompatibilityReport.Reporter
             {
                 TextReport.AppendLine(ModSettings.separatorDouble);
 
-                TextReport.AppendLine($"MODS NOT REVIEWED YET ({ Report.AllSubscriptionSteamIDs.Count - Report.TotalReviewedSubscriptions - modsWithOnlyRemarks }):");
+                TextReport.AppendLine($"MODS NOT REVIEWED YET ({ catalog.SubscriptionIDs.Count - catalog.ReviewedSubscriptionCount - modsWithOnlyRemarks }):");
 
                 TextReport.AppendLine(nonReviewedModsText.ToString());
 
@@ -372,7 +372,7 @@ namespace CompatibilityReport.Reporter
             // Check if any of these mods is subscribed
             foreach (Mod mod in ModsRequiringThis)
             {
-                if (Report.AllSubscriptionSteamIDs.Contains(mod.SteamID))
+                if (catalog.SubscriptionIDs.Contains(mod.SteamID))
                 {
                     // Found a subscribed mod that needs this; nothing to report
                     return "";
@@ -495,7 +495,7 @@ namespace CompatibilityReport.Reporter
                 if ((id < ModSettings.lowestGroupID) || (id > ModSettings.highestGroupID))
                 {
                     // Regular mod. Try to find it in the list of subscribed mods
-                    if (Report.AllSubscriptionSteamIDs.Contains(id))
+                    if (catalog.SubscriptionIDs.Contains(id))
                     {
                         // Mod is subscribed
                         if (catalog.ModDictionary[id].IsDisabled)
@@ -566,7 +566,7 @@ namespace CompatibilityReport.Reporter
                     // Check each mod in the group, and see if they are subscribed and enabled
                     foreach (ulong modID in group.GroupMembers)
                     {
-                        if (Report.AllSubscriptionSteamIDs.Contains(modID))
+                        if (catalog.SubscriptionIDs.Contains(modID))
                         {
                             // Mod is subscribed
                             subscriptionsFound++;
@@ -769,7 +769,7 @@ namespace CompatibilityReport.Reporter
         {
             string text = "";
 
-            foreach (Compatibility compatibility in Report.SubscribedCompatibilities[subscribedMod.SteamID])
+            foreach (Compatibility compatibility in catalog.SubscribedCompatibilities[subscribedMod.SteamID])
             {
                 string firstMod = ReviewLine(catalog.ModDictionary[compatibility.FirstModID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
 

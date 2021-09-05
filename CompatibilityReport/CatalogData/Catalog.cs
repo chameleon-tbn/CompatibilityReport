@@ -4,6 +4,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using ColossalFramework;
+using ColossalFramework.PlatformServices;
+using ColossalFramework.Plugins;
 using CompatibilityReport.Util;
 
 
@@ -45,6 +48,11 @@ namespace CompatibilityReport.CatalogData
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
 
 
+        // The total number of mods in the catalog
+        [XmlIgnore] internal int ReviewedModCount { get; private set; }
+        [XmlIgnore] internal uint ReviewedSubscriptionCount { get; private set; }
+
+
         // Dictionaries to make searching easier and faster
         [XmlIgnore] internal Dictionary<ulong, Mod> ModDictionary { get; private set; } = new Dictionary<ulong, Mod>();
         
@@ -55,9 +63,12 @@ namespace CompatibilityReport.CatalogData
         [XmlIgnore] internal Dictionary<string, Author> AuthorURLDictionary { get; private set; } = new Dictionary<string, Author>();
 
 
-        // The total number of mods in the catalog
-        [XmlIgnore] internal int ModCount { get; private set; }
-        [XmlIgnore] internal int ReviewedModCount { get; private set; }
+        // List and dictionaries with all subscribed mods, used by the Reporter
+        [XmlIgnore] internal List<ulong> SubscriptionIDs { get; private set; }
+
+        [XmlIgnore] internal Dictionary<string, List<ulong>> SubscriptionNamesAndIDs { get; private set; }
+
+        [XmlIgnore] internal Dictionary<ulong, List<Compatibility>> SubscribedCompatibilities { get; private set; }
 
 
         // Did we download a catalog already this session
@@ -338,9 +349,6 @@ namespace CompatibilityReport.CatalogData
         // Prepare a catalog for searching
         private void CreateIndex()
         {
-            // Count the number of mods in the catalog
-            ModCount = Mods.Count;
-
             // Count the number of mods with a manual review in the catalog
             List<Mod> reviewedMods = Mods.FindAll(x => x.ReviewDate != default);
 
@@ -492,6 +500,8 @@ namespace CompatibilityReport.CatalogData
                 {
                     // XML error
                     Logger.Log($"XML error in catalog \"{ Toolkit.PrivacyPath(fullPath) }\". Catalog could not be loaded.", Logger.warning);
+
+                    Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
                 }
                 else
                 {
@@ -521,20 +531,20 @@ namespace CompatibilityReport.CatalogData
             Catalog updatedCatalog = LoadUpdaterCatalog();
 
             // Find the newest catalog
-            Catalog Active = Newest(Newest(downloadedCatalog, bundledCatalog), Newest(previouslyDownloadedCatalog, updatedCatalog));
+            Catalog newestCatalog = Newest(Newest(downloadedCatalog, bundledCatalog), Newest(previouslyDownloadedCatalog, updatedCatalog));
 
-            if (Active != null)
+            if (newestCatalog != null)
             {
-                // Prepare the active catalog for searching
-                Active.CreateIndex();
+                // Prepare the catalog for searching
+                newestCatalog.CreateIndex();
 
                 // Log catalog details
-                Logger.Log($"Using catalog { Active.VersionString() }, created on { Active.UpdateDate.ToLongDateString() }. " +
-                    $"Catalog contains { Active.ReviewedModCount } reviewed mods and { Active.ModCount - Active.ReviewedModCount } mods with basic information.",
-                    duplicateToGameLog: true);
+                Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.UpdateDate.ToLongDateString() }. " +
+                    $"Catalog contains { newestCatalog.ReviewedModCount } reviewed mods and { newestCatalog.Mods.Count - newestCatalog.ReviewedModCount } " +
+                    "mods with basic information.", duplicateToGameLog: true);
             }
 
-            return Active;
+            return newestCatalog;
         }
 
 
@@ -713,6 +723,142 @@ namespace CompatibilityReport.CatalogData
             {
                 // Age is only determinend by Version, independent of StructureVersion
                 return (catalog1.Version >= catalog2.Version) ? catalog1 : catalog2;
+            }
+        }
+
+
+        // Get all subscribed and local mods and merge the found info into the catalog. Local mods are temporarily added to the catalog in memory.
+        internal void GetSubscriptions()
+        {
+            // Get a list of all subscribed, local and builtin mods, including camera scripts
+            List<PluginManager.PluginInfo> plugins = new List<PluginManager.PluginInfo>();
+
+            PluginManager manager = Singleton<PluginManager>.instance;
+
+            plugins.AddRange(manager.GetPluginsInfo());
+
+            plugins.AddRange(manager.GetCameraPluginInfos());
+
+            Logger.Log($"Game reports { plugins.Count } mods.");
+
+            // Keep a list of the Steam IDs and names of all found mods, and keep track of the number of reviewed mods
+            SubscriptionIDs = new List<ulong>();
+
+            SubscriptionNamesAndIDs = new Dictionary<string, List<ulong>>();
+
+            SubscribedCompatibilities = new Dictionary<ulong, List<Compatibility>>();
+
+            ReviewedSubscriptionCount = 0;
+
+            // Fake Steam ID for local mods
+            ulong nextLocalModID = ModSettings.lowestLocalModID;
+
+            foreach (PluginManager.PluginInfo plugin in plugins)
+            {
+                Mod subscribedMod;
+
+                bool foundInCatalog;
+
+                if (plugin.publishedFileID != PublishedFileId.invalid)
+                {
+                    // Steam Workshop mod
+                    ulong steamID = plugin.publishedFileID.AsUInt64;
+
+                    foundInCatalog = ModDictionary.ContainsKey(steamID);
+
+                    subscribedMod = GetOrAddMod(steamID);
+                }
+                else if (plugin.isBuiltin)
+                {
+                    // Builtin mod
+                    string modName = Toolkit.GetPluginName(plugin);
+
+                    if (!plugin.isEnabled)
+                    {
+                        Logger.Log($"Skipped disabled builtin mod: { modName }");
+
+                        continue;
+                    }
+
+                    if (ModSettings.BuiltinMods.ContainsKey(modName))
+                    {
+                        ulong fakeSteamID = ModSettings.BuiltinMods[modName];
+
+                        foundInCatalog = ModDictionary.ContainsKey(fakeSteamID);
+
+                        subscribedMod = GetOrAddMod(fakeSteamID);
+                    }
+                    else
+                    {
+                        Logger.Log($"Skipped an unknown builtin mod: { modName }. { ModSettings.pleaseReportText }", Logger.error);
+
+                        continue;
+                    }
+                }
+                else
+                {
+                    // Local mod
+                    if (nextLocalModID > ModSettings.highestLocalModID)
+                    {
+                        Logger.Log($"Skipped a local mod because we ran out of fake IDs: { Toolkit.GetPluginName(plugin) }. { ModSettings.pleaseReportText }",
+                            Logger.error);
+
+                        continue;
+                    }
+
+                    // Add the mod to the catalog. Matching local mods to catalog mods is a future idea not accounted for here.
+                    subscribedMod = GetOrAddMod(nextLocalModID);
+
+                    nextLocalModID++;
+
+                    // Set found in catalog true for better logging below
+                    foundInCatalog = true;
+                }
+
+                // Update the name for local mods and Steam mods that weren't found in the catalog
+                if (string.IsNullOrEmpty(subscribedMod.Name))
+                {
+                    subscribedMod.Update(name: Toolkit.GetPluginName(plugin));
+                }
+
+                Logger.Log($"Mod found{ (foundInCatalog ? "" : " in game but not in the catalog") }: { subscribedMod.ToString() }");
+
+                // Update the catalog mod with specific subscription info   [Todo 0.4] How reliable is downloadTime? Is ToLocalTime needed? Check how Loading Order Mod does this
+                subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript,
+                    downloadedTime: PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime());
+
+                if (subscribedMod.ReviewDate != default)
+                {
+                    ReviewedSubscriptionCount++;
+                }
+
+                // Add the Steam ID and name to the list and dictionary used for reporting
+                SubscriptionIDs.Add(subscribedMod.SteamID);
+
+                if (!SubscriptionNamesAndIDs.ContainsKey(subscribedMod.Name))
+                {
+                    // Name not found yet, add the name and Steam ID
+                    SubscriptionNamesAndIDs.Add(subscribedMod.Name, new List<ulong> { subscribedMod.SteamID });
+                }
+                else
+                {
+                    // Identical name found earlier for another mod; add the Steam ID to the list of Steam IDs for this name
+                    SubscriptionNamesAndIDs[subscribedMod.Name].Add(subscribedMod.SteamID);
+                }
+
+                // Add an empty entry to the compatibilities dictionary
+                SubscribedCompatibilities.Add(subscribedMod.SteamID, new List<Compatibility>());
+            }
+
+            // Fill the dictionary with all compatibilities where both Steam IDs are subscribed
+            foreach (Compatibility catalogCompatibility in Compatibilities)
+            {
+                if (SubscriptionIDs.Contains(catalogCompatibility.FirstModID) && SubscriptionIDs.Contains(catalogCompatibility.SecondModID))
+                {
+                    SubscribedCompatibilities[catalogCompatibility.FirstModID].Add(catalogCompatibility);
+
+                    SubscribedCompatibilities[catalogCompatibility.SecondModID].Add(catalogCompatibility);
+                }
             }
         }
     }

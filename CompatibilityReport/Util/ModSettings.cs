@@ -48,7 +48,7 @@ namespace CompatibilityReport.Util
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string shortVersion = "0.4";
         internal const string revision = "0";
-        internal const string build = "221";
+        internal const string build = "222";
         internal const string version = shortVersion + "." + revision;
         internal const string fullVersion = version + "." + build;
 
@@ -118,8 +118,8 @@ namespace CompatibilityReport.Util
         // 'Please report' text to include in logs when something odd happens
         internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
 
-        // Max width of the text report, minimum of 90
-        internal const int ReportWidth = 100;
+        // Width of the text report, at least 90    [Todo 0.4] change to xml file setting
+        internal const int ReportWidth = 90;
 
         // Separators used in the logfile and text report
         internal static readonly string separator = new string('-', ReportWidth);

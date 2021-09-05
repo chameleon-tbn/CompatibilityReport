@@ -43,7 +43,7 @@ namespace CompatibilityReport.Updater
         private static string changeNotes;
 
 
-        // Update the active catalog with the found information; returns the partial path of the new catalog
+        // Update the catalog with the found information; returns the partial path of the new catalog
         internal static void Start()
         {
             if (hasRun || !ModSettings.UpdaterEnabled)
@@ -55,7 +55,7 @@ namespace CompatibilityReport.Updater
 
             Catalog catalog = Catalog.Load();
 
-            // Init the active catalog. If we can't, then create a first catalog if it doesn't exist yet and init the active catalog again
+            // Init the catalog. If we can't, then create a first catalog if it doesn't exist yet
             if (catalog == null)
             {
                 catalog = FirstCatalog.Create();
