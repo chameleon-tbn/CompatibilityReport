@@ -55,10 +55,12 @@ namespace CompatibilityReport.Updater
 
             Catalog catalog = Catalog.Load();
 
-            // Init the catalog. If we can't, then create a first catalog if it doesn't exist yet
+            // Init the catalog. If we can't, then create a first catalog if it doesn't exist yet.
             if (catalog == null)
             {
-                catalog = FirstCatalog.Create();
+                FirstCatalog.Create();
+
+                catalog = Catalog.Load();
 
                 if (catalog == null)
                 {
@@ -183,9 +185,9 @@ namespace CompatibilityReport.Updater
                 {
                     string cleanedChangeNote = modNotes.Value.Substring(2);
 
-                    catalog.ModDictionary[modNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                    catalog.ModIndex[modNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
 
-                    changeNotesUpdatedModsCombined.AppendLine($"Mod { catalog.ModDictionary[modNotes.Key].ToString() }: " +
+                    changeNotesUpdatedModsCombined.AppendLine($"Mod { catalog.ModIndex[modNotes.Key].ToString() }: " +
                         $"{ cleanedChangeNote }");
                 }
             }
@@ -194,9 +196,9 @@ namespace CompatibilityReport.Updater
             {
                 string cleanedChangeNote = authorNotes.Value.Substring(2);
 
-                catalog.AuthorIDDictionary[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                catalog.AuthorIDIndex[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
 
-                changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorIDDictionary[authorNotes.Key].ToString() }: " +
+                changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorIDIndex[authorNotes.Key].ToString() }: " +
                     $"{ cleanedChangeNote }");
             }
 
@@ -204,9 +206,9 @@ namespace CompatibilityReport.Updater
             {
                 string cleanedChangeNote = authorNotes.Value.Substring(2);
 
-                catalog.AuthorURLDictionary[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                catalog.AuthorUrlIndex[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
 
-                changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorURLDictionary[authorNotes.Key].ToString() }: " +
+                changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorUrlIndex[authorNotes.Key].ToString() }: " +
                     $"{ cleanedChangeNote }");
             }
 
@@ -294,9 +296,9 @@ namespace CompatibilityReport.Updater
             Mod catalogMod;
 
             // Get the mod from the catalog, or add a new one
-            if (catalog.ModDictionary.ContainsKey(steamID))
+            if (catalog.ModIndex.ContainsKey(steamID))
             {
-                catalogMod = catalog.ModDictionary[steamID];
+                catalogMod = catalog.ModIndex[steamID];
             }
             else
             {
@@ -364,7 +366,7 @@ namespace CompatibilityReport.Updater
                 (authorURL == null || authorURL == catalogMod.AuthorURL || catalogMod.AddedThisSession ? "" : ", author URL") +
                 (sourceURL == null || sourceURL == catalogMod.SourceURL ? "" : ", source URL") +
                 (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : ", compatible game version") +
-                (stability == default | stability == catalogMod.Stability ? "" : ", stability") +
+                (stability == default || stability == catalogMod.Stability ? "" : ", stability") +
                 (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : ", stability note") +
                 (genericNote == null || genericNote == catalogMod.GenericNote ? "" : ", generic note");
 
@@ -435,18 +437,18 @@ namespace CompatibilityReport.Updater
                 catalogMod.RequiredMods.Remove(groupID);
             }
 
-            Group oldGroup = catalog.GroupDictionary[groupID];
+            Group oldGroup = catalog.GroupIndex[groupID];
 
             if (catalog.Groups.Remove(oldGroup))
             {
-                catalog.GroupDictionary.Remove(groupID);
+                catalog.GroupIndex.Remove(groupID);
 
                 changeNotesRemovedGroups.AppendLine($"Group removed: { oldGroup.ToString() }");
 
                 // Remove group members to get change notes on all former group members
                 foreach (ulong groupMember in oldGroup.GroupMembers)
                 {
-                    AddUpdatedModChangeNote(catalog.ModDictionary[groupMember], $"removed from { oldGroup.ToString() }");
+                    AddUpdatedModChangeNote(catalog.ModIndex[groupMember], $"removed from { oldGroup.ToString() }");
                 }
             }
         }
@@ -457,9 +459,9 @@ namespace CompatibilityReport.Updater
         {
             group.GroupMembers.Add(groupMember);
 
-            catalog.AddRequiredGroup(groupMember);
+            AddGroupAsRequiredMod(catalog, groupMember);
 
-            AddUpdatedModChangeNote(catalog.ModDictionary[groupMember], $"added to { group.ToString() }");
+            AddUpdatedModChangeNote(catalog.ModIndex[groupMember], $"added to { group.ToString() }");
         }
 
 
@@ -492,9 +494,36 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            AddUpdatedModChangeNote(catalog.ModDictionary[groupMember], $"removed from { group.ToString() }");
+            AddUpdatedModChangeNote(catalog.ModIndex[groupMember], $"removed from { group.ToString() }");
 
             return true;
+        }
+
+
+        // Add a group as required mod for all mods that have the given group member as required mod    [Todo 0.4] Move to CatalogUpdater
+        internal static void AddGroupAsRequiredMod(Catalog catalog, ulong requiredModID)
+        {
+            Group requiredGroup = catalog.GetGroup(requiredModID);
+
+            // Exit if this mod is not in a group
+            if (requiredGroup == default)
+            {
+                return;
+            }
+
+            // Get all mods that have this required mod
+            List<Mod> modList = catalog.Mods.FindAll(x => x.RequiredMods.Contains(requiredModID));
+
+            foreach (Mod mod in modList)
+            {
+                // Add the group ID
+                if (!mod.RequiredMods.Contains(requiredGroup.GroupID))
+                {
+                    mod.RequiredMods.Add(requiredGroup.GroupID);
+
+                    Logger.UpdaterLog($"Added { requiredGroup.ToString() } as required mod for { mod.ToString() }.");
+                }
+            }
         }
 
 
@@ -558,7 +587,7 @@ namespace CompatibilityReport.Updater
                     Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\": { authors }. This could be a coincidence or an error.", Logger.warning);
                 }
 
-                catalogAuthor = catalog.AddAuthor(authorID, authorURL, authorName);
+                catalogAuthor = catalog.GetOrAddAuthor(authorID, authorURL, authorName);
 
                 catalogAuthor.Update(extraChangeNote: $"{ catalogDateString }: added");
 
@@ -782,7 +811,7 @@ namespace CompatibilityReport.Updater
             {
                 catalogMod.RequiredMods.Add(requiredID);
 
-                if (catalog.GroupDictionary.ContainsKey(requiredID))
+                if (catalog.GroupIndex.ContainsKey(requiredID))
                 {
                     // requiredID is a group
                     AddUpdatedModChangeNote(catalogMod, $"required group { requiredID } added");
@@ -820,7 +849,7 @@ namespace CompatibilityReport.Updater
         {
             if (catalogMod.RequiredMods.Remove(requiredID))
             {
-                if (catalog.GroupDictionary.ContainsKey(requiredID))
+                if (catalog.GroupIndex.ContainsKey(requiredID))
                 {
                     // requiredID is a group
                     AddUpdatedModChangeNote(catalogMod, $"required Group { requiredID } removed");

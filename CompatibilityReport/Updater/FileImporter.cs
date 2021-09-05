@@ -317,7 +317,7 @@ namespace CompatibilityReport.Updater
                 return "Invalid Steam ID or mod does not exist.";
             }
 
-            Mod catalogMod = catalog.ModDictionary[modID];
+            Mod catalogMod = catalog.ModIndex[modID];
 
             if (!catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
             {
@@ -340,7 +340,7 @@ namespace CompatibilityReport.Updater
 
             catalog.Mods.Remove(catalogMod);     // [Todo 0.4] Move to Catalog class as RemoveMod?
 
-            catalog.ModDictionary.Remove(modID);
+            catalog.ModIndex.Remove(modID);
 
             return "";
         }
@@ -354,7 +354,7 @@ namespace CompatibilityReport.Updater
                 return $"Invalid mod ID { modID }.";
             }
 
-            Mod catalogMod = catalog.ModDictionary[modID];
+            Mod catalogMod = catalog.ModIndex[modID];
 
             // Act on the action
             if (action == "set_sourceurl")
@@ -638,7 +638,7 @@ namespace CompatibilityReport.Updater
                 return "Not enough parameters.";
             }
 
-            Mod catalogMod = catalog.ModDictionary[modID];
+            Mod catalogMod = catalog.ModIndex[modID];
 
             if (categoryString == "sourceurl")
             {
@@ -693,7 +693,7 @@ namespace CompatibilityReport.Updater
                 return "Not enough parameters.";
             }
 
-            if (catalog.AuthorIDDictionary.ContainsKey(authorID) || catalog.AuthorURLDictionary.ContainsKey(authorURL))
+            if (catalog.AuthorIDIndex.ContainsKey(authorID) || catalog.AuthorUrlIndex.ContainsKey(authorURL))
             {
                 return "Author already exists.";
             }
@@ -713,21 +713,21 @@ namespace CompatibilityReport.Updater
 
             if (authorID != 0)
             {
-                if (!catalog.AuthorIDDictionary.ContainsKey(authorID))
+                if (!catalog.AuthorIDIndex.ContainsKey(authorID))
                 {
                     return "Invalid author ID.";
                 }
 
-                catalogAuthor = catalog.AuthorIDDictionary[authorID];
+                catalogAuthor = catalog.AuthorIDIndex[authorID];
             }
             else
             {
-                if (!catalog.AuthorURLDictionary.ContainsKey(authorURL))
+                if (!catalog.AuthorUrlIndex.ContainsKey(authorURL))
                 {
                     return "Invalid author custom URL.";
                 }
 
-                catalogAuthor = catalog.AuthorURLDictionary[authorURL];
+                catalogAuthor = catalog.AuthorUrlIndex[authorURL];
             }
 
             if (catalogAuthor == null)
@@ -861,7 +861,7 @@ namespace CompatibilityReport.Updater
         // Remove a group
         private static string RemoveGroup(Catalog catalog, ulong groupID)
         {
-            if (!catalog.GroupDictionary.ContainsKey(groupID))
+            if (!catalog.GroupIndex.ContainsKey(groupID))
             {
                 return "Invalid group ID.";
             }
@@ -875,7 +875,7 @@ namespace CompatibilityReport.Updater
         // Add or remove a group member
         private static string AddRemoveGroupMember(Catalog catalog, string action, ulong groupID, ulong groupMember)
         {
-            if (!catalog.GroupDictionary.ContainsKey(groupID))
+            if (!catalog.GroupIndex.ContainsKey(groupID))
             {
                 return "Invalid group ID.";
             }
@@ -885,7 +885,7 @@ namespace CompatibilityReport.Updater
                 return $"Invalid mod ID { groupMember }.";
             }
 
-            Group group = catalog.GroupDictionary[groupID];
+            Group group = catalog.GroupIndex[groupID];
 
             if (action == "add_groupmember")
             {
@@ -1032,8 +1032,8 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                CatalogUpdater.AddCompatibility(catalog, firstModID, catalog.ModDictionary[firstModID].Name, 
-                    secondModID, catalog.ModDictionary[secondModID].Name, compatibilityStatus, compatibilityNote);
+                CatalogUpdater.AddCompatibility(catalog, firstModID, catalog.ModIndex[firstModID].Name, 
+                    secondModID, catalog.ModIndex[secondModID].Name, compatibilityStatus, compatibilityNote);
             }
             else
             {
@@ -1060,10 +1060,12 @@ namespace CompatibilityReport.Updater
                 return "Incorrect gameversion.";
             }
 
-            if (!catalog.UpdateGameVersion(newGameVersion))
+            if (newGameVersion <= catalog.GameVersion())
             {
                 return "Could not update game version, it should be higher than the current game version.";
             }
+
+            catalog.Update(newGameVersion);
 
             CatalogUpdater.AddCatalogChangeNote($"Catalog was updated to game version { Toolkit.ConvertGameVersionToString(newGameVersion) }.");
 

@@ -45,17 +45,17 @@ namespace CompatibilityReport.Reporter
             Logger.Log(scene == "IntroScreen" ? "Reporter started during game startup." : 
                 (scene == "Game" ? "Reporter started during map loading." : "Reporter started for an on-demand report."));
 
-            if (Toolkit.CurrentGameVersion != catalog.CompatibleGameVersion)
+            if (Toolkit.CurrentGameVersion != catalog.GameVersion())
             {
-                Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(catalog.CompatibleGameVersion) }. " +
-                    $"You're using { (Toolkit.CurrentGameVersion < catalog.CompatibleGameVersion ? "an older" : "a newer") } version of the game. " +
+                Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(catalog.GameVersion()) }. " +
+                    $"You're using { (Toolkit.CurrentGameVersion < catalog.GameVersion() ? "an older" : "a newer") } version of the game. " +
                     "Results may not be accurate.", Logger.warning, duplicateToGameLog: true);
             }
 
             // Get all subscription info into the catalog
             catalog.GetSubscriptions();
 
-            Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionIDs.Count } mods.");
+            Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionIDIndex.Count } mods.");
 
             // Create the HTML report if selected in settings
             if (ModSettings.HtmlReport)

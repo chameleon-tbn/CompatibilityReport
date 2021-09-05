@@ -157,7 +157,7 @@ namespace CompatibilityReport.Updater
                 else if (catalogGroup.GroupMembers.Count == 1)
                 {
                     DataDump.AppendLine(catalogGroup.ToString() + ": only member is " +
-                        catalog.ModDictionary[catalogGroup.GroupMembers[0]].ToString());
+                        catalog.ModIndex[catalogGroup.GroupMembers[0]].ToString());
                 }
             }
         }

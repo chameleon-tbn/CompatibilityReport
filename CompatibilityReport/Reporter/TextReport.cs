@@ -28,21 +28,21 @@ namespace CompatibilityReport.Reporter
 
             TextReport.AppendLine(Toolkit.WordWrap($"{ ModSettings.modName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
 
-            TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.shortVersion } with catalog { catalog.VersionString() }. " +
+            TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.fullVersion } with catalog { catalog.VersionString() }. " +
                 $"The catalog contains { catalog.ReviewedModCount } reviewed mods and " +
                 $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. " +
-                $"Your game has { catalog.SubscriptionIDs.Count } mods.\n"));
+                $"Your game has { catalog.SubscriptionIDIndex.Count } mods.\n"));
 
             if (!string.IsNullOrEmpty(catalog.Note))
             {
                 TextReport.AppendLine(Toolkit.WordWrap(catalog.Note) + "\n");
             }
 
-            if (Toolkit.CurrentGameVersion != catalog.CompatibleGameVersion)
+            if (Toolkit.CurrentGameVersion != catalog.GameVersion())
             {
                 TextReport.AppendLine(Toolkit.WordWrap($"WARNING: The review catalog is made for game version " +
-                    Toolkit.ConvertGameVersionToString(catalog.CompatibleGameVersion) +
-                    $". Your game is { (Toolkit.CurrentGameVersion < catalog.CompatibleGameVersion ? "older" : "newer") }. Results may not be accurate.\n", 
+                    Toolkit.ConvertGameVersionToString(catalog.GameVersion()) +
+                    $". Your game is { (Toolkit.CurrentGameVersion < catalog.GameVersion() ? "older" : "newer") }. Results may not be accurate.\n", 
                     indent: new string(' ', "WARNING: ".Length)));
             }
 
@@ -57,14 +57,14 @@ namespace CompatibilityReport.Reporter
             if (ModSettings.ReportSortByName)
             {
                 // Sorted by name
-                List<string> AllSubscriptionNames = new List<string>(catalog.SubscriptionNamesAndIDs.Keys);
+                List<string> AllSubscriptionNames = new List<string>(catalog.SubscriptionNameIndex.Keys);
 
                 AllSubscriptionNames.Sort();
 
                 foreach (string name in AllSubscriptionNames)
                 {
                     // Get the Steam ID(s) for this mod name; could be multiple (which will be sorted by Steam ID)
-                    foreach (ulong steamID in catalog.SubscriptionNamesAndIDs[name])
+                    foreach (ulong steamID in catalog.SubscriptionNameIndex[name])
                     {
                         // Get the mod text, and increase the counter if it was a mod without review but with remarks
                         if (GetModText(catalog, steamID, nameFirst: true))
@@ -77,9 +77,9 @@ namespace CompatibilityReport.Reporter
             else
             {
                 // Sorted by Steam ID
-                catalog.SubscriptionIDs.Sort();
+                catalog.SubscriptionIDIndex.Sort();
 
-                foreach (ulong steamID in catalog.SubscriptionIDs)
+                foreach (ulong steamID in catalog.SubscriptionIDIndex)
                 {
                     // Get the mod text, and increase the counter if it was a mod without review but with remarks
                     if (GetModText(catalog, steamID, nameFirst: false))
@@ -107,7 +107,7 @@ namespace CompatibilityReport.Reporter
             {
                 TextReport.AppendLine(ModSettings.separatorDouble);
 
-                TextReport.AppendLine($"MODS NOT REVIEWED YET ({ catalog.SubscriptionIDs.Count - catalog.ReviewedSubscriptionCount - modsWithOnlyRemarks }):");
+                TextReport.AppendLine($"MODS NOT REVIEWED YET ({ catalog.SubscriptionIDIndex.Count - catalog.ReviewedSubscriptionCount - modsWithOnlyRemarks }):");
 
                 TextReport.AppendLine(nonReviewedModsText.ToString());
 
@@ -145,7 +145,7 @@ namespace CompatibilityReport.Reporter
             }
 
             // Get the mod
-            Mod subscribedMod = catalog.ModDictionary[steamID];
+            Mod subscribedMod = catalog.ModIndex[steamID];
 
             Author subscriptionAuthor = catalog.GetAuthor(subscribedMod.AuthorID, subscribedMod.AuthorURL);
 
@@ -372,7 +372,7 @@ namespace CompatibilityReport.Reporter
             // Check if any of these mods is subscribed
             foreach (Mod mod in ModsRequiringThis)
             {
-                if (catalog.SubscriptionIDs.Contains(mod.SteamID))
+                if (catalog.SubscriptionIDIndex.Contains(mod.SteamID))
                 {
                     // Found a subscribed mod that needs this; nothing to report
                     return "";
@@ -397,10 +397,10 @@ namespace CompatibilityReport.Reporter
             // List all successor mods
             foreach (ulong id in subscribedMod.Successors)
             {
-                if (catalog.ModDictionary.ContainsKey(id))
+                if (catalog.ModIndex.ContainsKey(id))
                 {
                     // Mod found in the catalog, list Steam ID and name
-                    text += ReviewLine(catalog.ModDictionary[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
                 }
                 else
                 {
@@ -429,10 +429,10 @@ namespace CompatibilityReport.Reporter
             // List all alternative mods
             foreach (ulong id in subscribedMod.Alternatives)
             {
-                if (catalog.ModDictionary.ContainsKey(id))
+                if (catalog.ModIndex.ContainsKey(id))
                 {
                     // Mod found in the catalog, list Steam ID and name
-                    text += ReviewLine(catalog.ModDictionary[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
                 }
                 else
                 {
@@ -495,13 +495,13 @@ namespace CompatibilityReport.Reporter
                 if ((id < ModSettings.lowestGroupID) || (id > ModSettings.highestGroupID))
                 {
                     // Regular mod. Try to find it in the list of subscribed mods
-                    if (catalog.SubscriptionIDs.Contains(id))
+                    if (catalog.SubscriptionIDIndex.Contains(id))
                     {
                         // Mod is subscribed
-                        if (catalog.ModDictionary[id].IsDisabled)
+                        if (catalog.ModIndex[id].IsDisabled)
                         {
                             // Mod is subscribed, but not enabled
-                            text += ReviewLine(catalog.ModDictionary[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                            text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
                         }
                         else
                         {
@@ -513,10 +513,10 @@ namespace CompatibilityReport.Reporter
                     else
                     {
                         // Mod is not subscribed, try to find it in the catalog
-                        if (catalog.ModDictionary.ContainsKey(id))
+                        if (catalog.ModIndex.ContainsKey(id))
                         {
                             // Mod found in the catalog
-                            text += ReviewLine(catalog.ModDictionary[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                            text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
                         }
                         else
                         {
@@ -535,7 +535,7 @@ namespace CompatibilityReport.Reporter
                 else
                 {
                     // Group. We have to dig a little deeper. First some error checks
-                    if (!catalog.GroupDictionary.ContainsKey(id))
+                    if (!catalog.GroupIndex.ContainsKey(id))
                     {
                         // Group not found in catalog, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", ModSettings.bullet2);
@@ -544,7 +544,7 @@ namespace CompatibilityReport.Reporter
 
                         continue;   // To the next required mod
                     }
-                    else if (catalog.GroupDictionary[id].GroupMembers?.Any() != true)
+                    else if (catalog.GroupIndex[id].GroupMembers?.Any() != true)
                     {
                         // Group contains no Steam IDs, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", ModSettings.bullet2);
@@ -555,7 +555,7 @@ namespace CompatibilityReport.Reporter
                     }
 
                     // Get the group from the catalog
-                    Group group = catalog.GroupDictionary[id];
+                    Group group = catalog.GroupIndex[id];
 
                     // Some vars to keep track of all mods in the group, and check if at least one group member is subscribed and enabled
                     uint subscriptionsFound = 0;
@@ -566,12 +566,12 @@ namespace CompatibilityReport.Reporter
                     // Check each mod in the group, and see if they are subscribed and enabled
                     foreach (ulong modID in group.GroupMembers)
                     {
-                        if (catalog.SubscriptionIDs.Contains(modID))
+                        if (catalog.SubscriptionIDIndex.Contains(modID))
                         {
                             // Mod is subscribed
                             subscriptionsFound++;
 
-                            if (!catalog.ModDictionary[modID].IsDisabled)
+                            if (!catalog.ModIndex[modID].IsDisabled)
                             {
                                 // Enabled mod found, no need to look any further in this group
                                 EnabledSubscriptionFound = true;
@@ -581,16 +581,16 @@ namespace CompatibilityReport.Reporter
                             else
                             {
                                 // Disabled mod
-                                disabledModsText += ReviewLine(catalog.ModDictionary[modID].ToString(hideFakeID: true), ModSettings.bullet3, cutOff: true);
+                                disabledModsText += ReviewLine(catalog.ModIndex[modID].ToString(hideFakeID: true), ModSettings.bullet3, cutOff: true);
                             }
                         }
                         else
                         {
                             // Mod is not subscribed, find it in the catalog
-                            if (catalog.ModDictionary.ContainsKey(modID))
+                            if (catalog.ModIndex.ContainsKey(modID))
                             {
                                 // Mod found in the catalog
-                                missingModsText += ReviewLine(catalog.ModDictionary[modID].ToString(hideFakeID: true), ModSettings.bullet3, cutOff: true);
+                                missingModsText += ReviewLine(catalog.ModIndex[modID].ToString(hideFakeID: true), ModSettings.bullet3, cutOff: true);
                             }
                             else
                             {
@@ -769,11 +769,11 @@ namespace CompatibilityReport.Reporter
         {
             string text = "";
 
-            foreach (Compatibility compatibility in catalog.SubscribedCompatibilities[subscribedMod.SteamID])
+            foreach (Compatibility compatibility in catalog.SubscriptionCompatibilityIndex[subscribedMod.SteamID])
             {
-                string firstMod = ReviewLine(catalog.ModDictionary[compatibility.FirstModID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                string firstMod = ReviewLine(catalog.ModIndex[compatibility.FirstModID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
 
-                string secondMod = ReviewLine(catalog.ModDictionary[compatibility.SecondModID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                string secondMod = ReviewLine(catalog.ModIndex[compatibility.SecondModID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
 
                 string otherMod = subscribedMod.SteamID == compatibility.FirstModID ? secondMod : firstMod;
 

@@ -46,10 +46,8 @@ namespace CompatibilityReport.Util
         /// Hardcoded settings that can't be changed by users
 
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
-        internal const string shortVersion = "0.4";
-        internal const string revision = "0";
-        internal const string build = "222";
-        internal const string version = shortVersion + "." + revision;
+        internal const string version = "0.4.0";
+        internal const string build = "223";
         internal const string fullVersion = version + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
@@ -177,7 +175,7 @@ namespace CompatibilityReport.Util
 
         // Which report(s) to create; will create text report if none; [Todo 1.1] Set HTML to true
         internal static bool HtmlReport { get; private set; } = false;
-        internal static bool TextReport { get; private set; } = true | !HtmlReport;
+        internal static bool TextReport { get; private set; } = true || !HtmlReport;
 
         // Report path (game folder); filename is not user-changeable and is set in another variable
         internal static string ReportPath { get; private set; } = DataLocation.applicationBase;

@@ -10,18 +10,16 @@ namespace CompatibilityReport.Updater
     // Only needed to (re)create the catalog from scratch; catalog 1 is only builtin mods
     internal static class FirstCatalog
     {
-        internal static Catalog Create()
+        internal static void Create()
         {
             DateTime updateDate = DateTime.Now;
 
             // Create a new catalog
-            Catalog firstCatalog = new Catalog(version: 0);
+            Catalog firstCatalog = new Catalog();
 
             firstCatalog.NewVersion(updateDate);
 
-            firstCatalog.UpdateGameVersion(Toolkit.CurrentGameVersion);
-            
-            firstCatalog.Update(ModSettings.firstCatalogNote, ModSettings.defaultHeaderText, ModSettings.defaultFooterText);
+            firstCatalog.Update(Toolkit.CurrentGameVersion, ModSettings.firstCatalogNote, ModSettings.defaultHeaderText, ModSettings.defaultFooterText);
 
             // The filename for the catalog and change notes
             string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ firstCatalog.VersionString() }");
@@ -29,13 +27,13 @@ namespace CompatibilityReport.Updater
             // Exit if the first catalog already exists
             if (File.Exists(partialPath + ".xml"))
             {
-                return null;
+                return;
             }
 
             DateTime gameRelease = DateTime.Parse("2015-03-10");
 
             // Add author "Colossal Order" with fake ID and high LastSeen date to avoid retirement (but lower than max to avoid out-of-range errors at retirement check)
-            Author colossalOrder = firstCatalog.AddAuthor(ModSettings.fakeAuthorIDforColossalOrder, authorURL: "", name: "Colossal Order");
+            Author colossalOrder = firstCatalog.GetOrAddAuthor(ModSettings.fakeAuthorIDforColossalOrder, authorURL: "", name: "Colossal Order");
             
             colossalOrder.Update(lastSeen: gameRelease.AddYears(1000));
 
@@ -69,8 +67,6 @@ namespace CompatibilityReport.Updater
                     changeNotes, 
                     partialPath + "_ChangeNotes.txt");
             }
-
-            return firstCatalog;
         }
     }
 }
