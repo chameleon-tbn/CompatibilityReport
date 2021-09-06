@@ -32,7 +32,7 @@ namespace CompatibilityReport.Updater
             // Sort the filenames, so we get a predictable processing order
             CSVfilenames.Sort();
 
-            uint errorCounter = 0;
+            int errorCounter = 0;
 
             Stopwatch timer = Stopwatch.StartNew();
 
@@ -79,7 +79,7 @@ namespace CompatibilityReport.Updater
             {
                 string line;
 
-                uint lineNumber = 0;
+                int lineNumber = 0;
 
                 // Read each line in the CSV file
                 while ((line = reader.ReadLine()) != null)
@@ -738,7 +738,7 @@ namespace CompatibilityReport.Updater
             // Act on the action
             if (action == "set_authorid")
             {
-                if (catalogAuthor.ProfileID != 0)
+                if (catalogAuthor.SteamID != 0)
                 {
                     return "Author already has an author ID.";
                 }
@@ -757,7 +757,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid custom URL.";
                 }
 
-                if (catalogAuthor.CustomURL == itemData)
+                if (catalogAuthor.CustomUrl == itemData)
                 {
                     return "This custom URL is already active.";
                 }
@@ -766,7 +766,7 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "remove_authorurl")
             {
-                if (string.IsNullOrEmpty(catalogAuthor.CustomURL))
+                if (string.IsNullOrEmpty(catalogAuthor.CustomUrl))
                 {
                     return "No custom URL active.";
                 }
@@ -837,6 +837,11 @@ namespace CompatibilityReport.Updater
             if (catalog.Groups.Find(x => x.Name == groupName) != default)
             {
                 return "A group with that name already exists.";
+            }
+
+            if (catalog.GroupIndex.Keys.Max() >= ModSettings.highestGroupID)
+            {
+                return "Cannot add anymore groups, no more group IDs available.";
             }
 
             foreach (ulong groupMember in groupMembers)
@@ -926,7 +931,7 @@ namespace CompatibilityReport.Updater
             int numberOfSteamIDs = steamIDs.Count;
 
             // Loop from the first to the second-to-last
-            for (int index1 = 0; index1 < numberOfSteamIDs - 1; index1++)
+            for (var i = 0; i < numberOfSteamIDs - 1; i++)
             {
                 // Set the first element as first mod, and remove it from the list
                 ulong firstModID = steamIDs[0];
@@ -1009,7 +1014,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Check if a compatibility exists for these steam IDs and this compatibility status
-            bool compatibilityExists = catalog.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID && 
+            bool compatibilityExists = catalog.Compatibilities.Find(x => x.FirstModSteamID == firstModID && x.SecondModSteamID == secondModID && 
                 x.Status == compatibilityStatus) != default;
 
             if (action == "add_compatibility")
@@ -1023,7 +1028,7 @@ namespace CompatibilityReport.Updater
                 if (compatibilityStatus == Enums.CompatibilityStatus.SameModDifferentReleaseType || compatibilityStatus == Enums.CompatibilityStatus.SameFunctionality ||
                     compatibilityStatus == Enums.CompatibilityStatus.MinorIssues || compatibilityStatus == Enums.CompatibilityStatus.RequiresSpecificSettings)
                 {
-                    bool mirroredCompatibilityExists = catalog.Compatibilities.Find(x => x.FirstModID == secondModID && x.SecondModID == firstModID && 
+                    bool mirroredCompatibilityExists = catalog.Compatibilities.Find(x => x.FirstModSteamID == secondModID && x.SecondModSteamID == firstModID && 
                         x.Status == compatibilityStatus) != default;
 
                     if (mirroredCompatibilityExists)

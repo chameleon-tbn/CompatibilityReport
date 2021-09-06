@@ -89,6 +89,8 @@ namespace CompatibilityReport.Updater
 
             UpdateAuthorRetirement(catalog);
 
+            UpdateCompatibilityModNames();
+
             // Set a special catalog note for version 2, and reset it again for version 3
             if (catalog.Version == 2 && catalog.Note == ModSettings.firstCatalogNote)
             {
@@ -196,7 +198,7 @@ namespace CompatibilityReport.Updater
             {
                 string cleanedChangeNote = authorNotes.Value.Substring(2);
 
-                catalog.AuthorIDIndex[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                catalog.AuthorIDIndex[authorNotes.Key].Update(changeNote: $"{ catalogDateString }: { cleanedChangeNote }");
 
                 changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorIDIndex[authorNotes.Key].ToString() }: " +
                     $"{ cleanedChangeNote }");
@@ -206,7 +208,7 @@ namespace CompatibilityReport.Updater
             {
                 string cleanedChangeNote = authorNotes.Value.Substring(2);
 
-                catalog.AuthorUrlIndex[authorNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                catalog.AuthorUrlIndex[authorNotes.Key].Update(changeNote: $"{ catalogDateString }: { cleanedChangeNote }");
 
                 changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorUrlIndex[authorNotes.Key].ToString() }: " +
                     $"{ cleanedChangeNote }");
@@ -293,14 +295,10 @@ namespace CompatibilityReport.Updater
         // A review date is not set, that is only done on UpdateMod()
         internal static Mod GetOrAddMod(Catalog catalog, ulong steamID, string name, bool incompatible = false, bool unlisted = false, bool removed = false)
         {
-            Mod catalogMod;
-
             // Get the mod from the catalog, or add a new one
-            if (catalog.ModIndex.ContainsKey(steamID))
-            {
-                catalogMod = catalog.ModIndex[steamID];
-            }
-            else
+            Mod catalogMod = catalog.GetMod(steamID);
+
+            if (catalogMod == null)
             {
                 // New mod. Log an empty mod name, which might be an error, although there is a workshop mod without a name (ofcourse there is)
                 if (name == "")
@@ -308,7 +306,7 @@ namespace CompatibilityReport.Updater
                     Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.warning);
                 }
                 
-                catalogMod = catalog.GetOrAddMod(steamID);
+                catalogMod = catalog.AddMod(steamID);
 
                 catalogMod.Update(name: name, extraChangeNote: $"{ catalogDateString }: added");
 
@@ -531,9 +529,7 @@ namespace CompatibilityReport.Updater
         internal static void AddCompatibility(Catalog catalog, ulong firstModID, string firstModname, ulong secondModID, string secondModName, 
             Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
         {
-            Compatibility compatibility = new Compatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, compatibilityNote);
-
-            catalog.Compatibilities.Add(compatibility);
+            catalog.AddCompatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, compatibilityNote);
 
             changeNotesNewCompatibilities.AppendLine($"Compatibility added between { firstModID, 10 } and { secondModID, 10 }: { compatibilityStatus }" +
                 (string.IsNullOrEmpty(compatibilityNote) ? "" : ", " + compatibilityNote));
@@ -543,7 +539,7 @@ namespace CompatibilityReport.Updater
         // Remove a compatibility
         internal static bool RemoveCompatibility(Catalog catalog, ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus)
         {
-            Compatibility catalogCompatibility = catalog.Compatibilities.Find(x => x.FirstModID == firstModID && x.SecondModID == secondModID &&
+            Compatibility catalogCompatibility = catalog.Compatibilities.Find(x => x.FirstModSteamID == firstModID && x.SecondModSteamID == secondModID &&
                 x.Status == compatibilityStatus);
 
             if (!catalog.Compatibilities.Remove(catalogCompatibility))
@@ -570,26 +566,30 @@ namespace CompatibilityReport.Updater
             }
             else
             {
-                // Log if the author name is equal to the author ID. Could be an error, although some authors have their ID as name (ofcourse they do)
-                if (authorID != 0 && authorName == authorID.ToString())
+                // Log if the author name is empty or equal to the author ID. Could be an error, although some authors have their ID as name (ofcourse they do)
+                if (string.IsNullOrEmpty(authorName))
                 {
-                    Logger.UpdaterLog($"Author found with profile ID as name: { authorID }. Some authors do this, but it could also be a Steam error.", Logger.warning);
+                    Logger.UpdaterLog($"Author found without a name: { (authorID == 0 ? "Custom URL " + authorURL : "Steam ID " + authorID.ToString()) }.", Logger.error);
+                }
+                else if (authorName == authorID.ToString() && authorID != 0)
+                {
+                    Logger.UpdaterLog($"Author found with Steam ID as name: { authorID }. Some authors do this, but it could also be a Steam error.", Logger.warning);
                 }
 
-                // Log if we have two authors with the same name, which could an existing author we missed when a custom URL has changed
+                // Log if we have two authors with the same name, which could be an existing author we missed when a Custom URL has changed
                 Author namesakeAuthor = catalog.Authors.Find(x => x.Name == authorName);
                 
                 if (namesakeAuthor != default)
                 {
                     string authors = (authorID == 0 ? authorURL : authorID.ToString()) + " and " + 
-                        (namesakeAuthor.ProfileID == 0 ? namesakeAuthor.CustomURL : namesakeAuthor.ProfileID.ToString());
+                        (namesakeAuthor.SteamID == 0 ? namesakeAuthor.CustomUrl : namesakeAuthor.SteamID.ToString());
 
                     Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\": { authors }. This could be a coincidence or an error.", Logger.warning);
                 }
 
-                catalogAuthor = catalog.GetOrAddAuthor(authorID, authorURL, authorName);
+                catalogAuthor = catalog.AddAuthor(authorID, authorURL, authorName);
 
-                catalogAuthor.Update(extraChangeNote: $"{ catalogDateString }: added");
+                catalogAuthor.Update(changeNote: $"{ catalogDateString }: added", addedThisSession: true);
 
                 changeNotesNewAuthors.AppendLine($"Author added: { catalogAuthor.ToString() }");
             }
@@ -613,8 +613,8 @@ namespace CompatibilityReport.Updater
 
             // Set the change note for all changed values   [Todo 0.4] causes duplicates in change notes, especially for last seen
             string addedChangeNote =
-                (authorID == 0 || authorID == catalogAuthor.ProfileID || catalogAuthor.ProfileID != 0 ? "" : ", profile ID added") +
-                (authorURL == null || authorURL == catalogAuthor.CustomURL ? "" : ", custom URL") +
+                (authorID == 0 || authorID == catalogAuthor.SteamID || catalogAuthor.SteamID != 0 ? "" : ", Steam ID added") +
+                (authorURL == null || authorURL == catalogAuthor.CustomUrl ? "" : ", Custom URL") +
                 (name == null || name == catalogAuthor.Name ? "" : ", name") +
                 (lastSeen == null || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : ", last seen date") +
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
@@ -624,7 +624,7 @@ namespace CompatibilityReport.Updater
             // Update the author
             catalogAuthor.Update(authorID, authorURL, name, lastSeen, retired, exclusionForRetired: catalogAuthor.ExclusionForRetired || retired == true);
 
-            // [Todo 0.4] Not implemented yet: distribute new ID or changed URL to all mods
+            // [Todo 0.4] Not implemented yet: distribute new ID or changed URL to all mods; check for ID as name (see AddOrGetAuthor())
         }
 
 
@@ -666,7 +666,7 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Set retirement
-                if (!ActiveAuthorIDs.Contains(catalogAuthor.ProfileID) && !ActiveAuthorURLs.Contains(catalogAuthor.CustomURL))
+                if (!ActiveAuthorIDs.Contains(catalogAuthor.SteamID) && !ActiveAuthorURLs.Contains(catalogAuthor.CustomUrl))
                 {
                     // Authors without a mod in the Workshop
                     if (!catalogAuthor.Retired)
@@ -692,6 +692,13 @@ namespace CompatibilityReport.Updater
                     UpdateAuthor(catalogAuthor, retired: false);
                 }
             }
+        }
+
+
+        // Update the mod names in all compatilibities.
+        private static void UpdateCompatibilityModNames()
+        {
+            // [Todo 0.4]
         }
 
 
@@ -1005,26 +1012,26 @@ namespace CompatibilityReport.Updater
             }
 
             // Add the new change note to the dictionary
-            if (catalogAuthor.ProfileID != 0)
+            if (catalogAuthor.SteamID != 0)
             {
-                if (changeNotesUpdatedAuthorsByID.ContainsKey(catalogAuthor.ProfileID))
+                if (changeNotesUpdatedAuthorsByID.ContainsKey(catalogAuthor.SteamID))
                 {
-                    changeNotesUpdatedAuthorsByID[catalogAuthor.ProfileID] += extraChangeNote;
+                    changeNotesUpdatedAuthorsByID[catalogAuthor.SteamID] += extraChangeNote;
                 }
                 else
                 {
-                    changeNotesUpdatedAuthorsByID.Add(catalogAuthor.ProfileID, extraChangeNote);
+                    changeNotesUpdatedAuthorsByID.Add(catalogAuthor.SteamID, extraChangeNote);
                 }
             }
             else
             {
-                if (changeNotesUpdatedAuthorsByURL.ContainsKey(catalogAuthor.CustomURL))
+                if (changeNotesUpdatedAuthorsByURL.ContainsKey(catalogAuthor.CustomUrl))
                 {
-                    changeNotesUpdatedAuthorsByURL[catalogAuthor.CustomURL] += extraChangeNote;
+                    changeNotesUpdatedAuthorsByURL[catalogAuthor.CustomUrl] += extraChangeNote;
                 }
                 else
                 {
-                    changeNotesUpdatedAuthorsByURL.Add(catalogAuthor.CustomURL, extraChangeNote);
+                    changeNotesUpdatedAuthorsByURL.Add(catalogAuthor.CustomUrl, extraChangeNote);
                 }
             }
         }

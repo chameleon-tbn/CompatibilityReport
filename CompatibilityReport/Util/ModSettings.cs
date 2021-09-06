@@ -47,7 +47,7 @@ namespace CompatibilityReport.Util
 
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string version = "0.4.0";
-        internal const string build = "223";
+        internal const string build = "224";
         internal const string fullVersion = version + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
@@ -71,7 +71,7 @@ namespace CompatibilityReport.Util
         internal const string xmlRoot = internalName + "Catalog";
 
         // The current catalog structure version
-        internal static readonly uint currentCatalogStructureVersion = 1;
+        internal static readonly int currentCatalogStructureVersion = 1;
 
         // This mods own Steam ID; [Todo 0.5]
         internal static readonly ulong OurOwnSteamID = 101;
@@ -111,7 +111,7 @@ namespace CompatibilityReport.Util
         internal static readonly string downloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }_Downloaded_Catalog.xml");
 
         // Number of retries on failed downloads; used as default parameter, must be a constant
-        internal const uint downloadRetries = 2;
+        internal const int downloadRetries = 2;
 
         // 'Please report' text to include in logs when something odd happens
         internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
@@ -229,7 +229,7 @@ namespace CompatibilityReport.Util
         internal static readonly int monthsOfInactivityToRetireAuthor = 12;
 
         // Max. number of Steam Workshop mod listing pages to download (per category), to avoid downloading for eternity; should be high enough to include all pages
-        internal static readonly uint steamMaxModListingPages = 200;
+        internal static readonly int steamMaxModListingPages = 200;
 
         // Steam Workshop mod listing urls, without page number ("&p=1")
         internal static readonly List<string> steamModListingURLs = new List<string> {
@@ -287,6 +287,6 @@ namespace CompatibilityReport.Util
             !File.Exists(Path.Combine(updaterPath, $"{ internalName }_WebCrawler.disabled"));
 
         // Max. number of failed downloads for individual pages before giving up altogether
-        internal static uint SteamMaxFailedPages { get; private set; } = 4;
+        internal static int SteamMaxFailedPages { get; private set; } = 4;
     }
 }

@@ -171,11 +171,11 @@ namespace CompatibilityReport.Updater
             foreach (Author catalogAuthor in catalog.Authors)
             {
                 // List authors that have at least two mods
-                if ((catalogAuthor.ProfileID != 0 ? catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.ProfileID).Count : 0) +
-                    (!string.IsNullOrEmpty(catalogAuthor.CustomURL) ? catalog.Mods.FindAll(x => x.AuthorURL == catalogAuthor.CustomURL).Count : 0) > 1)
+                if ((catalogAuthor.SteamID != 0 ? catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.SteamID).Count : 0) +
+                    (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? catalog.Mods.FindAll(x => x.AuthorURL == catalogAuthor.CustomUrl).Count : 0) > 1)
                 {
                     DataDump.AppendLine($"{ catalogAuthor.Name }{ (catalogAuthor.Retired ? " [retired]" : "") }, " +
-                        $"{ Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
+                        $"{ Toolkit.GetAuthorWorkshop(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }
             }
         }
@@ -190,7 +190,7 @@ namespace CompatibilityReport.Updater
             {
                 if (catalogAuthor.Retired)
                 {
-                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
+                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }
             }
         }
@@ -205,7 +205,7 @@ namespace CompatibilityReport.Updater
             {
                 if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor - months) < DateTime.Now)
                 {
-                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.ProfileID, catalogAuthor.CustomURL) }");
+                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }
             }
         }

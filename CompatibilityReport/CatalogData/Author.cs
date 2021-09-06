@@ -1,128 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using CompatibilityReport.Util;
-
-
-// An author on Steam can be identified by a Steam ID, here called profile ID, and optionally (but often) a custom URL text
-// Converting from custom URL to author profile number can be done manually on some websites or automated through Steam API
-
 
 namespace CompatibilityReport.CatalogData
 {
-    // Needs to be public for XML serialization
-    [Serializable] public class Author
+    [Serializable] 
+    public class Author
     {
-        // Profile ID and custom URL as seen on the Steam Workshop  [Todo 0.4] Create fake ID for connection to mods
-        public ulong ProfileID { get; private set; }
-        public string CustomURL { get; private set; }
+        // Steam ID and Custom URL as seen on the Steam Workshop. Steam is inconsistent with them on the Workshop, so the Updater might get an ID even if an URL exists.
+        // The ID always exists and cannot be changed. The Custom URL is optional and can be assigned, changed or removed at any time by the Steam user.
+        // Converting from Custom URL to Steam ID can be done manually on some websites, or through the Steam API.
+        public ulong SteamID { get; private set; }
+        public string CustomUrl { get; private set; }
 
-        // Author name
         public string Name { get; private set; }
 
-        // Date the author was last seen / heard from
+        // The last seen date is automatically determined from the most recent mod update, but can be overruled through the FileImporter. 
         public DateTime LastSeen { get; private set; }
 
-        // Is the author retired. Based on mod updates or author announcement. No mod updates for over a year means retired
+        // Author retirement is automatically determined from the last seen date, but can be overruled through the FileImporter.
         public bool Retired { get; private set; }
 
-        // Exclusion for retired, to allow setting an author to retired even with recent mod updates
+        // This exclusion is set by the FileImporter, to prevent a retirement state from being reset by the WebCrawler.
         public bool ExclusionForRetired { get; private set; }
 
-        // Change notes, automatically filled by the updater; not displayed in report or log, but visible in the catalog
+        // Change notes contain a list of changes by the Updater.
         [XmlArrayItem("ChangeNote")] public List<string> ChangeNotes { get; private set; } = new List<string>();
 
-        // Used by the Updater: was this author added this session?
-        [XmlIgnore] internal bool AddedThisSession { get; private set; }
+        // Used by the Updater to indicate if this author was added during this session.
+        [XmlIgnore] public bool AddedThisSession { get; private set; }
 
 
-        // Default constructor
-        public Author()
+        // Default constructor for deserialization.
+        private Author()
         {
-            // Nothing to do here
+            // Nothing to do here.
         }
 
 
-        // Constructor with 3 parameters
-        internal Author(ulong profileID, string customURL, string name)
+        // Default constructor for author creation.
+        public Author(ulong steamID, string customUrl, string name)
         {
-            ProfileID = profileID;
+            SteamID = steamID;
+            CustomUrl = customUrl;
+            Name = name;
 
-            CustomURL = customURL ?? "";
-
-            Name = name ?? "";
-
-            ExclusionForRetired = false;
-
-            // Debug messages       [Todo 0.4] Move this to CatalogUpdater
-            if (ProfileID == 0 && string.IsNullOrEmpty(CustomURL))
-            {
-                Logger.Log($"Author created without profile ID and custom URL: { Name }", Logger.debug);
-            }
-
-            if (string.IsNullOrEmpty(name))
-            {
-                Logger.Log($"Author created with an empty name (profile ID { profileID } | custom URL: { customURL }).", Logger.debug);
-            }
-            else if (name == ProfileID.ToString())
-            {
-                Logger.Log($"Author created with profile ID as name ({ profileID }).", Logger.debug);
-            }
+            AddedThisSession = true;
         }
 
 
-        // Update an author with new info; all fields are optional, only supplied fields are updated; profile ID can only be changed once, if it was zero
-        internal void Update(ulong profileID = 0,
-                             string customURL = null,
-                             string name = null,
-                             DateTime? lastSeen = null,
-                             bool? retired = null,
-                             bool? exclusionForRetired = null,
-                             string extraChangeNote = null,
-                             bool addedThisSession = false)
+        // Update author properties. The Steam ID can only be changed if it was zero before.
+        public void Update(ulong steamID = 0, string customUrl = null, string name = null, DateTime lastSeen = default, 
+            bool? retired = null, bool? exclusionForRetired = null)
         {
-            // Only update supplied fields, so ignore every null value; make sure strings are set to empty strings instead of null
+            SteamID = SteamID == 0 ? steamID : SteamID;
+            CustomUrl = customUrl ?? CustomUrl;
 
-            // Update profile ID only if it was zero
-            ProfileID = ProfileID == 0 ? profileID : ProfileID;
+            Name = name ?? Name;
 
-            CustomURL = customURL ?? CustomURL;
-
-            // Avoid an empty name or the profile ID as name; Steam sometimes incorrectly puts the profile ID in the name field in mod listing HTML pages
-            Name = string.IsNullOrEmpty(name) || name == ProfileID.ToString() ? Name : name;
-
-            LastSeen = lastSeen ?? LastSeen;
-
+            LastSeen = lastSeen == default ? LastSeen : lastSeen;
             Retired = retired ?? Retired;
-
             ExclusionForRetired = exclusionForRetired ?? ExclusionForRetired;
-
-            // Set added-this-session to true if specified (this time or previous)
-            AddedThisSession = AddedThisSession || addedThisSession;
-
-            // Add a change note
-            if (!string.IsNullOrEmpty(extraChangeNote))
-            {
-                ChangeNotes.Add(extraChangeNote);
-            }
-
-            // Debug message
-            if ((ProfileID == 0) && string.IsNullOrEmpty(CustomURL))
-            {
-                Logger.Log($"Updated author now has no profile ID and no custom URL: { Name }", Logger.debug);
-            }
-
-            if (name == ProfileID.ToString() && name != Name)
-            {
-                Logger.Log($"Author updated with profile ID as name ({ name }). This change was discarded, old name is still used.", Logger.debug);
-            }
         }
 
 
-        // Return a formatted string with the author profile or url, and the name
-        internal new string ToString()
+        // Add a change note.
+        public void AddChangeNote(string changeNote)
         {
-            return $"[{ (ProfileID != 0 ? ProfileID.ToString() : CustomURL) }] { Name }";
+            ChangeNotes.Add(changeNote);
+        }
+
+
+        // Return a formatted string with the author Steam ID or Custom URL, and the name.
+        public new string ToString()
+        {
+            return $"[{ (SteamID != 0 ? SteamID.ToString() : CustomUrl) }] { Name }";
         }
     }
 }

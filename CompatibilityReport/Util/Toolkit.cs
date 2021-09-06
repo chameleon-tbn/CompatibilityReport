@@ -160,7 +160,7 @@ namespace CompatibilityReport.Util
         {
             Exception exception = null;
 
-            uint failedAttempts = 0;
+            int failedAttempts = 0;
 
             // Activate TLS callback
             ServicePointManager.ServerCertificateValidationCallback += TLSCallback;
@@ -224,11 +224,11 @@ namespace CompatibilityReport.Util
 
 
         // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(ulong profileID, string customURL)
+        internal static string GetAuthorWorkshop(ulong steamID, string customURL)
         {
-            if (profileID != 0 && profileID != ModSettings.fakeAuthorIDforColossalOrder)
+            if (steamID != 0 && steamID != ModSettings.fakeAuthorIDforColossalOrder)
             {
-                return $"https://steamcommunity.com/profiles/{ profileID }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
+                return $"https://steamcommunity.com/profiles/{ steamID }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
             }
             else if (!string.IsNullOrEmpty(customURL))
             {

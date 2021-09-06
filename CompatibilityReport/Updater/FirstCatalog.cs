@@ -33,7 +33,7 @@ namespace CompatibilityReport.Updater
             DateTime gameRelease = DateTime.Parse("2015-03-10");
 
             // Add author "Colossal Order" with fake ID and high LastSeen date to avoid retirement (but lower than max to avoid out-of-range errors at retirement check)
-            Author colossalOrder = firstCatalog.GetOrAddAuthor(ModSettings.fakeAuthorIDforColossalOrder, authorURL: "", name: "Colossal Order");
+            Author colossalOrder = firstCatalog.AddAuthor(ModSettings.fakeAuthorIDforColossalOrder, authorUrl: "", name: "Colossal Order");
             
             colossalOrder.Update(lastSeen: gameRelease.AddYears(1000));
 
@@ -46,9 +46,9 @@ namespace CompatibilityReport.Updater
 
             foreach (KeyValuePair<string, ulong> modVP in ModSettings.BuiltinMods)
             {
-                Mod mod = firstCatalog.GetOrAddMod(steamID: modVP.Value);
+                Mod mod = firstCatalog.AddMod(steamID: modVP.Value);
                 
-                mod.Update(name: modVP.Key, authorID: colossalOrder.ProfileID, published: gameRelease, stability: Enums.ModStability.Stable, 
+                mod.Update(name: modVP.Key, authorID: colossalOrder.SteamID, published: gameRelease, stability: Enums.ModStability.Stable, 
                     statuses: sourceBundled, reviewDate: gameRelease.AddYears(1000), autoReviewDate: updateDate, extraChangeNote: modNote);
 
                 changeNotes += $"New mod { mod.ToString() }\n";

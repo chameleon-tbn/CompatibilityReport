@@ -51,6 +51,13 @@ namespace CompatibilityReport.CatalogData
         private static bool s_downloadedThisSession;
 
 
+        // Default constructor for deserialization and catalog creation.
+        public Catalog()
+        {
+            // Nothing to do here.
+        }
+
+
         // Return a formatted catalog version string.
         public string VersionString()
         {
@@ -108,14 +115,14 @@ namespace CompatibilityReport.CatalogData
 
             foreach (Author author in Authors)
             {
-                if (author.ProfileID != 0 && !AuthorIDIndex.ContainsKey(author.ProfileID))
+                if (author.SteamID != 0 && !AuthorIDIndex.ContainsKey(author.SteamID))
                 {
-                    AuthorIDIndex.Add(author.ProfileID, author);
+                    AuthorIDIndex.Add(author.SteamID, author);
                 }
 
-                if (!string.IsNullOrEmpty(author.CustomURL) && !AuthorUrlIndex.ContainsKey(author.CustomURL))
+                if (!string.IsNullOrEmpty(author.CustomUrl) && !AuthorUrlIndex.ContainsKey(author.CustomUrl))
                 {
-                    AuthorUrlIndex.Add(author.CustomURL, author);
+                    AuthorUrlIndex.Add(author.CustomUrl, author);
                 }
             }
 
@@ -154,6 +161,18 @@ namespace CompatibilityReport.CatalogData
             ModIndex.Add(steamID, newMod);
 
             return newMod;
+        }
+
+
+        // Add a compatibility and return a reference.
+        public Compatibility AddCompatibility(ulong firstModID, string firstModname, ulong secondModID, string secondModName, 
+            Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
+        {
+            Compatibility compatibility = new Compatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, compatibilityNote);
+
+            Compatibilities.Add(compatibility);
+
+            return compatibility;
         }
 
 
@@ -312,10 +331,10 @@ namespace CompatibilityReport.CatalogData
             // Find all compatibilities with two subscribed mods.
             foreach (Compatibility catalogCompatibility in Compatibilities)
             {
-                if (SubscriptionIDIndex.Contains(catalogCompatibility.FirstModID) && SubscriptionIDIndex.Contains(catalogCompatibility.SecondModID))
+                if (SubscriptionIDIndex.Contains(catalogCompatibility.FirstModSteamID) && SubscriptionIDIndex.Contains(catalogCompatibility.SecondModSteamID))
                 {
-                    SubscriptionCompatibilityIndex[catalogCompatibility.FirstModID].Add(catalogCompatibility);
-                    SubscriptionCompatibilityIndex[catalogCompatibility.SecondModID].Add(catalogCompatibility);
+                    SubscriptionCompatibilityIndex[catalogCompatibility.FirstModSteamID].Add(catalogCompatibility);
+                    SubscriptionCompatibilityIndex[catalogCompatibility.SecondModSteamID].Add(catalogCompatibility);
                 }
             }
         }

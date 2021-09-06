@@ -51,7 +51,7 @@ namespace CompatibilityReport.Reporter
             TextReport.AppendLine(Toolkit.WordWrap(string.IsNullOrEmpty(catalog.ReportHeaderText) ? ModSettings.defaultHeaderText : catalog.ReportHeaderText, 
                 indent: ModSettings.noBullet, indentAfterNewLine: "") + "\n");
 
-            uint modsWithOnlyRemarks = 0;
+            int modsWithOnlyRemarks = 0;
 
             // Gather all mod detail texts
             if (ModSettings.ReportSortByName)
@@ -145,7 +145,7 @@ namespace CompatibilityReport.Reporter
             }
 
             // Get the mod
-            Mod subscribedMod = catalog.ModIndex[steamID];
+            Mod subscribedMod = catalog.GetMod(steamID);
 
             Author subscriptionAuthor = catalog.GetAuthor(subscribedMod.AuthorID, subscribedMod.AuthorURL);
 
@@ -558,7 +558,7 @@ namespace CompatibilityReport.Reporter
                     Group group = catalog.GroupIndex[id];
 
                     // Some vars to keep track of all mods in the group, and check if at least one group member is subscribed and enabled
-                    uint subscriptionsFound = 0;
+                    int subscriptionsFound = 0;
                     bool EnabledSubscriptionFound = false;
                     string disabledModsText = "";
                     string missingModsText = "";
@@ -771,11 +771,11 @@ namespace CompatibilityReport.Reporter
 
             foreach (Compatibility compatibility in catalog.SubscriptionCompatibilityIndex[subscribedMod.SteamID])
             {
-                string firstMod = ReviewLine(catalog.ModIndex[compatibility.FirstModID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                string firstMod = ReviewLine(catalog.ModIndex[compatibility.FirstModSteamID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
 
-                string secondMod = ReviewLine(catalog.ModIndex[compatibility.SecondModID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                string secondMod = ReviewLine(catalog.ModIndex[compatibility.SecondModSteamID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
 
-                string otherMod = subscribedMod.SteamID == compatibility.FirstModID ? secondMod : firstMod;
+                string otherMod = subscribedMod.SteamID == compatibility.FirstModSteamID ? secondMod : firstMod;
 
                 string note = ReviewLine(compatibility.Note, ModSettings.bullet3);
 
@@ -783,7 +783,7 @@ namespace CompatibilityReport.Reporter
                 {
                     case Enums.CompatibilityStatus.NewerVersion:
                         // Only reported for the older mod
-                        if (subscribedMod.SteamID == compatibility.SecondModID)
+                        if (subscribedMod.SteamID == compatibility.SecondModSteamID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribed to a newer version:") + firstMod + note;
                         }
@@ -791,7 +791,7 @@ namespace CompatibilityReport.Reporter
 
                     case Enums.CompatibilityStatus.FunctionalityCovered:
                         // Only reported for the mod with less functionality
-                        if (subscribedMod.SteamID == compatibility.SecondModID)
+                        if (subscribedMod.SteamID == compatibility.SecondModSteamID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribed to a mod that has all functionality:") + firstMod + note;
                         }
@@ -799,7 +799,7 @@ namespace CompatibilityReport.Reporter
 
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
                         // Only reported for the test/beta mod
-                        if (subscribedMod.SteamID == compatibility.SecondModID)
+                        if (subscribedMod.SteamID == compatibility.SecondModSteamID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribe to another edition of the same mod:") + firstMod + note;
                         }
