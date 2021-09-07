@@ -5,31 +5,23 @@ using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Text;
-using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
 using ICities;
 using CompatibilityReport.CatalogData;
 
-
 namespace CompatibilityReport.Util
 {
-    internal static class Toolkit
+    public static class Toolkit
     {
-        // Current full and major game version
-        internal static readonly Version CurrentGameVersion = new Version(
-                (int)BuildConfig.APPLICATION_VERSION_A,
-                (int)BuildConfig.APPLICATION_VERSION_B,
-                (int)BuildConfig.APPLICATION_VERSION_C,
-                (int)BuildConfig.APPLICATION_BUILD_NUMBER);
-
-        internal static readonly Version CurrentGameMajorVersion = new Version(CurrentGameVersion.Major, CurrentGameVersion.Minor);
-
-        // Unknown version; a null field written to the catalog comes back like this
-        internal static readonly Version UnknownVersion = new Version(0, 0);
+        // Return a short exception message.
+        public static string ShortException(Exception ex)
+        {
+            return $"Exception: { ex.GetType().Name }: { ex.Message }";
+        }
 
 
-        // Delete a file
-        internal static bool DeleteFile(string fullPath)
+        // Delete a file. Returns true on success or a non-existed file, false on a deletion error.
+        public static bool DeleteFile(string fullPath)
         {
             if (File.Exists(fullPath))
             {
@@ -39,57 +31,49 @@ namespace CompatibilityReport.Util
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Could not delete file \"{ PrivacyPath(fullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.warning);
-
+                    Logger.Log($"Could not delete file \"{ Privacy(fullPath) }\". { ShortException(ex) }", Logger.warning);
                     return false;
                 }
             }
 
-            // return true if file was deleted or didn't exist
             return true;
         }
 
 
-        // Move or rename a file
-        internal static bool MoveFile(string sourceFullPath, string destinationFullPath)
+        // Move or rename a file.
+        public static bool MoveFile(string sourceFullPath, string destinationFullPath)
         {
             try
             {
                 File.Move(sourceFullPath, destinationFullPath);
-
                 return true;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not move file \"{ PrivacyPath(sourceFullPath) }\" to \"{ PrivacyPath(destinationFullPath) }\". " + 
-                    $"Exception: { ex.GetType().Name } { ex.Message }", Logger.error);
-
+                Logger.Log($"Could not move file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.error);
                 return false;
             }
         }
 
 
-        // Copy a file
-        internal static bool CopyFile(string sourceFullPath, string destinationFullPath)
+        // Copy a file.
+        public static bool CopyFile(string sourceFullPath, string destinationFullPath)
         {
             try
             {
                 File.Copy(sourceFullPath, destinationFullPath, overwrite: true);
-
                 return true;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not copy file \"{ PrivacyPath(sourceFullPath) }\" to \"{ destinationFullPath }\". Exception: { ex.GetType().Name } { ex.Message }", 
-                    Logger.error);
-
+                Logger.Log($"Could not copy file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.error);
                 return false;
             }
         }
 
 
-        // Save a string to a file
-        internal static bool SaveToFile(string message, string fileFullPath, bool createBackup = false)
+        // Save a string to a file.
+        public static bool SaveToFile(string message, string fileFullPath, bool createBackup = false)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -104,127 +88,104 @@ namespace CompatibilityReport.Util
             try
             {
                 File.WriteAllText(fileFullPath, message);
-
                 return true;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not save to file \"{ PrivacyPath(fileFullPath) }\". Exception: { ex.GetType().Name } { ex.Message }", Logger.error);
-
+                Logger.Log($"Could not save to file \"{ Privacy(fileFullPath) }\". { ShortException(ex) }", Logger.error);
                 return false;
             }
         }
 
 
-        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons; [Todo 0.6] Something similar needed for Mac OS X or Linux?
-        internal static string PrivacyPath(string path)
+        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons.
+        // Todo 0.6 Something similar needed for Mac OS X or Linux?
+        public static string Privacy(string path)
         {
             int index = path.ToLower().IndexOf("\\appdata\\local");
 
             if (index == -1)
             {
-                // Not found, return original path
                 return path;
             }
             else
             {
-                index += "\\appdata\\local".Length;
-
-                // Replace everything up to and including \appdata\local with %LocalAppData%; path will still work in Windows and is now a bit more privacy-proof
-                return "%LocalAppData%" + path.Substring(index);
+                return "%LocalAppData%" + path.Substring(index + "\\appdata\\local".Length);
             }
         }
 
 
-        // Return the filename (with extension) from a path
-        internal static string GetFileName(string path)
+        // Return the filename (including extension) from a path.
+        public static string GetFileName(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
                 return "";
             }
 
-            int index = path.LastIndexOf('\\');
+            int index = Math.Max(path.LastIndexOf('\\'), path.LastIndexOf('/')) + 1;
 
-            return index < 1 || index == path.Length ? path : path.Substring(index + 1, path.Length - index - 1);
+            return (index == 0 || index == path.Length) ? path : path.Substring(index);
         }
 
 
-        // ValidationCallback gets rid of "The authentication or decryption has failed" errors when downloading, allowing sites that still support TLS 1.1 or worse
-        // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin
+        // Skip validating SSL certificates to avoid "authentication or decryption has failed" errors. Our downloads are not sensitive data and don't need security.
+        // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin.
         private static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;
 
 
-        // Download a file, return the exception for custom logging
-        internal static Exception Download(string url, string fullPath)
+        // Download a file. A failed download will be retried a set number of times, unless an unrecoverable TLS error is encountered.
+        public static bool Download(string url, string fullPath)
         {
-            Exception exception = null;
-
+            bool success = false;
             int failedAttempts = 0;
 
-            // Activate TLS callback
             ServicePointManager.ServerCertificateValidationCallback += TLSCallback;
 
-            // Download with retries
             while (failedAttempts <= ModSettings.downloadRetries)
             {
-                using (WebClient webclient = new WebClient())
+                try
                 {
-                    try
+                    using (WebClient webclient = new WebClient())
                     {
                         webclient.DownloadFile(url, fullPath);
+                    }
 
-                        // Reset the exception value
-                        exception = null;
-
-                        // No (more) retries needed
+                    success = true;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    if (ex.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
+                    {
+                        // TLS 1.2+ is not supported by .Net Framework 3.5.
+                        Logger.Log($"Download failed because the webserver only supports TLS 1.2 or higher: { url }", Logger.debug);
                         break;
                     }
-                    catch (Exception ex)
-                    {
-                        // Download failed, increase try count
-                        failedAttempts++;
 
-                        Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
-                            (failedAttempts <= ModSettings.downloadRetries ? ", will retry. " : ". Skipped. ") + 
-                            (ex.Message.Contains("(502) Bad Gateway") ? "Error: 502 Bad Gateway" : $"Exception: { ex.GetType().Name } { ex.Message }"), Logger.debug);
+                    failedAttempts++;
 
-                        exception = ex;
-                    }
+                    Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
+                        (failedAttempts <= ModSettings.downloadRetries ? ", will retry. " : ". Download abandoned. ") + 
+                        (ex.Message.Contains("(502) Bad Gateway") ? "Exception: 502 Bad Gateway" : $"{ ShortException(ex) }"), Logger.warning);
                 }
             }
 
-            // Deactivate TLS callback
             ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
 
-            return exception;
+            return success;
         }
 
 
-        // Is the Steam Workshop available in game?
-        internal static bool IsSteamWorkshopAvailable()
+        // Return the Steam Workshop URL for a mod, or an empty string for a local or builtin mod.
+        public static string GetWorkshopUrl(ulong steamID)
         {
-            return (PlatformService.platformType == PlatformType.Steam) && !PluginManager.noWorkshop;
+            return (steamID > ModSettings.highestFakeID) ? $"https://steamcommunity.com/sharedfiles/filedetails/?id={ steamID }" : "";
         }
 
 
-        // Return Steam Workshop url for a mod
-        internal static string GetWorkshopURL(ulong steamID)
-        {
-            // No URL for fake Steam IDs
-            if (steamID > ModSettings.highestFakeID)
-            {
-                return $"https://steamcommunity.com/sharedfiles/filedetails/?id={ steamID }";
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-
-        // Return Steam Workshop url for an author
-        internal static string GetAuthorWorkshop(ulong steamID, string customURL)
+        // Return the Steam Workshop URL for an author.
+        public static string GetAuthorWorkshopUrl(ulong steamID, string customURL)
         {
             if (steamID != 0 && steamID != ModSettings.fakeAuthorIDforColossalOrder)
             {
@@ -241,10 +202,9 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Get the name of a mod, as safely as possible.
-        // Some mods run code in their IUserMod.Name property, or run code in their constructors, which can cause exceptions - this method handles those.
-        // Code based on https://github.com/CitiesSkylinesMods/AutoRepair/blob/master/AutoRepair/AutoRepair/Descriptors/Subscription.cs by aubergine10
-        internal static string GetPluginName(PluginManager.PluginInfo plugin)
+        // Get the name of a mod. Some mods run code in their IUserMod.Name property or in their constructors, which can cause exceptions. This method handles those.
+        // Code is based on https://github.com/CitiesSkylinesMods/AutoRepair/blob/master/AutoRepair/AutoRepair/Descriptors/Subscription.cs by aubergine10.
+        public static string GetPluginName(PluginManager.PluginInfo plugin)
         {
             string name = "";
 
@@ -270,7 +230,6 @@ namespace CompatibilityReport.Util
             catch (Exception ex)
             {
                 Logger.Log("Can't retrieve plugin name.", Logger.warning);
-
                 Logger.Exception(ex, hideFromGameLog: true);
 
                 name = "";
@@ -280,52 +239,37 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Converts the string date/time on Steam Workshop pages to a DateTime
-        internal static DateTime ConvertWorkshopDateTime(string dateTimeString)
+        // Converts the date and time on Steam Workshop pages to a DateTime.
+        public static DateTime ConvertWorkshopDateTime(string dateTimeString)
         {
-            // Only convert if we really have a string
             if (string.IsNullOrEmpty(dateTimeString))
             {
                 return default;
             }
 
-            DateTime convertedDate;
-
-            // Date format on the workshop is either like "12 Mar, 2019 @ 6:11am", or like "24 May @ 11:27pm" for current year
+            // Format is either like "12 Mar, 2019 @ 6:11am", or "24 May @ 11:27pm" for current year. Insert the year when it's missing.
             if (!dateTimeString.Contains(", 20"))
             {
-                // Date without year; insert the current year
                 int position = dateTimeString.IndexOf('@') - 1;
+                position = (position > 0) ? position : 0;
 
                 dateTimeString = dateTimeString.Insert(position, $", { DateTime.Now.Year }");
             }
 
-            // Date format should now always be like "24 May, 2021 @ 11:27pm"
             try
             {
-                convertedDate = DateTime.ParseExact(dateTimeString, "d MMM, yyyy @ h:mmtt", new CultureInfo("en-GB"));
+                return DateTime.ParseExact(dateTimeString, "d MMM, yyyy @ h:mmtt", new CultureInfo("en-GB"));
             }
             catch
             {
-                // Couldn't convert; probably got a faulty string
-                convertedDate = default;
-
                 Logger.Log($"Failed to convert workshop datetime: { dateTimeString }.", Logger.warning);
+                return default;
             }
-
-            return convertedDate;            
         }
 
 
-        // Return a formatted date string
-        internal static string DateString(DateTime date)
-        {
-            return $"{ date:yyyy-MM-dd}";
-        }
-
-
-        // Convert a string to a datetime
-        internal static DateTime ConvertDate(string dateString)
+        // Convert a string to a DateTime.
+        public static DateTime ConvertDate(string dateString)
         {
             try
             {
@@ -338,30 +282,56 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Convert a string to a version type
-        internal static Version ConvertToGameVersion(string versionString)
+        // Return a formatted date string.
+        public static string DateString(DateTime date)
+        {
+            return $"{ date:yyyy-MM-dd}";
+        }
+
+
+        // Return a formatted time string, in seconds or minutes or both.
+        public static string TimeString(double milliseconds, bool alwaysShowSeconds = false)
+        {
+            if (milliseconds < 200)
+            {
+                return $"{ milliseconds } ms";
+            }
+
+            int seconds = (int)Math.Floor(milliseconds / 1000);
+
+            // Decide on when to show minutes, seconds and decimals for seconds.
+            bool showMinutes = seconds >= 120;
+            bool showSeconds = seconds < 120 || alwaysShowSeconds;
+            bool showDecimal = seconds < 10;
+
+            return (showSeconds ? (showDecimal ? $"{ Math.Floor(milliseconds / 100) / 10:F1}" : $"{ seconds }") + " seconds" : "") +
+                   (showSeconds && showMinutes ? " (" : "") +
+                   (showMinutes ? $"{ Math.Floor((double)seconds / 60):0}:{ seconds % 60:00} minutes" : "") +
+                   (showSeconds && showMinutes ? ")" : "");
+        }
+        
+        
+        // Convert a string to a Version. This works for both "1.13.3.9" and "1.13.3-f9" formats.
+        public static Version ConvertToGameVersion(string versionString)
         {
             try
             {
-                // Try to get only the numbers for either "1.13.3.9" or "1.13.3-f9" version format
                 string[] elements = versionString.Split(new char[] { '.', '-', 'f' }, StringSplitOptions.RemoveEmptyEntries);
 
                 return new Version(Convert.ToInt32(elements[0]), Convert.ToInt32(elements[1]), Convert.ToInt32(elements[2]), Convert.ToInt32(elements[3]));
             }
             catch
             {
-                // Conversion failed
-                return UnknownVersion;
+                return UnknownVersion();
             }
         }
 
 
-        // Convert a game version to a formatted string, in the commonly used format as shown on the Main Menu and the Paradox Launcher
-        internal static string ConvertGameVersionToString(Version version)
+        // Convert a game version to a formatted string, in the format of "1.13.3-f9".
+        public static string ConvertGameVersionToString(Version version)
         {
             try
             {
-                // This will throw an exception on a short Version like (0, 0)
                 return $"{ version.ToString(3) }-f{ version.Revision }";
             }
             catch
@@ -369,10 +339,32 @@ namespace CompatibilityReport.Util
                 return version.ToString();
             }
         }
-        
-        
-        // Convert a string to enum
-        internal static T ConvertToEnum<T>(string enumString)
+
+
+        // Return the unknown version. This is what a null or empty string converts to.
+        public static Version UnknownVersion()
+        {
+            return new Version(0, 0);
+        }
+
+
+        // Return the current game version.
+        public static Version CurrentGameVersion()
+        {
+            return new Version((int)BuildConfig.APPLICATION_VERSION_A, (int)BuildConfig.APPLICATION_VERSION_B,
+                (int)BuildConfig.APPLICATION_VERSION_C, (int)BuildConfig.APPLICATION_BUILD_NUMBER);
+        }
+
+
+        // Return the current major game version.
+        public static Version CurrentMajorGameVersion()
+        {
+            return new Version(CurrentGameVersion().Major, CurrentGameVersion().Minor);
+        }
+
+
+        // Convert a string to enum.
+        public static T ConvertToEnum<T>(string enumString)
         {
             try
             {
@@ -385,15 +377,15 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Convert a DLC enum to a formatted string
-        internal static string ConvertDLCtoString(Enums.Dlc dlc)
+        // Convert a DLC enum to a formatted string.
+        public static string ConvertDlcToString(Enums.Dlc dlc)
         {
             return dlc.ToString().Replace("__", ": ").Replace('_', ' ');
         }
 
 
-        // Convert a string to ulong, for Steam IDs
-        internal static ulong ConvertToUlong(string numericString)
+        // Convert a string to ulong, for Steam IDs.
+        public static ulong ConvertToUlong(string numericString)
         {
             try
             {
@@ -406,8 +398,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Convert a list of strings to a list of ulongs, for Steam IDs
-        internal static List<ulong> ConvertToUlong(List<string> numericStrings)
+        // Convert a list of strings to a list of ulongs, for Steam IDs.
+        public static List<ulong> ConvertToUlong(List<string> numericStrings)
         {
             List<ulong> ulongList = new List<ulong>();
 
@@ -420,34 +412,29 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Clean a html string from certain html codes      [Todo 0.4] Is this really needed?
-        internal static string CleanHtml(string text)
+        // Clean certain html codes from a string.
+        // Todo 0.4 Is this really needed?
+        public static string CleanHtml(string htmlText)
         {
-            return string.IsNullOrEmpty(text) ? "" : text.Replace("&quot;", "\"").Replace("&amp;", "&").Replace("&lt;", "<").Replace("&gt;", ">");
+            return string.IsNullOrEmpty(htmlText) ? "" : htmlText.Replace("&quot;", "\"").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&amp;", "&");
         }
-        
 
-        // Get the substring between two search-strings
-        internal static string MidString(string original, string leftBoundary, string rightBoundary)
+
+        // Get the substring between two search-strings.
+        public static string MidString(string original, string leftBoundary, string rightBoundary)
         {
-            // Get the position of the left boundary string
             int indexLeft = original.IndexOf(leftBoundary);
 
-            if (indexLeft < 1)
+            if (indexLeft == -1)
             {
-                // Left boundary string not found
                 return "";
             }
 
-            // Increase the left boundary index to the end of the left boundary string
             indexLeft += leftBoundary.Length;
-
-            // Get the position of the right boundary string
             int indexRight = original.IndexOf(rightBoundary, indexLeft);
 
-            if (indexRight < indexLeft)
+            if (indexRight <= indexLeft)
             {
-                // Right boundary string not found
                 return "";
             }
 
@@ -455,8 +442,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Return a word-wrapped string, with optional indent string"s for every line after the first
-        internal static string WordWrap(string unwrapped, int maxWidth = ModSettings.ReportWidth, string indent = "", string indentAfterNewLine = null)
+        // Return a word-wrapped string, with optional indent strings for every line after the first.
+        public static string WordWrap(string unwrapped, int maxWidth = ModSettings.ReportWidth, string indent = "", string indentAfterNewLine = null)
         {
             if (unwrapped == null || unwrapped.Length <= maxWidth)
             {
@@ -465,39 +452,30 @@ namespace CompatibilityReport.Util
 
             if (unwrapped.Contains("\n"))
             {
-                // Make sure a line end has a space in front of it for easier splitting later
+                // Make sure a line end has a space in front of it for easier splitting later.
                 unwrapped = unwrapped.Replace("\n", " \n").Replace("  \n", " \n");
 
-                // If no special indent string was supplied, assume the regular indent string for these lines
                 indentAfterNewLine = indentAfterNewLine ?? indent;
             }
 
-            StringBuilder wrapped = new StringBuilder();
-
-            string line = "";
-
             string[] words = unwrapped.Split(' ');
+            StringBuilder wrapped = new StringBuilder();
+            string line = "";
 
             foreach (string word in words)
             {
                 if (string.IsNullOrEmpty(word))
                 {
-                    // Write a space if we get an empty word, which could happen if a string has multiple concurrent spaces
                     line += " ";
                 }
                 else if (word[0] == '\n')
                 {
-                    // Start on a new line if we encounter a new line character
                     wrapped.AppendLine(line);
-
-                    // Get rid of the new line character from the word and insert an indent string
                     line = word.Replace("\n", indentAfterNewLine) + " ";
                 }
                 else if (line.Length + word.Length >= maxWidth)
                 {
-                    // Start on a new line if we would go over the max width
                     wrapped.AppendLine(line);
-
                     line = indent + word + " ";
                 }
                 else
@@ -506,36 +484,9 @@ namespace CompatibilityReport.Util
                 }
             }
 
-            // Add the last line
             wrapped.Append(line);
 
             return wrapped.ToString();
-        }
-
-
-        // Return a formatted elapsed time string, in seconds or minutes or both
-        internal static string ElapsedTime(double milliseconds, bool alwaysShowSeconds = false)
-        {
-            // Return the time in milliseconds if it's less than 0.2 seconds
-            if (milliseconds < 200)
-            {
-                return $"{ milliseconds } ms";
-            }
-
-            int seconds = (int)Math.Floor(milliseconds / 1000);
-
-            // Number of seconds when to switch from showing seconds to minutes
-            long threshold = 120;
-
-            // Decide on when to show seconds, decimals (for seconds only) and minutes
-            bool showMinutes = seconds > threshold;
-            bool showSeconds = seconds <= threshold || alwaysShowSeconds;
-            bool showDecimal = seconds < 10;
-            
-            return (showSeconds ? (showDecimal ? $"{ Math.Floor(milliseconds / 100) / 10:F1}" : $"{ seconds }") + " seconds" : "") + 
-                   (showSeconds && showMinutes ? " (" : "") + 
-                   (showMinutes ? $"{ Math.Floor((double)seconds / 60):0}:{ seconds % 60:00} minutes" : "") + 
-                   (showSeconds && showMinutes ? ")" : "");
         }
     }
 }

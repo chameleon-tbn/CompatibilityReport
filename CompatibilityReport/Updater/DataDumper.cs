@@ -56,7 +56,7 @@ namespace CompatibilityReport.Updater
 
             timer.Stop();
 
-            Logger.UpdaterLog($"Datadump created in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }, as " +
+            Logger.UpdaterLog($"Datadump created in { Toolkit.TimeString(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }, as " +
                 $"{ Toolkit.GetFileName(ModSettings.dataDumpFullPath) }.");
         }
 
@@ -70,7 +70,7 @@ namespace CompatibilityReport.Updater
             {
                 if (catalogMod.ReviewDate == default && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                 {
-                    DataDump.AppendLine($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
+                    DataDump.AppendLine($"{ catalogMod.Name }, { Toolkit.GetWorkshopUrl(catalogMod.SteamID) }");
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace CompatibilityReport.Updater
                     catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                 {
                     DataDump.AppendLine($"last review { Toolkit.DateString(catalogMod.ReviewDate) }: { catalogMod.Name }, " +
-                        Toolkit.GetWorkshopURL(catalogMod.SteamID));
+                        Toolkit.GetWorkshopUrl(catalogMod.SteamID));
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace CompatibilityReport.Updater
                         statuses = " [" + statuses.Substring(2) + "]";
                     }
 
-                    DataDump.AppendLine($"{ catalogMod.Name }{ statuses }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
+                    DataDump.AppendLine($"{ catalogMod.Name }{ statuses }, { Toolkit.GetWorkshopUrl(catalogMod.SteamID) }");
                 }
             }
         }
@@ -176,7 +176,7 @@ namespace CompatibilityReport.Updater
                     (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? catalog.Mods.FindAll(x => x.AuthorUrl == catalogAuthor.CustomUrl).Count : 0) > 1)
                 {
                     DataDump.AppendLine($"{ catalogAuthor.Name }{ (catalogAuthor.Retired ? " [retired]" : "") }, " +
-                        $"{ Toolkit.GetAuthorWorkshop(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
+                        $"{ Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }
             }
         }
@@ -191,7 +191,7 @@ namespace CompatibilityReport.Updater
             {
                 if (catalogAuthor.Retired)
                 {
-                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
+                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }
             }
         }
@@ -206,7 +206,7 @@ namespace CompatibilityReport.Updater
             {
                 if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor - months) < DateTime.Now)
                 {
-                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshop(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
+                    DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }
             }
         }

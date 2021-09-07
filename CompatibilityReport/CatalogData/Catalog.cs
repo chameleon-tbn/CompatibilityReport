@@ -20,7 +20,7 @@ namespace CompatibilityReport.CatalogData
         public DateTime UpdateDate { get; private set; }
 
         // Game version this catalog was created for. 'Version' is not serializable, so a converted string is used.
-        public string GameVersionString { get; private set; } = Toolkit.UnknownVersion.ToString();
+        public string GameVersionString { get; private set; } = Toolkit.UnknownVersion().ToString();
 
         // A note about the catalog, displayed in the report, and the header and footer text for the report.
         public string Note { get; private set; }
@@ -204,7 +204,7 @@ namespace CompatibilityReport.CatalogData
         // Return a reference to an existing author, or null if the author doesn't exist.
         public Author GetAuthor(ulong authorID, string authorUrl)
         {
-            return AuthorIDIndex.ContainsKey(authorID) ? AuthorIDIndex[authorID] : AuthorUrlIndex.ContainsKey(authorUrl) ? AuthorUrlIndex[authorUrl] : null;
+            return AuthorIDIndex.ContainsKey(authorID) ? AuthorIDIndex[authorID] : AuthorUrlIndex.ContainsKey(authorUrl ?? "") ? AuthorUrlIndex[authorUrl] : null;
         }
 
 
@@ -345,13 +345,13 @@ namespace CompatibilityReport.CatalogData
                     serializer.Serialize(writer, this);
                 }
 
-                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.PrivacyPath(fullPath)}\".");
+                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".");
 
                 return true;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Failed to create catalog at \"{Toolkit.PrivacyPath(fullPath)}\".", Logger.error);
+                Logger.Log($"Failed to create catalog at \"{Toolkit.Privacy(fullPath)}\".", Logger.error);
                 Logger.Exception(ex);
 
                 return false;
@@ -364,7 +364,7 @@ namespace CompatibilityReport.CatalogData
         {
             if (!File.Exists(fullPath))
             {
-                Logger.Log($"Can't load nonexistent catalog \"{ Toolkit.PrivacyPath(fullPath) }\".", Logger.warning);
+                Logger.Log($"Can't load nonexistent catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.warning);
 
                 return null;
             }
@@ -384,12 +384,12 @@ namespace CompatibilityReport.CatalogData
             {
                 if (ex.ToString().Contains("There is an error in XML document") || ex.ToString().Contains("Document element did not appear"))
                 {
-                    Logger.Log($"XML error in catalog \"{ Toolkit.PrivacyPath(fullPath) }\". Catalog could not be loaded.", Logger.warning);
+                    Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.warning);
                     Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
                 }
                 else
                 {
-                    Logger.Log($"Can't load catalog \"{ Toolkit.PrivacyPath(fullPath) }\".", Logger.warning);
+                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.warning);
                     Logger.Exception(ex);
                 }
 
@@ -398,7 +398,7 @@ namespace CompatibilityReport.CatalogData
 
             if (loadedCatalog.Version == 0 || loadedCatalog.UpdateDate == default)
             {
-                Logger.Log($"Discarded invalid catalog \"{ Toolkit.PrivacyPath(fullPath) }\". It has an incorrect version ({ loadedCatalog.VersionString() }) " +
+                Logger.Log($"Discarded invalid catalog \"{ Toolkit.Privacy(fullPath) }\". It has an incorrect version ({ loadedCatalog.VersionString() }) " +
                     $"or date ({ Toolkit.DateString(loadedCatalog.UpdateDate) }).", Logger.error);
 
                 return null;
@@ -447,36 +447,22 @@ namespace CompatibilityReport.CatalogData
             if (!Toolkit.DeleteFile(temporaryFile))
             {
                 Logger.Log("Partially downloaded catalog still exists from a previous session and can't be deleted. This prevents a new download.", Logger.error);
-
                 return null;
             }
 
             Stopwatch timer = Stopwatch.StartNew();
 
-            Exception ex = Toolkit.Download(ModSettings.catalogURL, temporaryFile);
-
-            timer.Stop();
-
-            if (ex != null)
+            if (!Toolkit.Download(ModSettings.catalogURL, temporaryFile))
             {
-                Logger.Log($"Can't download catalog from { ModSettings.catalogURL }", Logger.warning);
-
-                if (ex.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
-                {
-                    Logger.Log("It looks like the download link only supports TLS 1.2 or higher, while Cities: Skylines modding only supports TLS 1.1 and lower.");
-                    Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
-                }
-                else
-                {
-                    Logger.Exception(ex);
-                }
-
                 Toolkit.DeleteFile(temporaryFile);
 
+                Logger.Log($"Can't download catalog from { ModSettings.catalogURL }", Logger.warning);
                 return null;
             }
 
-            Logger.Log($"Catalog downloaded in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) } from { ModSettings.catalogURL }");
+            timer.Stop();
+
+            Logger.Log($"Catalog downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) } from { ModSettings.catalogURL }");
 
             Catalog downloadedCatalog = LoadFromDisk(temporaryFile);
 
@@ -488,7 +474,7 @@ namespace CompatibilityReport.CatalogData
             {
                 Logger.Log($"Downloaded catalog is version { downloadedCatalog.VersionString() }.");
 
-                // Copy the temporary file over the previously downloaded catalog
+                // Copy the temporary file over the previously downloaded catalog.
                 Toolkit.CopyFile(temporaryFile, ModSettings.downloadedCatalogFullPath);
             }
 

@@ -71,7 +71,7 @@ namespace CompatibilityReport.Updater
             hasRun = true;
 
             Logger.UpdaterLog($"Catalog Updater started. { ModSettings.modName } version { ModSettings.fullVersion }. " +
-                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion) }. Current catalog version { catalog.VersionString() }.");
+                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. Current catalog version { catalog.VersionString() }.");
 
             // Increase the catalog version and update date
             catalog.NewVersion(DateTime.Now);
@@ -780,7 +780,7 @@ namespace CompatibilityReport.Updater
 
                 catalogMod.AddExclusion(requiredDLC);
 
-                AddUpdatedModChangeNote(catalogMod, $"required DLC { Toolkit.ConvertDLCtoString(requiredDLC) } added");
+                AddUpdatedModChangeNote(catalogMod, $"required DLC { Toolkit.ConvertDlcToString(requiredDLC) } added");
             }
         }
 
@@ -792,7 +792,7 @@ namespace CompatibilityReport.Updater
             {
                 catalogMod.ExclusionForRequiredDlc.Remove(requiredDLC);
 
-                AddUpdatedModChangeNote(catalogMod, $"required DLC { Toolkit.ConvertDLCtoString(requiredDLC) } removed");
+                AddUpdatedModChangeNote(catalogMod, $"required DLC { Toolkit.ConvertDlcToString(requiredDLC) } removed");
             }
         }
 
@@ -832,7 +832,7 @@ namespace CompatibilityReport.Updater
             {
                 UnknownRequiredAssets.Append($", { requiredID }");
                 
-                Logger.UpdaterLog($"Required item not found, probably an asset: { Toolkit.GetWorkshopURL(requiredID) } (for { catalogMod.ToString() }).");
+                Logger.UpdaterLog($"Required item not found, probably an asset: { Toolkit.GetWorkshopUrl(requiredID) } (for { catalogMod.ToString() }).");
             }
         }
 

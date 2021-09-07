@@ -102,7 +102,7 @@ namespace CompatibilityReport.CatalogData
             AuthorUrl = authorUrl ?? AuthorUrl ?? "";
 
             SourceUrl = sourceUrl ?? SourceUrl ?? "";
-            CompatibleGameVersionString = compatibleGameVersionString ?? CompatibleGameVersionString ?? Toolkit.UnknownVersion.ToString();
+            CompatibleGameVersionString = compatibleGameVersionString ?? CompatibleGameVersionString ?? Toolkit.UnknownVersion().ToString();
 
             Stability = stability == default ? Stability : stability;
             StabilityNote = stabilityNote ?? StabilityNote ?? "";

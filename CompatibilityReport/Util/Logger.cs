@@ -64,7 +64,7 @@ namespace CompatibilityReport.Util
                         catch (Exception ex2)
                         {
                             // Log error to the game log; only place we can safely log to at this point
-                            GameLog($"[ERROR] Can't create backup file \"{ Toolkit.PrivacyPath(fileName) }.old\". { ex2.GetType().Name }: { ex2.Message }");
+                            GameLog($"[ERROR] Can't create backup file \"{ Toolkit.Privacy(fileName) }.old\". { ex2.GetType().Name }: { ex2.Message }");
                         }
 
                         // Overwrite old file by creating a new one
@@ -93,7 +93,7 @@ namespace CompatibilityReport.Util
                 catch (Exception ex)
                 {
                     // Log error to the game log; only place we can safely log to at this point
-                    GameLog($"[ERROR] Can't create file \"{ Toolkit.PrivacyPath(fileName) }\". { ex.GetType().Name }: { ex.Message }");
+                    GameLog($"[ERROR] Can't create file \"{ Toolkit.Privacy(fileName) }\". { Toolkit.ShortException(ex) }");
                 }
             }
 
@@ -122,7 +122,7 @@ namespace CompatibilityReport.Util
                 catch
                 {
                     // Log error to the game log; only place we can safely log to at this point
-                    GameLog($"[ERROR] Can't write to file \"{ Toolkit.PrivacyPath(fileName) }\".");
+                    GameLog($"[ERROR] Can't write to file \"{ Toolkit.Privacy(fileName) }\".");
 
                     // Log to the game log instead
                     duplicateToGameLog = true;
@@ -176,7 +176,7 @@ namespace CompatibilityReport.Util
                 logWritten = true;
 
                 // Log the logfile location to the game log
-                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.PrivacyPath(ModSettings.logfileFullPath) }\"");
+                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(ModSettings.logfileFullPath) }\"");
             }
 
             // Write the message to file, with loglevel prefix, and duplicate to game log if indicated
@@ -195,7 +195,7 @@ namespace CompatibilityReport.Util
                 updaterLogWritten = true;
 
                 // Log the updater logfile location to the game log
-                GameLog($"Logging for the updater can be found in \"{ Toolkit.PrivacyPath(ModSettings.updaterLogfileFullPath) }\"");
+                GameLog($"Logging for the updater can be found in \"{ Toolkit.Privacy(ModSettings.updaterLogfileFullPath) }\"");
             }
 
             // Write the message to file, with loglevel prefix
@@ -224,7 +224,7 @@ namespace CompatibilityReport.Util
             else
             {
                 // Exception with short(er) stacktrace
-                Log($"{ logPrefix } { ex.GetType().Name }: { ex.Message }\n{ ex.StackTrace }");
+                Log($"{ logPrefix } { Toolkit.ShortException(ex) }\n{ ex.StackTrace }");
             }
 
             // Log exception to the game log if indicated

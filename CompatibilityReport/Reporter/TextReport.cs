@@ -38,11 +38,11 @@ namespace CompatibilityReport.Reporter
                 TextReport.AppendLine(Toolkit.WordWrap(catalog.Note) + "\n");
             }
 
-            if (Toolkit.CurrentGameVersion != catalog.GameVersion())
+            if (Toolkit.CurrentGameVersion() != catalog.GameVersion())
             {
                 TextReport.AppendLine(Toolkit.WordWrap($"WARNING: The review catalog is made for game version " +
                     Toolkit.ConvertGameVersionToString(catalog.GameVersion()) +
-                    $". Your game is { (Toolkit.CurrentGameVersion < catalog.GameVersion() ? "older" : "newer") }. Results may not be accurate.\n", 
+                    $". Your game is { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "older" : "newer") }. Results may not be accurate.\n", 
                     indent: new string(' ', "WARNING: ".Length)));
             }
 
@@ -123,7 +123,7 @@ namespace CompatibilityReport.Reporter
 
             if (reportCreated)
             {
-                Logger.Log($"Text report ready at \"{ Toolkit.PrivacyPath(ModSettings.ReportTextFullPath) }\".", duplicateToGameLog: true);
+                Logger.Log($"Text report ready at \"{ Toolkit.Privacy(ModSettings.ReportTextFullPath) }\".", duplicateToGameLog: true);
             }
             else
             {
@@ -209,7 +209,7 @@ namespace CompatibilityReport.Reporter
             }
 
             // Workshop url for Workshop mods
-            modReview.Append((steamID > ModSettings.highestFakeID) ? ReviewLine("Steam Workshop page: " + Toolkit.GetWorkshopURL(steamID)) : "");
+            modReview.Append((steamID > ModSettings.highestFakeID) ? ReviewLine("Steam Workshop page: " + Toolkit.GetWorkshopUrl(steamID)) : "");
 
             // Add the text for this subscription to the reviewed or nonreviewed text
             if (subscribedMod.ReviewDate != default)
@@ -312,14 +312,14 @@ namespace CompatibilityReport.Reporter
         // Game version compatible, only listed for current major game version.
         private static string GameVersionCompatible(Mod subscribedMod)
         {
-            if (subscribedMod.CompatibleGameVersion() < Toolkit.CurrentGameMajorVersion)
+            if (subscribedMod.CompatibleGameVersion() < Toolkit.CurrentMajorGameVersion())
             {
                 return "";
             }
 
-            string currentOrNot = subscribedMod.CompatibleGameVersion() == Toolkit.CurrentGameVersion ? "current " : "";
+            string currentOrNot = subscribedMod.CompatibleGameVersion() == Toolkit.CurrentGameVersion() ? "current " : "";
 
-            return ReviewLine($"Created or updated for { currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion) }. " +
+            return ReviewLine($"Created or updated for { currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. " +
                 "Less likely to have issues.");
         }
 
@@ -461,7 +461,7 @@ namespace CompatibilityReport.Reporter
                 if (!PlatformService.IsDlcInstalled((uint)dlc))
                 {
                     // Add the missing dlc, replacing the underscores in the DLC enum name with spaces and semicolons
-                    dlcs += ReviewLine(Toolkit.ConvertDLCtoString(dlc), ModSettings.bullet2);
+                    dlcs += ReviewLine(Toolkit.ConvertDlcToString(dlc), ModSettings.bullet2);
                 }
             }
 
@@ -525,7 +525,7 @@ namespace CompatibilityReport.Reporter
                         }
 
                         // List the workshop page for easy subscribing
-                        text += ReviewLine("Workshop page: " + Toolkit.GetWorkshopURL(id), ModSettings.noBullet2);
+                        text += ReviewLine("Workshop page: " + Toolkit.GetWorkshopUrl(id), ModSettings.noBullet2);
 
                         continue;   // To the next required mod
                     }

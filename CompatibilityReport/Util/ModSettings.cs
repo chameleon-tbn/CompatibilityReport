@@ -47,7 +47,7 @@ namespace CompatibilityReport.Util
 
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string version = "0.4.0";
-        internal const string build = "225";
+        internal const string build = "226";
         internal const string fullVersion = version + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
@@ -114,7 +114,7 @@ namespace CompatibilityReport.Util
         internal const int downloadRetries = 2;
 
         // 'Please report' text to include in logs when something odd happens
-        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
+        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopUrl(OurOwnSteamID) }";
 
         // Width of the text report, at least 90    [Todo 0.4] change to xml file setting
         internal const int ReportWidth = 90;
@@ -148,15 +148,15 @@ namespace CompatibilityReport.Util
             bullet + "Mods that do the same thing are generally incompatible with each other.\n" +
             bullet + "Some issues are a conflict between more than two mods or a loading order issue, making it hard to find the real culprit. " + 
             "This can lead to users blaming the wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
-            bullet + $"Savegame not loading? Use the optimization and safe mode options from Loading Screen: { Toolkit.GetWorkshopURL(667342976) }\n" +
-            bullet + $"Getting errors despite all your mods being compatible? Try the Loading Order Mod: { Toolkit.GetWorkshopURL(2448824112) }\n" +
+            bullet + $"Savegame not loading? Use the optimization and safe mode options from Loading Screen: { Toolkit.GetWorkshopUrl(667342976) }\n" +
+            bullet + $"Getting errors despite all your mods being compatible? Try the Loading Order Mod: { Toolkit.GetWorkshopUrl(2448824112) }\n" +
             "\n" +
             "Disclaimer:\n" +
             bullet + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " + 
-            $"However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop { Toolkit.GetWorkshopURL(OurOwnSteamID) }";
+            $"However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop { Toolkit.GetWorkshopUrl(OurOwnSteamID) }";
 
         internal static readonly string defaultFooterText = "Did this help? Do you miss anything? Leave a comment at the workshop page " +
-            Toolkit.GetWorkshopURL(OurOwnSteamID);
+            Toolkit.GetWorkshopUrl(OurOwnSteamID);
 
         // Default HTML report intro and footer; [Todo 1.1]
         internal static readonly string defaultIntroHtml = "";

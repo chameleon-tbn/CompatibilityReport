@@ -48,13 +48,13 @@ namespace CompatibilityReport.Updater
 
             if (errorCounter == 0)
             {
-                Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }.");
+                Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
 
                 Logger.Log($"Updater processed { CSVfilenames.Count } CSV files.");
             }
             else
             {
-                Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }, " +
+                Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, " +
                     $"with { errorCounter } errors.", Logger.warning);
 
                 Logger.Log($"Updater processed { CSVfilenames.Count } CSV files and encountered { errorCounter } errors. See separate log for details.", Logger.warning);
@@ -426,7 +426,7 @@ namespace CompatibilityReport.Updater
                 // Convert the itemData string to gameversion and back to string, to make sure we have a consistently formatted gameversion string
                 string newGameVersionString = Toolkit.ConvertGameVersionToString(Toolkit.ConvertToGameVersion(itemData));
 
-                if (newGameVersionString == Toolkit.ConvertGameVersionToString(Toolkit.UnknownVersion))
+                if (newGameVersionString == Toolkit.ConvertGameVersionToString(Toolkit.UnknownVersion()))
                 {
                     return "Invalid gameversion.";
                 }
@@ -1065,7 +1065,7 @@ namespace CompatibilityReport.Updater
         // Set the compatible game version for the catalog
         private static string SetCatalogGameVersion(Catalog catalog, Version newGameVersion)
         {
-            if (newGameVersion == Toolkit.UnknownVersion)
+            if (newGameVersion == Toolkit.UnknownVersion())
             {
                 return "Incorrect gameversion.";
             }

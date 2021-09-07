@@ -55,17 +55,12 @@ namespace CompatibilityReport.Updater
 
                     string url = $"{ steamURL }&p={ pageNumber }";
 
-                    Exception ex = Toolkit.Download(url, ModSettings.steamDownloadedPageFullPath);
-
-                    if (ex != null)
+                    if (!Toolkit.Download(url, ModSettings.steamDownloadedPageFullPath))
                     {
-                        Logger.UpdaterLog($"Download process interrupted due to permanent error while downloading { url }", Logger.error);
-
-                        Logger.Exception(ex);
+                        Logger.UpdaterLog($"Download process interrupted due to a permanent error while downloading { url }", Logger.error);
 
                         // Decrease the pageNumber to the last succesful page
                         pageNumber--;
-
                         break;
                     }
 
@@ -101,7 +96,7 @@ namespace CompatibilityReport.Updater
             timer.Stop();
 
             Logger.UpdaterLog($"Updater finished downloading { totalPages } Steam Workshop 'mod listing' pages in " +
-                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds) }. { totalMods } mods found.");
+                $"{ Toolkit.TimeString(timer.ElapsedMilliseconds) }. { totalMods } mods found.");
 
             return totalMods > 0;
         }
@@ -189,7 +184,7 @@ namespace CompatibilityReport.Updater
             // Estimated time is about half a second (500 milliseconds) per download. Note: 90+% of the total time is download, less than 10% is processing
             long estimated = 500 * numberOfMods;
 
-            Logger.UpdaterLog($"Updater started downloading { numberOfMods } individual Steam Workshop mod pages. Estimated time: { Toolkit.ElapsedTime(estimated) }.");
+            Logger.UpdaterLog($"Updater started downloading { numberOfMods } individual Steam Workshop mod pages. Estimated time: { Toolkit.TimeString(estimated) }.");
 
             int modsDownloaded = 0;
 
@@ -204,7 +199,7 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Download the Steam Workshop page for this mod
-                if (Toolkit.Download(Toolkit.GetWorkshopURL(catalogMod.SteamID), ModSettings.steamDownloadedPageFullPath) != null)
+                if (!Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.steamDownloadedPageFullPath))
                 {
                     // Download error
                     failedDownloads++;
@@ -239,7 +234,7 @@ namespace CompatibilityReport.Updater
                 if (!ReadModPage(catalog, catalogMod))
                 {
                     // Redownload and try again, to work around cut-off downloads
-                    Toolkit.Download(Toolkit.GetWorkshopURL(catalogMod.SteamID), ModSettings.steamDownloadedPageFullPath);
+                    Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.steamDownloadedPageFullPath);
 
                     ReadModPage(catalog, catalogMod);
                 }
@@ -252,7 +247,7 @@ namespace CompatibilityReport.Updater
             timer.Stop();
 
             Logger.UpdaterLog($"Updater finished downloading { modsDownloaded } individual Steam Workshop mod pages in " + 
-                $"{ Toolkit.ElapsedTime(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.");
+                $"{ Toolkit.TimeString(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.");
 
             Logger.Log($"Updater processed { modsDownloaded } Steam Workshop mod pages.");
         }
@@ -486,7 +481,7 @@ namespace CompatibilityReport.Updater
                 // Cut off the start of the line to just after the previous occurrence and find the next source url
                 int index = line.IndexOf(ModSettings.steamModPageSourceURLLeft) + 1;
 
-                line = line.Substring(index, line.Length - index);
+                line = line.Substring(index);
 
                 string nextSourceURL = "https://github.com/" + Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
 

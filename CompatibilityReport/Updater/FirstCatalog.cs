@@ -19,7 +19,7 @@ namespace CompatibilityReport.Updater
 
             firstCatalog.NewVersion(updateDate);
 
-            firstCatalog.Update(Toolkit.CurrentGameVersion, ModSettings.firstCatalogNote, ModSettings.defaultHeaderText, ModSettings.defaultFooterText);
+            firstCatalog.Update(Toolkit.CurrentGameVersion(), ModSettings.firstCatalogNote, ModSettings.defaultHeaderText, ModSettings.defaultFooterText);
 
             // The filename for the catalog and change notes
             string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ firstCatalog.VersionString() }");
