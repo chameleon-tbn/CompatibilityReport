@@ -147,7 +147,7 @@ namespace CompatibilityReport.Reporter
             // Get the mod
             Mod subscribedMod = catalog.GetMod(steamID);
 
-            Author subscriptionAuthor = catalog.GetAuthor(subscribedMod.AuthorID, subscribedMod.AuthorURL);
+            Author subscriptionAuthor = catalog.GetAuthor(subscribedMod.AuthorID, subscribedMod.AuthorUrl);
 
             string AuthorName = subscriptionAuthor == null ? "" : subscriptionAuthor.Name;
 
@@ -309,17 +309,15 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Game version compatible, only listed for current version
+        // Game version compatible, only listed for current major game version.
         private static string GameVersionCompatible(Mod subscribedMod)
         {
-            Version modCompatibleGameVersion = Toolkit.ConvertToGameVersion(subscribedMod.CompatibleGameVersionString);
-
-            if (modCompatibleGameVersion < Toolkit.CurrentGameMajorVersion)
+            if (subscribedMod.CompatibleGameVersion() < Toolkit.CurrentGameMajorVersion)
             {
                 return "";
             }
 
-            string currentOrNot = modCompatibleGameVersion == Toolkit.CurrentGameVersion ? "current " : "";
+            string currentOrNot = subscribedMod.CompatibleGameVersion() == Toolkit.CurrentGameVersion ? "current " : "";
 
             return ReviewLine($"Created or updated for { currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion) }. " +
                 "Less likely to have issues.");
@@ -353,7 +351,7 @@ namespace CompatibilityReport.Reporter
         // Unneeded dependency mod      [Todo 0.4] Add remark if we have local mods
         private static string DependencyMod(Catalog catalog, Mod subscribedMod)
         {
-            if (!subscribedMod.Statuses.Contains(Enums.ModStatus.DependencyMod))
+            if (!subscribedMod.Statuses.Contains(Enums.Status.DependencyMod))
             {
                 return "";
             }
@@ -450,7 +448,7 @@ namespace CompatibilityReport.Reporter
         // Required DLC
         private static string RequiredDLC(Mod subscribedMod)
         {
-            if (subscribedMod.RequiredDLC?.Any() != true)
+            if (subscribedMod.RequiredDlcs?.Any() != true)
             {
                 return "";
             }
@@ -458,7 +456,7 @@ namespace CompatibilityReport.Reporter
             string dlcs = "";
 
             // Check every required DLC against installed DLC
-            foreach (Enums.DLC dlc in subscribedMod.RequiredDLC)
+            foreach (Enums.Dlc dlc in subscribedMod.RequiredDlcs)
             {
                 if (!PlatformService.IsDlcInstalled((uint)dlc))
                 {
@@ -647,36 +645,36 @@ namespace CompatibilityReport.Reporter
 
             switch (subscribedMod.Stability)
             {
-                case Enums.ModStability.IncompatibleAccordingToWorkshop:
+                case Enums.Stability.IncompatibleAccordingToWorkshop:
                     return ReviewLine("UNSUBSCRIBE! This is totally incompatible with the current game version.") + note;
 
-                case Enums.ModStability.RequiresIncompatibleMod:
+                case Enums.Stability.RequiresIncompatibleMod:
                     return ReviewLine("UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.") + note;
 
-                case Enums.ModStability.GameBreaking:
+                case Enums.Stability.GameBreaking:
                     return ReviewLine("UNSUBSCRIBE! This breaks the game.") + note;
 
-                case Enums.ModStability.Broken:
+                case Enums.Stability.Broken:
                     return ReviewLine("Unsubscribe! This mod is broken.") + note;
 
-                case Enums.ModStability.MajorIssues:
+                case Enums.Stability.MajorIssues:
                     return ReviewLine($"Unsubscribe would be wise. This has major issues{ (string.IsNullOrEmpty(note) ? "." : ":") }") + note;
 
-                case Enums.ModStability.MinorIssues:
+                case Enums.Stability.MinorIssues:
                     return ReviewLine($"This has minor issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + note;
 
-                case Enums.ModStability.UsersReportIssues:
+                case Enums.Stability.UsersReportIssues:
                     return ReviewLine("Stability is uncertain. Some users are reporting issues" +
                         (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ": ")) + note;
 
-                case Enums.ModStability.Stable:
+                case Enums.Stability.Stable:
                     bool isBuiltin = subscribedMod.SteamID <= ModSettings.BuiltinMods.Values.Max();
                     return ReviewLine($"This { (isBuiltin ? "is" : "should be") } compatible with the current game version.") + note;
 
-                case Enums.ModStability.NotEnoughInformation:
+                case Enums.Stability.NotEnoughInformation:
                     return ReviewLine("There is not enough information about this mod to know if it is compatible with the current game version.") + note;
 
-                case Enums.ModStability.NotReviewed:
+                case Enums.Stability.NotReviewed:
                 default:
                     return "";
             }
@@ -694,28 +692,28 @@ namespace CompatibilityReport.Reporter
             string text = "";
 
             // Obsolete
-            if (subscribedMod.Statuses.Contains(Enums.ModStatus.NoLongerNeeded))
+            if (subscribedMod.Statuses.Contains(Enums.Status.NoLongerNeeded))
             {
                 text += ReviewLine("Unsubscribe. This is no longer needed.");
             }
-            else if (subscribedMod.Statuses.Contains(Enums.ModStatus.Reupload))
+            else if (subscribedMod.Statuses.Contains(Enums.Status.Reupload))
             {
                 text += ReviewLine("Unsubscribe. This is a re-upload of another mod, use that one instead.");
             }
 
-            if (subscribedMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop && subscribedMod.Stability != Enums.ModStability.RequiresIncompatibleMod &&
-                subscribedMod.Stability != Enums.ModStability.GameBreaking && subscribedMod.Stability != Enums.ModStability.Broken)
+            if (subscribedMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop && subscribedMod.Stability != Enums.Stability.RequiresIncompatibleMod &&
+                subscribedMod.Stability != Enums.Stability.GameBreaking && subscribedMod.Stability != Enums.Stability.Broken)
             {
                 // Several statuses only listed if there are no gamebreaking issues
 
                 // Abandoned
-                if (subscribedMod.Statuses.Contains(Enums.ModStatus.Abandoned))
+                if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
                 {
                     text += ReviewLine("This seems to be abandoned and probably won't be updated anymore.");
                 }
 
                 // Editors
-                if (subscribedMod.Statuses.Contains(Enums.ModStatus.BreaksEditors))
+                if (subscribedMod.Statuses.Contains(Enums.Status.BreaksEditors))
                 {
                     text += ReviewLine("This gives major issues in the asset editor and/or map editor.");
                 }
@@ -724,38 +722,38 @@ namespace CompatibilityReport.Reporter
             // Several statuses listed even with gamebreaking issues
 
             // Removed from the Steam Workshop
-            if (subscribedMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+            if (subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
                 text += ReviewLine("Unsubscribe is wise. This is no longer available on the Workshop.");
             }
 
             // Savegame affecting
-            if (subscribedMod.Statuses.Contains(Enums.ModStatus.SavesCantLoadWithout))
+            if (subscribedMod.Statuses.Contains(Enums.Status.SavesCantLoadWithout))
             {
                 text += ReviewLine("NOTE: After using this mod, savegames won't easily load without it anymore.");
             }
 
             // Source code
-            if (!subscribedMod.Statuses.Contains(Enums.ModStatus.SourceBundled) && string.IsNullOrEmpty(subscribedMod.SourceURL))
+            if (!subscribedMod.Statuses.Contains(Enums.Status.SourceBundled) && string.IsNullOrEmpty(subscribedMod.SourceUrl))
             {
                 text += ReviewLine("No public source code found, making it hard to continue if this gets abandoned.");
             }
-            else if (subscribedMod.Statuses.Contains(Enums.ModStatus.SourceNotUpdated))
+            else if (subscribedMod.Statuses.Contains(Enums.Status.SourceNotUpdated))
             {
                 text += ReviewLine("Published source seems out of date, making it hard to continue if this gets abandoned.");
             }
 
             // Music
-            if (subscribedMod.Statuses.Contains(Enums.ModStatus.MusicCopyrightFree))
+            if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))
             {
                 text += ReviewLine(Toolkit.WordWrap("The included music is said to be copyright-free and safe for streaming. " +
                     "Some restrictions might still apply though."));
             }
-            else if (subscribedMod.Statuses.Contains(Enums.ModStatus.MusicCopyrighted))
+            else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrighted))
             {
                 text += ReviewLine("This includes copyrighted music and should not be used for streaming.");
             }
-            else if (subscribedMod.Statuses.Contains(Enums.ModStatus.MusicCopyrightUnknown))
+            else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightUnknown))
             {
                 text += ReviewLine("This includes music with unknown copyright status. Safer not to use it for streaming.");
             }

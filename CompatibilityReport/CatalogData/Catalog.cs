@@ -89,7 +89,6 @@ namespace CompatibilityReport.CatalogData
             Note = note ?? Note;
 
             ReportHeaderText = reportHeaderText ?? ReportHeaderText;
-
             ReportFooterText = reportFooterText ?? ReportFooterText;
         }
 
@@ -102,6 +101,11 @@ namespace CompatibilityReport.CatalogData
                 if (!ModIndex.ContainsKey(mod.SteamID))
                 {
                     ModIndex.Add(mod.SteamID, mod);
+
+                    if (mod.ReviewDate != default)
+                    {
+                        ReviewedModCount++;
+                    }
                 }
             }
 
@@ -125,8 +129,6 @@ namespace CompatibilityReport.CatalogData
                     AuthorUrlIndex.Add(author.CustomUrl, author);
                 }
             }
-
-            ReviewedModCount = Mods.FindAll(x => x.ReviewDate != default).Count;
         }
 
 
@@ -155,8 +157,6 @@ namespace CompatibilityReport.CatalogData
         {
             Mod newMod = new Mod(steamID);
 
-            newMod.Update(addedThisSession: true);
-
             Mods.Add(newMod);
             ModIndex.Add(steamID, newMod);
 
@@ -164,15 +164,11 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Add a compatibility and return a reference.
-        public Compatibility AddCompatibility(ulong firstModID, string firstModname, ulong secondModID, string secondModName, 
+        // Add a compatibility.
+        public void AddCompatibility(ulong firstModID, string firstModname, ulong secondModID, string secondModName, 
             Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
         {
-            Compatibility compatibility = new Compatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, compatibilityNote);
-
-            Compatibilities.Add(compatibility);
-
-            return compatibility;
+            Compatibilities.Add(new Compatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, compatibilityNote));
         }
 
 
@@ -215,9 +211,7 @@ namespace CompatibilityReport.CatalogData
         // Add an author and return a reference.
         public Author AddAuthor(ulong authorID, string authorUrl, string name)
         {
-            Author author = new Author();
-
-            author.Update(authorID, authorUrl, name);
+            Author author = new Author(authorID, authorUrl, name);
 
             Authors.Add(author);
 
@@ -248,7 +242,6 @@ namespace CompatibilityReport.CatalogData
 
             // Local mods get a fake Steam ID.
             ulong nextLocalModID = ModSettings.lowestLocalModID;
-            ReviewedSubscriptionCount = 0;
 
             foreach (PluginManager.PluginInfo plugin in plugins)
             {

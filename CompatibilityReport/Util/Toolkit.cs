@@ -386,7 +386,7 @@ namespace CompatibilityReport.Util
 
 
         // Convert a DLC enum to a formatted string
-        internal static string ConvertDLCtoString(Enums.DLC dlc)
+        internal static string ConvertDLCtoString(Enums.Dlc dlc)
         {
             return dlc.ToString().Replace("__", ": ").Replace('_', ' ');
         }

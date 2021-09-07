@@ -143,14 +143,14 @@ namespace CompatibilityReport.Updater
             string stringSecond = lineElements.Length < 2 ? "" : lineElements[1].Trim();
             ulong numericSecond = Toolkit.ConvertToUlong(stringSecond);
 
-            // Third element - numeric: required mod or group ID, successor/alternative/recommended mod ID, mod ID for compatibility/group, author ID, asset ID
-            //              and string: author custom url, source url, game version, dlc string, stability, stability/generic note, mod/compatibility status,
+            // Third element - numeric: required mod ID, successor/alternative mod ID, recommended mod or group ID, mod ID for compatibility/group, author ID, asset ID
+            //              and string: author custom url, source url, game version, dlc string, stability, generic note, mod/compatibility status,
             //                          exclusion category, author name, last seen date
             string stringThird = lineElements.Length < 3 ? "" : lineElements[2].Trim();
             ulong numericThird = Toolkit.ConvertToUlong(stringThird); ;
 
             // Fourth element - numeric: additional mod or asset ID, dlc appid
-            //               and string: mod name, compatibility status
+            //               and string: mod name, stability note, compatibility status
             string stringFourth = lineElements.Length < 4 ? "" : lineElements[3].Trim();
             ulong numericFourth = Toolkit.ConvertToUlong(stringFourth);
 
@@ -172,13 +172,17 @@ namespace CompatibilityReport.Updater
                 case "set_sourceurl":
                 case "set_gameversion":
                 case "add_requireddlc":
-                case "set_stability":
                 case "add_status":
                 case "remove_requireddlc":
                 case "remove_status":
-                    return string.IsNullOrEmpty(stringThird) ? "Not enough parameters." : ChangeModItem(catalog, action, modID: numericSecond, stringThird); 
+                    return string.IsNullOrEmpty(stringThird) ? "Not enough parameters." : ChangeModItem(catalog, action, modID: numericSecond, stringThird);
 
-                case "set_stabilitynote":
+                case "set_stability":
+                    // Join the lineFragments for the note, to allow for commas. Replace "\n" in CSV text by real '\n' characters
+                    string note = lineElements.Length < 4 ? "" : string.Join(",", lineElements, 3, lineElements.Length - 3).Trim().Replace("\\n", "\n");
+                    return string.IsNullOrEmpty(stringThird) ? "Not enough parameters." : 
+                        ChangeStability(catalog, steamID: numericSecond, stabilityString: stringThird, note);
+
                 case "set_genericnote":
                     // Join the lineFragments for the note, to allow for commas. Replace "\n" in CSV text by real '\n' characters
                     return lineElements.Length < 3 ? "Not enough parameters." :
@@ -187,19 +191,21 @@ namespace CompatibilityReport.Updater
                 case "update_review":
                 case "remove_sourceurl":
                 case "remove_gameversion":
-                case "remove_stabilitynote":
                 case "remove_genericnote":
                     return ChangeModItem(catalog, action, modID: numericSecond);
 
                 case "add_requiredmod":
                 case "add_successor":
                 case "add_alternative":
-                case "add_recommendation":
                 case "remove_requiredmod":
                 case "remove_successor":
                 case "remove_alternative":
-                case "remove_recommendation":
                     return !catalog.IsValidID(numericThird) ? $"Invalid mod ID { numericThird }." :
+                        ChangeModItem(catalog, action, modID: numericSecond, listMember: numericThird);
+
+                case "add_recommendation":
+                case "remove_recommendation":
+                    return !catalog.IsValidID(numericThird, allowGroup: true) ? $"Invalid mod or group ID { numericThird }." :
                         ChangeModItem(catalog, action, modID: numericSecond, listMember: numericThird);
 
                 case "remove_exclusion":
@@ -301,7 +307,9 @@ namespace CompatibilityReport.Updater
                 return "Invalid status, must be 'unlisted' or 'removed'.";
             }
 
-            Mod newMod = CatalogUpdater.GetOrAddMod(catalog, modID, modName == "" ? null : modName, unlisted: status == "unlisted", removed: status == "removed");
+            modName = string.IsNullOrEmpty(modName) ? null : modName;
+
+            Mod newMod = CatalogUpdater.AddMod(catalog, modID, modName, unlisted: status == "unlisted", removed: status == "removed");
 
             CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true);
 
@@ -319,7 +327,7 @@ namespace CompatibilityReport.Updater
 
             Mod catalogMod = catalog.ModIndex[modID];
 
-            if (!catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+            if (!catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
                 return "Mod can't be removed because it is not removed from the Steam Workshop.";
             }
@@ -346,15 +354,53 @@ namespace CompatibilityReport.Updater
         }
 
 
+        // Change a mod stability
+        private static string ChangeStability(Catalog catalog, ulong steamID, string stabilityString, string note)
+        {
+            Mod catalogMod = catalog.GetMod(steamID);
+
+            if (catalogMod == null)
+            {
+                return $"Invalid mod ID { steamID }.";
+            }
+
+            Enums.Stability stability = Toolkit.ConvertToEnum<Enums.Stability>(stabilityString);
+            note = note ?? "";
+
+            if (stability == default)
+            {
+                return "Invalid stability.";
+            }
+
+            if (catalogMod.Stability == stability && catalogMod.StabilityNote == note)
+            {
+                return "Mod already has this stability.";
+            }
+
+            if (stability == Enums.Stability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
+            {
+                return "The Incompatible stability can only be set on a removed mod.";
+            }
+            else if (catalogMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
+            {
+                return "Mod has the Incompatible stability and that can only be changed for a removed mod.";
+            }
+
+            CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability, stabilityNote: note);
+
+            return "";
+        }
+
+
         // Change a mod item
         private static string ChangeModItem(Catalog catalog, string action, ulong modID, string itemData = "", ulong listMember = 0)
         {
-            if (!catalog.IsValidID(modID))
+            Mod catalogMod = catalog.GetMod(modID);
+
+            if (catalogMod == null)
             {
                 return $"Invalid mod ID { modID }.";
             }
-
-            Mod catalogMod = catalog.ModIndex[modID];
 
             // Act on the action
             if (action == "set_sourceurl")
@@ -368,7 +414,7 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "remove_sourceurl")
             {
-                if (string.IsNullOrEmpty(catalogMod.SourceURL))
+                if (string.IsNullOrEmpty(catalogMod.SourceUrl))
                 {
                     return "No source URL to remove.";
                 }
@@ -399,14 +445,14 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_requireddlc")
             {
-                Enums.DLC requiredDLC = Toolkit.ConvertToEnum<Enums.DLC>(itemData);
+                Enums.Dlc requiredDLC = Toolkit.ConvertToEnum<Enums.Dlc>(itemData);
 
                 if (requiredDLC == default)
                 {
                     return "Invalid DLC.";
                 }
 
-                if (catalogMod.RequiredDLC.Contains(requiredDLC))
+                if (catalogMod.RequiredDlcs.Contains(requiredDLC))
                 {
                     return "DLC is already required.";
                 }
@@ -415,69 +461,44 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "remove_requireddlc")
             {
-                Enums.DLC requiredDLC = Toolkit.ConvertToEnum<Enums.DLC>(itemData);
+                Enums.Dlc requiredDLC = Toolkit.ConvertToEnum<Enums.Dlc>(itemData);
 
                 if (requiredDLC == default)
                 {
                     return "Invalid DLC.";
                 }
 
-                if (!catalogMod.RequiredDLC.Contains(requiredDLC))
+                if (!catalogMod.RequiredDlcs.Contains(requiredDLC))
                 {
                     return "DLC is not required.";
                 }
 
-                if (!catalogMod.ExclusionForRequiredDLC.Contains(requiredDLC))
+                if (!catalogMod.ExclusionForRequiredDlc.Contains(requiredDLC))
                 {
                     return "Cannot remove required DLC because it was not manually added.";
                 }
 
                 CatalogUpdater.RemoveRequiredDLC(catalogMod, requiredDLC);
             }
-            else if (action == "set_stability")
-            {
-                Enums.ModStability stability = Toolkit.ConvertToEnum<Enums.ModStability>(itemData);
-
-                if (stability == default)
-                {
-                    return "Invalid stability.";
-                }
-
-                if (catalogMod.Stability == stability)
-                {
-                    return "Mod already has this stability.";
-                }
-
-                if (stability == Enums.ModStability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
-                {
-                    return "The Incompatible stability can only be set on a removed mod.";
-                }
-                else if (catalogMod.Stability == Enums.ModStability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
-                {
-                    return "Mod has the Incompatible stability and that can only be changed for a removed mod.";
-                }
-
-                CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability);
-            }
             else if (action == "add_status")
             {
-                Enums.ModStatus status = Toolkit.ConvertToEnum<Enums.ModStatus>(itemData);
+                Enums.Status status = Toolkit.ConvertToEnum<Enums.Status>(itemData);
 
                 if (status == default)
                 {
                     return "Invalid status.";
                 }
                 
-                if ((status == Enums.ModStatus.NoCommentSectionOnWorkshop || status == Enums.ModStatus.NoDescription) && 
-                    catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                if ((status == Enums.Status.NoCommentSectionOnWorkshop || status == Enums.Status.NoDescription) && 
+                    catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
                 {
                     return "Status cannot be combined with existing 'RemovedFromWorkshop' status.";
                 }
-                else if ((status == Enums.ModStatus.Abandoned || status == Enums.ModStatus.Deprecated) && catalogMod.Statuses.Contains(Enums.ModStatus.NoLongerNeeded))
+                else if ((status == Enums.Status.Abandoned || status == Enums.Status.Deprecated) && catalogMod.Statuses.Contains(Enums.Status.NoLongerNeeded))
                 {
                     return "Status cannot be combined with existing 'NoLongerNeeded' status.";
                 }
-                else if (status == Enums.ModStatus.Abandoned && catalogMod.Statuses.Contains(Enums.ModStatus.Deprecated))
+                else if (status == Enums.Status.Abandoned && catalogMod.Statuses.Contains(Enums.Status.Deprecated))
                 {
                     return "Status cannot be combined with existing 'Deprecated' status.";
                 }
@@ -491,9 +512,9 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "remove_status")
             {
-                Enums.ModStatus status = Toolkit.ConvertToEnum<Enums.ModStatus>(itemData);
+                Enums.Status status = Toolkit.ConvertToEnum<Enums.Status>(itemData);
 
-                if (status == Enums.ModStatus.UnlistedInWorkshop)
+                if (status == Enums.Status.UnlistedInWorkshop)
                 {
                     return "The 'Unlisted' status cannot be manually removed. Adding a 'removed' status will remove the 'unlisted' status automatically.";
                 }
@@ -503,15 +524,6 @@ namespace CompatibilityReport.Updater
                     return "Status not found for this mod.";
                 }
             }
-            else if (action == "set_stabilitynote")
-            {
-                if (!string.IsNullOrEmpty(catalogMod.StabilityNote) && catalogMod.StabilityNote == itemData)
-                {
-                    return "Note already added.";
-                }
-
-                CatalogUpdater.UpdateMod(catalog, catalogMod, stabilityNote: itemData);
-            }
             else if (action == "set_genericnote")
             {
                 if (!string.IsNullOrEmpty(catalogMod.GenericNote) && catalogMod.GenericNote == itemData)
@@ -520,15 +532,6 @@ namespace CompatibilityReport.Updater
                 }
 
                 CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: itemData);
-            }
-            else if (action == "remove_stabilitynote")
-            {
-                if (string.IsNullOrEmpty(catalogMod.StabilityNote))
-                {
-                    return "Note already empty.";
-                }
-
-                CatalogUpdater.UpdateMod(catalog, catalogMod, stabilityNote: "");
             }
             else if (action == "remove_genericnote")
             {
@@ -642,15 +645,15 @@ namespace CompatibilityReport.Updater
 
             if (categoryString == "sourceurl")
             {
-                catalogMod.Update(exclusionForSourceURL: false);
+                catalogMod.UpdateExclusions(exclusionForSourceUrl: false);
             }
             else if (categoryString == "gameversion")
             {
-                catalogMod.Update(exclusionForGameVersion: false);
+                catalogMod.UpdateExclusions(exclusionForGameVersion: false);
             }
             else if (categoryString == "nodescription")
             {
-                catalogMod.Update(exclusionForNoDescription: false);
+                catalogMod.UpdateExclusions(exclusionForNoDescription: false);
             }
             else if (categoryString == "requireddlc")
             {
@@ -659,7 +662,7 @@ namespace CompatibilityReport.Updater
                     return "Not enough parameters.";
                 }
 
-                if (!catalogMod.ExclusionForRequiredDLC.Remove(Toolkit.ConvertToEnum<Enums.DLC>(dlcString)))
+                if (!catalogMod.ExclusionForRequiredDlc.Remove(Toolkit.ConvertToEnum<Enums.Dlc>(dlcString)))
                 {
                     return "Invalid DLC or no exclusion exists.";
                 }
@@ -870,6 +873,8 @@ namespace CompatibilityReport.Updater
             {
                 return "Invalid group ID.";
             }
+
+            // [Todo 0.4] Needs logic to check for groups used as recommendation
 
             CatalogUpdater.RemoveGroup(catalog, groupID);
 

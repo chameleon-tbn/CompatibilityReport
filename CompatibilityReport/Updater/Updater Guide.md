@@ -23,9 +23,8 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
-* Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
-* Set_Stability, \<mod ID\>, \<stability string\>
-* Set_StabilityNote, \<mod ID\>, \<text\>
+* Add_Recommendation, \<mod ID\>, \<recommended mod or group ID\>
+* Set_Stability, \<mod ID\>, \<stability string\> [, \<note\>]
 * Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription status)*
 * Set_GenericNote, \<mod ID\>, \<text\>
 * Update_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
@@ -36,12 +35,11 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Remove_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
-* Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
-* Remove_StabilityNote, \<mod ID\>
+* Remove_Recommendation, \<mod ID\>, \<recommended mod or group ID\>
 * Remove_Status, \<mod ID\>, \<status string\>
 * Remove_GenericNote, \<mod ID\>
 * Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required DLC string | mod ID\>]
-  * *Available categories: SourceURL, GameVersion, RequiredDLC, RequiredMod, NoDescription*
+  * *Available categories: SourceURL, GameVersion, NoDescription, RequiredDLC, RequiredMod*
 
 ### Available compatibility actions (will not change reviewed date for included mods)
 * Add_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>[, \<note\>]
@@ -56,7 +54,6 @@ Parameters enclosed in square brackets are optional. The symbol :zap: means an e
 * Add_GroupMember, \<group ID\>, \<mod ID\>
 * Remove_Group, \<group ID\>
 * Remove_GroupMember, \<group ID\>, \<mod ID\>
-  * *Careful with this! Required mods and Exclusions might become a mess, so you might need some extra actions*
 
 ### Available author actions (author ID is much more reliable, and mandatory if the custom URL is a number)
 * Add_Author, \<author ID | author custom URL\>, \<author name\> *(only needed for unknown authors of 'removed' mods, will be added as retired)*

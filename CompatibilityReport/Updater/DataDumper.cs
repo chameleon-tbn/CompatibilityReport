@@ -68,7 +68,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.ReviewDate == default && catalogMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
+                if (catalogMod.ReviewDate == default && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                 {
                     DataDump.AppendLine($"{ catalogMod.Name }, { Toolkit.GetWorkshopURL(catalogMod.SteamID) }");
                 }
@@ -84,7 +84,7 @@ namespace CompatibilityReport.Updater
             foreach (Mod catalogMod in catalog.Mods)
             {
                 if (catalogMod.ReviewDate != default && catalogMod.ReviewDate.AddMonths(months) < DateTime.Now && 
-                    catalogMod.Stability != Enums.ModStability.IncompatibleAccordingToWorkshop)
+                    catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                 {
                     DataDump.AppendLine($"last review { Toolkit.DateString(catalogMod.ReviewDate) }: { catalogMod.Name }, " +
                         Toolkit.GetWorkshopURL(catalogMod.SteamID));
@@ -111,7 +111,7 @@ namespace CompatibilityReport.Updater
                     // Get statuses
                     string statuses = "";
 
-                    foreach (Enums.ModStatus status in catalogMod.Statuses)
+                    foreach (Enums.Status status in catalogMod.Statuses)
                     {
                         statuses += ", " + status.ToString();
                     }
@@ -127,15 +127,16 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump id and name for all groups that are not used for required mods
+        // Dump id and name for all groups that are not used for required or recommended mods.
         private static void DumpUnusedGroups(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Unused groups:"));
 
             foreach (Group catalogGroup in catalog.Groups)
             {
-                // List groups that are not used as a required mod
-                if (catalog.Mods.Find(x => x.RequiredMods.Contains(catalogGroup.GroupID)) == default)
+                // List groups that are not used as a required or recommended mod
+                if (catalog.Mods.Find(x => x.RequiredMods.Contains(catalogGroup.GroupID)) == default && 
+                    catalog.Mods.Find(x => x.Recommendations.Contains(catalogGroup.GroupID)) == default)
                 {
                     DataDump.AppendLine(catalogGroup.ToString());
                 }
@@ -172,7 +173,7 @@ namespace CompatibilityReport.Updater
             {
                 // List authors that have at least two mods
                 if ((catalogAuthor.SteamID != 0 ? catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.SteamID).Count : 0) +
-                    (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? catalog.Mods.FindAll(x => x.AuthorURL == catalogAuthor.CustomUrl).Count : 0) > 1)
+                    (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? catalog.Mods.FindAll(x => x.AuthorUrl == catalogAuthor.CustomUrl).Count : 0) > 1)
                 {
                     DataDump.AppendLine($"{ catalogAuthor.Name }{ (catalogAuthor.Retired ? " [retired]" : "") }, " +
                         $"{ Toolkit.GetAuthorWorkshop(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");

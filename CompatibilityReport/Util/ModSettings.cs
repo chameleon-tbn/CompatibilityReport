@@ -47,7 +47,7 @@ namespace CompatibilityReport.Util
 
         // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
         internal const string version = "0.4.0";
-        internal const string build = "224";
+        internal const string build = "225";
         internal const string fullVersion = version + "." + build;
 
         // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant

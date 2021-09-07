@@ -1,72 +1,71 @@
 ﻿namespace CompatibilityReport.CatalogData
 {
-    // Needs to be public for XML serialization
     public static class Enums
     {
-        // Stability of the mod, one is always active.
-        public enum ModStability
+        // The stability of a mod.
+        public enum Stability
         {
-            Undefined,                              // Only used by the Updater, cannot be set manually
-            NotReviewed,                            // Stability not reviewed yet. Assigned by default, and can also be assigned manually
-            NotEnoughInformation,                   // Stability unknown, because we don't have enough information to determine it
-            IncompatibleAccordingToWorkshop,        // The Workshop has an indication for seriously broken mods; these are incompatible with the game itself
-            RequiresIncompatibleMod,                // This requires an incompatible mod and is thus indirectly incompatible
-            GameBreaking,                           // Broken and also crashes or otherwise disrupts the game
-            Broken,                                 // Broken, as in doesn't really function
-            MajorIssues,                            // Will function (at least partially), but with some serious issues
-            MinorIssues,                            // Will function but you might run into minor issues
-            UsersReportIssues,                      // Stability uncertain, but various user reports about issues, while others say it still works fine
-            Stable                                  // Will function
+            Undefined,                          // Unused.
+            NotReviewed,                        // Mod is not reviewed yet, stability is unknown. Assigned by default.
+            NotEnoughInformation,               // Stability unknown, because we don't have enough information yet to determine it.
+            IncompatibleAccordingToWorkshop,    // The status the Steam Workshop uses for seriously broken mods. These are incompatible with the game itself.
+            RequiresIncompatibleMod,            // The mod requires a mod that is incompatible according to the Steam Workshop, and is thus incompatible itself.
+            GameBreaking,                       // Broken and also crashes or otherwise disrupts the game.
+            Broken,                             // Broken, as in doesn't really function.
+            MajorIssues,                        // Will function, at least partially, but with some serious issues.
+            MinorIssues,                        // Will function but might give minor issues.
+            UsersReportIssues,                  // Stability uncertain, but various users report issues, while others may say it still works fine for them.
+            Stable                              // This mod will function.
         }
 
 
-        // Statuses of a mod, can be none, one or more. Not all can be combined, for instance use only one of the 'music' or 'source'. [Todo 0.4] Not all are used (yet)
-        public enum ModStatus
+        // Statuses of a mod. A mod can have none, one or multiple. Not all can be combined, like unlisted and removed or more than one of the 'music' statuses.
+        public enum Status
         {
-            Undefined,                              // Unused
-            UnlistedInWorkshop,                     // Available in the Workshop, but not listed anywhere or returned in searches; can only be found with a direct link
-            RemovedFromWorkshop,                    // Once available in the Workshop, but no more; better not to use anymore
-            NoCommentSectionOnWorkshop,             // This mods Workshop page has the comment section disabled, making it hard to see if people are experiencing issues
-            NoDescription,                          // For mods without a (real) description in the Workshop, which indicates a sparsely supported mod
-            NoLongerNeeded,                         // Obsolete, because whatever it did is now done by the game itself or by another mod it was a patch/addon for
-            Deprecated,                             // No longer supported and should not be used anymore
-            Abandoned,                              // No longer maintained and might give issues or break with future game updates
-            Reupload,                               // This is reupload from another persons mod and should not be used
-            SavesCantLoadWithout,                   // This mod is needed to successfully load a savegame where it was previously used
-            BreaksEditors,                          // Gives serious issues in the map and/or asset editor, or prevents them from loading
-            TestVersion,                            // This is a test/beta/alpha/experimental version; use only when a stable version exists, to differentiate between them
-            DependencyMod,                          // This is only a dependency mod and adds no functionality on its own
-            ModForModders,                          // Only needed for modders, to help in creating mods or assets; no use for regular players
-            SourceBundled,                          // The source files are bundled with the mod and can be found in the mods folder
-            SourceNotUpdated,                       // Source files are not updated; making it hard for other modders to support compatibility, or take over when abandoned
-            SourceObfuscated,                       // The author has deliberately hidden the mod code from other modders; somewhat suspicious  [Todo 0.4] unused
-            MusicCopyrightFree,                     // This mod uses music, but only music that is copyright-free. Safe for videos and streaming
-            MusicCopyrighted,                       // This mod uses music with copyright. Should not be used in videos and streaming
-            MusicCopyrightUnknown                   // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming
+            Undefined,                          // Unused.
+            UnlistedInWorkshop,                 // Available in the Steam Workshop, but is not shown in searches or collections. Can only be found with a direct link.
+            RemovedFromWorkshop,                // This was once available in the Steam Workshop, but no more. Better not to use it anymore.
+            NoDescription,                      // No (real) description in the Steam Workshop for this mod, which indicates a sparsely supported mod.
+            NoCommentSectionOnWorkshop,         // This mods Steam Workshop page has the comment section disabled, making it hard to see if people are experiencing issues.
+            NoLongerNeeded,                     // Obsolete, because whatever it did is now done by the game itself or by another mod it was a patch/addon for.
+            Deprecated,                         // No longer supported and should not be used anymore.
+            Abandoned,                          // No longer maintained and might give issues or break with future game updates.
+            Reupload,                           // This is reupload from another persons mod and should not be used. Use the original instead.
+            SavesCantLoadWithout,               // Needed to successfully load a savegame where it was used. You might lose access to the savegame if the mod breaks.
+            BreaksEditors,                      // Gives serious issues in the map and/or asset editor, or prevents them from loading.
+            TestVersion,                        // This is a test/beta/alpha/experimental version, and a stable version exists as well.
+            DependencyMod,                      // This is a dependency mod (needed for other mods to function) and adds no functionality on its own.
+            ModForModders,                      // Only needed for modders, to help in creating mods or assets. No use for regular players.
+            SourceBundled,                      // The source files are bundled with the mod and can be found in the mods folder.
+            SourceNotUpdated,                   // Source files are not updated, making it hard for other modders to support compatibility or take over when abandoned.
+            SourceObfuscated,                   // The author has deliberately hidden the mod code from other modders, which is somewhat suspicious.
+            MusicCopyrightFree,                 // This mod uses music, but only music that is copyright-free. It's safe to use for videos and streaming.
+            MusicCopyrighted,                   // This mod uses music with copyright and should not be used in videos and streaming.
+            MusicCopyrightUnknown               // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming.
         }
 
 
-        // Compatibility statuses between two mods. Don't create 'mirrored' compatibilities, the mod handles this.
+        // Compatibility statuses between two mods. There is no need to create 'mirrored' compatibilities (between A and B and between B and A).
         public enum CompatibilityStatus
         {
-            Undefined,                              // Unused
-            NewerVersion,                           // The first mod is an newer version of the second. Compatibility note will only be reported for the second mod
-            FunctionalityCovered,                   // The first mod has all functionality of the second mod, and more. Note will only be reported for the second mod
-            SameModDifferentReleaseType,            // Both mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable'
-            SameFunctionality,                      // Both mods do the same thing, for instance different versions or similar mods from different authors
-            IncompatibleAccordingToAuthor,          // These mods are incompatible according to the author of one of the mods
-            IncompatibleAccordingToUsers,           // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim
-            CompatibleAccordingToAuthor,            // These mods are fully compatible according to the author of one of the mods
-            MinorIssues,                            // These mods have minor issues when used together; use the compatibility note to clarify
-            RequiresSpecificSettings                // These mods require specific settings when used together; use the compatibility note to clarify
+            Undefined,                          // Unused.
+            NewerVersion,                       // The first mod is an newer version of the second. Compatibility note will only be reported for the second mod.
+            SameModDifferentReleaseType,        // Both mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable' one.
+            FunctionalityCovered,               // The first mod has all functionality of the second mod, and more. Note will only be reported for the second mod.
+            SameFunctionality,                  // These mods are incompatible because they do the same thing or change the same functionality.
+            IncompatibleAccordingToAuthor,      // These mods are incompatible according to the author of one of the mods
+            IncompatibleAccordingToUsers,       // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim.
+            CompatibleAccordingToAuthor,        // These mods are fully compatible according to the author of one of the mods.
+            MinorIssues,                        // These mods have minor issues when used together. A compatibility note should clarify this and is mandatory.
+            RequiresSpecificSettings            // These mods require specific settings when used together. A compatibility note should clarify this and is mandatory.
         }
 
 
-        // DLCs; the names are used in the report, with double underscores replacing colon+space, and single underscores replacing a space
-        // Numbers are the AppIDs, as seen in the url of every DLC in the Steam shop (https://store.steampowered.com/app/255710/Cities_Skylines/)
-        public enum DLC : uint
+        // Complete list of DLCs that might be required for a mod. The numbers are the AppIDs of the DLC.
+        // The DLC names are used in the report, with double underscores replaced by colon+space, and single underscores replaced by a space.
+        public enum Dlc : uint
         {
-            Unknown = 0,                            // Unused
+            Unknown = 0,                        // Unused
             Deluxe_Edition = 346791,
             After_Dark = 369150,
             Snowfall = 420610,

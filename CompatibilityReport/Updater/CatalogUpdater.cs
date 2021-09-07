@@ -187,7 +187,7 @@ namespace CompatibilityReport.Updater
                 {
                     string cleanedChangeNote = modNotes.Value.Substring(2);
 
-                    catalog.ModIndex[modNotes.Key].Update(extraChangeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                    catalog.ModIndex[modNotes.Key].AddChangeNote($"{ catalogDateString }: { cleanedChangeNote }");
 
                     changeNotesUpdatedModsCombined.AppendLine($"Mod { catalog.ModIndex[modNotes.Key].ToString() }: " +
                         $"{ cleanedChangeNote }");
@@ -198,7 +198,7 @@ namespace CompatibilityReport.Updater
             {
                 string cleanedChangeNote = authorNotes.Value.Substring(2);
 
-                catalog.AuthorIDIndex[authorNotes.Key].Update(changeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                catalog.AuthorIDIndex[authorNotes.Key].AddChangeNote($"{ catalogDateString }: { cleanedChangeNote }");
 
                 changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorIDIndex[authorNotes.Key].ToString() }: " +
                     $"{ cleanedChangeNote }");
@@ -208,7 +208,7 @@ namespace CompatibilityReport.Updater
             {
                 string cleanedChangeNote = authorNotes.Value.Substring(2);
 
-                catalog.AuthorUrlIndex[authorNotes.Key].Update(changeNote: $"{ catalogDateString }: { cleanedChangeNote }");
+                catalog.AuthorUrlIndex[authorNotes.Key].AddChangeNote($"{ catalogDateString }: { cleanedChangeNote }");
 
                 changeNotesUpdatedAuthorsCombined.AppendLine($"Author { catalog.AuthorUrlIndex[authorNotes.Key].ToString() }: " +
                     $"{ cleanedChangeNote }");
@@ -291,47 +291,41 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add or get a mod. When adding, a mod name, incompatible stability and/or unlisted/removed status can be supplied. On existing mods this is ignored.
-        // A review date is not set, that is only done on UpdateMod()
-        internal static Mod GetOrAddMod(Catalog catalog, ulong steamID, string name, bool incompatible = false, bool unlisted = false, bool removed = false)
+        // Add a mod. A review date is not set, that is only done on UpdateMod()
+        internal static Mod AddMod(Catalog catalog, ulong steamID, string name, bool incompatible = false, bool unlisted = false, bool removed = false)
         {
-            // Get the mod from the catalog, or add a new one
-            Mod catalogMod = catalog.GetMod(steamID);
-
-            if (catalogMod == null)
+            // New mod. Log an empty mod name, which might be an error, although there is a workshop mod without a name (ofcourse there is)
+            if (name == "")
             {
-                // New mod. Log an empty mod name, which might be an error, although there is a workshop mod without a name (ofcourse there is)
-                if (name == "")
-                {
-                    Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.warning);
-                }
+                Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.warning);
+            }
                 
-                catalogMod = catalog.AddMod(steamID);
+            Mod newMod = catalog.AddMod(steamID);
 
-                catalogMod.Update(name: name, extraChangeNote: $"{ catalogDateString }: added");
+            newMod.Update(name: name);
+            newMod.AddChangeNote($"{ catalogDateString }: added");
 
-                string modType = "Mod";
+            string modType = "Mod";
 
-                // Add incompatible status if needed
-                if (incompatible)
-                {
-                    catalogMod.Update(stability: Enums.ModStability.IncompatibleAccordingToWorkshop);
+            // Add incompatible status if needed
+            if (incompatible)
+            {
+                newMod.Update(stability: Enums.Stability.IncompatibleAccordingToWorkshop);
 
-                    modType = "Incompatible mod";
-                }
-
-                // Add removed or unlisted status if needed
-                if (unlisted || removed)
-                {
-                    catalogMod.Statuses.Add(unlisted ? Enums.ModStatus.UnlistedInWorkshop : Enums.ModStatus.RemovedFromWorkshop);
-
-                    modType = (unlisted ? "Unlisted " : "Removed ") + modType.ToLower();
-                }
-
-                changeNotesNewMods.AppendLine($"{ modType } added: { catalogMod.ToString() }");
+                modType = "Incompatible mod";
             }
 
-            return catalogMod;
+            // Add removed or unlisted status if needed
+            if (unlisted || removed)
+            {
+                newMod.Statuses.Add(unlisted ? Enums.Status.UnlistedInWorkshop : Enums.Status.RemovedFromWorkshop);
+
+                modType = (unlisted ? "Unlisted " : "Removed ") + modType.ToLower();
+            }
+
+            changeNotesNewMods.AppendLine($"{ modType } added: { newMod.ToString() }");
+
+            return newMod;
         }
 
 
@@ -339,13 +333,13 @@ namespace CompatibilityReport.Updater
         internal static void UpdateMod(Catalog catalog, 
                                        Mod catalogMod,
                                        string name = null,
-                                       DateTime? published = null,
+                                       DateTime published = default,
                                        DateTime updated = default,
                                        ulong authorID = 0,
                                        string authorURL = null,
                                        string sourceURL = null,
                                        string compatibleGameVersionString = null,
-                                       Enums.ModStability stability = default,
+                                       Enums.Stability stability = default,
                                        string stabilityNote = null,
                                        string genericNote = null,
                                        bool alwaysUpdateReviewDate = false,
@@ -361,45 +355,37 @@ namespace CompatibilityReport.Updater
                 (name == null || name == catalogMod.Name ? "" : ", mod name changed") +
                 (updated == default || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update") +
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
-                (authorURL == null || authorURL == catalogMod.AuthorURL || catalogMod.AddedThisSession ? "" : ", author URL") +
-                (sourceURL == null || sourceURL == catalogMod.SourceURL ? "" : ", source URL") +
+                (authorURL == null || authorURL == catalogMod.AuthorUrl || catalogMod.AddedThisSession ? "" : ", author URL") +
+                (sourceURL == null || sourceURL == catalogMod.SourceUrl ? "" : ", source URL") +
                 (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : ", compatible game version") +
                 (stability == default || stability == catalogMod.Stability ? "" : ", stability") +
-                (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : ", stability note") +
+                (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : ", stability note") +    // [Todo 0.4] note only if stability unchanged
                 (genericNote == null || genericNote == catalogMod.GenericNote ? "" : ", generic note");
 
             AddUpdatedModChangeNote(catalogMod, addedChangeNote);
 
             // Set the update date
-            DateTime? modReviewDate = null;
-
-            DateTime? modAutoReviewDate = null;
-
-            if (!string.IsNullOrEmpty(addedChangeNote) || alwaysUpdateReviewDate)
-            {
-                modReviewDate = !updatedByWebCrawler ? reviewDate : modReviewDate;
-
-                modAutoReviewDate = updatedByWebCrawler ? reviewDate : modAutoReviewDate;
-            }
+            DateTime modReviewDate = (!string.IsNullOrEmpty(addedChangeNote) || alwaysUpdateReviewDate) && !updatedByWebCrawler ? reviewDate : default;
+            DateTime modAutoReviewDate = (!string.IsNullOrEmpty(addedChangeNote) || alwaysUpdateReviewDate) && updatedByWebCrawler ? reviewDate : default;
 
             // Update exclusions on certain imported changes
-            if (!updatedByWebCrawler && sourceURL != null && sourceURL != catalogMod.SourceURL)
+            if (!updatedByWebCrawler && sourceURL != null && sourceURL != catalogMod.SourceUrl)
             {
                 // Add exclusion on new or changed url, and swap exclusion on removal
-                catalogMod.Update(exclusionForSourceURL: sourceURL != "" || !catalogMod.ExclusionForSourceURL);
+                catalogMod.UpdateExclusions(exclusionForSourceUrl: sourceURL != "" || !catalogMod.ExclusionForSourceUrl);
             }
 
             if (!updatedByWebCrawler && compatibleGameVersionString != null && compatibleGameVersionString != catalogMod.CompatibleGameVersionString)
             {
-                catalogMod.Update(exclusionForGameVersion: true);
+                catalogMod.UpdateExclusions(exclusionForGameVersion: true);
             }
 
             // Update the mod
-            catalogMod.Update(name, published, updated, authorID, authorURL, sourceURL, compatibleGameVersionString, stability, stabilityNote, 
-                statuses: null, genericNote, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
+            catalogMod.Update(name, published, updated, authorID, authorURL, sourceURL, compatibleGameVersionString, stability, stabilityNote, genericNote, 
+                reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update
-            Author modAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorURL);
+            Author modAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl);
 
             if (modAuthor != null && catalogMod.Updated > modAuthor.LastSeen)
             {
@@ -589,8 +575,8 @@ namespace CompatibilityReport.Updater
 
                 catalogAuthor = catalog.AddAuthor(authorID, authorURL, authorName);
 
-                catalogAuthor.Update(changeNote: $"{ catalogDateString }: added", addedThisSession: true);
-
+                catalogAuthor.AddChangeNote($"{ catalogDateString }: added");
+                
                 changeNotesNewAuthors.AppendLine($"Author added: { catalogAuthor.ToString() }");
             }
 
@@ -603,7 +589,7 @@ namespace CompatibilityReport.Updater
                                           ulong authorID = 0,
                                           string authorURL = null,
                                           string name = null,
-                                          DateTime? lastSeen = null,
+                                          DateTime lastSeen = default,
                                           bool? retired = null)
         {
             if (catalogAuthor == null)
@@ -616,7 +602,7 @@ namespace CompatibilityReport.Updater
                 (authorID == 0 || authorID == catalogAuthor.SteamID || catalogAuthor.SteamID != 0 ? "" : ", Steam ID added") +
                 (authorURL == null || authorURL == catalogAuthor.CustomUrl ? "" : ", Custom URL") +
                 (name == null || name == catalogAuthor.Name ? "" : ", name") +
-                (lastSeen == null || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : ", last seen date") +
+                (lastSeen == default || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : ", last seen date") +
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
 
             AddUpdatedAuthorChangeNote(catalogAuthor, addedChangeNote);
@@ -638,16 +624,16 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (!catalogMod.Statuses.Contains(Enums.ModStatus.RemovedFromWorkshop))
+                if (!catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
                 {
                     if (catalogMod.AuthorID != 0 && !ActiveAuthorIDs.Contains(catalogMod.AuthorID))
                     {
                         ActiveAuthorIDs.Add(catalogMod.AuthorID);
                     }
 
-                    if (!string.IsNullOrEmpty(catalogMod.AuthorURL) && !ActiveAuthorURLs.Contains(catalogMod.AuthorURL))
+                    if (!string.IsNullOrEmpty(catalogMod.AuthorUrl) && !ActiveAuthorURLs.Contains(catalogMod.AuthorUrl))
                     {
-                        ActiveAuthorURLs.Add(catalogMod.AuthorURL);
+                        ActiveAuthorURLs.Add(catalogMod.AuthorUrl);
                     }
                 }
             }
@@ -703,7 +689,7 @@ namespace CompatibilityReport.Updater
 
 
         // Add a mod status, including exclusions and removing conflicting statuses.
-        internal static void AddStatus(Mod catalogMod, Enums.ModStatus status, bool updatedByWebCrawler = false)
+        internal static void AddStatus(Mod catalogMod, Enums.Status status, bool updatedByWebCrawler = false)
         {
             if (status == default || catalogMod.Statuses.Contains(status))
             {
@@ -715,57 +701,57 @@ namespace CompatibilityReport.Updater
             AddUpdatedModChangeNote(catalogMod, $"{ status } added");
 
             // Remove conflicting statuses, and change some exclusions
-            if (status == Enums.ModStatus.UnlistedInWorkshop)
+            if (status == Enums.Status.UnlistedInWorkshop)
             {
-                RemoveStatus(catalogMod, Enums.ModStatus.RemovedFromWorkshop);
+                RemoveStatus(catalogMod, Enums.Status.RemovedFromWorkshop);
             }
-            else if (status == Enums.ModStatus.RemovedFromWorkshop)
+            else if (status == Enums.Status.RemovedFromWorkshop)
             {
-                RemoveStatus(catalogMod, Enums.ModStatus.UnlistedInWorkshop);
-                RemoveStatus(catalogMod, Enums.ModStatus.NoCommentSectionOnWorkshop);
-                RemoveStatus(catalogMod, Enums.ModStatus.NoDescription);
-                catalogMod.Update(exclusionForNoDescription: false);
+                RemoveStatus(catalogMod, Enums.Status.UnlistedInWorkshop);
+                RemoveStatus(catalogMod, Enums.Status.NoCommentSectionOnWorkshop);
+                RemoveStatus(catalogMod, Enums.Status.NoDescription);
+                catalogMod.UpdateExclusions(exclusionForNoDescription: false);
             }
-            else if (status == Enums.ModStatus.NoDescription && !updatedByWebCrawler)
+            else if (status == Enums.Status.NoDescription && !updatedByWebCrawler)
             {
                 // Exclusion is only needed if this status was set by the FileImporter
-                catalogMod.Update(exclusionForNoDescription: true);
+                catalogMod.UpdateExclusions(exclusionForNoDescription: true);
             }
-            else if (status == Enums.ModStatus.NoLongerNeeded)
+            else if (status == Enums.Status.NoLongerNeeded)
             {
-                RemoveStatus(catalogMod, Enums.ModStatus.Deprecated);
-                RemoveStatus(catalogMod, Enums.ModStatus.Abandoned);
+                RemoveStatus(catalogMod, Enums.Status.Deprecated);
+                RemoveStatus(catalogMod, Enums.Status.Abandoned);
             }
-            else if (status == Enums.ModStatus.Deprecated)
+            else if (status == Enums.Status.Deprecated)
             {
-                RemoveStatus(catalogMod, Enums.ModStatus.NoLongerNeeded);
-                RemoveStatus(catalogMod, Enums.ModStatus.Abandoned);
+                RemoveStatus(catalogMod, Enums.Status.NoLongerNeeded);
+                RemoveStatus(catalogMod, Enums.Status.Abandoned);
             }
-            else if (status == Enums.ModStatus.Abandoned)
+            else if (status == Enums.Status.Abandoned)
             {
-                RemoveStatus(catalogMod, Enums.ModStatus.NoLongerNeeded);
-                RemoveStatus(catalogMod, Enums.ModStatus.Deprecated);
+                RemoveStatus(catalogMod, Enums.Status.NoLongerNeeded);
+                RemoveStatus(catalogMod, Enums.Status.Deprecated);
             }
-            else if (status == Enums.ModStatus.MusicCopyrighted)
+            else if (status == Enums.Status.MusicCopyrighted)
             {
-                RemoveStatus(catalogMod, Enums.ModStatus.MusicCopyrightFree);
-                RemoveStatus(catalogMod, Enums.ModStatus.MusicCopyrightUnknown);
+                RemoveStatus(catalogMod, Enums.Status.MusicCopyrightFree);
+                RemoveStatus(catalogMod, Enums.Status.MusicCopyrightUnknown);
             }
-            else if (status == Enums.ModStatus.MusicCopyrightFree)
+            else if (status == Enums.Status.MusicCopyrightFree)
             {
-                RemoveStatus(catalogMod, Enums.ModStatus.MusicCopyrighted);
-                RemoveStatus(catalogMod, Enums.ModStatus.MusicCopyrightUnknown);
+                RemoveStatus(catalogMod, Enums.Status.MusicCopyrighted);
+                RemoveStatus(catalogMod, Enums.Status.MusicCopyrightUnknown);
             }
-            else if (status == Enums.ModStatus.MusicCopyrightUnknown)
+            else if (status == Enums.Status.MusicCopyrightUnknown)
             {
-                RemoveStatus(catalogMod, Enums.ModStatus.MusicCopyrighted);
-                RemoveStatus(catalogMod, Enums.ModStatus.MusicCopyrightFree);
+                RemoveStatus(catalogMod, Enums.Status.MusicCopyrighted);
+                RemoveStatus(catalogMod, Enums.Status.MusicCopyrightFree);
             }
         }
 
 
         // Remove a mod status
-        internal static bool RemoveStatus(Mod catalogMod, Enums.ModStatus status, bool updatedByWebCrawler = false)
+        internal static bool RemoveStatus(Mod catalogMod, Enums.Status status, bool updatedByWebCrawler = false)
         {
             bool success = catalogMod.Statuses.Remove(status);
 
@@ -774,10 +760,10 @@ namespace CompatibilityReport.Updater
                 AddUpdatedModChangeNote(catalogMod, $"{ status } removed");
 
                 // Add or remove exclusion for some statuses
-                if (status == Enums.ModStatus.NoDescription && !updatedByWebCrawler)
+                if (status == Enums.Status.NoDescription && !updatedByWebCrawler)
                 {
                     // Only if the status is removed by the FileImporter: if there was an exclusion, remove it, otherwise add it.
-                    catalogMod.Update(exclusionForNoDescription: !catalogMod.ExclusionForNoDescription);
+                    catalogMod.UpdateExclusions(exclusionForNoDescription: !catalogMod.ExclusionForNoDescription);
                 }
             }
 
@@ -786,13 +772,13 @@ namespace CompatibilityReport.Updater
 
 
         // Add a required DLC
-        internal static void AddRequiredDLC(Mod catalogMod, Enums.DLC requiredDLC)
+        internal static void AddRequiredDLC(Mod catalogMod, Enums.Dlc requiredDLC)
         {
-            if (requiredDLC != default && !catalogMod.RequiredDLC.Contains(requiredDLC))
+            if (requiredDLC != default && !catalogMod.RequiredDlcs.Contains(requiredDLC))
             {
-                catalogMod.RequiredDLC.Add(requiredDLC);
+                catalogMod.RequiredDlcs.Add(requiredDLC);
 
-                catalogMod.AddExclusionForRequiredDLC(requiredDLC);
+                catalogMod.AddExclusion(requiredDLC);
 
                 AddUpdatedModChangeNote(catalogMod, $"required DLC { Toolkit.ConvertDLCtoString(requiredDLC) } added");
             }
@@ -800,11 +786,11 @@ namespace CompatibilityReport.Updater
 
 
         // Remove a required DLC
-        internal static void RemoveRequiredDLC(Mod catalogMod, Enums.DLC requiredDLC)
+        internal static void RemoveRequiredDLC(Mod catalogMod, Enums.Dlc requiredDLC)
         {
-            if (catalogMod.RequiredDLC.Remove(requiredDLC))
+            if (catalogMod.RequiredDlcs.Remove(requiredDLC))
             {
-                catalogMod.ExclusionForRequiredDLC.Remove(requiredDLC);
+                catalogMod.ExclusionForRequiredDlc.Remove(requiredDLC);
 
                 AddUpdatedModChangeNote(catalogMod, $"required DLC { Toolkit.ConvertDLCtoString(requiredDLC) } removed");
             }
@@ -830,7 +816,7 @@ namespace CompatibilityReport.Updater
 
                     if (!updatedByWebCrawler)
                     {
-                        catalogMod.AddExclusionForRequiredMods(requiredID);
+                        catalogMod.AddExclusion(requiredID);
                     }
 
                     if (catalog.IsGroupMember(requiredID))
