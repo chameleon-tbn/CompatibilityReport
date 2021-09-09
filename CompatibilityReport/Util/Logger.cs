@@ -34,7 +34,8 @@ namespace CompatibilityReport.Util
         private static bool updaterLogWritten;
 
 
-        // Here the actual file writing happens     [Todo 0.4] What is the use of deriving this from MonoBehaviour?
+        // Here the actual file writing happens
+        // Todo 0.4 What is the use of inheriting this from MonoBehaviour?
         private class Filer : UnityEngine.MonoBehaviour
         {
             private readonly StreamWriter file = null;
@@ -75,7 +76,7 @@ namespace CompatibilityReport.Util
                         {
                             WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".", noTimestamp: true);
 
-                            WriteLine(ModSettings.sessionSeparator, noTimestamp: true);
+                            WriteLine(ModSettings.SessionSeparator, noTimestamp: true);
                         }
                     }
                     else
@@ -84,7 +85,7 @@ namespace CompatibilityReport.Util
                         file = File.AppendText(fileName);
 
                         // Write a separator to indicate a new session
-                        WriteLine(ModSettings.sessionSeparator, noTimestamp: true);
+                        WriteLine(ModSettings.SessionSeparator, noTimestamp: true);
                     }
 
                     // Auto flush file buffer after every write
@@ -155,7 +156,7 @@ namespace CompatibilityReport.Util
             }
             
             // Log with the mod name as a prefix
-            UnityEngine.Debug.Log($"{ ModSettings.internalName }: { message }");
+            UnityEngine.Debug.Log($"{ ModSettings.ModName }: { message }");
         }
 
 
@@ -171,12 +172,12 @@ namespace CompatibilityReport.Util
             // Initialize the file on the first message
             if (!logWritten)
             {
-                log = new Filer(ModSettings.logfileFullPath, append: ModSettings.LogAppend);
+                log = new Filer(ModSettings.LogfileFullPath, append: ModSettings.LogAppend);
 
                 logWritten = true;
 
                 // Log the logfile location to the game log
-                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(ModSettings.logfileFullPath) }\"");
+                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(ModSettings.LogfileFullPath) }\"");
             }
 
             // Write the message to file, with loglevel prefix, and duplicate to game log if indicated
@@ -190,12 +191,12 @@ namespace CompatibilityReport.Util
             // Initialize the file on the first message
             if (!updaterLogWritten) 
             {
-                updaterLog = new Filer(ModSettings.updaterLogfileFullPath, append: false);
+                updaterLog = new Filer(ModSettings.UpdaterLogfileFullPath, append: false);
 
                 updaterLogWritten = true;
 
                 // Log the updater logfile location to the game log
-                GameLog($"Logging for the updater can be found in \"{ Toolkit.Privacy(ModSettings.updaterLogfileFullPath) }\"");
+                GameLog($"Logging for the updater can be found in \"{ Toolkit.Privacy(ModSettings.UpdaterLogfileFullPath) }\"");
             }
 
             // Write the message to file, with loglevel prefix

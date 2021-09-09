@@ -19,10 +19,10 @@ namespace CompatibilityReport.Updater
 
             firstCatalog.NewVersion(updateDate);
 
-            firstCatalog.Update(Toolkit.CurrentGameVersion(), ModSettings.firstCatalogNote, ModSettings.defaultHeaderText, ModSettings.defaultFooterText);
+            firstCatalog.Update(Toolkit.CurrentGameVersion(), ModSettings.FirstCatalogNote, ModSettings.DefaultHeaderText, ModSettings.DefaultFooterText);
 
             // The filename for the catalog and change notes
-            string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ firstCatalog.VersionString() }");
+            string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ firstCatalog.VersionString() }");
 
             // Exit if the first catalog already exists
             if (File.Exists(partialPath + ".xml"))
@@ -35,7 +35,7 @@ namespace CompatibilityReport.Updater
             string changeNotes = "";
 
             // Add author "Colossal Order" with fake ID and high LastSeen date to avoid retirement (but lower than max to avoid out-of-range errors at retirement check)
-            Author colossalOrder = firstCatalog.AddAuthor(ModSettings.fakeAuthorIDforColossalOrder, authorUrl: "", name: "Colossal Order");
+            Author colossalOrder = firstCatalog.AddAuthor(ModSettings.FakeAuthorIDforColossalOrder, authorUrl: "", name: "Colossal Order");
             
             colossalOrder.Update(lastSeen: gameRelease.AddYears(1000));
 

@@ -161,17 +161,18 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Return a max length, formatted string with the Steam ID and name.    [Todo 0.4] cutoff not used, but that might change on Report revision
+        // Return a max length, formatted string with the Steam ID and name.
+        // Todo 0.4 cutoff not used, but that might change on Report revision
         public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false)
         {
             string idString;
 
-            if (SteamID > ModSettings.highestFakeID)
+            if (SteamID > ModSettings.HighestFakeID)
             {
                 // Steam Workshop mod
                 idString = $"[Steam ID { SteamID, 10 }]";
             }
-            else if ((SteamID >= ModSettings.lowestLocalModID) && (SteamID <= ModSettings.highestLocalModID))
+            else if ((SteamID >= ModSettings.LowestLocalModID) && (SteamID <= ModSettings.HighestLocalModID))
             {
                 // Local mod
                 idString = $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
@@ -184,7 +185,7 @@ namespace CompatibilityReport.CatalogData
 
             string disabledPrefix = IsDisabled ? "[Disabled] " : "";
 
-            int maxNameLength = ModSettings.ReportWidth - idString.Length - 1 - disabledPrefix.Length;
+            int maxNameLength = ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length;
             string name = (Name.Length <= maxNameLength) || !cutOff ? Name : Name.Substring(0, maxNameLength - 3) + "...";
 
             return nameFirst ? disabledPrefix + name + " " + idString : disabledPrefix + idString + " " + name;

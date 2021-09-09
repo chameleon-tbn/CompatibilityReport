@@ -11,8 +11,10 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Updater
 {
-    internal static class CatalogUpdater    // [Todo 0.4] move some actions from FileImporter to here; move some actions between here and Catalog
+    internal static class CatalogUpdater
     {
+        // Todo 0.4 move some actions from FileImporter to here; move some actions between here and Catalog
+
         // Did we run already this session (successful or not)
         private static bool hasRun;
 
@@ -22,7 +24,8 @@ namespace CompatibilityReport.Updater
         // Date of the review update for affected mods. This can be set in the CSV file and is used in mod review dates.
         private static DateTime reviewDate;
 
-        // Stringbuilder to collect new required assets we found        [Todo 0.4] what to do with the static stringbuilders/dictionaries?
+        // Stringbuilder to collect new required assets we found
+        // Todo 0.4 What to do with the static stringbuilders/dictionaries?
         private static StringBuilder UnknownRequiredAssets;
 
         // Stringbuilder to gather the combined CSVs, to be saved with the new catalog
@@ -70,7 +73,7 @@ namespace CompatibilityReport.Updater
 
             hasRun = true;
 
-            Logger.UpdaterLog($"Catalog Updater started. { ModSettings.modName } version { ModSettings.fullVersion }. " +
+            Logger.UpdaterLog($"Catalog Updater started. { ModSettings.ModName } version { ModSettings.FullVersion }. " +
                 $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. Current catalog version { catalog.VersionString() }.");
 
             // Increase the catalog version and update date
@@ -92,11 +95,11 @@ namespace CompatibilityReport.Updater
             UpdateCompatibilityModNames();
 
             // Set a special catalog note for version 2, and reset it again for version 3
-            if (catalog.Version == 2 && catalog.Note == ModSettings.firstCatalogNote)
+            if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
             {
-                SetNote(catalog, ModSettings.secondCatalogNote);
+                SetNote(catalog, ModSettings.SecondCatalogNote);
             }
-            else if (catalog.Version == 3 && catalog.Note == ModSettings.secondCatalogNote)
+            else if (catalog.Version == 3 && catalog.Note == ModSettings.SecondCatalogNote)
             {
                 SetNote(catalog, "");
             }
@@ -121,7 +124,7 @@ namespace CompatibilityReport.Updater
             {
                 UpdateChangeNotes(catalog);
 
-                string partialPath = Path.Combine(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog_v{ catalog.VersionString() }");
+                string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ catalog.VersionString() }");
 
                 // Save the new catalog
                 if (catalog.Save(partialPath + ".xml"))
@@ -135,7 +138,7 @@ namespace CompatibilityReport.Updater
                     Logger.UpdaterLog($"New catalog { catalog.VersionString() } created and change notes saved.");
 
                     // Copy the updater logfile to the same folder as the new catalog
-                    Toolkit.CopyFile(ModSettings.updaterLogfileFullPath, partialPath + "_Updater.log");
+                    Toolkit.CopyFile(ModSettings.UpdaterLogfileFullPath, partialPath + "_Updater.log");
                 }
                 else
                 {
@@ -359,7 +362,8 @@ namespace CompatibilityReport.Updater
                 (sourceURL == null || sourceURL == catalogMod.SourceUrl ? "" : ", source URL") +
                 (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : ", compatible game version") +
                 (stability == default || stability == catalogMod.Stability ? "" : ", stability") +
-                (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : ", stability note") +    // [Todo 0.4] note only if stability unchanged
+                // Todo 0.4 Mention stability note only if stability is unchanged
+                (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : ", stability note") +
                 (genericNote == null || genericNote == catalogMod.GenericNote ? "" : ", generic note");
 
             AddUpdatedModChangeNote(catalogMod, addedChangeNote);
@@ -484,7 +488,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add a group as required mod for all mods that have the given group member as required mod    [Todo 0.4] Move to CatalogUpdater
+        // Add a group as required mod for all mods that have the given group member as required mod
         internal static void AddGroupAsRequiredMod(Catalog catalog, ulong requiredModID)
         {
             Group requiredGroup = catalog.GetGroup(requiredModID);
@@ -597,7 +601,8 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            // Set the change note for all changed values   [Todo 0.4] causes duplicates in change notes, especially for last seen
+            // Set the change note for all changed values
+            // Todo 0.4 Causes duplicates in change notes, especially for last seen
             string addedChangeNote =
                 (authorID == 0 || authorID == catalogAuthor.SteamID || catalogAuthor.SteamID != 0 ? "" : ", Steam ID added") +
                 (authorURL == null || authorURL == catalogAuthor.CustomUrl ? "" : ", Custom URL") +
@@ -610,7 +615,7 @@ namespace CompatibilityReport.Updater
             // Update the author
             catalogAuthor.Update(authorID, authorURL, name, lastSeen, retired, exclusionForRetired: catalogAuthor.ExclusionForRetired || retired == true);
 
-            // [Todo 0.4] Not implemented yet: distribute new ID or changed URL to all mods; check for ID as name (see AddOrGetAuthor())
+            // Todo 0.4 Not implemented yet: distribute new ID or changed URL to all mods; check for ID as name (see AddOrGetAuthor())
         }
 
 
@@ -642,7 +647,7 @@ namespace CompatibilityReport.Updater
             foreach (Author catalogAuthor in catalog.Authors)
             {
                 // Set exclusion for early retirement and remove it otherwise
-                if (catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) >= DateTime.Today)
+                if (catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.MonthsOfInactivityToRetireAuthor) >= DateTime.Today)
                 {
                     catalogAuthor.Update(exclusionForRetired: true);
                 }
@@ -664,7 +669,7 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                else if (catalogAuthor.LastSeen != default && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor) < DateTime.Today)
+                else if (catalogAuthor.LastSeen != default && catalogAuthor.LastSeen.AddMonths(ModSettings.MonthsOfInactivityToRetireAuthor) < DateTime.Today)
                 {
                     // Authors that are retired based on last seen date
                     UpdateAuthor(catalogAuthor, retired: true);
@@ -684,7 +689,7 @@ namespace CompatibilityReport.Updater
         // Update the mod names in all compatilibities.
         private static void UpdateCompatibilityModNames()
         {
-            // [Todo 0.4]
+            // Todo 0.4 UpdateCompatibilityModNames
         }
 
 
@@ -827,7 +832,8 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            // If the requiredID is not a known ID, it's probably an asset. [Todo 0.4] This still gives warnings if the asset is added by add_asset in CSV
+            // If the requiredID is not a known ID, it's probably an asset.
+            // Todo 0.4 This still gives warnings if the asset is added by add_asset in CSV
             else if (catalog.IsValidID(requiredID, shouldExist: false) && !catalog.RequiredAssets.Contains(requiredID))
             {
                 UnknownRequiredAssets.Append($", { requiredID }");

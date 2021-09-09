@@ -10,7 +10,8 @@ namespace CompatibilityReport.Reporter
 {
     internal static class TextReport
     {
-        // Strings to collect the review text for all mods      [Todo 0.4] what to do with the static stringbuilders?
+        // Strings to collect the review text for all mods
+        // Todo 0.4 What to do with the static stringbuilders?
         private static StringBuilder reviewedModsText;
 
         private static StringBuilder nonReviewedModsText;
@@ -26,9 +27,9 @@ namespace CompatibilityReport.Reporter
 
             DateTime reportCreationTime = DateTime.Now;
 
-            TextReport.AppendLine(Toolkit.WordWrap($"{ ModSettings.modName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
+            TextReport.AppendLine(Toolkit.WordWrap($"{ ModSettings.ModName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
 
-            TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.fullVersion } with catalog { catalog.VersionString() }. " +
+            TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }. " +
                 $"The catalog contains { catalog.ReviewedModCount } reviewed mods and " +
                 $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. " +
                 $"Your game has { catalog.SubscriptionIDIndex.Count } mods.\n"));
@@ -46,10 +47,10 @@ namespace CompatibilityReport.Reporter
                     indent: new string(' ', "WARNING: ".Length)));
             }
 
-            TextReport.AppendLine(ModSettings.separatorDouble + "\n");
+            TextReport.AppendLine(ModSettings.SeparatorDouble + "\n");
 
-            TextReport.AppendLine(Toolkit.WordWrap(string.IsNullOrEmpty(catalog.ReportHeaderText) ? ModSettings.defaultHeaderText : catalog.ReportHeaderText, 
-                indent: ModSettings.noBullet, indentAfterNewLine: "") + "\n");
+            TextReport.AppendLine(Toolkit.WordWrap(string.IsNullOrEmpty(catalog.ReportHeaderText) ? ModSettings.DefaultHeaderText : catalog.ReportHeaderText, 
+                indent: ModSettings.Indent1, indentAfterNewLine: "") + "\n");
 
             int modsWithOnlyRemarks = 0;
 
@@ -92,7 +93,7 @@ namespace CompatibilityReport.Reporter
             // Log detail of reviewed mods and other mods with issues, and free memory
             if (reviewedModsText.Length > 0)
             {
-                TextReport.AppendLine(ModSettings.separatorDouble);
+                TextReport.AppendLine(ModSettings.SeparatorDouble);
 
                 TextReport.AppendLine($"REVIEWED MODS ({ catalog.ReviewedSubscriptionCount })" +
                     (modsWithOnlyRemarks == 0 ? ":" : $" AND OTHER MODS WITH REMARKS ({ modsWithOnlyRemarks }): "));
@@ -105,7 +106,7 @@ namespace CompatibilityReport.Reporter
             // Log details of non-reviewed mods, and free memory
             if (nonReviewedModsText.Length > 0)
             {
-                TextReport.AppendLine(ModSettings.separatorDouble);
+                TextReport.AppendLine(ModSettings.SeparatorDouble);
 
                 TextReport.AppendLine($"MODS NOT REVIEWED YET ({ catalog.SubscriptionIDIndex.Count - catalog.ReviewedSubscriptionCount - modsWithOnlyRemarks }):");
 
@@ -114,9 +115,9 @@ namespace CompatibilityReport.Reporter
                 nonReviewedModsText = null;
             }
 
-            TextReport.AppendLine(ModSettings.separatorDouble + "\n");
+            TextReport.AppendLine(ModSettings.SeparatorDouble + "\n");
 
-            TextReport.AppendLine(Toolkit.WordWrap(string.IsNullOrEmpty(catalog.ReportFooterText) ? ModSettings.defaultFooterText :
+            TextReport.AppendLine(Toolkit.WordWrap(string.IsNullOrEmpty(catalog.ReportFooterText) ? ModSettings.DefaultFooterText :
                 catalog.ReportFooterText));
 
             bool reportCreated = Toolkit.SaveToFile(TextReport.ToString(), ModSettings.ReportTextFullPath, createBackup: true);
@@ -127,7 +128,8 @@ namespace CompatibilityReport.Reporter
             }
             else
             {
-                Logger.Log("Text report could not be created.", Logger.error, duplicateToGameLog: true);    // [Todo 0.7] Try to save to default location if saving fails
+                // Todo 0.7 Try to save to default location if saving fails
+                Logger.Log("Text report could not be created.", Logger.error, duplicateToGameLog: true);
             }
 
             return reportCreated;
@@ -135,7 +137,8 @@ namespace CompatibilityReport.Reporter
 
 
         // Get report text for one mod; not reported: SourceURL, Updated, Downloaded
-        // Return value indicates whether we found a mod without a review in the catalog, but with remarks to report    [Todo 0.4] Change this logic
+        // Return value indicates whether we found a mod without a review in the catalog, but with remarks to report
+        // Todo 0.4 Change this logic
         private static bool GetModText(Catalog catalog, ulong steamID, bool nameFirst)
         {
             // Exit if the Steam ID is 0 (meaning we ran out of fake IDs for local or builtin mods)
@@ -152,10 +155,10 @@ namespace CompatibilityReport.Reporter
             string AuthorName = subscriptionAuthor == null ? "" : subscriptionAuthor.Name;
 
             // Start with a separator
-            string modHeader = ModSettings.separator + "\n\n";
+            string modHeader = ModSettings.Separator + "\n\n";
 
             // Mod name and Steam ID
-            string modName = subscribedMod.ToString(hideFakeID: true, nameFirst);
+            string modName = subscribedMod.ToString(hideFakeID: true, nameFirst, cutOff: true);
 
             // Authorname
             if (string.IsNullOrEmpty(AuthorName))
@@ -165,7 +168,7 @@ namespace CompatibilityReport.Reporter
             }
             else
             {
-                if (modName.Length + 4 + AuthorName.Length <= ModSettings.ReportWidth)
+                if (modName.Length + 4 + AuthorName.Length <= ModSettings.TextReportWidth)
                 {
                     // Author on the same line as mod name and Steam ID
                     modHeader += modName + " by " + AuthorName + "\n";
@@ -173,11 +176,12 @@ namespace CompatibilityReport.Reporter
                 else
                 {
                     // Author right aligned on a new line under mod name and Steam ID
-                    modHeader += modName + "\n" + $"by { AuthorName }".PadLeft(ModSettings.ReportWidth) + "\n";
+                    modHeader += modName + "\n" + $"by { AuthorName }".PadLeft(ModSettings.TextReportWidth) + "\n";
                 }
             }
 
-            // Gather the review text; [Todo 0.4] Rethink which review texts to include in 'somethingToReport'; combine author retired and mod abandoned into one line
+            // Gather the review text
+            // Todo 0.4 Rethink which review texts to include in 'somethingToReport'; combine author retired and mod abandoned into one line
             StringBuilder modReview = new StringBuilder();
 
             modReview.Append(ThisMod(subscribedMod));
@@ -192,7 +196,7 @@ namespace CompatibilityReport.Reporter
             modReview.Append(GameVersionCompatible(subscribedMod));
             modReview.Append(Successors(catalog, subscribedMod));
             modReview.Append(Alternatives(catalog, subscribedMod));
-            // [Todo 0.4] Add recommendations
+            // Todo 0.4 Add recommendations
             modReview.Append(CameraScript(subscribedMod));
             modReview.Append(GenericNote(subscribedMod));
 
@@ -202,14 +206,15 @@ namespace CompatibilityReport.Reporter
             // Insert the 'not reviewed' text at the start of the text; we do this after the above boolean has been set
             modReview.Insert(0, NotReviewed(subscribedMod));
 
-            // Report that we didn't find any incompatibilities [Todo 0.4] We should keep better track of issues; now this text doesn't show if the author is retired
+            // Report that we didn't find any incompatibilities
+            // Todo 0.4 Keep better track of issues; now this text doesn't show if the author is retired
             if (modReview.Length == 0)
             {
                 modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods."));
             }
 
             // Workshop url for Workshop mods
-            modReview.Append((steamID > ModSettings.highestFakeID) ? ReviewLine("Steam Workshop page: " + Toolkit.GetWorkshopUrl(steamID)) : "");
+            modReview.Append((steamID > ModSettings.HighestFakeID) ? ReviewLine("Steam Workshop page: " + Toolkit.GetWorkshopUrl(steamID)) : "");
 
             // Add the text for this subscription to the reviewed or nonreviewed text
             if (subscribedMod.ReviewDate != default)
@@ -233,7 +238,7 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Format one line for the text or html review; including bullets, indenting and max. width; [Todo 0.4] Change cutoff = true to a false default value [Todo 1.1] Change for html with unordered list for bullets, etc.
+        // Format one line for the text or html review; including bullets, indenting and max. width
         private static string ReviewLine(string message, string bullet = null, bool cutOff = false)
         {
             if (string.IsNullOrEmpty(message))
@@ -241,21 +246,21 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            bullet = bullet ?? ModSettings.bullet;
+            bullet = bullet ?? ModSettings.Bullet1;
 
-            if (bullet.Length + message.Length > ModSettings.ReportWidth)
+            if (bullet.Length + message.Length > ModSettings.TextReportWidth)
             {
                 if (cutOff)
                 {
                     // Cut off the message, so the 'bulleted' message stays within maximum width
-                    message = message.Substring(0, ModSettings.ReportWidth - bullet.Length - 3) + "...";
+                    message = message.Substring(0, ModSettings.TextReportWidth - bullet.Length - 3) + "...";
 
                     Logger.Log("Report line too long: " + message, Logger.debug);
                 }
                 else
                 {
                     // Word wrap the message
-                    message = Toolkit.WordWrap(message, ModSettings.ReportWidth - bullet.Length, indent: new string(' ', bullet.Length));
+                    message = Toolkit.WordWrap(message, ModSettings.TextReportWidth - bullet.Length, indent: new string(' ', bullet.Length));
                 }
             }
 
@@ -284,7 +289,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            bool IsLocal = subscribedMod.SteamID >= ModSettings.lowestLocalModID && subscribedMod.SteamID <= ModSettings.highestLocalModID;
+            bool IsLocal = subscribedMod.SteamID >= ModSettings.LowestLocalModID && subscribedMod.SteamID <= ModSettings.HighestLocalModID;
 
             return IsLocal ? ReviewLine("Can't review local mods (yet).") : ReviewLine("Not reviewed yet.");
         }
@@ -348,7 +353,8 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Unneeded dependency mod      [Todo 0.4] Add remark if we have local mods
+        // Unneeded dependency mod
+        // Todo 0.4 Add remark if we have local mods
         private static string DependencyMod(Catalog catalog, Mod subscribedMod)
         {
             if (!subscribedMod.Statuses.Contains(Enums.Status.DependencyMod))
@@ -398,12 +404,12 @@ namespace CompatibilityReport.Reporter
                 if (catalog.ModIndex.ContainsKey(id))
                 {
                     // Mod found in the catalog, list Steam ID and name
-                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless manually editing the catalog
-                    text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.bullet2, cutOff: true);
+                    text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.Bullet2, cutOff: true);
 
                     Logger.Log($"Successor mod { id } not found in catalog.", Logger.warning);
                 }
@@ -430,12 +436,12 @@ namespace CompatibilityReport.Reporter
                 if (catalog.ModIndex.ContainsKey(id))
                 {
                     // Mod found in the catalog, list Steam ID and name
-                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless manually editing the catalog
-                    text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.bullet2, cutOff: true);
+                    text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.Bullet2, cutOff: true);
 
                     Logger.Log($"Alternative mod { id } not found in catalog.", Logger.warning);
                 }
@@ -461,7 +467,7 @@ namespace CompatibilityReport.Reporter
                 if (!PlatformService.IsDlcInstalled((uint)dlc))
                 {
                     // Add the missing dlc, replacing the underscores in the DLC enum name with spaces and semicolons
-                    dlcs += ReviewLine(Toolkit.ConvertDlcToString(dlc), ModSettings.bullet2);
+                    dlcs += ReviewLine(Toolkit.ConvertDlcToString(dlc), ModSettings.Bullet2);
                 }
             }
 
@@ -490,7 +496,7 @@ namespace CompatibilityReport.Reporter
             foreach (ulong id in subscribedMod.RequiredMods)
             {
                 // Check if it's a regular mod or a group
-                if ((id < ModSettings.lowestGroupID) || (id > ModSettings.highestGroupID))
+                if ((id < ModSettings.LowestGroupID) || (id > ModSettings.HighestGroupID))
                 {
                     // Regular mod. Try to find it in the list of subscribed mods
                     if (catalog.SubscriptionIDIndex.Contains(id))
@@ -499,7 +505,7 @@ namespace CompatibilityReport.Reporter
                         if (catalog.ModIndex[id].IsDisabled)
                         {
                             // Mod is subscribed, but not enabled
-                            text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                            text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                         }
                         else
                         {
@@ -514,18 +520,18 @@ namespace CompatibilityReport.Reporter
                         if (catalog.ModIndex.ContainsKey(id))
                         {
                             // Mod found in the catalog
-                            text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                            text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                         }
                         else
                         {
                             // Mod not found in the catalog, which should not happen unless manually editing the catalog
-                            text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.bullet2, cutOff: true);
+                            text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.Bullet2, cutOff: true);
 
                             Logger.Log($"Required mod { id } not found in catalog.", Logger.warning);
                         }
 
                         // List the workshop page for easy subscribing
-                        text += ReviewLine("Workshop page: " + Toolkit.GetWorkshopUrl(id), ModSettings.noBullet2);
+                        text += ReviewLine("Workshop page: " + Toolkit.GetWorkshopUrl(id), ModSettings.Indent2);
 
                         continue;   // To the next required mod
                     }
@@ -536,7 +542,7 @@ namespace CompatibilityReport.Reporter
                     if (!catalog.GroupIndex.ContainsKey(id))
                     {
                         // Group not found in catalog, which should not happen unless manually editing the catalog
-                        text += ReviewLine("one of the following mods: <missing information in catalog>", ModSettings.bullet2);
+                        text += ReviewLine("one of the following mods: <missing information in catalog>", ModSettings.Bullet2);
 
                         Logger.Log($"Group { id } not found in catalog.", Logger.error);
 
@@ -545,7 +551,7 @@ namespace CompatibilityReport.Reporter
                     else if (catalog.GroupIndex[id].GroupMembers?.Any() != true)
                     {
                         // Group contains no Steam IDs, which should not happen unless manually editing the catalog
-                        text += ReviewLine("one of the following mods: <missing information in catalog>", ModSettings.bullet2);
+                        text += ReviewLine("one of the following mods: <missing information in catalog>", ModSettings.Bullet2);
 
                         Logger.Log($"Group { id } is empty in catalog.", Logger.error);
 
@@ -579,7 +585,7 @@ namespace CompatibilityReport.Reporter
                             else
                             {
                                 // Disabled mod
-                                disabledModsText += ReviewLine(catalog.ModIndex[modID].ToString(hideFakeID: true), ModSettings.bullet3, cutOff: true);
+                                disabledModsText += ReviewLine(catalog.ModIndex[modID].ToString(hideFakeID: true), ModSettings.Bullet3, cutOff: true);
                             }
                         }
                         else
@@ -588,12 +594,12 @@ namespace CompatibilityReport.Reporter
                             if (catalog.ModIndex.ContainsKey(modID))
                             {
                                 // Mod found in the catalog
-                                missingModsText += ReviewLine(catalog.ModIndex[modID].ToString(hideFakeID: true), ModSettings.bullet3, cutOff: true);
+                                missingModsText += ReviewLine(catalog.ModIndex[modID].ToString(hideFakeID: true), ModSettings.Bullet3, cutOff: true);
                             }
                             else
                             {
                                 // Mod not found in the catalog
-                                missingModsText += ReviewLine($"[Steam ID { modID,10 }] { subscribedMod.Name }", ModSettings.bullet3, cutOff: true);
+                                missingModsText += ReviewLine($"[Steam ID { modID,10 }] { subscribedMod.Name }", ModSettings.Bullet3, cutOff: true);
 
                                 Logger.Log($"Mod { modID } from group { id } not found in catalog.", Logger.warning);
                             }
@@ -610,7 +616,7 @@ namespace CompatibilityReport.Reporter
                     if (subscriptionsFound == 0)
                     {
                         // None of the group members is subscribed; this will look weird if the group only has one member, but that shouldn't happen anyway
-                        text += ReviewLine("one of the following mods:", ModSettings.bullet2);
+                        text += ReviewLine("one of the following mods:", ModSettings.Bullet2);
                         text += missingModsText;
                     }
                     else if (subscriptionsFound == 1)
@@ -618,12 +624,12 @@ namespace CompatibilityReport.Reporter
                         // One mod is subscribed but disabled; use the 'disabledText', first stripped from bullet3 and the line end
                         int indent = disabledModsText.IndexOf('[');
 
-                        text += ReviewLine(disabledModsText.Substring(indent).Replace('\n', ' '), ModSettings.bullet2);
+                        text += ReviewLine(disabledModsText.Substring(indent).Replace('\n', ' '), ModSettings.Bullet2);
                     }
                     else
                     {
                         // More than one mod subscribed, but not enabled
-                        text += ReviewLine("one of the following mods should be enabled:", ModSettings.bullet2);
+                        text += ReviewLine("one of the following mods should be enabled:", ModSettings.Bullet2);
                         text += disabledModsText;
                     }
                 }
@@ -641,7 +647,7 @@ namespace CompatibilityReport.Reporter
         // Mod stability
         private static string Stability(Mod subscribedMod)
         {
-            string note = ReviewLine(subscribedMod.StabilityNote, ModSettings.bullet2);
+            string note = ReviewLine(subscribedMod.StabilityNote, ModSettings.Bullet2);
 
             switch (subscribedMod.Stability)
             {
@@ -681,7 +687,8 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated, and more  [Todo 0.4] add all statuses
+        // Mod statuses; not reported: UsersReportIssues, UnlistedInWorkshop, SourceBundled, SourceObfuscated, and more
+        // Todo 0.4 Add all statuses
         private static string Statuses(Mod subscribedMod)
         {
             if (subscribedMod.Statuses?.Any() != true)
@@ -769,13 +776,13 @@ namespace CompatibilityReport.Reporter
 
             foreach (Compatibility compatibility in catalog.SubscriptionCompatibilityIndex[subscribedMod.SteamID])
             {
-                string firstMod = ReviewLine(catalog.ModIndex[compatibility.FirstModSteamID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                string firstMod = ReviewLine(catalog.ModIndex[compatibility.FirstModSteamID].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
 
-                string secondMod = ReviewLine(catalog.ModIndex[compatibility.SecondModSteamID].ToString(hideFakeID: true), ModSettings.bullet2, cutOff: true);
+                string secondMod = ReviewLine(catalog.ModIndex[compatibility.SecondModSteamID].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
 
                 string otherMod = subscribedMod.SteamID == compatibility.FirstModSteamID ? secondMod : firstMod;
 
-                string note = ReviewLine(compatibility.Note, ModSettings.bullet3);
+                string note = ReviewLine(compatibility.Note, ModSettings.Bullet3);
 
                 switch (compatibility.Status)
                 {

@@ -142,7 +142,7 @@ namespace CompatibilityReport.Util
 
             ServicePointManager.ServerCertificateValidationCallback += TLSCallback;
 
-            while (failedAttempts <= ModSettings.downloadRetries)
+            while (failedAttempts <= ModSettings.DownloadRetries)
             {
                 try
                 {
@@ -166,7 +166,7 @@ namespace CompatibilityReport.Util
                     failedAttempts++;
 
                     Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
-                        (failedAttempts <= ModSettings.downloadRetries ? ", will retry. " : ". Download abandoned. ") + 
+                        (failedAttempts <= ModSettings.DownloadRetries ? ", will retry. " : ". Download abandoned. ") + 
                         (ex.Message.Contains("(502) Bad Gateway") ? "Exception: 502 Bad Gateway" : $"{ ShortException(ex) }"), Logger.warning);
                 }
             }
@@ -180,14 +180,14 @@ namespace CompatibilityReport.Util
         // Return the Steam Workshop URL for a mod, or an empty string for a local or builtin mod.
         public static string GetWorkshopUrl(ulong steamID)
         {
-            return (steamID > ModSettings.highestFakeID) ? $"https://steamcommunity.com/sharedfiles/filedetails/?id={ steamID }" : "";
+            return (steamID > ModSettings.HighestFakeID) ? $"https://steamcommunity.com/sharedfiles/filedetails/?id={ steamID }" : "";
         }
 
 
         // Return the Steam Workshop URL for an author.
         public static string GetAuthorWorkshopUrl(ulong steamID, string customURL)
         {
-            if (steamID != 0 && steamID != ModSettings.fakeAuthorIDforColossalOrder)
+            if (steamID != 0 && steamID != ModSettings.FakeAuthorIDforColossalOrder)
             {
                 return $"https://steamcommunity.com/profiles/{ steamID }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
             }
@@ -443,7 +443,7 @@ namespace CompatibilityReport.Util
 
 
         // Return a word-wrapped string, with optional indent strings for every line after the first.
-        public static string WordWrap(string unwrapped, int maxWidth = ModSettings.ReportWidth, string indent = "", string indentAfterNewLine = null)
+        public static string WordWrap(string unwrapped, int maxWidth = 0, string indent = "", string indentAfterNewLine = null)
         {
             if (unwrapped == null || unwrapped.Length <= maxWidth)
             {
@@ -457,6 +457,8 @@ namespace CompatibilityReport.Util
 
                 indentAfterNewLine = indentAfterNewLine ?? indent;
             }
+
+            maxWidth = maxWidth == 0 ? ModSettings.TextReportWidth : maxWidth;
 
             string[] words = unwrapped.Split(' ');
             StringBuilder wrapped = new StringBuilder();

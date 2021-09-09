@@ -24,9 +24,9 @@ namespace CompatibilityReport.Updater
 
             StringBuilder DataDump = new StringBuilder(512);
 
-            DataDump.AppendLine($"{ ModSettings.modName } DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
+            DataDump.AppendLine($"{ ModSettings.ModName } DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
 
-            DataDump.AppendLine($"Version { ModSettings.fullVersion } with catalog { catalog.VersionString() }.");
+            DataDump.AppendLine($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }.");
 
             // Unused groups, to see if we can clean up
             DumpUnusedGroups(catalog, DataDump);
@@ -52,12 +52,12 @@ namespace CompatibilityReport.Updater
             // Retired authors, for a one time check at the start of this mod for activity in comments
             DumpRetiredAuthors(catalog, DataDump);
 
-            Toolkit.SaveToFile(DataDump.ToString(), ModSettings.dataDumpFullPath, createBackup: true);
+            Toolkit.SaveToFile(DataDump.ToString(), ModSettings.DataDumpFullPath, createBackup: true);
 
             timer.Stop();
 
             Logger.UpdaterLog($"Datadump created in { Toolkit.TimeString(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }, as " +
-                $"{ Toolkit.GetFileName(ModSettings.dataDumpFullPath) }.");
+                $"{ Toolkit.GetFileName(ModSettings.DataDumpFullPath) }.");
         }
 
 
@@ -204,7 +204,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Author catalogAuthor in catalog.Authors)
             {
-                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.monthsOfInactivityToRetireAuthor - months) < DateTime.Now)
+                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.MonthsOfInactivityToRetireAuthor - months) < DateTime.Now)
                 {
                     DataDump.AppendLine($"{ catalogAuthor.Name }, { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }

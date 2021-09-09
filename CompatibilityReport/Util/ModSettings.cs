@@ -1,83 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using ColossalFramework.IO;
 
-
-/// Paths on Windows:
-///   DataLocation.applicationBase      = ...\Steam Games\steamapps\common\Cities_Skylines
-///   Application.dataPath              = .../Steam Games/steamapps/common/Cities_Skylines/Cities_Data
-///   DataLocation.gameContentPath      = ...\Steam Games\steamapps\common\Cities_Skylines\Files
-///   DataLocation.localApplicationData = %LocalAppData%\Colossal Order\Cities_Skylines                     // contains Windows username, clean with Util.Tools.PrivacyPath
-///   DataLocation.modsPath             = %localappdata%\Colossal Order\Cities_Skylines\Addons\Mods         // contains Windows username, clean with Util.Tools.PrivacyPath
-///   DataLocation.assemblyDirectory    = ...\Steam Games\steamapps\workshop\content\255710\<mod-steamid>
-///                                     = exception (Invalid Path) for local mods
-///   DataLocation.currentDirectory     = DataLocation.applicationBase
-
-/// .NET 3.5 now supports TLS 1.2 after a MS patch, but only with registry edits which we can't rely on for mod users. 
-///   So for any download location we either need an 'unsafe' webserver that still support TLS 1.1 or worse, or a HTTP only site. Both are getting more rare.
-///   Or switch to .NET 4.5+, see https://blogs.perficient.com/2016/04/28/tsl-1-2-and-net-support/
-///   Sites with TLS 1.1 and 1.2 : Steam Workshop, Google Drive
-///   Sites with only TLS 1.2+   : GitHub
-
-
 namespace CompatibilityReport.Util
 {
-    internal static class ModSettings
+    public static class ModSettings
     {
-        // Constructor; don't use Logger here because that needs ModSettings
-        static ModSettings()
-        {
-            // Get the mod path for the bundled catalog
-            try
-            {
-                // This will work if we are a Steam Workshop mod, otherwise it throws an exception
-                bundledCatalogFullPath = Path.Combine(DataLocation.assemblyDirectory, $"{ internalName }_Catalog.xml");
-            }
-            catch
-            {
-                // Get the mod path again, now for if we are a local mod
-                bundledCatalogFullPath = Path.Combine(Path.Combine(DataLocation.modsPath, internalName), $"{ internalName }_Catalog.xml");
-            }
-        }
+        // Mod properties.
+        public const string ModName = "Compatibility Report";
+        public const string InternalName = "CompatibilityReport";
+
+        public const string ModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
+        public const string ModAuthor = "Finwickle";
+        public const ulong OurOwnSteamID = 101;     // Todo 0.5 Our own Steam ID
+
+        public const string Version = "0.4.0";
+        public const string Build = "227";
+        public const string FullVersion = Version + "." + Build;
+        public const string ReleaseType = "alpha";
+        public const int CurrentCatalogStructureVersion = 1;
 
 
-        /// Hardcoded settings that can't be changed by users
-
-        // The version of this mod, split and combined; used in AssemblyInfo, must be a constant
-        internal const string version = "0.4.0";
-        internal const string build = "226";
-        internal const string fullVersion = version + "." + build;
-
-        // Release type: alpha, beta, test or "" (production); used in AssemblyInfo, must be a constant
-        internal const string releaseType = "alpha";
-
-        // The game version this mod is updated for; the catalog overrules this
-        internal static readonly Version compatibleGameVersion = new Version(1, 13, 3, 9);
-
-        // Mod names, shown in the report from this mod and in the game Options window and Content Manager; used in AssemblyInfo, must be a constant
-        internal const string modName = "Compatibility Report";                                             // used in report filename, reporting and logging
-        internal const string displayName = modName + " v" + version + " " + releaseType;                   // used in game options, Content Manager and AssemblyInfo
-        internal const string internalName = "CompatibilityReport";                                         // used in filenames, xmlRoot and game log
-
-        // Mod description, shown in Content Manager; used in AssemblyInfo, must be a constant
-        internal const string modDescription = "Checks your subscribed mods for compatibility. Version " + version + " " + releaseType;
-
-        // Author name; used in AssemblyInfo; used in AssemblyInfo, must be a constant
-        internal const string modAuthor = "Finwickle";
-
-        // The XML root of the Catalog; must be constant
-        internal const string xmlRoot = internalName + "Catalog";
-
-        // The current catalog structure version
-        internal static readonly int currentCatalogStructureVersion = 1;
-
-        // This mods own Steam ID; [Todo 0.5]
-        internal static readonly ulong OurOwnSteamID = 101;
-
-        // Builtin mod fake IDs, keyed by name. These IDs are always the same, so they can be used for mod compatibility, alternatives, etc.
-        internal static Dictionary<string, ulong> BuiltinMods { get; } = new Dictionary<string, ulong>
+        // Fake Steam IDs.
+        public static Dictionary<string, ulong> BuiltinMods { get; } = new Dictionary<string, ulong>
         {
             { "Hard Mode", 1 },
             { "Unlimited Money", 2 },
@@ -86,207 +32,169 @@ namespace CompatibilityReport.Util
             { "Unlock All", 5 }
         };
 
-        // Fake Steam ID to use. These should not conflict with each other, BuiltinMods or Steam IDs. LocalModIDs are not are used in catalog.
-        internal static readonly ulong fakeAuthorIDforColossalOrder = 101;
-        internal static readonly ulong lowestLocalModID =            1001;
-        internal static readonly ulong highestLocalModID =           9999;
-        internal static readonly ulong lowestGroupID =              10001;
-        internal static readonly ulong highestGroupID =             99999;
-        internal static readonly ulong highestFakeID = Math.Max(highestLocalModID, highestGroupID);
-
-        // Logfile location (Cities_Data)
-        internal static readonly string logfileFullPath = Path.Combine(Application.dataPath, $"{ internalName }.log");
-
-        // Report filename (with spaces), without path
-        internal static readonly string reportTextFileName = $"{ modName }.txt";
-        internal static readonly string reportHtmlFileName = $"{ modName }.html";
-
-        // Bundled Catalog location: in the same location as the mod itself (set in constructor)
-        internal static readonly string bundledCatalogFullPath;
-
-        // Downloaded catalog url
-        internal static readonly string catalogURL = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
-
-        // Downloaded Catalog local location
-        internal static readonly string downloadedCatalogFullPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }_Downloaded_Catalog.xml");
-
-        // Number of retries on failed downloads; used as default parameter, must be a constant
-        internal const int downloadRetries = 2;
-
-        // 'Please report' text to include in logs when something odd happens
-        internal static readonly string pleaseReportText = $"Please report this on the Workshop page for { modName }: { Toolkit.GetWorkshopUrl(OurOwnSteamID) }";
-
-        // Width of the text report, at least 90    [Todo 0.4] change to xml file setting
-        internal const int ReportWidth = 90;
-
-        // Separators used in the logfile and text report
-        internal static readonly string separator = new string('-', ReportWidth);
-        internal static readonly string separatorDouble = new string('=', ReportWidth);
-
-        // Separator to use in logfiles when appending
-        internal static readonly string sessionSeparator = "\n\n" + separatorDouble + "\n\n";
-
-        // Bullets used in the text report
-        internal static readonly string bullet = " - ";
-        internal static readonly string noBullet = new string(' ', bullet.Length);
-        internal static readonly string bullet2 = noBullet + "  * ";
-        internal static readonly string noBullet2 = new string(' ', bullet2.Length);
-        internal static readonly string bullet3 = noBullet2 + "  - ";
+        public const ulong FakeAuthorIDforColossalOrder = 101;
+        public const ulong LowestLocalModID =            1001;
+        public const ulong HighestLocalModID =           9999;
+        public const ulong LowestGroupID =              10001;
+        public const ulong HighestGroupID =             99999;
+        public const ulong HighestFakeID =             999999;
 
 
-        /// Hardcoded defaults for data that comes from the catalog
+        // Filenames and paths.
+        // Standard paths on Windows:
+        //      DataLocation.applicationBase        = ...\Steam Games\steamapps\common\Cities_Skylines
+        //      Application.dataPath                = .../Steam Games/steamapps/common/Cities_Skylines/Cities_Data
+        //      DataLocation.gameContentPath        = ...\Steam Games\steamapps\common\Cities_Skylines\Files
+        //      DataLocation.localApplicationData   = %LocalAppData%\Colossal Order\Cities_Skylines                     // Contains the Windows username.
+        //      DataLocation.modsPath               = %localappdata%\Colossal Order\Cities_Skylines\Addons\Mods         // Contains the Windows username.
+        //      DataLocation.assemblyDirectory      = ...\Steam Games\steamapps\workshop\content\255710\<mod-steamid>   // Throws "Invalid Path" exception for local mods.
 
-        // Default text report intro and footer
-        internal static readonly string defaultHeaderText = "Basic information about mods:\n" +
-            bullet + "Always exit to desktop and restart the game when loading another save! Exiting to main menu and " +
-            "loading another savegame (called 'second loading') gives lots of mod issues.\n" +
-            bullet + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
-            bullet + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" +
-            bullet + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
+        public const string ReportTextFileName = ModName + ".txt";
+        public const string ReportHtmlFileName = ModName + ".html";
+
+        public static string LogfileFullPath { get; } = Path.Combine(Application.dataPath, $"{ InternalName }.log");
+        public static string BundledCatalogFullPath
+        { 
+            get {
+                try
+                {
+                    // This will work if we are a Steam Workshop mod, but not if we are a local mod.
+                    return Path.Combine(DataLocation.assemblyDirectory, $"{ InternalName }_Catalog.xml");
+                }
+                catch
+                {
+                    return Path.Combine(Path.Combine(DataLocation.modsPath, InternalName), $"{ InternalName }_Catalog.xml");
+                }
+            }
+        }
+
+        // .NET 3.5 only support TSL 1.2 with registry edits, which we can't rely on for mod users. So for a download location we
+        // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+.
+        public const string CatalogURL = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
+        public static string DownloadedCatalogFullPath { get; } = Path.Combine(DataLocation.localApplicationData, $"{ InternalName }_Downloaded_Catalog.xml");
+
+
+        // Report and log properties.
+        public const int MinimalTextReportWidth = 90;
+
+        public const string Bullet1 = " - ";
+        public const string Indent1 = "   ";
+        public const string Bullet2 = "     * ";
+        public const string Indent2 = "       ";
+        public const string Bullet3 = "         - ";
+        public const string Indent3 = "           ";
+
+        public const string DefaultHeaderText = "Basic information about mods:\n" +
+            Bullet1 + "Always exit to desktop and restart the game when loading another save! Exiting to main menu and " +
+                "loading another savegame (called 'second loading') gives lots of mod issues.\n" +
+            Bullet1 + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
+            Bullet1 + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" +
+            Bullet1 + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
             "\n" +
             "Some remarks about incompatibilities:\n" +
-            bullet + "Mods that do the same thing are generally incompatible with each other.\n" +
-            bullet + "Some issues are a conflict between more than two mods or a loading order issue, making it hard to find the real culprit. " + 
-            "This can lead to users blaming the wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
-            bullet + $"Savegame not loading? Use the optimization and safe mode options from Loading Screen: { Toolkit.GetWorkshopUrl(667342976) }\n" +
-            bullet + $"Getting errors despite all your mods being compatible? Try the Loading Order Mod: { Toolkit.GetWorkshopUrl(2448824112) }\n" +
+            Bullet1 + "Mods that do the same thing are generally incompatible with each other.\n" +
+            Bullet1 + "Some issues are a conflict between more than two mods or a loading order issue, making it hard to find the real culprit. " + 
+                "This can lead to users blaming the wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
+            Bullet1 + "Savegame not loading? Use the optimization and safe mode options from Loading Screen: " +
+                "https://steamcommunity.com/sharedfiles/filedetails/?id=667342976 \n" +
+            Bullet1 + "Getting errors despite all your mods being compatible? Try the Loading Order Mod: " +
+                "https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112 \n" +
             "\n" +
             "Disclaimer:\n" +
-            bullet + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " + 
-            $"However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop { Toolkit.GetWorkshopUrl(OurOwnSteamID) }";
+            Bullet1 + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " + 
+            "However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop.";   // Todo 0.5 Add our workshop url.
 
-        internal static readonly string defaultFooterText = "Did this help? Do you miss anything? Leave a comment at the workshop page " +
-            Toolkit.GetWorkshopUrl(OurOwnSteamID);
+        public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the workshop page.";   // Todo 0.5 Add our workshop url.
 
-        // Default HTML report intro and footer; [Todo 1.1]
-        internal static readonly string defaultIntroHtml = "";
+        public const string FirstCatalogNote = "This first catalog only contains the builtin mods.";
+        public const string SecondCatalogNote = "This catalog contains basic information about all Steam Workshop mods. No reviews yet.";
 
-        internal static readonly string defaultFooterHtml = "";
-
-        // Catalog notes for the first few catalogs
-        internal static readonly string firstCatalogNote  = "This first catalog only contains the builtin mods.";
-        internal static readonly string secondCatalogNote = "This catalog contains basic information about all Steam Workshop mods. No reviews yet.";
+        public const string PleaseReportText = "Please report this on the Workshop page for " + ModName + ".";                  // Todo 0.5 Add our workshop url.
 
 
-        /// Defaults for settings that will be available to users through mod options within the game [Todo 0.7]
+        // Todo 0.7 Defaults for settings that will be available to users through mod options within the game.
+        public static string ReportPath { get; private set; } = DataLocation.applicationBase;
+        public static string ReportTextFullPath { get; private set; } = Path.Combine(ReportPath, ReportTextFileName);
+        public static string ReportHtmlFullPath { get; private set; } = Path.Combine(ReportPath, ReportHtmlFileName);
+        public static int TextReportWidth { get; private set; } = MinimalTextReportWidth;
+        public static bool ReportSortByName { get; private set; } = true;
+        public static bool HtmlReport { get; private set; } = false;        // Todo 1.1 Set HtmlReport to true.
+        public static bool TextReport { get; private set; } = true || !HtmlReport;
+        public static bool AllowOnDemandScanning { get; private set; } = false;
 
-        // Sort report by Name or Steam ID
-        internal static bool ReportSortByName { get; private set; } = true;
-
-        // Which report(s) to create; will create text report if none; [Todo 1.1] Set HTML to true
-        internal static bool HtmlReport { get; private set; } = false;
-        internal static bool TextReport { get; private set; } = true || !HtmlReport;
-
-        // Report path (game folder); filename is not user-changeable and is set in another variable
-        internal static string ReportPath { get; private set; } = DataLocation.applicationBase;
-
-        // Report location, generated from the path and filename
-        internal static string ReportTextFullPath { get; private set; } = Path.Combine(ReportPath, reportTextFileName);
-        internal static string ReportHtmlFullPath { get; private set; } = Path.Combine(ReportPath, reportHtmlFileName);
-
-        // Run the scanner before the main menu or later during map loading
-        internal static bool ScanBeforeMainMenu { get; private set; } = true;
-
-        // Allow on-demand scanning; this will increase memory usage because the catalog stays loaded
-        internal static bool AllowOnDemandScanning { get; private set; } = false;
+        // Calculated from above settings.
+        public static string Separator { get; private set; } = new string('-', TextReportWidth);
+        public static string SeparatorDouble { get; private set; } = new string('=', TextReportWidth);
+        public static string SessionSeparator { get; private set; } = "\n\n" + SeparatorDouble + "\n\n";
 
 
 
-        /// Defaults for settings that will be available in a settings xml file [Todo 0.7]
-
-        // Debug mode; this enables debug logging and logfile append
-        internal static bool DebugMode { get; private set; } = true;
-
-        // Append (default) or overwrite the log file for normal mode; always append for debug mode
-        internal static bool LogAppend { get; private set; } = false || DebugMode;
-
-        // Maximum log file size before starting with new log file; only applicable when appending; default is 100 KB
-        internal static long LogMaxSize { get; private set; } = 100 * 1024;
+        // Todo 0.7 Defaults for settings that will be available in a settings xml file.
+        public static int DownloadRetries { get; private set; } = 2;
+        public static bool ScanBeforeMainMenu { get; private set; } = true;
+        public static bool DebugMode { get; private set; } = true;
+        public static bool LogAppend { get; private set; } = false || DebugMode;
+        public static long LogMaxSize { get; private set; } = 100 * 1024;
 
 
+        // Updater properties.
+        public static string UpdaterPath { get; } = Path.Combine(DataLocation.localApplicationData, $"{ InternalName }Updater");
+        public static string UpdaterSettingsFileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_UpdaterSettings.xml");
+        public static string UpdaterLogfileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Updater.log");
+        public static string DataDumpFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_DataDump.txt");
+        public static string TempDownloadFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Download.tmp");
 
-        /// Hardcoded updater settings
-
-        // Updater path
-        internal static readonly string updaterPath = Path.Combine(DataLocation.localApplicationData, $"{ internalName }Updater");
-
-        // Updater settings file
-        internal static readonly string updaterSettingsFileFullPath = Path.Combine(updaterPath, $"{ internalName }_UpdaterSettings.xml");
-
-        // Updater logfile location (Cities_Data)
-        internal static readonly string updaterLogfileFullPath = Path.Combine(updaterPath, $"{ internalName }_Updater.log");
-
-        // Data dump file location (Cities_Data)
-        internal static readonly string dataDumpFullPath = Path.Combine(updaterPath, $"{ internalName }_DataDump.txt");
-
-        // Temporary download location for Steam Workshop pages
-        internal static readonly string steamDownloadedPageFullPath = Path.Combine(updaterPath, $"{ internalName }_Download.tmp");
-
-        // Updater enabled
-        internal static bool UpdaterEnabled { get; private set; } = File.Exists(updaterSettingsFileFullPath);
-
-        // Author retirement in months
-        internal static readonly int monthsOfInactivityToRetireAuthor = 12;
-
-        // Max. number of Steam Workshop mod listing pages to download (per category), to avoid downloading for eternity; should be high enough to include all pages
-        internal static readonly int steamMaxModListingPages = 200;
-
-        // Steam Workshop mod listing urls, without page number ("&p=1")
-        internal static readonly List<string> steamModListingURLs = new List<string> {
+        public static List<string> SteamModListingURLs { get; } = new List<string> {
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras&requiredflags[]=incompatible" };
 
-        // Search string for Mod info in mod Listing files
-        internal static readonly string steamModListingModFind = "<div class=\"workshopItemTitle ellipsis\">";
-        
-        // Search strings for mod and author info in the mod listing files
-        internal static readonly string steamModListingModIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
-        internal static readonly string steamModListingModIDRight = "&searchtext";
-        internal static readonly string steamModListingModNameLeft = "workshopItemTitle ellipsis\">";
-        internal static readonly string steamModListingModNameRight = "</div>";
-        internal static readonly string steamModListingAuthorURLLeft = "steamcommunity.com/id/";
-        internal static readonly string steamModListingAuthorIDLeft = "steamcommunity.com/profiles/";
-        internal static readonly string steamModListingAuthorRight = "/myworkshopfiles";
-        internal static readonly string steamModListingAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
-        internal static readonly string steamModListingAuthorNameRight = "</a>";
+        public const int MonthsOfInactivityToRetireAuthor = 12;
+        public const int SteamMaxModListingPages = 200;
 
-        // Search strings for individual mod pages
-        internal static readonly string steamModPageItemNotFound = "There was a problem accessing the item. Please try again.";
-        internal static readonly string steamModPageSteamID = "var publishedfileid = '";                                                    // Followed by the Steam ID
-        internal static readonly string steamModPageAuthorFind = "&gt;&nbsp;<a href=\"https://steamcommunity.com/";                         // Followed by 'id' or 'profiles'
-        internal static readonly string steamModPageAuthorMid = "/myworkshopfiles/?appid=255710\">";                                        // Sits between ID/URL and name
-        internal static readonly string steamModPageAuthorRight = "'s Workshop</a>";
-        internal static readonly string steamModPageNameLeft = "<div class=\"workshopItemTitle\">";
-        internal static readonly string steamModPageNameRight = "</div>";
-        internal static readonly string steamModPageVersionTagFind = "<span class=\"workshopTagsTitle\">Tags:";                             // Can appear multiple times
-        internal static readonly string steamModPageVersionTagLeft = "-compatible\">";
-        internal static readonly string steamModPageVersionTagRight = "-compatible";
-        internal static readonly string steamModPageDatesFind = "<div class=\"detailsStatsContainerRight\">";
-        internal static readonly string steamModPageDatesLeft = "detailsStatRight\">";                                                      // Two/three lines below Find
-        internal static readonly string steamModPageDatesRight = "</div>";
-        internal static readonly string steamModPageRequiredDLCFind = "<div class=\"requiredDLCItem\">";                                    // Can appear multiple times
-        internal static readonly string steamModPageRequiredDLCLeft = "https://store.steampowered.com/app/";                                // One line below Find text
-        internal static readonly string steamModPageRequiredDLCRight = "\">";
-        internal static readonly string steamModPageRequiredModFind = "<div class=\"requiredItemsContainer\" id=\"RequiredItems\">";        // Can appear multiple times
-        internal static readonly string steamModPageRequiredModLeft = "https://steamcommunity.com/workshop/filedetails/?id=";               // One line below Find text
-        internal static readonly string steamModPageRequiredModRight = "\" ";
-        internal static readonly string steamModPageDescriptionFind = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
-        internal static readonly string steamModPageDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";                 // One line below Find text
-        internal static readonly string steamModPageDescriptionRight = "</div>";
-        internal static readonly string steamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized
-        internal static readonly string steamModPageSourceURLRight = "\" ";
+        // Search strings for mod and author info in the mod listing files.
+        public const string SteamModListingModFind = "<div class=\"workshopItemTitle ellipsis\">";
+        public const string SteamModListingModIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
+        public const string SteamModListingModIDRight = "&searchtext";
+        public const string SteamModListingModNameLeft = "workshopItemTitle ellipsis\">";
+        public const string SteamModListingModNameRight = "</div>";
+        public const string SteamModListingAuthorURLLeft = "steamcommunity.com/id/";
+        public const string SteamModListingAuthorIDLeft = "steamcommunity.com/profiles/";
+        public const string SteamModListingAuthorRight = "/myworkshopfiles";
+        public const string SteamModListingAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
+        public const string SteamModListingAuthorNameRight = "</a>";
+
+        // Search strings for individual mod pages.
+        public const string SteamModPageItemNotFound = "There was a problem accessing the item. Please try again.";
+        public const string SteamModPageSteamID = "var publishedfileid = '";                                                    // Followed by the Steam ID.
+        public const string SteamModPageAuthorFind = "&gt;&nbsp;<a href=\"https://steamcommunity.com/";                         // Followed by 'id' or 'profiles'.
+        public const string SteamModPageAuthorMid = "/myworkshopfiles/?appid=255710\">";                                        // Sits between ID/URL and name.
+        public const string SteamModPageAuthorRight = "'s Workshop</a>";
+        public const string SteamModPageNameLeft = "<div class=\"workshopItemTitle\">";
+        public const string SteamModPageNameRight = "</div>";
+        public const string SteamModPageVersionTagFind = "<span class=\"workshopTagsTitle\">Tags:";                             // Can appear multiple times.
+        public const string SteamModPageVersionTagLeft = "-compatible\">";
+        public const string SteamModPageVersionTagRight = "-compatible";
+        public const string SteamModPageDatesFind = "<div class=\"detailsStatsContainerRight\">";
+        public const string SteamModPageDatesLeft = "detailsStatRight\">";                                                      // Two/three lines below 'Find'.
+        public const string SteamModPageDatesRight = "</div>";
+        public const string SteamModPageRequiredDLCFind = "<div class=\"requiredDLCItem\">";                                    // Can appear multiple times.
+        public const string SteamModPageRequiredDLCLeft = "https://store.steampowered.com/app/";                                // One line below 'Find' text.
+        public const string SteamModPageRequiredDLCRight = "\">";
+        public const string SteamModPageRequiredModFind = "<div class=\"requiredItemsContainer\" id=\"RequiredItems\">";        // Can appear multiple times.
+        public const string SteamModPageRequiredModLeft = "https://steamcommunity.com/workshop/filedetails/?id=";               // One line below 'Find' text.
+        public const string SteamModPageRequiredModRight = "\" ";
+        public const string SteamModPageDescriptionFind = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
+        public const string SteamModPageDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";                 // One line below 'Find' text.
+        public const string SteamModPageDescriptionRight = "</div>";
+        public const string SteamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized.
+        public const string SteamModPageSourceURLRight = "\" ";
 
 
-
-        /// Defaults for updater settings that will be available in an updater settings xml file [Todo 0.7]
-
-        // WebCrawler enabled? WebCrawler will only be enabled if the global updater is enabled, but can be overruled by a '.disabled' file
-        internal static bool WebCrawlerEnabled { get; private set; } = UpdaterEnabled && 
-            !File.Exists(Path.Combine(updaterPath, $"{ internalName }_WebCrawler.disabled"));
-
-        // Max. number of failed downloads for individual pages before giving up altogether
-        internal static int SteamMaxFailedPages { get; private set; } = 4;
+        // Todo 0.7 Defaults for updater settings that will be available in an updater settings xml file.
+        public static bool UpdaterEnabled { get; private set; } = File.Exists(UpdaterSettingsFileFullPath);
+        public static bool WebCrawlerEnabled { get; private set; } = UpdaterEnabled && !File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.disabled"));
+        public static int SteamMaxFailedPages { get; private set; } = 4;
     }
 }

@@ -11,11 +11,11 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.CatalogData
 {
-    [Serializable][XmlRoot(ModSettings.xmlRoot)]
+    [Serializable][XmlRoot(ModSettings.InternalName + "Catalog")]
     public class Catalog
     {
         // Catalog structure version will change on structural changes that make the xml incompatible. Version will not reset on a new StructureVersion.
-        public int StructureVersion { get; private set; } = ModSettings.currentCatalogStructureVersion;
+        public int StructureVersion { get; private set; } = ModSettings.CurrentCatalogStructureVersion;
         public int Version { get; private set; }
         public DateTime UpdateDate { get; private set; }
 
@@ -135,9 +135,9 @@ namespace CompatibilityReport.CatalogData
         // Check if the ID is a valid existing or non-existing mod or group ID.
         public bool IsValidID(ulong steamID, bool allowGroup = false, bool allowBuiltin = true, bool shouldExist = true)
         {
-            bool valid = (steamID > ModSettings.highestFakeID) || 
+            bool valid = (steamID > ModSettings.HighestFakeID) || 
                 (allowBuiltin && ModSettings.BuiltinMods.ContainsValue(steamID)) || 
-                (allowGroup && steamID >= ModSettings.lowestGroupID && steamID <= ModSettings.highestGroupID);
+                (allowGroup && steamID >= ModSettings.LowestGroupID && steamID <= ModSettings.HighestGroupID);
 
             bool exists = ModIndex.ContainsKey(steamID) || GroupIndex.ContainsKey(steamID);
 
@@ -190,7 +190,7 @@ namespace CompatibilityReport.CatalogData
         public Group AddGroup(string groupName)
         {
             // Get a new group ID, either one more than the highest current group ID or the default lowest ID if we have no groups yet
-            ulong newGroupID = GroupIndex.Any() ? GroupIndex.Keys.Max() + 1 : ModSettings.lowestGroupID;
+            ulong newGroupID = GroupIndex.Any() ? GroupIndex.Keys.Max() + 1 : ModSettings.LowestGroupID;
 
             Group newGroup = new Group(newGroupID, groupName);
 
@@ -241,7 +241,7 @@ namespace CompatibilityReport.CatalogData
             Logger.Log($"Game reports { plugins.Count } mods.");
 
             // Local mods get a fake Steam ID.
-            ulong nextLocalModID = ModSettings.lowestLocalModID;
+            ulong nextLocalModID = ModSettings.LowestLocalModID;
 
             foreach (PluginManager.PluginInfo plugin in plugins)
             {
@@ -270,7 +270,7 @@ namespace CompatibilityReport.CatalogData
                     }
                     else
                     {
-                        Logger.Log($"Skipped an unknown builtin mod: { modName }. { ModSettings.pleaseReportText }", Logger.error);
+                        Logger.Log($"Skipped an unknown builtin mod: { modName }. { ModSettings.PleaseReportText }", Logger.error);
                         continue;
                     }
                 }
@@ -296,7 +296,7 @@ namespace CompatibilityReport.CatalogData
                 Logger.Log($"Mod found{ (foundInCatalog ? "" : " in game but not in the catalog") }: { subscribedMod.ToString() }");
 
                 // Update the catalog mod with subscription info.
-                // [Todo 0.4] How reliable is downloadTime? Is ToLocalTime needed? Check how Loading Order Mod does this.
+                // Todo 0.4 How reliable is downloadTime? Is ToLocalTime needed? Check how Loading Order Mod does this.
                 subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript,
                     downloadedTime: PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime());
 
@@ -442,7 +442,7 @@ namespace CompatibilityReport.CatalogData
 
             s_downloadedThisSession = true;
 
-            string temporaryFile = ModSettings.downloadedCatalogFullPath + ".part";
+            string temporaryFile = ModSettings.DownloadedCatalogFullPath + ".part";
 
             if (!Toolkit.DeleteFile(temporaryFile))
             {
@@ -452,17 +452,17 @@ namespace CompatibilityReport.CatalogData
 
             Stopwatch timer = Stopwatch.StartNew();
 
-            if (!Toolkit.Download(ModSettings.catalogURL, temporaryFile))
+            if (!Toolkit.Download(ModSettings.CatalogURL, temporaryFile))
             {
                 Toolkit.DeleteFile(temporaryFile);
 
-                Logger.Log($"Can't download catalog from { ModSettings.catalogURL }", Logger.warning);
+                Logger.Log($"Can't download catalog from { ModSettings.CatalogURL }", Logger.warning);
                 return null;
             }
 
             timer.Stop();
 
-            Logger.Log($"Catalog downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) } from { ModSettings.catalogURL }");
+            Logger.Log($"Catalog downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) } from { ModSettings.CatalogURL }");
 
             Catalog downloadedCatalog = LoadFromDisk(temporaryFile);
 
@@ -475,7 +475,7 @@ namespace CompatibilityReport.CatalogData
                 Logger.Log($"Downloaded catalog is version { downloadedCatalog.VersionString() }.");
 
                 // Copy the temporary file over the previously downloaded catalog.
-                Toolkit.CopyFile(temporaryFile, ModSettings.downloadedCatalogFullPath);
+                Toolkit.CopyFile(temporaryFile, ModSettings.DownloadedCatalogFullPath);
             }
 
             Toolkit.DeleteFile(temporaryFile);
@@ -487,19 +487,19 @@ namespace CompatibilityReport.CatalogData
         // Load the previously downloaded catalog and return a reference, or null if it doesn't exist or can't load.
         private static Catalog LoadPreviouslyDownloaded()
         {
-            if (!File.Exists(ModSettings.downloadedCatalogFullPath))
+            if (!File.Exists(ModSettings.DownloadedCatalogFullPath))
             {
                 return null;
             }
 
-            Catalog previouslyDownloadedCatalog = LoadFromDisk(ModSettings.downloadedCatalogFullPath);
+            Catalog previouslyDownloadedCatalog = LoadFromDisk(ModSettings.DownloadedCatalogFullPath);
 
             if (previouslyDownloadedCatalog != null)
             {
                 Logger.Log($"Previously downloaded catalog is version { previouslyDownloadedCatalog.VersionString() }.");
             }
             // Can't be loaded; try to delete it
-            else if (Toolkit.DeleteFile(ModSettings.downloadedCatalogFullPath))
+            else if (Toolkit.DeleteFile(ModSettings.DownloadedCatalogFullPath))
             {
                 Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.warning);
             }
@@ -516,11 +516,11 @@ namespace CompatibilityReport.CatalogData
         // Load the bundled catalog and return a refence, or null if it somehow doesn't exist or can't load.
         private static Catalog LoadBundled()
         {
-            Catalog bundledCatalog = LoadFromDisk(ModSettings.bundledCatalogFullPath);
+            Catalog bundledCatalog = LoadFromDisk(ModSettings.BundledCatalogFullPath);
 
             if (bundledCatalog == null)
             {
-                Logger.Log($"Can't load bundled catalog. { ModSettings.pleaseReportText }", Logger.error, duplicateToGameLog: true);
+                Logger.Log($"Can't load bundled catalog. { ModSettings.PleaseReportText }", Logger.error, duplicateToGameLog: true);
             }
             else
             {
@@ -543,7 +543,7 @@ namespace CompatibilityReport.CatalogData
 
             try
             {
-                files = Directory.GetFiles(ModSettings.updaterPath, $"{ ModSettings.internalName }_Catalog*.xml");
+                files = Directory.GetFiles(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog*.xml");
             }
             catch
             {

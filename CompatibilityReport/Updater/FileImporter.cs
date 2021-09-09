@@ -20,7 +20,7 @@ namespace CompatibilityReport.Updater
 
             Logger.UpdaterLog("Updater started the CSV import.");
 
-            List<string> CSVfilenames = Directory.GetFiles(ModSettings.updaterPath, "*.csv").ToList();
+            List<string> CSVfilenames = Directory.GetFiles(ModSettings.UpdaterPath, "*.csv").ToList();
 
             if (!CSVfilenames.Any())
             {
@@ -346,7 +346,8 @@ namespace CompatibilityReport.Updater
 
             CatalogUpdater.AddRemovedModChangeNote(catalogMod);
 
-            catalog.Mods.Remove(catalogMod);     // [Todo 0.4] Move to Catalog class as RemoveMod?
+            // Todo 0.4 Move to Catalog class as RemoveMod?
+            catalog.Mods.Remove(catalogMod);
 
             catalog.ModIndex.Remove(modID);
 
@@ -842,7 +843,7 @@ namespace CompatibilityReport.Updater
                 return "A group with that name already exists.";
             }
 
-            if (catalog.GroupIndex.Keys.Max() >= ModSettings.highestGroupID)
+            if (catalog.GroupIndex.Keys.Max() >= ModSettings.HighestGroupID)
             {
                 return "Cannot add anymore groups, no more group IDs available.";
             }
@@ -874,7 +875,7 @@ namespace CompatibilityReport.Updater
                 return "Invalid group ID.";
             }
 
-            // [Todo 0.4] Needs logic to check for groups used as recommendation
+            // Todo 0.4 Needs logic to check for groups used as recommendation.
 
             CatalogUpdater.RemoveGroup(catalog, groupID);
 
@@ -1029,7 +1030,8 @@ namespace CompatibilityReport.Updater
                     return "Compatibility already exists.";
                 }
 
-                // Check if a mirrored compatibility already exists; this is allowed for some statuses, but not all  [Todo 0.4] Can we allow all compatibilities mirrored?
+                // Check if a mirrored compatibility already exists; this is allowed for some statuses, but not all.
+                // Todo 0.4 Can we allow all compatibilities mirrored?
                 if (compatibilityStatus == Enums.CompatibilityStatus.SameModDifferentReleaseType || compatibilityStatus == Enums.CompatibilityStatus.SameFunctionality ||
                     compatibilityStatus == Enums.CompatibilityStatus.MinorIssues || compatibilityStatus == Enums.CompatibilityStatus.RequiresSpecificSettings)
                 {

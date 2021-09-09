@@ -24,8 +24,8 @@ namespace CompatibilityReport
     public class CompatibilityReport : IUserMod
     {
         // The name and description of the mod, as seen in Content Manager and Options window
-        public string Name => ModSettings.displayName;
-        public string Description => ModSettings.modDescription;
+        public string Name => ModSettings.ModName + " v" + ModSettings.Version + (string.IsNullOrEmpty(ModSettings.ReleaseType) ? "" : " " + ModSettings.ReleaseType);
+        public string Description => ModSettings.ModDescription;
 
 
         // OnSettingsUI is called at the end of loading the game to the main menu (scene IntroScreen), when all subscriptions will be available.
@@ -38,14 +38,15 @@ namespace CompatibilityReport
             // Debug message
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.debug);
 
-            // Start the updater; will only run if the updater is enabled, and only on the first call   [Todo 0.8] Move to standalone tool
+            // Start the updater; will only run if the updater is enabled, and only on the first call
+            // Todo 0.8 Move to standalone tool
             Updater.CatalogUpdater.Start();
 
             // Create a report; will only be done once and only in the allowed scene
             Report.Create(scene);
 
-            // Get the settings on the screen [Todo 0.7]
-            UIHelperBase modOptions = helper.AddGroup(ModSettings.modName);
+            //Todo 0.7 Get the settings on the screen
+            UIHelperBase modOptions = helper.AddGroup(ModSettings.ModName);
 
             // modOptions.Add...
         }

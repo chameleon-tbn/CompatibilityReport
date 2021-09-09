@@ -42,20 +42,20 @@ namespace CompatibilityReport.Updater
             int totalPages = 0;
             
             // Go through the different mod listings: mods and camera scripts, both regular and incompatible
-            foreach (string steamURL in ModSettings.steamModListingURLs)
+            foreach (string steamURL in ModSettings.SteamModListingURLs)
             {
                 Logger.UpdaterLog($"Starting downloads from { steamURL }");
                 
                 int pageNumber = 0;
 
                 // Download and read pages until we find no more mods, or we reach a maximum number of pages (to avoid missing the mark and continuing for eternity)
-                while (pageNumber < ModSettings.steamMaxModListingPages)
+                while (pageNumber < ModSettings.SteamMaxModListingPages)
                 {
                     pageNumber++;
 
                     string url = $"{ steamURL }&p={ pageNumber }";
 
-                    if (!Toolkit.Download(url, ModSettings.steamDownloadedPageFullPath))
+                    if (!Toolkit.Download(url, ModSettings.TempDownloadFullPath))
                     {
                         Logger.UpdaterLog($"Download process interrupted due to a permanent error while downloading { url }", Logger.error);
 
@@ -90,7 +90,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Delete the temporary file
-            Toolkit.DeleteFile(ModSettings.steamDownloadedPageFullPath);
+            Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
 
             // Note: about 75% of the total time is downloading, the other 25% is processing
             timer.Stop();
@@ -110,19 +110,19 @@ namespace CompatibilityReport.Updater
             string line;
 
             // Read the downloaded file
-            using (StreamReader reader = File.OpenText(ModSettings.steamDownloadedPageFullPath))
+            using (StreamReader reader = File.OpenText(ModSettings.TempDownloadFullPath))
             {
                 // Read all the lines until the end of the file
                 while ((line = reader.ReadLine()) != null)
                 {
                     // Search for the identifying string for the next mod; continue with next line if not found
-                    if (!line.Contains(ModSettings.steamModListingModFind))
+                    if (!line.Contains(ModSettings.SteamModListingModFind))
                     {
                         continue;
                     }
 
                     // Found the identifying string; get the Steam ID
-                    ulong steamID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModListingModIDLeft, ModSettings.steamModListingModIDRight));
+                    ulong steamID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.SteamModListingModIDLeft, ModSettings.SteamModListingModIDRight));
 
                     if (steamID == 0) 
                     {
@@ -134,7 +134,7 @@ namespace CompatibilityReport.Updater
 
                     modsFoundThisPage++;
 
-                    string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModListingModNameLeft, ModSettings.steamModListingModNameRight));
+                    string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SteamModListingModNameLeft, ModSettings.SteamModListingModNameRight));
 
                     Mod catalogMod = catalog.GetMod(steamID) ?? CatalogUpdater.AddMod(catalog, steamID, modName, incompatibleMods);
 
@@ -151,10 +151,11 @@ namespace CompatibilityReport.Updater
                     // Skip one line
                     line = reader.ReadLine();
 
-                    // Get the author ID or custom URL. One will be found, the other will be zero / empty   [Todo 0.4] Add a check for author URL changes, to prevent creating a new author
-                    ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModListingAuthorIDLeft, ModSettings.steamModListingAuthorRight));
+                    // Get the author ID or custom URL. One will be found, the other will be zero / empty
+                    // Todo 0.4 Add a check for author URL changes, to prevent creating a new author.
+                    ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.SteamModListingAuthorIDLeft, ModSettings.SteamModListingAuthorRight));
 
-                    string authorURL = Toolkit.MidString(line, ModSettings.steamModListingAuthorURLLeft, ModSettings.steamModListingAuthorRight);
+                    string authorURL = Toolkit.MidString(line, ModSettings.SteamModListingAuthorURLLeft, ModSettings.SteamModListingAuthorRight);
 
                     // Remove the removed and unlisted statuses, if they exist
                     CatalogUpdater.RemoveStatus(catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
@@ -164,7 +165,7 @@ namespace CompatibilityReport.Updater
                     // Update the mod. This will also set the UpdatedThisSession, which is used in GetDetails()
                     CatalogUpdater.UpdateMod(catalog, catalogMod, modName, authorID: authorID, authorURL: authorURL, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
 
-                    string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModListingAuthorNameLeft, ModSettings.steamModListingAuthorNameRight));
+                    string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SteamModListingAuthorNameLeft, ModSettings.SteamModListingAuthorNameRight));
 
                     CatalogUpdater.GetOrAddAuthor(catalog, authorID, authorURL, authorName);
                 }
@@ -199,7 +200,7 @@ namespace CompatibilityReport.Updater
                 }
 
                 // Download the Steam Workshop page for this mod
-                if (!Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.steamDownloadedPageFullPath))
+                if (!Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.TempDownloadFullPath))
                 {
                     // Download error
                     failedDownloads++;
@@ -234,14 +235,14 @@ namespace CompatibilityReport.Updater
                 if (!ReadModPage(catalog, catalogMod))
                 {
                     // Redownload and try again, to work around cut-off downloads
-                    Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.steamDownloadedPageFullPath);
+                    Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.TempDownloadFullPath);
 
                     ReadModPage(catalog, catalogMod);
                 }
             }
 
             // Delete the temporary file
-            Toolkit.DeleteFile(ModSettings.steamDownloadedPageFullPath);
+            Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
 
             // Note: about 90% of the total time is downloading, the other 10% is processing
             timer.Stop();
@@ -259,7 +260,7 @@ namespace CompatibilityReport.Updater
             bool steamIDmatched = false;
 
             // Read the downloaded page back from file
-            using (StreamReader reader = File.OpenText(ModSettings.steamDownloadedPageFullPath))
+            using (StreamReader reader = File.OpenText(ModSettings.TempDownloadFullPath))
             {
                 string line;
 
@@ -269,7 +270,7 @@ namespace CompatibilityReport.Updater
                     // First find the correct Steam ID on this page; it appears before all other info
                     if (!steamIDmatched)
                     {
-                        if (line.Contains(ModSettings.steamModPageItemNotFound))
+                        if (line.Contains(ModSettings.SteamModPageItemNotFound))
                         {
                             // Steam says it can't find the mod, stop processing the page further
                             if (catalogMod.UpdatedThisSession)
@@ -290,7 +291,7 @@ namespace CompatibilityReport.Updater
                             }
                         }
 
-                        steamIDmatched = line.Contains(ModSettings.steamModPageSteamID + catalogMod.SteamID.ToString());
+                        steamIDmatched = line.Contains(ModSettings.SteamModPageSteamID + catalogMod.SteamID.ToString());
 
                         // Keep trying to find the Steam ID before anything else
                         continue;
@@ -306,18 +307,19 @@ namespace CompatibilityReport.Updater
 
                     // Try to find data on this line of the mod page
 
-                    // Author Steam ID, Custom URL and author name; only for unlisted mods (we have this info for other mods already)  [Todo 0.4] Add a check for author URL changes, to prevent creating a new author
-                    if (line.Contains(ModSettings.steamModPageAuthorFind) && catalogMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
+                    // Author Steam ID, Custom URL and author name; only for unlisted mods (we have this info for other mods already)
+                    // Todo 0.4 Add a check for author URL changes, to prevent creating a new author.
+                    if (line.Contains(ModSettings.SteamModPageAuthorFind) && catalogMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
                     {
-                        ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "profiles/",
-                            ModSettings.steamModPageAuthorMid));
+                        ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.SteamModPageAuthorFind + "profiles/",
+                            ModSettings.SteamModPageAuthorMid));
 
-                        string authorURL = Toolkit.MidString(line, ModSettings.steamModPageAuthorFind + "id/", ModSettings.steamModPageAuthorMid);
+                        string authorURL = Toolkit.MidString(line, ModSettings.SteamModPageAuthorFind + "id/", ModSettings.SteamModPageAuthorMid);
 
                         // Empty the author custom URL if author ID was found or if custom URL was not found, preventing updating the custom URL to an empty string
                         authorURL = authorID != 0 || string.IsNullOrEmpty(authorURL) ? null : authorURL;
 
-                        string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModPageAuthorMid, ModSettings.steamModPageAuthorRight));
+                        string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SteamModPageAuthorMid, ModSettings.SteamModPageAuthorRight));
 
                         catalogMod.Update(authorID: authorID, authorUrl: authorURL);
 
@@ -325,18 +327,18 @@ namespace CompatibilityReport.Updater
                     }
 
                     // Mod name; only for unlisted mods (we have this info for other mods already)
-                    else if (line.Contains(ModSettings.steamModPageNameLeft) && catalogMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
+                    else if (line.Contains(ModSettings.SteamModPageNameLeft) && catalogMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
                     {
-                        string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.steamModPageNameLeft, ModSettings.steamModPageNameRight)); 
+                        string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SteamModPageNameLeft, ModSettings.SteamModPageNameRight)); 
 
                         CatalogUpdater.UpdateMod(catalog, catalogMod, modName , updatedByWebCrawler: true);
                     }
 
                     // Compatible game version tag
-                    else if (line.Contains(ModSettings.steamModPageVersionTagFind))
+                    else if (line.Contains(ModSettings.SteamModPageVersionTagFind))
                     {
                         // Convert the found tag to a game version and back to a formatted game version string, so we have a consistently formatted string
-                        string gameVersionString = Toolkit.MidString(line, ModSettings.steamModPageVersionTagLeft, ModSettings.steamModPageVersionTagRight);
+                        string gameVersionString = Toolkit.MidString(line, ModSettings.SteamModPageVersionTagLeft, ModSettings.SteamModPageVersionTagRight);
 
                         Version gameVersion = Toolkit.ConvertToGameVersion(gameVersionString);
 
@@ -352,29 +354,29 @@ namespace CompatibilityReport.Updater
                     }
 
                     // Publish and update dates. Also update author last seen date.
-                    else if (line.Contains(ModSettings.steamModPageDatesFind))
+                    else if (line.Contains(ModSettings.SteamModPageDatesFind))
                     {
                         // Skip two lines for the published data, then one more for the update date (if available)
                         line = reader.ReadLine();
                         line = reader.ReadLine();
 
-                        DateTime published = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
+                        DateTime published = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.SteamModPageDatesLeft, ModSettings.SteamModPageDatesRight));
 
                         line = reader.ReadLine();
 
-                        DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.steamModPageDatesLeft, ModSettings.steamModPageDatesRight));
+                        DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.SteamModPageDatesLeft, ModSettings.SteamModPageDatesRight));
 
                         CatalogUpdater.UpdateMod(catalog, catalogMod, published: published, updated: updated, updatedByWebCrawler: true);
                     }
 
                     // Required DLC. This line can be found multiple times.
-                    else if (line.Contains(ModSettings.steamModPageRequiredDLCFind))
+                    else if (line.Contains(ModSettings.SteamModPageRequiredDLCFind))
                     {
                         // Skip one line
                         line = reader.ReadLine();
 
                         Enums.Dlc dlc = Toolkit.ConvertToEnum<Enums.Dlc>(
-                            Toolkit.MidString(line, ModSettings.steamModPageRequiredDLCLeft, ModSettings.steamModPageRequiredDLCRight));
+                            Toolkit.MidString(line, ModSettings.SteamModPageRequiredDLCLeft, ModSettings.SteamModPageRequiredDLCRight));
 
                         if (!catalogMod.ExclusionForRequiredDlc.Contains(dlc))
                         {
@@ -383,7 +385,7 @@ namespace CompatibilityReport.Updater
                     }
 
                     // Required mods and assets. The 'find' string is a container with all required items on the next lines.
-                    else if (line.Contains(ModSettings.steamModPageRequiredModFind))
+                    else if (line.Contains(ModSettings.SteamModPageRequiredModFind))
                     {
                         // Get all required items from the next lines, until we find no more. Max. 50 times to avoid an infinite loop.
                         for (var i = 1; i <= 50; i++)
@@ -392,7 +394,7 @@ namespace CompatibilityReport.Updater
                             line = reader.ReadLine();
 
                             ulong requiredID = Toolkit.ConvertToUlong(
-                                Toolkit.MidString(line, ModSettings.steamModPageRequiredModLeft, ModSettings.steamModPageRequiredModRight));
+                                Toolkit.MidString(line, ModSettings.SteamModPageRequiredModLeft, ModSettings.SteamModPageRequiredModRight));
 
                             // Exit the for loop if no more Steam ID is found
                             if (requiredID == 0)
@@ -413,13 +415,13 @@ namespace CompatibilityReport.Updater
                     }
 
                     // Description for 'no description' status and for source url
-                    else if (line.Contains(ModSettings.steamModPageDescriptionFind))
+                    else if (line.Contains(ModSettings.SteamModPageDescriptionFind))
                     {
                         // Skip one line; the complete description is on the next line
                         line = reader.ReadLine();
 
-                        int descriptionLength = line.Length - line.IndexOf(ModSettings.steamModPageDescriptionLeft) -
-                            ModSettings.steamModPageDescriptionLeft.Length - ModSettings.steamModPageDescriptionRight.Length;
+                        int descriptionLength = line.Length - line.IndexOf(ModSettings.SteamModPageDescriptionLeft) -
+                            ModSettings.SteamModPageDescriptionLeft.Length - ModSettings.SteamModPageDescriptionRight.Length;
 
                         // A 'no description' status is when the description is not at least a few characters longer than the mod name.
                         if (descriptionLength < catalogMod.Name.Length + 5 && !catalogMod.ExclusionForNoDescription)
@@ -432,7 +434,7 @@ namespace CompatibilityReport.Updater
                         }
 
                         // Try to get the source url, unless there is an exclusion.
-                        if (line.Contains(ModSettings.steamModPageSourceURLLeft) && !catalogMod.ExclusionForSourceUrl)
+                        if (line.Contains(ModSettings.SteamModPageSourceURLLeft) && !catalogMod.ExclusionForSourceUrl)
                         {
                             CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: GetSourceURL(line, catalogMod), updatedByWebCrawler: true);
                         }
@@ -456,7 +458,7 @@ namespace CompatibilityReport.Updater
         // Get the source URL. If more than one is found, pick the most likely, which is far from perfect and will need a CSV update for some mods.
         private static string GetSourceURL(string line, Mod catalogMod)
         {
-            string sourceURL = "https://github.com/" + Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
+            string sourceURL = "https://github.com/" + Toolkit.MidString(line, ModSettings.SteamModPageSourceURLLeft, ModSettings.SteamModPageSourceURLRight);
 
             if (sourceURL == "https://github.com/")
             {
@@ -472,18 +474,18 @@ namespace CompatibilityReport.Updater
             int tries = 0;
 
             // Keep comparing source url's until we find no more; max. 50 times to avoid infinite loops on code errors
-            while (line.IndexOf(ModSettings.steamModPageSourceURLLeft) != line.LastIndexOf(ModSettings.steamModPageSourceURLLeft) && tries < 50)
+            while (line.IndexOf(ModSettings.SteamModPageSourceURLLeft) != line.LastIndexOf(ModSettings.SteamModPageSourceURLLeft) && tries < 50)
             {
                 tries++;
 
                 string firstLower = sourceURL.ToLower();
 
                 // Cut off the start of the line to just after the previous occurrence and find the next source url
-                int index = line.IndexOf(ModSettings.steamModPageSourceURLLeft) + 1;
+                int index = line.IndexOf(ModSettings.SteamModPageSourceURLLeft) + 1;
 
                 line = line.Substring(index);
 
-                string nextSourceURL = "https://github.com/" + Toolkit.MidString(line, ModSettings.steamModPageSourceURLLeft, ModSettings.steamModPageSourceURLRight);
+                string nextSourceURL = "https://github.com/" + Toolkit.MidString(line, ModSettings.SteamModPageSourceURLLeft, ModSettings.SteamModPageSourceURLRight);
 
                 string nextLower = nextSourceURL.ToLower();
 
