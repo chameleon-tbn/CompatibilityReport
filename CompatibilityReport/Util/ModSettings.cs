@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = 101;     // Todo 0.5 Our own Steam ID
 
         public const string Version = "0.4.0";
-        public const string Build = "228";
+        public const string Build = "229";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -102,14 +102,14 @@ namespace CompatibilityReport.Util
             "\n" +
             "Disclaimer:\n" +
             Bullet1 + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " + 
-            "However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop.";   // Todo 0.5 Add our workshop url.
+                "However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop.";   // Todo 0.5 Add our Workshop URL.
 
-        public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the workshop page.";   // Todo 0.5 Add our workshop url.
+        public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the Workshop page.";       // Todo 0.5 Add our Workshop URL.
 
         public const string FirstCatalogNote = "This first catalog only contains the builtin mods.";
         public const string SecondCatalogNote = "This catalog contains basic information about all Steam Workshop mods. No reviews yet.";
 
-        public const string PleaseReportText = "Please report this on the Workshop page for " + ModName + ".";                  // Todo 0.5 Add our workshop url.
+        public const string PleaseReportText = "Please report this on the Steam Workshop page for " + ModName + ".";                // Todo 0.5 Add our Workshop URL.
 
 
         // Todo 0.7 Defaults for settings that will be available to users through mod options within the game.
