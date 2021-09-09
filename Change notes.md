@@ -1,8 +1,7 @@
 # Compatibility Report
 
 ### Version 0.4 - Code revision and cleanup
-* Code restructure
-* Removed unused code
+* Major code revision and restructure
 * Bugfixes
 
 ### Version 0.3 - Catalog Updater: CSV import
@@ -18,11 +17,11 @@
 
 ### Version 0.2 - Catalog Updater: Steam Workshop web crawler
 * Catalog updater method based on web crawling the Steam Workshop
-  - detects new mods and changes in mod information (name, required dlc/mods, source url, etc.)
+  - detects new mods and changes in mod information (name, required DLC/mods, source URL, etc.)
 * Automatic catalog versioning and change notes
 * Support for unlisted and removed mods
 * Support for mod groups, to allow different editions of mods as mod requirement
-* Second catalog created, with information of all Workshop mods, but without reviews
+* Second catalog created, with information of all Steam Workshop mods, but without reviews
 
 ### Version 0.1.1 - Bugfixes and textual changes
 

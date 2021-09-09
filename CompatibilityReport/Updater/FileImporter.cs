@@ -139,17 +139,17 @@ namespace CompatibilityReport.Updater
             string action = lineElements[0].Trim().ToLower();
 
             // Second element - numeric: mod, group, asset or author ID
-            //               and string: review date, author custom url, compatibility status, group name, game version, catalog note, header/footer text
+            //               and string: review date, author custom URL, compatibility status, group name, game version, catalog note, header/footer text
             string stringSecond = lineElements.Length < 2 ? "" : lineElements[1].Trim();
             ulong numericSecond = Toolkit.ConvertToUlong(stringSecond);
 
             // Third element - numeric: required mod ID, successor/alternative mod ID, recommended mod or group ID, mod ID for compatibility/group, author ID, asset ID
-            //              and string: author custom url, source url, game version, dlc string, stability, generic note, mod/compatibility status,
+            //              and string: author custom URL, source URL, game version, DLC string, stability, generic note, mod/compatibility status,
             //                          exclusion category, author name, last seen date
             string stringThird = lineElements.Length < 3 ? "" : lineElements[2].Trim();
             ulong numericThird = Toolkit.ConvertToUlong(stringThird); ;
 
-            // Fourth element - numeric: additional mod or asset ID, dlc appid
+            // Fourth element - numeric: additional mod or asset ID, DLC appid
             //               and string: mod name, stability note, compatibility status
             string stringFourth = lineElements.Length < 4 ? "" : lineElements[3].Trim();
             ulong numericFourth = Toolkit.ConvertToUlong(stringFourth);
@@ -234,7 +234,7 @@ namespace CompatibilityReport.Updater
                     // Get all line fragments as a list, converted to ulong
                     List<ulong> modIDs = Toolkit.ConvertToUlong(lineElements.ToList());
 
-                    // Remove the first one to three elements: action, first mod id, compatibility  /  action, compatibility  /  action, group name  /  action
+                    // Remove the first one to three elements: action, first mod ID, compatibility  /  action, compatibility  /  action, group name  /  action
                     modIDs.RemoveRange(0, action == "add_compatibilitiesforone" ? 3 : action.Contains("requiredassets") ? 1 : 2);
 
                     // Remove the last element if it starts with a '#' (comment)
@@ -262,7 +262,7 @@ namespace CompatibilityReport.Updater
                     return AddRemoveGroupMember(catalog, action, groupID: numericSecond, groupMember: numericThird);
 
                 case "add_author":
-                    // Use author url only if author ID was not found
+                    // Use author URL only if author ID was not found
                     return AddAuthor(catalog, authorID: numericSecond, authorURL: numericSecond == 0 ? stringSecond : "", authorName: stringThird);
 
                 case "set_authorid":
@@ -1019,7 +1019,7 @@ namespace CompatibilityReport.Updater
                 return $"Invalid Steam ID { secondModID }.";
             }
 
-            // Check if a compatibility exists for these steam IDs and this compatibility status
+            // Check if a compatibility exists for these Steam IDs and this compatibility status
             bool compatibilityExists = catalog.Compatibilities.Find(x => x.FirstModSteamID == firstModID && x.SecondModSteamID == secondModID && 
                 x.Status == compatibilityStatus) != default;
 

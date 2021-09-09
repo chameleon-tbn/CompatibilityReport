@@ -8,7 +8,7 @@ namespace CompatibilityReport.Reporter
     {
         internal static bool Create(Catalog catalog)
         {
-            // [Todo 1.1] Create HTML report
+            // Todo 1.1 Create HTML report
 
             // Logger.Log($"HTML report ready at \"{ Tools.PrivacyPath(ModSettings.ReportHtmlFullPath) }\".", duplicateToGameLog: true);
 

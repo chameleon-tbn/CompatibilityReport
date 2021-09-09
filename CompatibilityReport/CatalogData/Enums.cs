@@ -2,6 +2,8 @@
 {
     public static class Enums
     {
+        // Todo 0.5 Change URL to this in Updater Guide
+
         // The stability of a mod.
         public enum Stability
         {

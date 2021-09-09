@@ -24,11 +24,11 @@ Choose what applies to your mod (you only need to included info that is now miss
 - Mod does (not) break editors
 - Mod is a test version (please note Steam ID for stable version below)
 - Mod is only for modders; regular users don't need this
-- Mod is unlisted in the Workshop
+- Mod is unlisted in the Steam Workshop
 - Can (not) load savegames created with this mod after unsubscribing the mod
 - Mod is no longer needed; functionality is now incorporated in the game
 - Mod is deprecated; it will no longer be supported or updated
-- Source code is available at <url> / bundled with mod / not available
+- Source code is available at <URL> / bundled with mod / not available
 - Mod uses copyright-free music, safe for streaming
 - Mod uses copyrighted music and should not be used while streaming
 

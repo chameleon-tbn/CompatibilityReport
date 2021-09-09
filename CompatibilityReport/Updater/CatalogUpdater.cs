@@ -297,7 +297,7 @@ namespace CompatibilityReport.Updater
         // Add a mod. A review date is not set, that is only done on UpdateMod()
         internal static Mod AddMod(Catalog catalog, ulong steamID, string name, bool incompatible = false, bool unlisted = false, bool removed = false)
         {
-            // New mod. Log an empty mod name, which might be an error, although there is a workshop mod without a name (ofcourse there is)
+            // New mod. Log an empty mod name, which might be an error, although there is a Steam Workshop mod without a name (ofcourse there is)
             if (name == "")
             {
                 Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
@@ -375,7 +375,7 @@ namespace CompatibilityReport.Updater
             // Update exclusions on certain imported changes
             if (!updatedByWebCrawler && sourceURL != null && sourceURL != catalogMod.SourceUrl)
             {
-                // Add exclusion on new or changed url, and swap exclusion on removal
+                // Add exclusion on new or changed URL, and swap exclusion on removal
                 catalogMod.UpdateExclusions(exclusionForSourceUrl: sourceURL != "" || !catalogMod.ExclusionForSourceUrl);
             }
 
@@ -622,7 +622,7 @@ namespace CompatibilityReport.Updater
         // Retire authors that are now eligible due to last seen date, and authors that don't have a mod in the Steam Workshop anymore
         private static void UpdateAuthorRetirement(Catalog catalog)
         {
-            // Make temporary lists of all authors that have at least one Workshop mod
+            // Make a temporary lists of all authors that have at least one Steam Workshop mod.
             List<ulong> ActiveAuthorIDs = new List<ulong>();
 
             List<string> ActiveAuthorURLs = new List<string>();
@@ -659,11 +659,11 @@ namespace CompatibilityReport.Updater
                 // Set retirement
                 if (!ActiveAuthorIDs.Contains(catalogAuthor.SteamID) && !ActiveAuthorURLs.Contains(catalogAuthor.CustomUrl))
                 {
-                    // Authors without a mod in the Workshop
+                    // Authors without a mod in the Steam Workshop
                     if (!catalogAuthor.Retired)
                     {
                         // Only update if they weren't set to retired yet
-                        AddUpdatedAuthorChangeNote(catalogAuthor, "no longer has mods on the workshop");
+                        AddUpdatedAuthorChangeNote(catalogAuthor, "no longer has mods on the Steam Workshop");
 
                         UpdateAuthor(catalogAuthor, retired: true);
                     }
@@ -679,7 +679,7 @@ namespace CompatibilityReport.Updater
 
                 else if (!catalogAuthor.ExclusionForRetired)
                 {
-                    // Authors that have mods in the Workshop, and are recently enough seen, and don't have an exclusion for retired
+                    // Authors that have mods in the Steam Workshop, and are recently enough seen, and don't have an exclusion for retired
                     UpdateAuthor(catalogAuthor, retired: false);
                 }
             }

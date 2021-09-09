@@ -4,13 +4,12 @@ using System.Text;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
-// This dumps specific catalog data to a text file, to help with creating CSV files for the FileImporter.
-// It's inefficient with all the foreach loops, but 90ms don't count up to the 12 to 15 minutes from the WebCrawler, and I like to keep the code simple.
-
 namespace CompatibilityReport.Updater
 {
     public static class DataDumper
     {
+        // Dump specific catalog data to a text file to help with creating CSV files for the FileImporter. It's inefficient with all those
+        // duplicate foreach loops, but 90ms don't count up to the 12 to 15 minutes from the WebCrawler, and I like to keep the code simple.
         public static void Start(Catalog catalog)
         {
             Stopwatch timer = Stopwatch.StartNew();

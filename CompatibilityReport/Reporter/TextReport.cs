@@ -213,7 +213,7 @@ namespace CompatibilityReport.Reporter
                 modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods."));
             }
 
-            // Workshop url for Workshop mods
+            // Steam Workshop URL.
             modReview.Append((steamID > ModSettings.HighestFakeID) ? ReviewLine("Steam Workshop page: " + Toolkit.GetWorkshopUrl(steamID)) : "");
 
             // Add the text for this subscription to the reviewed or nonreviewed text
@@ -465,7 +465,7 @@ namespace CompatibilityReport.Reporter
             {
                 if (!PlatformService.IsDlcInstalled((uint)dlc))
                 {
-                    // Add the missing dlc, replacing the underscores in the DLC enum name with spaces and semicolons
+                    // Add the missing DLC, replacing the underscores in the DLC enum name with spaces and semicolons
                     dlcs += ReviewLine(Toolkit.ConvertDlcToString(dlc), ModSettings.Bullet2);
                 }
             }
@@ -529,7 +529,7 @@ namespace CompatibilityReport.Reporter
                             Logger.Log($"Required mod { id } not found in catalog.", Logger.Warning);
                         }
 
-                        // List the workshop page for easy subscribing
+                        // List the Steam Workshop page for easy subscribing
                         text += ReviewLine("Workshop page: " + Toolkit.GetWorkshopUrl(id), ModSettings.Indent2);
 
                         continue;   // To the next required mod
@@ -730,7 +730,7 @@ namespace CompatibilityReport.Reporter
             // Removed from the Steam Workshop
             if (subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
-                text += ReviewLine("Unsubscribe is wise. This is no longer available on the Workshop.");
+                text += ReviewLine("Unsubscribe is wise. This is no longer available on the Steam Workshop.");
             }
 
             // Savegame affecting

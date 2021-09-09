@@ -7,9 +7,9 @@ using CompatibilityReport.Util;
 
 // WebCrawler gathers information from the Steam Workshop pages for all mods and updates the catalog with this. This process takes quite some time (roughly 15 minutes).
 // The following information is gathered:
-// * Mod: name, author, publish and update dates, source url (GitHub only), compatible game version (from tag only), required DLC, required mods, incompatible stability
-//        statuses: removed from workshop, unlisted in workshop, no description
-// * Author: name, Steam ID and Custom url, last seen date (based on mod updates, not on comments), retired status (no mod update in x months; removed on new mod update)
+// * Mod: name, author, publish and update dates, source URL (GitHub only), compatible game version (from tag only), required DLC, required mods, incompatible stability
+//        statuses: removed from or unlisted in the Steam Workshop, no description
+// * Author: name, Steam ID and Custom URL, last seen date (based on mod updates, not on comments), retired status (no mod update in x months; removed on new mod update)
 
 
 namespace CompatibilityReport.Updater
@@ -414,7 +414,7 @@ namespace CompatibilityReport.Updater
                         }
                     }
 
-                    // Description for 'no description' status and for source url
+                    // Description for 'no description' status and for source URL
                     else if (line.Contains(ModSettings.SteamModPageDescriptionFind))
                     {
                         // Skip one line; the complete description is on the next line
@@ -433,7 +433,7 @@ namespace CompatibilityReport.Updater
                             CatalogUpdater.RemoveStatus(catalogMod, Enums.Status.NoDescription, updatedByWebCrawler: true);
                         }
 
-                        // Try to get the source url, unless there is an exclusion.
+                        // Try to get the source URL, unless there is an exclusion.
                         if (line.Contains(ModSettings.SteamModPageSourceURLLeft) && !catalogMod.ExclusionForSourceUrl)
                         {
                             CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: GetSourceURL(line, catalogMod), updatedByWebCrawler: true);
@@ -465,7 +465,7 @@ namespace CompatibilityReport.Updater
                 return null;
             }
 
-            // Some commonly listed source url's to always ignore: pardeike's Harmony and Sschoener's detour
+            // Some commonly listed source URLs to always ignore: pardeike's Harmony and Sschoener's detour
             const string pardeike  = "https://github.com/pardeike";
             const string sschoener = "https://github.com/sschoener/cities-skylines-detour";
 
@@ -473,14 +473,14 @@ namespace CompatibilityReport.Updater
 
             int tries = 0;
 
-            // Keep comparing source url's until we find no more; max. 50 times to avoid infinite loops on code errors
+            // Keep comparing source URLs until we find no more; max. 50 times to avoid infinite loops on code errors
             while (line.IndexOf(ModSettings.SteamModPageSourceURLLeft) != line.LastIndexOf(ModSettings.SteamModPageSourceURLLeft) && tries < 50)
             {
                 tries++;
 
                 string firstLower = sourceURL.ToLower();
 
-                // Cut off the start of the line to just after the previous occurrence and find the next source url
+                // Cut off the start of the line to just after the previous occurrence and find the next source URL
                 int index = line.IndexOf(ModSettings.SteamModPageSourceURLLeft) + 1;
 
                 line = line.Substring(index);
@@ -495,12 +495,12 @@ namespace CompatibilityReport.Updater
                     continue;
                 }
 
-                // Silently discard the previous source url if it is pardeike or sschoener
+                // Silently discard the previous source URL if it is Pardeike or Schoener
                 if (firstLower.Contains(pardeike) || firstLower.Contains(sschoener))
                 {
                     sourceURL = nextSourceURL;
                 }
-                // Discard the previous url if it contains 'issue', 'wiki', 'documentation', 'readme', 'guide' or 'translation'.
+                // Discard the previous URL if it contains 'issue', 'wiki', 'documentation', 'readme', 'guide' or 'translation'.
                 else if (firstLower.Contains("issue") || firstLower.Contains("wiki") || firstLower.Contains("documentation") 
                     || firstLower.Contains("readme") || firstLower.Contains("guide") || firstLower.Contains("translation"))
                 {
@@ -508,14 +508,14 @@ namespace CompatibilityReport.Updater
 
                     sourceURL = nextSourceURL;
                 }
-                // Otherwise discard the new source url
+                // Otherwise discard the new source URL
                 else
                 {
                     discardedURLs += "\n                      Discarded: " + nextSourceURL;
                 }
             }
 
-            // Discard the selected source url if it is pardeike or sschoener. This can happen when that is the only github link in the description.
+            // Discard the selected source URL if it is Pardeike or Schoener. This can happen when that is the only GitHub link in the description.
             if (sourceURL.Contains(pardeike) || sourceURL.Contains(sschoener))
             {
                 sourceURL = null;
@@ -524,7 +524,7 @@ namespace CompatibilityReport.Updater
             // Log the selected and discarded source URLs, if the selected source URL is different from the one in the catalog
             if (!string.IsNullOrEmpty(discardedURLs) && sourceURL != catalogMod.SourceUrl)
             {
-                Logger.UpdaterLog($"Found multiple source url's for { catalogMod.ToString() }" +
+                Logger.UpdaterLog($"Found multiple source URLs for { catalogMod.ToString() }" +
                     $"\n                      Selected:  { (string.IsNullOrEmpty(sourceURL) ? "none" : sourceURL) }{ discardedURLs }");
             }
 

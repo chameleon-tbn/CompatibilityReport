@@ -262,7 +262,7 @@ namespace CompatibilityReport.Util
             }
             catch
             {
-                Logger.Log($"Failed to convert workshop datetime: { dateTimeString }.", Logger.Debug);
+                Logger.Log($"Failed to convert Steam Workshop datetime: { dateTimeString }.", Logger.Debug);
                 return default;
             }
         }

@@ -15,14 +15,14 @@ Due to the early development stage and very frequent changes to all parts of the
 * Automatic download of a new catalog; no need for a mod update for every new mod or compatibility
 * Support for mod groups,  to allow different editions (e.g. stable and test) of mods as mod requirement
 * Catalog Updater method (for mod maintainer only), based on web crawling the Steam Workshop and CSV import
-  * Detects new mods and changes in mod information (name, required dlc/mods, source url, etc.)
+  * Detects new mods and changes in mod information (name, required DLC/mods, source URL, etc.)
   * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This allows for catalog maintenance by multiple people.
   * Automatic change notes and catalog versioning
   * Manual upload of a new catalog, after quality assurance checks
 * Note: The current catalog only contains basic mod information and no reviews yet
 
 ### Roadmap towards version 1.0 (subject to change)
-* 0.4 - Code revision & cleanup
+* 0.4 - Code revision and bugfixes
 * 0.5 - Alpha release on GitHub and Steam Workshop (unlisted)
   * Catalog with mod compatibilities and dependencies for most mods
   * Steam pinned discussions for submissions by mod authors and others
