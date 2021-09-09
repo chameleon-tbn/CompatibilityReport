@@ -62,7 +62,6 @@ namespace CompatibilityReport.Updater
             if (catalog == null)
             {
                 FirstCatalog.Create();
-
                 catalog = Catalog.Load();
 
                 if (catalog == null)
@@ -74,7 +73,8 @@ namespace CompatibilityReport.Updater
             hasRun = true;
 
             Logger.UpdaterLog($"Catalog Updater started. { ModSettings.ModName } version { ModSettings.FullVersion }. " +
-                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. Current catalog version { catalog.VersionString() }.");
+                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. " +
+                $"Current catalog version { catalog.VersionString() }, created on { catalog.UpdateDate:D}, { catalog.UpdateDate:t}.");
 
             // Increase the catalog version and update date
             catalog.NewVersion(DateTime.Now);
@@ -142,7 +142,7 @@ namespace CompatibilityReport.Updater
                 }
                 else
                 {
-                    Logger.UpdaterLog("Could not save the new catalog. All updates were lost.", Logger.error);
+                    Logger.UpdaterLog("Could not save the new catalog. All updates were lost.", Logger.Error);
                 }
             }
 
@@ -300,7 +300,7 @@ namespace CompatibilityReport.Updater
             // New mod. Log an empty mod name, which might be an error, although there is a workshop mod without a name (ofcourse there is)
             if (name == "")
             {
-                Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.warning);
+                Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
             }
                 
             Mod newMod = catalog.AddMod(steamID);
@@ -559,11 +559,11 @@ namespace CompatibilityReport.Updater
                 // Log if the author name is empty or equal to the author ID. Could be an error, although some authors have their ID as name (ofcourse they do)
                 if (string.IsNullOrEmpty(authorName))
                 {
-                    Logger.UpdaterLog($"Author found without a name: { (authorID == 0 ? "Custom URL " + authorURL : "Steam ID " + authorID.ToString()) }.", Logger.error);
+                    Logger.UpdaterLog($"Author found without a name: { (authorID == 0 ? "Custom URL " + authorURL : "Steam ID " + authorID.ToString()) }.", Logger.Error);
                 }
                 else if (authorName == authorID.ToString() && authorID != 0)
                 {
-                    Logger.UpdaterLog($"Author found with Steam ID as name: { authorID }. Some authors do this, but it could also be a Steam error.", Logger.warning);
+                    Logger.UpdaterLog($"Author found with Steam ID as name: { authorID }. Some authors do this, but it could also be a Steam error.", Logger.Warning);
                 }
 
                 // Log if we have two authors with the same name, which could be an existing author we missed when a Custom URL has changed
@@ -574,7 +574,7 @@ namespace CompatibilityReport.Updater
                     string authors = (authorID == 0 ? authorURL : authorID.ToString()) + " and " + 
                         (namesakeAuthor.SteamID == 0 ? namesakeAuthor.CustomUrl : namesakeAuthor.SteamID.ToString());
 
-                    Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\": { authors }. This could be a coincidence or an error.", Logger.warning);
+                    Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\": { authors }. This could be a coincidence or an error.", Logger.Warning);
                 }
 
                 catalogAuthor = catalog.AddAuthor(authorID, authorURL, authorName);

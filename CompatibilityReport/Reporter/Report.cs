@@ -23,20 +23,18 @@ namespace CompatibilityReport.Reporter
                 }
             }
 
-            Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion }. Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. ",
+            Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion }. Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.",
                 duplicateToGameLog: true);
 
             if (PlatformService.platformType != PlatformType.Steam)
             {
-                Logger.Log("Your game has no access to the Steam Workshop, and this mod requires that. No report was generated.", 
-                    Logger.error, duplicateToGameLog: true);
-
+                Logger.Log("Your game has no access to the Steam Workshop, and this mod requires that. No report was generated.", Logger.Error, duplicateToGameLog: true);
                 return;
             }
             if (PluginManager.noWorkshop)
             {
                 Logger.Log("The game can't access the Steam Workshop because of the '--noWorkshop' launch option. No report was generated.",
-                    Logger.error, duplicateToGameLog: true);
+                    Logger.Warning, duplicateToGameLog: true);
 
                 return;
             }
@@ -46,8 +44,7 @@ namespace CompatibilityReport.Reporter
 
             if (catalog == null)
             {
-                Logger.Log("Can't load bundled catalog and can't download a new catalog. No report was generated.", Logger.error, duplicateToGameLog: true);
-
+                Logger.Log("Can't load bundled catalog and can't download a new catalog. No report was generated.", Logger.Error, duplicateToGameLog: true);
                 return;
             }
 
@@ -58,7 +55,7 @@ namespace CompatibilityReport.Reporter
             {
                 Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(catalog.GameVersion()) }. " +
                     $"You're using { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "an older" : "a newer") } version of the game. " +
-                    "Results may not be accurate.", Logger.warning, duplicateToGameLog: true);
+                    "Results may not be accurate.", Logger.Warning, duplicateToGameLog: true);
             }
 
             // Get all subscription info into the catalog

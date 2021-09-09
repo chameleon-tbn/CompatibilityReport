@@ -48,7 +48,7 @@ namespace CompatibilityReport.CatalogData
         [XmlIgnore] public int ReviewedModCount { get; private set; }
         [XmlIgnore] public int ReviewedSubscriptionCount { get; private set; }
 
-        private static bool s_downloadedThisSession;
+        private static bool downloadedThisSession;
 
 
         // Default constructor for deserialization and catalog creation.
@@ -270,7 +270,7 @@ namespace CompatibilityReport.CatalogData
                     }
                     else
                     {
-                        Logger.Log($"Skipped an unknown builtin mod: { modName }. { ModSettings.PleaseReportText }", Logger.error);
+                        Logger.Log($"Skipped an unknown builtin mod: { modName }. { ModSettings.PleaseReportText }", Logger.Warning);
                         continue;
                     }
                 }
@@ -351,7 +351,7 @@ namespace CompatibilityReport.CatalogData
             }
             catch (Exception ex)
             {
-                Logger.Log($"Failed to create catalog at \"{Toolkit.Privacy(fullPath)}\".", Logger.error);
+                Logger.Log($"Failed to create catalog at \"{Toolkit.Privacy(fullPath)}\".", Logger.Error);
                 Logger.Exception(ex);
 
                 return false;
@@ -362,13 +362,6 @@ namespace CompatibilityReport.CatalogData
         // Load a catalog from disk.
         private static Catalog LoadFromDisk(string fullPath)
         {
-            if (!File.Exists(fullPath))
-            {
-                Logger.Log($"Can't load nonexistent catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.warning);
-
-                return null;
-            }
-
             Catalog loadedCatalog = new Catalog();
 
             try
@@ -384,12 +377,12 @@ namespace CompatibilityReport.CatalogData
             {
                 if (ex.ToString().Contains("There is an error in XML document") || ex.ToString().Contains("Document element did not appear"))
                 {
-                    Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.warning);
+                    Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Error);
                     Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
                 }
                 else
                 {
-                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.warning);
+                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Error);
                     Logger.Exception(ex);
                 }
 
@@ -399,7 +392,7 @@ namespace CompatibilityReport.CatalogData
             if (loadedCatalog.Version == 0 || loadedCatalog.UpdateDate == default)
             {
                 Logger.Log($"Discarded invalid catalog \"{ Toolkit.Privacy(fullPath) }\". It has an incorrect version ({ loadedCatalog.VersionString() }) " +
-                    $"or date ({ Toolkit.DateString(loadedCatalog.UpdateDate) }).", Logger.error);
+                    $"or date ({ Toolkit.DateString(loadedCatalog.UpdateDate) }).", Logger.Error);
 
                 return null;
             }
@@ -435,18 +428,18 @@ namespace CompatibilityReport.CatalogData
         // Download a new catalog and return a reference, or null if download was not succesful. Only try a download once per session.
         private static Catalog Download()
         {
-            if (s_downloadedThisSession)
+            if (downloadedThisSession)
             {
                 return null;
             }
 
-            s_downloadedThisSession = true;
+            downloadedThisSession = true;
 
             string temporaryFile = ModSettings.DownloadedCatalogFullPath + ".part";
 
             if (!Toolkit.DeleteFile(temporaryFile))
             {
-                Logger.Log("Partially downloaded catalog still exists from a previous session and can't be deleted. This prevents a new download.", Logger.error);
+                Logger.Log("Partially downloaded catalog still exists from a previous session and can't be deleted. This prevents a new download.", Logger.Error);
                 return null;
             }
 
@@ -456,19 +449,19 @@ namespace CompatibilityReport.CatalogData
             {
                 Toolkit.DeleteFile(temporaryFile);
 
-                Logger.Log($"Can't download catalog from { ModSettings.CatalogURL }", Logger.warning);
+                Logger.Log($"Can't download new catalog from { ModSettings.CatalogURL }", Logger.Warning);
                 return null;
             }
 
             timer.Stop();
 
-            Logger.Log($"Catalog downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) } from { ModSettings.CatalogURL }");
+            Logger.Log($"Catalog downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
 
             Catalog downloadedCatalog = LoadFromDisk(temporaryFile);
 
             if (downloadedCatalog == null)
             {
-                Logger.Log("Could not load newly downloaded catalog.", Logger.error);
+                Logger.Log("Could not load newly downloaded catalog.", Logger.Error);
             }
             else
             {
@@ -494,19 +487,21 @@ namespace CompatibilityReport.CatalogData
 
             Catalog previouslyDownloadedCatalog = LoadFromDisk(ModSettings.DownloadedCatalogFullPath);
 
-            if (previouslyDownloadedCatalog != null)
+            if (previouslyDownloadedCatalog == null)
             {
-                Logger.Log($"Previously downloaded catalog is version { previouslyDownloadedCatalog.VersionString() }.");
-            }
-            // Can't be loaded; try to delete it
-            else if (Toolkit.DeleteFile(ModSettings.DownloadedCatalogFullPath))
-            {
-                Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.warning);
+                if (Toolkit.DeleteFile(ModSettings.DownloadedCatalogFullPath))
+                {
+                    Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.Warning);
+                }
+                else
+                {
+                    Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. " +
+                        "This prevents saving a newly downloaded catalog for future sessions.", Logger.Error);
+                }
             }
             else
             {
-                Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. " +
-                    "This prevents saving a newly downloaded catalog for future sessions.", Logger.error);
+                Logger.Log($"Previously downloaded catalog is version { previouslyDownloadedCatalog.VersionString() }.");
             }
 
             return previouslyDownloadedCatalog;
@@ -516,11 +511,17 @@ namespace CompatibilityReport.CatalogData
         // Load the bundled catalog and return a refence, or null if it somehow doesn't exist or can't load.
         private static Catalog LoadBundled()
         {
+            if (!File.Exists(ModSettings.DownloadedCatalogFullPath))
+            {
+                Logger.Log($"No bundled catalog found. { ModSettings.PleaseReportText }", Logger.Error, duplicateToGameLog: true);
+                return null;
+            }
+
             Catalog bundledCatalog = LoadFromDisk(ModSettings.BundledCatalogFullPath);
 
             if (bundledCatalog == null)
             {
-                Logger.Log($"Can't load bundled catalog. { ModSettings.PleaseReportText }", Logger.error, duplicateToGameLog: true);
+                Logger.Log($"Can't load bundled catalog. { ModSettings.PleaseReportText }", Logger.Error, duplicateToGameLog: true);
             }
             else
             {
@@ -561,7 +562,7 @@ namespace CompatibilityReport.CatalogData
 
             if (catalog == null)
             {
-                Logger.Log("Can't load updater catalog.", Logger.warning);
+                Logger.Log("Can't load updater catalog.", Logger.Error);
             }
             else
             {

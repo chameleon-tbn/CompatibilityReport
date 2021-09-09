@@ -56,8 +56,7 @@ namespace CompatibilityReport.Updater
 
             timer.Stop();
 
-            Logger.UpdaterLog($"Datadump created in { Toolkit.TimeString(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }, as " +
-                $"{ Toolkit.GetFileName(ModSettings.DataDumpFullPath) }.");
+            Logger.UpdaterLog($"Datadump created in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, as { Toolkit.GetFileName(ModSettings.DataDumpFullPath) }.");
         }
 
 

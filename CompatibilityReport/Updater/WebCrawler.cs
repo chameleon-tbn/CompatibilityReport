@@ -57,7 +57,7 @@ namespace CompatibilityReport.Updater
 
                     if (!Toolkit.Download(url, ModSettings.TempDownloadFullPath))
                     {
-                        Logger.UpdaterLog($"Download process interrupted due to a permanent error while downloading { url }", Logger.error);
+                        Logger.UpdaterLog($"Download process interrupted due to a permanent error while downloading { url }", Logger.Error);
 
                         // Decrease the pageNumber to the last succesful page
                         pageNumber--;
@@ -127,7 +127,7 @@ namespace CompatibilityReport.Updater
                     if (steamID == 0) 
                     {
                         // Steam ID was not recognized. This should not happen. Continue with the next line.
-                        Logger.UpdaterLog("Steam ID not recognized on HTML line: " + line, Logger.error);
+                        Logger.UpdaterLog("Steam ID not recognized on HTML line: " + line, Logger.Error);
 
                         continue;
                     }
@@ -208,16 +208,16 @@ namespace CompatibilityReport.Updater
                     if (failedDownloads <= ModSettings.SteamMaxFailedPages)
                     {
                         // Download error might be mod specific. Go to the next mod.
-                        Logger.UpdaterLog("Permanent error while downloading Steam Workshop page for " + 
-                            $"{ catalogMod.ToString() }. Will continue with next mod.", Logger.error);
+                        Logger.UpdaterLog("Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Will continue with next mod.", 
+                            Logger.Error);
 
                         continue;
                     }
                     else
                     {
                         // Too many failed downloads. Stop downloading
-                        Logger.UpdaterLog("Permanent error while downloading Steam Workshop page for " + 
-                            $"{ catalogMod.ToString() }. Download process stopped.", Logger.error);
+                        Logger.UpdaterLog("Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Download process stopped.", 
+                            Logger.Error);
 
                         break;
                     }
@@ -276,7 +276,7 @@ namespace CompatibilityReport.Updater
                             if (catalogMod.UpdatedThisSession)
                             {
                                 // We found the mod in the mod listing, but not now. Must be a Steam error.
-                                Logger.UpdaterLog($"We found this, but can't read the Steam page for { catalogMod.ToString() }. Mod info not updated.", Logger.warning);
+                                Logger.UpdaterLog($"We found this mod, but can't read the Steam page for { catalogMod.ToString() }. Mod info not updated.", Logger.Error);
 
                                 // Return false to trigger a retry on the download
                                 return false;
@@ -448,7 +448,7 @@ namespace CompatibilityReport.Updater
             if (!steamIDmatched && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
                 // We didn't find a Steam ID on the page, but no error page either. Must be a download issue or other Steam error.
-                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }. Mod info not updated.", Logger.error);
+                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }. Mod info not updated.", Logger.Error);
             }
 
             return true;

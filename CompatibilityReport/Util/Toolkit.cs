@@ -31,7 +31,7 @@ namespace CompatibilityReport.Util
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log($"Could not delete file \"{ Privacy(fullPath) }\". { ShortException(ex) }", Logger.warning);
+                    Logger.Log($"Could not delete file \"{ Privacy(fullPath) }\". { ShortException(ex) }", Logger.Debug);
                     return false;
                 }
             }
@@ -50,7 +50,7 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not move file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.error);
+                Logger.Log($"Could not move file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.Debug);
                 return false;
             }
         }
@@ -66,7 +66,7 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not copy file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.error);
+                Logger.Log($"Could not copy file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.Debug);
                 return false;
             }
         }
@@ -92,7 +92,7 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not save to file \"{ Privacy(fileFullPath) }\". { ShortException(ex) }", Logger.error);
+                Logger.Log($"Could not save to file \"{ Privacy(fileFullPath) }\". { ShortException(ex) }", Logger.Debug);
                 return false;
             }
         }
@@ -159,7 +159,7 @@ namespace CompatibilityReport.Util
                     if (ex.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
                     {
                         // TLS 1.2+ is not supported by .Net Framework 3.5.
-                        Logger.Log($"Download failed because the webserver only supports TLS 1.2 or higher: { url }", Logger.debug);
+                        Logger.Log($"Download failed because the webserver only supports TLS 1.2 or higher: { url }", Logger.Debug);
                         break;
                     }
 
@@ -167,7 +167,7 @@ namespace CompatibilityReport.Util
 
                     Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
                         (failedAttempts <= ModSettings.DownloadRetries ? ", will retry. " : ". Download abandoned. ") + 
-                        (ex.Message.Contains("(502) Bad Gateway") ? "Exception: 502 Bad Gateway" : $"{ ShortException(ex) }"), Logger.warning);
+                        (ex.Message.Contains("(502) Bad Gateway") ? "Exception: 502 Bad Gateway" : $"{ ShortException(ex) }"), Logger.Debug);
                 }
             }
 
@@ -212,7 +212,7 @@ namespace CompatibilityReport.Util
             {
                 if (plugin == null)
                 {
-                    Logger.Log("GetPluginName: plugin is null.", Logger.debug);
+                    Logger.Log("GetPluginName: plugin is null.", Logger.Debug);
                 }
                 else if (plugin.userModInstance != null)
                 {
@@ -220,7 +220,7 @@ namespace CompatibilityReport.Util
                 }
                 else if (string.IsNullOrEmpty(plugin.name))
                 {
-                    Logger.Log("Can't retrieve plugin name. Both userModInstance and plugin.name are null/empty.", Logger.warning);
+                    Logger.Log("Can't retrieve plugin name. Both userModInstance and plugin.name are null/empty.", Logger.Debug);
                 }
                 else
                 {
@@ -229,8 +229,8 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log("Can't retrieve plugin name.", Logger.warning);
-                Logger.Exception(ex, hideFromGameLog: true);
+                Logger.Log("Can't retrieve plugin name.", Logger.Debug);
+                Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
 
                 name = "";
             }
@@ -262,7 +262,7 @@ namespace CompatibilityReport.Util
             }
             catch
             {
-                Logger.Log($"Failed to convert workshop datetime: { dateTimeString }.", Logger.warning);
+                Logger.Log($"Failed to convert workshop datetime: { dateTimeString }.", Logger.Debug);
                 return default;
             }
         }

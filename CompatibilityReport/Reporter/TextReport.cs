@@ -129,7 +129,7 @@ namespace CompatibilityReport.Reporter
             else
             {
                 // Todo 0.7 Try to save to default location if saving fails
-                Logger.Log("Text report could not be created.", Logger.error, duplicateToGameLog: true);
+                Logger.Log("Text report could not be created.", Logger.Error, duplicateToGameLog: true);
             }
 
             return reportCreated;
@@ -252,10 +252,9 @@ namespace CompatibilityReport.Reporter
             {
                 if (cutOff)
                 {
-                    // Cut off the message, so the 'bulleted' message stays within maximum width
                     message = message.Substring(0, ModSettings.TextReportWidth - bullet.Length - 3) + "...";
 
-                    Logger.Log("Report line too long: " + message, Logger.debug);
+                    Logger.Log("Report line too long: " + message, Logger.Debug);
                 }
                 else
                 {
@@ -411,7 +410,7 @@ namespace CompatibilityReport.Reporter
                     // Mod not found in the catalog, which should not happen unless manually editing the catalog
                     text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.Bullet2, cutOff: true);
 
-                    Logger.Log($"Successor mod { id } not found in catalog.", Logger.warning);
+                    Logger.Log($"Successor mod { id } not found in catalog.", Logger.Warning);
                 }
             }
 
@@ -443,7 +442,7 @@ namespace CompatibilityReport.Reporter
                     // Mod not found in the catalog, which should not happen unless manually editing the catalog
                     text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.Bullet2, cutOff: true);
 
-                    Logger.Log($"Alternative mod { id } not found in catalog.", Logger.warning);
+                    Logger.Log($"Alternative mod { id } not found in catalog.", Logger.Warning);
                 }
             }
 
@@ -527,7 +526,7 @@ namespace CompatibilityReport.Reporter
                             // Mod not found in the catalog, which should not happen unless manually editing the catalog
                             text += ReviewLine($"[Steam ID { id,10 }] { subscribedMod.Name }", ModSettings.Bullet2, cutOff: true);
 
-                            Logger.Log($"Required mod { id } not found in catalog.", Logger.warning);
+                            Logger.Log($"Required mod { id } not found in catalog.", Logger.Warning);
                         }
 
                         // List the workshop page for easy subscribing
@@ -544,7 +543,7 @@ namespace CompatibilityReport.Reporter
                         // Group not found in catalog, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", ModSettings.Bullet2);
 
-                        Logger.Log($"Group { id } not found in catalog.", Logger.error);
+                        Logger.Log($"Group { id } not found in catalog.", Logger.Warning);
 
                         continue;   // To the next required mod
                     }
@@ -553,7 +552,7 @@ namespace CompatibilityReport.Reporter
                         // Group contains no Steam IDs, which should not happen unless manually editing the catalog
                         text += ReviewLine("one of the following mods: <missing information in catalog>", ModSettings.Bullet2);
 
-                        Logger.Log($"Group { id } is empty in catalog.", Logger.error);
+                        Logger.Log($"Group { id } is empty in catalog.", Logger.Warning);
 
                         continue;   // To the next required mod
                     }
@@ -601,7 +600,7 @@ namespace CompatibilityReport.Reporter
                                 // Mod not found in the catalog
                                 missingModsText += ReviewLine($"[Steam ID { modID,10 }] { subscribedMod.Name }", ModSettings.Bullet3, cutOff: true);
 
-                                Logger.Log($"Mod { modID } from group { id } not found in catalog.", Logger.warning);
+                                Logger.Log($"Mod { modID } from group { id } not found in catalog.", Logger.Warning);
                             }
                         }
                     }

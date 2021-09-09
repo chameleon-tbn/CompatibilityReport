@@ -55,9 +55,9 @@ namespace CompatibilityReport.Updater
             else
             {
                 Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, " +
-                    $"with { errorCounter } errors.", Logger.warning);
+                    $"with { errorCounter } errors.", Logger.Warning);
 
-                Logger.Log($"Updater processed { CSVfilenames.Count } CSV files and encountered { errorCounter } errors. See separate log for details.", Logger.warning);
+                Logger.Log($"Updater processed { CSVfilenames.Count } CSV files and encountered { errorCounter } errors. See separate log for details.", Logger.Warning);
             }
         }
 
@@ -94,7 +94,7 @@ namespace CompatibilityReport.Updater
                     }
                     else
                     {
-                        Logger.UpdaterLog(errorMessage + $" Line #{ lineNumber }: " + line, Logger.error);
+                        Logger.UpdaterLog(errorMessage + $" Line #{ lineNumber }: " + line, Logger.Error);
 
                         // Add the failed line with a comment to the combined CSV
                         CatalogUpdater.CSVCombined.AppendLine("# [ERROR] " + line);
@@ -108,7 +108,7 @@ namespace CompatibilityReport.Updater
 
             if (ModSettings.DebugMode)
             {
-                Logger.UpdaterLog($"\"{ filename }\" not renamed because of debug mode. Rename or delete it manually to avoid processing it again.", Logger.warning);
+                Logger.UpdaterLog($"\"{ filename }\" not renamed because of debug mode. Rename or delete it manually to avoid processing it again.", Logger.Warning);
             }
             else
             {
@@ -116,7 +116,7 @@ namespace CompatibilityReport.Updater
 
                 if (!Toolkit.MoveFile(CSVfileFullPath, newFileName))
                 {
-                    Logger.UpdaterLog($"Could not rename \"{ filename }\". Rename or delete it manually to avoid processing it again.", Logger.error);
+                    Logger.UpdaterLog($"Could not rename \"{ filename }\". Rename or delete it manually to avoid processing it again.", Logger.Error);
                 }
             }
 

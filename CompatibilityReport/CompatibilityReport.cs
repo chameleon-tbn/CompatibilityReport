@@ -36,7 +36,7 @@ namespace CompatibilityReport
             string scene = SceneManager.GetActiveScene().name;
 
             // Debug message
-            Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.debug);
+            Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.Debug);
 
             // Start the updater; will only run if the updater is enabled, and only on the first call
             // Todo 0.8 Move to standalone tool
