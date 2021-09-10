@@ -3,25 +3,25 @@ using ColossalFramework.Plugins;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
-
 namespace CompatibilityReport.Reporter
 {
-    internal static class Report
+    public static class Report
     {
-        private static bool reportCreated;
+        private static bool hasRun;
 
 
-        // Start the reporter
-        internal static void Create(string scene)
+        // Start the reporter.
+        public static void Create(string scene)
         {
-            // If not an on-demand report, check if report wasn't already created and if we're in the right 'scene': IntroScreen or Game, depening on user setting
             if (scene != "On-demand")
             {
-                if (reportCreated || (ModSettings.ScanBeforeMainMenu && scene != "IntroScreen") || (!ModSettings.ScanBeforeMainMenu && scene != "Game"))
+                if (hasRun || (ModSettings.ScanBeforeMainMenu && scene != "IntroScreen") || (!ModSettings.ScanBeforeMainMenu && scene != "Game"))
                 {
                     return;
                 }
             }
+
+            hasRun = true;
 
             Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion }. Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.",
                 duplicateToGameLog: true);
@@ -39,7 +39,6 @@ namespace CompatibilityReport.Reporter
                 return;
             }
 
-            // Load the catalog
             Catalog catalog = Catalog.Load();
 
             if (catalog == null)
@@ -55,27 +54,25 @@ namespace CompatibilityReport.Reporter
             {
                 Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(catalog.GameVersion()) }. " +
                     $"You're using { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "an older" : "a newer") } version of the game. " +
-                    "Results may not be accurate.", Logger.Warning, duplicateToGameLog: true);
+                    "Results may not be accurate.", Logger.Warning);
             }
 
-            // Get all subscription info into the catalog
             catalog.GetSubscriptions();
 
             Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionIDIndex.Count } mods.");
 
-            // Create the HTML report if selected in settings
             if (ModSettings.HtmlReport)
             {
-                reportCreated = HtmlReport.Create(catalog);
+                // Todo 1.1 Create HTML report
             }
 
-            // Create the text report if selected in settings, or if somehow no report was selected in options
+            // Always create the text report if the HTML report is disabled, so at least one report is created.
             if (ModSettings.TextReport || !ModSettings.HtmlReport)
             {
-                reportCreated = reportCreated || TextReport.Create(catalog);
+                TextReport.Create(catalog);
             }
 
-            Logger.Log("Mod has shutdown.", duplicateToGameLog: true);
+            Logger.Log("Mod has finished.", duplicateToGameLog: true);
         }
     }
 }

@@ -67,7 +67,6 @@
     <Compile Include="CatalogData\Compatibility.cs" />
     <Compile Include="CatalogData\Group.cs" />
     <Compile Include="CatalogData\Mod.cs" />
-    <Compile Include="Reporter\HtmlReport.cs" />
     <Compile Include="Reporter\Report.cs" />
     <Compile Include="Reporter\TextReport.cs" />
     <Compile Include="Updater\WebCrawler.cs" />

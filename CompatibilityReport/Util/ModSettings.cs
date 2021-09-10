@@ -13,10 +13,10 @@ namespace CompatibilityReport.Util
 
         public const string ModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
         public const string ModAuthor = "Finwickle";
-        public const ulong OurOwnSteamID = 101;     // Todo 0.5 Our own Steam ID
+        public const ulong OurOwnSteamID = LowestLocalModID;    // Todo 0.5 Our own Steam ID
 
         public const string Version = "0.4.0";
-        public const string Build = "231";
+        public const string Build = "232";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -51,8 +51,12 @@ namespace CompatibilityReport.Util
 
         public const string ReportTextFileName = ModName + ".txt";
         public const string ReportHtmlFileName = ModName + ".html";
+        public static string DefaultTextReportFullPath { get; } = Path.Combine(ReportPath, ReportTextFileName);
+        public static string DefaultHtmlReportFullPath { get; } = Path.Combine(ReportPath, ReportTextFileName);
 
+        public static string SettingsFileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Settings.xml");
         public static string LogfileFullPath { get; } = Path.Combine(Application.dataPath, $"{ InternalName }.log");
+        
         public static string BundledCatalogFullPath
         { 
             get {
@@ -75,6 +79,8 @@ namespace CompatibilityReport.Util
 
 
         // Report and log properties.
+        public const string ReportName = ModName;
+
         public const int MinimalTextReportWidth = 90;
 
         public const string Bullet1 = " - ";
@@ -114,18 +120,18 @@ namespace CompatibilityReport.Util
 
         // Todo 0.7 Defaults for settings that will be available to users through mod options within the game.
         public static string ReportPath { get; private set; } = DataLocation.applicationBase;
-        public static string ReportTextFullPath { get; private set; } = Path.Combine(ReportPath, ReportTextFileName);
-        public static string ReportHtmlFullPath { get; private set; } = Path.Combine(ReportPath, ReportHtmlFileName);
+        public static string TextReportFullPath { get; private set; } = DefaultTextReportFullPath;
+        public static string HtmlReportFullPath { get; private set; } = DefaultHtmlReportFullPath;
         public static int TextReportWidth { get; private set; } = MinimalTextReportWidth;
         public static bool ReportSortByName { get; private set; } = true;
-        public static bool HtmlReport { get; private set; } = false;        // Todo 1.1 Set HtmlReport to true.
-        public static bool TextReport { get; private set; } = true || !HtmlReport;
+        public static bool HtmlReport { get; private set; } = false;
+        public static bool TextReport { get; private set; } = true;
         public static bool AllowOnDemandScanning { get; private set; } = false;
 
         // Calculated from above settings.
         public static string Separator { get; private set; } = new string('-', TextReportWidth);
         public static string SeparatorDouble { get; private set; } = new string('=', TextReportWidth);
-        public static string SessionSeparator { get; private set; } = "\n\n" + SeparatorDouble + "\n\n";
+        public static string SessionSeparator { get; private set; } = $"\n\n{ SeparatorDouble }\n\n";
 
 
 
@@ -139,6 +145,7 @@ namespace CompatibilityReport.Util
 
         // Updater properties.
         public static string UpdaterPath { get; } = Path.Combine(DataLocation.localApplicationData, $"{ InternalName }Updater");
+        public static bool UpdaterAvailable { get; } = Directory.Exists(UpdaterPath);
         public static string UpdaterSettingsFileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_UpdaterSettings.xml");
         public static string UpdaterLogfileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Updater.log");
         public static string DataDumpFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_DataDump.txt");
@@ -193,8 +200,8 @@ namespace CompatibilityReport.Util
 
 
         // Todo 0.7 Defaults for updater settings that will be available in an updater settings xml file.
-        public static bool UpdaterEnabled { get; private set; } = File.Exists(UpdaterSettingsFileFullPath);
-        public static bool WebCrawlerEnabled { get; private set; } = UpdaterEnabled && !File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.disabled"));
+        public static bool UpdaterEnabled { get; private set; } = true;
+        public static bool WebCrawlerEnabled { get; private set; } = !File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.disabled"));
         public static int SteamMaxFailedPages { get; private set; } = 4;
     }
 }

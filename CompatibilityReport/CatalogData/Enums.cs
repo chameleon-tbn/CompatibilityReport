@@ -3,21 +3,20 @@
     public static class Enums
     {
         // Todo 0.5 Change URL to this in Updater Guide
-
-        // The stability of a mod.
+        // The stability of a mod. Order matters because it is used in Reporter checks.
         public enum Stability
         {
             Undefined,                          // Unused.
             NotReviewed,                        // Mod is not reviewed yet, stability is unknown. Assigned by default.
             NotEnoughInformation,               // Stability unknown, because we don't have enough information yet to determine it.
-            IncompatibleAccordingToWorkshop,    // The status the Steam Workshop uses for seriously broken mods. These are incompatible with the game itself.
-            RequiresIncompatibleMod,            // The mod requires a mod that is incompatible according to the Steam Workshop, and is thus incompatible itself.
-            GameBreaking,                       // Broken and also crashes or otherwise disrupts the game.
-            Broken,                             // Broken, as in doesn't really function.
-            MajorIssues,                        // Will function, at least partially, but with some serious issues.
-            MinorIssues,                        // Will function but might give minor issues.
+            Stable,                             // This mod will function.
             UsersReportIssues,                  // Stability uncertain, but various users report issues, while others may say it still works fine for them.
-            Stable                              // This mod will function.
+            MinorIssues,                        // Will function but might give minor issues.
+            MajorIssues,                        // Will function, at least partially, but with some serious issues.
+            Broken,                             // Broken, as in doesn't really function.
+            GameBreaking,                       // Broken and also crashes or otherwise disrupts the game.
+            RequiresIncompatibleMod,            // The mod requires a mod that is incompatible according to the Steam Workshop, and is thus incompatible itself.
+            IncompatibleAccordingToWorkshop     // The status the Steam Workshop uses for seriously broken mods. These are incompatible with the game itself.
         }
 
 

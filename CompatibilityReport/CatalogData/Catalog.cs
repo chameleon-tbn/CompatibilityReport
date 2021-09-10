@@ -102,7 +102,7 @@ namespace CompatibilityReport.CatalogData
                 {
                     ModIndex.Add(mod.SteamID, mod);
 
-                    if (mod.ReviewDate != default)
+                    if (mod.ReviewDate != default || mod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
                     {
                         ReviewedModCount++;
                     }
@@ -161,6 +161,20 @@ namespace CompatibilityReport.CatalogData
             ModIndex.Add(steamID, newMod);
 
             return newMod;
+        }
+
+
+        // Remove a mod.
+        public bool RemoveMod(Mod mod)
+        {
+            bool removed = false;
+
+            if (Mods.Remove(mod))
+            {
+                removed = ModIndex.Remove(mod.SteamID);
+            }
+
+            return removed;
         }
 
 
@@ -309,8 +323,9 @@ namespace CompatibilityReport.CatalogData
 
                 if (SubscriptionNameIndex.ContainsKey(subscribedMod.Name))
                 {
-                    // Identical name found earlier for another mod; add the Steam ID to the list of Steam IDs for this name.
+                    // Identical name found earlier for another mod. Add the Steam ID to the list of Steam IDs for this name and sort the list.
                     SubscriptionNameIndex[subscribedMod.Name].Add(subscribedMod.SteamID);
+                    SubscriptionNameIndex[subscribedMod.Name].Sort();
                 }
                 else
                 {
@@ -320,6 +335,8 @@ namespace CompatibilityReport.CatalogData
                 // Add an empty entry to the compatibilities index for this mod, to make sure every subscription has an empty list in that index instead of null.
                 SubscriptionCompatibilityIndex.Add(subscribedMod.SteamID, new List<Compatibility>());
             }
+
+            SubscriptionIDIndex.Sort();
 
             // Find all compatibilities with two subscribed mods.
             foreach (Compatibility catalogCompatibility in Compatibilities)
@@ -535,7 +552,7 @@ namespace CompatibilityReport.CatalogData
         // Load updater catalog, if the updater is enabled and an updater catalog can be found. The last one in an alphabetically sorted list will be loaded.
         private static Catalog LoadUpdaterCatalog()
         {
-            if (!ModSettings.UpdaterEnabled)
+            if (!ModSettings.UpdaterAvailable)
             {
                 return null;
             }
