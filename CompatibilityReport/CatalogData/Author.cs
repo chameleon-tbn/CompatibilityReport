@@ -15,10 +15,8 @@ namespace CompatibilityReport.CatalogData
 
         public string Name { get; private set; }
 
-        // The last seen date is automatically determined from the most recent mod update, but can be overruled through the FileImporter. 
+        // Last seen is set to the most recent mod update and retirement is calculated from LastSeen. Both can be overruled through the FileImporter.
         public DateTime LastSeen { get; private set; }
-
-        // Author retirement is automatically determined from the last seen date, but can be overruled through the FileImporter.
         public bool Retired { get; private set; }
 
         // This exclusion is set by the FileImporter, to prevent a retirement state from being reset by the WebCrawler.
@@ -42,7 +40,7 @@ namespace CompatibilityReport.CatalogData
         public Author(ulong steamID, string customUrl, string name)
         {
             SteamID = steamID;
-            CustomUrl = customUrl;
+            CustomUrl = customUrl ?? "";
             Name = name;
 
             AddedThisSession = true;

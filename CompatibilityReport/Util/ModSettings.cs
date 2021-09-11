@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = LowestLocalModID;    // Todo 0.5 Our own Steam ID
 
         public const string Version = "0.4.0";
-        public const string Build = "232";
+        public const string Build = "233";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -161,42 +161,42 @@ namespace CompatibilityReport.Util
         public const int SteamMaxModListingPages = 200;
 
         // Search strings for mod and author info in the mod listing files.
-        public const string SteamModListingModFind = "<div class=\"workshopItemTitle ellipsis\">";
-        public const string SteamModListingModIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
-        public const string SteamModListingModIDRight = "&searchtext";
-        public const string SteamModListingModNameLeft = "workshopItemTitle ellipsis\">";
-        public const string SteamModListingModNameRight = "</div>";
-        public const string SteamModListingAuthorURLLeft = "steamcommunity.com/id/";
-        public const string SteamModListingAuthorIDLeft = "steamcommunity.com/profiles/";
-        public const string SteamModListingAuthorRight = "/myworkshopfiles";
-        public const string SteamModListingAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
-        public const string SteamModListingAuthorNameRight = "</a>";
+        public const string SearchModStart = "<div class=\"workshopItemTitle ellipsis\">";
+        public const string SearchSteamIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
+        public const string SearchSteamIDRight = "&searchtext";
+        public const string SearchListingModNameLeft = "workshopItemTitle ellipsis\">";
+        public const string SearchListingModNameRight = "</div>";
+        // public const string SearchAuthorURLLeft = "steamcommunity.com/id/";
+        // public const string SearchAuthorIDLeft = "steamcommunity.com/profiles/";
+        // public const string SearchListingAuthorRight = "/myworkshopfiles";
+        // public const string SearchAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
+        // public const string SearchAuthorNameRight = "</a>";
 
         // Search strings for individual mod pages.
-        public const string SteamModPageItemNotFound = "There was a problem accessing the item. Please try again.";
-        public const string SteamModPageSteamID = "var publishedfileid = '";                                                    // Followed by the Steam ID.
-        public const string SteamModPageAuthorFind = "&gt;&nbsp;<a href=\"https://steamcommunity.com/";                         // Followed by 'id' or 'profiles'.
-        public const string SteamModPageAuthorMid = "/myworkshopfiles/?appid=255710\">";                                        // Sits between ID/URL and name.
-        public const string SteamModPageAuthorRight = "'s Workshop</a>";
-        public const string SteamModPageNameLeft = "<div class=\"workshopItemTitle\">";
-        public const string SteamModPageNameRight = "</div>";
-        public const string SteamModPageVersionTagFind = "<span class=\"workshopTagsTitle\">Tags:";                             // Can appear multiple times.
-        public const string SteamModPageVersionTagLeft = "-compatible\">";
-        public const string SteamModPageVersionTagRight = "-compatible";
-        public const string SteamModPageDatesFind = "<div class=\"detailsStatsContainerRight\">";
-        public const string SteamModPageDatesLeft = "detailsStatRight\">";                                                      // Two/three lines below 'Find'.
-        public const string SteamModPageDatesRight = "</div>";
-        public const string SteamModPageRequiredDLCFind = "<div class=\"requiredDLCItem\">";                                    // Can appear multiple times.
-        public const string SteamModPageRequiredDLCLeft = "https://store.steampowered.com/app/";                                // One line below 'Find' text.
-        public const string SteamModPageRequiredDLCRight = "\">";
-        public const string SteamModPageRequiredModFind = "<div class=\"requiredItemsContainer\" id=\"RequiredItems\">";        // Can appear multiple times.
-        public const string SteamModPageRequiredModLeft = "https://steamcommunity.com/workshop/filedetails/?id=";               // One line below 'Find' text.
-        public const string SteamModPageRequiredModRight = "\" ";
-        public const string SteamModPageDescriptionFind = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
-        public const string SteamModPageDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";                 // One line below 'Find' text.
-        public const string SteamModPageDescriptionRight = "</div>";
-        public const string SteamModPageSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";       // Only GitHub is recognized.
-        public const string SteamModPageSourceURLRight = "\" ";
+        public const string SearchItemNotFound = "There was a problem accessing the item. Please try again.";
+        public const string SearchSteamID = "var publishedfileid = '";                                                  // Followed by the Steam ID.
+        public const string SearchAuthorLeft = "&gt;&nbsp;<a href=\"https://steamcommunity.com/";                       // Followed by 'id' or 'profiles'.
+        public const string SearchAuthorMid = "/myworkshopfiles/?appid=255710\">";                                      // Sits between ID/URL and name.
+        public const string SearchAuthorRight = "'s Workshop</a>";
+        public const string SearchModNameLeft = "<div class=\"workshopItemTitle\">";
+        public const string SearchModNameRight = "</div>";
+        public const string SearchVersionTag = "<span class=\"workshopTagsTitle\">Tags:";                               // Can appear multiple times.
+        public const string SearchVersionTagLeft = "-compatible\">";
+        public const string SearchVersionTagRight = "-compatible";
+        public const string SearchDates = "<div class=\"detailsStatsContainerRight\">";
+        public const string SearchDatesLeft = "detailsStatRight\">";                                                    // Two/three lines below 'Find'.
+        public const string SearchDatesRight = "</div>";
+        public const string SearchRequiredDLC = "<div class=\"requiredDLCItem\">";                                      // Can appear multiple times.
+        public const string SearchRequiredDLCLeft = "https://store.steampowered.com/app/";                              // One line below 'Find' text.
+        public const string SearchRequiredDLCRight = "\">";
+        public const string SearchRequiredMod = "<div class=\"requiredItemsContainer\" id=\"RequiredItems\">";          // Can appear multiple times.
+        public const string SearchRequiredModLeft = "https://steamcommunity.com/workshop/filedetails/?id=";             // One line below 'Find' text.
+        public const string SearchRequiredModRight = "\" ";
+        public const string SearchDescription = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
+        public const string SearchDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";               // One line below 'Find' text.
+        public const string SearchDescriptionRight = "</div>";
+        public const string SearchSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";     // Only GitHub is recognized.
+        public const string SearchSourceURLRight = "\" ";
 
 
         // Todo 0.7 Defaults for updater settings that will be available in an updater settings xml file.
