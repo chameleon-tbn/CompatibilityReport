@@ -37,10 +37,11 @@ namespace CompatibilityReport.CatalogData
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
 
         // Dictionaries for faster lookup.
-        [XmlIgnore] public Dictionary<ulong, Mod> ModIndex { get; private set; } = new Dictionary<ulong, Mod>();
-        [XmlIgnore] public Dictionary<ulong, Group> GroupIndex { get; private set; } = new Dictionary<ulong, Group>();
-        [XmlIgnore] public Dictionary<ulong, Author> AuthorIDIndex { get; private set; } = new Dictionary<ulong, Author>();
-        [XmlIgnore] public Dictionary<string, Author> AuthorUrlIndex { get; private set; } = new Dictionary<string, Author>();
+        private readonly Dictionary<ulong, Mod> modIndex = new Dictionary<ulong, Mod>();
+        private readonly Dictionary<ulong, Group> groupIndex = new Dictionary<ulong, Group>();
+        private readonly Dictionary<ulong, Author> authorIDIndex = new Dictionary<ulong, Author>();
+        private readonly Dictionary<string, Author> AuthorUrlIndex = new Dictionary<string, Author>();
+        // Todo 0.4 Make subscription indexes private
         [XmlIgnore] public List<ulong> SubscriptionIDIndex { get; private set; } = new List<ulong>();
         [XmlIgnore] public Dictionary<string, List<ulong>> SubscriptionNameIndex { get; private set; } = new Dictionary<string, List<ulong>>();
         [XmlIgnore] public Dictionary<ulong, List<Compatibility>> SubscriptionCompatibilityIndex { get; private set; } = new Dictionary<ulong, List<Compatibility>>();
@@ -98,9 +99,9 @@ namespace CompatibilityReport.CatalogData
         {
             foreach (Mod mod in Mods)
             {
-                if (!ModIndex.ContainsKey(mod.SteamID))
+                if (!modIndex.ContainsKey(mod.SteamID))
                 {
-                    ModIndex.Add(mod.SteamID, mod);
+                    modIndex.Add(mod.SteamID, mod);
 
                     if (mod.ReviewDate != default || mod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
                     {
@@ -111,17 +112,17 @@ namespace CompatibilityReport.CatalogData
 
             foreach (Group group in Groups)
             {
-                if (!GroupIndex.ContainsKey(group.GroupID))
+                if (!groupIndex.ContainsKey(group.GroupID))
                 {
-                    GroupIndex.Add(group.GroupID, group);
+                    groupIndex.Add(group.GroupID, group);
                 }
             }
 
             foreach (Author author in Authors)
             {
-                if (author.SteamID != 0 && !AuthorIDIndex.ContainsKey(author.SteamID))
+                if (author.SteamID != 0 && !authorIDIndex.ContainsKey(author.SteamID))
                 {
-                    AuthorIDIndex.Add(author.SteamID, author);
+                    authorIDIndex.Add(author.SteamID, author);
                 }
 
                 if (!string.IsNullOrEmpty(author.CustomUrl) && !AuthorUrlIndex.ContainsKey(author.CustomUrl))
@@ -139,7 +140,7 @@ namespace CompatibilityReport.CatalogData
                 (allowBuiltin && ModSettings.BuiltinMods.ContainsValue(steamID)) || 
                 (allowGroup && steamID >= ModSettings.LowestGroupID && steamID <= ModSettings.HighestGroupID);
 
-            bool exists = ModIndex.ContainsKey(steamID) || GroupIndex.ContainsKey(steamID);
+            bool exists = modIndex.ContainsKey(steamID) || groupIndex.ContainsKey(steamID);
 
             return valid && (shouldExist ? exists : !exists);
         }
@@ -148,7 +149,7 @@ namespace CompatibilityReport.CatalogData
         // Get a reference to an existing mod, or null if the mod doesn't exist.
         public Mod GetMod(ulong steamID)
         {
-            return ModIndex.ContainsKey(steamID) ? ModIndex[steamID] : null;
+            return modIndex.ContainsKey(steamID) ? modIndex[steamID] : null;
         }
 
 
@@ -158,7 +159,7 @@ namespace CompatibilityReport.CatalogData
             Mod newMod = new Mod(steamID);
 
             Mods.Add(newMod);
-            ModIndex.Add(steamID, newMod);
+            modIndex.Add(steamID, newMod);
 
             return newMod;
         }
@@ -167,36 +168,35 @@ namespace CompatibilityReport.CatalogData
         // Remove a mod.
         public bool RemoveMod(Mod mod)
         {
-            bool removed = false;
-
-            if (Mods.Remove(mod))
-            {
-                removed = ModIndex.Remove(mod.SteamID);
-            }
-
-            return removed;
+            return Mods.Remove(mod) && modIndex.Remove(mod.SteamID);
         }
 
 
         // Add a compatibility.
-        public void AddCompatibility(ulong firstModID, string firstModname, ulong secondModID, string secondModName, 
-            Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
+        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
         {
-            Compatibilities.Add(new Compatibility(firstModID, firstModname, secondModID, secondModName, compatibilityStatus, compatibilityNote));
+            Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, compatibilityStatus, compatibilityNote));
         }
 
 
         // Check if a mod is a group member.
         public bool IsGroupMember(ulong steamID)
         {
-            return GetGroup(steamID) != default;
+            return GetThisModsGroup(steamID) != default;
         }
 
 
         // Return a reference to the group this mod is a member of, or null if not a group member.
-        public Group GetGroup(ulong steamID)
+        public Group GetThisModsGroup(ulong steamID)
         {
             return Groups.FirstOrDefault(x => x.GroupMembers.Contains(steamID));
+        }
+
+
+        // Get a reference to an existing group, or null if the group doesn't exist.
+        public Group GetGroup(ulong groupID)
+        {
+            return groupIndex.ContainsKey(groupID) ? groupIndex[groupID] : null;
         }
 
 
@@ -204,21 +204,28 @@ namespace CompatibilityReport.CatalogData
         public Group AddGroup(string groupName)
         {
             // Get a new group ID, either one more than the highest current group ID or the default lowest ID if we have no groups yet
-            ulong newGroupID = GroupIndex.Any() ? GroupIndex.Keys.Max() + 1 : ModSettings.LowestGroupID;
+            ulong newGroupID = groupIndex.Any() ? groupIndex.Keys.Max() + 1 : ModSettings.LowestGroupID;
 
             Group newGroup = new Group(newGroupID, groupName);
 
             Groups.Add(newGroup);
-            GroupIndex.Add(newGroup.GroupID, newGroup);
+            groupIndex.Add(newGroup.GroupID, newGroup);
 
             return newGroup;
+        }
+
+
+        // Remove a group.
+        public bool RemoveGroup(Group group)
+        {
+            return Groups.Remove(group) && groupIndex.Remove(group.GroupID);
         }
 
 
         // Return a reference to an existing author, or null if the author doesn't exist.
         public Author GetAuthor(ulong authorID, string authorUrl)
         {
-            return AuthorIDIndex.ContainsKey(authorID) ? AuthorIDIndex[authorID] : AuthorUrlIndex.ContainsKey(authorUrl ?? "") ? AuthorUrlIndex[authorUrl] : null;
+            return authorIDIndex.ContainsKey(authorID) ? authorIDIndex[authorID] : AuthorUrlIndex.ContainsKey(authorUrl ?? "") ? AuthorUrlIndex[authorUrl] : null;
         }
 
 
@@ -231,7 +238,7 @@ namespace CompatibilityReport.CatalogData
 
             if (authorID != 0)
             {
-                AuthorIDIndex.Add(authorID, author);
+                authorIDIndex.Add(authorID, author);
             }
 
             if (!string.IsNullOrEmpty(authorUrl))
@@ -297,7 +304,7 @@ namespace CompatibilityReport.CatalogData
                     foundInCatalog = true;
                 }
 
-                foundInCatalog = foundInCatalog || ModIndex.ContainsKey(steamID);
+                foundInCatalog = foundInCatalog || modIndex.ContainsKey(steamID);
 
                 Mod subscribedMod = GetMod(steamID) ?? AddMod(steamID);
 
@@ -341,10 +348,10 @@ namespace CompatibilityReport.CatalogData
             // Find all compatibilities with two subscribed mods.
             foreach (Compatibility catalogCompatibility in Compatibilities)
             {
-                if (SubscriptionIDIndex.Contains(catalogCompatibility.FirstModSteamID) && SubscriptionIDIndex.Contains(catalogCompatibility.SecondModSteamID))
+                if (SubscriptionIDIndex.Contains(catalogCompatibility.FirstSteamID) && SubscriptionIDIndex.Contains(catalogCompatibility.SecondSteamID))
                 {
-                    SubscriptionCompatibilityIndex[catalogCompatibility.FirstModSteamID].Add(catalogCompatibility);
-                    SubscriptionCompatibilityIndex[catalogCompatibility.SecondModSteamID].Add(catalogCompatibility);
+                    SubscriptionCompatibilityIndex[catalogCompatibility.FirstSteamID].Add(catalogCompatibility);
+                    SubscriptionCompatibilityIndex[catalogCompatibility.SecondSteamID].Add(catalogCompatibility);
                 }
             }
         }

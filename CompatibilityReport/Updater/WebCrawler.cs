@@ -258,13 +258,13 @@ namespace CompatibilityReport.Updater
                     {
                         // Only get the author URL if the author ID was not found, to prevent updating the author URL to an empty string.
                         ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.SearchAuthorLeft + "profiles/", ModSettings.SearchAuthorMid));
-                        string authorURL = authorID != 0 ? null : Toolkit.MidString(line, ModSettings.SearchAuthorLeft + "id/", ModSettings.SearchAuthorMid);
+                        string authorUrl = authorID != 0 ? null : Toolkit.MidString(line, ModSettings.SearchAuthorLeft + "id/", ModSettings.SearchAuthorMid);
                         string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight));
 
-                        Author catalogAuthor = catalog.GetAuthor(authorID, authorURL) ?? catalog.AddAuthor(authorID, authorURL, authorName);
+                        Author catalogAuthor = catalog.GetAuthor(authorID, authorUrl) ?? CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
                         CatalogUpdater.UpdateAuthor(catalogAuthor, name: authorName);
 
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: authorID, authorURL: authorURL, updatedByWebCrawler: true);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl, updatedByWebCrawler: true);
                     }
 
                     // Mod name.

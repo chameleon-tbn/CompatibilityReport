@@ -299,7 +299,7 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(id))
                 {
-                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
@@ -325,7 +325,7 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(id))
                 {
-                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
@@ -350,7 +350,7 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(id))
                 {
-                    text += ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
@@ -393,8 +393,8 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(id))
                 {
-                    text += (catalog.SubscriptionIDIndex.Contains(id) && !catalog.ModIndex[id].IsDisabled) ? "" : 
-                        ReviewLine(catalog.ModIndex[id].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += (catalog.SubscriptionIDIndex.Contains(id) && !catalog.GetMod(id).IsDisabled) ? "" : 
+                        ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                     
                     text += ReviewLine("Workshop page: " + Toolkit.GetWorkshopUrl(id), ModSettings.Indent2);
                 }
@@ -527,7 +527,7 @@ namespace CompatibilityReport.Reporter
                     text += ReviewLine("This has no description on the Steam Workshop. Support from the author is unlikely.");
                 }
 
-                if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSectionOnWorkshop))
+                if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection))
                 {
                     text += ReviewLine("This mod has comments disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. " +
                         "Use with caution.");
@@ -558,9 +558,9 @@ namespace CompatibilityReport.Reporter
 
             foreach (Compatibility compatibility in catalog.SubscriptionCompatibilityIndex[subscribedMod.SteamID])
             {
-                string firstMod = ReviewLine(catalog.ModIndex[compatibility.FirstModSteamID].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                string secondMod = ReviewLine(catalog.ModIndex[compatibility.SecondModSteamID].ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                string otherMod = subscribedMod.SteamID == compatibility.FirstModSteamID ? secondMod : firstMod;
+                string firstMod = ReviewLine(catalog.GetMod(compatibility.FirstSteamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                string secondMod = ReviewLine(catalog.GetMod(compatibility.SecondSteamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                string otherMod = subscribedMod.SteamID == compatibility.FirstSteamID ? secondMod : firstMod;
 
                 string note = ReviewLine(compatibility.Note, ModSettings.Bullet3);
 
@@ -568,7 +568,7 @@ namespace CompatibilityReport.Reporter
                 {
                     case Enums.CompatibilityStatus.NewerVersion:
                         // Only reported for the older mod.
-                        if (subscribedMod.SteamID == compatibility.SecondModSteamID)
+                        if (subscribedMod.SteamID == compatibility.SecondSteamID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribed to a newer version:") + firstMod + note;
                         }
@@ -576,7 +576,7 @@ namespace CompatibilityReport.Reporter
 
                     case Enums.CompatibilityStatus.FunctionalityCovered:
                         // Only reported for the mod with less functionality.
-                        if (subscribedMod.SteamID == compatibility.SecondModSteamID)
+                        if (subscribedMod.SteamID == compatibility.SecondSteamID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribed to a mod that has all functionality:") + firstMod + note;
                         }
@@ -584,7 +584,7 @@ namespace CompatibilityReport.Reporter
 
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
                         // Only reported for the test mod.
-                        if (subscribedMod.SteamID == compatibility.SecondModSteamID)
+                        if (subscribedMod.SteamID == compatibility.SecondSteamID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribe to another edition of the same mod:") + firstMod + note;
                         }

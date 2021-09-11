@@ -1,8 +1,8 @@
 ﻿namespace CompatibilityReport.CatalogData
 {
+    // Todo 0.5 Change URL to this in Updater Guide
     public static class Enums
     {
-        // Todo 0.5 Change URL to this in Updater Guide
         // The stability of a mod. Order matters because it is used in Reporter checks.
         public enum Stability
         {
@@ -27,7 +27,7 @@
             UnlistedInWorkshop,                 // Available in the Steam Workshop, but is not shown in searches or collections. Can only be found with a direct link.
             RemovedFromWorkshop,                // This was once available in the Steam Workshop, but no more. Better not to use it anymore.
             NoDescription,                      // No (real) description in the Steam Workshop for this mod, which indicates a sparsely supported mod.
-            NoCommentSectionOnWorkshop,         // This mods Steam Workshop page has the comment section disabled, making it hard to see if people are experiencing issues.
+            NoCommentSection,                   // This mods Steam Workshop page has the comment section disabled, making it hard to see if people are experiencing issues.
             NoLongerNeeded,                     // Obsolete, because whatever it did is now done by the game itself or by another mod it was a patch/addon for.
             Deprecated,                         // No longer supported and should not be used anymore.
             Abandoned,                          // No longer maintained and might give issues or break with future game updates.

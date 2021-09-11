@@ -6,10 +6,10 @@ namespace CompatibilityReport.CatalogData
     public class Compatibility
     {
         // The mod names are only for catalog readability, they are not used anywhere else.
-        public ulong FirstModSteamID { get; private set; }
+        public ulong FirstSteamID { get; private set; }
         public string FirstModName { get; private set; }
 
-        public ulong SecondModSteamID { get; private set; }
+        public ulong SecondSteamID { get; private set; }
         public string SecondModName { get; private set; }
 
         // The compatibility status is from the perspective of the first mod.
@@ -27,14 +27,22 @@ namespace CompatibilityReport.CatalogData
         // Constructor for compatibility creation.
         public Compatibility(ulong firstModSteamID, string firstModName, ulong secondModSteamID, string secondModName, Enums.CompatibilityStatus status, string note)
         {
-            FirstModSteamID = firstModSteamID;
+            FirstSteamID = firstModSteamID;
             FirstModName = firstModName ?? "";
 
-            SecondModSteamID = secondModSteamID;
+            SecondSteamID = secondModSteamID;
             SecondModName = secondModName ?? "";
 
             Status = status;
             Note = note ?? "";
+        }
+
+
+        // Update mod names.
+        public void UpdateModNames(string firstModName, string secondModName)
+        {
+            FirstModName = firstModName ?? "";
+            SecondModName = secondModName ?? "";
         }
     }
 }
