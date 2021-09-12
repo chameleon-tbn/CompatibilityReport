@@ -8,59 +8,56 @@ This is still in early alpha stage and not yet available on the Steam Workshop. 
 Due to the early development stage and very frequent changes to all parts of the code, pull requests are discouraged right now. Create an [issue](https://github.com/Finwickle/CompatibilityReport/issues) or use the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) for questions and feedback.
 
 ### Implemented features
-* Detection of subscribed and local mods
-* XML catalog with basic mod information and compatibility information
-* Review of subscribed mods with the catalog information
-* Text report, sorted by mod name; split into reviewed and non-reviewed mods
-* Automatic download of a new catalog; no need for a mod update for every new mod or compatibility
-* Support for mod groups,  to allow different editions (e.g. stable and test) of mods as mod requirement
-* Catalog Updater method (for mod maintainer only), based on web crawling the Steam Workshop and CSV import
-  * Detects new mods and changes in mod information (name, required DLC/mods, source URL, etc.)
+* Detection of subscribed and local mods.
+* XML catalog with basic mod information and compatibility information.
+* Review of subscribed mods with the catalog information.
+* Text report, sorted by mod name. Split into reviewed and non-reviewed mods.
+* Automatic download of a new catalog. No need for a mod update for every new mod or compatibility.
+* Support for mod groups, to allow different editions (e.g. stable and test) of mods as mod requirement.
+* Catalog Updater method (for mod maintainer only), based on web crawling the Steam Workshop and CSV import.
+  * Automatically detects new mods and changes in mod information: name, required DLC/mods, source URL, ...
   * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This allows for catalog maintenance by multiple people.
-  * Automatic change notes and catalog versioning
-  * Manual upload of a new catalog, after quality assurance checks
+  * Automatic change notes and catalog versioning.
+  * Manual upload of a new catalog, after quality assurance checks.
 
 ### Roadmap towards version 1.0 (subject to change)
 * 0.5 - Alpha release on GitHub and Steam Workshop (unlisted)
-  * Catalog with mod compatibilities and dependencies for most mods
-  * Steam pinned discussions for submissions by mod authors and others
-  * Alpha testing; hopefully also some Mac and Linux testing
-  * Gather feedback from modders
+  * Catalog with mod compatibilities and dependencies for most mods.
+  * Steam pinned discussions for submissions by mod authors and others.
+  * Alpha testing; hopefully also some Mac and Linux testing.
+  * Gather feedback from modders.
 * 0.6 - Bugfixing and performance testing
-  * Loading time and download time analysis
-  * Implement feedback where possible, or plan for future versions
+  * Loading time and download time analysis.
+  * Implement feedback where possible, or plan for future versions.
 * 0.7 - Settings UI, Settings XML file
   * when to scan, on-demand scanning, report sorting, what to include in report, ...
 * 0.8 - Standalone Updater tool for easier scheduling
 * 0.9 - Beta release
-  * Code cleanup
-  * Completing the catalog with info from other sources (feedback, MCC mod, compatibility guides, forum, discords, ...)
-  * Public release on the Steam Workshop
-  * Gather feedback from users
-  * Public location for all catalog versions with their change notes
-  * Regular new catalog releases (weekly?)
-  * Test branch on GitHub
+  * Code cleanup.
+  * Completing the catalog with info from other sources: feedback, MCC mod, guides, forum, discord, ...
+  * Public release on the Steam Workshop.
+  * Gather feedback from users.
+  * Public location for all catalog versions with their change notes.
+  * Regular new catalog releases (weekly?).
+  * Test branch on GitHub.
 * 1.0 - Stable release
 
 ### Future ideas (might not happen)
-* 1.1 HTML report, categorized by severity; mod setting for text or HTML report
-* 1.2 In-game popup with summary and button to open report
-* 2.0 Localization
-* Version check before (down)loading a full catalog
-* Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112))
-* 'Second load' detection with warning popup
-* Reviewing local mods
-* Online catalog update procedure, supporting multiple simultaneous contributors
-* Interface for getting info about an unsubscribed mod, to review compatibility with currently subscribed mods, before subscribing
-* Replace web crawler updater method by Steam API, for much better performance, easier update detection and more reliable author links
-* Detect missing mods for subscribed assets, like ETST, NExt2, Additive Shader, Trolleybus Trailer AI, etc. (needs Steam API)
-* TLS 1.2 support for download, if possible (needs .NET 4)
+* 1.1 HTML report, categorized by severity; mod setting for text or HTML report.
+* 1.2 In-game popup with summary and button to open report.
+* 2.0 Localization.
+* Version check before (down)loading a full catalog.
+* Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112)).
+* 'Second load' detection with warning popup.
+* Reviewing local mods.
+* Online catalog update procedure, supporting multiple simultaneous contributors.
+* Interface for getting info about an unsubscribed mod, to review compatibility with currently subscribed mods.
+* Replace WebCrawler by Steam API, for better performance, easier update detection and more reliable author links.
+* Detect missing mods subscribed for assets, like ETST, NExt2, Trolleybus Trailer AI, ... (needs Steam API).
+* TLS 1.2 support for download, if possible (needs .NET 4).
 
 ### Credits
-This mod is inspired by [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine.
-
-This mod uses code snippets from:
-* **Mod Compatibility Checker** by aubergine10 a.k.a. aubergine18 ([GitHub](https://github.com/CitiesSkylinesMods/AutoRepair) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132))
+This mod is inspired by and uses code from [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine. It also uses code snippets from:
 * **Enhanced District Services** by chronofanz a.k.a. Tim ([GitHub](https://github.com/chronofanz/EnhancedDistrictServices) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2303997489))
 * **Change Loading Screen 2** by BloodyPenguin ([GitHub](https://github.com/bloodypenguin/ChangeLoadingImage) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110))
 

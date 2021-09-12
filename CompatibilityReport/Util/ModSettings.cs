@@ -18,7 +18,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = LowestLocalModID;    // Todo 0.5 Our own Steam ID
 
         public const string Version = "0.4.0";
-        public const string Build = "236";
+        public const string Build = "237";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -129,11 +129,6 @@ namespace CompatibilityReport.Util
         public static bool HtmlReport { get; private set; } = false;
         public static bool TextReport { get; private set; } = true;
         public static bool AllowOnDemandScanning { get; private set; } = false;
-
-        // Calculated from above settings.
-        public static string Separator { get; private set; } = new string('-', TextReportWidth);
-        public static string SeparatorDouble { get; private set; } = new string('=', TextReportWidth);
-        public static string SessionSeparator { get; private set; } = $"\n\n{ SeparatorDouble }\n\n";
 
 
         // Todo 0.7 Defaults for settings that will be available in a settings xml file.

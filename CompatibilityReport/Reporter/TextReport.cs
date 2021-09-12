@@ -23,6 +23,7 @@ namespace CompatibilityReport.Reporter
 
             StringBuilder TextReport = new StringBuilder(512);
             DateTime reportCreationTime = DateTime.Now;
+            string separatorDouble = new string('=', ModSettings.TextReportWidth);
 
             TextReport.AppendLine(Toolkit.WordWrap($"{ ModSettings.ReportName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
 
@@ -43,7 +44,7 @@ namespace CompatibilityReport.Reporter
                     indent: new string(' ', "WARNING: ".Length)));
             }
 
-            TextReport.AppendLine(ModSettings.SeparatorDouble + "\n");
+            TextReport.AppendLine($"{ separatorDouble }\n");
 
             if (!string.IsNullOrEmpty(catalog.ReportHeaderText))
             {
@@ -84,7 +85,7 @@ namespace CompatibilityReport.Reporter
 
             if (reviewedModsText.Length > 0)
             {
-                TextReport.AppendLine(ModSettings.SeparatorDouble);
+                TextReport.AppendLine(separatorDouble);
 
                 TextReport.AppendLine($"REVIEWED MODS ({ catalog.ReviewedSubscriptionCount })" +
                     (modsWithOnlyRemarks == 0 ? ":" : $" AND OTHER MODS WITH REMARKS ({ modsWithOnlyRemarks }): "));
@@ -94,14 +95,14 @@ namespace CompatibilityReport.Reporter
 
             if (nonReviewedModsText.Length > 0)
             {
-                TextReport.AppendLine(ModSettings.SeparatorDouble);
+                TextReport.AppendLine(separatorDouble);
 
                 TextReport.AppendLine($"MODS NOT REVIEWED YET ({ catalog.SubscriptionIDIndex.Count - catalog.ReviewedSubscriptionCount - modsWithOnlyRemarks }):");
 
                 TextReport.AppendLine(nonReviewedModsText.ToString());
             }
 
-            TextReport.AppendLine(ModSettings.SeparatorDouble + "\n");
+            TextReport.AppendLine($"{ separatorDouble }\n");
             TextReport.AppendLine(Toolkit.WordWrap(catalog.ReportFooterText));
 
             reviewedModsText = null;
@@ -138,7 +139,7 @@ namespace CompatibilityReport.Reporter
             string modName = subscribedMod.ToString(hideFakeID: true, nameFirst, cutOff: true);
 
             StringBuilder modReview = new StringBuilder();
-            string modHeader = ModSettings.Separator + "\n\n" + modName;
+            string modHeader = $"{ new string('-', ModSettings.TextReportWidth) }\n\n{ modName }";
 
             modHeader += string.IsNullOrEmpty(AuthorName) ? "\n" : 
                 ((modName.Length + 4 + AuthorName.Length <= ModSettings.TextReportWidth) ? $" by { AuthorName }\n" :

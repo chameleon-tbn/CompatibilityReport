@@ -32,11 +32,11 @@ namespace CompatibilityReport.Updater
             colossalOrder.Update(lastSeen: gameRelease.AddYears(1000));
 
             // Add builtin mods with the correct fixed fake Steam ID, and with a high ReviewDate to avoid the review being considered out-of-date.
-            foreach (KeyValuePair<string, ulong> modVP in ModSettings.BuiltinMods)
+            foreach (string modName in ModSettings.BuiltinMods.Keys)
             {
-                Mod mod = firstCatalog.AddMod(steamID: modVP.Value);
+                Mod mod = firstCatalog.AddMod(steamID: ModSettings.BuiltinMods[modName]);
                 
-                mod.Update(name: modVP.Key, published: gameRelease, authorID: colossalOrder.SteamID, stability: Enums.Stability.Stable, 
+                mod.Update(modName, published: gameRelease, authorID: colossalOrder.SteamID, stability: Enums.Stability.Stable, 
                     reviewDate: gameRelease.AddYears(1000), autoReviewDate: updateDate);
 
                 mod.Statuses.Add(Enums.Status.SourceBundled);

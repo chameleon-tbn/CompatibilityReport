@@ -125,7 +125,7 @@ namespace CompatibilityReport.Util
                     {
                         file = File.AppendText(fileName);
 
-                        WriteLine(ModSettings.SessionSeparator, LogLevel.Info, duplicateToGameLog: false, timestamp: false);
+                        WriteLine($"\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", LogLevel.Info, duplicateToGameLog: false, timestamp: false);
                     }
                     else
                     {
@@ -144,7 +144,7 @@ namespace CompatibilityReport.Util
                         if (append)
                         {
                             WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".", LogLevel.Info, duplicateToGameLog: false, timestamp: false);
-                            WriteLine(ModSettings.SessionSeparator, LogLevel.Info, duplicateToGameLog: false, timestamp: false);
+                            WriteLine($"\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", LogLevel.Info, duplicateToGameLog: false, timestamp: false);
                         }
                     }
 
