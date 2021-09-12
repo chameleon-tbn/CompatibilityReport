@@ -412,8 +412,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Clean certain html codes from a string.
-        // Todo 0.4 Is this really needed?
+        // Clean certain HTML codes from a string.
+        // Todo 0.4 Is CleanHtml really needed?
         public static string CleanHtml(string htmlText)
         {
             return string.IsNullOrEmpty(htmlText) ? "" : htmlText.Replace("&quot;", "\"").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&amp;", "&");

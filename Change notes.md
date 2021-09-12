@@ -3,6 +3,7 @@
 ### Version 0.4 - Code revision and cleanup
 * Major code revision and restructure
 * Bugfixes
+* Catalogs rebuilt and third catalog created with mod reviews
 
 ### Version 0.3 - Catalog Updater: CSV import
 * Catalog updater method based on CSV import, in addition to the web crawler

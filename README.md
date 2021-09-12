@@ -5,7 +5,7 @@ Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/2
 ### Current status
 This is still in early alpha stage and not yet available on the Steam Workshop. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
 
-Due to the early development stage and very frequent changes to all parts of the code, pull requests are discouraged right now. The [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) is open for questions and feedback.
+Due to the early development stage and very frequent changes to all parts of the code, pull requests are discouraged right now. Create an [issue](https://github.com/Finwickle/CompatibilityReport/issues) or use the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) for questions and feedback.
 
 ### Implemented features
 * Detection of subscribed and local mods
@@ -19,10 +19,8 @@ Due to the early development stage and very frequent changes to all parts of the
   * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This allows for catalog maintenance by multiple people.
   * Automatic change notes and catalog versioning
   * Manual upload of a new catalog, after quality assurance checks
-* Note: The current catalog only contains basic mod information and no reviews yet
 
 ### Roadmap towards version 1.0 (subject to change)
-* 0.4 - Code revision and bugfixes
 * 0.5 - Alpha release on GitHub and Steam Workshop (unlisted)
   * Catalog with mod compatibilities and dependencies for most mods
   * Steam pinned discussions for submissions by mod authors and others
@@ -36,12 +34,12 @@ Due to the early development stage and very frequent changes to all parts of the
 * 0.8 - Standalone Updater tool for easier scheduling
 * 0.9 - Beta release
   * Code cleanup
-  * Completing the catalog with info from other sources (MCC mod, compatibility guides, forum, discords, ...)
+  * Completing the catalog with info from other sources (feedback, MCC mod, compatibility guides, forum, discords, ...)
   * Public release on the Steam Workshop
-  * Public location for all catalog versions with their change notes
-  * Test branch on GitHub
   * Gather feedback from users
+  * Public location for all catalog versions with their change notes
   * Regular new catalog releases (weekly?)
+  * Test branch on GitHub
 * 1.0 - Stable release
 
 ### Future ideas (might not happen)
@@ -53,7 +51,7 @@ Due to the early development stage and very frequent changes to all parts of the
 * 'Second load' detection with warning popup
 * Reviewing local mods
 * Online catalog update procedure, supporting multiple simultaneous contributors
-* Interface for getting info about an unsubscribed mod, to review compatibility before subscribing
+* Interface for getting info about an unsubscribed mod, to review compatibility with currently subscribed mods, before subscribing
 * Replace web crawler updater method by Steam API, for much better performance, easier update detection and more reliable author links
 * Detect missing mods for subscribed assets, like ETST, NExt2, Additive Shader, Trolleybus Trailer AI, etc. (needs Steam API)
 * TLS 1.2 support for download, if possible (needs .NET 4)

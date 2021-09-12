@@ -66,6 +66,7 @@ namespace CompatibilityReport.CatalogData
         public Mod(ulong steamID)
         {
             SteamID = steamID;
+
             AddedThisSession = true;
         }
 
