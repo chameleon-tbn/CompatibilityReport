@@ -7,6 +7,8 @@ namespace CompatibilityReport.Util
 {
     public static class ModSettings
     {
+        // Todo 0.7 Reduce number of static fields.
+
         // Mod properties.
         public const string ModName = "Compatibility Report";
         public const string InternalName = "CompatibilityReport";
@@ -16,7 +18,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = LowestLocalModID;    // Todo 0.5 Our own Steam ID
 
         public const string Version = "0.4.0";
-        public const string Build = "235";
+        public const string Build = "236";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -134,7 +136,6 @@ namespace CompatibilityReport.Util
         public static string SessionSeparator { get; private set; } = $"\n\n{ SeparatorDouble }\n\n";
 
 
-
         // Todo 0.7 Defaults for settings that will be available in a settings xml file.
         public static int DownloadRetries { get; private set; } = 2;
         public static bool ScanBeforeMainMenu { get; private set; } = true;
@@ -150,6 +151,7 @@ namespace CompatibilityReport.Util
         public static string UpdaterLogfileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Updater.log");
         public static string DataDumpFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_DataDump.txt");
         public static string TempDownloadFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Download.tmp");
+        public static string TempCsvCombinedFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_CSVCombined.tmp");
 
         public static List<string> SteamModListingURLs { get; } = new List<string> {
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod",

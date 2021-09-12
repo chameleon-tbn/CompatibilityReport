@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
@@ -20,10 +21,10 @@ namespace CompatibilityReport.Updater
 
             CatalogUpdater.SetReviewDate(DateTime.Today);
 
-            List<string> CSVfilenames = Directory.GetFiles(ModSettings.UpdaterPath, "*.csv").ToList();
-            CSVfilenames.Sort();
+            List<string> CsvFilenames = Directory.GetFiles(ModSettings.UpdaterPath, "*.csv").ToList();
+            CsvFilenames.Sort();
 
-            if (!CSVfilenames.Any())
+            if (!CsvFilenames.Any())
             {
                 Logger.UpdaterLog("No CSV files found.");
                 return;
@@ -31,9 +32,9 @@ namespace CompatibilityReport.Updater
 
             int errorCounter = 0;
 
-            foreach (string CSVfilename in CSVfilenames)
+            foreach (string CsvFilename in CsvFilenames)
             {
-                if (!ReadCSV(catalog, CSVfilename))
+                if (!ReadCsv(catalog, CsvFilename))
                 {
                     errorCounter++;
                 }
@@ -43,32 +44,33 @@ namespace CompatibilityReport.Updater
 
             if (errorCounter == 0)
             {
-                Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
-                Logger.Log($"Updater processed { CSVfilenames.Count } CSV files.");
+                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
+                Logger.Log($"Updater processed { CsvFilenames.Count } CSV files.");
             }
             else
             {
-                Logger.UpdaterLog($"Updater processed { CSVfilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, " +
+                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, " +
                     $"with { errorCounter } errors.", Logger.Warning);
 
-                Logger.Log($"Updater processed { CSVfilenames.Count } CSV files and encountered { errorCounter } errors. See separate log for details.", Logger.Warning);
+                Logger.Log($"Updater processed { CsvFilenames.Count } CSV files and encountered { errorCounter } errors. See separate log for details.", Logger.Warning);
             }
         }
 
 
         // Read one CSV file. Returns false on errors.
-        private static bool ReadCSV(Catalog catalog, string CSVfileFullPath)
+        private static bool ReadCsv(Catalog catalog, string CsvFileFullPath)
         {
-            string filename = Toolkit.GetFileName(CSVfileFullPath);
+            StringBuilder processedCsvLines = new StringBuilder();
+            string filename = Toolkit.GetFileName(CsvFileFullPath);
             bool withoutErrors = true;
 
             Logger.UpdaterLog($"Processing \"{ filename }\".");
 
-            CatalogUpdater.CSVCombined.AppendLine("###################################################");
-            CatalogUpdater.CSVCombined.AppendLine($"#### FILE: { filename }");
-            CatalogUpdater.CSVCombined.AppendLine("###################################################\n");
+            processedCsvLines.AppendLine("###################################################");
+            processedCsvLines.AppendLine($"#### FILE: { filename }");
+            processedCsvLines.AppendLine("###################################################\n");
 
-            using (StreamReader reader = File.OpenText(CSVfileFullPath))
+            using (StreamReader reader = File.OpenText(CsvFileFullPath))
             {
                 string line;
                 int lineNumber = 0;
@@ -77,15 +79,15 @@ namespace CompatibilityReport.Updater
                 {
                     lineNumber++;
 
-                    string errorMessage = ReadCSVLine(catalog, line);
+                    string errorMessage = ReadCsvLine(catalog, line);
 
                     if (string.IsNullOrEmpty(errorMessage))
                     {
-                        CatalogUpdater.CSVCombined.AppendLine(line);
+                        processedCsvLines.AppendLine(line);
                     }
                     else
                     {
-                        CatalogUpdater.CSVCombined.AppendLine("# [ERROR] " + line);
+                        processedCsvLines.AppendLine("# [ERROR] " + line);
 
                         withoutErrors = false;
                         Logger.UpdaterLog(errorMessage + $" Line #{ lineNumber }: { line }", Logger.Error);
@@ -93,7 +95,9 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            CatalogUpdater.CSVCombined.AppendLine("\n");
+            processedCsvLines.AppendLine("\n");
+
+            Toolkit.SaveToFile(processedCsvLines.ToString(), ModSettings.TempCsvCombinedFullPath, append: true);
 
             if (ModSettings.DebugMode)
             {
@@ -101,7 +105,7 @@ namespace CompatibilityReport.Updater
             }
             else
             {
-                if (!Toolkit.MoveFile(CSVfileFullPath, $"{ CSVfileFullPath }.{ (withoutErrors ? "" : "partially_") }processed.txt"))
+                if (!Toolkit.MoveFile(CsvFileFullPath, $"{ CsvFileFullPath }.{ (withoutErrors ? "" : "partially_") }processed.txt"))
                 {
                     Logger.UpdaterLog($"Could not rename \"{ filename }\". Rename or delete it manually to avoid processing it again.", Logger.Error);
                 }
@@ -112,7 +116,7 @@ namespace CompatibilityReport.Updater
 
 
         // Read and process one CSV line, returning an error message, if any.
-        private static string ReadCSVLine(Catalog catalog, string line)
+        private static string ReadCsvLine(Catalog catalog, string line)
         {
             if (string.IsNullOrEmpty(line) || line.Trim()[0] == '#')
             {
@@ -329,7 +333,7 @@ namespace CompatibilityReport.Updater
                 return "Mod can't be removed because it is referenced by other mods as required mod, successor, alternative or recommendation.";
             }
 
-            CatalogUpdater.AddRemovedModChangeNote(catalogMod);
+            catalog.ChangeNotes.RemovedMods.AppendLine($"Mod removed: { catalogMod.ToString() }");
 
             return catalog.RemoveMod(catalogMod) ? "" : "Mod could not be removed.";
         }
@@ -433,7 +437,7 @@ namespace CompatibilityReport.Updater
                     return "DLC is already required.";
                 }
 
-                CatalogUpdater.AddRequiredDLC(catalogMod, requiredDLC);
+                CatalogUpdater.AddRequiredDLC(catalog, catalogMod, requiredDLC);
             }
             else if (action == "remove_requireddlc")
             {
@@ -454,7 +458,7 @@ namespace CompatibilityReport.Updater
                     return "Cannot remove required DLC because it was not manually added.";
                 }
 
-                CatalogUpdater.RemoveRequiredDLC(catalogMod, requiredDLC);
+                CatalogUpdater.RemoveRequiredDLC(catalog, catalogMod, requiredDLC);
             }
             else if (action == "add_status")
             {
@@ -488,7 +492,7 @@ namespace CompatibilityReport.Updater
                     return "Status cannot be combined with existing 'Deprecated' status.";
                 }
 
-                CatalogUpdater.AddStatus(catalogMod, status);
+                CatalogUpdater.AddStatus(catalog, catalogMod, status);
             }
             else if (action == "remove_status")
             {
@@ -504,7 +508,7 @@ namespace CompatibilityReport.Updater
                     return "This status cannot be manually removed.";
                 }
 
-                if (!CatalogUpdater.RemoveStatus(catalogMod, status))
+                if (!CatalogUpdater.RemoveStatus(catalog, catalogMod, status))
                 {
                     return "Status not found for this mod.";
                 }
@@ -556,7 +560,7 @@ namespace CompatibilityReport.Updater
                     return "Already a successor.";
                 }
 
-                CatalogUpdater.AddSuccessor(catalogMod, listMember);
+                CatalogUpdater.AddSuccessor(catalog, catalogMod, listMember);
             }
             else if (action == "remove_successor")
             {
@@ -565,7 +569,7 @@ namespace CompatibilityReport.Updater
                     return "Successor not found.";
                 }
 
-                CatalogUpdater.RemoveSuccessor(catalogMod, listMember);
+                CatalogUpdater.RemoveSuccessor(catalog, catalogMod, listMember);
             }
             else if (action == "add_alternative")
             {
@@ -574,7 +578,7 @@ namespace CompatibilityReport.Updater
                     return "Already an alternative mod.";
                 }
 
-                CatalogUpdater.AddAlternative(catalogMod, listMember);
+                CatalogUpdater.AddAlternative(catalog, catalogMod, listMember);
             }
             else if (action == "remove_alternative")
             {
@@ -583,7 +587,7 @@ namespace CompatibilityReport.Updater
                     return "Alternative mod not found.";
                 }
 
-                CatalogUpdater.RemoveAlternative(catalogMod, listMember);
+                CatalogUpdater.RemoveAlternative(catalog, catalogMod, listMember);
             }
             else if (action == "add_recommendation")
             {
@@ -592,7 +596,7 @@ namespace CompatibilityReport.Updater
                     return "Already an recommended mod.";
                 }
 
-                CatalogUpdater.AddRecommendation(catalogMod, listMember);
+                CatalogUpdater.AddRecommendation(catalog, catalogMod, listMember);
             }
             else if (action == "remove_recommendation")
             {
@@ -601,7 +605,7 @@ namespace CompatibilityReport.Updater
                     return "Recommended mod not found.";
                 }
 
-                CatalogUpdater.RemoveRecommendation(catalogMod, listMember);
+                CatalogUpdater.RemoveRecommendation(catalog, catalogMod, listMember);
             }
             else
             {
@@ -871,7 +875,7 @@ namespace CompatibilityReport.Updater
             }
 
             Author newAuthor = CatalogUpdater.AddAuthor(catalog, authorID, authorUrl: (authorID == 0 ? authorUrl : ""), name);
-            CatalogUpdater.UpdateAuthor(newAuthor, retired: true);
+            CatalogUpdater.UpdateAuthor(catalog, newAuthor, retired: true);
 
             return "";
         }
@@ -898,7 +902,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid Author ID.";
                 }
 
-                CatalogUpdater.UpdateAuthor(catalogAuthor, newAuthorID);
+                CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, newAuthorID);
             }
             else if (action == "set_authorurl")
             {
@@ -911,7 +915,7 @@ namespace CompatibilityReport.Updater
                     return "This custom URL is already active.";
                 }
 
-                CatalogUpdater.UpdateAuthor(catalogAuthor, authorUrl: propertyData);
+                CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorUrl: propertyData);
             }
             else if (action == "remove_authorurl")
             {
@@ -920,7 +924,7 @@ namespace CompatibilityReport.Updater
                     return "No custom URL active.";
                 }
 
-                CatalogUpdater.UpdateAuthor(catalogAuthor, authorUrl: "");
+                CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorUrl: "");
             }
             else if (action == "set_lastseen")
             {
@@ -939,7 +943,7 @@ namespace CompatibilityReport.Updater
                     return "Author already has a more recent last seen date.";
                 }
 
-                CatalogUpdater.UpdateAuthor(catalogAuthor, lastSeen: lastSeen);
+                CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, lastSeen: lastSeen);
             }
             else if (action == "set_retired")
             {
@@ -948,7 +952,7 @@ namespace CompatibilityReport.Updater
                     return "Author is already retired.";
                 }
 
-                CatalogUpdater.UpdateAuthor(catalogAuthor, retired: true);
+                CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, retired: true);
             }
             else if (action == "remove_retired")
             {
@@ -961,7 +965,7 @@ namespace CompatibilityReport.Updater
                     return "Current author retirement is automatic and can only be removed by adding a recent 'last seen' date.";
                 }
 
-                CatalogUpdater.UpdateAuthor(catalogAuthor, retired: false);
+                CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, retired: false);
             }
             else
             {
@@ -985,7 +989,7 @@ namespace CompatibilityReport.Updater
             }
 
             catalog.Update(newGameVersion);
-            CatalogUpdater.AddCatalogChangeNote($"Catalog was updated to game version { Toolkit.ConvertGameVersionToString(newGameVersion) }.");
+            catalog.ChangeNotes.CatalogChanges.AppendLine($"Catalog was updated to game version { Toolkit.ConvertGameVersionToString(newGameVersion) }.");
 
             return "";
         }
@@ -1039,6 +1043,7 @@ namespace CompatibilityReport.Updater
                 if (!catalog.RequiredAssets.Contains(assetID))
                 {
                     catalog.RequiredAssets.Add(assetID);
+                    catalog.RemoveUnknownAsset(assetID);
                 }
             }
 

@@ -73,7 +73,7 @@ namespace CompatibilityReport.Util
 
 
         // Save a string to a file.
-        public static bool SaveToFile(string message, string fileFullPath, bool createBackup = false)
+        public static bool SaveToFile(string message, string fileFullPath, bool append = false, bool createBackup = false)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -87,7 +87,15 @@ namespace CompatibilityReport.Util
 
             try
             {
-                File.WriteAllText(fileFullPath, message);
+                if (append)
+                {
+                    File.AppendAllText(fileFullPath, message);
+                }
+                else
+                {
+                    File.WriteAllText(fileFullPath, message);
+                }
+                
                 return true;
             }
             catch (Exception ex)

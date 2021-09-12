@@ -118,8 +118,8 @@ namespace CompatibilityReport.Updater
 
                     Mod catalogMod = catalog.GetMod(steamID) ?? CatalogUpdater.AddMod(catalog, steamID, modName, incompatibleMods);
 
-                    CatalogUpdater.RemoveStatus(catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
-                    CatalogUpdater.RemoveStatus(catalogMod, Enums.Status.UnlistedInWorkshop, updatedByWebCrawler: true);
+                    CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
+                    CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop, updatedByWebCrawler: true);
 
                     if (incompatibleMods && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                     {
@@ -226,11 +226,11 @@ namespace CompatibilityReport.Updater
 
                         if (steamIDmatched)
                         {
-                            CatalogUpdater.RemoveStatus(catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
+                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
 
                             if (!catalogMod.UpdatedThisSession)
                             {
-                                CatalogUpdater.AddStatus(catalogMod, Enums.Status.UnlistedInWorkshop, updatedByWebCrawler: true);
+                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop, updatedByWebCrawler: true);
                                 CatalogUpdater.UpdateMod(catalog, catalogMod, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
                             }
                         }
@@ -244,7 +244,7 @@ namespace CompatibilityReport.Updater
                             }
                             else
                             {
-                                CatalogUpdater.AddStatus(catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
+                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
                                 return true;
                             }
                         }
@@ -262,7 +262,7 @@ namespace CompatibilityReport.Updater
                         string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight));
 
                         Author catalogAuthor = catalog.GetAuthor(authorID, authorUrl) ?? CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
-                        CatalogUpdater.UpdateAuthor(catalogAuthor, name: authorName);
+                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, name: authorName);
 
                         CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl, updatedByWebCrawler: true);
                     }
@@ -312,7 +312,7 @@ namespace CompatibilityReport.Updater
 
                         if (!catalogMod.ExclusionForRequiredDlc.Contains(dlc))
                         {
-                            CatalogUpdater.AddRequiredDLC(catalogMod, dlc);
+                            CatalogUpdater.AddRequiredDLC(catalog, catalogMod, dlc);
                         }
                     }
 
@@ -353,11 +353,11 @@ namespace CompatibilityReport.Updater
                         // A 'no description' status is when the description is not at least a few characters longer than the mod name.
                         if (description.Length <= catalogMod.Name.Length + 3 && !catalogMod.ExclusionForNoDescription)
                         {
-                            CatalogUpdater.AddStatus(catalogMod, Enums.Status.NoDescription, updatedByWebCrawler: true);
+                            CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.NoDescription, updatedByWebCrawler: true);
                         }
                         else if (description.Length > catalogMod.Name.Length + 3 && !catalogMod.ExclusionForNoDescription)
                         {
-                            CatalogUpdater.RemoveStatus(catalogMod, Enums.Status.NoDescription, updatedByWebCrawler: true);
+                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription, updatedByWebCrawler: true);
                         }
 
                         if (description.Contains(ModSettings.SearchSourceURLLeft) && !catalogMod.ExclusionForSourceUrl)

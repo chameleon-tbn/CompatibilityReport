@@ -35,6 +35,7 @@ namespace CompatibilityReport.CatalogData
 
         // Assets that show up as required items. This is used to distinguish between a required asset and an unknown required mod.
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
+        private readonly List<ulong> unknownAssets = new List<ulong>();
 
         // Dictionaries for faster lookup.
         private readonly Dictionary<ulong, Mod> modIndex = new Dictionary<ulong, Mod>();
@@ -42,12 +43,14 @@ namespace CompatibilityReport.CatalogData
         private readonly Dictionary<ulong, Author> authorIDIndex = new Dictionary<ulong, Author>();
         private readonly Dictionary<string, Author> AuthorUrlIndex = new Dictionary<string, Author>();
         // Todo 0.4 Make subscription indexes private
-        [XmlIgnore] public List<ulong> SubscriptionIDIndex { get; private set; } = new List<ulong>();
-        [XmlIgnore] public Dictionary<string, List<ulong>> SubscriptionNameIndex { get; private set; } = new Dictionary<string, List<ulong>>();
-        [XmlIgnore] public Dictionary<ulong, List<Compatibility>> SubscriptionCompatibilityIndex { get; private set; } = new Dictionary<ulong, List<Compatibility>>();
+        [XmlIgnore] public List<ulong> SubscriptionIDIndex { get; } = new List<ulong>();
+        [XmlIgnore] public Dictionary<string, List<ulong>> SubscriptionNameIndex { get; } = new Dictionary<string, List<ulong>>();
+        [XmlIgnore] public Dictionary<ulong, List<Compatibility>> SubscriptionCompatibilityIndex { get; } = new Dictionary<ulong, List<Compatibility>>();
 
         [XmlIgnore] public int ReviewedModCount { get; private set; }
         [XmlIgnore] public int ReviewedSubscriptionCount { get; private set; }
+
+        [XmlIgnore] public Updater.ChangeNotes ChangeNotes { get; } = new Updater.ChangeNotes();
 
         private static bool downloadedThisSession;
 
@@ -247,6 +250,33 @@ namespace CompatibilityReport.CatalogData
             }
 
             return author;
+        }
+
+
+        // Get the list of potential assets.
+        public string GetUnknownAssetsString()
+        {
+            return unknownAssets.Any() ? string.Join(", ", unknownAssets.Select(steamID => steamID.ToString()).ToArray()) : "";
+        }
+
+
+        // Add an asset to the list of potential assets.
+        public bool AddUnknownAsset(ulong unknownAsset)
+        {
+            if (unknownAssets.Contains(unknownAsset))
+            {
+                return false;
+            }
+
+            unknownAssets.Add(unknownAsset);
+            return true;
+        }
+
+
+        // Remove an asset from the list of potential assets.
+        public void RemoveUnknownAsset(ulong knownAsset)
+        {
+            unknownAssets.Remove(knownAsset);
         }
 
 
