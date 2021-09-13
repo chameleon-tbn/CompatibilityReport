@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using ColossalFramework.PlatformServices;
@@ -108,17 +109,18 @@ namespace CompatibilityReport.Reporter
             reviewedModsText = null;
             nonReviewedModsText = null;
 
-            if (Toolkit.SaveToFile(TextReport.ToString(), ModSettings.TextReportFullPath, createBackup: ModSettings.DebugMode))
+            string TextReportFullPath = Path.Combine(ModSettings.ReportPath, ModSettings.ReportTextFileName);
+            if (Toolkit.SaveToFile(TextReport.ToString(), TextReportFullPath, createBackup: ModSettings.DebugMode))
             {
-                Logger.Log($"Text Report ready at \"{ Toolkit.Privacy(ModSettings.TextReportFullPath) }\".", duplicateToGameLog: true);
+                Logger.Log($"Text Report ready at \"{ Toolkit.Privacy(TextReportFullPath) }\".", duplicateToGameLog: true);
             }
             else
             {
-                if ((ModSettings.TextReportFullPath != ModSettings.DefaultTextReportFullPath) && 
-                    Toolkit.SaveToFile(TextReport.ToString(), ModSettings.DefaultTextReportFullPath, createBackup: false))
+                TextReportFullPath = Path.Combine(ModSettings.DefaultReportPath, ModSettings.ReportTextFileName);
+                if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(TextReport.ToString(), TextReportFullPath, createBackup: false))
                 {
-                    Logger.Log("Text Report could not be saved at the location set in the options. It is instead saved as " +
-                        $"\"{ Toolkit.Privacy(ModSettings.DefaultTextReportFullPath) }\".", duplicateToGameLog: true);
+                    Logger.Log($"Text Report could not be saved at the location set in the options. It is instead saved as \"{ Toolkit.Privacy(TextReportFullPath) }\".", 
+                        duplicateToGameLog: true);
                 }
                 else
                 {

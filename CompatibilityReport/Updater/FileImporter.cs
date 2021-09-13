@@ -19,7 +19,7 @@ namespace CompatibilityReport.Updater
             Logger.UpdaterLog("Updater started the CSV import.");
             Stopwatch timer = Stopwatch.StartNew();
 
-            CatalogUpdater.SetReviewDate(DateTime.Today);
+            CatalogUpdater.SetReviewDate(DateTime.Now);
 
             List<string> CsvFilenames = Directory.GetFiles(ModSettings.UpdaterPath, "*.csv").ToList();
             CsvFilenames.Sort();
@@ -97,7 +97,7 @@ namespace CompatibilityReport.Updater
 
             processedCsvLines.AppendLine("\n");
 
-            Toolkit.SaveToFile(processedCsvLines.ToString(), ModSettings.TempCsvCombinedFullPath, append: true);
+            Toolkit.SaveToFile(processedCsvLines.ToString(), Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), append: true);
 
             if (ModSettings.DebugMode)
             {

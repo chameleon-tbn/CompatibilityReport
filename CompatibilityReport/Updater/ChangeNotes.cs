@@ -20,6 +20,14 @@ namespace CompatibilityReport.Updater
         public StringBuilder RemovedCompatibilities { get; private set; } = new StringBuilder();
 
 
+        // Check if we have any change notes, ignoring generic catalog change notes.
+        public bool Any()
+        {
+            return NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length + UpdatedMods.Count + UpdatedAuthorsByID.Count +
+                UpdatedAuthorsByUrl.Count + RemovedMods.Length + RemovedGroups.Length + RemovedCompatibilities.Length > 0;
+        }
+
+
         // Add a change note for an updated mod.
         public void AddUpdatedMod(Mod catalogMod, string extraChangeNote)
         {

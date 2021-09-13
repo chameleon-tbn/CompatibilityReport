@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
@@ -38,10 +39,10 @@ namespace CompatibilityReport.Updater
             // Retired authors, for a one time check at the start of this mod for activity in comments.
             DumpRetiredAuthors(catalog, DataDump);
 
-            Toolkit.SaveToFile(DataDump.ToString(), ModSettings.DataDumpFullPath, createBackup: true);
+            Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
 
             timer.Stop();
-            Logger.UpdaterLog($"Datadump created in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, as { Toolkit.GetFileName(ModSettings.DataDumpFullPath) }.");
+            Logger.UpdaterLog($"Datadump created in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, as { ModSettings.DataDumpFileName }.");
         }
 
 

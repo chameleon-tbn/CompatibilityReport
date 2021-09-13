@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
@@ -28,7 +27,6 @@ namespace CompatibilityReport.Updater
 
             Catalog catalog = Catalog.Load();
 
-            // Create a first catalog if we couldn't get a catalog and it doesn't exist yet.
             if (catalog == null)
             {
                 FirstCatalog.Create();
@@ -46,10 +44,9 @@ namespace CompatibilityReport.Updater
                 $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. " +
                 $"Current catalog version { catalog.VersionString() }, created on { catalog.UpdateDate:D}, { catalog.UpdateDate:t}.");
 
-            // Increase the catalog version and update date
             catalog.NewVersion(DateTime.Now);
 
-            Toolkit.DeleteFile(ModSettings.TempCsvCombinedFullPath);
+            Toolkit.DeleteFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName));
 
             if (ModSettings.WebCrawlerEnabled)
             {
@@ -62,31 +59,30 @@ namespace CompatibilityReport.Updater
 
             UpdateCompatibilityModNames(catalog);
 
-            // Set a special catalog note for version 2, and reset it again for version 3
             if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
-            {
-                SetNote(catalog, ModSettings.SecondCatalogNote);
-            }
-            else if (catalog.Version == 3 && catalog.Note == ModSettings.SecondCatalogNote)
             {
                 SetNote(catalog, "");
             }
 
-            // Log a CSV action for required assets that are missing in the catalog
             string unknownAssets = catalog.GetUnknownAssetsString();
-
             if (!string.IsNullOrEmpty(unknownAssets))
             {
                 Logger.UpdaterLog($"CSV action for adding assets to the catalog (after verification): Add_RequiredAssets { unknownAssets }");
             }
 
-            // Run the DataDumper
             DataDumper.Start(catalog);
 
-            // Only continue with catalog update if we found any changes to update the catalog (ignoring the pure catalog changes)
-            if (catalog.ChangeNotes.NewMods.Length + catalog.ChangeNotes.NewGroups.Length + catalog.ChangeNotes.NewCompatibilities.Length + catalog.ChangeNotes.NewAuthors.Length + 
-                catalog.ChangeNotes.UpdatedMods.Count + catalog.ChangeNotes.UpdatedAuthorsByID.Count + catalog.ChangeNotes.UpdatedAuthorsByUrl.Count + 
-                catalog.ChangeNotes.RemovedMods.Length + catalog.ChangeNotes.RemovedGroups.Length + catalog.ChangeNotes.RemovedCompatibilities.Length == 0)
+            SaveCatalog(catalog);
+
+            Logger.UpdaterLog("Catalog Updater has finished.");
+            Logger.Log("Catalog Updater has finished.\n");
+        }
+
+
+        // Save the new catalog with change notes, combined CSV file and updater log.
+        public static void SaveCatalog(Catalog catalog)
+        {
+            if (!catalog.ChangeNotes.Any())
             {
                 Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
             }
@@ -98,10 +94,10 @@ namespace CompatibilityReport.Updater
                 if (catalog.Save(partialPath + ".xml"))
                 {
                     Toolkit.SaveToFile(catalog.ChangeNotes.Combined(catalog), partialPath + "_ChangeNotes.txt");
-                    Toolkit.MoveFile(ModSettings.TempCsvCombinedFullPath, partialPath + "_Imports.csv.txt");
+                    Toolkit.MoveFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), partialPath + "_Imports.csv.txt");
 
                     Logger.UpdaterLog($"New catalog { catalog.VersionString() } created and change notes saved.");
-                    Toolkit.CopyFile(ModSettings.UpdaterLogfileFullPath, partialPath + "_Updater.log");
+                    Toolkit.CopyFile(Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName), partialPath + "_Updater.log");
                 }
                 else
                 {
@@ -109,8 +105,6 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            Logger.UpdaterLog("Catalog Updater has finished.");
-            Logger.Log("Catalog Updater has finished.\n");
         }
 
 

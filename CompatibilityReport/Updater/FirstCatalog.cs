@@ -6,56 +6,37 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Updater
 {
-    // Create catalog version 1 from scratch with only builtin mods.
+    // Create catalog version 1 from scratch with only builtin mods. It uses a mixture of CatalogUpdater methods and direct object updates to get relevant change notes.
     public static class FirstCatalog
     {
         public static void Create()
         {
-            DateTime updateDate = DateTime.Now;
             Catalog firstCatalog = new Catalog();
-
-            firstCatalog.NewVersion(updateDate);
+            firstCatalog.NewVersion(DateTime.Now);
             firstCatalog.Update(Toolkit.CurrentGameVersion(), ModSettings.FirstCatalogNote, ModSettings.DefaultHeaderText, ModSettings.DefaultFooterText);
 
-            string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ firstCatalog.VersionString() }");
-
-            if (File.Exists(partialPath + ".xml"))
+            if (File.Exists(Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ firstCatalog.VersionString() }.xml")))
             {
                 return;
             }
 
+            // Use a high review date for builtin mods, to avoid the review being considered out-of-date at some point.
             DateTime gameRelease = DateTime.Parse("2015-03-10");
-            string changeNotes = "";
+            CatalogUpdater.SetReviewDate(gameRelease.AddYears(1000));
 
-            // Add fake author "Colossal Order" with high LastSeen date to avoid retirement (but not max. value to avoid out-of-range errors at retirement check).
-            Author colossalOrder = firstCatalog.AddAuthor(ModSettings.FakeAuthorIDforColossalOrder, authorUrl: "", name: "Colossal Order");
-            colossalOrder.Update(lastSeen: gameRelease.AddYears(1000));
+            // Add fake author "Colossal Order" with high LastSeen date to avoid retirement, but not max. value to avoid out-of-range errors at retirement check.
+            Author colossalOrder = CatalogUpdater.AddAuthor(firstCatalog, ModSettings.FakeAuthorIDforColossalOrder, authorUrl: "", authorName: "Colossal Order");
+            colossalOrder.Update(lastSeen: gameRelease.AddYears(1000), retired: false);
 
-            // Add builtin mods with the correct fixed fake Steam ID, and with a high ReviewDate to avoid the review being considered out-of-date.
             foreach (string modName in ModSettings.BuiltinMods.Keys)
             {
-                Mod mod = firstCatalog.AddMod(steamID: ModSettings.BuiltinMods[modName]);
-                
-                mod.Update(modName, published: gameRelease, authorID: colossalOrder.SteamID, stability: Enums.Stability.Stable, 
-                    reviewDate: gameRelease.AddYears(1000), autoReviewDate: updateDate);
-
-                mod.Statuses.Add(Enums.Status.SourceBundled);
-                mod.AddChangeNote($"{ Toolkit.DateString(updateDate) }: added");
-
-                changeNotes += $"New mod { mod.ToString() }\n";
+                Mod builtinMod = CatalogUpdater.AddMod(firstCatalog, steamID: ModSettings.BuiltinMods[modName], modName);
+                builtinMod.Statuses.Add(Enums.Status.SourceBundled);
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID, stability: Enums.Stability.Stable, 
+                    updatedByWebCrawler: true);
             }
 
-            if (firstCatalog.Save(partialPath + ".xml"))
-            {
-                Toolkit.SaveToFile($"Change Notes for Catalog { firstCatalog.VersionString() }\n" +
-                    "-------------------------------\n" +
-                    $"{ updateDate:D}, { updateDate:t}\n" + 
-                    "These change notes were automatically created by the updater process.\n" +
-                    "\n" +
-                    "*** ADDED: ***\n" +
-                    changeNotes, 
-                    partialPath + "_ChangeNotes.txt");
-            }
+            CatalogUpdater.SaveCatalog(firstCatalog);
         }
     }
 }

@@ -489,7 +489,7 @@ namespace CompatibilityReport.CatalogData
 
             downloadedThisSession = true;
 
-            string temporaryFile = ModSettings.DownloadedCatalogFullPath + ".part";
+            string temporaryFile = Path.Combine(ModSettings.WorkPath, $"{ ModSettings.DownloadedCatalogFileName }.part");
 
             if (!Toolkit.DeleteFile(temporaryFile))
             {
@@ -522,7 +522,7 @@ namespace CompatibilityReport.CatalogData
                 Logger.Log($"Downloaded catalog is version { downloadedCatalog.VersionString() }.");
 
                 // Copy the temporary file over the previously downloaded catalog.
-                Toolkit.CopyFile(temporaryFile, ModSettings.DownloadedCatalogFullPath);
+                Toolkit.CopyFile(temporaryFile, Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName));
             }
 
             Toolkit.DeleteFile(temporaryFile);
@@ -534,16 +534,18 @@ namespace CompatibilityReport.CatalogData
         // Load the previously downloaded catalog and return a reference, or null if it doesn't exist or can't load.
         private static Catalog LoadPreviouslyDownloaded()
         {
-            if (!File.Exists(ModSettings.DownloadedCatalogFullPath))
+            string previouslyDownloadedFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName);
+
+            if (!File.Exists(previouslyDownloadedFullPath))
             {
                 return null;
             }
 
-            Catalog previouslyDownloadedCatalog = LoadFromDisk(ModSettings.DownloadedCatalogFullPath);
+            Catalog previouslyDownloadedCatalog = LoadFromDisk(previouslyDownloadedFullPath);
 
             if (previouslyDownloadedCatalog == null)
             {
-                if (Toolkit.DeleteFile(ModSettings.DownloadedCatalogFullPath))
+                if (Toolkit.DeleteFile(previouslyDownloadedFullPath))
                 {
                     Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.Warning);
                 }
@@ -565,7 +567,7 @@ namespace CompatibilityReport.CatalogData
         // Load the bundled catalog and return a refence, or null if it somehow doesn't exist or can't load.
         private static Catalog LoadBundled()
         {
-            if (!File.Exists(ModSettings.DownloadedCatalogFullPath))
+            if (!File.Exists(ModSettings.BundledCatalogFullPath))
             {
                 Logger.Log($"No bundled catalog found. { ModSettings.PleaseReportText }", Logger.Error, duplicateToGameLog: true);
                 return null;

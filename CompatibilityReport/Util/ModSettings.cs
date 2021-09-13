@@ -7,8 +7,6 @@ namespace CompatibilityReport.Util
 {
     public static class ModSettings
     {
-        // Todo 0.7 Reduce number of static fields.
-
         // Mod properties.
         public const string ModName = "Compatibility Report";
         public const string InternalName = "CompatibilityReport";
@@ -18,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = LowestLocalModID;    // Todo 0.5 Our own Steam ID
 
         public const string Version = "0.4.0";
-        public const string Build = "237";
+        public const string Build = "238";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -51,24 +49,29 @@ namespace CompatibilityReport.Util
         //      DataLocation.modsPath               = %localappdata%\Colossal Order\Cities_Skylines\Addons\Mods         // Contains the Windows username.
         //      DataLocation.assemblyDirectory      = ...\Steam Games\steamapps\workshop\content\255710\<mod-steamid>   // Throws "Invalid Path" exception for local mods.
 
+        public static string DefaultReportPath { get; } = DataLocation.applicationBase;
         public const string ReportTextFileName = ModName + ".txt";
         public const string ReportHtmlFileName = ModName + ".html";
-        public static string DefaultTextReportFullPath { get; } = Path.Combine(ReportPath, ReportTextFileName);
-        public static string DefaultHtmlReportFullPath { get; } = Path.Combine(ReportPath, ReportTextFileName);
+        public const string SettingsFileName = InternalName + "_Settings.xml";
 
-        public static string SettingsFileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Settings.xml");
-        public static string LogfileFullPath { get; } = Path.Combine(Application.dataPath, $"{ InternalName }.log");
-        
+        public static string LogPath { get; } = Application.dataPath;
+        public const string LogFileName = InternalName + ".log";
+
+        public static string WorkPath { get; } = DataLocation.localApplicationData;
+        public const string DownloadedCatalogFileName = InternalName + "_Downloaded_Catalog.xml";
+
         public static string BundledCatalogFullPath
         { 
-            get {
+            get 
+            {
                 try
                 {
-                    // This will work if we are a Steam Workshop mod, but not if we are a local mod.
+                    // Steam Workshop mod.
                     return Path.Combine(DataLocation.assemblyDirectory, $"{ InternalName }_Catalog.xml");
                 }
                 catch
                 {
+                    // Local mod.
                     return Path.Combine(Path.Combine(DataLocation.modsPath, InternalName), $"{ InternalName }_Catalog.xml");
                 }
             }
@@ -77,7 +80,6 @@ namespace CompatibilityReport.Util
         // .NET 3.5 only support TSL 1.2 with registry edits, which we can't rely on for mod users. So for a download location we
         // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+.
         public const string CatalogURL = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
-        public static string DownloadedCatalogFullPath { get; } = Path.Combine(DataLocation.localApplicationData, $"{ InternalName }_Downloaded_Catalog.xml");
 
 
         // Report and log properties.
@@ -115,15 +117,12 @@ namespace CompatibilityReport.Util
         public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the Workshop page.";       // Todo 0.5 Add our Workshop URL.
 
         public const string FirstCatalogNote = "This first catalog only contains the builtin mods.";
-        public const string SecondCatalogNote = "This catalog contains basic information about all Steam Workshop mods. No reviews yet.";
 
         public const string PleaseReportText = "Please report this on the Steam Workshop page for " + ModName + ".";                // Todo 0.5 Add our Workshop URL.
 
 
-        // Todo 0.7 Defaults for settings that will be available to users through mod options within the game.
-        public static string ReportPath { get; private set; } = DataLocation.applicationBase;
-        public static string TextReportFullPath { get; private set; } = DefaultTextReportFullPath;
-        public static string HtmlReportFullPath { get; private set; } = DefaultHtmlReportFullPath;
+        // Todo 0.7 Settings that will be available to users through mod options within the game.
+        public static string ReportPath { get; private set; } = DefaultReportPath;
         public static int TextReportWidth { get; private set; } = MinimalTextReportWidth;
         public static bool ReportSortByName { get; private set; } = true;
         public static bool HtmlReport { get; private set; } = false;
@@ -131,7 +130,7 @@ namespace CompatibilityReport.Util
         public static bool AllowOnDemandScanning { get; private set; } = false;
 
 
-        // Todo 0.7 Defaults for settings that will be available in a settings xml file.
+        // Todo 0.7 Settings that will be available in a settings xml file.
         public static int DownloadRetries { get; private set; } = 2;
         public static bool ScanBeforeMainMenu { get; private set; } = true;
         public static bool DebugMode { get; private set; } = true;
@@ -140,13 +139,14 @@ namespace CompatibilityReport.Util
 
 
         // Updater properties.
-        public static string UpdaterPath { get; } = Path.Combine(DataLocation.localApplicationData, $"{ InternalName }Updater");
+        public static string UpdaterPath { get; } = Path.Combine(WorkPath, $"{ InternalName }Updater");
         public static bool UpdaterAvailable { get; } = Directory.Exists(UpdaterPath);
-        public static string UpdaterSettingsFileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_UpdaterSettings.xml");
-        public static string UpdaterLogfileFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Updater.log");
-        public static string DataDumpFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_DataDump.txt");
-        public static string TempDownloadFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_Download.tmp");
-        public static string TempCsvCombinedFullPath { get; } = Path.Combine(UpdaterPath, $"{ InternalName }_CSVCombined.tmp");
+        public const string UpdaterSettingsFileName = InternalName + "_UpdaterSettings.xml";
+        public const string UpdaterLogFileName = InternalName + "_Updater.log";
+        public const string DataDumpFileName = InternalName + "_DataDump.txt";
+
+        public const string TempDownloadFileName = InternalName + "_Download.tmp";
+        public const string TempCsvCombinedFileName = InternalName + "_CSVCombined.tmp";
 
         public static List<string> SteamModListingURLs { get; } = new List<string> {
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod",

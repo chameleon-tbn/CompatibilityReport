@@ -38,11 +38,11 @@ namespace CompatibilityReport.Util
 
             if (!regularLogInitialized)
             {
-                regularLog = new LogFiler(ModSettings.LogfileFullPath, append: ModSettings.LogAppend);
-
+                string fullPath = Path.Combine(ModSettings.LogPath, ModSettings.LogFileName);
+                regularLog = new LogFiler(fullPath, append: ModSettings.LogAppend);
                 regularLogInitialized = true;
 
-                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(ModSettings.LogfileFullPath) }\".");
+                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
 
             regularLog.WriteLine(message, logLevel, duplicateToGameLog, timestamp: true);
@@ -54,11 +54,11 @@ namespace CompatibilityReport.Util
         {
             if (!updaterLogInitialized)
             {
-                updaterLog = new LogFiler(ModSettings.UpdaterLogfileFullPath, append: false);
-
+                string fullPath = Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName);
+                updaterLog = new LogFiler(fullPath, append: false);
                 updaterLogInitialized = true;
 
-                GameLog($"Logging for the updater can be found in \"{ Toolkit.Privacy(ModSettings.UpdaterLogfileFullPath) }\".");
+                GameLog($"Logging for the updater can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
 
             updaterLog.WriteLine(message, logLevel, duplicateToGameLog: false, timestamp: true);
