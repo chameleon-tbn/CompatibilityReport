@@ -29,17 +29,19 @@ namespace CompatibilityReport.Updater
 
 
         // Add a change note for an updated mod.
-        public void AddUpdatedMod(Mod catalogMod, string extraChangeNote)
+        public void AddUpdatedMod(ulong steamID, string extraChangeNote)
         {
-            extraChangeNote = (extraChangeNote[0] == ',') ? extraChangeNote : ", " + extraChangeNote;
-
-            if (UpdatedMods.ContainsKey(catalogMod.SteamID))
+            if (UpdatedMods.ContainsKey(steamID))
             {
-                UpdatedMods[catalogMod.SteamID] += $", { extraChangeNote }";
+                if (!UpdatedMods[steamID].Contains(extraChangeNote))
+                {
+                    extraChangeNote = (extraChangeNote[0] == ',') ? extraChangeNote : ", " + extraChangeNote;
+                    UpdatedMods[steamID] += $", { extraChangeNote }";
+                }
             }
             else
             {
-                UpdatedMods.Add(catalogMod.SteamID, extraChangeNote);
+                UpdatedMods.Add(steamID, extraChangeNote);
             }
         }
 
@@ -51,7 +53,10 @@ namespace CompatibilityReport.Updater
             {
                 if (UpdatedAuthorsByID.ContainsKey(catalogAuthor.SteamID))
                 {
-                    UpdatedAuthorsByID[catalogAuthor.SteamID] += $", { extraChangeNote }";
+                    if (!UpdatedAuthorsByID[catalogAuthor.SteamID].Contains(extraChangeNote))
+                    {
+                        UpdatedAuthorsByID[catalogAuthor.SteamID] += $", { extraChangeNote }";
+                    }
                 }
                 else
                 {
@@ -62,7 +67,10 @@ namespace CompatibilityReport.Updater
             {
                 if (UpdatedAuthorsByUrl.ContainsKey(catalogAuthor.CustomUrl))
                 {
-                    UpdatedAuthorsByUrl[catalogAuthor.CustomUrl] += $", { extraChangeNote }";
+                    if (!UpdatedAuthorsByUrl[catalogAuthor.CustomUrl].Contains(extraChangeNote))
+                    {
+                        UpdatedAuthorsByUrl[catalogAuthor.CustomUrl] += $", { extraChangeNote }";
+                    }
                 }
                 else
                 {
@@ -115,7 +123,6 @@ namespace CompatibilityReport.Updater
                 if (!string.IsNullOrEmpty(UpdatedMods[steamID]))
                 {
                     catalog.GetMod(steamID).AddChangeNote($"{ todayDateString }: { UpdatedMods[steamID] }");
-
                     combined.AppendLine($"Mod { catalog.GetMod(steamID).ToString() }: { UpdatedMods[steamID] }");
                 }
             }
@@ -133,14 +140,12 @@ namespace CompatibilityReport.Updater
             foreach (ulong authorID in UpdatedAuthorsByID.Keys)
             {
                 catalog.GetAuthor(authorID, "").AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByID[authorID] }");
-
                 combined.AppendLine($"Author { catalog.GetAuthor(authorID, "").ToString() }: { UpdatedAuthorsByID[authorID] }");
             }
 
             foreach (string authorUrl in UpdatedAuthorsByUrl.Keys)
             {
                 catalog.GetAuthor(0, authorUrl).AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByUrl[authorUrl] }");
-
                 combined.AppendLine($"Author { catalog.GetAuthor(0, authorUrl).ToString() }: { UpdatedAuthorsByUrl[authorUrl] }");
             }
 

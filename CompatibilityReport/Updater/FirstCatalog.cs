@@ -26,14 +26,14 @@ namespace CompatibilityReport.Updater
 
             // Add fake author "Colossal Order" with high LastSeen date to avoid retirement, but not max. value to avoid out-of-range errors at retirement check.
             Author colossalOrder = CatalogUpdater.AddAuthor(firstCatalog, ModSettings.FakeAuthorIDforColossalOrder, authorUrl: "", authorName: "Colossal Order");
-            colossalOrder.Update(lastSeen: gameRelease.AddYears(1000), retired: false);
+            colossalOrder.Update(lastSeen: gameRelease.AddYears(1000));
 
             foreach (string modName in ModSettings.BuiltinMods.Keys)
             {
                 Mod builtinMod = CatalogUpdater.AddMod(firstCatalog, steamID: ModSettings.BuiltinMods[modName], modName);
+                builtinMod.Update(stability: Enums.Stability.Stable);
                 builtinMod.Statuses.Add(Enums.Status.SourceBundled);
-                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID, stability: Enums.Stability.Stable, 
-                    updatedByWebCrawler: true);
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID);
             }
 
             CatalogUpdater.SaveCatalog(firstCatalog);

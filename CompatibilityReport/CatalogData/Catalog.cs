@@ -42,7 +42,7 @@ namespace CompatibilityReport.CatalogData
         private readonly Dictionary<ulong, Group> groupIndex = new Dictionary<ulong, Group>();
         private readonly Dictionary<ulong, Author> authorIDIndex = new Dictionary<ulong, Author>();
         private readonly Dictionary<string, Author> AuthorUrlIndex = new Dictionary<string, Author>();
-        // Todo 0.4 Make subscription indexes private
+        // Todo 0.4 Make subscription indexes private.
         [XmlIgnore] public List<ulong> SubscriptionIDIndex { get; } = new List<ulong>();
         [XmlIgnore] public Dictionary<string, List<ulong>> SubscriptionNameIndex { get; } = new Dictionary<string, List<ulong>>();
         [XmlIgnore] public Dictionary<ulong, List<Compatibility>> SubscriptionCompatibilityIndex { get; } = new Dictionary<ulong, List<Compatibility>>();
@@ -73,7 +73,6 @@ namespace CompatibilityReport.CatalogData
         public void NewVersion(DateTime updateDate)
         {
             Version++;
-
             UpdateDate = updateDate;
         }
 
@@ -206,9 +205,7 @@ namespace CompatibilityReport.CatalogData
         // Add a group and return a reference.
         public Group AddGroup(string groupName)
         {
-            // Get a new group ID, either one more than the highest current group ID or the default lowest ID if we have no groups yet
             ulong newGroupID = groupIndex.Any() ? groupIndex.Keys.Max() + 1 : ModSettings.LowestGroupID;
-
             Group newGroup = new Group(newGroupID, groupName);
 
             Groups.Add(newGroup);
@@ -233,10 +230,9 @@ namespace CompatibilityReport.CatalogData
 
 
         // Add an author and return a reference.
-        public Author AddAuthor(ulong authorID, string authorUrl, string name)
+        public Author AddAuthor(ulong authorID, string authorUrl)
         {
-            Author author = new Author(authorID, authorUrl, name);
-
+            Author author = new Author(authorID, authorUrl);
             Authors.Add(author);
 
             if (authorID != 0)

@@ -37,11 +37,10 @@ namespace CompatibilityReport.CatalogData
 
 
         // Default constructor for author creation.
-        public Author(ulong steamID, string customUrl, string name)
+        public Author(ulong steamID, string customUrl)
         {
             SteamID = steamID;
             CustomUrl = customUrl ?? "";
-            Name = name;
 
             AddedThisSession = true;
         }

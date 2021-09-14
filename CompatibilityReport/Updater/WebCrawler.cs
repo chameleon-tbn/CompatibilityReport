@@ -117,22 +117,27 @@ namespace CompatibilityReport.Updater
 
                     string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchListingModNameLeft, ModSettings.SearchListingModNameRight));
 
+                    if (string.IsNullOrEmpty(modName))
+                    {
+                        // An empty mod name might be an error, although there is a Steam Workshop mod without a name (ofcourse there is).
+                        Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
+                    }
+
                     Mod catalogMod = catalog.GetMod(steamID) ?? CatalogUpdater.AddMod(catalog, steamID, modName, incompatibleMods);
 
-                    CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
-                    CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop, updatedByWebCrawler: true);
+                    CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop);
+                    CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop);
 
                     if (incompatibleMods && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                     {
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.IncompatibleAccordingToWorkshop, stabilityNote: "", 
-                            updatedByWebCrawler: true);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.IncompatibleAccordingToWorkshop, stabilityNote: "");
                     }
                     else if (!incompatibleMods && catalogMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
                     {
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.NotReviewed, stabilityNote: "", updatedByWebCrawler: true);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.NotReviewed, stabilityNote: "");
                     }
 
-                    CatalogUpdater.UpdateMod(catalog, catalogMod, modName, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
+                    CatalogUpdater.UpdateMod(catalog, catalogMod, modName, alwaysUpdateReviewDate: true);
 
                     // Author info can be found on the next line, but skip it here and get it later on the mod page.
                 }
@@ -227,12 +232,12 @@ namespace CompatibilityReport.Updater
 
                         if (steamIDmatched)
                         {
-                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
+                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop);
 
                             if (!catalogMod.UpdatedThisSession)
                             {
-                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop, updatedByWebCrawler: true);
-                                CatalogUpdater.UpdateMod(catalog, catalogMod, alwaysUpdateReviewDate: true, updatedByWebCrawler: true);
+                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop);
+                                CatalogUpdater.UpdateMod(catalog, catalogMod, alwaysUpdateReviewDate: true);
                             }
                         }
 
@@ -245,7 +250,7 @@ namespace CompatibilityReport.Updater
                             }
                             else
                             {
-                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop, updatedByWebCrawler: true);
+                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop);
                                 return true;
                             }
                         }
@@ -262,10 +267,21 @@ namespace CompatibilityReport.Updater
                         string authorUrl = authorID != 0 ? null : Toolkit.MidString(line, ModSettings.SearchAuthorLeft + "id/", ModSettings.SearchAuthorMid);
                         string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight));
 
+                        if (string.IsNullOrEmpty(authorName))
+                        {
+                            Logger.UpdaterLog($"Author found without a name: { (authorID == 0 ? $"Custom URL { authorUrl }" : $"Steam ID { authorID }") }.", Logger.Error);
+                        }
+                        else if (authorName == authorID.ToString() && authorID != 0)
+                        {
+                            // An author name equal to the author ID might be an error, although some authors have their ID as name (ofcourse they do).
+                            Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. Some authors do this, but it could also be a Steam error.", 
+                                Logger.Warning);
+                        }
+
                         Author catalogAuthor = catalog.GetAuthor(authorID, authorUrl) ?? CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
                         CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, name: authorName);
 
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl, updatedByWebCrawler: true);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);
                     }
 
                     // Mod name.
@@ -273,7 +289,7 @@ namespace CompatibilityReport.Updater
                     {
                         string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchModNameLeft, ModSettings.SearchModNameRight)); 
 
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, modName, updatedByWebCrawler: true);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, modName);
                     }
 
                     // Compatible game version tag
@@ -286,7 +302,7 @@ namespace CompatibilityReport.Updater
 
                         if (!catalogMod.ExclusionForGameVersion || gameVersion >= catalogMod.CompatibleGameVersion())
                         {
-                            CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: gameVersionString, updatedByWebCrawler: true);
+                            CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: gameVersionString);
                             catalogMod.UpdateExclusions(exclusionForGameVersion: false);
                         }
                     }
@@ -301,7 +317,7 @@ namespace CompatibilityReport.Updater
                         line = reader.ReadLine();
                         DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.SearchDatesLeft, ModSettings.SearchDatesRight));
 
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, published: published, updated: updated, updatedByWebCrawler: true);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, published: published, updated: updated);
                     }
 
                     // Required DLC. This line can be found multiple times.
@@ -311,7 +327,7 @@ namespace CompatibilityReport.Updater
                         line = reader.ReadLine();
                         Enums.Dlc dlc = Toolkit.ConvertToEnum<Enums.Dlc>(Toolkit.MidString(line, ModSettings.SearchRequiredDLCLeft, ModSettings.SearchRequiredDLCRight));
 
-                        if (!catalogMod.ExclusionForRequiredDlc.Contains(dlc))
+                        if (dlc != default && !catalogMod.ExclusionForRequiredDlc.Contains(dlc))
                         {
                             CatalogUpdater.AddRequiredDLC(catalog, catalogMod, dlc);
                         }
@@ -332,10 +348,7 @@ namespace CompatibilityReport.Updater
                                 break;
                             }
 
-                            if (!catalogMod.ExclusionForRequiredMods.Contains(requiredID))
-                            {
-                                CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByWebCrawler: true);
-                            }
+                            CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByImporter: false);
 
                             line = reader.ReadLine();
                             line = reader.ReadLine();
@@ -354,16 +367,16 @@ namespace CompatibilityReport.Updater
                         // A 'no description' status is when the description is not at least a few characters longer than the mod name.
                         if (description.Length <= catalogMod.Name.Length + 3 && !catalogMod.ExclusionForNoDescription)
                         {
-                            CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.NoDescription, updatedByWebCrawler: true);
+                            CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.NoDescription);
                         }
                         else if (description.Length > catalogMod.Name.Length + 3 && !catalogMod.ExclusionForNoDescription)
                         {
-                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription, updatedByWebCrawler: true);
+                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription);
                         }
 
                         if (description.Contains(ModSettings.SearchSourceURLLeft) && !catalogMod.ExclusionForSourceUrl)
                         {
-                            CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: GetSourceURL(description, catalogMod), updatedByWebCrawler: true);
+                            CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: GetSourceURL(description, catalogMod));
                         }
 
                         // Description is the last info we need from the page, so break out of the while loop.

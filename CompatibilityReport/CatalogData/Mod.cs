@@ -23,6 +23,8 @@ namespace CompatibilityReport.CatalogData
         public string CompatibleGameVersionString { get; private set; }
 
         public List<Enums.Dlc> RequiredDlcs { get; private set; } = new List<Enums.Dlc>();
+
+        // No mod should be in more than one of the required mods, successors, alternatives and recommendations.
         [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();
         [XmlArrayItem("SteamID")] public List<ulong> Successors { get; private set; } = new List<ulong>();
         [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
@@ -163,7 +165,7 @@ namespace CompatibilityReport.CatalogData
 
 
         // Return a max length, formatted string with the Steam ID and name.
-        // Todo 0.4 cutoff not used, but that might change on Report revision
+        // Todo 0.4 cutoff not used, but that might change on Report revision.
         public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false)
         {
             string idString;

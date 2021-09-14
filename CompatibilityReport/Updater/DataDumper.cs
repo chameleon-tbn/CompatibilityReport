@@ -135,7 +135,6 @@ namespace CompatibilityReport.Updater
 
 
         // Dump info about all authors with more than one mod: name, retired state and Workshop URL.
-        // Todo 0.4 This will give false positives if newly found author IDs and URLs are not propagated to all mods.
         private static void DumpAuthorsWithMultipleMods(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Authors with more than one mod:"));

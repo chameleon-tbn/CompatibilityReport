@@ -65,6 +65,14 @@ namespace CompatibilityReport.Util
         }
 
 
+        // Close the updater log.
+        public static void CloseUpdateLog()
+        {
+            updaterLogInitialized = false;
+            updaterLog = null;
+        }
+
+
         // Log exception to mod log or updater log, and to the game log unless indicated otherwise.
         public static void Exception(Exception ex, bool hideFromGameLog = false, bool debugOnly = false)
         {

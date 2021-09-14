@@ -149,7 +149,8 @@ namespace CompatibilityReport.Updater
             switch (action)
             {
                 case "reviewdate":
-                    return CatalogUpdater.SetReviewDate(Toolkit.ConvertDate(stringSecond));
+                    DateTime newDate = Toolkit.ConvertDate(stringSecond);
+                    return newDate == default ? "Invalid date." : CatalogUpdater.SetReviewDate(newDate);
 
                 case "add_mod":
                     // Join the lineFragments for the optional mod name, to allow for commas.
@@ -301,7 +302,7 @@ namespace CompatibilityReport.Updater
             }
 
             Mod newMod = CatalogUpdater.AddMod(catalog, steamID, modName, unlisted: status == "unlisted", removed: status == "removed");
-            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: authorUrl);
+            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: authorUrl, updatedByImporter: true);
 
             return "";
         }
@@ -369,7 +370,7 @@ namespace CompatibilityReport.Updater
                 return "Mod has the Incompatible stability and that can only be changed for a mod that is removed from the Steam Workshop.";
             }
 
-            CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability, stabilityNote: note);
+            CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability, stabilityNote: note, updatedByImporter: true);
             return "";
         }
 
@@ -391,7 +392,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid URL.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: propertyData);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: propertyData, updatedByImporter: true);
             }
             else if (action == "remove_sourceurl")
             {
@@ -400,7 +401,7 @@ namespace CompatibilityReport.Updater
                     return "No source URL to remove.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: "", updatedByImporter: true);
             }
             else if (action == "set_gameversion")
             {
@@ -412,7 +413,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid game version.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion));
+                CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion), updatedByImporter: true);
             }
             else if (action == "remove_gameversion")
             {
@@ -421,7 +422,7 @@ namespace CompatibilityReport.Updater
                     return "Cannot remove compatible gameversion because it was not manually added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: "", updatedByImporter: true);
             }
             else if (action == "add_requireddlc")
             {
@@ -437,7 +438,7 @@ namespace CompatibilityReport.Updater
                     return "DLC is already required.";
                 }
 
-                CatalogUpdater.AddRequiredDLC(catalog, catalogMod, requiredDLC);
+                CatalogUpdater.AddRequiredDLC(catalog, catalogMod, requiredDLC, updatedByImporter: true);
             }
             else if (action == "remove_requireddlc")
             {
@@ -492,7 +493,7 @@ namespace CompatibilityReport.Updater
                     return "Status cannot be combined with existing 'Deprecated' status.";
                 }
 
-                CatalogUpdater.AddStatus(catalog, catalogMod, status);
+                CatalogUpdater.AddStatus(catalog, catalogMod, status, updatedByImporter: true);
             }
             else if (action == "remove_status")
             {
@@ -508,7 +509,7 @@ namespace CompatibilityReport.Updater
                     return "This status cannot be manually removed.";
                 }
 
-                if (!CatalogUpdater.RemoveStatus(catalog, catalogMod, status))
+                if (!CatalogUpdater.RemoveStatus(catalog, catalogMod, status, updatedByImporter: true))
                 {
                     return "Status not found for this mod.";
                 }
@@ -520,7 +521,7 @@ namespace CompatibilityReport.Updater
                     return "Note already added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: propertyData);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: propertyData, updatedByImporter: true);
             }
             else if (action == "remove_genericnote")
             {
@@ -529,11 +530,11 @@ namespace CompatibilityReport.Updater
                     return "Note already empty.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: "", updatedByImporter: true);
             }
             else if (action == "update_review")
             {
-                CatalogUpdater.UpdateMod(catalog, catalogMod, alwaysUpdateReviewDate: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, alwaysUpdateReviewDate: true, updatedByImporter: true);
             }
             else if (action == "add_requiredmod")
             {
@@ -542,7 +543,7 @@ namespace CompatibilityReport.Updater
                     return "Mod is already required.";
                 }
 
-                CatalogUpdater.AddRequiredMod(catalog, catalogMod, listMember, updatedByWebCrawler: false);
+                CatalogUpdater.AddRequiredMod(catalog, catalogMod, listMember, updatedByImporter: true);
             }
             else if (action == "remove_requiredmod")
             {
@@ -874,9 +875,7 @@ namespace CompatibilityReport.Updater
                 return "Author already exists.";
             }
 
-            Author newAuthor = CatalogUpdater.AddAuthor(catalog, authorID, authorUrl: (authorID == 0 ? authorUrl : ""), name);
-            CatalogUpdater.UpdateAuthor(catalog, newAuthor, retired: true);
-
+            CatalogUpdater.AddAuthor(catalog, authorID, authorUrl: (authorID == 0 ? authorUrl : ""), name, retired: true);
             return "";
         }
 
