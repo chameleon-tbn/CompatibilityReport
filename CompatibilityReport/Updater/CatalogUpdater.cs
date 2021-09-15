@@ -79,12 +79,14 @@ namespace CompatibilityReport.Updater
         // Save the new catalog with change notes, combined CSV file and updater log.
         public static void SaveCatalog(Catalog catalog)
         {
+            catalog.ChangeNotes.ConvertUpdated(catalog);
+
             if (!catalog.ChangeNotes.Any())
             {
                 Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
                 return;
             }
-                
+            
             string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ catalog.VersionString() }");
 
             if (catalog.Save(partialPath + ".xml"))
@@ -187,7 +189,7 @@ namespace CompatibilityReport.Updater
                 (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : 
                     $", compatible game version { Change(catalogMod.CompatibleGameVersion(), Toolkit.ConvertToGameVersion(compatibleGameVersionString)) }") +
                 (stability != default && stability != catalogMod.Stability ? ", stability changed" :
-                    stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : $", stability note { Change(catalogMod.StabilityNote, stabilityNote) }") +
+                    (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : $", stability note { Change(catalogMod.StabilityNote, stabilityNote) }")) +
                 (genericNote == null || genericNote == catalogMod.GenericNote ? "" : $", generic note { Change(catalogMod.GenericNote, genericNote) }");
 
             catalog.ChangeNotes.ModUpdate(catalogMod.SteamID, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
