@@ -361,11 +361,11 @@ namespace CompatibilityReport.Updater
                     {
                         line = reader.ReadLine();
 
-                        // The complete description is on one line.
-                        string description = Toolkit.MidString(line, ModSettings.SearchDescriptionLeft, ModSettings.SearchDescriptionRight);
-
+                        // The complete description is on one line. We can't search for the right part, because it might exist inside the description.
+                        string description = Toolkit.MidString($"{ line }\n", ModSettings.SearchDescriptionLeft, "\n");
+                        
                         // A 'no description' status is when the description is not at least a few characters longer than the mod name.
-                        if (description.Length <= catalogMod.Name.Length + 3 && !catalogMod.ExclusionForNoDescription)
+                        if (description.Length <= catalogMod.Name.Length + ModSettings.SearchDescriptionRight.Length + 3 && !catalogMod.ExclusionForNoDescription)
                         {
                             CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.NoDescription);
                         }
