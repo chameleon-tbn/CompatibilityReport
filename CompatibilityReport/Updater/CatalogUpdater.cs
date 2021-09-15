@@ -761,5 +761,14 @@ namespace CompatibilityReport.Updater
         {
             return string.IsNullOrEmpty(oldValue) ? "added" : string.IsNullOrEmpty(newValue) ? "removed" : "changed";
         }
+
+
+        /// <summary>Determines the kind of change between an old and a new value.</summary>
+        /// <returns>"added", "removed" or "changed".</returns>
+        private static string Change(Version oldValue, Version newValue)
+        {
+            return oldValue == default || oldValue == Toolkit.UnknownVersion() ? "added" : 
+                newValue == default || newValue == Toolkit.UnknownVersion() ? "removed" : "changed";
+        }
     }
 }
