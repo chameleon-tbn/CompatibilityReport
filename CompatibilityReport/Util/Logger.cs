@@ -91,7 +91,7 @@ namespace CompatibilityReport.Util
             else
             {
                 // Exception with shorter stacktrace.
-                Log($"{ logPrefix } { Toolkit.ShortException(ex) }\n{ ex.StackTrace }");
+                Log($"{ logPrefix } { Toolkit.ShortException(ex) }: { ex.Message }\n{ ex.StackTrace }");
             }
 
             if (!hideFromGameLog)

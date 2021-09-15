@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         // Return a short exception message.
         public static string ShortException(Exception ex)
         {
-            return $"Exception: { ex.GetType().Name }: { ex.Message }";
+            return $"Exception: { ex.GetType().Name }";
         }
 
 
@@ -43,6 +43,11 @@ namespace CompatibilityReport.Util
         // Move or rename a file.
         public static bool MoveFile(string sourceFullPath, string destinationFullPath)
         {
+            if (!File.Exists(sourceFullPath))
+            {
+                return false;
+            }
+
             try
             {
                 File.Move(sourceFullPath, destinationFullPath);
@@ -50,7 +55,8 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not move file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.Debug);
+                Logger.Log($"Could not move file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", 
+                    Logger.Debug);
                 return false;
             }
         }
@@ -59,6 +65,11 @@ namespace CompatibilityReport.Util
         // Copy a file.
         public static bool CopyFile(string sourceFullPath, string destinationFullPath)
         {
+            if (!File.Exists(sourceFullPath))
+            {
+                return false;
+            }
+
             try
             {
                 File.Copy(sourceFullPath, destinationFullPath, overwrite: true);
@@ -66,7 +77,8 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not copy file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.Debug);
+                Logger.Log($"Could not copy file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", 
+                    Logger.Debug);
                 return false;
             }
         }
