@@ -35,6 +35,8 @@ namespace CompatibilityReport.CatalogData
 
         // Assets that show up as required items. This is used to distinguish between a required asset and an unknown required mod.
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
+
+        // UnknownAssets is a temporary list of newly found unknown required Steam IDs, to be evaluated for adding to the RequiredAssets list.
         private readonly List<ulong> unknownAssets = new List<ulong>();
 
         // Dictionaries for faster lookup.
@@ -256,7 +258,8 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Add an asset to the list of potential assets.
+        /// <summary>Add an asset to the list of potential assets.</summary>
+        /// <returns>true if added, false if it was already in the list.</returns>
         public bool AddUnknownAsset(ulong unknownAsset)
         {
             if (unknownAssets.Contains(unknownAsset))
@@ -425,15 +428,16 @@ namespace CompatibilityReport.CatalogData
             }
             catch (Exception ex)
             {
-                if (ex.ToString().Contains("There is an error in XML document") || ex.ToString().Contains("Document element did not appear"))
+                if (ex.ToString().Contains("There is an error in XML document") || ex.ToString().Contains("Document element did not appear") ||
+                    ex.ToString().Contains("unexpected end of file"))
                 {
                     Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Error);
                     Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
                 }
                 else
                 {
-                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Error);
-                    Logger.Exception(ex);
+                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                    Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
                 }
 
                 return null;
@@ -485,7 +489,7 @@ namespace CompatibilityReport.CatalogData
 
             downloadedThisSession = true;
 
-            string temporaryFile = Path.Combine(ModSettings.WorkPath, $"{ ModSettings.DownloadedCatalogFileName }.part");
+            string temporaryFile = Path.Combine(ModSettings.WorkPath, $"{ ModSettings.DownloadedCatalogFileName }.tmp");
 
             if (!Toolkit.DeleteFile(temporaryFile))
             {
