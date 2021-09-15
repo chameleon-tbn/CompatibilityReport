@@ -29,8 +29,13 @@ namespace CompatibilityReport.Updater
 
 
         // Add a change note for an updated mod.
-        public void AddUpdatedMod(ulong steamID, string extraChangeNote)
+        public void ModUpdate(ulong steamID, string extraChangeNote)
         {
+            if (string.IsNullOrEmpty(extraChangeNote))
+            {
+                return;
+            }
+
             if (UpdatedMods.ContainsKey(steamID))
             {
                 if (!UpdatedMods[steamID].Contains(extraChangeNote))
@@ -47,8 +52,13 @@ namespace CompatibilityReport.Updater
 
 
         // Add a change note for an updated author.
-        public void AddUpdatedAuthor(Author catalogAuthor, string extraChangeNote)
+        public void AuthorUpdate(Author catalogAuthor, string extraChangeNote)
         {
+            if (string.IsNullOrEmpty(extraChangeNote))
+            {
+                return;
+            }
+
             if (catalogAuthor.SteamID != 0)
             {
                 if (UpdatedAuthorsByID.ContainsKey(catalogAuthor.SteamID))
@@ -123,7 +133,7 @@ namespace CompatibilityReport.Updater
                 if (!string.IsNullOrEmpty(UpdatedMods[steamID]))
                 {
                     catalog.GetMod(steamID).AddChangeNote($"{ todayDateString }: { UpdatedMods[steamID] }");
-                    combined.AppendLine($"Mod { catalog.GetMod(steamID).ToString() }: { UpdatedMods[steamID] }");
+                    combined.AppendLine($"Updated mod { catalog.GetMod(steamID).ToString() }: { UpdatedMods[steamID] }");
                 }
             }
 
@@ -140,13 +150,13 @@ namespace CompatibilityReport.Updater
             foreach (ulong authorID in UpdatedAuthorsByID.Keys)
             {
                 catalog.GetAuthor(authorID, "").AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByID[authorID] }");
-                combined.AppendLine($"Author { catalog.GetAuthor(authorID, "").ToString() }: { UpdatedAuthorsByID[authorID] }");
+                combined.AppendLine($"Updated author { catalog.GetAuthor(authorID, "").ToString() }: { UpdatedAuthorsByID[authorID] }");
             }
 
             foreach (string authorUrl in UpdatedAuthorsByUrl.Keys)
             {
                 catalog.GetAuthor(0, authorUrl).AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByUrl[authorUrl] }");
-                combined.AppendLine($"Author { catalog.GetAuthor(0, authorUrl).ToString() }: { UpdatedAuthorsByUrl[authorUrl] }");
+                combined.AppendLine($"Updated author { catalog.GetAuthor(0, authorUrl).ToString() }: { UpdatedAuthorsByUrl[authorUrl] }");
             }
 
             return combined;

@@ -334,7 +334,7 @@ namespace CompatibilityReport.Updater
                 return "Mod can't be removed because it is referenced by other mods as required mod, successor, alternative or recommendation.";
             }
 
-            catalog.ChangeNotes.RemovedMods.AppendLine($"Mod removed: { catalogMod.ToString() }");
+            catalog.ChangeNotes.RemovedMods.AppendLine($"Removed mod { catalogMod.ToString() }");
 
             return catalog.RemoveMod(catalogMod) ? "" : "Mod could not be removed.";
         }
