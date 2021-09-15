@@ -6,9 +6,9 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Updater
 {
-    // Create catalog version 1 from scratch with only builtin mods. It uses a mixture of CatalogUpdater methods and direct object updates to get relevant change notes.
     public static class FirstCatalog
     {
+        // Create catalog version 1 from scratch with only builtin mods. It uses a mixture of CatalogUpdater methods and direct object updates to get relevant change notes.
         public static void Create()
         {
             Catalog firstCatalog = new Catalog();
@@ -33,7 +33,7 @@ namespace CompatibilityReport.Updater
                 Mod builtinMod = CatalogUpdater.AddMod(firstCatalog, steamID: ModSettings.BuiltinMods[modName], modName);
                 builtinMod.Update(stability: Enums.Stability.Stable);
                 builtinMod.Statuses.Add(Enums.Status.SourceBundled);
-                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID);
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID, alwaysUpdateReviewDate: true);
             }
 
             CatalogUpdater.SaveCatalog(firstCatalog);
