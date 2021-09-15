@@ -132,7 +132,7 @@ namespace CompatibilityReport.Reporter
 
         // Get report text for one mod. Not reported: SourceURL, Updated, Downloaded.
         // Return value indicates whether we found a mod without a review in the catalog, but with remarks to report.
-        // Todo 0.4 Change this logic
+        // Todo 0.4 Change GetModText(), which is now quite cumbersome.
         private static bool GetModText(Catalog catalog, ulong steamID, bool nameFirst)
         {
             Mod subscribedMod = catalog.GetMod(steamID);
@@ -169,7 +169,7 @@ namespace CompatibilityReport.Reporter
             // Insert the 'not reviewed' text at the start of the text. This does not count towards somethingToReport.
             modReview.Insert(0, NotReviewed(subscribedMod));
 
-            // Todo 0.4 Keep better track of issues; now this text doesn't show if the author is retired
+            // Todo 0.4 Keep better track of issues. Now the "nothing found" text doesn't show if the author is retired.
             if (modReview.Length == 0)
             {
                 modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods."));
@@ -292,7 +292,6 @@ namespace CompatibilityReport.Reporter
 
 
         // Successor(s)
-        // Todo 0.4 This doesn't take subscriptions into account
         private static string Successors(Catalog catalog, Mod subscribedMod)
         {
             string text = (subscribedMod.Successors.Count == 0) ? "" : (subscribedMod.Successors.Count == 1) ? ReviewLine("This is succeeded by:") :
@@ -302,6 +301,12 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(id))
                 {
+                    if (catalog.SubscriptionIDIndex.Contains(id))
+                    {
+                        return ReviewLine("Unsubscribe. This is succeeded by a mod you already have:") + 
+                            ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    }
+
                     text += ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
@@ -318,7 +323,6 @@ namespace CompatibilityReport.Reporter
 
 
         // Alternative mods
-        // Todo 0.4 This doesn't take subscriptions into account
         private static string Alternatives(Catalog catalog, Mod subscribedMod)
         {
             string text = (subscribedMod.Alternatives.Count == 0) ? "" : (subscribedMod.Alternatives.Count == 1) ? ReviewLine("An alternative you could use:") :
@@ -328,7 +332,8 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(id))
                 {
-                    text += ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += ReviewLine((catalog.SubscriptionIDIndex.Contains(id) ? "[Subscribed] " : "") + catalog.GetMod(id).ToString(hideFakeID: true), 
+                        ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
@@ -344,7 +349,6 @@ namespace CompatibilityReport.Reporter
 
 
         // Recommended mods
-        // Todo 0.4 This doesn't take subscriptions into account
         private static string Recommendations(Catalog catalog, Mod subscribedMod)
         {
             string text = (subscribedMod.Alternatives.Count == 0) ? "" : ReviewLine("The author of this mod recommends using the following with this:");
@@ -353,6 +357,12 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(id))
                 {
+                    if (catalog.SubscriptionIDIndex.Contains(id))
+                    {
+                        // Skip this recommendation that is already subscribed.
+                        continue;
+                    }
+
                     text += ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
