@@ -12,11 +12,12 @@ namespace CompatibilityReport.Reporter
     public static class TextReport
     {
         // Todo 0.4 Review needed for all texts that appear in the report.
-        // Todo 0.4 What to do with the static stringbuilders?
+        // Todo 0.4 What to do with the static stringbuilders? Change TextReport into non-static for better garbage collection?
         private static StringBuilder reviewedModsText;
         private static StringBuilder nonReviewedModsText;
 
 
+        /// <summary>Creates the text report.</summary>
         public static void Create(Catalog catalog)
         {
             reviewedModsText = new StringBuilder();
@@ -130,9 +131,10 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Get report text for one mod. Not reported: SourceURL, Updated, Downloaded.
-        // Return value indicates whether we found a mod without a review in the catalog, but with remarks to report.
+        /// <summary>Gets the report text for one mod.</summary>
+        /// <returns>True if this mod has no review in the catalog but has remarks to report nonetheless, false otherwise.</returns>
         // Todo 0.4 Change GetModText(), which is now quite cumbersome.
+        // Todo 0.4 Currently not reported: SourceURL, Updated, Downloaded.
         private static bool GetModText(Catalog catalog, ulong steamID, bool nameFirst)
         {
             Mod subscribedMod = catalog.GetMod(steamID);
@@ -191,7 +193,9 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Format one line for the review, including bullets, indenting and max. width.
+        /// <summary>Formats a text for the report, including optional bullet and indenting.</summary>
+        /// <remarks>The text will be wordwrapped, or optionally cutoff, at report width.</remarks>
+        /// <returns>A formatted string for the report.</returns>
         private static string ReviewLine(string message, string bullet = ModSettings.Bullet1, bool cutOff = false)
         {
             if (bullet.Length + message.Length > ModSettings.TextReportWidth)
@@ -211,6 +215,8 @@ namespace CompatibilityReport.Reporter
             return string.IsNullOrEmpty(message) ? "" : $"{ bullet }{ message }\n";
         }
 
+
+        // Todo 0.4 This class needs XML documentation tagged comments.
 
         // Say hi to ourselves.
         private static string ThisMod(Mod subscribedMod)

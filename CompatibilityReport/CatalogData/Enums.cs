@@ -1,12 +1,12 @@
 ﻿namespace CompatibilityReport.CatalogData
 {
-    // Todo 0.5 Change URL to this in Updater Guide
+    // Todo 0.5 Change URL to this in Updater Guide.
     public static class Enums
     {
-        // The stability of a mod. Order matters because it is used in Reporter checks.
+        /// <summary>The stability of a mod. Order matters because it is used in Reporter checks.</summary>
         public enum Stability
         {
-            Undefined,                          // Unused.
+            Undefined = 0,                      // Unused.
             NotReviewed,                        // Mod is not reviewed yet, stability is unknown. Assigned by default.
             NotEnoughInformation,               // Stability unknown, because we don't have enough information yet to determine it.
             Stable,                             // This mod will function.
@@ -20,10 +20,10 @@
         }
 
 
-        // Statuses of a mod. A mod can have none, one or multiple. Not all can be combined, like unlisted and removed or more than one of the 'music' statuses.
+        /// <summary>Statuses of a mod. A mod can have none, one or multiple. Not all can be combined, like unlisted and removed or multiple 'music' statuses.</summary>
         public enum Status
         {
-            Undefined,                          // Unused.
+            Undefined = 0,                      // Unused.
             UnlistedInWorkshop,                 // Available in the Steam Workshop, but is not shown in searches or collections. Can only be found with a direct link.
             RemovedFromWorkshop,                // This was once available in the Steam Workshop, but no more. Better not to use it anymore.
             NoDescription,                      // No (real) description in the Steam Workshop for this mod, which indicates a sparsely supported mod.
@@ -46,13 +46,13 @@
         }
 
 
-        // Compatibility statuses between two mods. There is no need to create 'mirrored' compatibilities (between A and B and between B and A).
+        /// <summary>Compatibility statuses between two mods. There is no need to create 'mirrored' compatibilities (between A and B and between B and A).</summary>
         public enum CompatibilityStatus
         {
-            Undefined,                          // Unused.
-            NewerVersion,                       // The first mod is an newer version of the second. Compatibility note will only be reported for the second mod.
+            Undefined = 0,                      // Unused.
+            NewerVersion,                       // The first mod is an newer version of the second. The compatibility note will only be reported for the second mod.
             SameModDifferentReleaseType,        // Both mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable' one.
-            FunctionalityCovered,               // The first mod has all functionality of the second mod, and more. Note will only be reported for the second mod.
+            FunctionalityCovered,               // The first mod has all functionality of the second mod, and more. The note will only be reported for the second mod.
             SameFunctionality,                  // These mods are incompatible because they do the same thing or change the same functionality.
             IncompatibleAccordingToAuthor,      // These mods are incompatible according to the author of one of the mods
             IncompatibleAccordingToUsers,       // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim.
@@ -62,8 +62,9 @@
         }
 
 
-        // Complete list of DLCs that might be required for a mod. The numbers are the AppIDs of the DLC.
-        // The DLC names are used in the report, with double underscores replaced by colon+space, and single underscores replaced by a space.
+        /// <summary>DLCs that might be required for a mod.</summary>
+        /// <remarks>The numbers are the AppIDs of the DLC. The enum names are used as DLC names in the report, 
+        ///          with double underscores replaced by colon+space, and single underscores replaced by a space.</remarks>
         public enum Dlc : uint
         {
             Unknown = 0,                        // Unused

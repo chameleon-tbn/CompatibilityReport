@@ -10,7 +10,7 @@ namespace CompatibilityReport.Reporter
         private static bool hasRun;
 
 
-        // Start the reporter.
+        /// <summary>Starts the reporter to create a text and/or HTML report.</summary>
         public static void Create(string scene)
         {
             if (scene != "On-demand")
@@ -57,13 +57,13 @@ namespace CompatibilityReport.Reporter
                     "Results may not be accurate.", Logger.Warning);
             }
 
-            catalog.GetSubscriptions();
+            catalog.ScanSubscriptions();
 
             Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionIDIndex.Count } mods.");
 
             if (ModSettings.HtmlReport)
             {
-                // Todo 1.1 Create HTML report
+                // Todo 1.1 Create HTML report.
             }
 
             // Always create the text report if the HTML report is disabled, so at least one report is created.

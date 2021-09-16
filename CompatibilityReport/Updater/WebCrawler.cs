@@ -4,17 +4,16 @@ using System.IO;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
-// WebCrawler gathers information from the Steam Workshop pages for all mods and updates the catalog with this. This process takes roughly 15 minutes.
-// The following information is gathered:
-// * Mod: name, author, publish and update dates, source URL (GitHub only), compatible game version (from tag), required DLCs, required mods, incompatible stability
-//        statuses: removed from or unlisted in the Steam Workshop, no description
-// * Author: name, Steam ID and Custom URL, last seen date (based on mod updates, not on comments), retired status (no mod update in x months; removed on new mod update)
-
 namespace CompatibilityReport.Updater
 {
+    /// <summary>WebCrawler gathers information from the Steam Workshop pages for all mods and updates the catalog with this.</summary>
+    /// <remarks>This process takes roughly 15 minutes. The following information is gathered:<list type="bullet">
+    /// <item>Mod: name, author, publish and update dates, source URL (GitHub links only), compatible game version (from tag), required DLCs, required mods,
+    ///            incompatible stability, removed from or unlisted in the Steam Workshop status, no description status</item>
+    /// <item>Author: name, Steam ID or Custom URL, last seen date (based on mod updates, not on comments), retired status (based on last seen date)</item></list></remarks>
     public static class WebCrawler
     {
-        // Start the WebCrawler. Download Steam webpages for all mods and update the catalog with found information.
+        /// <summary>Starts the WebCrawler. Downloads Steam webpages for all mods and update the catalog with found information.</summary>
         public static void Start(Catalog catalog)
         {
             CatalogUpdater.SetReviewDate(DateTime.Now);
@@ -24,9 +23,10 @@ namespace CompatibilityReport.Updater
                 GetDetails(catalog);
             }
         }
-        
 
-        // Get mod and author names and IDs from the Steam Workshop 'mod listing' pages. Return true if we found at least one mod.
+
+        /// <summary>Downloads 'mod listing' pages from the Steam Workshop to get mod names and IDs for all available mods.</summary>
+        /// <returns>True if at least one mod was found, false otherwise.</returns>
         private static bool GetBasicInfo(Catalog catalog)
         {
             Logger.UpdaterLog("Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
@@ -89,7 +89,9 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Extract mod info from the downloaded mod listing page and add new mods to the catalog. Returns the number of mods found on this page.
+        /// <summary>Extracts Steam IDs and mod names for all mods from a downloaded mod listing page and adds/updates this in the catalog.</summary>
+        /// <remarks>Sets the auto review date, (re)sets 'incompatible according to workshop' stability and removes unlisted and 'removed from workshop' statuses.</remarks>
+        /// <returns>The number of mods found on this page.</returns>
         private static int ReadModListingPage(string tempFileFullPath, Catalog catalog, bool incompatibleMods)
         {
             int modsFoundThisPage = 0;
@@ -147,7 +149,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Get mod information from the individual mod pages on the Steam Workshop.
+        /// <summary>Downloads individual mod pages from the Steam Workshop to get detailed mod information for all mods in the catalog.</summary>
+        /// <remarks>Known unlisted mods are included. Removed mods are checked, to catch reappearing mods.</remarks>
         private static void GetDetails(Catalog catalog)
         {
             Stopwatch timer = Stopwatch.StartNew();
@@ -215,7 +218,9 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Extract detailed mod information from the downloaded mod page and update the catalog. Return false if there was an error with the mod page.
+        /// <summary>Extracts detailed mod information from a downloaded mod page and updates the catalog.</summary>
+        /// <remarks>Also sets the auto review date.</remarks>
+        /// <returns>True if succesful, false if there was an error with the mod page.</returns>
         private static bool ReadModPage(string tempFileFullPath, Catalog catalog, Mod catalogMod)
         {
             bool steamIDmatched = false;
@@ -297,7 +302,7 @@ namespace CompatibilityReport.Updater
                     {
                         // Convert the found tag to a game version and back to a formatted game version string, so we have a consistently formatted string.
                         string gameVersionString = Toolkit.MidString(line, ModSettings.SearchVersionTagLeft, ModSettings.SearchVersionTagRight);
-                        Version gameVersion = Toolkit.ConvertToGameVersion(gameVersionString);
+                        Version gameVersion = Toolkit.ConvertToVersion(gameVersionString);
                         gameVersionString = Toolkit.ConvertGameVersionToString(gameVersion);
 
                         if (!catalogMod.ExclusionForGameVersion || gameVersion >= catalogMod.CompatibleGameVersion())
@@ -398,7 +403,9 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Get the source URL. If more than one is found, pick the most likely, which is far from perfect and might need a CSV update to set it right.
+        /// <summary>Gets the source URL.</summary>
+        /// <remarks>If more than one is found, pick the most likely, which is far from perfect and might need a CSV update to set it right.</remarks>
+        /// <returns>The source URL string.</returns>
         private static string GetSourceURL(string modDescription, Mod catalogMod)
         {
             string sourceURL = "https://github.com/" + Toolkit.MidString(modDescription, ModSettings.SearchSourceURLLeft, ModSettings.SearchSourceURLRight);

@@ -7,13 +7,13 @@ using System.Text;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
-// FileImporter gathers update information from CSV files in de Updater folder, and updates the catalog with this. See Updater Guide for details.
-
 namespace CompatibilityReport.Updater
 {
+    /// <summary>FileImporter gathers update information from CSV files in de Updater folder, and updates the catalog with this.</summary>
+    /// <remarks>See Updater Guide for details.</remarks>
     public static class FileImporter
     {
-        // Start the FileImporter. Read all CSV files and update the catalog with found information.
+        /// <summary>Starts the FileImporter. Reads all CSV files and updates the catalog with the found information.</summary>
         public static void Start(Catalog catalog)
         {
             Logger.UpdaterLog("Updater started the CSV import.");
@@ -57,7 +57,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Read one CSV file. Returns false on errors.
+        /// <summary>Reads one CSV file.</summary>
+        /// <returns>True if all was well, false when encountering one or more errors in the CSV file.</returns>
         private static bool ReadCsv(Catalog catalog, string CsvFileFullPath)
         {
             StringBuilder processedCsvLines = new StringBuilder();
@@ -115,7 +116,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Read and process one CSV line, returning an error message, if any.
+        /// <summary>Reads and processes one line from a CSV file.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string ReadCsvLine(Catalog catalog, string line)
         {
             if (string.IsNullOrEmpty(line) || line.Trim()[0] == '#')
@@ -150,7 +152,12 @@ namespace CompatibilityReport.Updater
             {
                 case "reviewdate":
                     DateTime newDate = Toolkit.ConvertDate(stringSecond);
-                    return newDate == default ? "Invalid date." : CatalogUpdater.SetReviewDate(newDate);
+                    if (newDate == default)
+                    {
+                        return "Invalid date.";
+                    }
+                    CatalogUpdater.SetReviewDate(newDate);
+                    return "";
 
                 case "add_mod":
                     // Join the lineFragments for the optional mod name, to allow for commas.
@@ -268,7 +275,7 @@ namespace CompatibilityReport.Updater
                         authorUrl: (numericSecond == 0 ? stringSecond : ""));
 
                 case "set_cataloggameversion":
-                    return SetCatalogGameVersion(catalog, newGameVersion: Toolkit.ConvertToGameVersion(stringSecond));
+                    return SetCatalogGameVersion(catalog, newGameVersion: Toolkit.ConvertToVersion(stringSecond));
 
                 case "set_catalognote":
                 case "set_catalogheadertext":
@@ -288,7 +295,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add an unlisted or removed mod.
+        /// <summary>Adds an unlisted or removed mod to the catalog.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddMod(Catalog catalog, ulong steamID, string status, ulong authorID, string authorUrl, string modName)
         {
             if (!catalog.IsValidID(steamID, shouldExist: false))
@@ -308,7 +316,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Remove a 'removed from Workshop' mod from the catalog.
+        /// <summary>Removes a 'removed from Workshop' mod from the catalog.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string RemoveMod(Catalog catalog, ulong steamID)
         {
             if (!catalog.IsValidID(steamID, allowBuiltin: false))
@@ -340,7 +349,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Change mod stability.
+        /// <summary>Changes the stability for a mod.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string ChangeStability(Catalog catalog, ulong steamID, string stabilityString, string note)
         {
             Mod catalogMod = catalog.GetMod(steamID);
@@ -375,7 +385,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Change a mod property.
+        /// <summary>Changes a mod property.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string ChangeModProperty(Catalog catalog, string action, ulong steamID, string propertyData = "", ulong listMember = 0)
         {
             Mod catalogMod = catalog.GetMod(steamID);
@@ -406,7 +417,7 @@ namespace CompatibilityReport.Updater
             else if (action == "set_gameversion")
             {
                 // Convert the itemData string to gameversion and back to string, to make sure we have a consistently formatted gameversion string.
-                Version newGameVersion = Toolkit.ConvertToGameVersion(propertyData);
+                Version newGameVersion = Toolkit.ConvertToVersion(propertyData);
 
                 if (newGameVersion == Toolkit.UnknownVersion())
                 {
@@ -618,7 +629,9 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Remove an exclusion for SourceURL, GameVersion, RequiredDLC, RequiredMod or NoDescription.
+        /// <summary>Removes a mod exclusion.</summary>
+        /// <remarks>Available exclusion categories: SourceURL, GameVersion, RequiredDLC, RequiredMod and NoDescription.</remarks>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string RemoveExclusion(Catalog catalog, ulong steamID, string categoryString, string dlcString, ulong requiredID)
         {
             Mod catalogMod = catalog.GetMod(steamID);
@@ -673,7 +686,9 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add compatibilities between each of the mods in a list. Only 'SameFunctionality' can be used with this.
+        /// <summary>Adds compatibilities between each of the mods in a given list.</summary>
+        /// <remarks>Only 'SameFunctionality' can be used with this method.</remarks>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddCompatibilitiesForAll(Catalog catalog, string compatibilityString, List<ulong> steamIDs)
         {
             if (compatibilityString != "samefunctionality")
@@ -705,7 +720,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add compatibilities between one mod and a list of others.
+        /// <summary>Adds compatibilities between one mod and a list of others.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddCompatibilitiesForOne(Catalog catalog, ulong firstSteamID, string compatibilityString, List<ulong> steamIDs)
         {
             if (compatibilityString == "minorissues" || compatibilityString == "requiresspecificsettings")
@@ -740,7 +756,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add or remove a compatibility between two mods.
+        /// <summary>Adds or remove a compatibility between two mods.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddRemoveCompatibility(Catalog catalog, string action, ulong firstSteamID, ulong secondSteamID, string compatibilityString, string note)
         {
             if (firstSteamID == secondSteamID)
@@ -761,6 +778,10 @@ namespace CompatibilityReport.Updater
             if (compatibilityStatus == default)
             {
                 return "Invalid compatibility status.";
+            }
+            if (string.IsNullOrEmpty(note) && (compatibilityString == "minorissues" || compatibilityString == "requiresspecificsettings"))
+            {
+                return "A note is mandatory for this compatibility.";
             }
 
             Compatibility existingCompatibility = catalog.Compatibilities.Find(x => x.FirstSteamID == firstSteamID && x.SecondSteamID == secondSteamID &&
@@ -796,7 +817,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add a group.
+        /// <summary>Adds a group to the catalog.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddGroup(Catalog catalog, string groupName, List<ulong> groupMembers)
         {
             if (catalog.Groups.Find(x => x.Name == groupName) != default)
@@ -821,7 +843,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Remove a group.
+        /// <summary>Removes a group from the catalog.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string RemoveGroup(Catalog catalog, ulong groupID)
         {
             Group catalogGroup = catalog.GetGroup(groupID);
@@ -830,7 +853,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add or remove a group member.
+        /// <summary>Adds or removes a group member.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddRemoveGroupMember(Catalog catalog, string action, ulong groupID, ulong groupMember)
         {
             Group catalogGroup = catalog.GetGroup(groupID);
@@ -867,7 +891,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add a retired author.
+        /// <summary>Adds a retired author to the catalog.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddAuthor(Catalog catalog, ulong authorID, string authorUrl, string name)
         {
             if (catalog.GetAuthor(authorID, authorUrl) != null)
@@ -880,7 +905,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Change an author property.
+        /// <summary>Changes an author property.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string ChangeAuthorProperty(Catalog catalog, string action, ulong authorID, string authorUrl, string propertyData = "", ulong newAuthorID = 0)
         {
             Author catalogAuthor = catalog.GetAuthor(authorID, authorUrl);
@@ -975,7 +1001,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Set the compatible game version for the catalog.
+        /// <summary>Changes the compatible game version for the catalog.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string SetCatalogGameVersion(Catalog catalog, Version newGameVersion)
         {
             if (newGameVersion == Toolkit.UnknownVersion())
@@ -994,7 +1021,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Set one of the text fields on the catalog.
+        /// <summary>Changes one of the text fields on the catalog.</summary>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string ChangeCatalogText(Catalog catalog, string action, string text)
         {
             if (action.Contains("note"))
@@ -1029,7 +1057,9 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add required assets to the catalog list of assets. This will not be mentioned in the change notes and 'already exists' errors will not be logged.
+        /// <summary>Adds required assets to the catalog list of assets.</summary>
+        /// <remarks>This will not be mentioned in the change notes and 'already exists' errors will not be logged.</remarks>
+        /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddRequiredAssets(Catalog catalog, List<ulong> assetIDs)
         {
             foreach (ulong assetID in assetIDs)
@@ -1042,7 +1072,7 @@ namespace CompatibilityReport.Updater
                 if (!catalog.RequiredAssets.Contains(assetID))
                 {
                     catalog.RequiredAssets.Add(assetID);
-                    catalog.RemoveUnknownAsset(assetID);
+                    catalog.RemovePotentialAsset(assetID);
                 }
             }
 
@@ -1050,7 +1080,9 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Remove required assets from the catalog list of assets. This will not be noted in the change notes and errors will not be logged.
+        /// <summary>Removes required assets from the catalog list of assets.</summary>
+        /// <remarks>This will not be noted in the change notes and errors will not be logged.</remarks>
+        /// <returns>An empty string.</returns>
         private static string RemoveRequiredAssets(Catalog catalog, List<ulong> assetIDs)
         {
             foreach (ulong assetID in assetIDs)

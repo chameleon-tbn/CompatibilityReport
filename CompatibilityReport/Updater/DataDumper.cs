@@ -9,8 +9,9 @@ namespace CompatibilityReport.Updater
 {
     public static class DataDumper
     {
-        // Dump specific catalog data to a text file to help with creating CSV files for the FileImporter. It's inefficient with all those
-        // duplicate foreach loops, but 90ms don't count up to the 12 to 15 minutes from the WebCrawler, and I like to keep the code simple.
+        /// <summary>Dumps specific catalog data to a text file to help with creating CSV files for the FileImporter.</summary>
+        /// <remarks>It's inefficient with duplicate foreach loops, but the 100 ms it takes don't count up to the 12 to 15 minutes from the WebCrawler, 
+        ///          and this keeps the code simple.</remarks>
         public static void Start(Catalog catalog)
         {
             Stopwatch timer = Stopwatch.StartNew();
@@ -46,7 +47,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump info about all non-incompatible mods that have not been reviewed yet: name and Workshop URL.
+        /// <summary>Dumps info about all non-incompatible mods that have not been reviewed yet</summary>
+        /// <remarks>It dumps the mod name and Workshop URL.</remarks>
         private static void DumpModsWithoutReview(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Mods without a review:"));
@@ -61,7 +63,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump info about all non-incompatible mods that have not been reviewed in the last x months: last review date, name and Workshop URL.
+        /// <summary>Dump info about all non-incompatible mods that have not been reviewed in the last x months.</summary>
+        /// <remarks>It dumps the mods last review date, name and Workshop URL.</remarks>
         private static void DumpModsWithOldReview(Catalog catalog, StringBuilder DataDump, int months)
         {
             DataDump.AppendLine(Title($"Mods with an old review (> { months } months old):"));
@@ -77,7 +80,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump info about all required mods that are not in a group: name, stability, statuses and Workshop URL.
+        /// <summary>Dumps info about all required mods that are not in a group.</summary>
+        /// <remarks>It dumps the mod name, stability, statuses and Workshop URL.</remarks>
         private static void DumpRequiredUngroupedMods(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Required mods that are not in a group:"));
@@ -99,7 +103,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump info about all groups that are not used for required or recommended mods: ID and name.
+        /// <summary>Dumps info about all groups that are not used for required or recommended mods.</summary>
+        /// <remarks>It dumps the group ID and name.</remarks>
         private static void DumpUnusedGroups(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Unused groups:"));
@@ -115,7 +120,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump info about all groups with less than two members: ID, name and remaining groupmember.
+        /// <summary>Dumps info about all groups with less than two members.</summary>
+        /// <remarks>It dumps the group ID, name and remaining groupmember.</remarks>
         private static void DumpEmptyGroups(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Groups with less than 2 members:"));
@@ -134,13 +140,19 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump info about all authors with more than one mod: name, retired state and Workshop URL.
+        /// <summary>Dump info about all authors with more than one mod.</summary>
+        /// <remarks>It dumps the authors name, retired state and Workshop URL.</remarks>
         private static void DumpAuthorsWithMultipleMods(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Authors with more than one mod:"));
 
             foreach (Author catalogAuthor in catalog.Authors)
             {
+                if (catalogAuthor.SteamID == ModSettings.FakeAuthorIDforColossalOrder)
+                {
+                    continue;
+                }
+
                 int modCount = (catalogAuthor.SteamID != 0) ? catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.SteamID).Count : 
                     catalog.Mods.FindAll(x => x.AuthorUrl == catalogAuthor.CustomUrl).Count;
 
@@ -153,7 +165,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump info about all authors with the retired status: name and Workshop URL.
+        /// <summary>Dump info about all authors with the retired status.</summary>
+        /// <remarks>It dumps the authors name and Workshop URL.</remarks>
         private static void DumpRetiredAuthors(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Retired authors:"));
@@ -168,7 +181,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Dump info about all authors that will get the retired status within x months: name and Workshop URL.
+        /// <summary>Dump info about all authors that will get the retired status within x months.</summary>
+        /// <remarks>It dumps the authors name and Workshop URL.</remarks>
         private static void DumpAuthorsSoonRetired(Catalog catalog, StringBuilder DataDump, int months)
         {
             DataDump.AppendLine(Title($"Authors that will retire within { months } months:"));
@@ -183,7 +197,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Return the title with blank lines and separators above and below.
+        /// <summary>Formats a title.</summary>
+        /// <returns>A formatted title with blank lines and separators.</returns>
         private static string Title(string title)
         {
             string separator = new string('=', title.Length);

@@ -57,14 +57,14 @@ namespace CompatibilityReport.CatalogData
         [XmlIgnore] public bool UpdatedThisSession { get; private set; }
 
 
-        // Default constructor for deserialization.
+        /// <summary>Default constructor for deserialization.</summary>
         private Mod()
         {
             // Nothing to do here
         }
 
 
-        // Constructor for mod creation.
+        /// <summary>Constructor for mod creation.</summary>
         public Mod(ulong steamID)
         {
             SteamID = steamID;
@@ -73,14 +73,15 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Return the game version this mod is compatible with.
+        /// <summary>Gets the game version this mod is compatible with.</summary>
+        /// <returns>The game version this mod is compatible with.</returns>
         public Version CompatibleGameVersion()
         {
-            return Toolkit.ConvertToGameVersion(CompatibleGameVersionString);
+            return Toolkit.ConvertToVersion(CompatibleGameVersionString);
         }
 
 
-        // Update mod properties.
+        /// <summary>Updates one or more mod properties.</summary>
         public void Update(string name = null,
                            DateTime published = default,
                            DateTime updated = default,
@@ -119,7 +120,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Update exclusion properties.
+        /// <summary>Updates one or more exclusions.</summary>
         public void UpdateExclusions(bool? exclusionForSourceUrl = null, bool? exclusionForGameVersion = null, bool? exclusionForNoDescription = null)
         {
             ExclusionForSourceUrl = exclusionForSourceUrl ?? ExclusionForSourceUrl;
@@ -128,7 +129,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Add an exclusion for a required DLC.
+        /// <summary>Adds an exclusion for a required DLC.</summary>
         public void AddExclusion(Enums.Dlc requiredDLC)
         {
             if (!ExclusionForRequiredDlc.Contains(requiredDLC))
@@ -138,7 +139,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Add an exclusion for a required mod.
+        /// <summary>Adds an exclusion for a required mod.</summary>
         public void AddExclusion(ulong requiredMod)
         {
             if (!ExclusionForRequiredMods.Contains(requiredMod))
@@ -148,7 +149,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Update subscription properties.
+        /// <summary>Updates the subscription properties.</summary>
         public void UpdateSubscription(bool isDisabled, bool isCameraScript, DateTime downloadedTime)
         {
             IsDisabled = isDisabled;
@@ -157,14 +158,16 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Add a change note.
+        /// <summary>Adds a mod change note.</summary>
         public void AddChangeNote(string changeNote)
         {
             ChangeNotes.Add(changeNote);
         }
 
 
-        // Return a max length, formatted string with the Steam ID and name.
+        /// <summary>Converts the mod to a string containing the Steam ID and name.</summary>
+        /// <remarks>Optionally hides fake Steam IDs, puts the name before the ID, or cuts off the string at report width.</remarks>
+        /// <returns>A string representing the mod.</returns>
         // Todo 0.4 cutoff not used, but that might change on Report revision.
         public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false)
         {

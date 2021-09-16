@@ -29,14 +29,14 @@ namespace CompatibilityReport.CatalogData
         [XmlIgnore] public bool AddedThisSession { get; private set; }
 
 
-        // Default constructor for deserialization.
+        /// <summary>Default constructor for deserialization.</summary>
         private Author()
         {
             // Nothing to do here.
         }
 
 
-        // Default constructor for author creation.
+        /// <summary>Constructor for author creation.</summary>
         public Author(ulong steamID, string customUrl)
         {
             SteamID = steamID;
@@ -46,7 +46,8 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Update author properties. The Steam ID can only be changed if it was zero before.
+        /// <summary>Updates one or more author properties.</summary>
+        /// <remarks>The Steam ID can only be changed if it was zero before.</remarks>
         public void Update(ulong steamID = 0, string customUrl = null, string name = null, DateTime lastSeen = default, 
             bool? retired = null, bool? exclusionForRetired = null)
         {
@@ -61,14 +62,15 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Add a change note.
+        /// <summary>Adds a change note to the author.</summary>
         public void AddChangeNote(string changeNote)
         {
             ChangeNotes.Add(changeNote);
         }
 
 
-        // Return a formatted string with the author Steam ID or Custom URL, and the name.
+        /// <summary>Converts the author to a string containing the Steam ID or Custom URL, and the name.</summary>
+        /// <returns>A string representing the author.</returns>
         public new string ToString()
         {
             return $"[{ (SteamID != 0 ? SteamID.ToString() : CustomUrl) }] { Name }";

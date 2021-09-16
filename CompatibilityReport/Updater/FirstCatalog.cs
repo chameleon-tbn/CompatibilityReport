@@ -8,7 +8,8 @@ namespace CompatibilityReport.Updater
 {
     public static class FirstCatalog
     {
-        // Create catalog version 1 from scratch with only builtin mods. It uses a mixture of CatalogUpdater methods and direct object updates to get relevant change notes.
+        /// <summary>Creates catalog version 1 from scratch with only builtin mods.</summary>
+        /// <remarks>It uses a mixture of CatalogUpdater methods and direct object updates to get relevant change notes.</remarks>
         public static void Create()
         {
             Catalog firstCatalog = new Catalog();

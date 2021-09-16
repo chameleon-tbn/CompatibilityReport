@@ -22,7 +22,8 @@ namespace CompatibilityReport.Updater
         public StringBuilder RemovedCompatibilities { get; private set; } = new StringBuilder();
 
 
-        // Check if we have any change notes, ignoring generic catalog change notes.
+        /// <summary>Checks if we have any change notes, ignoring generic catalog change notes.</summary>
+        /// <returns>True if have any change notes, false otherwise.</returns>
         public bool Any()
         {
             return NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length + UpdatedMods.Length + UpdatedAuthors.Length +
@@ -30,7 +31,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add a change note for an updated mod.
+        /// <summary>Adds a change note for an updated mod.</summary>
+        /// <remarks>Duplicate change notes will mostly be prevented.</remarks>
         public void ModUpdate(ulong steamID, string extraChangeNote)
         {
             if (string.IsNullOrEmpty(extraChangeNote))
@@ -52,7 +54,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Add a change note for an updated author.
+        /// <summary>Adds a change note for an updated author.</summary>
+        /// <remarks>Duplicate change notes will mostly be prevented.</remarks>
         public void AuthorUpdate(Author catalogAuthor, string extraChangeNote)
         {
             if (string.IsNullOrEmpty(extraChangeNote))
@@ -91,7 +94,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Return the combined change notes.
+        /// <summary>Combine the change notes.</summary>
+        /// <returns>The combined change notes as string.</returns>
         public string Combined(Catalog catalog)
         {
             return $"Change Notes for Catalog { catalog.VersionString() }\n" +
@@ -123,7 +127,8 @@ namespace CompatibilityReport.Updater
         }
 
 
-        // Convert the change note dictionaries for updated mods and authors to StringBuilders. Also updates the related mod change notes.
+        /// <summary>Converts the change notes dictionaries for updated mods and authors to StringBuilders. 
+        ///          Also writes the related change notes to the mods and authors.</summary>
         public void ConvertUpdated(Catalog catalog)
         {
             string todayDateString = Toolkit.DateString(catalog.UpdateDate);

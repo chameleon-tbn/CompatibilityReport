@@ -13,14 +13,16 @@ namespace CompatibilityReport.Util
 {
     public static class Toolkit
     {
-        // Return a short exception message.
+        /// <summary>Creates a short exception message.</summary>
+        /// <returns>Exception message string.</returns>
         public static string ShortException(Exception ex)
         {
             return $"Exception: { ex.GetType().Name }";
         }
 
 
-        // Delete a file. Returns true on success or a non-existed file, false on a deletion error.
+        /// <summary>Deletes a file.</summary> 
+        /// <returns>True if succesful or the file didn't exist, false on a deletion error.</returns>
         public static bool DeleteFile(string fullPath)
         {
             if (File.Exists(fullPath))
@@ -40,7 +42,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Move or rename a file.
+        /// <summary>Moves or renames a file.</summary>
+        /// <returns>True if succesful, false on errors.</returns>
         public static bool MoveFile(string sourceFullPath, string destinationFullPath)
         {
             if (!File.Exists(sourceFullPath))
@@ -62,7 +65,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Copy a file.
+        /// <summary>Copies a file.</summary>
+        /// <returns>True if succesful, false on errors.</returns>
         public static bool CopyFile(string sourceFullPath, string destinationFullPath)
         {
             if (!File.Exists(sourceFullPath))
@@ -84,7 +88,9 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Save a string to a file.
+        /// <summary>Saves a string to a file.</summary>
+        /// <remarks>Overwrites the file by default. Optionally create a backup of the old file or appends instead of overwriting.</remarks>
+        /// <returns>True if succesful, false on errors.</returns>
         public static bool SaveToFile(string message, string fileFullPath, bool append = false, bool createBackup = false)
         {
             if (string.IsNullOrEmpty(message))
@@ -118,7 +124,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Remove the Windows username from the '...\AppData\Local' path for privacy reasons.
+        /// <summary>Removes the Windows username from the '...\AppData\Local' path for privacy reasons.</summary>
+        /// <returns>A path string with a little more privacy.</returns>
         // Todo 0.6 Something similar needed for Mac OS X or Linux?
         public static string Privacy(string path)
         {
@@ -135,7 +142,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Return the filename (including extension) from a path.
+        /// <summary>Get the filename from a path.</summary>
+        /// <returns>A string with the filename.</returns>
         public static string GetFileName(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -154,7 +162,9 @@ namespace CompatibilityReport.Util
         private static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;
 
 
-        // Download a file. A failed download will be retried a set number of times, unless an unrecoverable TLS error is encountered.
+        /// <summary>Download a file to a location on disk.</summary>
+        /// <remarks>A failed download will be retried a set number of times, unless an unrecoverable TLS error is encountered.</remarks>
+        /// <returns>True if succesful, false on errors.</returns>
         public static bool Download(string url, string fullPath)
         {
             bool success = false;
@@ -192,19 +202,22 @@ namespace CompatibilityReport.Util
             }
 
             ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
-
             return success;
         }
 
 
-        // Return the Steam Workshop URL for a mod, or an empty string for a local or builtin mod.
+        /// <summary>Get the Steam Workshop URL for a mod.</summary>
+        /// <remarks>It does not check if the given Steam ID is an existing Steam Workshop mod.</remarks>
+        /// <returns>A string with the URL, or an empty string for a local or builtin mod.</returns>
         public static string GetWorkshopUrl(ulong steamID)
         {
             return (steamID > ModSettings.HighestFakeID) ? $"https://steamcommunity.com/sharedfiles/filedetails/?id={ steamID }" : "";
         }
 
 
-        // Return the Steam Workshop URL for an author.
+        /// <summary>Get the Steam Workshop URL for an author.</summary>
+        /// <remarks>It does not check if the given Steam ID or Custom URL is an existing Steam Workshop author.</remarks>
+        /// <returns>A string with the URL, or an empty string for the fake Colossal Order author or if both parameters are zero/empty.</returns>
         public static string GetAuthorWorkshopUrl(ulong steamID, string customURL)
         {
             if (steamID != 0 && steamID != ModSettings.FakeAuthorIDforColossalOrder)
@@ -222,7 +235,9 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Get the name of a mod. Some mods run code in their IUserMod.Name property or in their constructors, which can cause exceptions. This method handles those.
+        /// <summary>Get the name of a mod.</summary>
+        /// <remarks>Some mods run code in their IUserMod.Name property or in their constructors, which can cause exceptions. This method handles those.</remarks>
+        /// <returns>A string with the mod name, or an empty string if we cannot get the name.</returns>
         // Code is based on https://github.com/CitiesSkylinesMods/AutoRepair/blob/master/AutoRepair/AutoRepair/Descriptors/Subscription.cs by aubergine10.
         public static string GetPluginName(PluginManager.PluginInfo plugin)
         {
@@ -259,7 +274,9 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Converts the date and time on Steam Workshop pages to a DateTime.
+        /// <summary>Converts a date/time string as seen on Steam Workshop pages.</summary>
+        /// <remarks>The date/time string needs to be in a format similar to '10 Mar, 2015 @ 11:22am', or '10 Mar @ 3:45pm' for current year.</remarks>
+        /// <returns>The date and time as a DateTime, or the default lowest DateTime value if conversion failed.</returns>
         public static DateTime ConvertWorkshopDateTime(string dateTimeString)
         {
             if (string.IsNullOrEmpty(dateTimeString))
@@ -267,7 +284,7 @@ namespace CompatibilityReport.Util
                 return default;
             }
 
-            // Format is either like "12 Mar, 2019 @ 6:11am", or "24 May @ 11:27pm" for current year. Insert the year when it's missing.
+            // Insert the year if it's missing.
             if (!dateTimeString.Contains(", 20"))
             {
                 int position = dateTimeString.IndexOf('@') - 1;
@@ -288,7 +305,9 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Convert a string to a DateTime.
+        /// <summary>Converts a date from a string to a DateTime.</summary>
+        /// <remarks>The date needs to be in the format 'yyyy-mm-dd'.</remarks>
+        /// <returns>The date as a DateTime, or the default lowest DateTime value if conversion failed.</returns>
         public static DateTime ConvertDate(string dateString)
         {
             try
@@ -302,14 +321,18 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Return a formatted date string.
+        /// <summary>Converts a date to a string.</summary>
+        /// <returns>A string with the date in the format 'yyyy-mm-dd'.</returns>
         public static string DateString(DateTime date)
         {
             return $"{ date:yyyy-MM-dd}";
         }
 
 
-        // Return a formatted time string, in seconds or minutes or both.
+        /// <summary>Converts an elapsed time to a string.</summary>
+        /// <remarks>This will return the time in milliseconds if less than 200ms, in seconds with one decimal if less than 10s, in seconds without decimals 
+        ///          if less than 120s, or in minutes (mm:ss). Optionally will show the total number of seconds next to the minutes.</remarks>
+        /// <returns>A string with the elapsed time in milliseconds, seconds and/or minutes.</returns>
         public static string TimeString(double milliseconds, bool alwaysShowSeconds = false)
         {
             if (milliseconds < 200)
@@ -329,10 +352,12 @@ namespace CompatibilityReport.Util
                    (showMinutes ? $"{ Math.Floor((double)seconds / 60):0}:{ seconds % 60:00} minutes" : "") +
                    (showSeconds && showMinutes ? ")" : "");
         }
-        
-        
-        // Convert a string to a Version. This works for both "1.13.3.9" and "1.13.3-f9" formats.
-        public static Version ConvertToGameVersion(string versionString)
+
+
+        /// <summary>Converts a string to a Version.</summary>
+        /// <remarks>This works for both 1.13.3.9 and 1.13.3-f9 formats.</remarks>
+        /// <returns>A Version representing the string value, or Version 0.0 if conversion failed.</returns>
+        public static Version ConvertToVersion(string versionString)
         {
             try
             {
@@ -347,7 +372,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Convert a game version to a formatted string, in the format of "1.13.3-f9".
+        /// <summary>Converts a Version to a game version string.</summary>
+        /// <returns>A string with the version in a format like 1.13.3-f9, or in dotted format like 1.13.3.9 if conversions failed.</returns>
         public static string ConvertGameVersionToString(Version version)
         {
             try
@@ -361,14 +387,17 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Return the unknown version. This is what a null or empty string converts to.
+        /// <summary>Get the version 0.0, in this mod also known as the unknown version.</summary>
+        /// <remarks>This is what null, an empty string or an unrecognized version string converts to, including any version with less than 4 elements.</remarks>
+        /// <returns>Version 0.0</returns>
         public static Version UnknownVersion()
         {
             return new Version(0, 0);
         }
 
 
-        // Return the current game version.
+        /// <summary>Get the current game version.</summary>
+        /// <returns>The current game version.</returns>
         public static Version CurrentGameVersion()
         {
             return new Version((int)BuildConfig.APPLICATION_VERSION_A, (int)BuildConfig.APPLICATION_VERSION_B,
@@ -376,14 +405,17 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Return the current major game version.
+        /// <summary>Get the current major game version.</summary>
+        /// <returns>The current major game version, like 1.13.</returns>
         public static Version CurrentMajorGameVersion()
         {
             return new Version(CurrentGameVersion().Major, CurrentGameVersion().Minor);
         }
 
 
-        // Convert a string to enum.
+        /// <summary>Converts a string to an enum.</summary>
+        /// <remarks>T is the enum type. The string is not case-sensitive.</remarks>
+        /// <returns>The enum representation of the string value, or the default value of the enum type if conversion failed.</returns>
         public static T ConvertToEnum<T>(string enumString)
         {
             try
@@ -397,14 +429,17 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Convert a DLC enum to a formatted string.
+        /// <summary>Converts a DLC enum to a string.</summary>
+        /// <remarks>The name of the DLC enum is returned, with double underscores replaced by colon+space, and single underscores replaced by a space.</remarks>
+        /// <returns>A string with the DLC name.</returns>
         public static string ConvertDlcToString(Enums.Dlc dlc)
         {
             return dlc.ToString().Replace("__", ": ").Replace('_', ' ');
         }
 
 
-        // Convert a string to ulong, for Steam IDs.
+        /// <summary>Converts a string to an ulong, for a Steam ID.</summary>
+        /// <returns>An ulong representing the string value, or zero if conversion failed.</returns>
         public static ulong ConvertToUlong(string numericString)
         {
             try
@@ -418,7 +453,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Convert a list of strings to a list of ulongs, for Steam IDs.
+        /// <summary>Converts a list of strings to a list of ulongs, for Steam IDs.</summary>
+        /// <returns>A list of ulongs, with a value of zero for strings that couldn't be converted.</returns>
         public static List<ulong> ConvertToUlong(List<string> numericStrings)
         {
             List<ulong> ulongList = new List<ulong>();
@@ -432,7 +468,9 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Clean certain HTML codes from a string.
+        /// <summary>Cleans certain HTML codes from a string, by converting them to the correct text characters.</summary>
+        /// <remarks>This converts the following characters: &quot;, &lt;, &gt; and &amp;.</remarks>
+        /// <returns>The string with HTML codes converted to their text characters.</returns>
         // Todo 0.4 Is CleanHtml really needed?
         public static string CleanHtml(string htmlText)
         {
@@ -440,7 +478,8 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Get the substring between two search-strings.
+        /// <summary>Gets the substring between two 'boundary' substrings in a string.</summary>
+        /// <returns>The found substring, or an empty string if either of the 'boundary' substrings is not found.</returns>
         public static string MidString(string original, string leftBoundary, string rightBoundary)
         {
             int indexLeft = original.IndexOf(leftBoundary);
@@ -462,7 +501,10 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Return a word-wrapped string, with optional indent strings for every line after the first.
+        /// <summary>Word-wrap a text.</summary>
+        /// <remarks>By default the report width is used and no indenting. An indent string can be supplied for use on every line after the first.
+        ///          Pptionally a different indent string can be supplied for use after newline characters ('\n') found in the text, for instance for bullets.</remarks>
+        /// <returns>The word-wrapped, and optionally indented, string.</returns>
         public static string WordWrap(string unwrapped, int maxWidth = 0, string indent = "", string indentAfterNewLine = null)
         {
             if (unwrapped == null || unwrapped.Length <= maxWidth)

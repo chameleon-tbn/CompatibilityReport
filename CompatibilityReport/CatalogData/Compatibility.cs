@@ -17,14 +17,14 @@ namespace CompatibilityReport.CatalogData
         public string Note { get; private set; }
 
 
-        // Default constructor for deserialization.
+        /// <summary>Default constructor for deserialization.</summary>
         private Compatibility()
         {
             // Nothing to do here.
         }
 
 
-        // Constructor for compatibility creation.
+        /// <summary>Constructor for compatibility creation.</summary>
         public Compatibility(ulong firstModSteamID, string firstModName, ulong secondModSteamID, string secondModName, Enums.CompatibilityStatus status, string note)
         {
             FirstSteamID = firstModSteamID;
@@ -38,7 +38,8 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Update mod names.
+        /// <summary>Updates mod names.</summary>
+        /// <remarks>The mod names are only for catalog readability, they are not used anywhere else.</remarks>
         public void UpdateModNames(string firstModName, string secondModName)
         {
             FirstModName = firstModName ?? "";

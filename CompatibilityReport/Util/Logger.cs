@@ -28,7 +28,7 @@ namespace CompatibilityReport.Util
         private static bool updaterLogInitialized;
 
 
-        // Log a message to this mods log, and optionally to the game log.
+        /// <summary>Logs a message to this mods log file, and optionally to the game log.</summary>
         public static void Log(string message, LogLevel logLevel = LogLevel.Info, bool duplicateToGameLog = false)
         {
             if ((logLevel == Debug) && !ModSettings.DebugMode)
@@ -49,7 +49,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Log a message to the updater log.
+        /// <summary>Logs a message to the updater log.</summary>
         public static void UpdaterLog(string message, LogLevel logLevel = LogLevel.Info)
         {
             if (!updaterLogInitialized)
@@ -65,7 +65,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Close the updater log.
+        /// <summary>Closes the updater log.</summary>
         public static void CloseUpdateLog()
         {
             updaterLogInitialized = false;
@@ -73,7 +73,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Log exception to mod log or updater log, and to the game log unless indicated otherwise.
+        /// <summary>Logs an exception to this mods log or updater log, and to the game log unless indicated otherwise.</summary>
         public static void Exception(Exception ex, bool hideFromGameLog = false, bool debugOnly = false)
         {
             if (debugOnly && !ModSettings.DebugMode)
@@ -101,7 +101,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Log a message to the game log.
+        /// <summary>Logs a message to the game log.</summary>
         private static void GameLog(string message)
         {
             if (string.IsNullOrEmpty(message))
@@ -113,12 +113,14 @@ namespace CompatibilityReport.Util
         }
 
 
-        // The LogFiler class writes the logging to file, with optional loglevel and timestamp, and optionally duplicating to the game log.
+        /// <summary>The LogFiler class writes the logging to file.</summary>
         private class LogFiler
         {
             private readonly StreamWriter file;
             private readonly string fileName;
 
+
+            /// <summary>Default constructor.</summary>
             public LogFiler(string fileFullPath, bool append)
             {
                 fileName = fileFullPath;
@@ -165,6 +167,8 @@ namespace CompatibilityReport.Util
                 }
             }
 
+
+            /// <summary>Writes a message to a log file, with optional loglevel and timestamp, and optionally duplicating to the game log.</summary>
             public void WriteLine(string message, LogLevel logLevel, bool duplicateToGameLog, bool timestamp)
             {
                 if (string.IsNullOrEmpty(message))

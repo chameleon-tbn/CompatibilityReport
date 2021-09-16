@@ -36,8 +36,8 @@ namespace CompatibilityReport.CatalogData
         // Assets that show up as required items. This is used to distinguish between a required asset and an unknown required mod.
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
 
-        // UnknownAssets is a temporary list of newly found unknown required Steam IDs, to be evaluated for adding to the RequiredAssets list.
-        private readonly List<ulong> unknownAssets = new List<ulong>();
+        // Temporary list of newly found unknown required Steam IDs which might be assets, to be evaluated for adding to the RequiredAssets list.
+        private readonly List<ulong> potentialAssets = new List<ulong>();
 
         // Dictionaries for faster lookup.
         private readonly Dictionary<ulong, Mod> modIndex = new Dictionary<ulong, Mod>();
@@ -57,21 +57,22 @@ namespace CompatibilityReport.CatalogData
         private static bool downloadedThisSession;
 
 
-        // Default constructor for deserialization and catalog creation.
+        /// <summary>Default constructor for deserialization and catalog creation.</summary>
         public Catalog()
         {
             // Nothing to do here.
         }
 
 
-        // Return a formatted catalog version string.
+        /// <summary>Converts the catalog version to a string.</summary>
+        /// <returns>A formatted string containing the full version, including the structure version.</returns>
         public string VersionString()
         {
             return $"{ StructureVersion }.{ Version:D4}";
         }
 
 
-        // Increase the catalog version, with a new update date.
+        /// <summary>Increases the catalog version and sets a new update date.</summary>
         public void NewVersion(DateTime updateDate)
         {
             Version++;
@@ -79,14 +80,15 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Return the game version this catalog was made for.
+        /// <summary>Gets the game version this catalog was made for.</summary>
+        /// <returns>The game version this catalog was made for.</returns>
         public Version GameVersion() 
         {
-            return Toolkit.ConvertToGameVersion(GameVersionString);
-        } 
+            return Toolkit.ConvertToVersion(GameVersionString);
+        }
 
 
-        // Update some catalog properties.
+        /// <summary>Updates one or more catalog properties.</summary>
         public void Update(Version gameVersion = null, string note = null, string reportHeaderText = null, string reportFooterText = null)
         {
             GameVersionString = (gameVersion == null) ? GameVersionString : gameVersion.ToString();
@@ -98,46 +100,9 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Create the indexes for mods, groups or authors, to allow faster lookup. Also counts the number of mods with a manual review.
-        private void CreateIndexes()
-        {
-            foreach (Mod mod in Mods)
-            {
-                if (!modIndex.ContainsKey(mod.SteamID))
-                {
-                    modIndex.Add(mod.SteamID, mod);
-
-                    if (mod.ReviewDate != default || mod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
-                    {
-                        ReviewedModCount++;
-                    }
-                }
-            }
-
-            foreach (Group group in Groups)
-            {
-                if (!groupIndex.ContainsKey(group.GroupID))
-                {
-                    groupIndex.Add(group.GroupID, group);
-                }
-            }
-
-            foreach (Author author in Authors)
-            {
-                if (author.SteamID != 0 && !authorIDIndex.ContainsKey(author.SteamID))
-                {
-                    authorIDIndex.Add(author.SteamID, author);
-                }
-
-                if (!string.IsNullOrEmpty(author.CustomUrl) && !AuthorUrlIndex.ContainsKey(author.CustomUrl))
-                {
-                    AuthorUrlIndex.Add(author.CustomUrl, author);
-                }
-            }
-        }
-
-
-        // Check if the ID is a valid existing or non-existing mod or group ID.
+        /// <summary>Checks if the ID is a valid mod or group ID, with the option to check for IDs that either exist in the catalog or not.</summary>
+        /// <remarks>By default only mod IDs that exist in the catalog are considered valid, including builtin mods. Groups can optionally be considered as well.</remarks>
+        /// <returns>True if the ID is valid with the selected options, false if invalid.</returns>
         public bool IsValidID(ulong steamID, bool allowGroup = false, bool allowBuiltin = true, bool shouldExist = true)
         {
             bool valid = (steamID > ModSettings.HighestFakeID) || 
@@ -150,14 +115,16 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Get a reference to an existing mod, or null if the mod doesn't exist.
+        /// <summary>Gets a mod from the catalog.</summary>
+        /// <returns>A reference to the found mod, or null if the mod doesn't exist.</returns>
         public Mod GetMod(ulong steamID)
         {
             return modIndex.ContainsKey(steamID) ? modIndex[steamID] : null;
         }
 
 
-        // Add a mod and return a reference.
+        /// <summary>Adds a mod to the catalog.</summary>
+        /// <returns>A reference to the new mod.</returns>
         public Mod AddMod(ulong steamID)
         {
             Mod newMod = new Mod(steamID);
@@ -169,42 +136,48 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Remove a mod.
+        /// <summary>Removes a mod from the catalog.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
         public bool RemoveMod(Mod mod)
         {
             return Mods.Remove(mod) && modIndex.Remove(mod.SteamID);
         }
 
 
-        // Add a compatibility.
+        /// <summary>Adds a compatibility to the catalog.</summary>
         public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
         {
             Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, compatibilityStatus, compatibilityNote));
         }
 
 
-        // Check if a mod is a group member.
+        /// <summary>Checks if a mod is a group member.</summary>
+        /// <returns>True if it's a group member, false if not.</returns>
         public bool IsGroupMember(ulong steamID)
         {
             return GetThisModsGroup(steamID) != default;
         }
 
 
-        // Return a reference to the group this mod is a member of, or null if not a group member.
+        /// <summary>Gets the group a mod is a member of.</summary>
+        /// <returns>A reference to the group, or null if the mod is not a group member.</returns>
         public Group GetThisModsGroup(ulong steamID)
         {
             return Groups.FirstOrDefault(x => x.GroupMembers.Contains(steamID));
         }
 
 
-        // Get a reference to an existing group, or null if the group doesn't exist.
+        /// <summary>Gets a group from the catalog.</summary>
+        /// <returns>A reference to the found group, or null if the group doesn't exist.</returns>
         public Group GetGroup(ulong groupID)
         {
             return groupIndex.ContainsKey(groupID) ? groupIndex[groupID] : null;
         }
 
 
-        // Add a group and return a reference.
+        /// <summary>Adds a group to the catalog.</summary>
+        /// <remarks>A group ID is automatically assigned.</remarks>
+        /// <returns>A reference to the new group.</returns>
         public Group AddGroup(string groupName)
         {
             ulong newGroupID = groupIndex.Any() ? groupIndex.Keys.Max() + 1 : ModSettings.LowestGroupID;
@@ -217,24 +190,27 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Remove a group.
+        /// <summary>Removes a group from the catalog.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
         public bool RemoveGroup(Group group)
         {
             return Groups.Remove(group) && groupIndex.Remove(group.GroupID);
         }
 
 
-        // Return a reference to an existing author, or null if the author doesn't exist.
+        /// <summary>Gets an author from the catalog.</summary>
+        /// <returns>A reference to the found author, or null if the author doesn't exist.</returns>
         public Author GetAuthor(ulong authorID, string authorUrl)
         {
             return authorIDIndex.ContainsKey(authorID) ? authorIDIndex[authorID] : AuthorUrlIndex.ContainsKey(authorUrl ?? "") ? AuthorUrlIndex[authorUrl] : null;
         }
 
 
-        // Add an author and return a reference.
+        /// <summary>Adds an author to the catalog.</summary>
+        /// <returns>A reference to the new author.</returns>
         public Author AddAuthor(ulong authorID, string authorUrl)
         {
-            Author author = new Author(authorID, authorUrl);
+            Author author = new Author(authorID, authorUrl ?? "");
             Authors.Add(author);
 
             if (authorID != 0)
@@ -251,36 +227,42 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Get the list of potential assets.
-        public string GetUnknownAssetsString()
+        // RemoveAuthor() method is not needed right now.
+
+
+        /// <summary>Gets the potential assets.</summary>
+        /// <returns>A string with all potential assets, seperated by commas.</returns>
+        public string GetPotentialAssetsString()
         {
-            return unknownAssets.Any() ? string.Join(", ", unknownAssets.Select(steamID => steamID.ToString()).ToArray()) : "";
+            return potentialAssets.Any() ? string.Join(", ", potentialAssets.Select(steamID => steamID.ToString()).ToArray()) : "";
         }
 
 
-        /// <summary>Add an asset to the list of potential assets.</summary>
-        /// <returns>true if added, false if it was already in the list.</returns>
-        public bool AddUnknownAsset(ulong unknownAsset)
+        /// <summary>Adds an asset to the list of potential assets.</summary>
+        /// <returns>True if added, false if it was already in the list.</returns>
+        public bool AddPotentialAsset(ulong potentialAsset)
         {
-            if (unknownAssets.Contains(unknownAsset))
+            if (potentialAssets.Contains(potentialAsset))
             {
                 return false;
             }
 
-            unknownAssets.Add(unknownAsset);
+            potentialAssets.Add(potentialAsset);
             return true;
         }
 
 
-        // Remove an asset from the list of potential assets.
-        public void RemoveUnknownAsset(ulong knownAsset)
+        /// <summary>Removes an asset from the list of potential assets.</summary>
+        /// <remarks>No message is logged if the asset was not on the list.</remarks>
+        public void RemovePotentialAsset(ulong knownAsset)
         {
-            unknownAssets.Remove(knownAsset);
+            potentialAssets.Remove(knownAsset);
         }
 
 
-        // Get all subscribed, builtin and local mods and merge the found info into the catalog. Local mods are temporarily added to the catalog in memory.
-        public void GetSubscriptions()
+        /// <summary>Gets all subscribed, builtin and local mods and merge their info with the mods in the catalog.</summary>
+        /// <remarks>Local mods and unknown Steam Workshop mods are temporarily added to the catalog in memory.</remarks>
+        public void ScanSubscriptions()
         {
             List<PluginManager.PluginInfo> plugins = new List<PluginManager.PluginInfo>();
             PluginManager manager = Singleton<PluginManager>.instance;
@@ -386,7 +368,8 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Save a catalog to disk.
+        /// <summary>Saves the catalog to disk.</summary>
+        /// <returns>True if saved succesfully, false otherwise.</returns>
         public bool Save(string fullPath)
         {
             try
@@ -412,7 +395,8 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Load a catalog from disk.
+        /// <summary>Loads a catalog from disk.</summary>
+        /// <returns>A reference to the catalog, or null if loading failed.</returns>
         private static Catalog LoadFromDisk(string fullPath)
         {
             Catalog loadedCatalog = new Catalog();
@@ -455,7 +439,10 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Load and download catalogs and return a reference to the one with the highest version.
+        /// <summary>Loads and downloads catalogs and determines which has the highest version.</summary>
+        /// <remarks>Four catalogs are considered: new download, previously downloaded, bundled and updater. If a download is succesful, 
+        ///          the previously downloaded and bundled catalogs are not checked. An updater catalog only exists for maintainers of this mod.</remarks>
+        /// <returns>A reference to the catalog with the highest version, or null if none could be loaded.</returns>
         public static Catalog Load()
         {
             // Downloaded catalog is always newer than, or same as, the previously downloaded and bundled catalogs, so no need to load those after succesful download.
@@ -479,7 +466,9 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Download a new catalog and return a reference, or null if download was not succesful. Only try a download once per session.
+        /// <summary>Downloads a new catalog and loads it into memory.</summary>
+        /// <remarks>A download will only be started once per session. On download errors, the download will be retried immediately a few times.</remarks>
+        /// <returns>A reference to the catalog, or null if the download failed.</returns>
         private static Catalog Download()
         {
             if (downloadedThisSession)
@@ -531,7 +520,8 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Load the previously downloaded catalog and return a reference, or null if it doesn't exist or can't load.
+        /// <summary>Loads the previously downloaded catalog.</summary>
+        /// <returns>A reference to the catalog, or null if loading failed.</returns>
         private static Catalog LoadPreviouslyDownloaded()
         {
             string previouslyDownloadedFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName);
@@ -564,7 +554,9 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Load the bundled catalog and return a refence, or null if it somehow doesn't exist or can't load.
+        /// <summary>Loads the bundled catalog.</summary>
+        /// <remarks>The bundled catalog is the catalog that comes with this mod, downloaded from the Steam Workshop on subscribe and every mod update.</remarks>
+        /// <returns>A reference to the catalog, or null if loading failed.</returns>
         private static Catalog LoadBundled()
         {
             if (!File.Exists(ModSettings.BundledCatalogFullPath))
@@ -588,7 +580,10 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Load updater catalog, if the updater is enabled and an updater catalog can be found. The last one in an alphabetically sorted list will be loaded.
+        /// <summary>Loads the updater catalog.</summary>
+        /// <remarks>An updater catalog only exists for maintainers of this mod that run the Updater. If more than one updater catalog exists, 
+        ///          only the last one in an alphabetically sorted list will be loaded.</remarks>
+        /// <returns>A reference to the catalog, or null if loading failed.</returns>
         private static Catalog LoadUpdaterCatalog()
         {
             if (!ModSettings.UpdaterAvailable)
@@ -629,16 +624,51 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // From two catalogs return the one with the highest version. Return the first catalog if both are the same version, or null if both are null.
+        /// <summary>Determines which of two catalogs has the highest version.</summary>
+        /// <remarks>If both catalogs are the same version, the first supplied catalog is chosen.</remarks>
+        /// <returns>A reference to the catalog with the highest version, or null if both catalogs are null.</returns>
         private static Catalog Newest(Catalog catalog1, Catalog catalog2)
         {
-            if (catalog1 == null || catalog2 == null)
+            return (catalog1 == null || catalog2 == null) ? catalog1 ?? catalog2 : (catalog1.Version >= catalog2.Version) ? catalog1 : catalog2;
+        }
+
+
+        /// <summary>Creates the indexes for mods, groups or authors, to allow for faster lookup. Also counts the number of mods with a manual review.</summary>
+        /// <remarks>Mods that are incompatible according to the Steam Workshop count as reviewed.</remarks>
+        private void CreateIndexes()
+        {
+            foreach (Mod mod in Mods)
             {
-                return catalog1 ?? catalog2;
+                if (!modIndex.ContainsKey(mod.SteamID))
+                {
+                    modIndex.Add(mod.SteamID, mod);
+
+                    if (mod.ReviewDate != default || mod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
+                    {
+                        ReviewedModCount++;
+                    }
+                }
             }
-            else
+
+            foreach (Group group in Groups)
             {
-                return (catalog1.Version >= catalog2.Version) ? catalog1 : catalog2;
+                if (!groupIndex.ContainsKey(group.GroupID))
+                {
+                    groupIndex.Add(group.GroupID, group);
+                }
+            }
+
+            foreach (Author author in Authors)
+            {
+                if (author.SteamID != 0 && !authorIDIndex.ContainsKey(author.SteamID))
+                {
+                    authorIDIndex.Add(author.SteamID, author);
+                }
+
+                if (!string.IsNullOrEmpty(author.CustomUrl) && !AuthorUrlIndex.ContainsKey(author.CustomUrl))
+                {
+                    AuthorUrlIndex.Add(author.CustomUrl, author);
+                }
             }
         }
     }

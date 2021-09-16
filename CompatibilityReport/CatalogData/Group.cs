@@ -4,25 +4,25 @@ using System.Xml.Serialization;
 
 namespace CompatibilityReport.CatalogData
 {
+    /// <summary>Groups are used for required and recommended mods. If a required/recommended mod is not subscribed but is a group member, 
+    ///          the reporter checks if another member is subscribed. The original required/recommended mod will not be reported missing if so.</summary>
+    /// <remarks>A mod can only be a member of one group.</remarks>
     [Serializable] 
     public class Group
     {
-        // Groups are only used as required mods and recommended mods, where one (not all) of the mods from a group is a requirement or recommendation.
-        // A mod can only be a member of one group, and that group is automatically added as required mod everywhere the group member is a required mod.
-        // A group as recommendation has to be added and removed manually through the FileImporter.
         public ulong GroupID { get; private set; }
         public string Name { get; private set; }
         [XmlArrayItem("SteamID")] public List<ulong> GroupMembers { get; private set; } = new List<ulong>();
 
 
-        // Default constructor for deserialization.
+        /// <summary>Default constructor for deserialization.</summary>
         private Group()
         {
             // Nothing to do here
         }
 
 
-        // Constructor for group creation.
+        /// <summary>Constructor for group creation.</summary>
         public Group(ulong groupID, string name)
         {
             GroupID = groupID;
@@ -30,7 +30,8 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // Return a formatted string with the group ID and name.
+        /// <summary>Converts the group to a string containing the group ID and name.</summary>
+        /// <returns>A string representing the group.</returns>
         public new string ToString()
         {
             return $"[Group { GroupID }] { Name }";

@@ -18,15 +18,17 @@ namespace CompatibilityReport
         public string Description { get; } = ModSettings.ModDescription;
 
 
-        // OnSettingsUI is called at the end of loading the game to the main menu (scene IntroScreen), when all subscriptions will be available.
-        // Called again when loading a map (scene Game), and presumably when opening the mod options.
+        /// <summary>Start the Updater when enabled and the Reporter when called in the correct scene. Also opens the settings UI.</summary>
+        /// <remarks>Called at the end of loading the game to the main menu (scene IntroScreen), when all subscriptions will be available. 
+        ///          Called again when loading a map (scene Game), and presumably when opening the mod options.</remarks>
         public void OnSettingsUI(UIHelperBase helper)
         {
             string scene = SceneManager.GetActiveScene().name;
 
+            // Todo 0.7 Remove this debug log
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.Debug);
 
-            // Todo 0.8 Move CatalogUpdater to standalone tool
+            // Todo 0.8 Move CatalogUpdater to standalone tool.
             if (ModSettings.UpdaterAvailable)
             {
                 Updater.CatalogUpdater.Start();
@@ -37,7 +39,7 @@ namespace CompatibilityReport
             UIHelperBase modOptions = helper.AddGroup(ModSettings.ModName);
 
             modOptions.AddGroup(ModSettings.ModName);
-            //Todo 0.7 Settings UI
+            //Todo 0.7 Create Settings UI.
         }
     }
 }
