@@ -11,8 +11,11 @@ namespace CompatibilityReport.Reporter
 {
     public static class TextReport
     {
-        // Todo 0.4 Review needed for all texts that appear in the report.
-        // Todo 0.4 What to do with the static stringbuilders? Change TextReport into non-static for better garbage collection?
+        // Todo 0.4.1 Check for groups instead of relying on them being added in the catalog. Remove all group adding to required/recommended mods elsewhere.
+        // Todo 0.4.1 What to do with the static stringbuilders? Change TextReport into non-static for better garbage collection?
+        // Todo 0.4.1 Split report in four: major issues (stability, missing mods/dlc, ...), minor issues (stability), remarks (alternatives, recommended), not reviewed
+        // Todo 0.4.1 Review needed for all texts that appear in the report.
+        // Todo 0.4.1 This class needs XML documentation tagged comments.
         private static StringBuilder reviewedModsText;
         private static StringBuilder nonReviewedModsText;
 
@@ -31,7 +34,7 @@ namespace CompatibilityReport.Reporter
 
             TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }. " +
                 $"The catalog contains { catalog.ReviewedModCount } reviewed mods and { catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. " +
-                $"Your game has { catalog.SubscriptionIDIndex.Count } mods.\n"));
+                $"Your game has { catalog.SubscriptionCount() } mods.\n"));
 
             if (!string.IsNullOrEmpty(catalog.Note))
             {
@@ -58,13 +61,12 @@ namespace CompatibilityReport.Reporter
             if (ModSettings.ReportSortByName)
             {
                 // Report mods sorted by name.
-                List<string> AllSubscriptionNames = new List<string>(catalog.SubscriptionNameIndex.Keys);
-                AllSubscriptionNames.Sort();
+                List<string> AllSubscriptionNames = catalog.GetSubscriptionNames();
 
                 foreach (string name in AllSubscriptionNames)
                 {
                     // Get the Steam ID(s) for this mod name. There could be multiple IDs for mods with the same name.
-                    foreach (ulong steamID in catalog.SubscriptionNameIndex[name])
+                    foreach (ulong steamID in catalog.GetSubscriptionIDsByName(name))
                     {
                         if (GetModText(catalog, steamID, nameFirst: true))
                         {
@@ -76,7 +78,7 @@ namespace CompatibilityReport.Reporter
             else
             {
                 // Report mods sorted by Steam ID.
-                foreach (ulong steamID in catalog.SubscriptionIDIndex)
+                foreach (ulong steamID in catalog.GetSubscriptionIDs())
                 {
                     if (GetModText(catalog, steamID, nameFirst: false))
                     {
@@ -99,7 +101,7 @@ namespace CompatibilityReport.Reporter
             {
                 TextReport.AppendLine(separatorDouble);
 
-                TextReport.AppendLine($"MODS NOT REVIEWED YET ({ catalog.SubscriptionIDIndex.Count - catalog.ReviewedSubscriptionCount - modsWithOnlyRemarks }):");
+                TextReport.AppendLine($"MODS NOT REVIEWED YET ({ catalog.SubscriptionCount() - catalog.ReviewedSubscriptionCount - modsWithOnlyRemarks }):");
 
                 TextReport.AppendLine(nonReviewedModsText.ToString());
             }
@@ -133,8 +135,8 @@ namespace CompatibilityReport.Reporter
 
         /// <summary>Gets the report text for one mod.</summary>
         /// <returns>True if this mod has no review in the catalog but has remarks to report nonetheless, false otherwise.</returns>
-        // Todo 0.4 Change GetModText(), which is now quite cumbersome.
-        // Todo 0.4 Currently not reported: SourceURL, Updated, Downloaded.
+        // Todo 0.4.1 Change GetModText(), which is now quite cumbersome.
+        // Todo 0.4.1 Currently not reported: SourceURL, Updated, Downloaded.
         private static bool GetModText(Catalog catalog, ulong steamID, bool nameFirst)
         {
             Mod subscribedMod = catalog.GetMod(steamID);
@@ -149,7 +151,7 @@ namespace CompatibilityReport.Reporter
                 ((modName.Length + 4 + AuthorName.Length <= ModSettings.TextReportWidth) ? $" by { AuthorName }\n" :
                 $"by { AuthorName}".PadLeft(ModSettings.TextReportWidth) + "\n");
 
-            // Todo 0.4 Rethink which review texts to include in 'somethingToReport'. Combine author retired and mod abandoned into one line.
+            // Todo 0.4.1 Rethink which review texts to include in 'somethingToReport'. Combine author retired and mod abandoned into one line.
             modReview.Append(ThisMod(subscribedMod));
             modReview.Append(Stability(subscribedMod));
             modReview.Append(RequiredDLC(subscribedMod));
@@ -171,7 +173,7 @@ namespace CompatibilityReport.Reporter
             // Insert the 'not reviewed' text at the start of the text. This does not count towards somethingToReport.
             modReview.Insert(0, NotReviewed(subscribedMod));
 
-            // Todo 0.4 Keep better track of issues. Now the "nothing found" text doesn't show if the author is retired.
+            // Todo 0.4.1 Keep better track of issues. Now the "nothing found" text doesn't show if the author is retired.
             if (modReview.Length == 0)
             {
                 modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods."));
@@ -215,8 +217,6 @@ namespace CompatibilityReport.Reporter
             return string.IsNullOrEmpty(message) ? "" : $"{ bullet }{ message }\n";
         }
 
-
-        // Todo 0.4 This class needs XML documentation tagged comments.
 
         // Say hi to ourselves.
         private static string ThisMod(Mod subscribedMod)
@@ -284,7 +284,7 @@ namespace CompatibilityReport.Reporter
 
             foreach (Mod mod in ModsRequiringThis)
             {
-                if (catalog.SubscriptionIDIndex.Contains(mod.SteamID))
+                if (catalog.GetSubscription(mod.SteamID) != null)
                 {
                     // Found a subscribed mod that needs this. Nothing to report.
                     return "";
@@ -303,24 +303,24 @@ namespace CompatibilityReport.Reporter
             string text = (subscribedMod.Successors.Count == 0) ? "" : (subscribedMod.Successors.Count == 1) ? ReviewLine("This is succeeded by:") :
                 ReviewLine("This is succeeded by any of the following (pick one, not all):");
 
-            foreach (ulong id in subscribedMod.Successors)
+            foreach (ulong steamID in subscribedMod.Successors)
             {
-                if (catalog.IsValidID(id))
+                if (catalog.IsValidID(steamID))
                 {
-                    if (catalog.SubscriptionIDIndex.Contains(id))
+                    if (catalog.GetSubscription(steamID) != null)
                     {
                         return ReviewLine("Unsubscribe. This is succeeded by a mod you already have:") + 
-                            ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                            ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                     }
 
-                    text += ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless the catalog was manually edited.
-                    text += ReviewLine($"[Steam ID { id,10 }]", ModSettings.Bullet2);
+                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
 
-                    Logger.Log($"Successor mod { id } not found in catalog.", Logger.Warning);
+                    Logger.Log($"Successor mod { steamID } not found in catalog.", Logger.Warning);
                 }
             }
 
@@ -334,19 +334,19 @@ namespace CompatibilityReport.Reporter
             string text = (subscribedMod.Alternatives.Count == 0) ? "" : (subscribedMod.Alternatives.Count == 1) ? ReviewLine("An alternative you could use:") :
                 ReviewLine("Some alternatives for this are (pick one, not all):");
 
-            foreach (ulong id in subscribedMod.Alternatives)
+            foreach (ulong steamID in subscribedMod.Alternatives)
             {
-                if (catalog.IsValidID(id))
+                if (catalog.IsValidID(steamID))
                 {
-                    text += ReviewLine($"{ (catalog.SubscriptionIDIndex.Contains(id) ? "[Subscribed] " : "") }{ catalog.GetMod(id).ToString(hideFakeID: true) }", 
+                    text += ReviewLine($"{ (catalog.GetSubscription(steamID) == null ? "" : "[Subscribed] ") }{ catalog.GetMod(steamID).ToString(hideFakeID: true) }", 
                         ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless the catalog was manually edited.
-                    text += ReviewLine($"[Steam ID { id,10 }]", ModSettings.Bullet2);
+                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
 
-                    Logger.Log($"Alternative mod { id } not found in catalog.", Logger.Warning);
+                    Logger.Log($"Alternative mod { steamID } not found in catalog.", Logger.Warning);
                 }
             }
 
@@ -359,24 +359,24 @@ namespace CompatibilityReport.Reporter
         {
             string text = (subscribedMod.Alternatives.Count == 0) ? "" : ReviewLine("The author of this mod recommends using the following with this:");
 
-            foreach (ulong id in subscribedMod.Recommendations)
+            foreach (ulong steamID in subscribedMod.Recommendations)
             {
-                if (catalog.IsValidID(id))
+                if (catalog.IsValidID(steamID))
                 {
-                    if (catalog.SubscriptionIDIndex.Contains(id))
+                    if (catalog.GetSubscription(steamID) != null)
                     {
                         // Skip this recommendation that is already subscribed.
                         continue;
                     }
 
-                    text += ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless the catalog was manually edited.
-                    text += ReviewLine($"[Steam ID { id,10 }]", ModSettings.Bullet2);
+                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
 
-                    Logger.Log($"Recommended mod { id } not found in catalog.", Logger.Warning);
+                    Logger.Log($"Recommended mod { steamID } not found in catalog.", Logger.Warning);
                 }
             }
 
@@ -408,25 +408,25 @@ namespace CompatibilityReport.Reporter
             string header = ReviewLine("This mod requires other mods you don't have, or which are not enabled:");
             string text = "";
 
-            foreach (ulong id in subscribedMod.RequiredMods)
+            foreach (ulong steamID in subscribedMod.RequiredMods)
             {
-                if (catalog.IsValidID(id))
+                if (catalog.IsValidID(steamID))
                 {
-                    text += (catalog.SubscriptionIDIndex.Contains(id) && !catalog.GetMod(id).IsDisabled) ? "" : 
-                        ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += (catalog.GetSubscription(steamID) != null && !catalog.GetSubscription(steamID).IsDisabled) ? "" : 
+                        ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                     
-                    text += ReviewLine($"Workshop page: { Toolkit.GetWorkshopUrl(id) }", ModSettings.Indent2);
+                    text += ReviewLine($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
                 }
-                else if (catalog.IsValidID(id, allowGroup: true))
+                else if (catalog.IsValidID(steamID, allowGroup: true))
                 {
                     // A required group can be ignored, since the relevant group member should also be listed as required mod.
                 }
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless the catalog was manually edited.
-                    text += ReviewLine($"[Steam ID { id,10 }]", ModSettings.Bullet2);
+                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
 
-                    Logger.Log($"Required mod { id } not found in catalog.", Logger.Warning);
+                    Logger.Log($"Required mod { steamID } not found in catalog.", Logger.Warning);
                 }
             }
 
@@ -575,7 +575,7 @@ namespace CompatibilityReport.Reporter
         {
             string text = "";
 
-            foreach (Compatibility compatibility in catalog.SubscriptionCompatibilityIndex[subscribedMod.SteamID])
+            foreach (Compatibility compatibility in catalog.GetSubscriptionCompatibilities(subscribedMod.SteamID))
             {
                 string firstMod = ReviewLine(catalog.GetMod(compatibility.FirstSteamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 string secondMod = ReviewLine(catalog.GetMod(compatibility.SecondSteamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);

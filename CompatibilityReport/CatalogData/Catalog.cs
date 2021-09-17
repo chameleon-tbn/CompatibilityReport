@@ -44,10 +44,9 @@ namespace CompatibilityReport.CatalogData
         private readonly Dictionary<ulong, Group> groupIndex = new Dictionary<ulong, Group>();
         private readonly Dictionary<ulong, Author> authorIDIndex = new Dictionary<ulong, Author>();
         private readonly Dictionary<string, Author> AuthorUrlIndex = new Dictionary<string, Author>();
-        // Todo 0.4 Make subscription indexes private.
-        [XmlIgnore] public List<ulong> SubscriptionIDIndex { get; } = new List<ulong>();
-        [XmlIgnore] public Dictionary<string, List<ulong>> SubscriptionNameIndex { get; } = new Dictionary<string, List<ulong>>();
-        [XmlIgnore] public Dictionary<ulong, List<Compatibility>> SubscriptionCompatibilityIndex { get; } = new Dictionary<ulong, List<Compatibility>>();
+        private readonly List<ulong> SubscriptionIDIndex = new List<ulong>();
+        private readonly Dictionary<string, List<ulong>> subscriptionNameIndex = new Dictionary<string, List<ulong>>();
+        private readonly Dictionary<ulong, List<Compatibility>> SubscriptionCompatibilityIndex = new Dictionary<ulong, List<Compatibility>>();
 
         [XmlIgnore] public int ReviewedModCount { get; private set; }
         [XmlIgnore] public int ReviewedSubscriptionCount { get; private set; }
@@ -260,7 +259,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Gets all subscribed, builtin and local mods and merge their info with the mods in the catalog.</summary>
+        /// <summary>Gets all subscribed, local and enabled builtin mods, and merge their info with the mods in the catalog.</summary>
         /// <remarks>Local mods and unknown Steam Workshop mods are temporarily added to the catalog in memory.</remarks>
         public void ScanSubscriptions()
         {
@@ -328,7 +327,7 @@ namespace CompatibilityReport.CatalogData
                 Logger.Log($"Mod found{ (foundInCatalog ? "" : " in game but not in the catalog") }: { subscribedMod.ToString() }");
 
                 // Update the catalog mod with subscription info.
-                // Todo 0.4 How reliable is downloadTime? Is ToLocalTime needed? Check how Loading Order Mod does this.
+                // Todo 0.4.2 How reliable is downloadTime? Is ToLocalTime needed? Check how Loading Order Mod does this.
                 subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript,
                     downloadedTime: PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime());
 
@@ -339,15 +338,15 @@ namespace CompatibilityReport.CatalogData
 
                 SubscriptionIDIndex.Add(subscribedMod.SteamID);
 
-                if (SubscriptionNameIndex.ContainsKey(subscribedMod.Name))
+                if (subscriptionNameIndex.ContainsKey(subscribedMod.Name))
                 {
                     // Identical name found earlier for another mod. Add the Steam ID to the list of Steam IDs for this name and sort the list.
-                    SubscriptionNameIndex[subscribedMod.Name].Add(subscribedMod.SteamID);
-                    SubscriptionNameIndex[subscribedMod.Name].Sort();
+                    subscriptionNameIndex[subscribedMod.Name].Add(subscribedMod.SteamID);
+                    subscriptionNameIndex[subscribedMod.Name].Sort();
                 }
                 else
                 {
-                    SubscriptionNameIndex.Add(subscribedMod.Name, new List<ulong> { subscribedMod.SteamID });
+                    subscriptionNameIndex.Add(subscribedMod.Name, new List<ulong> { subscribedMod.SteamID });
                 }
 
                 // Add an empty entry to the compatibilities index for this mod, to make sure every subscription has an empty list in that index instead of null.
@@ -365,6 +364,56 @@ namespace CompatibilityReport.CatalogData
                     SubscriptionCompatibilityIndex[catalogCompatibility.SecondSteamID].Add(catalogCompatibility);
                 }
             }
+        }
+
+
+        /// <summary>Get the number of subscribed, local and enabled builtin mods.</summary>
+        /// <returns>The number of subscriptions.</returns>
+        public int SubscriptionCount()
+        {
+            return SubscriptionIDIndex.Count;
+        }
+
+
+        /// <summary>Gets a subscribed, local or enabled builtin mod from the catalog.</summary>
+        /// <returns>A reference to the found mod, or null if the subscription doesn't exist.</returns>
+        public Mod GetSubscription(ulong steamID)
+        {
+            return SubscriptionIDIndex.Contains(steamID) && modIndex.ContainsKey(steamID) ? modIndex[steamID] : null;
+        }
+
+
+        /// <summary>Get the Steam IDs of all subscribed, local and enabled builtin mods.</summary>
+        /// <returns>A reference to the list of subscription Steam IDs.</returns>
+        public List<ulong> GetSubscriptionIDs()
+        {
+            return SubscriptionIDIndex;
+        }
+
+
+        /// <summary>Get the names of all subscribed, local and enabled builtin mods.</summary>
+        /// <returns>A sorted list of mod names.</returns>
+        public List<string> GetSubscriptionNames()
+        {
+            List<string> subscriptionNames = new List<string>(subscriptionNameIndex.Keys);
+            subscriptionNames.Sort();
+            return subscriptionNames;
+        }
+
+
+        /// <summary>Get all Steam IDs of subscribed, local or builtin mods with a given name.</summary>
+        /// <returns>A reference to a list of Steam IDs, or an empty list if the name does not match any.</returns>
+        public List<ulong> GetSubscriptionIDsByName(string name)
+        {
+            return subscriptionNameIndex.ContainsKey(name) ? subscriptionNameIndex[name] : new List<ulong>();
+        }
+
+
+        /// <summary>Get all compatibilities of a subscribed, local or builtin mod.</summary>
+        /// <returns>A reference to the list of compatibilities for this subscription, or an empty list if the subscription does not exist.</returns>
+        public List<Compatibility> GetSubscriptionCompatibilities(ulong steamID)
+        {
+            return GetSubscription(steamID) == null ? new List<Compatibility>() : SubscriptionCompatibilityIndex[steamID];
         }
 
 
