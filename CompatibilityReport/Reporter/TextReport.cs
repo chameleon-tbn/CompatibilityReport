@@ -210,11 +210,11 @@ namespace CompatibilityReport.Reporter
                 }
                 else
                 {
-                    message = Toolkit.WordWrap(message, ModSettings.TextReportWidth - bullet.Length, indent: new string(' ', bullet.Length));
+                    message = Toolkit.WordWrap($"{ bullet }{ message }", indent: new string(' ', bullet.Length));
                 }
             }
 
-            return string.IsNullOrEmpty(message) ? "" : $"{ bullet }{ message }\n";
+            return string.IsNullOrEmpty(message) ? "" : $"{ message }\n";
         }
 
 
