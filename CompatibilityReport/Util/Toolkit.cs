@@ -100,7 +100,7 @@ namespace CompatibilityReport.Util
 
             if (createBackup)
             {
-                CopyFile(fileFullPath, fileFullPath + ".old");
+                CopyFile(fileFullPath, $"{ fileFullPath }.old");
             }
 
             try
@@ -130,15 +130,7 @@ namespace CompatibilityReport.Util
         public static string Privacy(string path)
         {
             int index = path.ToLower().IndexOf("\\appdata\\local");
-
-            if (index == -1)
-            {
-                return path;
-            }
-            else
-            {
-                return "%LocalAppData%" + path.Substring(index + "\\appdata\\local".Length);
-            }
+            return (index == -1) ? path : $"%LocalAppData%{ path.Substring(index + "\\appdata\\local".Length) }";
         }
 
 
@@ -152,7 +144,6 @@ namespace CompatibilityReport.Util
             }
 
             int index = Math.Max(path.LastIndexOf('\\'), path.LastIndexOf('/')) + 1;
-
             return (index == 0 || index == path.Length) ? path : path.Substring(index);
         }
 
@@ -218,20 +209,18 @@ namespace CompatibilityReport.Util
         /// <summary>Get the Steam Workshop URL for an author.</summary>
         /// <remarks>It does not check if the given Steam ID or Custom URL is an existing Steam Workshop author.</remarks>
         /// <returns>A string with the URL, or an empty string for the fake Colossal Order author or if both parameters are zero/empty.</returns>
-        public static string GetAuthorWorkshopUrl(ulong steamID, string customURL)
+        public static string GetAuthorWorkshopUrl(ulong steamID, string customUrl)
         {
             if (steamID != 0 && steamID != ModSettings.FakeAuthorIDforColossalOrder)
             {
                 return $"https://steamcommunity.com/profiles/{ steamID }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
             }
-            else if (!string.IsNullOrEmpty(customURL))
+            else if (!string.IsNullOrEmpty(customUrl))
             {
-                return $"https://steamcommunity.com/id/{ customURL }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
+                return $"https://steamcommunity.com/id/{ customUrl }/myworkshopfiles/?appid=255710&requiredtags[]=Mod";
             }
-            else
-            {
-                return "";
-            }
+            
+            return "";
         }
 
 
@@ -265,7 +254,7 @@ namespace CompatibilityReport.Util
             catch (Exception ex)
             {
                 Logger.Log("Can't retrieve plugin name.", Logger.Debug);
-                Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
+                Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
 
                 name = "";
             }
@@ -347,7 +336,7 @@ namespace CompatibilityReport.Util
             bool showSeconds = seconds < 120 || alwaysShowSeconds;
             bool showDecimal = seconds < 10;
 
-            return (showSeconds ? (showDecimal ? $"{ Math.Floor(milliseconds / 100) / 10:F1}" : $"{ seconds }") + " seconds" : "") +
+            return (showSeconds ? (showDecimal ? $"{ Math.Floor(milliseconds / 100) / 10:F1} seconds" : $"{ seconds } seconds") : "") +
                    (showSeconds && showMinutes ? " (" : "") +
                    (showMinutes ? $"{ Math.Floor((double)seconds / 60):0}:{ seconds % 60:00} minutes" : "") +
                    (showSeconds && showMinutes ? ")" : "");
@@ -492,12 +481,7 @@ namespace CompatibilityReport.Util
             indexLeft += leftBoundary.Length;
             int indexRight = original.IndexOf(rightBoundary, indexLeft);
 
-            if (indexRight <= indexLeft)
-            {
-                return "";
-            }
-
-            return original.Substring(indexLeft, indexRight - indexLeft);
+            return (indexRight <= indexLeft) ? "" : original.Substring(indexLeft, indexRight - indexLeft);
         }
 
 
@@ -535,16 +519,16 @@ namespace CompatibilityReport.Util
                 else if (word[0] == '\n')
                 {
                     wrapped.AppendLine(line);
-                    line = word.Replace("\n", indentAfterNewLine) + " ";
+                    line = $"{ word.Replace("\n", indentAfterNewLine) } ";
                 }
                 else if (line.Length + word.Length >= maxWidth)
                 {
                     wrapped.AppendLine(line);
-                    line = indent + word + " ";
+                    line = $"{ indent }{ word } ";
                 }
                 else
                 {
-                    line += word + " ";
+                    line += $"{ word } ";
                 }
             }
 

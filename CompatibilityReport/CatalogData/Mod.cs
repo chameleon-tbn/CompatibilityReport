@@ -192,9 +192,9 @@ namespace CompatibilityReport.CatalogData
             string disabledPrefix = IsDisabled ? "[Disabled] " : "";
 
             int maxNameLength = ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length;
-            string name = (Name.Length <= maxNameLength) || !cutOff ? Name : Name.Substring(0, maxNameLength - 3) + "...";
+            string name = (Name.Length <= maxNameLength) || !cutOff ? Name : $"{ Name.Substring(0, maxNameLength - 3) }...";
 
-            return nameFirst ? disabledPrefix + name + " " + idString : disabledPrefix + idString + " " + name;
+            return nameFirst ? $"{ disabledPrefix }{ name } { idString }" : $"{ disabledPrefix }{ idString } { name }";
         }
     }
 }

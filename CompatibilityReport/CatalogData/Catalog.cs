@@ -416,12 +416,12 @@ namespace CompatibilityReport.CatalogData
                     ex.ToString().Contains("unexpected end of file"))
                 {
                     Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Error);
-                    Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
+                    Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
                 }
                 else
                 {
                     Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
-                    Logger.Exception(ex, hideFromGameLog: true, debugOnly: true);
+                    Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
                 }
 
                 return null;
@@ -488,16 +488,14 @@ namespace CompatibilityReport.CatalogData
 
             Stopwatch timer = Stopwatch.StartNew();
 
-            if (!Toolkit.Download(ModSettings.CatalogURL, temporaryFile))
+            if (!Toolkit.Download(ModSettings.CatalogUrl, temporaryFile))
             {
                 Toolkit.DeleteFile(temporaryFile);
-
-                Logger.Log($"Can't download new catalog from { ModSettings.CatalogURL }", Logger.Warning);
+                Logger.Log($"Can't download new catalog from { ModSettings.CatalogUrl }", Logger.Warning);
                 return null;
             }
 
             timer.Stop();
-
             Logger.Log($"Catalog downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
 
             Catalog downloadedCatalog = LoadFromDisk(temporaryFile);
@@ -541,8 +539,7 @@ namespace CompatibilityReport.CatalogData
                 }
                 else
                 {
-                    Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. " +
-                        "This prevents saving a newly downloaded catalog for future sessions.", Logger.Error);
+                    Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. This prevents saving a newly downloaded catalog.", Logger.Error);
                 }
             }
             else

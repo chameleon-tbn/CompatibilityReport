@@ -30,29 +30,29 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            int errorCounter = 0;
+            int errors = 0;
 
             foreach (string CsvFilename in CsvFilenames)
             {
                 if (!ReadCsv(catalog, CsvFilename))
                 {
-                    errorCounter++;
+                    errors++;
                 }
             }
 
             timer.Stop();
 
-            if (errorCounter == 0)
+            if (errors == 0)
             {
                 Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
                 Logger.Log($"Updater processed { CsvFilenames.Count } CSV files.");
             }
             else
             {
-                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, " +
-                    $"with { errorCounter } errors.", Logger.Warning);
+                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, with { errors } errors.", 
+                    Logger.Warning);
 
-                Logger.Log($"Updater processed { CsvFilenames.Count } CSV files and encountered { errorCounter } errors. See separate log for details.", Logger.Warning);
+                Logger.Log($"Updater processed { CsvFilenames.Count } CSV files and encountered { errors } errors. See separate log for details.", Logger.Warning);
             }
         }
 
@@ -88,10 +88,10 @@ namespace CompatibilityReport.Updater
                     }
                     else
                     {
-                        processedCsvLines.AppendLine("# [ERROR] " + line);
+                        processedCsvLines.AppendLine($"# [ERROR] { line }");
 
                         withoutErrors = false;
-                        Logger.UpdaterLog(errorMessage + $" Line #{ lineNumber }: { line }", Logger.Error);
+                        Logger.UpdaterLog($"{ errorMessage } Line #{ lineNumber }: { line }", Logger.Error);
                     }
                 }
             }
@@ -152,12 +152,8 @@ namespace CompatibilityReport.Updater
             {
                 case "reviewdate":
                     DateTime newDate = Toolkit.ConvertDate(stringSecond);
-                    if (newDate == default)
-                    {
-                        return "Invalid date.";
-                    }
                     CatalogUpdater.SetReviewDate(newDate);
-                    return "";
+                    return (newDate == default) ? "Invalid date." : "";
 
                 case "add_mod":
                     // Join the lineFragments for the optional mod name, to allow for commas.
@@ -403,7 +399,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid URL.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: propertyData, updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: propertyData, updatedByImporter: true);
             }
             else if (action == "remove_sourceurl")
             {
@@ -412,11 +408,11 @@ namespace CompatibilityReport.Updater
                     return "No source URL to remove.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: "", updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: "", updatedByImporter: true);
             }
             else if (action == "set_gameversion")
             {
-                // Convert the itemData string to gameversion and back to string, to make sure we have a consistently formatted gameversion string.
+                // Convert the itemData string to version and back to string, to make sure we have a consistently formatted game version string.
                 Version newGameVersion = Toolkit.ConvertToVersion(propertyData);
 
                 if (newGameVersion == Toolkit.UnknownVersion())
@@ -430,7 +426,7 @@ namespace CompatibilityReport.Updater
             {
                 if (!catalogMod.ExclusionForGameVersion)
                 {
-                    return "Cannot remove compatible gameversion because it was not manually added.";
+                    return "Cannot remove compatible game version because it was not manually added.";
                 }
 
                 CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: "", updatedByImporter: true);
@@ -746,7 +742,7 @@ namespace CompatibilityReport.Updater
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
                     // Stop if this compatibility could not be added, without processing more compatibilities.
-                    return errorMessage + " Some of the compatibilities might have been added, check the change notes.";
+                    return $"{ errorMessage } Some of the compatibilities might have been added, check the change notes.";
                 }
 
                 previousSecond = secondSteamID;

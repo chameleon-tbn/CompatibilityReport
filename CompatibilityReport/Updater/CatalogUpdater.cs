@@ -91,13 +91,13 @@ namespace CompatibilityReport.Updater
             
             string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ catalog.VersionString() }");
 
-            if (catalog.Save(partialPath + ".xml"))
+            if (catalog.Save($"{ partialPath }.xml"))
             {
                 Logger.UpdaterLog($"New catalog { catalog.VersionString() } created and change notes saved.");
 
-                Toolkit.SaveToFile(catalog.ChangeNotes.Combined(catalog), partialPath + "_ChangeNotes.txt");
-                Toolkit.MoveFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), partialPath + "_Imports.csv.txt");
-                Toolkit.CopyFile(Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName), partialPath + "_Updater.log");
+                Toolkit.SaveToFile(catalog.ChangeNotes.Combined(catalog), $"{ partialPath }_ChangeNotes.txt");
+                Toolkit.MoveFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), $"{ partialPath }_Imports.csv.txt");
+                Toolkit.CopyFile(Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName), $"{ partialPath }_Updater.log");
             }
             else
             {
@@ -110,7 +110,7 @@ namespace CompatibilityReport.Updater
         /// <remarks>The review date is used for the mod ReviewDate and/or AutoReviewDate properties.</remarks>
         public static void SetReviewDate(DateTime newDate)
         {
-            reviewDate = newDate;
+            reviewDate = newDate == default ? reviewDate : newDate;
         }
 
 
@@ -161,7 +161,7 @@ namespace CompatibilityReport.Updater
             if (unlisted || removed)
             {
                 newMod.Statuses.Add(unlisted ? Enums.Status.UnlistedInWorkshop : Enums.Status.RemovedFromWorkshop);
-                modType = (unlisted ? "unlisted " : "removed ") + modType;
+                modType = $"{ (unlisted ? "unlisted " : "removed ") }{ modType }";
             }
 
             catalog.ChangeNotes.NewMods.AppendLine($"Added { modType } { newMod.ToString() }");
@@ -178,7 +178,7 @@ namespace CompatibilityReport.Updater
                                      DateTime updated = default,
                                      ulong authorID = 0,
                                      string authorUrl = null,
-                                     string sourceURL = null,
+                                     string sourceUrl = null,
                                      string compatibleGameVersionString = null,
                                      Enums.Stability stability = default,
                                      string stabilityNote = null,
@@ -193,7 +193,7 @@ namespace CompatibilityReport.Updater
                 (updated == default || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update added") +
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
                 (authorUrl == null || authorUrl == catalogMod.AuthorUrl || catalogMod.AddedThisSession ? "" : $", author URL { Change(catalogMod.AuthorUrl, authorUrl) }") +
-                (sourceURL == null || sourceURL == catalogMod.SourceUrl ? "" : $", source URL { Change(catalogMod.SourceUrl, sourceURL) }") +
+                (sourceUrl == null || sourceUrl == catalogMod.SourceUrl ? "" : $", source URL { Change(catalogMod.SourceUrl, sourceUrl) }") +
                 (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : 
                     $", compatible game version { Change(catalogMod.CompatibleGameVersion(), Toolkit.ConvertToVersion(compatibleGameVersionString)) }") +
                 (stability != default && stability != catalogMod.Stability ? ", stability changed" :
@@ -205,10 +205,10 @@ namespace CompatibilityReport.Updater
             DateTime modReviewDate = (!string.IsNullOrEmpty(addedChangeNote) || alwaysUpdateReviewDate) && updatedByImporter ? reviewDate : default;
             DateTime modAutoReviewDate = (!string.IsNullOrEmpty(addedChangeNote) || alwaysUpdateReviewDate) && !updatedByImporter ? reviewDate : default;
 
-            if (updatedByImporter && sourceURL != null && sourceURL != catalogMod.SourceUrl)
+            if (updatedByImporter && sourceUrl != null && sourceUrl != catalogMod.SourceUrl)
             {
                 // Add exclusion on new or changed URL, and swap exclusion on removal.
-                catalogMod.UpdateExclusions(exclusionForSourceUrl: sourceURL != "" || !catalogMod.ExclusionForSourceUrl);
+                catalogMod.UpdateExclusions(exclusionForSourceUrl: sourceUrl != "" || !catalogMod.ExclusionForSourceUrl);
             }
             if (updatedByImporter && compatibleGameVersionString != null && compatibleGameVersionString != catalogMod.CompatibleGameVersionString)
             {
@@ -216,7 +216,7 @@ namespace CompatibilityReport.Updater
                 catalogMod.UpdateExclusions(exclusionForGameVersion: compatibleGameVersionString != "");
             }
 
-            catalogMod.Update(name, published, updated, authorID, authorUrl, sourceURL, compatibleGameVersionString, stability, stabilityNote, genericNote, 
+            catalogMod.Update(name, published, updated, authorID, authorUrl, sourceUrl, compatibleGameVersionString, stability, stabilityNote, genericNote, 
                 reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update.
@@ -356,7 +356,7 @@ namespace CompatibilityReport.Updater
             catalog.AddCompatibility(firstModID, secondModID, compatibilityStatus, compatibilityNote);
 
             catalog.ChangeNotes.NewCompatibilities.AppendLine($"Added compatibility between { firstModID, 10 } and { secondModID, 10 }: { compatibilityStatus }" +
-                (string.IsNullOrEmpty(compatibilityNote) ? "" : ", " + compatibilityNote));
+                (string.IsNullOrEmpty(compatibilityNote) ? "" : $", { compatibilityNote }"));
         }
 
 
@@ -372,7 +372,7 @@ namespace CompatibilityReport.Updater
 
             catalog.ChangeNotes.RemovedCompatibilities.AppendLine($"Removed compatibility between { catalogCompatibility.FirstSteamID, 10 } and " +
                 $"{ catalogCompatibility.SecondSteamID, 10 }: \"{ catalogCompatibility.Status }\"" +
-                (string.IsNullOrEmpty(catalogCompatibility.Note) ? "" : ", " + catalogCompatibility.Note));
+                (string.IsNullOrEmpty(catalogCompatibility.Note) ? "" : $", { catalogCompatibility.Note }"));
 
             return true;
         }
@@ -406,7 +406,7 @@ namespace CompatibilityReport.Updater
         public static void UpdateAuthor(Catalog catalog, Author catalogAuthor, ulong authorID = 0, string authorUrl = null, string name = null, 
             DateTime lastSeen = default, bool? retired = null)
         {
-            string oldURL = catalogAuthor.CustomUrl;
+            string oldUrl = catalogAuthor.CustomUrl;
 
             // Collect change notes for all changed values.
             string addedChangeNote =
@@ -424,7 +424,7 @@ namespace CompatibilityReport.Updater
             if (addedChangeNote.Contains("Steam ID") || addedChangeNote.Contains("Custom URL"))
             {
                 // Update the author ID and URL for all mods from this author, without additional changes notes.
-                List<Mod> AuthorMods = catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.SteamID || x.AuthorUrl == catalogAuthor.CustomUrl || x.AuthorUrl == oldURL);
+                List<Mod> AuthorMods = catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.SteamID || x.AuthorUrl == catalogAuthor.CustomUrl || x.AuthorUrl == oldUrl);
                 foreach (Mod AuthorMod in AuthorMods)
                 {
                     AuthorMod.Update(authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);

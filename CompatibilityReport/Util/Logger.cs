@@ -52,13 +52,18 @@ namespace CompatibilityReport.Util
         /// <summary>Logs a message to the updater log.</summary>
         public static void UpdaterLog(string message, LogLevel logLevel = LogLevel.Info)
         {
+            if ((logLevel == Debug) && !ModSettings.DebugMode)
+            {
+                return;
+            }
+
             if (!updaterLogInitialized)
             {
                 string fullPath = Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName);
                 updaterLog = new LogFiler(fullPath, append: false);
                 updaterLogInitialized = true;
 
-                GameLog($"Logging for the updater can be found in \"{ Toolkit.Privacy(fullPath) }\".");
+                Log($"Logging for the updater can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
 
             updaterLog.WriteLine(message, logLevel, duplicateToGameLog: false, timestamp: true);
@@ -74,25 +79,15 @@ namespace CompatibilityReport.Util
 
 
         /// <summary>Logs an exception to this mods log or updater log, and to the game log unless indicated otherwise.</summary>
-        public static void Exception(Exception ex, bool hideFromGameLog = false, bool debugOnly = false)
+        public static void Exception(Exception ex, LogLevel logLevel = LogLevel.Info, bool hideFromGameLog = false)
         {
-            if (debugOnly && !ModSettings.DebugMode)
+            if ((logLevel == Debug) && !ModSettings.DebugMode)
             {
                 return;
             }
 
-            string logPrefix = debugOnly ? "[EXCEPTION][DEBUG]" : "[EXCEPTION]";
-
-            if (ModSettings.DebugMode)
-            {
-                // Exception with full stacktrace.
-                Log($"{ logPrefix } { ex }");
-            }
-            else
-            {
-                // Exception with shorter stacktrace.
-                Log($"{ logPrefix } { Toolkit.ShortException(ex) }: { ex.Message }\n{ ex.StackTrace }");
-            }
+            // Exception with full or shorter stacktrace.
+            Log((logLevel == Debug) ? $"[EXCEPTION][DEBUG] { ex }" : $"[EXCEPTION] { ex.GetType().Name }: { ex.Message }\n{ ex.StackTrace }");
 
             if (!hideFromGameLog)
             {
@@ -104,11 +99,6 @@ namespace CompatibilityReport.Util
         /// <summary>Logs a message to the game log.</summary>
         private static void GameLog(string message)
         {
-            if (string.IsNullOrEmpty(message))
-            {
-                return;
-            }
-
             UnityEngine.Debug.Log($"{ ModSettings.ModName }: { message }");
         }
 
@@ -142,7 +132,7 @@ namespace CompatibilityReport.Util
                         // Make a backup before overwriting. Can't use Toolkit.CopyFile here because it logs.
                         try
                         {
-                            File.Copy(fileName, fileName + ".old", overwrite: true);
+                            File.Copy(fileName, $"{ fileName }.old", overwrite: true);
                         }
                         catch (Exception ex2)
                         {
@@ -153,8 +143,8 @@ namespace CompatibilityReport.Util
 
                         if (append)
                         {
-                            WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".", LogLevel.Info, duplicateToGameLog: false, timestamp: false);
-                            WriteLine($"\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", LogLevel.Info, duplicateToGameLog: false, timestamp: false);
+                            WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".\n\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", 
+                                LogLevel.Info, duplicateToGameLog: false, timestamp: false);
                         }
                     }
 
@@ -176,15 +166,14 @@ namespace CompatibilityReport.Util
                     return;
                 }
 
-                string timeStamp = timestamp ? $"{ DateTime.Now:yyyy-MM-dd HH:mm:ss} - " : "";
-                string logLevelPrefix = (logLevel == LogLevel.Info) ? "" : $"[{ Convert.ToString(logLevel).ToUpper() }] ";
+                string logLevelPrefix = (logLevel == LogLevel.Info) ? "" : $"[{ logLevel.ToString().ToUpper() }] ";
 
                 try
                 {
                     // Use a lock for when the updater gets its own executable but still uses the same log file.
                     lock (file)
                     {
-                        file.WriteLine(timeStamp + logLevelPrefix + message);
+                        file.WriteLine($"{ (timestamp ? $"{ DateTime.Now:yyyy-MM-dd HH:mm:ss} - " : "") }{ logLevelPrefix }{ message }");
                     }
                 }
                 catch
@@ -195,13 +184,16 @@ namespace CompatibilityReport.Util
 
                 if (duplicateToGameLog)
                 {
-                    GameLog(logLevelPrefix + message);
+                    GameLog($"{ logLevelPrefix }{ message }");
                 }
 
-                string lowerCaseMessage = message.ToLower();
-                if (lowerCaseMessage.Contains("\\appdata\\local") || lowerCaseMessage.Contains("c:\\users\\") || lowerCaseMessage.Contains("/users/"))
+                if (ModSettings.DebugMode)
                 {
-                    Log("Previously logged path probably needs more privacy.", LogLevel.Debug);
+                    string lowerCaseMessage = message.ToLower();
+                    if (lowerCaseMessage.Contains("\\appdata\\local") || lowerCaseMessage.Contains("c:\\users\\") || lowerCaseMessage.Contains("/users/"))
+                    {
+                        Log("Previously logged path probably needs more privacy.", LogLevel.Debug);
+                    }
                 }
             }
         }

@@ -52,13 +52,12 @@ namespace CompatibilityReport.Reporter
 
             if (Toolkit.CurrentGameVersion() != catalog.GameVersion())
             {
-                Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(catalog.GameVersion()) }. " +
-                    $"You're using { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "an older" : "a newer") } version of the game. " +
-                    "Results may not be accurate.", Logger.Warning);
+                Logger.Log($"The catalog was updated for game version { Toolkit.ConvertGameVersionToString(catalog.GameVersion()) }. You're using " +
+                    $"{ (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "an older" : "a newer") } version of the game. Results may not be accurate.", 
+                    Logger.Warning);
             }
 
             catalog.ScanSubscriptions();
-
             Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionIDIndex.Count } mods.");
 
             if (ModSettings.HtmlReport)

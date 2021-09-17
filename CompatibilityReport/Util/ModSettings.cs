@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = LowestLocalModID;    // Todo 0.5 Our own Steam ID.
 
         public const string Version = "0.4.0";
-        public const string Build = "248";
+        public const string Build = "249";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -79,7 +79,7 @@ namespace CompatibilityReport.Util
 
         // .NET 3.5 only support TSL 1.2 with registry edits, which we can't rely on for mod users. So for a download location we
         // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+.
-        public const string CatalogURL = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
+        public const string CatalogUrl = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
 
 
         // Report and log properties.
@@ -124,7 +124,7 @@ namespace CompatibilityReport.Util
         public const string TempDownloadFileName = InternalName + "_Download.tmp";
         public const string TempCsvCombinedFileName = InternalName + "_CSVCombined.tmp";
 
-        public static List<string> SteamModListingURLs { get; } = new List<string> {
+        public static List<string> SteamModListingUrls { get; } = new List<string> {
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
@@ -139,7 +139,7 @@ namespace CompatibilityReport.Util
         public const string SearchSteamIDRight = "&searchtext";
         public const string SearchListingModNameLeft = "workshopItemTitle ellipsis\">";
         public const string SearchListingModNameRight = "</div>";
-        // public const string SearchAuthorURLLeft = "steamcommunity.com/id/";
+        // public const string SearchAuthorUrlLeft = "steamcommunity.com/id/";
         // public const string SearchAuthorIDLeft = "steamcommunity.com/profiles/";
         // public const string SearchListingAuthorRight = "/myworkshopfiles";
         // public const string SearchAuthorNameLeft = "/myworkshopfiles/?appid=255710\">";
@@ -168,8 +168,8 @@ namespace CompatibilityReport.Util
         public const string SearchDescription = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
         public const string SearchDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";               // One line below 'Find' text.
         public const string SearchDescriptionRight = "</div>";
-        public const string SearchSourceURLLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";     // Only GitHub is recognized.
-        public const string SearchSourceURLRight = "\" ";
+        public const string SearchSourceUrlLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";     // Only GitHub is recognized.
+        public const string SearchSourceUrlRight = "\" ";
 
 
         // Todo 0.7 Defaults for updater settings that will be available in an updater settings xml file.

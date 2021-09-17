@@ -121,7 +121,7 @@ namespace CompatibilityReport.Reporter
                 if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(TextReport.ToString(), TextReportFullPath, createBackup: false))
                 {
                     Logger.Log($"Text Report could not be saved at the location set in the options. It is instead saved as \"{ Toolkit.Privacy(TextReportFullPath) }\".", 
-                        duplicateToGameLog: true);
+                        Logger.Warning, duplicateToGameLog: true);
                 }
                 else
                 {
@@ -177,7 +177,7 @@ namespace CompatibilityReport.Reporter
                 modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods."));
             }
 
-            modReview.Append((steamID > ModSettings.HighestFakeID) ? ReviewLine("Steam Workshop page: " + Toolkit.GetWorkshopUrl(steamID)) : "");
+            modReview.Append((steamID > ModSettings.HighestFakeID) ? ReviewLine($"Steam Workshop page: { Toolkit.GetWorkshopUrl(steamID) }"): "");
 
             if ((subscribedMod.ReviewDate != default) || somethingToReport)
             {
@@ -202,7 +202,7 @@ namespace CompatibilityReport.Reporter
             {
                 if (cutOff)
                 {
-                    message = message.Substring(0, ModSettings.TextReportWidth - bullet.Length - 3) + "...";
+                    message = $"{ message.Substring(0, ModSettings.TextReportWidth - bullet.Length - 3) }...";
 
                     Logger.Log($"Report line cut off: { message }", Logger.Debug);
                 }
@@ -338,7 +338,7 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(id))
                 {
-                    text += ReviewLine((catalog.SubscriptionIDIndex.Contains(id) ? "[Subscribed] " : "") + catalog.GetMod(id).ToString(hideFakeID: true), 
+                    text += ReviewLine($"{ (catalog.SubscriptionIDIndex.Contains(id) ? "[Subscribed] " : "") }{ catalog.GetMod(id).ToString(hideFakeID: true) }", 
                         ModSettings.Bullet2, cutOff: true);
                 }
                 else
@@ -415,7 +415,7 @@ namespace CompatibilityReport.Reporter
                     text += (catalog.SubscriptionIDIndex.Contains(id) && !catalog.GetMod(id).IsDisabled) ? "" : 
                         ReviewLine(catalog.GetMod(id).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                     
-                    text += ReviewLine("Workshop page: " + Toolkit.GetWorkshopUrl(id), ModSettings.Indent2);
+                    text += ReviewLine($"Workshop page: { Toolkit.GetWorkshopUrl(id) }", ModSettings.Indent2);
                 }
                 else if (catalog.IsValidID(id, allowGroup: true))
                 {
@@ -548,7 +548,7 @@ namespace CompatibilityReport.Reporter
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection))
                 {
-                    text += ReviewLine("This mod has comments disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. " +
+                    text += ReviewLine("This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. " +
                         "Use with caution.");
                 }
             }

@@ -21,6 +21,7 @@ Due to the early development stage and very frequent changes to all parts of the
   * Manual upload of a new catalog, after quality assurance checks.
 
 ### Roadmap towards version 1.0 (subject to change)
+* 0.4.1 - Report revision
 * 0.5 - Alpha release on GitHub and Steam Workshop (unlisted)
   * Catalog with mod compatibilities and dependencies for most mods.
   * Steam pinned discussions for submissions by mod authors and others.

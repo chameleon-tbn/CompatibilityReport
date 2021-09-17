@@ -37,9 +37,9 @@ namespace CompatibilityReport.Updater
             int totalPages = 0;
             
             // Go through the different mod listings: mods and camera scripts, both regular and incompatible.
-            foreach (string steamURL in ModSettings.SteamModListingURLs)
+            foreach (string steamUrl in ModSettings.SteamModListingUrls)
             {
-                Logger.UpdaterLog($"Starting downloads from { steamURL }");
+                Logger.UpdaterLog($"Starting downloads from { steamUrl }");
                 
                 int pageNumber = 0;
 
@@ -47,7 +47,7 @@ namespace CompatibilityReport.Updater
                 while (pageNumber < ModSettings.SteamMaxModListingPages)
                 {
                     pageNumber++;
-                    string url = $"{ steamURL }&p={ pageNumber }";
+                    string url = $"{ steamUrl }&p={ pageNumber }";
 
                     if (!Toolkit.Download(url, tempFileFullPath))
                     {
@@ -57,7 +57,7 @@ namespace CompatibilityReport.Updater
                         break;
                     }
 
-                    int modsFoundThisPage = ReadModListingPage(tempFileFullPath, catalog, incompatibleMods: steamURL.Contains("incompatible"));
+                    int modsFoundThisPage = ReadModListingPage(tempFileFullPath, catalog, incompatibleMods: steamUrl.Contains("incompatible"));
 
                     if (modsFoundThisPage == 0)
                     {
@@ -111,7 +111,7 @@ namespace CompatibilityReport.Updater
 
                     if (steamID == 0) 
                     {
-                        Logger.UpdaterLog("Steam ID not recognized on HTML line: " + line, Logger.Error);
+                        Logger.UpdaterLog($"Steam ID not recognized on HTML line: { line }", Logger.Error);
                         continue;
                     }
 
@@ -268,8 +268,8 @@ namespace CompatibilityReport.Updater
                     if (line.Contains(ModSettings.SearchAuthorLeft))
                     {
                         // Only get the author URL if the author ID was not found, to prevent updating the author URL to an empty string.
-                        ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.SearchAuthorLeft + "profiles/", ModSettings.SearchAuthorMid));
-                        string authorUrl = authorID != 0 ? null : Toolkit.MidString(line, ModSettings.SearchAuthorLeft + "id/", ModSettings.SearchAuthorMid);
+                        ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, $"{ ModSettings.SearchAuthorLeft }profiles/", ModSettings.SearchAuthorMid));
+                        string authorUrl = authorID != 0 ? null : Toolkit.MidString(line, $"{ ModSettings.SearchAuthorLeft }id/", ModSettings.SearchAuthorMid);
                         string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight));
 
                         if (string.IsNullOrEmpty(authorName))
@@ -370,18 +370,18 @@ namespace CompatibilityReport.Updater
                         string description = Toolkit.MidString($"{ line }\n", ModSettings.SearchDescriptionLeft, "\n");
                         
                         // A 'no description' status is when the description is not at least a few characters longer than the mod name.
-                        if (description.Length <= catalogMod.Name.Length + ModSettings.SearchDescriptionRight.Length + 3 && !catalogMod.ExclusionForNoDescription)
+                        if ((description.Length <= catalogMod.Name.Length + ModSettings.SearchDescriptionRight.Length + 3) && !catalogMod.ExclusionForNoDescription)
                         {
                             CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.NoDescription);
                         }
-                        else if (description.Length > catalogMod.Name.Length + 3 && !catalogMod.ExclusionForNoDescription)
+                        else if ((description.Length > catalogMod.Name.Length + 3) && !catalogMod.ExclusionForNoDescription)
                         {
                             CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription);
                         }
 
-                        if (description.Contains(ModSettings.SearchSourceURLLeft) && !catalogMod.ExclusionForSourceUrl)
+                        if (description.Contains(ModSettings.SearchSourceUrlLeft) && !catalogMod.ExclusionForSourceUrl)
                         {
-                            CatalogUpdater.UpdateMod(catalog, catalogMod, sourceURL: GetSourceURL(description, catalogMod));
+                            CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(description, catalogMod));
                         }
 
                         // Description is the last info we need from the page, so break out of the while loop.
@@ -406,12 +406,12 @@ namespace CompatibilityReport.Updater
         /// <summary>Gets the source URL.</summary>
         /// <remarks>If more than one is found, pick the most likely, which is far from perfect and might need a CSV update to set it right.</remarks>
         /// <returns>The source URL string.</returns>
-        private static string GetSourceURL(string modDescription, Mod catalogMod)
+        private static string GetSourceUrl(string modDescription, Mod catalogMod)
         {
-            string sourceURL = "https://github.com/" + Toolkit.MidString(modDescription, ModSettings.SearchSourceURLLeft, ModSettings.SearchSourceURLRight);
-            string currentLower = sourceURL.ToLower();
+            string sourceUrl = $"https://github.com/{ Toolkit.MidString(modDescription, ModSettings.SearchSourceUrlLeft, ModSettings.SearchSourceUrlRight) }";
+            string currentLower = sourceUrl.ToLower();
 
-            if (sourceURL == "https://github.com/")
+            if (sourceUrl == "https://github.com/")
             {
                 return null;
             }
@@ -420,41 +420,42 @@ namespace CompatibilityReport.Updater
             const string pardeike  = "https://github.com/pardeike";
             const string sschoener = "https://github.com/sschoener/cities-skylines-detour";
 
-            string discardedURLs = "";
+            string discardedUrls = "";
             int tries = 0;
 
             // Keep comparing source URLs until we find no more. Max. 50 times to avoid infinite loops.
-            while (modDescription.IndexOf(ModSettings.SearchSourceURLLeft) != modDescription.LastIndexOf(ModSettings.SearchSourceURLLeft) && tries < 50)
+            while (modDescription.IndexOf(ModSettings.SearchSourceUrlLeft) != modDescription.LastIndexOf(ModSettings.SearchSourceUrlLeft) && tries < 50)
             {
                 tries++;
 
-                int index = modDescription.IndexOf(ModSettings.SearchSourceURLLeft) + 1;
+                int index = modDescription.IndexOf(ModSettings.SearchSourceUrlLeft) + 1;
                 modDescription = modDescription.Substring(index);
 
-                string nextSourceURL = "https://github.com/" + Toolkit.MidString(modDescription, ModSettings.SearchSourceURLLeft, ModSettings.SearchSourceURLRight);
-                string nextLower = nextSourceURL.ToLower();
+                string nextSourceUrl = $"https://github.com/{ Toolkit.MidString(modDescription, ModSettings.SearchSourceUrlLeft, ModSettings.SearchSourceUrlRight) }";
+                string nextLower = nextSourceUrl.ToLower();
 
-                // Decide on which source URL to use. Silently discard any source URL containing Pardeike or Sschoener, as well as empty and duplicate URLs.
-                if (nextLower == "https://github.com/" || nextLower.Contains(pardeike) || nextLower.Contains(sschoener) || nextLower == currentLower)
+                // Decide on which source URL to use.
+                if (nextLower == "https://github.com/" || nextLower == currentLower || nextLower.Contains(pardeike) || nextLower.Contains(sschoener))
                 {
-                    // Nothing to do here.
+                    // Silently discard the new source URL.
                 }
                 else if (currentLower.Contains(pardeike) || currentLower.Contains(sschoener))
                 {
-                    sourceURL = nextSourceURL;
+                    // Silently discard the old source URL.
+                    sourceUrl = nextSourceUrl;
                 }
                 else if (currentLower.Contains("issue") || currentLower.Contains("wiki") || currentLower.Contains("documentation") 
                     || currentLower.Contains("readme") || currentLower.Contains("guide") || currentLower.Contains("translation"))
                 {
-                    discardedURLs += "\n                      Discarded: " + sourceURL;
-                    sourceURL = nextSourceURL;
+                    discardedUrls += $"\n                      Discarded: { sourceUrl }";
+                    sourceUrl = nextSourceUrl;
                 }
                 else
                 {
-                    discardedURLs += "\n                      Discarded: " + nextSourceURL;
+                    discardedUrls += $"\n                      Discarded: { nextSourceUrl }";
                 }
 
-                currentLower = sourceURL.ToLower();
+                currentLower = sourceUrl.ToLower();
             }
 
             // Discard the selected source URL if it is Pardeike or Sschoener. This happens when that is the only GitHub link in the description.
@@ -463,12 +464,12 @@ namespace CompatibilityReport.Updater
                 return null;
             }
 
-            if (!string.IsNullOrEmpty(discardedURLs) && sourceURL != catalogMod.SourceUrl)
+            if (!string.IsNullOrEmpty(discardedUrls) && sourceUrl != catalogMod.SourceUrl)
             {
-                Logger.UpdaterLog($"Found multiple source URLs for { catalogMod.ToString() }\n                      Selected:  { sourceURL }{ discardedURLs }");
+                Logger.UpdaterLog($"Found multiple source URLs for { catalogMod.ToString() }\n                      Selected:  { sourceUrl }{ discardedUrls }");
             }
 
-            return sourceURL;
+            return sourceUrl;
         }
     }
 }

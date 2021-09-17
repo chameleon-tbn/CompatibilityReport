@@ -12,7 +12,7 @@ namespace CompatibilityReport
 {
     public class CompatibilityReport : IUserMod
     {
-        public string Name { get; } = $"{ ModSettings.ModName } v{ ModSettings.Version }" +
+        public string Name { get; } = $"{ ModSettings.ModName } v{ ModSettings.Version }" + 
             (string.IsNullOrEmpty(ModSettings.ReleaseType) ? "" : $" { ModSettings.ReleaseType}");
 
         public string Description { get; } = ModSettings.ModDescription;
