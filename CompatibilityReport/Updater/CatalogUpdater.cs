@@ -415,7 +415,7 @@ namespace CompatibilityReport.Updater
                 (name == null || name == catalogAuthor.Name ? "" : ", name") +
                 (lastSeen == default || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : 
                     $", last seen date { Change(lastSeen, catalogAuthor.LastSeen) }") +
-                (retired == null || retired == catalogAuthor.Retired || catalogAuthor.AddedThisSession ? "" : $", { (retired == true ? "now" : "no longer") } retired");
+                (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
 
             // Set an exclusion if retired was set to true here or reset it if retired was set to false. Exclusion will be re-evaluated at UpdateAuthorRetirement().
             catalogAuthor.Update(authorID, authorUrl, name, lastSeen, retired, exclusionForRetired: retired);
