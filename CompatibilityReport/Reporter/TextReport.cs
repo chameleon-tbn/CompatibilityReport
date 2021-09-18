@@ -149,7 +149,7 @@ namespace CompatibilityReport.Reporter
 
             modHeader += string.IsNullOrEmpty(AuthorName) ? "\n" : 
                 ((modName.Length + 4 + AuthorName.Length <= ModSettings.TextReportWidth) ? $" by { AuthorName }\n" :
-                $"by { AuthorName}".PadLeft(ModSettings.TextReportWidth) + "\n");
+                $"\n{ $"by { AuthorName}".PadLeft(ModSettings.TextReportWidth) }\n");
 
             // Todo 0.4.1 Rethink which review texts to include in 'somethingToReport'. Combine author retired and mod abandoned into one line.
             modReview.Append(ThisMod(subscribedMod));
@@ -200,21 +200,23 @@ namespace CompatibilityReport.Reporter
         /// <returns>A formatted string for the report.</returns>
         private static string ReviewLine(string message, string bullet = ModSettings.Bullet1, bool cutOff = false)
         {
-            if (bullet.Length + message.Length > ModSettings.TextReportWidth)
+            message = $"{ bullet }{ message }";
+
+            if (message.Length > ModSettings.TextReportWidth)
             {
                 if (cutOff)
                 {
-                    message = $"{ message.Substring(0, ModSettings.TextReportWidth - bullet.Length - 3) }...";
+                    message = $"{ message.Substring(0, ModSettings.TextReportWidth - 3) }...";
 
                     Logger.Log($"Report line cut off: { message }", Logger.Debug);
                 }
                 else
                 {
-                    message = Toolkit.WordWrap($"{ bullet }{ message }", indent: new string(' ', bullet.Length));
+                    message = Toolkit.WordWrap($"{ message }", indent: new string(' ', bullet.Length));
                 }
             }
 
-            return string.IsNullOrEmpty(message) ? "" : $"{ message }\n";
+            return string.IsNullOrEmpty(message) || (message == bullet) ? "" : $"{ message }\n";
         }
 
 
