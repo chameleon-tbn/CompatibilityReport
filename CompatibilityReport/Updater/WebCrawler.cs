@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using CompatibilityReport.CatalogData;
@@ -223,6 +224,8 @@ namespace CompatibilityReport.Updater
         /// <returns>True if succesful, false if there was an error with the mod page.</returns>
         private static bool ReadModPage(string tempFileFullPath, Catalog catalog, Mod catalogMod)
         {
+            List<Enums.Dlc> newRequiredDlcs = new List<Enums.Dlc>();
+
             bool steamIDmatched = false;
             string line;
 
@@ -326,22 +329,27 @@ namespace CompatibilityReport.Updater
                     }
 
                     // Required DLC. This line can be found multiple times.
-                    // Todo 0.4 Remove DLCs no longer required.
-                    else if (line.Contains(ModSettings.SearchRequiredDLC))
+                    else if (line.Contains(ModSettings.SearchRequiredDlc))
                     {
                         line = reader.ReadLine();
-                        Enums.Dlc dlc = Toolkit.ConvertToEnum<Enums.Dlc>(Toolkit.MidString(line, ModSettings.SearchRequiredDLCLeft, ModSettings.SearchRequiredDLCRight));
+                        Enums.Dlc dlc = Toolkit.ConvertToEnum<Enums.Dlc>(Toolkit.MidString(line, ModSettings.SearchRequiredDlcLeft, ModSettings.SearchRequiredDlcRight));
 
-                        if (dlc != default && !catalogMod.ExclusionForRequiredDlc.Contains(dlc))
+                        if (dlc != default)
                         {
-                            CatalogUpdater.AddRequiredDLC(catalog, catalogMod, dlc);
+                            if (!catalogMod.ExclusionForRequiredDlc.Contains(dlc))
+                            {
+                                CatalogUpdater.AddRequiredDlc(catalog, catalogMod, dlc);
+                            }
+
+                            newRequiredDlcs.Add(dlc);
                         }
                     }
 
                     // Required mods and assets. The search string is a container with all required items on the next lines.
-                    // Todo 0.4 Remove mods no longer required.
                     else if (line.Contains(ModSettings.SearchRequiredMod))
                     {
+                        List<ulong> newRequiredMods = new List<ulong>();
+
                         // Get all required items from the next lines, until we find no more. Max. 50 times to avoid an infinite loop.
                         for (var i = 1; i <= 50; i++)
                         {
@@ -354,10 +362,19 @@ namespace CompatibilityReport.Updater
                             }
 
                             CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByImporter: false);
+                            newRequiredMods.Add(requiredID);
 
                             line = reader.ReadLine();
                             line = reader.ReadLine();
                             line = reader.ReadLine();
+                        }
+
+                        foreach(ulong oldRequiredID in catalogMod.RequiredMods)
+                        {
+                            if (!newRequiredMods.Contains(oldRequiredID))
+                            {
+                                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID);
+                            }
                         }
                     }
 
@@ -388,7 +405,7 @@ namespace CompatibilityReport.Updater
                         break;
                     }
 
-                    // Todo 0.4 Can we get the NoCommentSection status automatically?
+                    // Todo 0.4.2 Can we get the NoCommentSection status automatically?
                 }
             }
 
@@ -397,6 +414,14 @@ namespace CompatibilityReport.Updater
                 // We didn't find a Steam ID on the page, but no error page either. Must be a download issue or another Steam error.
                 Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }. Mod info not updated.", Logger.Error);
                 return false;
+            }
+
+            foreach (Enums.Dlc oldRequiredDlc in catalogMod.RequiredDlcs)
+            {
+                if (!newRequiredDlcs.Contains(oldRequiredDlc))
+                {
+                    CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, oldRequiredDlc);
+                }
             }
 
             return true;

@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = LowestLocalModID;    // Todo 0.5 Our own Steam ID.
 
         public const string Version = "0.4.0";
-        public const string Build = "251";
+        public const string Build = "252";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -159,9 +159,9 @@ namespace CompatibilityReport.Util
         public const string SearchDates = "<div class=\"detailsStatsContainerRight\">";
         public const string SearchDatesLeft = "detailsStatRight\">";                                                    // Two/three lines below 'Find'.
         public const string SearchDatesRight = "</div>";
-        public const string SearchRequiredDLC = "<div class=\"requiredDLCItem\">";                                      // Can appear multiple times.
-        public const string SearchRequiredDLCLeft = "https://store.steampowered.com/app/";                              // One line below 'Find' text.
-        public const string SearchRequiredDLCRight = "\">";
+        public const string SearchRequiredDlc = "<div class=\"requiredDLCItem\">";                                      // Can appear multiple times.
+        public const string SearchRequiredDlcLeft = "https://store.steampowered.com/app/";                              // One line below 'Find' text.
+        public const string SearchRequiredDlcRight = "\">";
         public const string SearchRequiredMod = "<div class=\"requiredItemsContainer\" id=\"RequiredItems\">";          // Can appear multiple times.
         public const string SearchRequiredModLeft = "https://steamcommunity.com/workshop/filedetails/?id=";             // One line below 'Find' text.
         public const string SearchRequiredModRight = "\" ";

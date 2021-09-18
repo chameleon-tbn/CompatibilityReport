@@ -433,40 +433,40 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_requireddlc")
             {
-                Enums.Dlc requiredDLC = Toolkit.ConvertToEnum<Enums.Dlc>(propertyData);
+                Enums.Dlc requiredDlc = Toolkit.ConvertToEnum<Enums.Dlc>(propertyData);
 
-                if (requiredDLC == default)
+                if (requiredDlc == default)
                 {
                     return "Invalid DLC.";
                 }
 
-                if (catalogMod.RequiredDlcs.Contains(requiredDLC))
+                if (catalogMod.RequiredDlcs.Contains(requiredDlc))
                 {
                     return "DLC is already required.";
                 }
 
-                CatalogUpdater.AddRequiredDLC(catalog, catalogMod, requiredDLC, updatedByImporter: true);
+                CatalogUpdater.AddRequiredDlc(catalog, catalogMod, requiredDlc, updatedByImporter: true);
             }
             else if (action == "remove_requireddlc")
             {
-                Enums.Dlc requiredDLC = Toolkit.ConvertToEnum<Enums.Dlc>(propertyData);
+                Enums.Dlc requiredDlc = Toolkit.ConvertToEnum<Enums.Dlc>(propertyData);
 
-                if (requiredDLC == default)
+                if (requiredDlc == default)
                 {
                     return "Invalid DLC.";
                 }
 
-                if (!catalogMod.RequiredDlcs.Contains(requiredDLC))
+                if (!catalogMod.RequiredDlcs.Contains(requiredDlc))
                 {
                     return "DLC is not required.";
                 }
 
-                if (!catalogMod.ExclusionForRequiredDlc.Contains(requiredDLC))
+                if (!catalogMod.ExclusionForRequiredDlc.Contains(requiredDlc))
                 {
                     return "Cannot remove required DLC because it was not manually added.";
                 }
 
-                CatalogUpdater.RemoveRequiredDLC(catalog, catalogMod, requiredDLC);
+                CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, requiredDlc);
             }
             else if (action == "add_status")
             {
@@ -656,7 +656,7 @@ namespace CompatibilityReport.Updater
                     return "Not enough parameters.";
                 }
 
-                if (!catalogMod.ExclusionForRequiredDlc.Remove(Toolkit.ConvertToEnum<Enums.Dlc>(dlcString)))
+                if (!catalogMod.RemoveExclusion(Toolkit.ConvertToEnum<Enums.Dlc>(dlcString)))
                 {
                     return "Invalid DLC or no exclusion exists.";
                 }
@@ -668,7 +668,7 @@ namespace CompatibilityReport.Updater
                     return "Not enough parameters.";
                 }
 
-                if (!catalogMod.ExclusionForRequiredMods.Remove(requiredID))
+                if (!catalogMod.RemoveExclusion(requiredID))
                 {
                     return "Invalid required mod ID or no exclusion exists.";
                 }

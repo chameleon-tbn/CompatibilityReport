@@ -130,11 +130,11 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Adds an exclusion for a required DLC.</summary>
-        public void AddExclusion(Enums.Dlc requiredDLC)
+        public void AddExclusion(Enums.Dlc requiredDlc)
         {
-            if (!ExclusionForRequiredDlc.Contains(requiredDLC))
+            if (!ExclusionForRequiredDlc.Contains(requiredDlc))
             {
-                ExclusionForRequiredDlc.Add(requiredDLC);
+                ExclusionForRequiredDlc.Add(requiredDlc);
             }
         }
 
@@ -146,6 +146,22 @@ namespace CompatibilityReport.CatalogData
             {
                 ExclusionForRequiredMods.Add(requiredMod);
             }
+        }
+
+
+        /// <summary>Removes an exclusion for a required DLC.</summary>
+        /// <returns>True if removal succeeded, false otherwise.</returns>
+        public bool RemoveExclusion(Enums.Dlc requiredDlc)
+        {
+            return ExclusionForRequiredDlc.Remove(requiredDlc);
+        }
+
+
+        /// <summary>Removes an exclusion for a required mod.</summary>
+        /// <returns>True if removal succeeded, false otherwise.</returns>
+        public bool RemoveExclusion(ulong requiredMod)
+        {
+            return ExclusionForRequiredMods.Remove(requiredMod);
         }
 
 
@@ -168,7 +184,7 @@ namespace CompatibilityReport.CatalogData
         /// <summary>Converts the mod to a string containing the Steam ID and name.</summary>
         /// <remarks>Optionally hides fake Steam IDs, puts the name before the ID, or cuts off the string at report width.</remarks>
         /// <returns>A string representing the mod.</returns>
-        // Todo 0.4 cutoff not used, but that might change on Report revision.
+        // Todo 0.4.1 cutoff not used, but that might change on Report revision.
         public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false)
         {
             string idString;

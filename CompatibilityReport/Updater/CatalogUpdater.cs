@@ -567,16 +567,16 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Adds a required DLC.</summary>
         /// <remarks>This also sets an exclusion if needed and creates an entry for the change notes.</remarks>
-        public static void AddRequiredDLC(Catalog catalog, Mod catalogMod, Enums.Dlc requiredDLC, bool updatedByImporter = false)
+        public static void AddRequiredDlc(Catalog catalog, Mod catalogMod, Enums.Dlc requiredDlc, bool updatedByImporter = false)
         {
-            if (!catalogMod.RequiredDlcs.Contains(requiredDLC))
+            if (!catalogMod.RequiredDlcs.Contains(requiredDlc))
             {
-                catalogMod.RequiredDlcs.Add(requiredDLC);
-                catalog.ChangeNotes.ModUpdate(catalogMod.SteamID, $"required DLC { Toolkit.ConvertDlcToString(requiredDLC) } added");
+                catalogMod.RequiredDlcs.Add(requiredDlc);
+                catalog.ChangeNotes.ModUpdate(catalogMod.SteamID, $"required DLC { Toolkit.ConvertDlcToString(requiredDlc) } added");
 
                 if (updatedByImporter)
                 {
-                    catalogMod.AddExclusion(requiredDLC);
+                    catalogMod.AddExclusion(requiredDlc);
                 }
             }
         }
@@ -584,12 +584,12 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Removes a required DLC.</summary>
         /// <remarks>This also removes the related exclusion and creates an entry for the change notes.</remarks>
-        public static void RemoveRequiredDLC(Catalog catalog, Mod catalogMod, Enums.Dlc requiredDLC)
+        public static void RemoveRequiredDlc(Catalog catalog, Mod catalogMod, Enums.Dlc requiredDlc)
         {
-            if (catalogMod.RequiredDlcs.Remove(requiredDLC))
+            if (catalogMod.RequiredDlcs.Remove(requiredDlc))
             {
-                catalog.ChangeNotes.ModUpdate(catalogMod.SteamID, $"required DLC { Toolkit.ConvertDlcToString(requiredDLC) } removed");
-                catalogMod.ExclusionForRequiredDlc.Remove(requiredDLC);
+                catalog.ChangeNotes.ModUpdate(catalogMod.SteamID, $"required DLC { Toolkit.ConvertDlcToString(requiredDlc) } removed");
+                catalogMod.RemoveExclusion(requiredDlc);
             }
         }
 
@@ -652,11 +652,11 @@ namespace CompatibilityReport.Updater
                     // If an exclusion exists remove it, otherwise add it to prevent the required mod from returning.
                     if (catalogMod.ExclusionForRequiredMods.Contains(requiredID))
                     {
-                        catalogMod.ExclusionForRequiredMods.Remove(requiredID);
+                        catalogMod.RemoveExclusion(requiredID);
                     }
                     else
                     {
-                        catalogMod.ExclusionForRequiredMods.Add(requiredID);
+                        catalogMod.AddExclusion(requiredID);
                     }
 
                     Group group = catalog.GetThisModsGroup(requiredID);
@@ -753,7 +753,7 @@ namespace CompatibilityReport.Updater
                 catalogMod.Alternatives.Remove(recommendationID);
             }
 
-            // Todo 0.4 Add the recommended mods group as recommended.
+            // Todo 0.4.1 Add the recommended mods group as recommended.
         }
 
 
