@@ -99,16 +99,15 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Checks if the ID is a valid mod or group ID, with the option to check for IDs that either exist in the catalog or not.</summary>
-        /// <remarks>By default only mod IDs that exist in the catalog are considered valid, including builtin mods. Groups can optionally be considered as well.</remarks>
+        /// <summary>Checks if the ID is a valid mod ID, with the option to check if the mod either exist in the catalog or not.</summary>
+        /// <remarks>By default only mod IDs that exist in the catalog are considered valid, including builtin mods.</remarks>
         /// <returns>True if the ID is valid with the selected options, false if invalid.</returns>
-        public bool IsValidID(ulong steamID, bool allowGroup = false, bool allowBuiltin = true, bool shouldExist = true)
+        public bool IsValidID(ulong steamID, bool allowBuiltin = true, bool shouldExist = true)
         {
             bool valid = (steamID > ModSettings.HighestFakeID) || 
-                (allowBuiltin && ModSettings.BuiltinMods.ContainsValue(steamID)) || 
-                (allowGroup && steamID >= ModSettings.LowestGroupID && steamID <= ModSettings.HighestGroupID);
+                (allowBuiltin && ModSettings.BuiltinMods.ContainsValue(steamID));
 
-            bool exists = modIndex.ContainsKey(steamID) || groupIndex.ContainsKey(steamID);
+            bool exists = modIndex.ContainsKey(steamID);
 
             return valid && (shouldExist ? exists : !exists);
         }

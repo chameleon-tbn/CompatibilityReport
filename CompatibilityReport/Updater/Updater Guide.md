@@ -4,7 +4,7 @@ The Updater only runs when an Updater folder exists, so it won't run for regular
 
 The FileImporter gathers its information from CSV files. These should be placed in the updater folder where the new catalogs are written as well. Update actions can be bundled in one CSV file or split into multiple files. Multiple files will be read in alphabetical order. Filenames don't matter, but should end in .csv. After updating, the processed CSV files are renamed to .txt to avoid duplicate additions to the catalog on a next updater run.
 
-Groups are used for mod requirements and recommendations to allow for different editions of mods. For example, a group with both a stable and test version of the same mod, will accept the test version as valid when the stable version is set as required mod. This prevents unjustified 'required mod not found' messages in the report. Similarly, a stable mod will not be recommended in the report, when the test mod is already subscribed. A group will automatically be added as required/recommended next to any group member, both for current mod requirements/recommendations and for new mods found in the future. A mod can only be a member of one group. Groups cannot be used for compatibilities, successors or alternatives. Group IDs are automaticaly assigned by the updater.
+Groups are used for mod requirements and recommendations to allow for different editions of mods. For example, a group with both a stable and test version of the same mod, will accept the test version as valid when the stable version is set as required mod. This prevents unjustified 'required mod not found' messages in the report. Similarly, a stable mod will not be recommended in the report, when the test mod is already subscribed. A mod can only be a member of one group. Groups cannot be used for anything else like compatibilities, successors or alternatives. Group IDs are automaticaly assigned by the updater.
 
 The lines in the CSV files all start with an action, often followed by a Steam ID (for the mod, group or author), often followed by additional data. Some actions will create exclusions in the catalog, to prevent the WebCrawler from overwriting these manual updates. Actions and parameters are not case sensitive, commas are the only allowed separator and spaces around the separators are ignored. Commas can still be used in the mod name, notes and header/footer texts, but not in other parameters. Parameters cannot be empty or contain only spaces.
 
@@ -23,7 +23,7 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
 * Add_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
-* Add_Recommendation, \<mod ID\>, \<recommended mod or group ID\>
+* Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
 * Set_Stability, \<mod ID\>, \<stability string\> [, \<note\>]
   * *To remove a stability note, set the same stability again without a note*
 * Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription status)*
@@ -36,7 +36,7 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
 * Remove_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
-* Remove_Recommendation, \<mod ID\>, \<recommended mod or group ID\>
+* Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
 * Remove_Status, \<mod ID\>, \<status string\>
 * Remove_GenericNote, \<mod ID\>
 * Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required DLC string | mod ID\>]

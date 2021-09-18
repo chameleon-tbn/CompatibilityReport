@@ -11,7 +11,7 @@ namespace CompatibilityReport.Reporter
 {
     public static class TextReport
     {
-        // Todo 0.4.1 Check for groups instead of relying on them being added in the catalog. Remove all group adding to required/recommended mods elsewhere.
+        // Todo 0.4.1 When we detect local mods, warn that the warning in this report might not be accurate.
         // Todo 0.4.1 What to do with the static stringbuilders? Change TextReport into non-static for better garbage collection?
         // Todo 0.4.1 Split report in four: major issues (stability, missing mods/dlc, ...), minor issues (stability), remarks (alternatives, recommended), not reviewed
         // Todo 0.4.1 Review needed for all texts that appear in the report.
@@ -154,7 +154,7 @@ namespace CompatibilityReport.Reporter
             // Todo 0.4.1 Rethink which review texts to include in 'somethingToReport'. Combine author retired and mod abandoned into one line.
             modReview.Append(ThisMod(subscribedMod));
             modReview.Append(Stability(subscribedMod));
-            modReview.Append(RequiredDLC(subscribedMod));
+            modReview.Append(RequiredDlc(subscribedMod));
             modReview.Append(RequiredMods(catalog, subscribedMod));
             modReview.Append(Compatibilities(catalog, subscribedMod));
             modReview.Append(Statuses(subscribedMod));
@@ -317,7 +317,7 @@ namespace CompatibilityReport.Reporter
                 }
                 else
                 {
-                    // Mod not found in the catalog, which should not happen unless the catalog was manually edited.
+                    // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
                     text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
 
                     Logger.Log($"Successor mod { steamID } not found in catalog.", Logger.Warning);
@@ -343,7 +343,7 @@ namespace CompatibilityReport.Reporter
                 }
                 else
                 {
-                    // Mod not found in the catalog, which should not happen unless the catalog was manually edited.
+                    // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
                     text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
 
                     Logger.Log($"Alternative mod { steamID } not found in catalog.", Logger.Warning);
@@ -354,38 +354,8 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Recommended mods
-        private static string Recommendations(Catalog catalog, Mod subscribedMod)
-        {
-            string text = (subscribedMod.Alternatives.Count == 0) ? "" : ReviewLine("The author of this mod recommends using the following with this:");
-
-            foreach (ulong steamID in subscribedMod.Recommendations)
-            {
-                if (catalog.IsValidID(steamID))
-                {
-                    if (catalog.GetSubscription(steamID) != null)
-                    {
-                        // Skip this recommendation that is already subscribed.
-                        continue;
-                    }
-
-                    text += ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                }
-                else
-                {
-                    // Mod not found in the catalog, which should not happen unless the catalog was manually edited.
-                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
-
-                    Logger.Log($"Recommended mod { steamID } not found in catalog.", Logger.Warning);
-                }
-            }
-
-            return text;
-        }
-
-
         // Required DLC
-        private static string RequiredDLC(Mod subscribedMod)
+        private static string RequiredDlc(Mod subscribedMod)
         {
             string dlcs = "";
 
@@ -402,35 +372,106 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Required mods.
+        /// <summary>Check for required mods that are not subscribed or disabled.</summary>
+        /// <remarks>If a required mod is not subscribed but in a group, the other group members are checked.</remarks>
+        /// <returns>A string with text for the report, or an empty string if there is no required mod or no required mod is missing.</returns>
         private static string RequiredMods(Catalog catalog, Mod subscribedMod)
         {
-            string header = ReviewLine("This mod requires other mods you don't have, or which are not enabled:");
             string text = "";
 
             foreach (ulong steamID in subscribedMod.RequiredMods)
             {
                 if (catalog.IsValidID(steamID))
                 {
-                    text += (catalog.GetSubscription(steamID) != null && !catalog.GetSubscription(steamID).IsDisabled) ? "" : 
-                        ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                    
-                    text += ReviewLine($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
-                }
-                else if (catalog.IsValidID(steamID, allowGroup: true))
-                {
-                    // A required group can be ignored, since the relevant group member should also be listed as required mod.
+                    text += CheckModAndGroup(catalog, steamID);
                 }
                 else
                 {
-                    // Mod not found in the catalog, which should not happen unless the catalog was manually edited.
+                    // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
                     text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
 
                     Logger.Log($"Required mod { steamID } not found in catalog.", Logger.Warning);
                 }
             }
 
-            return string.IsNullOrEmpty(text) ? "" : header + text;
+            return string.IsNullOrEmpty(text) ? "" : ReviewLine("This mod requires other mods you don't have, or which are not enabled:") + text;
+        }
+
+
+        /// <summary>Check for recommended mods that are not subscribed or disabled.</summary>
+        /// <remarks>If a recommended mod is not subscribed but in a group, the other group members are checked.</remarks>
+        /// <returns>A string with text for the report, or an empty string if there is no recommendation or no recommended mod is missing.</returns>
+        private static string Recommendations(Catalog catalog, Mod subscribedMod)
+        {
+            string text = "";
+
+            foreach (ulong steamID in subscribedMod.Recommendations)
+            {
+                if (catalog.IsValidID(steamID))
+                {
+                    text += CheckModAndGroup(catalog, steamID);
+                }
+                else
+                {
+                    // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
+                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
+
+                    Logger.Log($"Recommended mod { steamID } not found in catalog.", Logger.Warning);
+                }
+            }
+
+            return string.IsNullOrEmpty(text) ? "" : ReviewLine("The author of this mod recommends using the following with this:") + text;
+        }
+
+
+        /// <summary>Check if a mod or any member of its group is subscribed and enabled.</summary>
+        /// <returns>A string with text for the report, or an empty string if the mod or another group member is subscribed and enabled.</returns>
+        private static string CheckModAndGroup(Catalog catalog, ulong steamID)
+        {
+            string text = "";
+
+            if (catalog.GetSubscription(steamID) != null && !catalog.GetSubscription(steamID).IsDisabled)
+            {
+                // Mod is subscribed and enabled. Nothing to report.
+            }
+            else if (catalog.GetMod(steamID).IsDisabled)
+            {
+                // Mod is subscribed and disabled. Report as "missing", without Workshop page.
+                text = ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+            }
+            else if (!catalog.IsGroupMember(steamID))
+            {
+                // Mod is not subscribed and not in a group. Report as missing.
+                text = ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
+                    ReviewLine($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
+            }
+            else
+            {
+                // Mod is not subscribed but in a group. Check if another group member is subscribed.
+                bool subscribedGroupMember = false;
+
+                foreach (ulong groupMemberID in catalog.GetThisModsGroup(steamID).GroupMembers)
+                {
+                    if (subscribedGroupMember = catalog.GetSubscription(groupMemberID) != null)
+                    {
+                        // Group member is subscribed. No need to check other group members, but report as "missing" if disabled.
+                        if (catalog.GetMod(groupMemberID).IsDisabled)
+                        {
+                            text = ReviewLine(catalog.GetMod(groupMemberID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                        }
+                        break;
+                    }
+                }
+
+                if (!subscribedGroupMember)
+                {
+                    // No group member is subscribed. Report original mod as missing.
+                    text = ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
+                        ReviewLine($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
+                }
+            }
+
+            return text;
         }
 
 

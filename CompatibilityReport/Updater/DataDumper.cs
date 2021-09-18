@@ -20,7 +20,7 @@ namespace CompatibilityReport.Updater
             DataDump.AppendLine($"{ ModSettings.ModName } DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
             DataDump.AppendLine($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }.");
 
-            // Unused groups and groups with less than 2 members, to see if we can clean up.
+            // Groups with less than 2 members, to see if we can clean up.
             DumpUnusedGroups(catalog, DataDump);
             DumpEmptyGroups(catalog, DataDump);
 
@@ -88,7 +88,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalog.IsGroupMember(catalogMod.SteamID) || catalog.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID)) != default) 
+                if (!catalog.IsGroupMember(catalogMod.SteamID) && catalog.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID)) != default) 
                 {
                     string statuses = "";
 
@@ -111,8 +111,15 @@ namespace CompatibilityReport.Updater
 
             foreach (Group catalogGroup in catalog.Groups)
             {
-                if (catalog.Mods.Find(x => x.RequiredMods.Contains(catalogGroup.GroupID)) == default && 
-                    catalog.Mods.Find(x => x.Recommendations.Contains(catalogGroup.GroupID)) == default)
+                bool groupIsUsed = false;
+
+                foreach (ulong groupMember in catalogGroup.GroupMembers)
+                {
+                    groupIsUsed = groupIsUsed && (catalog.Mods.Find(x => x.RequiredMods.Contains(groupMember)) != default ||
+                        catalog.Mods.Find(x => x.Recommendations.Contains(groupMember)) != default);
+                }
+
+                if (!groupIsUsed)
                 {
                     DataDump.AppendLine(catalogGroup.ToString());
                 }

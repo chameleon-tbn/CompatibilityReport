@@ -135,7 +135,7 @@ namespace CompatibilityReport.Updater
             string stringSecond = lineElements.Length < 2 ? "" : lineElements[1].Trim();
             ulong numericSecond = Toolkit.ConvertToUlong(stringSecond);
 
-            // Third element - numeric: required/successor/alternative mod ID, recommended mod or group ID, mod ID for compatibility/group, author ID, asset ID
+            // Third element - numeric: required/successor/alternative mod ID, recommended mod ID, mod ID for compatibility/group, author ID, asset ID
             //              and string: unlisted/removed text, source URL, game version, DLC string, stability, mod/compatibility status, generic note,
             //                          exclusion category, author name, author custom URL, last seen date
             string stringThird = lineElements.Length < 3 ? "" : lineElements[2].Trim();
@@ -196,9 +196,7 @@ namespace CompatibilityReport.Updater
                 case "remove_successor":
                 case "remove_alternative":
                 case "remove_recommendation":
-                    bool allowGroup = action.Contains("recommendation");
-                    return lineElements.Length < 3 ? "Not enough parameters." : 
-                        !catalog.IsValidID(numericThird, allowGroup) ? $"Invalid mod { (allowGroup ? "or group " : "") }ID { numericThird }." : 
+                    return lineElements.Length < 3 ? "Not enough parameters." : !catalog.IsValidID(numericThird) ? $"Invalid mod ID { numericThird }." : 
                         ChangeModProperty(catalog, action, steamID: numericSecond, listMember: numericThird);
 
                 case "remove_exclusion":

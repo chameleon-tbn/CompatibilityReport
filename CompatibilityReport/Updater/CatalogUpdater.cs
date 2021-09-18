@@ -248,54 +248,33 @@ namespace CompatibilityReport.Updater
         /// <returns>True if removal succeeded, false if not.</returns>
         public static bool RemoveGroup(Catalog catalog, Group oldGroup)
         {
-            foreach (Mod catalogMod in catalog.Mods)
+            if (!catalog.RemoveGroup(oldGroup))
             {
-                catalogMod.RemoveRequiredMod(oldGroup.GroupID);
-                catalogMod.RemoveRecommendation(oldGroup.GroupID);
+                return false;
             }
 
-            bool success = catalog.RemoveGroup(oldGroup);
+            catalog.ChangeNotes.AppendRemovedGroup($"Removed { oldGroup.ToString() }");
 
-            if (success)
+            foreach (ulong groupMember in oldGroup.GroupMembers)
             {
-                catalog.ChangeNotes.AppendRemovedGroup($"Removed { oldGroup.ToString() }");
-
-                foreach (ulong groupMember in oldGroup.GroupMembers)
-                {
-                    catalog.ChangeNotes.AddUpdatedMod(groupMember, $"removed from { oldGroup.ToString() }");
-                }
+                catalog.ChangeNotes.AddUpdatedMod(groupMember, $"removed from { oldGroup.ToString() }");
             }
 
-            return success;
+            return true;
         }
 
 
         /// <summary>Adds a group member.</summary>
-        /// <remarks>Also adds the group as required and recommended mods where the new group member is used. This also creates an entry for the change notes.</remarks>
+        /// <remarks>Creates an entry for the change notes.</remarks>
         public static void AddGroupMember(Catalog catalog, Group catalogGroup, ulong groupMember)
         {
             catalogGroup.AddMember(groupMember);
             catalog.ChangeNotes.AddUpdatedMod(groupMember, $"added to { catalogGroup.ToString() }");
-
-            List<Mod> requiredModList = catalog.Mods.FindAll(x => x.RequiredMods.Contains(groupMember) && !x.RequiredMods.Contains(catalogGroup.GroupID));
-            foreach (Mod catalogMod in requiredModList)
-            {
-                catalogMod.AddRequiredMod(catalogGroup.GroupID);
-                Logger.UpdaterLog($"Added { catalogGroup.ToString() } as required mod for { catalogMod.ToString() }.");
-            }
-
-            List<Mod> recommendedModList = catalog.Mods.FindAll(x => x.Recommendations.Contains(groupMember) && !x.Recommendations.Contains(catalogGroup.GroupID));
-            foreach (Mod catalogMod in recommendedModList)
-            {
-                catalogMod.AddRecommendation(catalogGroup.GroupID);
-                Logger.UpdaterLog($"Added { catalogGroup.ToString() } as recommended mod for { catalogMod.ToString() }.");
-            }
         }
 
 
         /// <summary>Removes a group member and removes the group if it was the last group member.</summary>
-        /// <remarks>Also removes the group as required and recommended mods where no group member is used anymore. 
-        ///          This also creates an entry for the change notes.</remarks>
+        /// <remarks>Creates an entry for the change notes.</remarks>
         /// <returns>True if removal succeeded, false if not.</returns>
         public static bool RemoveGroupMember(Catalog catalog, Group catalogGroup, ulong groupMember)
         {
@@ -309,40 +288,6 @@ namespace CompatibilityReport.Updater
             if (!catalogGroup.GroupMembers.Any()) 
             {
                 return RemoveGroup(catalog, catalogGroup);
-            }
-
-            List<Mod> requiredModList = catalog.Mods.FindAll(x => x.RequiredMods.Contains(groupMember));
-            foreach (Mod catalogMod in requiredModList)
-            {
-                bool removeGroup = true;
-
-                foreach (ulong otherGroupMember in catalogGroup.GroupMembers)
-                {
-                    removeGroup = removeGroup && !catalogMod.RequiredMods.Contains(otherGroupMember);
-                }
-
-                if (removeGroup)
-                {
-                    catalogMod.RemoveRequiredMod(catalogGroup.GroupID);
-                    Logger.UpdaterLog($"Removed { catalogGroup.ToString() } as required mod for { catalogMod.ToString() }.");
-                }
-            }
-
-            List<Mod> recommendedModList = catalog.Mods.FindAll(x => x.Recommendations.Contains(groupMember));
-            foreach (Mod catalogMod in recommendedModList)
-            {
-                bool removeGroup = true;
-
-                foreach (ulong otherGroupMember in catalogGroup.GroupMembers)
-                {
-                    removeGroup = removeGroup && !catalogMod.Recommendations.Contains(otherGroupMember);
-                }
-
-                if (removeGroup)
-                {
-                    catalogMod.RemoveRecommendation(catalogGroup.GroupID);
-                    Logger.UpdaterLog($"Removed { catalogGroup.ToString() } as recommended mod for { catalogMod.ToString() }.");
-                }
             }
 
             return true;
@@ -593,92 +538,49 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Adds a required mod and its group to a mod.</summary>
+        /// <summary>Adds a required mod to a mod.</summary>
         /// <remarks>Sets an exclusion if needed and creates an entry for the change notes. If a unknown Steam ID is found, 
         ///          it is probably an asset and will be added to the PotentialAssets list for later evaluation.</remarks>
         public static void AddRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID, bool updatedByImporter)
         {
-            if (catalog.IsValidID(requiredID, allowGroup: true) && !catalogMod.RequiredMods.Contains(requiredID))
+            if (catalog.IsValidID(requiredID) && !catalogMod.RequiredMods.Contains(requiredID))
             {
                 catalogMod.AddRequiredMod(requiredID);
 
-                if (catalog.GetGroup(requiredID) == null)
+                catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"required mod { requiredID } added");
+
+                catalogMod.RemoveSuccessor(requiredID);
+                catalogMod.RemoveAlternative(requiredID);
+                catalogMod.RemoveRecommendation(requiredID);
+
+                if (updatedByImporter)
                 {
-                    catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"required mod { requiredID } added");
-
-                    catalogMod.RemoveSuccessor(requiredID);
-                    catalogMod.RemoveAlternative(requiredID);
-                    catalogMod.RemoveRecommendation(requiredID);
-
-                    if (updatedByImporter)
-                    {
-                        catalogMod.AddExclusion(requiredID);
-                    }
-
-                    if (catalog.IsGroupMember(requiredID))
-                    {
-                        // Also add the group that requiredID is a member of.
-                        AddRequiredMod(catalog, catalogMod, catalog.GetThisModsGroup(requiredID).GroupID, updatedByImporter);
-                    }
-                }
-                else
-                {
-                    catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"required group { requiredID } added");
+                    catalogMod.AddExclusion(requiredID);
                 }
             }
-
-            else if (catalog.IsValidID(requiredID, shouldExist: false) && !catalog.RequiredAssets.Contains(requiredID))
+            else if (catalog.IsValidID(requiredID, shouldExist: false) && !catalog.RequiredAssets.Contains(requiredID) && catalog.AddPotentialAsset(requiredID))
             {
-                if (catalog.AddPotentialAsset(requiredID))
-                {
-                    Logger.UpdaterLog($"Required item not found, probably an asset: { Toolkit.GetWorkshopUrl(requiredID) } (for { catalogMod.ToString() }).");
-                }
+                Logger.UpdaterLog($"Required item not found, probably an asset: { Toolkit.GetWorkshopUrl(requiredID) } (for { catalogMod.ToString() }).");
             }
         }
 
 
         /// <summary>Removes a required mod from a mod.</summary>
-        /// <remarks>(Re)sets the related exclusion and creates an entry for the change notes. 
-        ///          This mods group is also removed if no other group member is required.</remarks>
+        /// <remarks>(Re)sets the related exclusion and creates an entry for the change notes.</remarks>
         public static void RemoveRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID)
         {
             if (catalogMod.RemoveRequiredMod(requiredID))
             {
-                if (catalog.GetGroup(requiredID) == null)
+                catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"required Mod { requiredID } removed");
+
+                // If an exclusion exists remove it, otherwise add it to prevent the required mod from returning.
+                if (catalogMod.ExclusionForRequiredMods.Contains(requiredID))
                 {
-                    catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"required Mod { requiredID } removed");
-
-                    // If an exclusion exists remove it, otherwise add it to prevent the required mod from returning.
-                    if (catalogMod.ExclusionForRequiredMods.Contains(requiredID))
-                    {
-                        catalogMod.RemoveExclusion(requiredID);
-                    }
-                    else
-                    {
-                        catalogMod.AddExclusion(requiredID);
-                    }
-
-                    Group group = catalog.GetThisModsGroup(requiredID);
-
-                    if (group != null)
-                    {
-                        // Remove the group the required mod was a member of, if none of the other group members is a required mod.
-                        bool canRemoveGroup = true;
-
-                        foreach (ulong groupMember in group.GroupMembers)
-                        {
-                            canRemoveGroup = canRemoveGroup && !catalogMod.RequiredMods.Contains(groupMember);
-                        }
-
-                        if (canRemoveGroup)
-                        {
-                            RemoveRequiredMod(catalog, catalogMod, group.GroupID);
-                        }
-                    }
+                    catalogMod.RemoveExclusion(requiredID);
                 }
                 else
                 {
-                    catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"required Group { requiredID } removed");
+                    catalogMod.AddExclusion(requiredID);
                 }
             }
         }
@@ -736,7 +638,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Adds a recommended mod and its group to a mod.</summary>
+        /// <summary>Adds a recommended mod.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
         public static void AddRecommendation(Catalog catalog, Mod catalogMod, ulong recommendationID)
         {
@@ -748,36 +650,16 @@ namespace CompatibilityReport.Updater
                 catalogMod.RemoveSuccessor(recommendationID);
                 catalogMod.RemoveAlternative(recommendationID);
             }
-
-            // Todo 0.4.1 Add the recommended mods group as recommended.
         }
 
 
         /// <summary>Removes a recommended mod from a mod.</summary>
-        /// <remarks>This mods group is also removed if no other group member is required. Creates an entry for the change notes.</remarks>
+        /// <remarks>Creates an entry for the change notes.</remarks>
         public static void RemoveRecommendation(Catalog catalog, Mod catalogMod, ulong recommendationID)
         {
             if (catalogMod.RemoveRecommendation(recommendationID))
             {
                 catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"recommendation { recommendationID } removed");
-
-                Group group = catalog.GetThisModsGroup(recommendationID);
-
-                if (group != null)
-                {
-                    // Remove the group the recommended mod was a member of, if none of the other group members is a recommendation.
-                    bool canRemoveGroup = true;
-
-                    foreach (ulong groupMember in group.GroupMembers)
-                    {
-                        canRemoveGroup = canRemoveGroup && !catalogMod.Recommendations.Contains(groupMember);
-                    }
-
-                    if (canRemoveGroup)
-                    {
-                        RemoveRequiredMod(catalog, catalogMod, group.GroupID);
-                    }
-                }
             }
         }
 
