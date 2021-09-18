@@ -150,6 +150,14 @@ namespace CompatibilityReport.CatalogData
         }
 
 
+        /// <summary>Removes a compatibility from the catalog.</summary>
+        /// <returns>True if removal succeeded, false if not</returns>
+        public bool RemoveCompatibility(Compatibility catalogCompatibility)
+        {
+            return Compatibilities.Remove(catalogCompatibility);
+        }
+
+
         /// <summary>Checks if a mod is a group member.</summary>
         /// <returns>True if it's a group member, false if not.</returns>
         public bool IsGroupMember(ulong steamID)
@@ -227,6 +235,24 @@ namespace CompatibilityReport.CatalogData
 
 
         // RemoveAuthor() method is not needed right now.
+
+
+        /// <summary>Adds an asset to the list of required assets.</summary>
+        public void AddAsset(ulong newAsset)
+        {
+            if (!RequiredAssets.Contains(newAsset))
+            {
+                RequiredAssets.Add(newAsset);
+            }
+        }
+
+
+        /// <summary>Removes an asset from the list of required assets.</summary>
+        /// <remarks>No message is logged if the asset was not on the list.</remarks>
+        public void RemoveAsset(ulong asset)
+        {
+            RequiredAssets.Remove(asset);
+        }
 
 
         /// <summary>Gets the potential assets.</summary>

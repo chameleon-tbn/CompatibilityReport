@@ -7,33 +7,59 @@ namespace CompatibilityReport.Updater
 {
     public class ChangeNotes
     {
-        public StringBuilder CatalogChanges { get; private set; } = new StringBuilder();
-        public StringBuilder NewMods { get; private set; } = new StringBuilder();
-        public StringBuilder NewGroups { get; private set; } = new StringBuilder();
-        public StringBuilder NewCompatibilities { get; private set; } = new StringBuilder();
-        public StringBuilder NewAuthors { get; private set; } = new StringBuilder();
-        public Dictionary<ulong, string> UpdatedModsByID { get; private set; } = new Dictionary<ulong, string>();
-        public StringBuilder UpdatedMods { get; private set; } = new StringBuilder();
-        public Dictionary<ulong, string> UpdatedAuthorsByID { get; private set; } = new Dictionary<ulong, string>();
-        public Dictionary<string, string> UpdatedAuthorsByUrl { get; private set; } = new Dictionary<string, string>();
-        public StringBuilder UpdatedAuthors { get; private set; } = new StringBuilder();
-        public StringBuilder RemovedMods { get; private set; } = new StringBuilder();
-        public StringBuilder RemovedGroups { get; private set; } = new StringBuilder();
-        public StringBuilder RemovedCompatibilities { get; private set; } = new StringBuilder();
+        private readonly StringBuilder CatalogChanges = new StringBuilder();
+        private readonly StringBuilder NewMods = new StringBuilder();
+        private readonly StringBuilder NewGroups = new StringBuilder();
+        private readonly StringBuilder NewCompatibilities = new StringBuilder();
+        private readonly StringBuilder NewAuthors = new StringBuilder();
+        private readonly Dictionary<ulong, string> UpdatedModsByID = new Dictionary<ulong, string>();
+        private readonly StringBuilder UpdatedMods = new StringBuilder();
+        private readonly Dictionary<ulong, string> UpdatedAuthorsByID = new Dictionary<ulong, string>();
+        private readonly Dictionary<string, string> UpdatedAuthorsByUrl = new Dictionary<string, string>();
+        private readonly StringBuilder UpdatedAuthors = new StringBuilder();
+        private readonly StringBuilder RemovedMods = new StringBuilder();
+        private readonly StringBuilder RemovedGroups = new StringBuilder();
+        private readonly StringBuilder RemovedCompatibilities = new StringBuilder();
 
 
-        /// <summary>Checks if we have any change notes, ignoring generic catalog change notes.</summary>
-        /// <returns>True if have any change notes, false otherwise.</returns>
-        public bool Any()
+        /// <summary>Adds a change note for a catalog change.</summary>
+        public void AppendCatalogChange(string text)
         {
-            return NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length + UpdatedMods.Length + UpdatedAuthors.Length +
-                RemovedMods.Length + RemovedGroups.Length + RemovedCompatibilities.Length > 0;
+            CatalogChanges.AppendLine(text);
+        }
+
+
+        /// <summary>Adds a change note for a new mod.</summary>
+        public void AppendNewMod(string text)
+        {
+            NewMods.AppendLine(text);
+        }
+
+
+        /// <summary>Adds a change note for a new group.</summary>
+        public void AppendNewGroup(string text)
+        {
+            NewGroups.AppendLine(text);
+        }
+
+
+        /// <summary>Adds a change note for a new compatibility.</summary>
+        public void AppendNewCompatibility(string text)
+        {
+            NewCompatibilities.AppendLine(text);
+        }
+
+
+        /// <summary>Adds a change note for a new author.</summary>
+        public void AppendNewAuthor(string text)
+        {
+            NewAuthors.AppendLine(text);
         }
 
 
         /// <summary>Adds a change note for an updated mod.</summary>
         /// <remarks>Duplicate change notes will mostly be prevented.</remarks>
-        public void ModUpdate(ulong steamID, string extraChangeNote)
+        public void AddUpdatedMod(ulong steamID, string extraChangeNote)
         {
             if (string.IsNullOrEmpty(extraChangeNote))
             {
@@ -56,7 +82,7 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Adds a change note for an updated author.</summary>
         /// <remarks>Duplicate change notes will mostly be prevented.</remarks>
-        public void AuthorUpdate(Author catalogAuthor, string extraChangeNote)
+        public void AddUpdatedAuthor(Author catalogAuthor, string extraChangeNote)
         {
             if (string.IsNullOrEmpty(extraChangeNote))
             {
@@ -94,6 +120,65 @@ namespace CompatibilityReport.Updater
         }
 
 
+        /// <summary>Adds a change note for a removed mod.</summary>
+        public void AppendRemovedMod(string text)
+        {
+            RemovedMods.AppendLine(text);
+        }
+
+
+        /// <summary>Adds a change note for a removed group.</summary>
+        public void AppendRemovedGroup(string text)
+        {
+            RemovedGroups.AppendLine(text);
+        }
+
+
+        /// <summary>Adds a change note for a removed compatibility.</summary>
+        public void AppendRemovedCompatibility(string text)
+        {
+            RemovedCompatibilities.AppendLine(text);
+        }
+
+
+        /// <summary>Checks if we have any change notes, ignoring generic catalog change notes.</summary>
+        /// <returns>True if have any change notes, false otherwise.</returns>
+        public bool Any()
+        {
+            return NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length + UpdatedMods.Length + UpdatedAuthors.Length +
+                RemovedMods.Length + RemovedGroups.Length + RemovedCompatibilities.Length > 0;
+        }
+
+
+        /// <summary>Converts the change notes dictionaries for updated mods and authors to StringBuilders. 
+        ///          Also writes the related change notes to the mods and authors.</summary>
+        public void ConvertUpdated(Catalog catalog)
+        {
+            string todayDateString = Toolkit.DateString(catalog.UpdateDate);
+
+            foreach (ulong steamID in UpdatedModsByID.Keys)
+            {
+                if (!string.IsNullOrEmpty(UpdatedModsByID[steamID]))
+                {
+                    catalog.GetMod(steamID).AddChangeNote($"{ todayDateString }: { UpdatedModsByID[steamID] }");
+                    UpdatedMods.AppendLine($"Updated mod { catalog.GetMod(steamID).ToString() }: { UpdatedModsByID[steamID] }");
+                }
+            }
+
+            foreach (ulong authorID in UpdatedAuthorsByID.Keys)
+            {
+                catalog.GetAuthor(authorID, "").AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByID[authorID] }");
+                UpdatedAuthors.AppendLine($"Updated author { catalog.GetAuthor(authorID, "").ToString() }: { UpdatedAuthorsByID[authorID] }");
+            }
+
+            foreach (string authorUrl in UpdatedAuthorsByUrl.Keys)
+            {
+                catalog.GetAuthor(0, authorUrl).AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByUrl[authorUrl] }");
+                UpdatedAuthors.AppendLine($"Updated author { catalog.GetAuthor(0, authorUrl).ToString() }: { UpdatedAuthorsByUrl[authorUrl] }");
+            }
+        }
+        
+        
         /// <summary>Combine the change notes.</summary>
         /// <returns>The combined change notes as string.</returns>
         public string Combined(Catalog catalog)
@@ -124,35 +209,6 @@ namespace CompatibilityReport.Updater
                     RemovedMods.ToString() +
                     RemovedGroups.ToString() +
                     RemovedCompatibilities.ToString());
-        }
-
-
-        /// <summary>Converts the change notes dictionaries for updated mods and authors to StringBuilders. 
-        ///          Also writes the related change notes to the mods and authors.</summary>
-        public void ConvertUpdated(Catalog catalog)
-        {
-            string todayDateString = Toolkit.DateString(catalog.UpdateDate);
-
-            foreach (ulong steamID in UpdatedModsByID.Keys)
-            {
-                if (!string.IsNullOrEmpty(UpdatedModsByID[steamID]))
-                {
-                    catalog.GetMod(steamID).AddChangeNote($"{ todayDateString }: { UpdatedModsByID[steamID] }");
-                    UpdatedMods.AppendLine($"Updated mod { catalog.GetMod(steamID).ToString() }: { UpdatedModsByID[steamID] }");
-                }
-            }
-
-            foreach (ulong authorID in UpdatedAuthorsByID.Keys)
-            {
-                catalog.GetAuthor(authorID, "").AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByID[authorID] }");
-                UpdatedAuthors.AppendLine($"Updated author { catalog.GetAuthor(authorID, "").ToString() }: { UpdatedAuthorsByID[authorID] }");
-            }
-
-            foreach (string authorUrl in UpdatedAuthorsByUrl.Keys)
-            {
-                catalog.GetAuthor(0, authorUrl).AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByUrl[authorUrl] }");
-                UpdatedAuthors.AppendLine($"Updated author { catalog.GetAuthor(0, authorUrl).ToString() }: { UpdatedAuthorsByUrl[authorUrl] }");
-            }
         }
     }
 }

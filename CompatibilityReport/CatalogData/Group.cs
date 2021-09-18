@@ -30,6 +30,24 @@ namespace CompatibilityReport.CatalogData
         }
 
 
+        /// <summary>Adds a mod to the group.</summary>
+        public void AddMember(ulong steamID)
+        {
+            if (!GroupMembers.Contains(steamID))
+            {
+                GroupMembers.Add(steamID);
+            }
+        }
+
+
+        /// <summary>Removes a mod from the group.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
+        public bool RemoveMember(ulong steamID)
+        {
+            return GroupMembers.Remove(steamID);
+        }
+
+
         /// <summary>Converts the group to a string containing the group ID and name.</summary>
         /// <returns>A string representing the group.</returns>
         public new string ToString()

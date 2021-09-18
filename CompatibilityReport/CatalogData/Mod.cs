@@ -120,6 +120,112 @@ namespace CompatibilityReport.CatalogData
         }
 
 
+        /// <summary>Adds a required DLC.</summary>
+        /// <returns>True if added, false if it was already in the list.</returns>
+        public bool AddRequiredDlc(Enums.Dlc dlc)
+        {
+            if (RequiredDlcs.Contains(dlc))
+            {
+                return false;
+            }
+
+            RequiredDlcs.Add(dlc);
+            return true;
+        }
+
+
+        /// <summary>Removes a required DLC.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
+        public bool RemoveRequiredDlc(Enums.Dlc dlc)
+        {
+            return RequiredDlcs.Remove(dlc);
+        }
+
+
+        /// <summary>Adds a required mod.</summary>
+        public void AddRequiredMod(ulong steamID)
+        {
+            if (!RequiredMods.Contains(steamID))
+            {
+                RequiredMods.Add(steamID);
+            }
+        }
+
+
+        /// <summary>Removes a required mod.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
+        public bool RemoveRequiredMod(ulong steamID)
+        {
+            return RequiredMods.Remove(steamID);
+        }
+
+
+        /// <summary>Adds a successor.</summary>
+        /// <returns>True if added, false if it was already in the list.</returns>
+        public bool AddSuccessor(ulong steamID)
+        {
+            if (Successors.Contains(steamID))
+            {
+                return false;
+            }
+
+            Successors.Add(steamID);
+            return true;
+        }
+
+
+        /// <summary>Removes a successor.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
+        public bool RemoveSuccessor(ulong steamID)
+        {
+            return Successors.Remove(steamID);
+        }
+
+
+        /// <summary>Adds an alternative.</summary>
+        /// <returns>True if added, false if it was already in the list.</returns>
+        public bool AddAlternative(ulong steamID)
+        {
+            if (Alternatives.Contains(steamID))
+            {
+                return false;
+            }
+
+            Alternatives.Add(steamID);
+            return true;
+        }
+
+
+        /// <summary>Removes an alternative.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
+        public bool RemoveAlternative(ulong steamID)
+        {
+            return Alternatives.Remove(steamID);
+        }
+
+
+        /// <summary>Adds a recommended mod.</summary>
+        /// <returns>True if added, false if it was already in the list.</returns>
+        public bool AddRecommendation(ulong steamID)
+        {
+            if (Recommendations.Contains(steamID))
+            {
+                return false;
+            }
+
+            Recommendations.Add(steamID);
+            return true;
+        }
+
+
+        /// <summary>Removes a recommended mod.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
+        public bool RemoveRecommendation(ulong steamID)
+        {
+            return Recommendations.Remove(steamID);
+        }
+
+
         /// <summary>Updates one or more exclusions.</summary>
         public void UpdateExclusions(bool? exclusionForSourceUrl = null, bool? exclusionForGameVersion = null, bool? exclusionForNoDescription = null)
         {

@@ -339,7 +339,7 @@ namespace CompatibilityReport.Updater
                 return "Mod can't be removed because it is referenced by other mods as required mod, successor, alternative or recommendation.";
             }
 
-            catalog.ChangeNotes.RemovedMods.AppendLine($"Removed mod { catalogMod.ToString() }");
+            catalog.ChangeNotes.AppendRemovedMod($"Removed mod { catalogMod.ToString() }");
 
             return catalog.RemoveMod(catalogMod) ? "" : "Mod could not be removed.";
         }
@@ -1011,7 +1011,7 @@ namespace CompatibilityReport.Updater
             }
 
             catalog.Update(newGameVersion);
-            catalog.ChangeNotes.CatalogChanges.AppendLine($"Catalog was updated to game version { Toolkit.ConvertGameVersionToString(newGameVersion) }.");
+            catalog.ChangeNotes.AppendCatalogChange($"Catalog was updated to game version { Toolkit.ConvertGameVersionToString(newGameVersion) }.");
 
             return "";
         }
@@ -1065,11 +1065,8 @@ namespace CompatibilityReport.Updater
                     return $"Invalid asset ID { assetID }.";
                 }
 
-                if (!catalog.RequiredAssets.Contains(assetID))
-                {
-                    catalog.RequiredAssets.Add(assetID);
-                    catalog.RemovePotentialAsset(assetID);
-                }
+                catalog.AddAsset(assetID);
+                catalog.RemovePotentialAsset(assetID);
             }
 
             return "";
@@ -1083,7 +1080,7 @@ namespace CompatibilityReport.Updater
         {
             foreach (ulong assetID in assetIDs)
             {
-                catalog.RequiredAssets.Remove(assetID);
+                catalog.RemoveAsset(assetID);
             }
 
             return "";
