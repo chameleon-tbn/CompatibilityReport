@@ -306,7 +306,7 @@ namespace CompatibilityReport.Updater
             }
 
             Mod newMod = CatalogUpdater.AddMod(catalog, steamID, modName, unlisted: status == "unlisted", removed: status == "removed");
-            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: authorUrl, updatedByImporter: true);
+            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: string.IsNullOrEmpty(authorUrl) ? null : authorUrl, updatedByImporter: true);
 
             return "";
         }

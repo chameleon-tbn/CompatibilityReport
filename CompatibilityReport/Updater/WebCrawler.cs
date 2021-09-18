@@ -267,7 +267,6 @@ namespace CompatibilityReport.Updater
                     }
 
                     // Author Steam ID, Custom URL and author name.
-                    // Todo 0.4 Add a check for author URL changes, to prevent creating a new author.
                     if (line.Contains(ModSettings.SearchAuthorLeft))
                     {
                         // Only get the author URL if the author ID was not found, to prevent updating the author URL to an empty string.
@@ -282,14 +281,16 @@ namespace CompatibilityReport.Updater
                         else if (authorName == authorID.ToString() && authorID != 0)
                         {
                             // An author name equal to the author ID might be an error, although some authors have their ID as name (ofcourse they do).
-                            Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. Some authors do this, but it could also be a Steam error.", 
-                                Logger.Warning);
+                            Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. Some authors do this, but it could be a Steam error.", Logger.Warning);
                         }
 
-                        Author catalogAuthor = catalog.GetAuthor(authorID, authorUrl) ?? CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
-                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, name: authorName);
-
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);
+                        // Try to get the author with author ID/URL from the mod. If that fails, try the newly found ID/URL. If it still fails, create a new author.
+                        Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
+                            CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
+                        
+                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, 
+                            authorUrl: string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? null : catalogAuthor.CustomUrl);
                     }
 
                     // Mod name.
