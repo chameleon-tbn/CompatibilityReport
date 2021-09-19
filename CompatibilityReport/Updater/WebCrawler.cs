@@ -271,7 +271,9 @@ namespace CompatibilityReport.Updater
                         // Only get the author URL if the author ID was not found, to prevent updating the author URL to an empty string.
                         ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, $"{ ModSettings.SearchAuthorLeft }profiles/", ModSettings.SearchAuthorMid));
                         string authorUrl = authorID != 0 ? null : Toolkit.MidString(line, $"{ ModSettings.SearchAuthorLeft }id/", ModSettings.SearchAuthorMid);
-                        string authorName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight));
+                        
+                        // Author name needs to be cleaned twice because of how it is presented in the HTML source.
+                        string authorName = Toolkit.CleanHtml(Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight)));
 
                         if (string.IsNullOrEmpty(authorName))
                         {
@@ -286,7 +288,7 @@ namespace CompatibilityReport.Updater
                         // Try to get the author with author ID/URL from the mod. If that fails, try the newly found ID/URL. If it still fails, create a new author.
                         Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
                             CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
-                        
+
                         CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName);
                         CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, 
                             authorUrl: string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? null : catalogAuthor.CustomUrl);
