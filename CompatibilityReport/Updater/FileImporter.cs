@@ -302,6 +302,15 @@ namespace CompatibilityReport.Updater
             Mod newMod = CatalogUpdater.AddMod(catalog, steamID, modName, unlisted: status == "unlisted", removed: status == "removed");
             CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: string.IsNullOrEmpty(authorUrl) ? null : authorUrl, updatedByImporter: true);
 
+            if (newMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
+            {
+                // Download and process the Steam Workshop page for an unlisted mod to get all the details.
+                Toolkit.Download(Toolkit.GetWorkshopUrl(newMod.SteamID), ModSettings.TempDownloadFullPath);
+                WebCrawler.ReadModPage(catalog, newMod);
+
+                Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
+            }
+
             return "";
         }
 

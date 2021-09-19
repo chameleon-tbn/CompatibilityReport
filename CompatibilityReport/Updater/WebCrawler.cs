@@ -33,7 +33,6 @@ namespace CompatibilityReport.Updater
             Logger.UpdaterLog("Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
 
             Stopwatch timer = Stopwatch.StartNew();
-            string tempFileFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.TempDownloadFileName);
             int totalMods = 0;
             int totalPages = 0;
             
@@ -50,7 +49,7 @@ namespace CompatibilityReport.Updater
                     pageNumber++;
                     string url = $"{ steamUrl }&p={ pageNumber }";
 
-                    if (!Toolkit.Download(url, tempFileFullPath))
+                    if (!Toolkit.Download(url, ModSettings.TempDownloadFullPath))
                     {
                         pageNumber--;
 
@@ -58,7 +57,7 @@ namespace CompatibilityReport.Updater
                         break;
                     }
 
-                    int modsFoundThisPage = ReadModListingPage(tempFileFullPath, catalog, incompatibleMods: steamUrl.Contains("incompatible"));
+                    int modsFoundThisPage = ReadModListingPage(catalog, incompatibleMods: steamUrl.Contains("incompatible"));
 
                     if (modsFoundThisPage == 0)
                     {
@@ -79,7 +78,7 @@ namespace CompatibilityReport.Updater
                 totalPages += pageNumber;
             }
 
-            Toolkit.DeleteFile(tempFileFullPath);
+            Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
 
             // Note: about 75% of the total time is downloading, the other 25% is processing.
             timer.Stop();
@@ -93,12 +92,12 @@ namespace CompatibilityReport.Updater
         /// <summary>Extracts Steam IDs and mod names for all mods from a downloaded mod listing page and adds/updates this in the catalog.</summary>
         /// <remarks>Sets the auto review date, (re)sets 'incompatible according to workshop' stability and removes unlisted and 'removed from workshop' statuses.</remarks>
         /// <returns>The number of mods found on this page.</returns>
-        private static int ReadModListingPage(string tempFileFullPath, Catalog catalog, bool incompatibleMods)
+        private static int ReadModListingPage(Catalog catalog, bool incompatibleMods)
         {
             int modsFoundThisPage = 0;
             string line;
 
-            using (StreamReader reader = File.OpenText(tempFileFullPath))
+            using (StreamReader reader = File.OpenText(ModSettings.TempDownloadFullPath))
             {
                 while ((line = reader.ReadLine()) != null)
                 {
@@ -156,7 +155,6 @@ namespace CompatibilityReport.Updater
         private static void GetDetails(Catalog catalog)
         {
             Stopwatch timer = Stopwatch.StartNew();
-            string tempFileFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.TempDownloadFileName);
             int numberOfMods = catalog.Mods.Count - ModSettings.BuiltinMods.Count;
             long estimate = 500 * numberOfMods;
 
@@ -173,7 +171,7 @@ namespace CompatibilityReport.Updater
                     continue;
                 }
 
-                if (!Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), tempFileFullPath))
+                if (!Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.TempDownloadFullPath))
                 {
                     failedDownloads++;
 
@@ -200,16 +198,16 @@ namespace CompatibilityReport.Updater
                     Logger.UpdaterLog($"{ modsDownloaded }/{ numberOfMods } mod pages downloaded.");
                 }
 
-                if (!ReadModPage(tempFileFullPath, catalog, catalogMod))
+                if (!ReadModPage(catalog, catalogMod))
                 {
                     // Redownload and try one more time, to work around cut-off downloads.
-                    Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), tempFileFullPath);
+                    Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.TempDownloadFullPath);
 
-                    ReadModPage(tempFileFullPath, catalog, catalogMod);
+                    ReadModPage(catalog, catalogMod);
                 }
             }
 
-            Toolkit.DeleteFile(tempFileFullPath);
+            Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
 
             // Note: about 90% of the total time is downloading, the other 10% is processing.
             timer.Stop();
@@ -222,14 +220,14 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Extracts detailed mod information from a downloaded mod page and updates the catalog.</summary>
         /// <returns>True if succesful, false if there was an error with the mod page.</returns>
-        private static bool ReadModPage(string tempFileFullPath, Catalog catalog, Mod catalogMod)
+        public static bool ReadModPage(Catalog catalog, Mod catalogMod)
         {
             List<Enums.Dlc> newRequiredDlcs = new List<Enums.Dlc>();
 
             bool steamIDmatched = false;
             string line;
 
-            using (StreamReader reader = File.OpenText(tempFileFullPath))
+            using (StreamReader reader = File.OpenText(ModSettings.TempDownloadFullPath))
             {
                 while ((line = reader.ReadLine()) != null)
                 {
