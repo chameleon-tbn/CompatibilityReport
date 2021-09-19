@@ -156,7 +156,11 @@ namespace CompatibilityReport.Updater
         {
             string todayDateString = Toolkit.DateString(catalog.UpdateDate);
 
-            foreach (ulong steamID in UpdatedModsByID.Keys)
+            List<ulong> steamIDs = new List<ulong>(UpdatedModsByID.Keys);
+            steamIDs.Sort();
+            steamIDs.Reverse();
+
+            foreach (ulong steamID in steamIDs)
             {
                 if (!string.IsNullOrEmpty(UpdatedModsByID[steamID]))
                 {
@@ -165,7 +169,11 @@ namespace CompatibilityReport.Updater
                 }
             }
 
-            foreach (ulong authorID in UpdatedAuthorsByID.Keys)
+            List<ulong>authorIDs = new List<ulong>(UpdatedAuthorsByID.Keys);
+            authorIDs.Sort();
+            authorIDs.Reverse();
+
+            foreach (ulong authorID in authorIDs)
             {
                 catalog.GetAuthor(authorID, "").AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByID[authorID] }");
                 UpdatedAuthors.AppendLine($"Updated author { catalog.GetAuthor(authorID, "").ToString() }: { UpdatedAuthorsByID[authorID] }");
