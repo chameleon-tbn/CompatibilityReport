@@ -29,7 +29,8 @@ namespace CompatibilityReport.Updater
                 $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.");
 
             hasRun = true;
-            Toolkit.DeleteFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName));
+            string tempCsvCombinedFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName);
+            Toolkit.DeleteFile(tempCsvCombinedFullPath);
 
             Catalog catalog = Catalog.Load();
 
@@ -68,6 +69,9 @@ namespace CompatibilityReport.Updater
 
                 DataDumper.Start(catalog);
             }
+
+            Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
+            Toolkit.DeleteFile(tempCsvCombinedFullPath);
 
             Logger.UpdaterLog("Catalog Updater has finished.");
             Logger.Log("Catalog Updater has finished.\n");
