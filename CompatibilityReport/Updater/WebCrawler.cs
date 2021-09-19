@@ -340,9 +340,8 @@ namespace CompatibilityReport.Updater
                             if (!catalogMod.ExclusionForRequiredDlc.Contains(dlc))
                             {
                                 CatalogUpdater.AddRequiredDlc(catalog, catalogMod, dlc);
+                                newRequiredDlcs.Add(dlc);
                             }
-
-                            newRequiredDlcs.Add(dlc);
                         }
                     }
 
@@ -362,20 +361,28 @@ namespace CompatibilityReport.Updater
                                 break;
                             }
 
-                            CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByImporter: false);
-                            newRequiredMods.Add(requiredID);
+                            if (!catalogMod.ExclusionForRequiredMods.Contains(requiredID))
+                            {
+                                CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByImporter: false);
+                                newRequiredMods.Add(requiredID);
+                            }
 
                             line = reader.ReadLine();
                             line = reader.ReadLine();
                             line = reader.ReadLine();
                         }
 
+                        List<ulong> RequiredModsToRemove = new List<ulong>();
                         foreach (ulong oldRequiredID in catalogMod.RequiredMods)
                         {
-                            if (!newRequiredMods.Contains(oldRequiredID))
+                            if (!newRequiredMods.Contains(oldRequiredID) && !catalogMod.ExclusionForRequiredMods.Contains(oldRequiredID))
                             {
-                                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID);
+                                RequiredModsToRemove.Add(oldRequiredID);
                             }
+                        }
+                        foreach (ulong oldRequiredID in RequiredModsToRemove)
+                        {
+                            CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID);
                         }
                     }
 
@@ -417,12 +424,17 @@ namespace CompatibilityReport.Updater
                 return false;
             }
 
+            List<Enums.Dlc> RequiredDlcsToRemove = new List<Enums.Dlc>();
             foreach (Enums.Dlc oldRequiredDlc in catalogMod.RequiredDlcs)
             {
-                if (!newRequiredDlcs.Contains(oldRequiredDlc))
+                if (!newRequiredDlcs.Contains(oldRequiredDlc) && !catalogMod.ExclusionForRequiredDlc.Contains(oldRequiredDlc))
                 {
-                    CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, oldRequiredDlc);
+                    RequiredDlcsToRemove.Add(oldRequiredDlc);
                 }
+            }
+            foreach (Enums.Dlc oldRequiredDlc in RequiredDlcsToRemove)
+            {
+                CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, oldRequiredDlc);
             }
 
             return true;
