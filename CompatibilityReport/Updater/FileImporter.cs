@@ -455,7 +455,7 @@ namespace CompatibilityReport.Updater
                     return "DLC is not required.";
                 }
 
-                if (!catalogMod.ExclusionForRequiredDlc.Contains(requiredDlc))
+                if (!catalogMod.ExclusionForRequiredDlcs.Contains(requiredDlc))
                 {
                     return "Cannot remove required DLC because it was not manually added.";
                 }

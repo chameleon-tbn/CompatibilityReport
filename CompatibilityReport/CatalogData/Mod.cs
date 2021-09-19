@@ -39,7 +39,7 @@ namespace CompatibilityReport.CatalogData
         public bool ExclusionForSourceUrl { get; private set; }
         public bool ExclusionForGameVersion { get; private set; }
         public bool ExclusionForNoDescription { get; private set; }
-        public List<Enums.Dlc> ExclusionForRequiredDlc { get; private set; } = new List<Enums.Dlc>();
+        public List<Enums.Dlc> ExclusionForRequiredDlcs { get; private set; } = new List<Enums.Dlc>();
         [XmlArrayItem("SteamID")] public List<ulong> ExclusionForRequiredMods { get; private set; } = new List<ulong>();
 
         // Date of the last review of this mod, imported by the FileImporter, and the last automatic review for changes in mod information (WebCrawler).
@@ -238,9 +238,9 @@ namespace CompatibilityReport.CatalogData
         /// <summary>Adds an exclusion for a required DLC.</summary>
         public void AddExclusion(Enums.Dlc requiredDlc)
         {
-            if (!ExclusionForRequiredDlc.Contains(requiredDlc))
+            if (!ExclusionForRequiredDlcs.Contains(requiredDlc))
             {
-                ExclusionForRequiredDlc.Add(requiredDlc);
+                ExclusionForRequiredDlcs.Add(requiredDlc);
             }
         }
 
@@ -259,7 +259,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>True if removal succeeded, false otherwise.</returns>
         public bool RemoveExclusion(Enums.Dlc requiredDlc)
         {
-            return ExclusionForRequiredDlc.Remove(requiredDlc);
+            return ExclusionForRequiredDlcs.Remove(requiredDlc);
         }
 
 

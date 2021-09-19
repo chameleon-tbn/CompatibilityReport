@@ -337,7 +337,7 @@ namespace CompatibilityReport.Updater
 
                         if (dlc != default)
                         {
-                            if (!catalogMod.ExclusionForRequiredDlc.Contains(dlc))
+                            if (!catalogMod.ExclusionForRequiredDlcs.Contains(dlc))
                             {
                                 CatalogUpdater.AddRequiredDlc(catalog, catalogMod, dlc);
                                 newRequiredDlcs.Add(dlc);
@@ -427,7 +427,7 @@ namespace CompatibilityReport.Updater
             List<Enums.Dlc> RequiredDlcsToRemove = new List<Enums.Dlc>();
             foreach (Enums.Dlc oldRequiredDlc in catalogMod.RequiredDlcs)
             {
-                if (!newRequiredDlcs.Contains(oldRequiredDlc) && !catalogMod.ExclusionForRequiredDlc.Contains(oldRequiredDlc))
+                if (!newRequiredDlcs.Contains(oldRequiredDlc) && !catalogMod.ExclusionForRequiredDlcs.Contains(oldRequiredDlc))
                 {
                     RequiredDlcsToRemove.Add(oldRequiredDlc);
                 }
