@@ -20,8 +20,8 @@ namespace CompatibilityReport.Updater
             DataDump.AppendLine($"{ ModSettings.ModName } DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
             DataDump.AppendLine($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }.");
 
-            DataDump.AppendLine($"\nCatalog has { catalog.Mods.Count } mods, { catalog.Compatibilities.Count } compatibilities, { catalog.Groups } groups, " +
-                $"{ catalog.Authors } authors and { catalog.RequiredAssets.Count} required assets.");
+            DataDump.AppendLine($"\nCatalog has { catalog.Mods.Count } mods, { catalog.Compatibilities.Count } compatibilities, { catalog.Groups.Count } groups, " +
+                $"{ catalog.Authors.Count } authors and { catalog.RequiredAssets.Count } required assets.");
 
             // Groups with less than 2 members, to see if we can clean up.
             DumpUnusedGroups(catalog, DataDump);

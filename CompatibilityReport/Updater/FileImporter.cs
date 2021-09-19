@@ -34,10 +34,7 @@ namespace CompatibilityReport.Updater
 
             foreach (string CsvFilename in CsvFilenames)
             {
-                if (!ReadCsv(catalog, CsvFilename))
-                {
-                    errors++;
-                }
+                errors += ReadCsv(catalog, CsvFilename);
             }
 
             timer.Stop();
@@ -58,12 +55,12 @@ namespace CompatibilityReport.Updater
 
 
         /// <summary>Reads one CSV file.</summary>
-        /// <returns>True if all was well, false when encountering one or more errors in the CSV file.</returns>
-        private static bool ReadCsv(Catalog catalog, string CsvFileFullPath)
+        /// <returns>The number of errors encountered while processing the CSV file.</returns>
+        private static int ReadCsv(Catalog catalog, string CsvFileFullPath)
         {
             StringBuilder processedCsvLines = new StringBuilder();
             string filename = Toolkit.GetFileName(CsvFileFullPath);
-            bool withoutErrors = true;
+            int errors = 0;
 
             Logger.UpdaterLog($"Processing \"{ filename }\".");
 
@@ -89,8 +86,7 @@ namespace CompatibilityReport.Updater
                     else
                     {
                         processedCsvLines.AppendLine($"# [ERROR] { line }");
-
-                        withoutErrors = false;
+                        errors++;
                         Logger.UpdaterLog($"{ errorMessage } Line #{ lineNumber }: { line }", Logger.Error);
                     }
                 }
@@ -106,13 +102,13 @@ namespace CompatibilityReport.Updater
             }
             else
             {
-                if (!Toolkit.MoveFile(CsvFileFullPath, $"{ CsvFileFullPath }.{ (withoutErrors ? "" : "partially_") }processed.txt"))
+                if (!Toolkit.MoveFile(CsvFileFullPath, $"{ CsvFileFullPath }.{ (errors == 0 ? "" : "partially_") }processed.txt"))
                 {
                     Logger.UpdaterLog($"Could not rename \"{ filename }\". Rename or delete it manually to avoid processing it again.", Logger.Error);
                 }
             }
 
-            return withoutErrors;
+            return errors;
         }
 
 
