@@ -535,7 +535,7 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "update_review")
             {
-                CatalogUpdater.UpdateMod(catalog, catalogMod, alwaysUpdateReviewDate: true, updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, updatedByImporter: true);
             }
             else if (action == "add_requiredmod")
             {

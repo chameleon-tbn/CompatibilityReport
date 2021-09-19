@@ -140,7 +140,8 @@ namespace CompatibilityReport.Updater
                         CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.NotReviewed, stabilityNote: "");
                     }
 
-                    CatalogUpdater.UpdateMod(catalog, catalogMod, modName, alwaysUpdateReviewDate: true);
+                    // Update the name and the auto review date.
+                    CatalogUpdater.UpdateMod(catalog, catalogMod, modName);
 
                     // Author info can be found on the next line, but skip it here and get it later on the mod page.
                 }
@@ -220,7 +221,6 @@ namespace CompatibilityReport.Updater
 
 
         /// <summary>Extracts detailed mod information from a downloaded mod page and updates the catalog.</summary>
-        /// <remarks>Also sets the auto review date.</remarks>
         /// <returns>True if succesful, false if there was an error with the mod page.</returns>
         private static bool ReadModPage(string tempFileFullPath, Catalog catalog, Mod catalogMod)
         {
@@ -244,8 +244,9 @@ namespace CompatibilityReport.Updater
 
                             if (!catalogMod.UpdatedThisSession)
                             {
+                                // Set the unlisted status. Also update the auto review date, which is already done for all listed mods.
                                 CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop);
-                                CatalogUpdater.UpdateMod(catalog, catalogMod, alwaysUpdateReviewDate: true);
+                                CatalogUpdater.UpdateMod(catalog, catalogMod);
                             }
                         }
 

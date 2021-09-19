@@ -183,7 +183,6 @@ namespace CompatibilityReport.Updater
                                      Enums.Stability stability = default,
                                      string stabilityNote = null,
                                      string genericNote = null,
-                                     bool alwaysUpdateReviewDate = false,
                                      bool updatedByImporter = false)
         {
             // Collect change notes for all changed values. For stability note only if stability itself is unchanged.
@@ -202,8 +201,8 @@ namespace CompatibilityReport.Updater
 
             catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
-            DateTime modReviewDate = (!string.IsNullOrEmpty(addedChangeNote) || alwaysUpdateReviewDate) && updatedByImporter ? reviewDate : default;
-            DateTime modAutoReviewDate = (!string.IsNullOrEmpty(addedChangeNote) || alwaysUpdateReviewDate) && !updatedByImporter ? reviewDate : default;
+            DateTime modReviewDate = updatedByImporter ? reviewDate : default;
+            DateTime modAutoReviewDate = !updatedByImporter ? reviewDate : default;
 
             if (updatedByImporter && sourceUrl != null && sourceUrl != catalogMod.SourceUrl)
             {

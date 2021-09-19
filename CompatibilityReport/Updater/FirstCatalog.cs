@@ -34,7 +34,7 @@ namespace CompatibilityReport.Updater
                 Mod builtinMod = CatalogUpdater.AddMod(firstCatalog, steamID: ModSettings.BuiltinMods[modName], modName);
                 builtinMod.Update(stability: Enums.Stability.Stable);
                 builtinMod.Statuses.Add(Enums.Status.SourceBundled);
-                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID, alwaysUpdateReviewDate: true);
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID);
             }
 
             CatalogUpdater.SaveCatalog(firstCatalog);
