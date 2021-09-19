@@ -484,20 +484,16 @@ namespace CompatibilityReport.CatalogData
                     loadedCatalog = (Catalog)serializer.Deserialize(reader);
                 }
             }
+            catch (System.Xml.XmlException ex)
+            {
+                Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Error);
+                Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
+                return null;
+            }
             catch (Exception ex)
             {
-                if (ex.ToString().Contains("There is an error in XML document") || ex.ToString().Contains("Document element did not appear") ||
-                    ex.ToString().Contains("unexpected end of file"))
-                {
-                    Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Error);
-                    Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
-                }
-                else
-                {
-                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
-                    Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
-                }
-
+                Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
                 return null;
             }
 
