@@ -255,7 +255,7 @@ namespace CompatibilityReport.Reporter
         {
             string currentOrNot = subscribedMod.CompatibleGameVersion() == Toolkit.CurrentGameVersion() ? "current " : "";
             return (subscribedMod.CompatibleGameVersion() < Toolkit.CurrentMajorGameVersion()) ? "" : ReviewLine("Created or updated for " +
-                $"{ currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. Less likely to have issues.");
+                $"{ currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. Less likely to have issues with the game.");
         }
 
 

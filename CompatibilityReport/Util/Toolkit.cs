@@ -448,7 +448,7 @@ namespace CompatibilityReport.Util
         {
             List<ulong> ulongList = new List<ulong>();
 
-            foreach(string numericString in numericStrings)
+            foreach (string numericString in numericStrings)
             {
                 ulongList.Add(ConvertToUlong(numericString));
             }
@@ -460,7 +460,7 @@ namespace CompatibilityReport.Util
         /// <summary>Cleans certain HTML codes from a string, by converting them to the correct text characters.</summary>
         /// <remarks>This converts the following characters: &quot;, &lt;, &gt; and &amp;.</remarks>
         /// <returns>The string with HTML codes converted to their text characters.</returns>
-        // Todo 0.4 Is CleanHtml really needed?
+        // Todo 0.4.2 Is CleanHtml really needed?
         public static string CleanHtml(string htmlText)
         {
             return string.IsNullOrEmpty(htmlText) ? "" : htmlText.Replace("&quot;", "\"").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&amp;", "&");

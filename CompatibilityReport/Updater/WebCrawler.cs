@@ -370,7 +370,7 @@ namespace CompatibilityReport.Updater
                             line = reader.ReadLine();
                         }
 
-                        foreach(ulong oldRequiredID in catalogMod.RequiredMods)
+                        foreach (ulong oldRequiredID in catalogMod.RequiredMods)
                         {
                             if (!newRequiredMods.Contains(oldRequiredID))
                             {
