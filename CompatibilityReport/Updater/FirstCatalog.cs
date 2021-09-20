@@ -22,7 +22,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Use a high review date for builtin mods, to avoid the review being considered out-of-date at some point.
-            DateTime gameRelease = DateTime.Parse("2015-03-10");
+            DateTime gameRelease = Toolkit.ConvertDate($"2015-03-10");
             CatalogUpdater.SetReviewDate(gameRelease.AddYears(1000));
 
             // Add fake author "Colossal Order" with high LastSeen date to avoid retirement, but not max. value to avoid out-of-range errors at retirement check.

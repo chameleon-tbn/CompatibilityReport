@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
 using ColossalFramework;
 using ColossalFramework.PlatformServices;
@@ -75,7 +76,7 @@ namespace CompatibilityReport.CatalogData
         public void NewVersion(DateTime updateDate)
         {
             Version++;
-            UpdateDate = updateDate;
+            UpdateDate = Toolkit.CleanDateTime(updateDate);
         }
 
 
@@ -461,8 +462,8 @@ namespace CompatibilityReport.CatalogData
             }
             catch (Exception ex)
             {
-                Logger.Log($"Failed to create catalog at \"{Toolkit.Privacy(fullPath)}\".", Logger.Error);
-                Logger.Exception(ex);
+                Logger.Log($"Failed to create catalog at \"{Toolkit.Privacy(fullPath)}\".", Logger.Debug);
+                Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
 
                 return false;
             }
@@ -484,9 +485,9 @@ namespace CompatibilityReport.CatalogData
                     loadedCatalog = (Catalog)serializer.Deserialize(reader);
                 }
             }
-            catch (System.Xml.XmlException ex)
+            catch (XmlException ex)
             {
-                Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Error);
+                Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Warning);
                 Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
                 return null;
             }
@@ -500,7 +501,7 @@ namespace CompatibilityReport.CatalogData
             if (loadedCatalog.Version == 0 || loadedCatalog.UpdateDate == default)
             {
                 Logger.Log($"Discarded invalid catalog \"{ Toolkit.Privacy(fullPath) }\". It has an incorrect version ({ loadedCatalog.VersionString() }) " +
-                    $"or date ({ Toolkit.DateString(loadedCatalog.UpdateDate) }).", Logger.Error);
+                    $"or date ({ Toolkit.DateString(loadedCatalog.UpdateDate) }).", Logger.Debug);
 
                 return null;
             }
@@ -609,7 +610,7 @@ namespace CompatibilityReport.CatalogData
                 }
                 else
                 {
-                    Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. This prevents saving a newly downloaded catalog.", Logger.Error);
+                    Logger.Log("Can't load previously downloaded catalog and it can't be deleted either. This prevents saving a newly downloaded catalog.", Logger.Warning);
                 }
             }
             else

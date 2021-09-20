@@ -58,8 +58,7 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not move file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", 
-                    Logger.Debug);
+                Logger.Log($"Could not move file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.Debug);
                 return false;
             }
         }
@@ -81,8 +80,7 @@ namespace CompatibilityReport.Util
             }
             catch (Exception ex)
             {
-                Logger.Log($"Could not copy file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", 
-                    Logger.Debug);
+                Logger.Log($"Could not copy file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.Debug);
                 return false;
             }
         }
@@ -265,7 +263,7 @@ namespace CompatibilityReport.Util
 
         /// <summary>Converts a date/time string as seen on Steam Workshop pages.</summary>
         /// <remarks>The date/time string needs to be in a format similar to '10 Mar, 2015 @ 11:22am', or '10 Mar @ 3:45pm' for current year.</remarks>
-        /// <returns>The date and time as a DateTime, or the default lowest DateTime value if conversion failed.</returns>
+        /// <returns>The date and time as a DateTime in the UTC timezone, or the default lowest DateTime value if conversion failed.</returns>
         public static DateTime ConvertWorkshopDateTime(string dateTimeString)
         {
             if (string.IsNullOrEmpty(dateTimeString))
@@ -284,7 +282,7 @@ namespace CompatibilityReport.Util
 
             try
             {
-                return DateTime.ParseExact(dateTimeString, "d MMM, yyyy @ h:mmtt", new CultureInfo("en-GB"));
+                return DateTime.ParseExact($"{ dateTimeString } { ModSettings.DefaultSteamTimezone }", "d MMM, yyyy @ h:mmtt zzz", CultureInfo.InvariantCulture).ToUniversalTime();
             }
             catch
             {
@@ -295,18 +293,26 @@ namespace CompatibilityReport.Util
 
 
         /// <summary>Converts a date from a string to a DateTime.</summary>
-        /// <remarks>The date needs to be in the format 'yyyy-mm-dd'.</remarks>
-        /// <returns>The date as a DateTime, or the default lowest DateTime value if conversion failed.</returns>
+        /// <remarks>The date needs to be in the format 'yyyy-mm-dd'. Time will be set at noon UTC.</remarks>
+        /// <returns>The date as a DateTime in the UTC timezone, or the default lowest DateTime value if conversion failed.</returns>
         public static DateTime ConvertDate(string dateString)
         {
             try
             {
-                return DateTime.ParseExact(dateString, "yyyy-MM-dd", new CultureInfo("en-GB"));
+                return DateTime.ParseExact($"{ dateString } 12:00 +00:00", "yyyy-MM-dd HH:mm zzz", CultureInfo.InvariantCulture).ToUniversalTime();
             }
             catch
             {
                 return default;
             }
+        }
+
+
+        /// <summary>Cleans a DateTime value by removing the milliseconds and converting it to UTC timezone.</summary>
+        /// <returns>A DateTime without milliseconds, in the UTC timezone.</returns>
+        public static DateTime CleanDateTime(DateTime oldDateTime)
+        {
+            return new DateTime(oldDateTime.Year, oldDateTime.Month, oldDateTime.Day, oldDateTime.Hour, oldDateTime.Minute, oldDateTime.Second).ToUniversalTime();
         }
 
 

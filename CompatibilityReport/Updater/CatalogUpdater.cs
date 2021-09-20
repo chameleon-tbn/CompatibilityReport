@@ -114,7 +114,7 @@ namespace CompatibilityReport.Updater
         /// <remarks>The review date is used for the mod ReviewDate and/or AutoReviewDate properties.</remarks>
         public static void SetReviewDate(DateTime newDate)
         {
-            reviewDate = newDate == default ? reviewDate : newDate;
+            reviewDate = newDate == default ? reviewDate : Toolkit.CleanDateTime(newDate);
         }
 
 
