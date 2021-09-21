@@ -310,9 +310,10 @@ namespace CompatibilityReport.Util
 
         /// <summary>Cleans a DateTime value by removing the milliseconds and converting it to UTC timezone.</summary>
         /// <returns>A DateTime without milliseconds, in the UTC timezone.</returns>
-        public static DateTime CleanDateTime(DateTime oldDateTime)
+        public static DateTime CleanDateTime(DateTime dirtyDateTime)
         {
-            return new DateTime(oldDateTime.Year, oldDateTime.Month, oldDateTime.Day, oldDateTime.Hour, oldDateTime.Minute, oldDateTime.Second).ToUniversalTime();
+            return new DateTime(dirtyDateTime.Year, dirtyDateTime.Month, dirtyDateTime.Day, dirtyDateTime.Hour, dirtyDateTime.Minute, dirtyDateTime.Second, 
+                dirtyDateTime.Kind).ToUniversalTime();
         }
 
 
