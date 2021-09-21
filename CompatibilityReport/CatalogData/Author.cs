@@ -52,7 +52,7 @@ namespace CompatibilityReport.CatalogData
             SteamID = SteamID == 0 ? steamID : SteamID;
             CustomUrl = customUrl ?? CustomUrl;
 
-            Name = name ?? Name;
+            Name = name ?? Name ?? "";
 
             LastSeen = lastSeen == default ? LastSeen : lastSeen;
             Retired = retired ?? Retired;
@@ -71,7 +71,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A string representing the author.</returns>
         public new string ToString()
         {
-            return $"[{ (SteamID != 0 ? SteamID.ToString() : CustomUrl) }] { Name }";
+            return $"[{ (SteamID != 0 ? SteamID.ToString() : CustomUrl) }] { Name }".Trim();
         }
     }
 }

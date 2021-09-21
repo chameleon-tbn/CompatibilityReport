@@ -275,24 +275,35 @@ namespace CompatibilityReport.Updater
                         // Author name needs to be cleaned twice because of how it is presented in the HTML source.
                         string authorName = Toolkit.CleanHtml(Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight)));
 
-                        if (string.IsNullOrEmpty(authorName))
-                        {
-                            Logger.UpdaterLog($"Author found without a name: { (authorID == 0 ? $"Custom URL { authorUrl }" : $"Steam ID { authorID }") }.", Logger.Error);
-                        }
-                        else if (authorName == authorID.ToString() && authorID != 0)
-                        {
-                            // An author name equal to the author ID might be an error, although some authors have their ID as name (ofcourse they do).
-                            Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. Some authors do this, but it could be a Steam error.", Logger.Warning);
-                        }
-
-                        // Try to get the author with author ID/URL from the mod. If that fails, try the newly found ID/URL. If it still fails, create a new author.
+                        // Try to get the author with ID/URL from the mod, to prevent creating a new author on an ID/URL change or when Steam gives ID instead of URL.
+                        // On new mod that fails, so try the newly found ID/URL. If it still fails we have an unknown author, so create a new author.
+                        // Todo 0.4 This is not foolproof and can go wrong on new mods.
                         Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
                             CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
 
-                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, 
-                            authorUrl: string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? null : catalogAuthor.CustomUrl, authorName);
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, 
-                            authorUrl: string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? null : catalogAuthor.CustomUrl);
+                        if (authorName == "")
+                        {
+                            if (string.IsNullOrEmpty(catalogAuthor.Name))
+                            {
+                                Logger.UpdaterLog($"Author found without a name: { catalogAuthor.ToString() }.", Logger.Error);
+                            }
+
+                            // Don't update the name to an empty string.
+                            authorName = null;
+                        }
+                        else if (authorName == authorID.ToString() && authorID != 0 && (authorName != catalogAuthor.Name || catalogAuthor.AddedThisSession))
+                        {
+                            // An author name equal to the author ID might be an error, although some authors have their ID as name (ofcourse they do).
+                            Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. " +
+                                (string.IsNullOrEmpty(catalogAuthor.Name) ? "Some authors do this, but it could be a Steam error." : 
+                                $"Old name still used: { catalogAuthor.Name }."), Logger.Warning);
+
+                            // Don't update the name if we already know a name.
+                            authorName = string.IsNullOrEmpty(catalogAuthor.Name) ? authorName : null;
+                        }
+
+                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);
                     }
 
                     // Mod name.

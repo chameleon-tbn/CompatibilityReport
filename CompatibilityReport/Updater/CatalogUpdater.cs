@@ -329,18 +329,12 @@ namespace CompatibilityReport.Updater
         /// <summary>Adds an author to the catalog.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
         /// <returns>A reference to the new author.</returns>
-        public static Author AddAuthor(Catalog catalog, ulong authorID, string authorUrl, string authorName, bool retired = false)
+        public static Author AddAuthor(Catalog catalog, ulong authorID, string authorUrl, string name, bool retired = false)
         {
-            // Two authors with the same name could be an existing author we missed when a Custom URL has changed. There are Steam authors with the same name though.
-            Author namesake = catalog.Authors.Find(x => x.Name == authorName);
-            if (namesake != default)
-            {
-                string authors = $"{ (authorID == 0 ? authorUrl : $"{ authorID }") } and { (namesake.SteamID == 0 ? namesake.CustomUrl : $"{ namesake.SteamID }") }";
-                Logger.UpdaterLog($"Found two authors with the name \"{ authorName }\": { authors }. This could be a coincidence or an error.", Logger.Warning);
-            }
+            CheckDuplicateName(catalog, authorID, authorUrl, name);
 
             Author catalogAuthor = catalog.AddAuthor(authorID, authorUrl);
-            catalogAuthor.Update(name: authorName, retired: retired);
+            catalogAuthor.Update(name: name, retired: retired);
 
             catalogAuthor.AddChangeNote($"{ Toolkit.DateString(catalog.Updated) }: added{ (retired ? " as retired" : "") }");
             catalog.ChangeNotes.AppendNewAuthor($"Added { (retired ? "retired " : "") }author { catalogAuthor.ToString() }");
@@ -354,6 +348,27 @@ namespace CompatibilityReport.Updater
         public static void UpdateAuthor(Catalog catalog, Author catalogAuthor, ulong authorID = 0, string authorUrl = null, string name = null, 
             DateTime lastSeen = default, bool? retired = null)
         {
+            if (authorID != 0 && authorID != catalogAuthor.SteamID && catalog.GetAuthor(authorID, "") != null)
+            {
+                Logger.UpdaterLog($"Duplicate author ID found for \"{ catalog.GetAuthor(authorID, "").ToString() }\" and \"{ catalogAuthor.ToString() }\". " +
+                    "The author ID is not updated for the second author.", Logger.Error);
+
+                authorID = 0;
+            }
+
+            if (authorUrl != null && authorUrl != catalogAuthor.CustomUrl && catalog.GetAuthor(0, authorUrl) != null)
+            {
+                Logger.UpdaterLog($"Duplicate author URL found for \"{ catalog.GetAuthor(0, authorUrl).ToString() }\" and \"{ catalogAuthor.ToString() }\". " +
+                    "The author URL is not updated for the second author.", Logger.Error);
+
+                authorUrl = null;
+            }
+
+            if (name != null && name != catalogAuthor.Name)
+            {
+                CheckDuplicateName(catalog, authorID, authorUrl, name);
+            }
+            
             string oldUrl = catalogAuthor.CustomUrl;
 
             // Collect change notes for all changed values.
@@ -377,6 +392,19 @@ namespace CompatibilityReport.Updater
                 {
                     AuthorMod.Update(authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);
                 }
+            }
+        }
+
+
+        /// <summary>Check if an author exists with this name already.</summary>
+        /// <remarks>Two authors with the same name could be an existing author we missed. There are Steam authors with the same name though.</remarks>
+        private static void CheckDuplicateName(Catalog catalog, ulong authorID, string authorUrl, string name)
+        {
+            Author namesake = catalog.Authors.Find(x => x.Name == name);
+            if (namesake != default)
+            {
+                string authors = $"{ (authorID == 0 ? authorUrl : $"{ authorID }") } and { (namesake.SteamID == 0 ? namesake.CustomUrl : $"{ namesake.SteamID }") }";
+                Logger.UpdaterLog($"Found two authors with the name \"{ name }\": { authors }. This could be a coincidence or an error.", Logger.Warning);
             }
         }
 

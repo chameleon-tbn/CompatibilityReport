@@ -69,7 +69,7 @@ namespace CompatibilityReport.CatalogData
         {
             SteamID = steamID;
 
-            AddedThisSession = !ModSettings.DebugMode;      // Todo 0.4 Change this to true
+            AddedThisSession = true;
         }
 
 

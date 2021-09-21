@@ -12,10 +12,9 @@ namespace CompatibilityReport.Updater
         private readonly StringBuilder NewGroups = new StringBuilder();
         private readonly StringBuilder NewCompatibilities = new StringBuilder();
         private readonly StringBuilder NewAuthors = new StringBuilder();
-        private readonly Dictionary<ulong, string> UpdatedModsByID = new Dictionary<ulong, string>();
+        private readonly Dictionary<ulong, string> UpdatedModsDict = new Dictionary<ulong, string>();
         private readonly StringBuilder UpdatedMods = new StringBuilder();
-        private readonly Dictionary<ulong, string> UpdatedAuthorsByID = new Dictionary<ulong, string>();
-        private readonly Dictionary<string, string> UpdatedAuthorsByUrl = new Dictionary<string, string>();
+        private readonly Dictionary<Author, string> UpdatedAuthorsDict = new Dictionary<Author, string>();
         private readonly StringBuilder UpdatedAuthors = new StringBuilder();
         private readonly StringBuilder RemovedMods = new StringBuilder();
         private readonly StringBuilder RemovedGroups = new StringBuilder();
@@ -66,16 +65,16 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            if (UpdatedModsByID.ContainsKey(steamID))
+            if (UpdatedModsDict.ContainsKey(steamID))
             {
-                if (!UpdatedModsByID[steamID].Contains(extraChangeNote))
+                if (!UpdatedModsDict[steamID].Contains(extraChangeNote))
                 {
-                    UpdatedModsByID[steamID] += $", { extraChangeNote }";
+                    UpdatedModsDict[steamID] += $", { extraChangeNote }";
                 }
             }
             else
             {
-                UpdatedModsByID.Add(steamID, extraChangeNote);
+                UpdatedModsDict.Add(steamID, extraChangeNote);
             }
         }
 
@@ -89,33 +88,16 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            if (catalogAuthor.SteamID != 0)
+            if (UpdatedAuthorsDict.ContainsKey(catalogAuthor))
             {
-                if (UpdatedAuthorsByID.ContainsKey(catalogAuthor.SteamID))
+                if (!UpdatedAuthorsDict[catalogAuthor].Contains(extraChangeNote))
                 {
-                    if (!UpdatedAuthorsByID[catalogAuthor.SteamID].Contains(extraChangeNote))
-                    {
-                        UpdatedAuthorsByID[catalogAuthor.SteamID] += $", { extraChangeNote }";
-                    }
-                }
-                else
-                {
-                    UpdatedAuthorsByID.Add(catalogAuthor.SteamID, extraChangeNote);
+                    UpdatedAuthorsDict[catalogAuthor] += $", { extraChangeNote }";
                 }
             }
             else
             {
-                if (UpdatedAuthorsByUrl.ContainsKey(catalogAuthor.CustomUrl))
-                {
-                    if (!UpdatedAuthorsByUrl[catalogAuthor.CustomUrl].Contains(extraChangeNote))
-                    {
-                        UpdatedAuthorsByUrl[catalogAuthor.CustomUrl] += $", { extraChangeNote }";
-                    }
-                }
-                else
-                {
-                    UpdatedAuthorsByUrl.Add(catalogAuthor.CustomUrl, extraChangeNote);
-                }
+                UpdatedAuthorsDict.Add(catalogAuthor, extraChangeNote);
             }
         }
 
@@ -156,37 +138,23 @@ namespace CompatibilityReport.Updater
         {
             string todayDateString = Toolkit.DateString(catalog.Updated);
 
-            List<ulong> steamIDs = new List<ulong>(UpdatedModsByID.Keys);
+            List<ulong> steamIDs = new List<ulong>(UpdatedModsDict.Keys);
             steamIDs.Sort();
             steamIDs.Reverse();
 
             foreach (ulong steamID in steamIDs)
             {
-                if (!string.IsNullOrEmpty(UpdatedModsByID[steamID]))
+                if (!string.IsNullOrEmpty(UpdatedModsDict[steamID]))
                 {
-                    catalog.GetMod(steamID).AddChangeNote($"{ todayDateString }: { UpdatedModsByID[steamID] }");
-                    UpdatedMods.AppendLine($"Updated mod { catalog.GetMod(steamID).ToString() }: { UpdatedModsByID[steamID] }");
+                    catalog.GetMod(steamID).AddChangeNote($"{ todayDateString }: { UpdatedModsDict[steamID] }");
+                    UpdatedMods.AppendLine($"Updated mod { catalog.GetMod(steamID).ToString() }: { UpdatedModsDict[steamID] }");
                 }
             }
 
-            List<ulong>authorIDs = new List<ulong>(UpdatedAuthorsByID.Keys);
-            authorIDs.Sort();
-            authorIDs.Reverse();
-
-            foreach (ulong authorID in authorIDs)
+            foreach (Author catalogAuthor in UpdatedAuthorsDict.Keys)
             {
-                Author catalogAuthor = catalog.GetAuthor(authorID, "");
-                string authorNote = UpdatedAuthorsByID[authorID];
-
-                catalogAuthor.AddChangeNote($"{ todayDateString }: { authorNote }");
-                UpdatedAuthors.AppendLine($"Updated author { catalogAuthor.ToString() }: { authorNote }");
-            }
-
-            Logger.Log("ConvertUpdated 21: { UpdatedAuthorsByUrl.Count }", Logger.Debug);   // Todo 0.4 Remove this
-            foreach (string authorUrl in UpdatedAuthorsByUrl.Keys)
-            {
-                catalog.GetAuthor(0, authorUrl).AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByUrl[authorUrl] }");
-                UpdatedAuthors.AppendLine($"Updated author { catalog.GetAuthor(0, authorUrl).ToString() }: { UpdatedAuthorsByUrl[authorUrl] }");
+                catalogAuthor.AddChangeNote($"{ todayDateString }: { UpdatedAuthorsDict[catalogAuthor] }");
+                UpdatedAuthors.AppendLine($"Updated author { catalogAuthor.ToString() }: { UpdatedAuthorsDict[catalogAuthor] }");
             }
         }
         
