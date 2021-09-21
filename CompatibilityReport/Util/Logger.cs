@@ -87,7 +87,7 @@ namespace CompatibilityReport.Util
             }
 
             // Exception with full or shorter stacktrace.
-            Log((logLevel == Debug) ? $"[EXCEPTION][DEBUG] { ex }" : $"[EXCEPTION] { ex.GetType().Name }: { ex.Message }\n{ ex.StackTrace }");
+            Log((logLevel == Debug) ? $"[DEBUG][EXCEPTION] { ex }" : $"[EXCEPTION] { ex.GetType().Name }: { ex.Message }\n{ ex.StackTrace }");
 
             if (!hideFromGameLog)
             {

@@ -2,6 +2,7 @@
 
 ### Version 0.4 - Code revision and cleanup
 * Major code revision and restructure
+* Textual changes
 * Bugfixes
 * Catalogs rebuilt and third catalog created with mod reviews
 

@@ -46,16 +46,16 @@ Due to the early development stage and very frequent changes to all parts of the
 ### Future ideas (might not happen)
 * 1.1 HTML report, categorized by severity; mod setting for text or HTML report.
 * 1.2 In-game popup with summary and button to open report.
-* 2.0 Localization.
-* Version check before (down)loading a full catalog.
-* Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112)).
 * 'Second load' detection with warning popup.
+* Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112)).
+* Localization. Part of the report text is in the CSV import, making it hard to keep translations up to date.
+* Version check before (down)loading a full catalog.
 * Reviewing local mods.
-* Online catalog update procedure, supporting multiple simultaneous contributors.
 * Interface for getting info about an unsubscribed mod, to review compatibility with currently subscribed mods.
+* Online catalog update procedure, supporting multiple simultaneous contributors.
 * Replace WebCrawler by Steam API, for better performance, easier update detection and more reliable author links.
 * Detect missing mods subscribed for assets, like ETST, NExt2, Trolleybus Trailer AI, ... (needs Steam API).
-* TLS 1.2 support for download, if possible (needs .NET 4).
+* TLS 1.2 support for download, if possible (needs .NET 4.6+).
 
 ### Credits
 This mod is inspired by and uses code from [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine. It also uses code snippets from:
