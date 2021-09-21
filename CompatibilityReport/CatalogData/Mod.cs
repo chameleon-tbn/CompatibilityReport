@@ -15,7 +15,7 @@ namespace CompatibilityReport.CatalogData
         public DateTime Updated { get; private set; }
 
         public ulong AuthorID { get; private set; }
-        public string AuthorUrl { get; private set; }
+        public string AuthorUrl { get; private set; } = "";
 
         public Enums.Stability Stability { get; private set; } = Enums.Stability.NotReviewed;
         public string StabilityNote { get; private set; }

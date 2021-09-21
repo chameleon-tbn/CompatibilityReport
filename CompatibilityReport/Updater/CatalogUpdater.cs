@@ -374,8 +374,8 @@ namespace CompatibilityReport.Updater
             // Collect change notes for all changed values.
             string addedChangeNote =
                 (authorID == 0 || authorID == catalogAuthor.SteamID || catalogAuthor.SteamID != 0 ? "" : ", Steam ID added") +
-                (authorUrl == null || authorUrl == catalogAuthor.CustomUrl ? "" : $", Custom URL { Change(authorUrl, catalogAuthor.CustomUrl) }") +
-                (name == null || name == catalogAuthor.Name ? "" : $", name { Change(name, catalogAuthor.Name) }") +
+                (authorUrl == null || authorUrl == catalogAuthor.CustomUrl ? "" : $", Custom URL { Change(catalogAuthor.CustomUrl, authorUrl) }") +
+                (name == null || name == catalogAuthor.Name ? "" : $", name { Change(catalogAuthor.Name, name) }") +
                 (lastSeen == default || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : 
                     $", last seen date { Change(lastSeen, catalogAuthor.LastSeen) }") +
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
@@ -387,7 +387,13 @@ namespace CompatibilityReport.Updater
             if (addedChangeNote.Contains("Steam ID") || addedChangeNote.Contains("Custom URL"))
             {
                 // Update the author ID and URL for all mods from this author, without additional changes notes.
-                List<Mod> AuthorMods = catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.SteamID || x.AuthorUrl == catalogAuthor.CustomUrl || x.AuthorUrl == oldUrl);
+                oldUrl = oldUrl == catalogAuthor.CustomUrl ? null : oldUrl;
+
+                List<Mod> AuthorMods = catalog.Mods.FindAll(x => 
+                    (catalogAuthor.SteamID != 0 && x.AuthorID == catalogAuthor.SteamID) || 
+                    (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) && x.AuthorUrl == catalogAuthor.CustomUrl) || 
+                    (!string.IsNullOrEmpty(oldUrl) && x.AuthorUrl == oldUrl));
+
                 foreach (Mod AuthorMod in AuthorMods)
                 {
                     AuthorMod.Update(authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);

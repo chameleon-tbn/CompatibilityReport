@@ -11,7 +11,7 @@ namespace CompatibilityReport.CatalogData
         // The ID always exists and cannot be changed. The Custom URL is optional and can be assigned, changed or removed at any time by the Steam user.
         // Converting from Custom URL to Steam ID can be done manually on some websites, or through the Steam API.
         public ulong SteamID { get; private set; }
-        public string CustomUrl { get; private set; }
+        public string CustomUrl { get; private set; } = "";
 
         public string Name { get; private set; }
 

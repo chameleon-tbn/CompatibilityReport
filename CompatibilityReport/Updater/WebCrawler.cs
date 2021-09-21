@@ -158,7 +158,8 @@ namespace CompatibilityReport.Updater
             int numberOfMods = catalog.Mods.Count - ModSettings.BuiltinMods.Count;
             long estimate = 500 * numberOfMods;
 
-            Logger.UpdaterLog($"Updater started downloading { numberOfMods } individual Steam Workshop mod pages. Estimated time: { Toolkit.TimeString(estimate) }.");
+            Logger.UpdaterLog($"Updater started downloading { numberOfMods } individual Steam Workshop mod pages. This takes about { Toolkit.TimeString(estimate) } " +
+                $"and should be ready around { DateTime.Now.AddMilliseconds(estimate + 59*1000):HH:mm}.");
 
             int modsDownloaded = 0;
             int failedDownloads = 0;
@@ -271,13 +272,13 @@ namespace CompatibilityReport.Updater
                         // Only get the author URL if the author ID was not found, to prevent updating the author URL to an empty string.
                         ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, $"{ ModSettings.SearchAuthorLeft }profiles/", ModSettings.SearchAuthorMid));
                         string authorUrl = authorID != 0 ? null : Toolkit.MidString(line, $"{ ModSettings.SearchAuthorLeft }id/", ModSettings.SearchAuthorMid);
-                        
+
                         // Author name needs to be cleaned twice because of how it is presented in the HTML source.
                         string authorName = Toolkit.CleanHtml(Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight)));
 
                         // Try to get the author with ID/URL from the mod, to prevent creating a new author on an ID/URL change or when Steam gives ID instead of URL.
-                        // On new mod that fails, so try the newly found ID/URL. If it still fails we have an unknown author, so create a new author.
-                        // Todo 0.4 This is not foolproof and can go wrong on new mods.
+                        // On a new mod that fails, so try the newly found ID/URL. If it still fails we have an unknown author, so create a new author.
+                        // Todo 0.6 This is not foolproof and we can still accidentally create a new author on new mods.
                         Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
                             CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
 
@@ -309,7 +310,13 @@ namespace CompatibilityReport.Updater
                     // Mod name.
                     else if (line.Contains(ModSettings.SearchModNameLeft))
                     {
-                        string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchModNameLeft, ModSettings.SearchModNameRight)); 
+                        string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchModNameLeft, ModSettings.SearchModNameRight));
+
+                        if (string.IsNullOrEmpty(modName))
+                        {
+                            // An empty mod name might be an error, although there is a Steam Workshop mod without a name (ofcourse there is).
+                            Logger.UpdaterLog($"Mod name not found for { catalogMod.SteamID }. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
+                        }
 
                         CatalogUpdater.UpdateMod(catalog, catalogMod, modName);
                     }
