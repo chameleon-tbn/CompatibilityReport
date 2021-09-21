@@ -18,10 +18,10 @@ namespace CompatibilityReport.CatalogData
         // Catalog structure version will change on structural changes that make the xml incompatible. Version will not reset on a new StructureVersion.
         public int StructureVersion { get; private set; } = ModSettings.CurrentCatalogStructureVersion;
         public int Version { get; private set; }
-        public DateTime UpdateDate { get; private set; }
+        public DateTime Updated { get; private set; }
 
         // Game version this catalog was created for. 'Version' is not serializable, so a converted string is used.
-        public string GameVersionString { get; private set; } = Toolkit.UnknownVersion().ToString();
+        [XmlElement("GameVersion")] public string GameVersionString { get; private set; } = Toolkit.UnknownVersion().ToString();
 
         // A note about the catalog, displayed in the report, and the header and footer text for the report.
         public string Note { get; private set; }
@@ -30,8 +30,8 @@ namespace CompatibilityReport.CatalogData
 
         // The actual mod data in four lists.
         public List<Mod> Mods { get; private set; } = new List<Mod>();
-        public List<Compatibility> Compatibilities { get; private set; } = new List<Compatibility>();
         public List<Group> Groups { get; private set; } = new List<Group>();
+        public List<Compatibility> Compatibilities { get; private set; } = new List<Compatibility>();
         public List<Author> Authors { get; private set; } = new List<Author>();
 
         // Assets that show up as required items. This is used to distinguish between a required asset and an unknown required mod.
@@ -73,10 +73,10 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Increases the catalog version and sets a new update date.</summary>
-        public void NewVersion(DateTime updateDate)
+        public void NewVersion(DateTime updated)
         {
             Version++;
-            UpdateDate = Toolkit.CleanDateTime(updateDate);
+            Updated = Toolkit.CleanDateTime(updated);
         }
 
 
@@ -143,21 +143,6 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Adds a compatibility to the catalog.</summary>
-        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
-        {
-            Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, compatibilityStatus, compatibilityNote));
-        }
-
-
-        /// <summary>Removes a compatibility from the catalog.</summary>
-        /// <returns>True if removal succeeded, false if not</returns>
-        public bool RemoveCompatibility(Compatibility catalogCompatibility)
-        {
-            return Compatibilities.Remove(catalogCompatibility);
-        }
-
-
         /// <summary>Checks if a mod is a group member.</summary>
         /// <returns>True if it's a group member, false if not.</returns>
         public bool IsGroupMember(ulong steamID)
@@ -202,6 +187,21 @@ namespace CompatibilityReport.CatalogData
         public bool RemoveGroup(Group group)
         {
             return Groups.Remove(group) && groupIndex.Remove(group.GroupID);
+        }
+
+
+        /// <summary>Adds a compatibility to the catalog.</summary>
+        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
+        {
+            Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, compatibilityStatus, compatibilityNote));
+        }
+
+
+        /// <summary>Removes a compatibility from the catalog.</summary>
+        /// <returns>True if removal succeeded, false if not</returns>
+        public bool RemoveCompatibility(Compatibility catalogCompatibility)
+        {
+            return Compatibilities.Remove(catalogCompatibility);
         }
 
 
@@ -498,10 +498,10 @@ namespace CompatibilityReport.CatalogData
                 return null;
             }
 
-            if (loadedCatalog.Version == 0 || loadedCatalog.UpdateDate == default)
+            if (loadedCatalog.Version == 0 || loadedCatalog.Updated == default)
             {
                 Logger.Log($"Discarded invalid catalog \"{ Toolkit.Privacy(fullPath) }\". It has an incorrect version ({ loadedCatalog.VersionString() }) " +
-                    $"or date ({ Toolkit.DateString(loadedCatalog.UpdateDate) }).", Logger.Debug);
+                    $"or date ({ Toolkit.DateString(loadedCatalog.Updated) }).", Logger.Debug);
 
                 return null;
             }
@@ -528,7 +528,7 @@ namespace CompatibilityReport.CatalogData
             {
                 newestCatalog.CreateIndexes();
 
-                Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.UpdateDate.ToLongDateString() }. " +
+                Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.Updated.ToLongDateString() }. " +
                     $"Catalog contains { newestCatalog.ReviewedModCount } reviewed mods and { newestCatalog.Mods.Count - newestCatalog.ReviewedModCount } " +
                     "mods with basic information.", duplicateToGameLog: true);
             }

@@ -177,14 +177,14 @@ namespace CompatibilityReport.Updater
 
                     if (failedDownloads <= ModSettings.SteamMaxFailedPages)
                     {
-                        Logger.UpdaterLog("Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Will continue with the next mod.", 
+                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Will continue with the next mod.", 
                             Logger.Error);
 
                         continue;
                     }
                     else
                     {
-                        Logger.UpdaterLog("Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Download process stopped.", 
+                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Download process stopped.", 
                             Logger.Error);
 
                         break;
@@ -310,9 +310,9 @@ namespace CompatibilityReport.Updater
                         Version gameVersion = Toolkit.ConvertToVersion(gameVersionString);
                         gameVersionString = Toolkit.ConvertGameVersionToString(gameVersion);
 
-                        if (!catalogMod.ExclusionForGameVersion || gameVersion >= catalogMod.CompatibleGameVersion())
+                        if (!catalogMod.ExclusionForGameVersion || gameVersion >= catalogMod.GameVersion())
                         {
-                            CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: gameVersionString);
+                            CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: gameVersionString);
                             catalogMod.UpdateExclusions(exclusionForGameVersion: false);
                         }
                     }

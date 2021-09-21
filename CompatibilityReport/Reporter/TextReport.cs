@@ -253,8 +253,8 @@ namespace CompatibilityReport.Reporter
         // Game version compatible, only listed for current major game version.
         private static string GameVersionCompatible(Mod subscribedMod)
         {
-            string currentOrNot = subscribedMod.CompatibleGameVersion() == Toolkit.CurrentGameVersion() ? "current " : "";
-            return (subscribedMod.CompatibleGameVersion() < Toolkit.CurrentMajorGameVersion()) ? "" : ReviewLine("Created or updated for " +
+            string currentOrNot = subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? "current " : "";
+            return (subscribedMod.GameVersion() < Toolkit.CurrentMajorGameVersion()) ? "" : ReviewLine("Created or updated for " +
                 $"{ currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. Less likely to have issues with the game.");
         }
 

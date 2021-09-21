@@ -154,7 +154,7 @@ namespace CompatibilityReport.Updater
         ///          Also writes the related change notes to the mods and authors.</summary>
         public void ConvertUpdated(Catalog catalog)
         {
-            string todayDateString = Toolkit.DateString(catalog.UpdateDate);
+            string todayDateString = Toolkit.DateString(catalog.Updated);
 
             List<ulong> steamIDs = new List<ulong>(UpdatedModsByID.Keys);
             steamIDs.Sort();
@@ -175,10 +175,14 @@ namespace CompatibilityReport.Updater
 
             foreach (ulong authorID in authorIDs)
             {
-                catalog.GetAuthor(authorID, "").AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByID[authorID] }");
-                UpdatedAuthors.AppendLine($"Updated author { catalog.GetAuthor(authorID, "").ToString() }: { UpdatedAuthorsByID[authorID] }");
+                Author catalogAuthor = catalog.GetAuthor(authorID, "");
+                string authorNote = UpdatedAuthorsByID[authorID];
+
+                catalogAuthor.AddChangeNote($"{ todayDateString }: { authorNote }");
+                UpdatedAuthors.AppendLine($"Updated author { catalogAuthor.ToString() }: { authorNote }");
             }
 
+            Logger.Log("ConvertUpdated 21: { UpdatedAuthorsByUrl.Count }", Logger.Debug);   // Todo 0.4 Remove this
             foreach (string authorUrl in UpdatedAuthorsByUrl.Keys)
             {
                 catalog.GetAuthor(0, authorUrl).AddChangeNote($"{ todayDateString }: { UpdatedAuthorsByUrl[authorUrl] }");
@@ -193,7 +197,7 @@ namespace CompatibilityReport.Updater
         {
             return $"Change Notes for Catalog { catalog.VersionString() }\n" +
                 "-------------------------------\n" +
-                $"{ catalog.UpdateDate:D}, { catalog.UpdateDate:t}\n" +
+                $"{ catalog.Updated:D}, { catalog.Updated:t}\n" +
                 "These change notes were automatically created by the updater process.\n" +
                 "\n" +
                 (CatalogChanges.Length == 0 ? "" :

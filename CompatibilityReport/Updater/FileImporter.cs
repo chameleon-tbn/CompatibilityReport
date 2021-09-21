@@ -304,10 +304,10 @@ namespace CompatibilityReport.Updater
 
             if (newMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
             {
-                // Download and process the Steam Workshop page for an unlisted mod to get all the details.
-                Toolkit.Download(Toolkit.GetWorkshopUrl(newMod.SteamID), ModSettings.TempDownloadFullPath);
-                WebCrawler.ReadModPage(catalog, newMod);
-
+                if (Toolkit.Download(Toolkit.GetWorkshopUrl(newMod.SteamID), ModSettings.TempDownloadFullPath) && WebCrawler.ReadModPage(catalog, newMod))
+                {
+                    Logger.UpdaterLog($"Steam Workshop page downloaded for unlisted mod { newMod.ToString() }");
+                }
                 Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
             }
 
@@ -423,7 +423,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid game version.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion), updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion), updatedByImporter: true);
             }
             else if (action == "remove_gameversion")
             {
@@ -432,7 +432,7 @@ namespace CompatibilityReport.Updater
                     return "Cannot remove compatible game version because it was not manually added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, compatibleGameVersionString: "", updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: "", updatedByImporter: true);
             }
             else if (action == "add_requireddlc")
             {

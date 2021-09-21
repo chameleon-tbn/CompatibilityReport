@@ -17,30 +17,29 @@ namespace CompatibilityReport.CatalogData
         public ulong AuthorID { get; private set; }
         public string AuthorUrl { get; private set; }
 
-        public string SourceUrl { get; private set; }
-
-        // Game version this mod is compatible with. 'Version' is not serializable, so a converted string is used.
-        public string CompatibleGameVersionString { get; private set; }
-
-        public List<Enums.Dlc> RequiredDlcs { get; private set; } = new List<Enums.Dlc>();
-
-        // No mod should be in more than one of the required mods, successors, alternatives and recommendations.
-        [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();
-        [XmlArrayItem("SteamID")] public List<ulong> Successors { get; private set; } = new List<ulong>();
-        [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
-        [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
-
         public Enums.Stability Stability { get; private set; } = Enums.Stability.NotReviewed;
         public string StabilityNote { get; private set; }
 
         public List<Enums.Status> Statuses { get; private set; } = new List<Enums.Status>();
+        public bool ExclusionForNoDescription { get; private set; }
         public string GenericNote { get; private set; }
 
-        public bool ExclusionForSourceUrl { get; private set; }
+        // Game version this mod is compatible with. 'Version' is not serializable, so a converted string is used.
+        [XmlElement("GameVersion")] public string GameVersionString { get; private set; }
         public bool ExclusionForGameVersion { get; private set; }
-        public bool ExclusionForNoDescription { get; private set; }
+
+        public List<Enums.Dlc> RequiredDlcs { get; private set; } = new List<Enums.Dlc>();
         public List<Enums.Dlc> ExclusionForRequiredDlcs { get; private set; } = new List<Enums.Dlc>();
+
+        // No mod should be in more than one of the required mods, successors, alternatives and recommendations.
+        [XmlArrayItem("SteamID")] public List<ulong> RequiredMods { get; private set; } = new List<ulong>();
         [XmlArrayItem("SteamID")] public List<ulong> ExclusionForRequiredMods { get; private set; } = new List<ulong>();
+        [XmlArrayItem("SteamID")] public List<ulong> Successors { get; private set; } = new List<ulong>();
+        [XmlArrayItem("SteamID")] public List<ulong> Alternatives { get; private set; } = new List<ulong>();
+        [XmlArrayItem("SteamID")] public List<ulong> Recommendations { get; private set; } = new List<ulong>();
+
+        public string SourceUrl { get; private set; }
+        public bool ExclusionForSourceUrl { get; private set; }
 
         // Date of the last review of this mod, imported by the FileImporter, and the last automatic review for changes in mod information (WebCrawler).
         public DateTime ReviewDate { get; private set; }
@@ -51,8 +50,9 @@ namespace CompatibilityReport.CatalogData
         [XmlIgnore] public bool IsDisabled { get; private set; }
         [XmlIgnore] public bool IsCameraScript { get; private set; }
         [XmlIgnore] public DateTime DownloadedTime { get; private set; }
+        [XmlIgnore] public Enums.ReportSeverity ReportSeverity { get; private set; }
 
-        // Properties used by the Updater, to see if this mod was added or updated this session.
+        // Used by the Updater, to see if this mod was added or updated this session.
         [XmlIgnore] public bool AddedThisSession { get; private set; }
         [XmlIgnore] public bool UpdatedThisSession { get; private set; }
 
@@ -69,15 +69,15 @@ namespace CompatibilityReport.CatalogData
         {
             SteamID = steamID;
 
-            AddedThisSession = true;
+            AddedThisSession = !ModSettings.DebugMode;      // Todo 0.4 Change this to true
         }
 
 
         /// <summary>Gets the game version this mod is compatible with.</summary>
         /// <returns>The game version this mod is compatible with.</returns>
-        public Version CompatibleGameVersion()
+        public Version GameVersion()
         {
-            return Toolkit.ConvertToVersion(CompatibleGameVersionString);
+            return Toolkit.ConvertToVersion(GameVersionString);
         }
 
 
@@ -88,7 +88,7 @@ namespace CompatibilityReport.CatalogData
                            ulong authorID = 0,
                            string authorUrl = null,
                            string sourceUrl = null,
-                           string compatibleGameVersionString = null,
+                           string gameVersionString = null,
                            Enums.Stability stability = default,
                            string stabilityNote = null,
                            string genericNote = null,
@@ -106,7 +106,7 @@ namespace CompatibilityReport.CatalogData
             AuthorUrl = authorUrl ?? AuthorUrl ?? "";
 
             SourceUrl = sourceUrl ?? SourceUrl ?? "";
-            CompatibleGameVersionString = compatibleGameVersionString ?? CompatibleGameVersionString ?? Toolkit.UnknownVersion().ToString();
+            GameVersionString = gameVersionString ?? GameVersionString ?? Toolkit.UnknownVersion().ToString();
 
             Stability = stability == default ? Stability : stability;
             StabilityNote = stabilityNote ?? StabilityNote ?? "";
@@ -277,6 +277,14 @@ namespace CompatibilityReport.CatalogData
             IsDisabled = isDisabled;
             IsCameraScript = isCameraScript;
             DownloadedTime = downloadedTime;
+        }
+
+
+        /// <summary>Sets the report severity for a mod.</summary>
+        /// <remarks>This can only set the severity higher, not lower it.</remarks>
+        public void SetReportSeverity(Enums.ReportSeverity newSeverity)
+        {
+            ReportSeverity = (newSeverity > ReportSeverity) ? newSeverity : ReportSeverity;
         }
 
 

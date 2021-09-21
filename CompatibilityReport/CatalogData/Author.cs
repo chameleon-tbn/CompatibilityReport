@@ -18,8 +18,6 @@ namespace CompatibilityReport.CatalogData
         // Last seen is set to the most recent mod update and retirement is calculated from LastSeen. Both can be overruled through the FileImporter.
         public DateTime LastSeen { get; private set; }
         public bool Retired { get; private set; }
-
-        // This exclusion is set by the FileImporter, to prevent a retirement state from being reset by the WebCrawler.
         public bool ExclusionForRetired { get; private set; }
 
         // Change notes contain a list of changes by the Updater.

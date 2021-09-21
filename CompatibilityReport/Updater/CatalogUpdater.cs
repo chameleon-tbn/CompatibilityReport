@@ -40,7 +40,7 @@ namespace CompatibilityReport.Updater
             }
             else
             {
-                Logger.UpdaterLog($"Current catalog version { catalog.VersionString() }, created on { catalog.UpdateDate:D}, { catalog.UpdateDate:t}.");
+                Logger.UpdaterLog($"Current catalog version { catalog.VersionString() }, created on { catalog.Updated:D}, { catalog.Updated:t}.");
                 catalog.NewVersion(DateTime.Now);
 
                 if (ModSettings.WebCrawlerEnabled)
@@ -152,7 +152,7 @@ namespace CompatibilityReport.Updater
         {
             Mod newMod = catalog.AddMod(steamID);
             newMod.Update(name: name);
-            newMod.AddChangeNote($"{ Toolkit.DateString(catalog.UpdateDate) }: added");
+            newMod.AddChangeNote($"{ Toolkit.DateString(catalog.Updated) }: added");
 
             string modType = "mod";
 
@@ -183,7 +183,7 @@ namespace CompatibilityReport.Updater
                                      ulong authorID = 0,
                                      string authorUrl = null,
                                      string sourceUrl = null,
-                                     string compatibleGameVersionString = null,
+                                     string gameVersionString = null,
                                      Enums.Stability stability = default,
                                      string stabilityNote = null,
                                      string genericNote = null,
@@ -197,8 +197,8 @@ namespace CompatibilityReport.Updater
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
                 (authorUrl == null || authorUrl == catalogMod.AuthorUrl || catalogMod.AddedThisSession ? "" : $", author URL { Change(catalogMod.AuthorUrl, authorUrl) }") +
                 (sourceUrl == null || sourceUrl == catalogMod.SourceUrl ? "" : $", source URL { Change(catalogMod.SourceUrl, sourceUrl) }") +
-                (compatibleGameVersionString == null || compatibleGameVersionString == catalogMod.CompatibleGameVersionString ? "" : 
-                    $", compatible game version { Change(catalogMod.CompatibleGameVersion(), Toolkit.ConvertToVersion(compatibleGameVersionString)) }") +
+                (gameVersionString == null || gameVersionString == catalogMod.GameVersionString ? "" : 
+                    $", compatible game version { Change(catalogMod.GameVersion(), Toolkit.ConvertToVersion(gameVersionString)) }") +
                 (stability != default && stability != catalogMod.Stability ? ", stability changed" :
                     (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : $", stability note { Change(catalogMod.StabilityNote, stabilityNote) }")) +
                 (genericNote == null || genericNote == catalogMod.GenericNote ? "" : $", generic note { Change(catalogMod.GenericNote, genericNote) }");
@@ -213,13 +213,13 @@ namespace CompatibilityReport.Updater
                 // Add exclusion on new or changed URL, and swap exclusion on removal.
                 catalogMod.UpdateExclusions(exclusionForSourceUrl: sourceUrl != "" || !catalogMod.ExclusionForSourceUrl);
             }
-            if (updatedByImporter && compatibleGameVersionString != null && compatibleGameVersionString != catalogMod.CompatibleGameVersionString)
+            if (updatedByImporter && gameVersionString != null && gameVersionString != catalogMod.GameVersionString)
             {
                 // Add exclusion on new or changed game version, and remove the exclusion on removal of the game version.
-                catalogMod.UpdateExclusions(exclusionForGameVersion: compatibleGameVersionString != "");
+                catalogMod.UpdateExclusions(exclusionForGameVersion: gameVersionString != "");
             }
 
-            catalogMod.Update(name, published, updated, authorID, authorUrl, sourceUrl, compatibleGameVersionString, stability, stabilityNote, genericNote, 
+            catalogMod.Update(name, published, updated, authorID, authorUrl, sourceUrl, gameVersionString, stability, stabilityNote, genericNote, 
                 reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update.
@@ -342,7 +342,7 @@ namespace CompatibilityReport.Updater
             Author catalogAuthor = catalog.AddAuthor(authorID, authorUrl);
             catalogAuthor.Update(name: authorName, retired: retired);
 
-            catalogAuthor.AddChangeNote($"{ Toolkit.DateString(catalog.UpdateDate) }: added{ (retired ? " as retired" : "") }");
+            catalogAuthor.AddChangeNote($"{ Toolkit.DateString(catalog.Updated) }: added{ (retired ? " as retired" : "") }");
             catalog.ChangeNotes.AppendNewAuthor($"Added { (retired ? "retired " : "") }author { catalogAuthor.ToString() }");
 
             return catalogAuthor;
@@ -360,7 +360,7 @@ namespace CompatibilityReport.Updater
             string addedChangeNote =
                 (authorID == 0 || authorID == catalogAuthor.SteamID || catalogAuthor.SteamID != 0 ? "" : ", Steam ID added") +
                 (authorUrl == null || authorUrl == catalogAuthor.CustomUrl ? "" : $", Custom URL { Change(authorUrl, catalogAuthor.CustomUrl) }") +
-                (name == null || name == catalogAuthor.Name ? "" : ", name") +
+                (name == null || name == catalogAuthor.Name ? "" : $", name { Change(name, catalogAuthor.Name) }") +
                 (lastSeen == default || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : 
                     $", last seen date { Change(lastSeen, catalogAuthor.LastSeen) }") +
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");

@@ -3,7 +3,8 @@
     // Todo 0.5 Change URL to this in Updater Guide.
     public static class Enums
     {
-        /// <summary>The stability of a mod. Order matters because it is used in Reporter checks.</summary>
+        /// <summary>The stability of a mod.</summary>
+        /// <remarks>Order matters because it is used by the Reporter.</remarks>
         public enum Stability
         {
             Undefined = 0,                      // Unused.
@@ -40,7 +41,7 @@
             SourceBundled,                      // The source files are bundled with the mod and can be found in the mods folder.
             SourceNotUpdated,                   // Source files are not updated, making it hard for other modders to support compatibility or take over when abandoned.
             SourceObfuscated,                   // The author has deliberately hidden the mod code from other modders, which is somewhat suspicious.
-            MusicCopyrightFree,                 // This mod uses music, but only music that is copyright-free. It's safe to use for videos and streaming.
+            MusicCopyrightFree,                 // This mod uses music that is all copyright-free. It's safe to use for videos and streaming.
             MusicCopyrighted,                   // This mod uses music with copyright and should not be used in videos and streaming.
             MusicCopyrightUnknown               // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming.
         }
@@ -102,6 +103,18 @@
             Sunny_Breeze_Radio = 1531473,
             Content_Creator_Pack__Train_Station = 1531470,
             Content_Creator_Pack__Bridges_and_Piers = 1531471
+        }
+
+
+        /// <summary>The severity level for the report.</summary>
+        /// <remarks>Order matters because it is used by the Reporter.</remarks>
+        public enum ReportSeverity
+        {
+            NotReviewed,
+            Remarks,
+            MinorIssues,
+            MajorIssues,
+            Unsubscribe
         }
     }
 }
