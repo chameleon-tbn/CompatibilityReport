@@ -289,7 +289,8 @@ namespace CompatibilityReport.Updater
                         Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
                             CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
 
-                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName);
+                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, 
+                            authorUrl: string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? null : catalogAuthor.CustomUrl, authorName);
                         CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, 
                             authorUrl: string.IsNullOrEmpty(catalogAuthor.CustomUrl) ? null : catalogAuthor.CustomUrl);
                     }

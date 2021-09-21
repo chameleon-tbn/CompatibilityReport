@@ -366,7 +366,7 @@ namespace CompatibilityReport.Updater
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
 
             // Set an exclusion if retired was set to true here or reset it if retired was set to false. Exclusion will be re-evaluated at UpdateAuthorRetirement().
-            catalogAuthor.Update(authorID, authorUrl, name, lastSeen, retired, exclusionForRetired: retired);
+            catalogAuthor.Update(catalogAuthor.SteamID == 0 ? authorID : 0, authorUrl, name, lastSeen, retired, exclusionForRetired: retired);
             catalog.ChangeNotes.AddUpdatedAuthor(catalogAuthor, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
             if (addedChangeNote.Contains("Steam ID") || addedChangeNote.Contains("Custom URL"))
