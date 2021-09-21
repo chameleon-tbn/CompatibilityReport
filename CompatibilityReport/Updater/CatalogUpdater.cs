@@ -191,7 +191,7 @@ namespace CompatibilityReport.Updater
         {
             // Collect change notes for all changed values. For stability note only if stability itself is unchanged.
             string addedChangeNote =
-                (name == null || name == catalogMod.Name ? "" : $", mod name { Change(catalogMod.Name, name) }") +
+                (string.IsNullOrEmpty(name) || name == catalogMod.Name ? "" : $", mod name { Change(catalogMod.Name, name) }") +
                 // No change note for published
                 (updated == default || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update added") +
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
@@ -205,8 +205,8 @@ namespace CompatibilityReport.Updater
 
             catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
-            DateTime modReviewDate = updatedByImporter ? reviewDate : default;
-            DateTime modAutoReviewDate = !updatedByImporter ? reviewDate : default;
+            DateTime modReviewDate = updatedByImporter && reviewDate > catalogMod.ReviewDate ? reviewDate : default;
+            DateTime modAutoReviewDate = !updatedByImporter && reviewDate > catalogMod.AutoReviewDate ? reviewDate : default;
 
             if (updatedByImporter && sourceUrl != null && sourceUrl != catalogMod.SourceUrl)
             {
@@ -219,8 +219,8 @@ namespace CompatibilityReport.Updater
                 catalogMod.UpdateExclusions(exclusionForGameVersion: gameVersionString != "");
             }
 
-            catalogMod.Update(name, published, updated, authorID, authorUrl, sourceUrl, gameVersionString, stability, stabilityNote, genericNote, 
-                reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
+            catalogMod.Update(string.IsNullOrEmpty(name) ? null : name, published, updated, authorID, authorUrl, sourceUrl, gameVersionString, stability, stabilityNote, 
+                genericNote, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update.
             Author modAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl);
