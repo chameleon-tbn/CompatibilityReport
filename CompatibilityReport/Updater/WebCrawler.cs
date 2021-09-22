@@ -159,7 +159,7 @@ namespace CompatibilityReport.Updater
             long estimate = 500 * numberOfMods;
 
             Logger.UpdaterLog($"Updater started downloading { numberOfMods } individual Steam Workshop mod pages. This takes about { Toolkit.TimeString(estimate) } " +
-                $"and should be ready around { DateTime.Now.AddMilliseconds(estimate + 59*1000):HH:mm}.");
+                $"and should be ready around { DateTime.Now.AddMilliseconds(estimate + 30*1000):HH:mm}.");
 
             int modsDownloaded = 0;
             int failedDownloads = 0;
@@ -464,9 +464,9 @@ namespace CompatibilityReport.Updater
         /// <summary>Gets the source URL.</summary>
         /// <remarks>If more than one is found, pick the most likely, which is far from perfect and might need a CSV update to set it right.</remarks>
         /// <returns>The source URL string.</returns>
-        private static string GetSourceUrl(string modDescription, Mod catalogMod)
+        private static string GetSourceUrl(string steamDescription, Mod catalogMod)
         {
-            string sourceUrl = $"https://github.com/{ Toolkit.MidString(modDescription, ModSettings.SearchSourceUrlLeft, ModSettings.SearchSourceUrlRight) }";
+            string sourceUrl = $"https://github.com/{ Toolkit.MidString(steamDescription, ModSettings.SearchSourceUrlLeft, ModSettings.SearchSourceUrlRight) }";
             string currentLower = sourceUrl.ToLower();
 
             if (sourceUrl == "https://github.com/")
@@ -482,14 +482,14 @@ namespace CompatibilityReport.Updater
             int tries = 0;
 
             // Keep comparing source URLs until we find no more. Max. 50 times to avoid infinite loops.
-            while (modDescription.IndexOf(ModSettings.SearchSourceUrlLeft) != modDescription.LastIndexOf(ModSettings.SearchSourceUrlLeft) && tries < 50)
+            while (steamDescription.IndexOf(ModSettings.SearchSourceUrlLeft) != steamDescription.LastIndexOf(ModSettings.SearchSourceUrlLeft) && tries < 50)
             {
                 tries++;
 
-                int index = modDescription.IndexOf(ModSettings.SearchSourceUrlLeft) + 1;
-                modDescription = modDescription.Substring(index);
+                int index = steamDescription.IndexOf(ModSettings.SearchSourceUrlLeft) + 1;
+                steamDescription = steamDescription.Substring(index);
 
-                string nextSourceUrl = $"https://github.com/{ Toolkit.MidString(modDescription, ModSettings.SearchSourceUrlLeft, ModSettings.SearchSourceUrlRight) }";
+                string nextSourceUrl = $"https://github.com/{ Toolkit.MidString(steamDescription, ModSettings.SearchSourceUrlLeft, ModSettings.SearchSourceUrlRight) }";
                 string nextLower = nextSourceUrl.ToLower();
 
                 // Decide on which source URL to use.

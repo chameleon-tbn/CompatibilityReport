@@ -120,7 +120,7 @@ namespace CompatibilityReport.Reporter
             else
             {
                 TextReportFullPath = Path.Combine(ModSettings.DefaultReportPath, ModSettings.ReportTextFileName);
-                if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(TextReport.ToString(), TextReportFullPath, createBackup: false))
+                if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(TextReport.ToString(), TextReportFullPath))
                 {
                     Logger.Log($"Text Report could not be saved at the location set in the options. It is instead saved as \"{ Toolkit.Privacy(TextReportFullPath) }\".", 
                         Logger.Warning, duplicateToGameLog: true);
@@ -620,9 +620,9 @@ namespace CompatibilityReport.Reporter
 
             foreach (Compatibility compatibility in catalog.GetSubscriptionCompatibilities(subscribedMod.SteamID))
             {
-                string firstMod = ReviewLine(catalog.GetMod(compatibility.FirstSteamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                string secondMod = ReviewLine(catalog.GetMod(compatibility.SecondSteamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                string otherMod = subscribedMod.SteamID == compatibility.FirstSteamID ? secondMod : firstMod;
+                string firstMod = ReviewLine(catalog.GetMod(compatibility.FirstModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                string secondMod = ReviewLine(catalog.GetMod(compatibility.SecondModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                string otherMod = subscribedMod.SteamID == compatibility.FirstModID ? secondMod : firstMod;
 
                 string note = ReviewLine(compatibility.Note, ModSettings.Bullet3);
 
@@ -630,7 +630,7 @@ namespace CompatibilityReport.Reporter
                 {
                     case Enums.CompatibilityStatus.NewerVersion:
                         // Only reported for the older mod.
-                        if (subscribedMod.SteamID == compatibility.SecondSteamID)
+                        if (subscribedMod.SteamID == compatibility.SecondModID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribed to a newer version:") + firstMod + note;
                         }
@@ -638,7 +638,7 @@ namespace CompatibilityReport.Reporter
 
                     case Enums.CompatibilityStatus.FunctionalityCovered:
                         // Only reported for the mod with less functionality.
-                        if (subscribedMod.SteamID == compatibility.SecondSteamID)
+                        if (subscribedMod.SteamID == compatibility.SecondModID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribed to a mod that has all functionality:") + firstMod + note;
                         }
@@ -646,7 +646,7 @@ namespace CompatibilityReport.Reporter
 
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
                         // Only reported for the test mod.
-                        if (subscribedMod.SteamID == compatibility.SecondSteamID)
+                        if (subscribedMod.SteamID == compatibility.SecondModID)
                         {
                             text += ReviewLine("Unsubscribe. You're already subscribe to another edition of the same mod:") + firstMod + note;
                         }

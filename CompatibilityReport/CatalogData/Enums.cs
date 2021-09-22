@@ -47,12 +47,13 @@
         }
 
 
-        /// <summary>Compatibility statuses between two mods. There is no need to create 'mirrored' compatibilities (between A and B and between B and A).</summary>
+        /// <summary>Compatibility statuses between two mods.</summary>
+        /// <remarks>There is no need to create 'mirrored' compatibilities (between A and B and between B and A). The mods handles that.</remarks>
         public enum CompatibilityStatus
         {
             Undefined = 0,                      // Unused.
             NewerVersion,                       // The first mod is an newer version of the second. The compatibility note will only be reported for the second mod.
-            SameModDifferentReleaseType,        // Both mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable' one.
+            SameModDifferentReleaseType,        // These mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable' one.
             FunctionalityCovered,               // The first mod has all functionality of the second mod, and more. The note will only be reported for the second mod.
             SameFunctionality,                  // These mods are incompatible because they do the same thing or change the same functionality.
             IncompatibleAccordingToAuthor,      // These mods are incompatible according to the author of one of the mods

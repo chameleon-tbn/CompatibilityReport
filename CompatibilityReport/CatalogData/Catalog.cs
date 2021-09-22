@@ -73,10 +73,10 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Increases the catalog version and sets a new update date.</summary>
-        public void NewVersion(DateTime updated)
+        public void NewVersion(DateTime newDate)
         {
             Version++;
-            Updated = Toolkit.CleanDateTime(updated);
+            Updated = Toolkit.CleanDateTime(newDate);
         }
 
 
@@ -137,9 +137,9 @@ namespace CompatibilityReport.CatalogData
 
         /// <summary>Removes a mod from the catalog.</summary>
         /// <returns>True if removal succeeded, false if not.</returns>
-        public bool RemoveMod(Mod mod)
+        public bool RemoveMod(Mod catalogMod)
         {
-            return Mods.Remove(mod) && modIndex.Remove(mod.SteamID);
+            return Mods.Remove(catalogMod) && modIndex.Remove(catalogMod.SteamID);
         }
 
 
@@ -184,16 +184,16 @@ namespace CompatibilityReport.CatalogData
 
         /// <summary>Removes a group from the catalog.</summary>
         /// <returns>True if removal succeeded, false if not.</returns>
-        public bool RemoveGroup(Group group)
+        public bool RemoveGroup(Group catalogGroup)
         {
-            return Groups.Remove(group) && groupIndex.Remove(group.GroupID);
+            return Groups.Remove(catalogGroup) && groupIndex.Remove(catalogGroup.GroupID);
         }
 
 
         /// <summary>Adds a compatibility to the catalog.</summary>
-        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
+        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, string note)
         {
-            Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, compatibilityStatus, compatibilityNote));
+            Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, status, note));
         }
 
 
@@ -234,7 +234,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // RemoveAuthor() method is not needed right now.
+        // A RemoveAuthor() method is not needed right now.
 
 
         /// <summary>Adds an asset to the list of required assets.</summary>
@@ -249,9 +249,9 @@ namespace CompatibilityReport.CatalogData
 
         /// <summary>Removes an asset from the list of required assets.</summary>
         /// <remarks>No message is logged if the asset was not on the list.</remarks>
-        public void RemoveAsset(ulong asset)
+        public void RemoveAsset(ulong catalogAsset)
         {
-            RequiredAssets.Remove(asset);
+            RequiredAssets.Remove(catalogAsset);
         }
 
 
@@ -384,10 +384,10 @@ namespace CompatibilityReport.CatalogData
             // Find all compatibilities with two subscribed mods.
             foreach (Compatibility catalogCompatibility in Compatibilities)
             {
-                if (SubscriptionIDIndex.Contains(catalogCompatibility.FirstSteamID) && SubscriptionIDIndex.Contains(catalogCompatibility.SecondSteamID))
+                if (SubscriptionIDIndex.Contains(catalogCompatibility.FirstModID) && SubscriptionIDIndex.Contains(catalogCompatibility.SecondModID))
                 {
-                    SubscriptionCompatibilityIndex[catalogCompatibility.FirstSteamID].Add(catalogCompatibility);
-                    SubscriptionCompatibilityIndex[catalogCompatibility.SecondSteamID].Add(catalogCompatibility);
+                    SubscriptionCompatibilityIndex[catalogCompatibility.FirstModID].Add(catalogCompatibility);
+                    SubscriptionCompatibilityIndex[catalogCompatibility.SecondModID].Add(catalogCompatibility);
                 }
             }
         }
@@ -463,7 +463,7 @@ namespace CompatibilityReport.CatalogData
             catch (Exception ex)
             {
                 Logger.Log($"Failed to create catalog at \"{Toolkit.Privacy(fullPath)}\".", Logger.Debug);
-                Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
+                Logger.Exception(ex, Logger.Debug);
 
                 return false;
             }
@@ -488,13 +488,13 @@ namespace CompatibilityReport.CatalogData
             catch (XmlException ex)
             {
                 Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Warning);
-                Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
+                Logger.Exception(ex, Logger.Debug);
                 return null;
             }
             catch (Exception ex)
             {
                 Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
-                Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
+                Logger.Exception(ex, Logger.Debug);
                 return null;
             }
 
@@ -705,37 +705,37 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>Mods that are incompatible according to the Steam Workshop count as reviewed.</remarks>
         private void CreateIndexes()
         {
-            foreach (Mod mod in Mods)
+            foreach (Mod catalogMod in Mods)
             {
-                if (!modIndex.ContainsKey(mod.SteamID))
+                if (!modIndex.ContainsKey(catalogMod.SteamID))
                 {
-                    modIndex.Add(mod.SteamID, mod);
+                    modIndex.Add(catalogMod.SteamID, catalogMod);
 
-                    if (mod.ReviewDate != default || mod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
+                    if (catalogMod.ReviewDate != default || catalogMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
                     {
                         ReviewedModCount++;
                     }
                 }
             }
 
-            foreach (Group group in Groups)
+            foreach (Group catalogGroup in Groups)
             {
-                if (!groupIndex.ContainsKey(group.GroupID))
+                if (!groupIndex.ContainsKey(catalogGroup.GroupID))
                 {
-                    groupIndex.Add(group.GroupID, group);
+                    groupIndex.Add(catalogGroup.GroupID, catalogGroup);
                 }
             }
 
-            foreach (Author author in Authors)
+            foreach (Author catalogAuthor in Authors)
             {
-                if (author.SteamID != 0 && !authorIDIndex.ContainsKey(author.SteamID))
+                if (catalogAuthor.SteamID != 0 && !authorIDIndex.ContainsKey(catalogAuthor.SteamID))
                 {
-                    authorIDIndex.Add(author.SteamID, author);
+                    authorIDIndex.Add(catalogAuthor.SteamID, catalogAuthor);
                 }
 
-                if (!string.IsNullOrEmpty(author.CustomUrl) && !AuthorUrlIndex.ContainsKey(author.CustomUrl))
+                if (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) && !AuthorUrlIndex.ContainsKey(catalogAuthor.CustomUrl))
                 {
-                    AuthorUrlIndex.Add(author.CustomUrl, author);
+                    AuthorUrlIndex.Add(catalogAuthor.CustomUrl, catalogAuthor);
                 }
             }
         }

@@ -134,15 +134,15 @@ namespace CompatibilityReport.Util
 
         /// <summary>Get the filename from a path.</summary>
         /// <returns>A string with the filename.</returns>
-        public static string GetFileName(string path)
+        public static string GetFileName(string fullPath)
         {
-            if (string.IsNullOrEmpty(path))
+            if (string.IsNullOrEmpty(fullPath))
             {
                 return "";
             }
 
-            int index = Math.Max(path.LastIndexOf('\\'), path.LastIndexOf('/')) + 1;
-            return (index == 0 || index == path.Length) ? path : path.Substring(index);
+            int index = Math.Max(fullPath.LastIndexOf('\\'), fullPath.LastIndexOf('/')) + 1;
+            return (index == 0 || index == fullPath.Length) ? fullPath : fullPath.Substring(index);
         }
 
 
@@ -252,7 +252,7 @@ namespace CompatibilityReport.Util
             catch (Exception ex)
             {
                 Logger.Log("Can't retrieve plugin name.", Logger.Debug);
-                Logger.Exception(ex, Logger.Debug, hideFromGameLog: true);
+                Logger.Exception(ex, Logger.Debug);
 
                 name = "";
             }
@@ -261,6 +261,31 @@ namespace CompatibilityReport.Util
         }
 
 
+        /// <summary>Determines the kind of change between an old and a new value.</summary>
+        /// <returns>The string "added", "removed" or "changed".</returns>
+        public static string GetChange(object oldValue, object newValue)
+        {
+            return oldValue == default ? "added" : newValue == default ? "removed" : "changed";
+        }
+
+
+        /// <summary>Determines the kind of change between an old and a new string.</summary>
+        /// <returns>The string "added", "removed" or "changed".</returns>
+        public static string GetChange(string oldValue, string newValue)
+        {
+            return string.IsNullOrEmpty(oldValue) ? "added" : string.IsNullOrEmpty(newValue) ? "removed" : "changed";
+        }
+
+
+        /// <summary>Determines the kind of change between an old and a new Version.</summary>
+        /// <returns>The string "added", "removed" or "changed".</returns>
+        public static string GetChange(Version oldValue, Version newValue)
+        {
+            return oldValue == default || oldValue == UnknownVersion() ? "added" :
+                newValue == default || newValue == UnknownVersion() ? "removed" : "changed";
+        }
+        
+        
         /// <summary>Converts a date/time string as seen on Steam Workshop pages.</summary>
         /// <remarks>The date/time string needs to be in a format similar to '10 Mar, 2015 @ 11:22am', or '10 Mar @ 3:45pm' for current year.</remarks>
         /// <returns>The date and time as a DateTime in the UTC timezone, or the default lowest DateTime value if conversion failed.</returns>
@@ -308,15 +333,6 @@ namespace CompatibilityReport.Util
         }
 
 
-        /// <summary>Cleans a DateTime value by removing the milliseconds and converting it to UTC timezone.</summary>
-        /// <returns>A DateTime without milliseconds, in the UTC timezone.</returns>
-        public static DateTime CleanDateTime(DateTime dirtyDateTime)
-        {
-            return new DateTime(dirtyDateTime.Year, dirtyDateTime.Month, dirtyDateTime.Day, dirtyDateTime.Hour, dirtyDateTime.Minute, dirtyDateTime.Second, 
-                dirtyDateTime.Kind).ToUniversalTime();
-        }
-
-
         /// <summary>Converts a date to a string.</summary>
         /// <returns>A string with the date in the format 'yyyy-mm-dd'.</returns>
         public static string DateString(DateTime date)
@@ -333,20 +349,29 @@ namespace CompatibilityReport.Util
         {
             if (milliseconds < 200)
             {
-                return $"{ milliseconds } ms";
+                return $"{ milliseconds:0} ms";
             }
 
-            int seconds = (int)Math.Floor(milliseconds / 1000);
+            double seconds = Math.Round(milliseconds / 1000);
 
             // Decide on when to show minutes, seconds and decimals for seconds.
             bool showMinutes = seconds >= 120;
             bool showSeconds = seconds < 120 || alwaysShowSeconds;
-            bool showDecimal = seconds < 10;
+            bool showDecimal = seconds < 9.9;
 
-            return (showSeconds ? (showDecimal ? $"{ Math.Floor(milliseconds / 100) / 10:F1} seconds" : $"{ seconds } seconds") : "") +
+            return (showSeconds ? (showDecimal ? $"{ seconds:F1} seconds" : $"{ seconds:0} seconds") : "") +
                    (showSeconds && showMinutes ? " (" : "") +
-                   (showMinutes ? $"{ Math.Floor((double)seconds / 60):0}:{ seconds % 60:00} minutes" : "") +
+                   (showMinutes ? $"{ Math.Floor(seconds / 60):0}:{ seconds % 60:00} minutes" : "") +
                    (showSeconds && showMinutes ? ")" : "");
+        }
+
+
+        /// <summary>Cleans a DateTime value by removing the milliseconds and converting it to UTC timezone.</summary>
+        /// <returns>A DateTime without milliseconds, in the UTC timezone.</returns>
+        public static DateTime CleanDateTime(DateTime dirtyDateTime)
+        {
+            return new DateTime(dirtyDateTime.Year, dirtyDateTime.Month, dirtyDateTime.Day, dirtyDateTime.Hour, dirtyDateTime.Minute, dirtyDateTime.Second,
+                dirtyDateTime.Kind).ToUniversalTime();
         }
 
 

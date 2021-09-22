@@ -20,7 +20,7 @@ namespace CompatibilityReport.Updater
             DataDump.AppendLine($"{ ModSettings.ModName } DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
             DataDump.AppendLine($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }.");
 
-            DataDump.AppendLine($"\nCatalog has { catalog.Mods.Count } mods, { catalog.Compatibilities.Count } compatibilities, { catalog.Groups.Count } groups, " +
+            DataDump.AppendLine($"\nCatalog has { catalog.Mods.Count } mods, { catalog.Groups.Count } groups, { catalog.Compatibilities.Count } compatibilities, " +
                 $"{ catalog.Authors.Count } authors and { catalog.RequiredAssets.Count } required assets.");
 
             // Groups with less than 2 members, to see if we can clean up.
@@ -50,6 +50,23 @@ namespace CompatibilityReport.Updater
         }
 
 
+        /// <summary>Dumps info about all non-incompatible mods that have not been reviewed in the last x months.</summary>
+        /// <remarks>It dumps the mods Workshop URL, last review date and name.</remarks>
+        private static void DumpModsWithOldReview(Catalog catalog, StringBuilder DataDump, int months)
+        {
+            DataDump.AppendLine(Title($"Mods with an old review (> { months } months old):"));
+
+            foreach (Mod catalogMod in catalog.Mods)
+            {
+                if (catalogMod.ReviewDate != default && catalogMod.ReviewDate.AddMonths(months) < DateTime.Now &&
+                    catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
+                {
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : [last review { Toolkit.DateString(catalogMod.ReviewDate) }] { catalogMod.Name }");
+                }
+            }
+        }
+
+
         /// <summary>Dumps info about all non-incompatible mods that have not been reviewed yet</summary>
         /// <remarks>It dumps the mods Workshop URL and name.</remarks>
         private static void DumpModsWithoutReview(Catalog catalog, StringBuilder DataDump)
@@ -60,24 +77,7 @@ namespace CompatibilityReport.Updater
             {
                 if (catalogMod.ReviewDate == default && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                 {
-                    DataDump.AppendLine($"{ WorkshopURL(catalogMod.SteamID) } : { catalogMod.Name }");
-                }
-            }
-        }
-
-
-        /// <summary>Dump info about all non-incompatible mods that have not been reviewed in the last x months.</summary>
-        /// <remarks>It dumps the mods Workshop URL, last review date and name.</remarks>
-        private static void DumpModsWithOldReview(Catalog catalog, StringBuilder DataDump, int months)
-        {
-            DataDump.AppendLine(Title($"Mods with an old review (> { months } months old):"));
-
-            foreach (Mod catalogMod in catalog.Mods)
-            {
-                if (catalogMod.ReviewDate != default && catalogMod.ReviewDate.AddMonths(months) < DateTime.Now && 
-                    catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
-                {
-                    DataDump.AppendLine($"{ WorkshopURL(catalogMod.SteamID) } : [last review { Toolkit.DateString(catalogMod.ReviewDate) }] { catalogMod.Name }");
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
                 }
             }
         }
@@ -100,7 +100,27 @@ namespace CompatibilityReport.Updater
                         statuses += $", { status }";
                     }
 
-                    DataDump.AppendLine($"{ WorkshopURL(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }{ statuses }]");
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }{ statuses }]");
+                }
+            }
+        }
+
+
+        /// <summary>Dumps info about all groups with less than two members.</summary>
+        /// <remarks>It dumps the groups ID, name and remaining groupmember.</remarks>
+        private static void DumpEmptyGroups(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Groups with less than 2 members:"));
+
+            foreach (Group catalogGroup in catalog.Groups)
+            {
+                if (catalogGroup.GroupMembers.Count == 0)
+                {
+                    DataDump.AppendLine($"{ catalogGroup.ToString() }: no members");
+                }
+                else if (catalogGroup.GroupMembers.Count == 1)
+                {
+                    DataDump.AppendLine($"{ catalogGroup.ToString() }: only member is { catalog.GetMod(catalogGroup.GroupMembers[0]).ToString() }");
                 }
             }
         }
@@ -125,26 +145,6 @@ namespace CompatibilityReport.Updater
                 if (!groupIsUsed)
                 {
                     DataDump.AppendLine(catalogGroup.ToString());
-                }
-            }
-        }
-
-
-        /// <summary>Dumps info about all groups with less than two members.</summary>
-        /// <remarks>It dumps the groups ID, name and remaining groupmember.</remarks>
-        private static void DumpEmptyGroups(Catalog catalog, StringBuilder DataDump)
-        {
-            DataDump.AppendLine(Title("Groups with less than 2 members:"));
-
-            foreach (Group catalogGroup in catalog.Groups)
-            {
-                if (catalogGroup.GroupMembers.Count == 0)
-                {
-                    DataDump.AppendLine($"{ catalogGroup.ToString() }: no members");
-                }
-                else if (catalogGroup.GroupMembers.Count == 1)
-                {
-                    DataDump.AppendLine($"{ catalogGroup.ToString() }: only member is { catalog.GetMod(catalogGroup.GroupMembers[0]).ToString() }");
                 }
             }
         }
@@ -175,22 +175,6 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dump info about all authors with the retired status.</summary>
-        /// <remarks>It dumps the authors name and Workshop URL.</remarks>
-        private static void DumpRetiredAuthors(Catalog catalog, StringBuilder DataDump)
-        {
-            DataDump.AppendLine(Title("Retired authors:"));
-
-            foreach (Author catalogAuthor in catalog.Authors)
-            {
-                if (catalogAuthor.Retired)
-                {
-                    DataDump.AppendLine($"{ catalogAuthor.Name } : { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
-                }
-            }
-        }
-
-
         /// <summary>Dump info about all authors that will get the retired status within x months.</summary>
         /// <remarks>It dumps the authors Workshop URL and name.</remarks>
         private static void DumpAuthorsSoonRetired(Catalog catalog, StringBuilder DataDump, int months)
@@ -200,6 +184,22 @@ namespace CompatibilityReport.Updater
             foreach (Author catalogAuthor in catalog.Authors)
             {
                 if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.MonthsOfInactivityToRetireAuthor - months) < DateTime.Now)
+                {
+                    DataDump.AppendLine($"{ catalogAuthor.Name } : { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
+                }
+            }
+        }
+
+
+        /// <summary>Dump info about all authors with the retired status.</summary>
+        /// <remarks>It dumps the authors name and Workshop URL.</remarks>
+        private static void DumpRetiredAuthors(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Retired authors:"));
+
+            foreach (Author catalogAuthor in catalog.Authors)
+            {
+                if (catalogAuthor.Retired)
                 {
                     DataDump.AppendLine($"{ catalogAuthor.Name } : { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }
@@ -220,7 +220,7 @@ namespace CompatibilityReport.Updater
         /// <summary>Gets the Steam Workshop URL for a mod.</summary>
         /// <remarks>An extra space is added on smaller Steam IDs to make every workshop URL equal width.</remarks>
         /// <returns>A string with the workshop URL.</returns>
-        private static string WorkshopURL(ulong steamID)
+        private static string WorkshopUrl(ulong steamID)
         {
             return $"{ Toolkit.GetWorkshopUrl(steamID) }{ (steamID < 1000000000 ? " " : "") }";
         }

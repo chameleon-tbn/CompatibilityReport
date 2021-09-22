@@ -783,7 +783,7 @@ namespace CompatibilityReport.Updater
                 return "A note is mandatory for this compatibility.";
             }
 
-            Compatibility existingCompatibility = catalog.Compatibilities.Find(x => x.FirstSteamID == firstSteamID && x.SecondSteamID == secondSteamID &&
+            Compatibility existingCompatibility = catalog.Compatibilities.Find(x => x.FirstModID == firstSteamID && x.SecondModID == secondSteamID &&
                 x.Status == compatibilityStatus);
 
             if (action == "add_compatibility")
@@ -792,7 +792,7 @@ namespace CompatibilityReport.Updater
                 {
                     return "Compatibility already exists.";
                 }
-                if (catalog.Compatibilities.Find(x => x.FirstSteamID == secondSteamID && x.SecondSteamID == firstSteamID && x.Status == compatibilityStatus) != default)
+                if (catalog.Compatibilities.Find(x => x.FirstModID == secondSteamID && x.SecondModID == firstSteamID && x.Status == compatibilityStatus) != default)
                 {
                     return $"Compatibility already exists, with { secondSteamID } as first and { firstSteamID } as second mod.";
                 }

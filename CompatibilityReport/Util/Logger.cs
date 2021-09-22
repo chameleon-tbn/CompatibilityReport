@@ -45,7 +45,7 @@ namespace CompatibilityReport.Util
                 GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
 
-            regularLog.WriteLine(message, logLevel, duplicateToGameLog, timestamp: true);
+            regularLog.WriteLine(message, logLevel, timestamp: true, duplicateToGameLog);
         }
 
 
@@ -66,7 +66,7 @@ namespace CompatibilityReport.Util
                 Log($"Logging for the updater can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
 
-            updaterLog.WriteLine(message, logLevel, duplicateToGameLog: false, timestamp: true);
+            updaterLog.WriteLine(message, logLevel, timestamp: true, duplicateToGameLog: false);
         }
 
 
@@ -79,7 +79,7 @@ namespace CompatibilityReport.Util
 
 
         /// <summary>Logs an exception to this mods log or updater log, and to the game log unless indicated otherwise.</summary>
-        public static void Exception(Exception ex, LogLevel logLevel = LogLevel.Info, bool hideFromGameLog = false)
+        public static void Exception(Exception ex, LogLevel logLevel = LogLevel.Info, bool duplicateToGameLog = false)
         {
             if ((logLevel == Debug) && !ModSettings.DebugMode)
             {
@@ -89,7 +89,7 @@ namespace CompatibilityReport.Util
             // Exception with full or shorter stacktrace.
             Log((logLevel == Debug) ? $"[DEBUG][EXCEPTION] { ex }" : $"[EXCEPTION] { ex.GetType().Name }: { ex.Message }\n{ ex.StackTrace }");
 
-            if (!hideFromGameLog)
+            if (duplicateToGameLog)
             {
                 UnityEngine.Debug.LogException(ex);
             }                
@@ -125,7 +125,7 @@ namespace CompatibilityReport.Util
                     {
                         file = File.AppendText(fileName);
 
-                        WriteLine($"\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", LogLevel.Info, duplicateToGameLog: false, timestamp: false);
+                        WriteLine($"\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", LogLevel.Info, timestamp: false, duplicateToGameLog: false);
                     }
                     else
                     {
@@ -144,7 +144,7 @@ namespace CompatibilityReport.Util
                         if (append)
                         {
                             WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".\n\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", 
-                                LogLevel.Info, duplicateToGameLog: false, timestamp: false);
+                                LogLevel.Info, timestamp: false, duplicateToGameLog: false);
                         }
                     }
 
@@ -159,7 +159,7 @@ namespace CompatibilityReport.Util
 
 
             /// <summary>Writes a message to a log file, with optional loglevel and timestamp, and optionally duplicating to the game log.</summary>
-            public void WriteLine(string message, LogLevel logLevel, bool duplicateToGameLog, bool timestamp)
+            public void WriteLine(string message, LogLevel logLevel, bool timestamp, bool duplicateToGameLog)
             {
                 if (string.IsNullOrEmpty(message))
                 {

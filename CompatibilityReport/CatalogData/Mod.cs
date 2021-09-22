@@ -87,11 +87,11 @@ namespace CompatibilityReport.CatalogData
                            DateTime updated = default,
                            ulong authorID = 0,
                            string authorUrl = null,
-                           string sourceUrl = null,
-                           string gameVersionString = null,
                            Enums.Stability stability = default,
                            string stabilityNote = null,
                            string genericNote = null,
+                           string gameVersionString = null,
+                           string sourceUrl = null,
                            DateTime reviewDate = default,
                            DateTime autoReviewDate = default)
         {
@@ -105,13 +105,12 @@ namespace CompatibilityReport.CatalogData
             AuthorID = authorID == 0 ? AuthorID : authorID;
             AuthorUrl = authorUrl ?? AuthorUrl ?? "";
 
-            SourceUrl = sourceUrl ?? SourceUrl ?? "";
-            GameVersionString = gameVersionString ?? GameVersionString ?? Toolkit.UnknownVersion().ToString();
-
             Stability = stability == default ? Stability : stability;
             StabilityNote = stabilityNote ?? StabilityNote ?? "";
 
             GenericNote = genericNote ?? GenericNote ?? "";
+            GameVersionString = gameVersionString ?? GameVersionString ?? Toolkit.UnknownVersion().ToString();
+            SourceUrl = sourceUrl ?? SourceUrl ?? "";
 
             ReviewDate = reviewDate == default ? ReviewDate : reviewDate;
             AutoReviewDate = autoReviewDate == default ? AutoReviewDate : autoReviewDate;
@@ -281,7 +280,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Sets the report severity for a mod.</summary>
-        /// <remarks>This can only set the severity higher, not lower it.</remarks>
+        /// <remarks>This will only set the severity higher, not lower it.</remarks>
         public void SetReportSeverity(Enums.ReportSeverity newSeverity)
         {
             ReportSeverity = (newSeverity > ReportSeverity) ? newSeverity : ReportSeverity;

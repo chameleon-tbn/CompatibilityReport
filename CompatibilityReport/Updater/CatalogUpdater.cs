@@ -122,7 +122,7 @@ namespace CompatibilityReport.Updater
         /// <remarks>Creates an entry for the change notes.</remarks>
         public static void SetNote(Catalog catalog, string newCatalogNote)
         {
-            catalog.ChangeNotes.AppendCatalogChange($"Catalog note { Change(catalog.Note, newCatalogNote) }.");
+            catalog.ChangeNotes.AppendCatalogChange($"Catalog note { Toolkit.GetChange(catalog.Note, newCatalogNote) }.");
             catalog.Update(note: newCatalogNote);
         }
 
@@ -131,7 +131,7 @@ namespace CompatibilityReport.Updater
         /// <remarks>Creates an entry for the change notes.</remarks>
         public static void SetHeaderText(Catalog catalog, string newText)
         {
-            catalog.ChangeNotes.AppendCatalogChange($"Catalog header text { Change(catalog.ReportHeaderText, newText) }.");
+            catalog.ChangeNotes.AppendCatalogChange($"Catalog header text { Toolkit.GetChange(catalog.ReportHeaderText, newText) }.");
             catalog.Update(reportHeaderText: newText);
         }
 
@@ -140,7 +140,7 @@ namespace CompatibilityReport.Updater
         /// <remarks>Creates an entry for the change notes.</remarks>
         public static void SetFooterText(Catalog catalog, string newText)
         {
-            catalog.ChangeNotes.AppendCatalogChange($"Catalog footer text { Change(catalog.ReportFooterText, newText) }.");
+            catalog.ChangeNotes.AppendCatalogChange($"Catalog footer text { Toolkit.GetChange(catalog.ReportFooterText, newText) }.");
             catalog.Update(reportFooterText: newText);
         }
 
@@ -182,26 +182,28 @@ namespace CompatibilityReport.Updater
                                      DateTime updated = default,
                                      ulong authorID = 0,
                                      string authorUrl = null,
-                                     string sourceUrl = null,
-                                     string gameVersionString = null,
                                      Enums.Stability stability = default,
                                      string stabilityNote = null,
                                      string genericNote = null,
+                                     string gameVersionString = null,
+                                     string sourceUrl = null,
                                      bool updatedByImporter = false)
         {
             // Collect change notes for all changed values. For stability note only if stability itself is unchanged.
             string addedChangeNote =
-                (string.IsNullOrEmpty(name) || name == catalogMod.Name ? "" : $", mod name { Change(catalogMod.Name, name) }") +
+                (string.IsNullOrEmpty(name) || name == catalogMod.Name ? "" : $", mod name { Toolkit.GetChange(catalogMod.Name, name) }") +
                 // No change note for published
                 (updated == default || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update added") +
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
-                (authorUrl == null || authorUrl == catalogMod.AuthorUrl || catalogMod.AddedThisSession ? "" : $", author URL { Change(catalogMod.AuthorUrl, authorUrl) }") +
-                (sourceUrl == null || sourceUrl == catalogMod.SourceUrl ? "" : $", source URL { Change(catalogMod.SourceUrl, sourceUrl) }") +
-                (gameVersionString == null || gameVersionString == catalogMod.GameVersionString ? "" : 
-                    $", compatible game version { Change(catalogMod.GameVersion(), Toolkit.ConvertToVersion(gameVersionString)) }") +
+                (authorUrl == null || authorUrl == catalogMod.AuthorUrl || catalogMod.AddedThisSession ? "" : 
+                    $", author URL { Toolkit.GetChange(catalogMod.AuthorUrl, authorUrl) }") +
                 (stability != default && stability != catalogMod.Stability ? ", stability changed" :
-                    (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : $", stability note { Change(catalogMod.StabilityNote, stabilityNote) }")) +
-                (genericNote == null || genericNote == catalogMod.GenericNote ? "" : $", generic note { Change(catalogMod.GenericNote, genericNote) }");
+                    (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : 
+                        $", stability note { Toolkit.GetChange(catalogMod.StabilityNote, stabilityNote) }")) +
+                (genericNote == null || genericNote == catalogMod.GenericNote ? "" : $", generic note { Toolkit.GetChange(catalogMod.GenericNote, genericNote) }" +
+                (gameVersionString == null || gameVersionString == catalogMod.GameVersionString ? "" : 
+                    $", compatible game version { Toolkit.GetChange(catalogMod.GameVersion(), Toolkit.ConvertToVersion(gameVersionString)) }") +
+                (sourceUrl == null || sourceUrl == catalogMod.SourceUrl ? "" : $", source URL { Toolkit.GetChange(catalogMod.SourceUrl, sourceUrl) }"));
 
             catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
@@ -219,8 +221,8 @@ namespace CompatibilityReport.Updater
                 catalogMod.UpdateExclusions(exclusionForGameVersion: gameVersionString != "");
             }
 
-            catalogMod.Update(string.IsNullOrEmpty(name) ? null : name, published, updated, authorID, authorUrl, sourceUrl, gameVersionString, stability, stabilityNote, 
-                genericNote, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
+            catalogMod.Update(string.IsNullOrEmpty(name) ? null : name, published, updated, authorID, authorUrl, stability, stabilityNote, genericNote, 
+                gameVersionString, sourceUrl, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update.
             Author modAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl);
@@ -299,12 +301,12 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Adds a compatibility to the catalog.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void AddCompatibility(Catalog catalog, ulong firstModID, ulong secondModID, Enums.CompatibilityStatus compatibilityStatus, string compatibilityNote)
+        public static void AddCompatibility(Catalog catalog, ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, string note)
         {
-            catalog.AddCompatibility(firstModID, secondModID, compatibilityStatus, compatibilityNote);
+            catalog.AddCompatibility(firstModID, secondModID, status, note);
 
-            catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { firstModID, 10 } and { secondModID, 10 }: { compatibilityStatus }" +
-                (string.IsNullOrEmpty(compatibilityNote) ? "" : $", { compatibilityNote }"));
+            catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { firstModID, 10 } and { secondModID, 10 }: { status }" +
+                (string.IsNullOrEmpty(note) ? "" : $", { note }"));
         }
 
 
@@ -318,8 +320,8 @@ namespace CompatibilityReport.Updater
                 return false;
             }
 
-            catalog.ChangeNotes.AppendRemovedCompatibility($"Removed compatibility between { catalogCompatibility.FirstSteamID, 10 } and " +
-                $"{ catalogCompatibility.SecondSteamID, 10 }: \"{ catalogCompatibility.Status }\"" +
+            catalog.ChangeNotes.AppendRemovedCompatibility($"Removed compatibility between { catalogCompatibility.FirstModID, 10 } and " +
+                $"{ catalogCompatibility.SecondModID, 10 }: \"{ catalogCompatibility.Status }\"" +
                 (string.IsNullOrEmpty(catalogCompatibility.Note) ? "" : $", { catalogCompatibility.Note }"));
 
             return true;
@@ -374,10 +376,10 @@ namespace CompatibilityReport.Updater
             // Collect change notes for all changed values.
             string addedChangeNote =
                 (authorID == 0 || authorID == catalogAuthor.SteamID || catalogAuthor.SteamID != 0 ? "" : ", Steam ID added") +
-                (authorUrl == null || authorUrl == catalogAuthor.CustomUrl ? "" : $", Custom URL { Change(catalogAuthor.CustomUrl, authorUrl) }") +
-                (name == null || name == catalogAuthor.Name ? "" : $", name { Change(catalogAuthor.Name, name) }") +
+                (authorUrl == null || authorUrl == catalogAuthor.CustomUrl ? "" : $", Custom URL { Toolkit.GetChange(catalogAuthor.CustomUrl, authorUrl) }") +
+                (name == null || name == catalogAuthor.Name ? "" : $", name { Toolkit.GetChange(catalogAuthor.Name, name) }") +
                 (lastSeen == default || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : 
-                    $", last seen date { Change(lastSeen, catalogAuthor.LastSeen) }") +
+                    $", last seen date { Toolkit.GetChange(lastSeen, catalogAuthor.LastSeen) }") +
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
 
             // Set an exclusion if retired was set to true here or reset it if retired was set to false. Exclusion will be re-evaluated at UpdateAuthorRetirement().
@@ -477,7 +479,7 @@ namespace CompatibilityReport.Updater
         {
             foreach (Compatibility compatibility in catalog.Compatibilities)
             {
-                compatibility.UpdateModNames(catalog.GetMod(compatibility.FirstSteamID).Name, catalog.GetMod(compatibility.SecondSteamID).Name);
+                compatibility.UpdateModNames(catalog.GetMod(compatibility.FirstModID).Name, catalog.GetMod(compatibility.SecondModID).Name);
             }
         }
 
@@ -698,31 +700,6 @@ namespace CompatibilityReport.Updater
             {
                 catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"recommendation { recommendationID } removed");
             }
-        }
-
-
-        /// <summary>Determines the kind of change between an old and a new value.</summary>
-        /// <returns>The string "added", "removed" or "changed".</returns>
-        private static string Change(object oldValue, object newValue)
-        {
-            return oldValue == default ? "added" : newValue == default ? "removed" : "changed";
-        }
-
-
-        /// <summary>Determines the kind of change between an old and a new value.</summary>
-        /// <returns>The string "added", "removed" or "changed".</returns>
-        private static string Change(string oldValue, string newValue)
-        {
-            return string.IsNullOrEmpty(oldValue) ? "added" : string.IsNullOrEmpty(newValue) ? "removed" : "changed";
-        }
-
-
-        /// <summary>Determines the kind of change between an old and a new value.</summary>
-        /// <returns>The string "added", "removed" or "changed".</returns>
-        private static string Change(Version oldValue, Version newValue)
-        {
-            return oldValue == default || oldValue == Toolkit.UnknownVersion() ? "added" : 
-                newValue == default || newValue == Toolkit.UnknownVersion() ? "removed" : "changed";
         }
     }
 }
