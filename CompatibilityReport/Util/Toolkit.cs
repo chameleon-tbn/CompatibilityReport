@@ -567,5 +567,11 @@ namespace CompatibilityReport.Util
 
             return wrapped.ToString();
         }
+
+
+        public static string CutOff(string text, int width)
+        {
+            return text.Length <= width ? text : $"{ text.Substring(0, width - 3) }...";
+        }
     }
 }

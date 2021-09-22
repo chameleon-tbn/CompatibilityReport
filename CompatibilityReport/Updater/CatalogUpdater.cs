@@ -305,24 +305,24 @@ namespace CompatibilityReport.Updater
         {
             catalog.AddCompatibility(firstModID, secondModID, status, note);
 
-            catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { firstModID, 10 } and { secondModID, 10 }: { status }" +
-                (string.IsNullOrEmpty(note) ? "" : $", { note }"));
+            catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { Toolkit.CutOff(catalog.GetMod(firstModID).ToString(),25) } and " +
+                $"{ Toolkit.CutOff(catalog.GetMod(secondModID).ToString(), 25) }: { status }{ (string.IsNullOrEmpty(note) ? "" : $", { note }") }");
         }
 
 
         /// <summary>Removes a compatibility from the catalog.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
         /// <returns>True if removal succeeded, false if not.</returns>
-        public static bool RemoveCompatibility(Catalog catalog, Compatibility catalogCompatibility)
+        public static bool RemoveCompatibility(Catalog catalog, Compatibility oldCompatibility)
         {
-            if (!catalog.RemoveCompatibility(catalogCompatibility))
+            if (!catalog.RemoveCompatibility(oldCompatibility))
             {
                 return false;
             }
 
-            catalog.ChangeNotes.AppendRemovedCompatibility($"Removed compatibility between { catalogCompatibility.FirstModID, 10 } and " +
-                $"{ catalogCompatibility.SecondModID, 10 }: \"{ catalogCompatibility.Status }\"" +
-                (string.IsNullOrEmpty(catalogCompatibility.Note) ? "" : $", { catalogCompatibility.Note }"));
+            catalog.ChangeNotes.AppendRemovedCompatibility("Removed compatibility between " +
+                $"{ Toolkit.CutOff(catalog.GetMod(oldCompatibility.FirstModID).ToString(), 25) } and { oldCompatibility.SecondModID, 10 }: { oldCompatibility.Status }" +
+                (string.IsNullOrEmpty(oldCompatibility.Note) ? "" : $", { oldCompatibility.Note }"));
 
             return true;
         }

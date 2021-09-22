@@ -295,33 +295,18 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Converts the mod to a string containing the Steam ID and name.</summary>
-        /// <remarks>Optionally hides fake Steam IDs, puts the name before the ID, or cuts off the string at report width.</remarks>
+        /// <remarks>A '[Disabled]' prefix will be included for disabled subscriptions. Optionally hides fake Steam IDs, puts the name before the ID, 
+        ///          or cuts off the string at report width.</remarks>
         /// <returns>A string representing the mod.</returns>
-        // Todo 0.4.1 cutoff not used, but that might change on Report revision.
         public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false)
         {
-            string idString;
-
-            if (SteamID > ModSettings.HighestFakeID)
-            {
-                // Steam Workshop mod
-                idString = $"[Steam ID { SteamID, 10 }]";
-            }
-            else if ((SteamID >= ModSettings.LowestLocalModID) && (SteamID <= ModSettings.HighestLocalModID))
-            {
-                // Local mod
-                idString = $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
-            }
-            else
-            {
-                // Builtin mod
-                idString = $"[builtin mod{ (hideFakeID ? "" : $" { SteamID }") }]";
-            }
-
             string disabledPrefix = IsDisabled ? "[Disabled] " : "";
 
-            int maxNameLength = ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length;
-            string name = (Name.Length <= maxNameLength) || !cutOff ? Name : $"{ Name.Substring(0, maxNameLength - 3) }...";
+            string idString = (SteamID > ModSettings.HighestFakeID) ? $"[Steam ID { SteamID, 10 }]" :
+                ModSettings.BuiltinMods.ContainsValue(SteamID) ? $"[builtin mod{ (hideFakeID ? "" : $" { SteamID }") }]" :
+                $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
+
+            string name = !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
 
             return nameFirst ? $"{ disabledPrefix }{ name } { idString }" : $"{ disabledPrefix }{ idString } { name }";
         }

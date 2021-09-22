@@ -206,8 +206,7 @@ namespace CompatibilityReport.Reporter
             {
                 if (cutOff)
                 {
-                    message = $"{ message.Substring(0, ModSettings.TextReportWidth - 3) }...";
-
+                    message = Toolkit.CutOff(message, ModSettings.TextReportWidth);
                     Logger.Log($"Report line cut off: { message }", Logger.Debug);
                 }
                 else
