@@ -23,6 +23,9 @@ namespace CompatibilityReport.Updater
             DataDump.AppendLine($"\nCatalog has { catalog.Mods.Count } mods, { catalog.Groups.Count } groups, { catalog.Compatibilities.Count } compatibilities, " +
                 $"{ catalog.Authors.Count } authors and { catalog.RequiredAssets.Count } required assets.");
 
+            // Suppressed warnings about unnamed mods and duplicate authors.
+            DumpSuppressedWarnings(catalog, DataDump);
+
             // Groups with less than 2 members, to see if we can clean up.
             DumpUnusedGroups(catalog, DataDump);
             DumpEmptyGroups(catalog, DataDump);
@@ -90,7 +93,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (!catalog.IsGroupMember(catalogMod.SteamID) && catalog.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID)) != default) 
+                if (!catalog.IsGroupMember(catalogMod.SteamID) && catalog.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID)) != default)
                 {
                     string statuses = "";
 
@@ -149,7 +152,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dump info about all authors with more than one mod.</summary>
+        /// <summary>Dumps info about all authors with more than one mod.</summary>
         /// <remarks>It dumps the authors name, retired state and Workshop URL.</remarks>
         private static void DumpAuthorsWithMultipleMods(Catalog catalog, StringBuilder DataDump)
         {
@@ -162,7 +165,7 @@ namespace CompatibilityReport.Updater
                     continue;
                 }
 
-                int modCount = (catalogAuthor.SteamID != 0) ? catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.SteamID).Count : 
+                int modCount = (catalogAuthor.SteamID != 0) ? catalog.Mods.FindAll(x => x.AuthorID == catalogAuthor.SteamID).Count :
                     catalog.Mods.FindAll(x => x.AuthorUrl == catalogAuthor.CustomUrl).Count;
 
                 if (modCount > 1)
@@ -174,7 +177,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dump info about all authors that will get the retired status within x months.</summary>
+        /// <summary>Dumps info about all authors that will get the retired status within x months.</summary>
         /// <remarks>It dumps the authors Workshop URL and name.</remarks>
         private static void DumpAuthorsSoonRetired(Catalog catalog, StringBuilder DataDump, int months)
         {
@@ -190,7 +193,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dump info about all authors with the retired status.</summary>
+        /// <summary>Dumps info about all authors with the retired status.</summary>
         /// <remarks>It dumps the authors name and Workshop URL.</remarks>
         private static void DumpRetiredAuthors(Catalog catalog, StringBuilder DataDump)
         {
@@ -201,6 +204,33 @@ namespace CompatibilityReport.Updater
                 if (catalogAuthor.Retired)
                 {
                     DataDump.AppendLine($"{ catalogAuthor.Name } : { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
+                }
+            }
+        }
+
+
+        /// <summary>Dumps the suppressed warnings about unnamed mods and duplicate authors.</summary>
+        /// <remarks>It dumps the Steam ID and name from the mods and authors.</remarks>
+        private static void DumpSuppressedWarnings(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Suppressed warnings:"));
+
+            foreach (ulong steamID in catalog.SuppressedWarnings)
+            {
+                Mod suppressedMod = catalog.GetMod(steamID);
+                Author suppressedAuthor = catalog.GetAuthor(steamID, "");
+
+                if (suppressedMod != null)
+                {
+                    DataDump.AppendLine(suppressedMod.ToString());
+                }
+                if (suppressedAuthor != null)
+                {
+                    DataDump.AppendLine(suppressedAuthor.ToString());
+                }
+                if (suppressedMod == null && suppressedAuthor == null)
+                {
+                    DataDump.AppendLine($"Unknown mod or author { steamID }");
                 }
             }
         }

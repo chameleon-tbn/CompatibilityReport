@@ -38,6 +38,14 @@ namespace CompatibilityReport.Updater
                 CatalogUpdater.UpdateMod(firstCatalog, builtinMod, updatedByImporter: true);
             }
 
+            // Import a SuppressedWarnings.csv file if it exists.
+            string suppressedWarningFullPath = Path.Combine(ModSettings.UpdaterPath, "SuppressedWarnings.csv");
+            if (File.Exists(suppressedWarningFullPath))
+            {
+                Toolkit.DeleteFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName));
+                FileImporter.ReadCsv(firstCatalog, suppressedWarningFullPath);
+            }
+
             CatalogUpdater.SaveCatalog(firstCatalog);
         }
     }

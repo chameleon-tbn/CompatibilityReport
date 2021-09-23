@@ -54,7 +54,7 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Reads one CSV file.</summary>
         /// <returns>The number of errors encountered while processing the CSV file.</returns>
-        private static int ReadCsv(Catalog catalog, string CsvFileFullPath)
+        public static int ReadCsv(Catalog catalog, string CsvFileFullPath)
         {
             StringBuilder processedCsvLines = new StringBuilder();
             string filename = Toolkit.GetFileName(CsvFileFullPath);
@@ -94,7 +94,11 @@ namespace CompatibilityReport.Updater
 
             Toolkit.SaveToFile(processedCsvLines.ToString(), Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), append: true);
 
-            if (ModSettings.DebugMode)
+            if (filename.ToLower() == "suppressedwarnings.csv")
+            {
+                // Don't rename a suppressed warnings csv file. It can be read every time without generating import errors.
+            }
+            else if (ModSettings.DebugMode)
             {
                 Logger.UpdaterLog($"\"{ filename }\" not renamed because of debug mode. Rename or delete it manually to avoid processing it again.", Logger.Warning);
             }
@@ -276,6 +280,12 @@ namespace CompatibilityReport.Updater
                 case "remove_catalogheadertext":
                 case "remove_catalogfootertext":
                     return ChangeCatalogText(catalog, action, "");
+
+                case "add_suppressedwarning":
+                    return lineElements.Length < 2 ? "Not enough parameters." : AddSuppressedWarning(catalog, steamID: numericSecond);
+
+                case "remove_suppressedwarning":
+                    return lineElements.Length < 2 ? "Not enough parameters." : catalog.RemoveSuppressedWarning(steamID: numericSecond) ? "" : "Invalid mod or author ID.";
 
                 default:
                     return "Invalid action.";
@@ -1075,7 +1085,7 @@ namespace CompatibilityReport.Updater
 
 
         /// <summary>Removes required assets from the catalog list of assets.</summary>
-        /// <remarks>This will not be noted in the change notes and errors will not be logged.</remarks>
+        /// <remarks>This will not be mentioned in the change notes and errors will not be logged.</remarks>
         /// <returns>An empty string.</returns>
         private static string RemoveRequiredAssets(Catalog catalog, List<ulong> assetIDs)
         {
@@ -1084,6 +1094,21 @@ namespace CompatibilityReport.Updater
                 catalog.RemoveAsset(assetID);
             }
 
+            return "";
+        }
+
+
+        /// <summary>Adds a mod or author ID to the catalog list of suppressed warnings.</summary>
+        /// <remarks>This will not be mentioned in the change notes and 'already exists' errors will not be logged.</remarks>
+        /// <returns>Error message, or empty string when all was well.</returns>
+        private static string AddSuppressedWarning(Catalog catalog, ulong steamID)
+        {
+            if (!catalog.IsValidID(steamID, shouldExist: catalog.Version != 1) && catalog.GetAuthor(steamID, "") == null)
+            {
+                return $"Invalid mod or author ID { steamID }.";
+            }
+
+            catalog.AddSuppressedWarning(steamID);
             return "";
         }
     }

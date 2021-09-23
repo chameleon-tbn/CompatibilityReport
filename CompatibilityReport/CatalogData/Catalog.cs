@@ -37,6 +37,9 @@ namespace CompatibilityReport.CatalogData
         // Assets that show up as required items. This is used to distinguish between a required asset and an unknown required mod.
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
 
+        // Steam IDs that give warnings we don't want to see, either about an unnamed mod or about a duplicate author name (add both authors).
+        [XmlArrayItem("SteamID")] public List<ulong> SuppressedWarnings { get; private set; } = new List<ulong>();
+
         // Temporary list of newly found unknown required Steam IDs which might be assets, to be evaluated for adding to the RequiredAssets list.
         private readonly List<ulong> potentialAssets = new List<ulong>();
 
@@ -139,6 +142,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>True if removal succeeded, false if not.</returns>
         public bool RemoveMod(Mod catalogMod)
         {
+            SuppressedWarnings.Remove(catalogMod.SteamID);
             return Mods.Remove(catalogMod) && modIndex.Remove(catalogMod.SteamID);
         }
 
@@ -282,6 +286,24 @@ namespace CompatibilityReport.CatalogData
         public void RemovePotentialAsset(ulong knownAsset)
         {
             potentialAssets.Remove(knownAsset);
+        }
+
+
+        /// <summary>Adds a Steam ID to the list of suppressed warnings.</summary>
+        public void AddSuppressedWarning(ulong steamID)
+        {
+            if (!SuppressedWarnings.Contains(steamID))
+            {
+                SuppressedWarnings.Add(steamID);
+            }
+        }
+
+
+        /// <summary>Removes an Steam ID from the list of suppressed warnings.</summary>
+        /// <returns>True if removal succeeded, false if not</returns>
+        public bool RemoveSuppressedWarning(ulong steamID)
+        {
+            return SuppressedWarnings.Remove(steamID);
         }
 
 

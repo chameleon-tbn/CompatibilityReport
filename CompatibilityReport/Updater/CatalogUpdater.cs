@@ -409,7 +409,7 @@ namespace CompatibilityReport.Updater
         private static void CheckDuplicateName(Catalog catalog, ulong authorID, string authorUrl, string name)
         {
             Author namesake = catalog.Authors.Find(x => x.Name == name);
-            if (namesake != default)
+            if (namesake != default && !catalog.SuppressedWarnings.Contains(authorID) && !catalog.SuppressedWarnings.Contains(namesake.SteamID))
             {
                 string authors = $"{ (authorID == 0 ? authorUrl : $"{ authorID }") } and { (namesake.SteamID == 0 ? namesake.CustomUrl : $"{ namesake.SteamID }") }";
                 Logger.UpdaterLog($"Found two authors with the name \"{ name }\": { authors }. This could be a coincidence or an error.", Logger.Warning);

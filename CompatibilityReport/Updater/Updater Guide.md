@@ -79,6 +79,9 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
 * Add_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
   * *Only needed to differentiate between a required asset and a required mod that isn't in the catalog*
 * Remove_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
+* Add_SuppressedWarning, \<mod or author ID\>
+  * *Suppresses warnings about an unnamed mod or a duplicate author name (add both authors, cannot use custom URL)*
+* Remove_SuppressedWarning, \<mod or author ID\>
 
 
 *See [Enums.cs](https://github.com/Finwickle/CompatibilityReport/blob/dev/CompatibilityReport/CatalogData/Enums.cs) for available stability, status, compatibility and DLC strings.*

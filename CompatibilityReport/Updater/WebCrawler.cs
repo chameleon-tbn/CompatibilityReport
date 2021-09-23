@@ -118,7 +118,7 @@ namespace CompatibilityReport.Updater
 
                     string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchListingModNameLeft, ModSettings.SearchListingModNameRight));
 
-                    if (string.IsNullOrEmpty(modName))
+                    if (string.IsNullOrEmpty(modName) && !catalog.SuppressedWarnings.Contains(steamID))
                     {
                         // An empty mod name might be an error, although there is a Steam Workshop mod without a name (ofcourse there is).
                         Logger.UpdaterLog($"Mod name not found for { steamID }. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
@@ -294,7 +294,7 @@ namespace CompatibilityReport.Updater
                         {
                             // An author name equal to the author ID might be an error, although some authors have their ID as name (ofcourse they do).
                             Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. " +
-                                (string.IsNullOrEmpty(catalogAuthor.Name) ? "Some authors do this, but it could be a Steam error." : 
+                                (string.IsNullOrEmpty(catalogAuthor.Name) ? "Some authors do this, but it could be a Steam error." :
                                 $"Old name still used: { catalogAuthor.Name }."), Logger.Warning);
 
                             // Don't update the name if we already know a name.
@@ -310,7 +310,7 @@ namespace CompatibilityReport.Updater
                     {
                         string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchModNameLeft, ModSettings.SearchModNameRight));
 
-                        if (string.IsNullOrEmpty(modName))
+                        if (string.IsNullOrEmpty(modName) && !catalog.SuppressedWarnings.Contains(catalogMod.SteamID))
                         {
                             // An empty mod name might be an error, although there is a Steam Workshop mod without a name (ofcourse there is).
                             Logger.UpdaterLog($"Mod name not found for { catalogMod.SteamID }. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
