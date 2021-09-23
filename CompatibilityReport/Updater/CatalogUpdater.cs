@@ -200,10 +200,10 @@ namespace CompatibilityReport.Updater
                 (stability != default && stability != catalogMod.Stability ? ", stability changed" :
                     (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : 
                         $", stability note { Toolkit.GetChange(catalogMod.StabilityNote, stabilityNote) }")) +
-                (genericNote == null || genericNote == catalogMod.GenericNote ? "" : $", generic note { Toolkit.GetChange(catalogMod.GenericNote, genericNote) }" +
+                (genericNote == null || genericNote == catalogMod.GenericNote ? "" : $", generic note { Toolkit.GetChange(catalogMod.GenericNote, genericNote) }") +
                 (gameVersionString == null || gameVersionString == catalogMod.GameVersionString ? "" : 
                     $", compatible game version { Toolkit.GetChange(catalogMod.GameVersion(), Toolkit.ConvertToVersion(gameVersionString)) }") +
-                (sourceUrl == null || sourceUrl == catalogMod.SourceUrl ? "" : $", source URL { Toolkit.GetChange(catalogMod.SourceUrl, sourceUrl) }"));
+                (sourceUrl == null || sourceUrl == catalogMod.SourceUrl ? "" : $", source URL { Toolkit.GetChange(catalogMod.SourceUrl, sourceUrl) }");
 
             catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
