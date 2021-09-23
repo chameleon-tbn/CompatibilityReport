@@ -294,7 +294,7 @@ namespace CompatibilityReport.Updater
                         {
                             // An author name equal to the author ID might be an error, although some authors have their ID as name (ofcourse they do).
                             Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. " +
-                                (string.IsNullOrEmpty(catalogAuthor.Name) ? "Some authors do this, but it could be a Steam error." :
+                                (string.IsNullOrEmpty(catalogAuthor.Name) || catalogAuthor.AddedThisSession ? "Some authors do this, but it could be a Steam error." :
                                 $"Old name still used: { catalogAuthor.Name }."), Logger.Warning);
 
                             // Don't update the name if we already know a name.
