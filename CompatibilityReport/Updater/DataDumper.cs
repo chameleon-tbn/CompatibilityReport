@@ -26,6 +26,9 @@ namespace CompatibilityReport.Updater
             // Suppressed warnings about unnamed mods and duplicate authors.
             DumpSuppressedWarnings(catalog, DataDump);
 
+            // Authors with their Steam ID as name. This is often due to a Steam error, but a few authors really have their ID as name.
+            DumpAuthorWithIDName(catalog, DataDump);
+
             // Groups with less than 2 members, to see if we can clean up.
             DumpUnusedGroups(catalog, DataDump);
             DumpEmptyGroups(catalog, DataDump);
@@ -177,8 +180,24 @@ namespace CompatibilityReport.Updater
         }
 
 
+        /// <summary>Dumps info about all authors that have their ID as name.</summary>
+        /// <remarks>It dumps the authors name and Workshop URL.</remarks>
+        private static void DumpAuthorWithIDName(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title($"Authors with their ID as name:"));
+
+            foreach (Author catalogAuthor in catalog.Authors)
+            {
+                if (catalogAuthor.Name == catalogAuthor.SteamID.ToString())
+                {
+                    DataDump.AppendLine($"{ catalogAuthor.Name } : { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
+                }
+            }
+        }
+
+
         /// <summary>Dumps info about all authors that will get the retired status within x months.</summary>
-        /// <remarks>It dumps the authors Workshop URL and name.</remarks>
+        /// <remarks>It dumps the authors name and Workshop URL.</remarks>
         private static void DumpAuthorsSoonRetired(Catalog catalog, StringBuilder DataDump, int months)
         {
             DataDump.AppendLine(Title($"Authors that will retire within { months } months:"));
@@ -228,7 +247,7 @@ namespace CompatibilityReport.Updater
                 {
                     DataDump.AppendLine(suppressedAuthor.ToString());
                 }
-                if (suppressedMod == null && suppressedAuthor == null)
+                else if (suppressedMod == null && suppressedAuthor == null)
                 {
                     DataDump.AppendLine($"Unknown mod or author { steamID }");
                 }
