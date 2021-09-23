@@ -187,15 +187,17 @@ namespace CompatibilityReport.Updater
                                      string genericNote = null,
                                      string gameVersionString = null,
                                      string sourceUrl = null,
-                                     bool updatedByImporter = false)
+                                     bool updatedByWebCrawler = false)
         {
+            bool hideNote = catalogMod.AddedThisSession && updatedByWebCrawler;
+
             // Collect change notes for all changed values. For stability note only if stability itself is unchanged.
             string addedChangeNote =
                 (string.IsNullOrEmpty(name) || name == catalogMod.Name ? "" : $", mod name { Toolkit.GetChange(catalogMod.Name, name) }") +
                 // No change note for published
-                (updated == default || updated == catalogMod.Updated || catalogMod.AddedThisSession ? "" : ", new update added") +
-                (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || catalogMod.AddedThisSession ? "" : ", author ID added") +
-                (authorUrl == null || authorUrl == catalogMod.AuthorUrl || catalogMod.AddedThisSession ? "" : 
+                (updated == default || updated == catalogMod.Updated || hideNote ? "" : ", new update added") +
+                (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || hideNote ? "" : ", author ID added") +
+                (authorUrl == null || authorUrl == catalogMod.AuthorUrl || hideNote ? "" : 
                     $", author URL { Toolkit.GetChange(catalogMod.AuthorUrl, authorUrl) }") +
                 (stability != default && stability != catalogMod.Stability ? ", stability changed" :
                     (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : 
@@ -207,15 +209,15 @@ namespace CompatibilityReport.Updater
 
             catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
-            DateTime modReviewDate = updatedByImporter && reviewDate > catalogMod.ReviewDate ? reviewDate : default;
-            DateTime modAutoReviewDate = !updatedByImporter && reviewDate > catalogMod.AutoReviewDate ? reviewDate : default;
+            DateTime modReviewDate = !updatedByWebCrawler && reviewDate > catalogMod.ReviewDate ? reviewDate : default;
+            DateTime modAutoReviewDate = updatedByWebCrawler && reviewDate > catalogMod.AutoReviewDate ? reviewDate : default;
 
-            if (updatedByImporter && sourceUrl != null && sourceUrl != catalogMod.SourceUrl)
+            if (!updatedByWebCrawler && sourceUrl != null && sourceUrl != catalogMod.SourceUrl)
             {
                 // Add exclusion on new or changed URL, and swap exclusion on removal.
                 catalogMod.UpdateExclusions(exclusionForSourceUrl: sourceUrl != "" || !catalogMod.ExclusionForSourceUrl);
             }
-            if (updatedByImporter && gameVersionString != null && gameVersionString != catalogMod.GameVersionString)
+            if (!updatedByWebCrawler && gameVersionString != null && gameVersionString != catalogMod.GameVersionString)
             {
                 // Add exclusion on new or changed game version, and remove the exclusion on removal of the game version.
                 catalogMod.UpdateExclusions(exclusionForGameVersion: gameVersionString != "");
@@ -228,7 +230,7 @@ namespace CompatibilityReport.Updater
             Author modAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl);
             if (modAuthor != null && catalogMod.Updated > modAuthor.LastSeen)
             {
-                UpdateAuthor(catalog, modAuthor, lastSeen: catalogMod.Updated);
+                UpdateAuthor(catalog, modAuthor, lastSeen: catalogMod.Updated, updatedByWebCrawler: updatedByWebCrawler);
             }
         }
 
@@ -347,8 +349,8 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Updates one or more author properties.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void UpdateAuthor(Catalog catalog, Author catalogAuthor, ulong authorID = 0, string authorUrl = null, string name = null, 
-            DateTime lastSeen = default, bool? retired = null)
+        public static void UpdateAuthor(Catalog catalog, Author catalogAuthor, ulong authorID = 0, string authorUrl = null, string name = null,
+            DateTime lastSeen = default, bool? retired = null, bool updatedByWebCrawler = false)
         {
             if (authorID != 0 && authorID != catalogAuthor.SteamID && catalog.GetAuthor(authorID, "") != null)
             {
@@ -370,7 +372,8 @@ namespace CompatibilityReport.Updater
             {
                 CheckDuplicateName(catalog, authorID, authorUrl, name);
             }
-            
+
+            bool hideNote = catalogAuthor.AddedThisSession && updatedByWebCrawler;
             string oldUrl = catalogAuthor.CustomUrl;
 
             // Collect change notes for all changed values.
@@ -378,7 +381,7 @@ namespace CompatibilityReport.Updater
                 (authorID == 0 || authorID == catalogAuthor.SteamID || catalogAuthor.SteamID != 0 ? "" : ", Steam ID added") +
                 (authorUrl == null || authorUrl == catalogAuthor.CustomUrl ? "" : $", Custom URL { Toolkit.GetChange(catalogAuthor.CustomUrl, authorUrl) }") +
                 (name == null || name == catalogAuthor.Name ? "" : $", name { Toolkit.GetChange(catalogAuthor.Name, name) }") +
-                (lastSeen == default || lastSeen == catalogAuthor.LastSeen || catalogAuthor.AddedThisSession ? "" : 
+                (lastSeen == default || lastSeen == catalogAuthor.LastSeen || hideNote ? "" : 
                     $", last seen date { Toolkit.GetChange(lastSeen, catalogAuthor.LastSeen) }") +
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
 

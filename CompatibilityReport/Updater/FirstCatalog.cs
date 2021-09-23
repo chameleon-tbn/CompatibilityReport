@@ -35,7 +35,7 @@ namespace CompatibilityReport.Updater
                 builtinMod.Update(stability: Enums.Stability.Stable);
                 builtinMod.Statuses.Add(Enums.Status.SourceBundled);
                 CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID);
-                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, updatedByImporter: true);
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, updatedByWebCrawler: true);
             }
 
             // Import a SuppressedWarnings.csv file if it exists.

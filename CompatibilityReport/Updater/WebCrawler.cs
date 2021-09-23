@@ -131,15 +131,16 @@ namespace CompatibilityReport.Updater
 
                     if (incompatibleMods && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                     {
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.IncompatibleAccordingToWorkshop, stabilityNote: "");
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.IncompatibleAccordingToWorkshop, stabilityNote: "", 
+                            updatedByWebCrawler: true);
                     }
                     else if (!incompatibleMods && catalogMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
                     {
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.NotReviewed, stabilityNote: "");
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, stability: Enums.Stability.NotReviewed, stabilityNote: "", updatedByWebCrawler: true);
                     }
 
                     // Update the name and the auto review date.
-                    CatalogUpdater.UpdateMod(catalog, catalogMod, modName);
+                    CatalogUpdater.UpdateMod(catalog, catalogMod, modName, updatedByWebCrawler: true);
 
                     // Author info can be found on the next line, but skip it here and get it later on the mod page.
                 }
@@ -248,7 +249,7 @@ namespace CompatibilityReport.Updater
                             {
                                 // Set the unlisted status. Also update the auto review date, which is already done for all listed mods.
                                 CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop);
-                                CatalogUpdater.UpdateMod(catalog, catalogMod);
+                                CatalogUpdater.UpdateMod(catalog, catalogMod, updatedByWebCrawler: true);
                             }
                         }
 
@@ -306,8 +307,8 @@ namespace CompatibilityReport.Updater
                             authorName = string.IsNullOrEmpty(catalogAuthor.Name) ? authorName : null;
                         }
 
-                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName);
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);
+                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName, updatedByWebCrawler: true);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl, updatedByWebCrawler: true);
                     }
 
                     // Mod name.
@@ -321,7 +322,7 @@ namespace CompatibilityReport.Updater
                             Logger.UpdaterLog($"Mod name not found for { catalogMod.SteamID }. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
                         }
 
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, modName);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, modName, updatedByWebCrawler: true);
                     }
 
                     // Compatible game version tag
@@ -334,7 +335,7 @@ namespace CompatibilityReport.Updater
 
                         if (!catalogMod.ExclusionForGameVersion || gameVersion >= catalogMod.GameVersion())
                         {
-                            CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: gameVersionString);
+                            CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: gameVersionString, updatedByWebCrawler: true);
                             catalogMod.UpdateExclusions(exclusionForGameVersion: false);
                         }
                     }
@@ -349,7 +350,7 @@ namespace CompatibilityReport.Updater
                         line = reader.ReadLine();
                         DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.SearchDatesLeft, ModSettings.SearchDatesRight));
 
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, published: published, updated: updated);
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, published: published, updated: updated, updatedByWebCrawler: true);
                     }
 
                     // Required DLC. This line can be found multiple times.
@@ -429,7 +430,7 @@ namespace CompatibilityReport.Updater
 
                         if (description.Contains(ModSettings.SearchSourceUrlLeft) && !catalogMod.ExclusionForSourceUrl)
                         {
-                            CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(description, catalogMod));
+                            CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(description, catalogMod), updatedByWebCrawler: true);
                         }
 
                         // Description is the last info we need from the page, so break out of the while loop.

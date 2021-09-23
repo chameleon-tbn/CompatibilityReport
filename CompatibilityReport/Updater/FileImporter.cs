@@ -308,7 +308,7 @@ namespace CompatibilityReport.Updater
             }
 
             Mod newMod = CatalogUpdater.AddMod(catalog, steamID, modName, unlisted: status == "unlisted", removed: status == "removed");
-            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: string.IsNullOrEmpty(authorUrl) ? null : authorUrl, updatedByImporter: true);
+            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: string.IsNullOrEmpty(authorUrl) ? null : authorUrl);
 
             if (newMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
             {
@@ -387,7 +387,7 @@ namespace CompatibilityReport.Updater
                 return "Mod has the Incompatible stability and that can only be changed for a mod that is removed from the Steam Workshop.";
             }
 
-            CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability, stabilityNote: note, updatedByImporter: true);
+            CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability, stabilityNote: note);
             return "";
         }
 
@@ -410,7 +410,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid URL.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: propertyData, updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: propertyData);
             }
             else if (action == "remove_sourceurl")
             {
@@ -419,7 +419,7 @@ namespace CompatibilityReport.Updater
                     return "No source URL to remove.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: "", updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: "");
             }
             else if (action == "set_gameversion")
             {
@@ -431,7 +431,7 @@ namespace CompatibilityReport.Updater
                     return "Invalid game version.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion), updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion));
             }
             else if (action == "remove_gameversion")
             {
@@ -440,7 +440,7 @@ namespace CompatibilityReport.Updater
                     return "Cannot remove compatible game version because it was not manually added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: "", updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: "");
             }
             else if (action == "add_requireddlc")
             {
@@ -539,7 +539,7 @@ namespace CompatibilityReport.Updater
                     return "Note already added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: propertyData, updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: propertyData);
             }
             else if (action == "remove_genericnote")
             {
@@ -548,11 +548,11 @@ namespace CompatibilityReport.Updater
                     return "Note already empty.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: "", updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: "");
             }
             else if (action == "update_review")
             {
-                CatalogUpdater.UpdateMod(catalog, catalogMod, updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod);
             }
             else if (action == "add_requiredmod")
             {
