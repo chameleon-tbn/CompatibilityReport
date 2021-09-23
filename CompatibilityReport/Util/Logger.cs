@@ -22,10 +22,7 @@ namespace CompatibilityReport.Util
         public const LogLevel Debug   = LogLevel.Debug;
 
         private static LogFiler regularLog;
-        private static bool regularLogInitialized;
-
         private static LogFiler updaterLog;
-        private static bool updaterLogInitialized;
 
 
         /// <summary>Logs a message to this mods log file, and optionally to the game log.</summary>
@@ -36,11 +33,10 @@ namespace CompatibilityReport.Util
                 return;
             }
 
-            if (!regularLogInitialized)
+            if (regularLog == null)
             {
                 string fullPath = Path.Combine(ModSettings.LogPath, ModSettings.LogFileName);
                 regularLog = new LogFiler(fullPath, append: ModSettings.LogAppend);
-                regularLogInitialized = true;
 
                 GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
@@ -57,11 +53,10 @@ namespace CompatibilityReport.Util
                 return;
             }
 
-            if (!updaterLogInitialized)
+            if (updaterLog == null)
             {
                 string fullPath = Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName);
                 updaterLog = new LogFiler(fullPath, append: false);
-                updaterLogInitialized = true;
 
                 Log($"Logging for the updater can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
@@ -73,7 +68,6 @@ namespace CompatibilityReport.Util
         /// <summary>Closes the updater log.</summary>
         public static void CloseUpdateLog()
         {
-            updaterLogInitialized = false;
             updaterLog = null;
         }
 
@@ -107,23 +101,23 @@ namespace CompatibilityReport.Util
         private class LogFiler
         {
             private readonly StreamWriter file;
-            private readonly string fileName;
+            private readonly string logfileFullPath;
 
 
             /// <summary>Default constructor.</summary>
             public LogFiler(string fileFullPath, bool append)
             {
-                fileName = fileFullPath;
+                logfileFullPath = fileFullPath;
 
                 try
                 {
-                    if (!File.Exists(fileName))
+                    if (!File.Exists(logfileFullPath))
                     {
-                        file = File.CreateText(fileName);
+                        file = File.CreateText(logfileFullPath);
                     }
-                    else if (append && (new FileInfo(fileName).Length < ModSettings.LogMaxSize))
+                    else if (append && (new FileInfo(logfileFullPath).Length < ModSettings.LogMaxSize))
                     {
-                        file = File.AppendText(fileName);
+                        file = File.AppendText(logfileFullPath);
 
                         WriteLine($"\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", LogLevel.Info, timestamp: false, duplicateToGameLog: false);
                     }
@@ -132,18 +126,18 @@ namespace CompatibilityReport.Util
                         // Make a backup before overwriting. Can't use Toolkit.CopyFile here because it logs.
                         try
                         {
-                            File.Copy(fileName, $"{ fileName }.old", overwrite: true);
+                            File.Copy(logfileFullPath, $"{ logfileFullPath }.old", overwrite: true);
                         }
                         catch (Exception ex2)
                         {
-                            GameLog($"[WARNING] Can't create backup file \"{ Toolkit.Privacy(fileName) }.old\". { Toolkit.ShortException(ex2) }");
+                            GameLog($"[WARNING] Can't create backup file \"{ Toolkit.Privacy(logfileFullPath) }.old\". { Toolkit.ShortException(ex2) }");
                         }
 
-                        file = File.CreateText(fileName);
+                        file = File.CreateText(logfileFullPath);
 
                         if (append)
                         {
-                            WriteLine($"Older info moved to \"{ Toolkit.GetFileName(fileName) }.old\".\n\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", 
+                            WriteLine($"Older info moved to \"{ Toolkit.GetFileName(logfileFullPath) }.old\".\n\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", 
                                 LogLevel.Info, timestamp: false, duplicateToGameLog: false);
                         }
                     }
@@ -153,7 +147,7 @@ namespace CompatibilityReport.Util
                 }
                 catch (Exception ex)
                 {
-                    GameLog($"[ERROR] Can't create file \"{ Toolkit.Privacy(fileName) }\". { Toolkit.ShortException(ex) }");
+                    GameLog($"[ERROR] Can't create file \"{ Toolkit.Privacy(logfileFullPath) }\". { Toolkit.ShortException(ex) }");
                 }
             }
 
@@ -178,7 +172,7 @@ namespace CompatibilityReport.Util
                 }
                 catch
                 {
-                    GameLog($"[ERROR] Can't log to \"{ Toolkit.Privacy(fileName) }\".");
+                    GameLog($"[ERROR] Can't log to \"{ Toolkit.Privacy(logfileFullPath) }\".");
                     duplicateToGameLog = true;
                 }
 

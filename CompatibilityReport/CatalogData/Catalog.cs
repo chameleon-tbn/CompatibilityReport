@@ -566,7 +566,6 @@ namespace CompatibilityReport.CatalogData
                 return null;
             }
 
-            timer.Stop();
             Logger.Log($"Catalog downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
 
             Catalog downloadedCatalog = LoadFromDisk(temporaryFile);

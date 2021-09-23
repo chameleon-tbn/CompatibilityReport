@@ -81,7 +81,6 @@ namespace CompatibilityReport.Updater
             Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
 
             // Note: about 75% of the total time is downloading, the other 25% is processing.
-            timer.Stop();
             Logger.UpdaterLog($"Updater finished downloading { totalPages } Steam Workshop 'mod listing' pages in " +
                 $"{ Toolkit.TimeString(timer.ElapsedMilliseconds) }. { totalMods } mods found.");
 
@@ -211,7 +210,6 @@ namespace CompatibilityReport.Updater
             Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
 
             // Note: about 90% of the total time is downloading, the other 10% is processing.
-            timer.Stop();
             Logger.UpdaterLog($"Updater finished downloading { modsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Toolkit.TimeString(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.");
 

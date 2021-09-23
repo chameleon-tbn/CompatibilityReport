@@ -111,7 +111,7 @@
         /// <remarks>Order matters because it is used by the Reporter.</remarks>
         public enum ReportSeverity
         {
-            NotReviewed,
+            NotReviewed = 0,
             Remarks,
             MinorIssues,
             MajorIssues,

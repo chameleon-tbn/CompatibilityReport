@@ -37,8 +37,6 @@ namespace CompatibilityReport.Updater
                 errors += ReadCsv(catalog, CsvFilename);
             }
 
-            timer.Stop();
-
             if (errors == 0)
             {
                 Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");

@@ -45,7 +45,6 @@ namespace CompatibilityReport.Updater
 
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
 
-            timer.Stop();
             Logger.UpdaterLog($"Datadump created in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, as { ModSettings.DataDumpFileName }.");
         }
 
