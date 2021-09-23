@@ -25,7 +25,7 @@ namespace CompatibilityReport
         {
             string scene = SceneManager.GetActiveScene().name;
 
-            // Todo 0.7 Remove this debug log
+            // Todo 0.9 Remove this debug log
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.Debug);
 
             // Todo 0.8 Move CatalogUpdater to standalone tool.

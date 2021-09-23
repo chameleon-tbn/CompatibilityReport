@@ -253,8 +253,8 @@ namespace CompatibilityReport.Reporter
         private static string GameVersionCompatible(Mod subscribedMod)
         {
             string currentOrNot = subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? "current " : "";
-            return (subscribedMod.GameVersion() < Toolkit.CurrentMajorGameVersion()) ? "" : ReviewLine("Created or updated for " +
-                $"{ currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. Less likely to have issues with the game.");
+            return (subscribedMod.GameVersion() < Toolkit.CurrentMajorGameVersion()) ? "" : ReviewLine("Created for " +
+                $"{ currentOrNot }game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }. Less likely to have issues by itself.");
         }
 
 
@@ -599,13 +599,15 @@ namespace CompatibilityReport.Reporter
                 subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop) || subscribedMod.Statuses.Contains(Enums.Status.Reupload) || 
                 subscribedMod.Statuses.Contains(Enums.Status.Abandoned) || (subscribedMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop);
 
-            if (!subscribedMod.Statuses.Contains(Enums.Status.SourceBundled) && string.IsNullOrEmpty(subscribedMod.SourceUrl))
+            if (string.IsNullOrEmpty(subscribedMod.SourceUrl) && !subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
             {
-                text += ReviewLine($"No public source code found, making it hard to continue by another modder{ (unsupported ? "" : " if this gets abandoned") }.");
+                text += ReviewLine($"No public source code found, making it hard to continue by another modder" +
+                    (unsupported ? "." : " if this would get abandoned in the future."));
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.SourceNotUpdated))
             {
-                text += ReviewLine($"Published source seems out of date, making it hard to continue by another modder{ (unsupported ? "" : " if this gets abandoned") }.");
+                text += ReviewLine($"Published source seems out of date, making it hard to continue by another modder" +
+                    (unsupported ? "." : " if this would get abandoned in the future."));
             }
 
             return text;

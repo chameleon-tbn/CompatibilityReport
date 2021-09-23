@@ -1,6 +1,5 @@
 ﻿namespace CompatibilityReport.CatalogData
 {
-    // Todo 0.5 Change URL to this in Updater Guide.
     public static class Enums
     {
         /// <summary>The stability of a mod.</summary>

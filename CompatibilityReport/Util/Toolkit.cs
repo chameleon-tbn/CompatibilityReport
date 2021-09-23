@@ -124,7 +124,7 @@ namespace CompatibilityReport.Util
 
         /// <summary>Removes the Windows username from the '...\AppData\Local' path for privacy reasons.</summary>
         /// <returns>A path string with a little more privacy.</returns>
-        // Todo 0.6 Something similar needed for Mac OS X or Linux?
+        // Todo 0.6 Something similar for Mac OS X or Linux?
         public static string Privacy(string path)
         {
             int index = path.ToLower().IndexOf("\\appdata\\local");
