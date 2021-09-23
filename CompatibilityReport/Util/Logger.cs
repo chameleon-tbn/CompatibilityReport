@@ -38,7 +38,7 @@ namespace CompatibilityReport.Util
                 string fullPath = Path.Combine(ModSettings.LogPath, ModSettings.LogFileName);
                 regularLog = new LogFiler(fullPath, append: ModSettings.LogAppend);
 
-                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
+                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(fullPath.Contains("\\") ? fullPath.Replace('/', '\\') : fullPath) }\".");
             }
 
             regularLog.WriteLine(message, logLevel, timestamp: true, duplicateToGameLog);

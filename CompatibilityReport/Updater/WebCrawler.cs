@@ -228,7 +228,6 @@ namespace CompatibilityReport.Updater
         public static bool ReadModPage(Catalog catalog, Mod catalogMod)
         {
             List<Enums.Dlc> newRequiredDlcs = new List<Enums.Dlc>();
-
             bool steamIDmatched = false;
             string line;
 
@@ -282,7 +281,7 @@ namespace CompatibilityReport.Updater
 
                         // Try to get the author with ID/URL from the mod, to prevent creating a new author on an ID/URL change or when Steam gives ID instead of URL.
                         // On a new mod that fails, so try the newly found ID/URL. If it still fails we have an unknown author, so create a new author.
-                        // Todo 0.6 This is not foolproof and we can still accidentally create a new author on new mods.
+                        // Todo 2.x This is not foolproof and we can still accidentally create a new author on new mods. Requires Steam API for better reliability.
                         Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
                             CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
 
@@ -298,7 +297,7 @@ namespace CompatibilityReport.Updater
                         }
                         else if (authorName == authorID.ToString() && authorID != 0 && (authorName != catalogAuthor.Name || catalogAuthor.AddedThisSession))
                         {
-                            // An author name equal to the author ID might be an error, although some authors have their ID as name (ofcourse they do).
+                            // An author name equal to the author ID is a common Steam error, although some authors really have their ID as name (ofcourse they do).
                             Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. " +
                                 (string.IsNullOrEmpty(catalogAuthor.Name) || catalogAuthor.AddedThisSession ? "Some authors do this, but it could be a Steam error." :
                                 $"Old name still used: { catalogAuthor.Name }."), Logger.Warning);

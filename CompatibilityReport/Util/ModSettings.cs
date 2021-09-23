@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = LowestLocalModID;    // Todo 0.5 Our own Steam ID.
 
         public const string Version = "0.4.0";
-        public const string Build = "286";
+        public const string Build = "287";
         public const string FullVersion = Version + "." + Build;
         public const string ReleaseType = "alpha";
         public const int CurrentCatalogStructureVersion = 1;
@@ -106,7 +106,7 @@ namespace CompatibilityReport.Util
 
         // Todo 0.7 Settings that will be available to users through mod options within the game.
         public static string ReportPath { get; private set; } = DefaultReportPath;
-        public static int TextReportWidth { get; private set; } = MinimalTextReportWidth;
+        public static int TextReportWidth { get; private set; } = 100;
         public static bool ReportSortByName { get; private set; } = true;
         public static bool HtmlReport { get; private set; } = false;
         public static bool TextReport { get; private set; } = true;

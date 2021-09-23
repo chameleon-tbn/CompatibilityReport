@@ -372,7 +372,14 @@ namespace CompatibilityReport.CatalogData
                     subscribedMod.Update(name: Toolkit.GetPluginName(plugin));
                 }
 
-                Logger.Log($"Mod found{ (foundInCatalog ? "" : " in game but not in the catalog") }: { subscribedMod.ToString() }");
+                if (foundInCatalog)
+                {
+                    Logger.Log($"Mod found: { subscribedMod.ToString() }");
+                }
+                else
+                {
+                    Logger.Log($"Mod found in game but not in the catalog: { subscribedMod.ToString() }", Logger.Warning);
+                }
 
                 // Update the catalog mod with subscription info.
                 // Todo 0.4.2 How reliable is downloadTime? Is ToLocalTime needed? Check how Loading Order Mod does this.

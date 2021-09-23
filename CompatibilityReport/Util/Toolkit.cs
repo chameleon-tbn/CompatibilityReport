@@ -516,7 +516,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        /// <summary>Word-wrap a text.</summary>
+        /// <summary>Word-wraps a text.</summary>
         /// <remarks>By default the report width is used and no indenting. An indent string can be supplied for use on every line after the first.
         ///          Pptionally a different indent string can be supplied for use after newline characters ('\n') found in the text, for instance for bullets.</remarks>
         /// <returns>The word-wrapped, and optionally indented, string.</returns>
@@ -569,6 +569,8 @@ namespace CompatibilityReport.Util
         }
 
 
+        /// <summary>Cuts off a text at a given width.</summary>
+        /// <returns>The cut off string.</returns>
         public static string CutOff(string text, int width)
         {
             return text.Length <= width ? text : $"{ text.Substring(0, width - 3) }...";

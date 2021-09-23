@@ -152,7 +152,7 @@ namespace CompatibilityReport.Updater
         {
             Mod newMod = catalog.AddMod(steamID);
             newMod.Update(name: name);
-            newMod.AddChangeNote($"{ Toolkit.DateString(catalog.Updated) }: added{ (unlisted ? " as unlisted in Workshop" : removed ? " as removed from Workshop" : "") }");
+            newMod.AddChangeNote($"{ Toolkit.DateString(catalog.Updated) }: added{ (unlisted ? " as unlisted" : removed ? " as removed" : "") }");
 
             string modType = "mod";
 
