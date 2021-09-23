@@ -202,8 +202,14 @@ namespace CompatibilityReport.Updater
                 {
                     // Redownload and try one more time, to work around cut-off downloads.
                     Toolkit.Download(Toolkit.GetWorkshopUrl(catalogMod.SteamID), ModSettings.TempDownloadFullPath);
-
-                    ReadModPage(catalog, catalogMod);
+                    if (!ReadModPage(catalog, catalogMod))
+                    {
+                        Logger.UpdaterLog($"Mod info not updated for { catalogMod.ToString() }.", Logger.Error);
+                    }
+                    else
+                    {
+                        Logger.UpdaterLog($"Steam page correctly read on retry for { catalogMod.ToString() }. Mod info updated.");
+                    }
                 }
             }
 
@@ -251,7 +257,7 @@ namespace CompatibilityReport.Updater
                         {
                             if (catalogMod.UpdatedThisSession)
                             {
-                                Logger.UpdaterLog($"We found this mod, but can't read the Steam page for { catalogMod.ToString() }. Mod info not updated.", Logger.Error);
+                                Logger.UpdaterLog($"We found this mod, but can't read the Steam page for { catalogMod.ToString() }.", Logger.Warning);
                                 return false;
                             }
                             else
@@ -438,7 +444,7 @@ namespace CompatibilityReport.Updater
             if (!steamIDmatched && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
                 // We didn't find a Steam ID on the page, but no error page either. Must be a download issue or another Steam error.
-                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }. Mod info not updated.", Logger.Error);
+                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }.", Logger.Warning);
                 return false;
             }
 
@@ -503,12 +509,12 @@ namespace CompatibilityReport.Updater
                 else if (currentLower.Contains("issue") || currentLower.Contains("wiki") || currentLower.Contains("documentation") 
                     || currentLower.Contains("readme") || currentLower.Contains("guide") || currentLower.Contains("translation"))
                 {
-                    discardedUrls += $"\n                      Discarded: { sourceUrl }";
+                    discardedUrls += $"\n                      * Discarded: { sourceUrl }";
                     sourceUrl = nextSourceUrl;
                 }
                 else
                 {
-                    discardedUrls += $"\n                      Discarded: { nextSourceUrl }";
+                    discardedUrls += $"\n                      * Discarded: { nextSourceUrl }";
                 }
 
                 currentLower = sourceUrl.ToLower();
@@ -522,7 +528,7 @@ namespace CompatibilityReport.Updater
 
             if (!string.IsNullOrEmpty(discardedUrls) && sourceUrl != catalogMod.SourceUrl)
             {
-                Logger.UpdaterLog($"Found multiple source URLs for { catalogMod.ToString() }\n                      Selected:  { sourceUrl }{ discardedUrls }");
+                Logger.UpdaterLog($"Found multiple source URLs for { catalogMod.ToString() }\n                      * Selected:  { sourceUrl }{ discardedUrls }");
             }
 
             return sourceUrl;
