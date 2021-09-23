@@ -305,8 +305,8 @@ namespace CompatibilityReport.Updater
         {
             catalog.AddCompatibility(firstModID, secondModID, status, note);
 
-            catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { Toolkit.CutOff(catalog.GetMod(firstModID).ToString(),25) } and " +
-                $"{ Toolkit.CutOff(catalog.GetMod(secondModID).ToString(), 25) }: { status }{ (string.IsNullOrEmpty(note) ? "" : $", { note }") }");
+            catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { Toolkit.CutOff(catalog.GetMod(firstModID).ToString(), 45), 45 } and " +
+                $"{ Toolkit.CutOff(catalog.GetMod(secondModID).ToString(), 45), 45 }: { status }{ (string.IsNullOrEmpty(note) ? "" : $", { note }") }");
         }
 
 
