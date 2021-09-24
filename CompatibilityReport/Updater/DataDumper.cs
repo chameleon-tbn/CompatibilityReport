@@ -44,6 +44,7 @@ namespace CompatibilityReport.Updater
 
             // Mods with an old review or without a review, to know which to review (again).
             DumpModsWithOldReview(catalog, DataDump, months: 2);
+            DumpModsWithoutStability(catalog, DataDump);
             DumpModsWithoutReview(catalog, DataDump);
 
             // Retired authors, for a one time check at the start of this mod for activity in comments.
@@ -72,7 +73,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dumps info about all non-incompatible mods that have not been reviewed yet</summary>
+        /// <summary>Dumps info about all non-incompatible mods that have no review date.</summary>
         /// <remarks>It dumps the mods Workshop URL and name.</remarks>
         private static void DumpModsWithoutReview(Catalog catalog, StringBuilder DataDump)
         {
@@ -81,6 +82,22 @@ namespace CompatibilityReport.Updater
             foreach (Mod catalogMod in catalog.Mods)
             {
                 if (catalogMod.ReviewDate == default && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
+                {
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
+                }
+            }
+        }
+
+
+        /// <summary>Dumps info about all mods that have a review date but still have a 'Not Reviewed' stability.</summary>
+        /// <remarks>It dumps the mods Workshop URL and name.</remarks>
+        private static void DumpModsWithoutStability(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Mods with a review but without a reviewed stability:"));
+
+            foreach (Mod catalogMod in catalog.Mods)
+            {
+                if (catalogMod.ReviewDate != default && catalogMod.Stability <= Enums.Stability.NotReviewed)
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
                 }
