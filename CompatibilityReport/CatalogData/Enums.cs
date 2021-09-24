@@ -30,8 +30,8 @@
             NoCommentSection,                   // This mods Steam Workshop page has the comment section disabled, making it hard to see if people are experiencing issues.
             NoLongerNeeded,                     // Obsolete, because whatever it did is now done by the game itself or by another mod it was a patch/addon for.
             Deprecated,                         // No longer supported and should not be used anymore.
-            Abandoned,                          // No longer maintained and might give issues or break with future game updates.
-            Reupload,                           // This is reupload from another persons mod and should not be used. Use the original instead.
+            Abandoned,                          // No longer updated and the author doesn't respond to question/issues.
+            Reupload,                           // This is reupload from another persons mod and should not be used. Use the original, which should be added as alternative.
             SavesCantLoadWithout,               // Needed to successfully load a savegame where it was used. You might lose access to the savegame if the mod breaks.
             BreaksEditors,                      // Gives serious issues in the map and/or asset editor, or prevents them from loading.
             TestVersion,                        // This is a test/beta/alpha/experimental version, and a stable version exists as well.
@@ -53,7 +53,6 @@
             Undefined = 0,                      // Unused.
             NewerVersion,                       // The first mod is an newer version of the second. The compatibility note will only be reported for the second mod.
             SameModDifferentReleaseType,        // These mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable' one.
-            FunctionalityCovered,               // The first mod has all functionality of the second mod, and more. The note will only be reported for the second mod.
             SameFunctionality,                  // These mods are incompatible because they do the same thing or change the same functionality.
             IncompatibleAccordingToAuthor,      // These mods are incompatible according to the author of one of the mods
             IncompatibleAccordingToUsers,       // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim.

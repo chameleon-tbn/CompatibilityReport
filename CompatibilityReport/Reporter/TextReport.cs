@@ -638,14 +638,6 @@ namespace CompatibilityReport.Reporter
                         }
                         break;
 
-                    case Enums.CompatibilityStatus.FunctionalityCovered:
-                        // Only reported for the mod with less functionality.
-                        if (subscribedMod.SteamID == compatibility.SecondModID)
-                        {
-                            text += ReviewLine("Unsubscribe. You're already subscribed to a mod that has all functionality:") + firstMod + note;
-                        }
-                        break;
-
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
                         // Only reported for the test mod.
                         if (subscribedMod.SteamID == compatibility.SecondModID)
