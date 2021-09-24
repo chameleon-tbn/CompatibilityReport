@@ -147,14 +147,14 @@ namespace CompatibilityReport.Updater
                 if (!string.IsNullOrEmpty(UpdatedModsDict[steamID]))
                 {
                     catalog.GetMod(steamID).AddChangeNote($"{ todayDateString }: { UpdatedModsDict[steamID] }");
-                    UpdatedMods.AppendLine($"Updated mod { catalog.GetMod(steamID).ToString() }: { UpdatedModsDict[steamID] }");
+                    UpdatedMods.AppendLine($"Updated mod { Toolkit.CutOff(catalog.GetMod(steamID).ToString(), 55), -55 }: { UpdatedModsDict[steamID] }");
                 }
             }
 
             foreach (Author catalogAuthor in UpdatedAuthorsDict.Keys)
             {
                 catalogAuthor.AddChangeNote($"{ todayDateString }: { UpdatedAuthorsDict[catalogAuthor] }");
-                UpdatedAuthors.AppendLine($"Updated author { catalogAuthor.ToString() }: { UpdatedAuthorsDict[catalogAuthor] }");
+                UpdatedAuthors.AppendLine($"Updated author { Toolkit.CutOff(catalogAuthor.ToString(), 52), -52 }: { UpdatedAuthorsDict[catalogAuthor] }");
             }
         }
         
