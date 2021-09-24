@@ -23,8 +23,8 @@ namespace CompatibilityReport.Reporter
 
             hasRun = true;
 
-            Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion }. Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.",
-                duplicateToGameLog: true);
+            Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion } { ModSettings.ReleaseType }".Trim() +
+                $". Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.", duplicateToGameLog: true);
 
             if (PlatformService.platformType != PlatformType.Steam)
             {

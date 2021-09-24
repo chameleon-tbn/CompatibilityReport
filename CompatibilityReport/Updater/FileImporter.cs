@@ -98,10 +98,6 @@ namespace CompatibilityReport.Updater
             {
                 // Don't rename a suppressed warnings csv file. It can be read every time without generating import errors.
             }
-            else if (ModSettings.DebugMode)
-            {
-                Logger.UpdaterLog($"\"{ filename }\" not renamed because of debug mode. Rename or delete it manually to avoid processing it again.", Logger.Warning);
-            }
             else
             {
                 if (!Toolkit.MoveFile(CsvFileFullPath, $"{ CsvFileFullPath }.{ (errors == 0 ? "" : "partially_") }processed.txt"))

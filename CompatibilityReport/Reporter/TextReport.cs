@@ -222,6 +222,7 @@ namespace CompatibilityReport.Reporter
         // Say hi to ourselves.
         private static string ThisMod(Mod subscribedMod)
         {
+            // Todo 0.6 More reliable check for ourselves.
             return (subscribedMod.SteamID != ModSettings.OurOwnSteamID) ? "" : ReviewLine("This mod.");
         }
 
