@@ -329,7 +329,7 @@ namespace CompatibilityReport.Updater
         {
             if (!catalog.IsValidID(steamID, allowBuiltin: false))
             {
-                return "Invalid Steam ID or mod does not exist in the catalog.";
+                return "Invalid Steam ID.";
             }
 
             Mod catalogMod = catalog.GetMod(steamID);
@@ -339,19 +339,13 @@ namespace CompatibilityReport.Updater
                 return "Mod can't be removed because it is not removed from the Steam Workshop.";
             }
 
-            if (catalog.IsGroupMember(steamID))
-            {
-                return "Mod can't be removed because it is in a group.";
-            }
-
-            if (catalog.Mods.FirstOrDefault(x => x.RequiredMods.Contains(steamID) || x.Successors.Contains(steamID) || 
+            if (catalog.IsGroupMember(steamID) || catalog.Mods.FirstOrDefault(x => x.RequiredMods.Contains(steamID) || x.Successors.Contains(steamID) || 
                 x.Alternatives.Contains(steamID) || x.Recommendations.Contains(steamID)) != default)
             {
-                return "Mod can't be removed because it is referenced by other mods as required mod, successor, alternative or recommendation.";
+                return "Mod can't be removed because it is still used in a group or as required mod, successor, alternative or recommendation.";
             }
 
             catalog.ChangeNotes.AppendRemovedMod($"Removed mod { catalogMod.ToString() }");
-
             return catalog.RemoveMod(catalogMod) ? "" : "Mod could not be removed.";
         }
 
@@ -361,22 +355,23 @@ namespace CompatibilityReport.Updater
         private static string ChangeStability(Catalog catalog, ulong steamID, string stabilityString, string note)
         {
             Mod catalogMod = catalog.GetMod(steamID);
-
             if (catalogMod == null)
             {
                 return $"Invalid Steam ID { steamID }.";
             }
 
             Enums.Stability stability = Toolkit.ConvertToEnum<Enums.Stability>(stabilityString);
-
             if (stability == default)
             {
                 return "Invalid stability.";
             }
 
-            if (catalogMod.Stability == stability && catalogMod.StabilityNote == note)
+            if (catalogMod.Stability == stability)
             {
-                return "Mod already has this stability with the same note.";
+                if (catalogMod.StabilityNote == note)
+                {
+                    return "Mod already has this stability with the same note.";
+                }
             }
             if (stability == Enums.Stability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
@@ -451,11 +446,6 @@ namespace CompatibilityReport.Updater
                     return "Invalid DLC.";
                 }
 
-                if (catalogMod.RequiredDlcs.Contains(requiredDlc))
-                {
-                    return "DLC is already required.";
-                }
-
                 CatalogUpdater.AddRequiredDlc(catalog, catalogMod, requiredDlc, updatedByImporter: true);
             }
             else if (action == "remove_requireddlc")
@@ -486,11 +476,6 @@ namespace CompatibilityReport.Updater
                 if (status == default)
                 {
                     return "Invalid status.";
-                }
-
-                if (catalogMod.Statuses.Contains(status))
-                {
-                    return "Mod already has this status.";
                 }
 
                 if (status == Enums.Status.UnlistedInWorkshop || status == Enums.Status.RemovedFromWorkshop)
@@ -574,11 +559,6 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_successor")
             {
-                if (catalogMod.Successors.Contains(listMember))
-                {
-                    return "Already a successor.";
-                }
-
                 CatalogUpdater.AddSuccessor(catalog, catalogMod, listMember);
             }
             else if (action == "remove_successor")
@@ -592,11 +572,6 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_alternative")
             {
-                if (catalogMod.Alternatives.Contains(listMember))
-                {
-                    return "Already an alternative mod.";
-                }
-
                 CatalogUpdater.AddAlternative(catalog, catalogMod, listMember);
             }
             else if (action == "remove_alternative")
@@ -610,11 +585,6 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_recommendation")
             {
-                if (catalogMod.Recommendations.Contains(listMember))
-                {
-                    return "Already an recommended mod.";
-                }
-
                 CatalogUpdater.AddRecommendation(catalog, catalogMod, listMember);
             }
             else if (action == "remove_recommendation")
@@ -802,7 +772,7 @@ namespace CompatibilityReport.Updater
                 }
                 if (catalog.Compatibilities.Find(x => x.FirstModID == secondSteamID && x.SecondModID == firstSteamID && x.Status == compatibilityStatus) != default)
                 {
-                    return $"Compatibility already exists, with { secondSteamID } as first and { firstSteamID } as second mod.";
+                    return $"'Mirrored' compatibility already exists, with { secondSteamID } as first and { firstSteamID } as second mod.";
                 }
 
                 CatalogUpdater.AddCompatibility(catalog, firstSteamID, secondSteamID, compatibilityStatus, note);
@@ -855,7 +825,6 @@ namespace CompatibilityReport.Updater
         private static string RemoveGroup(Catalog catalog, ulong groupID)
         {
             Group catalogGroup = catalog.GetGroup(groupID);
-
             return catalogGroup == null ? "Invalid group ID." : CatalogUpdater.RemoveGroup(catalog, catalogGroup) ? "" : "Group could not be removed.";
         }
 
@@ -942,10 +911,6 @@ namespace CompatibilityReport.Updater
                 {
                     return "Invalid custom URL.";
                 }
-                if (catalogAuthor.CustomUrl == propertyData)
-                {
-                    return "This custom URL is already active.";
-                }
 
                 CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorUrl: propertyData);
             }
@@ -966,10 +931,6 @@ namespace CompatibilityReport.Updater
                 {
                     return "Invalid date.";
                 }
-                if (lastSeen == catalogAuthor.LastSeen)
-                {
-                    return "Author already has this last seen date.";
-                }
                 if (lastSeen < catalogAuthor.LastSeen)
                 {
                     return "Author already has a more recent last seen date.";
@@ -979,11 +940,6 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "set_retired")
             {
-                if (catalogAuthor.Retired)
-                {
-                    return "Author is already retired.";
-                }
-
                 CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, retired: true);
             }
             else if (action == "remove_retired")
