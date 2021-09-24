@@ -168,7 +168,8 @@ namespace CompatibilityReport.Updater
 
                 case "set_stability":
                     // Join the lineFragments for the note, to allow for commas. Replace "\n" in the CSV text by real newline characters.
-                    string note = lineElements.Length < 4 ? "" : string.Join(",", lineElements, 3, lineElements.Length - 3).Trim().Replace("\\n", "\n");
+                    string note = (lineElements.Length < 4 || lineElements[3].Trim()[0] == '#') ? "" :
+                        string.Join(",", lineElements, 3, lineElements.Length - 3).Trim().Replace("\\n", "\n");
                     return lineElements.Length < 3 ? "Not enough parameters." : ChangeStability(catalog, steamID: numericSecond, stabilityString: stringThird, note);
 
                 case "set_genericnote":
@@ -369,11 +370,11 @@ namespace CompatibilityReport.Updater
                     return "Mod already has this stability with the same note.";
                 }
             }
-            if (stability == Enums.Stability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
+            else if (stability == Enums.Stability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
                 return "The Incompatible stability can only be set on a mod that is removed from the Steam Workshop.";
             }
-            if (catalogMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
+            else if (catalogMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
                 return "Mod has the Incompatible stability and that can only be changed for a mod that is removed from the Steam Workshop.";
             }
@@ -400,6 +401,10 @@ namespace CompatibilityReport.Updater
                 {
                     return "Invalid URL.";
                 }
+                if (catalogMod.SourceUrl == propertyData)
+                {
+                    return "Mod already has this source URL.";
+                }
 
                 CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: propertyData);
             }
@@ -421,6 +426,10 @@ namespace CompatibilityReport.Updater
                 {
                     return "Invalid game version.";
                 }
+                if (newGameVersion == catalogMod.GameVersion())
+                {
+                    return "Mod already has this game version.";
+                }
 
                 CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion));
             }
@@ -441,6 +450,10 @@ namespace CompatibilityReport.Updater
                 {
                     return "Invalid DLC.";
                 }
+                if (catalogMod.RequiredDlcs.Contains(requiredDlc))
+                {
+                    return "DLC is already required.";
+                }
 
                 CatalogUpdater.AddRequiredDlc(catalog, catalogMod, requiredDlc, updatedByImporter: true);
             }
@@ -452,12 +465,10 @@ namespace CompatibilityReport.Updater
                 {
                     return "Invalid DLC.";
                 }
-
                 if (!catalogMod.RequiredDlcs.Contains(requiredDlc))
                 {
                     return "DLC is not required.";
                 }
-
                 if (!catalogMod.ExclusionForRequiredDlcs.Contains(requiredDlc))
                 {
                     return "Cannot remove required DLC because it was not manually added.";
@@ -472,6 +483,10 @@ namespace CompatibilityReport.Updater
                 if (status == default)
                 {
                     return "Invalid status.";
+                }
+                if (catalogMod.Statuses.Contains(status))
+                {
+                    return "Mod already has this status.";
                 }
 
                 if (status == Enums.Status.UnlistedInWorkshop || status == Enums.Status.RemovedFromWorkshop)
@@ -502,7 +517,6 @@ namespace CompatibilityReport.Updater
                 {
                     return "Invalid status.";
                 }
-
                 if (status == Enums.Status.UnlistedInWorkshop || status == Enums.Status.RemovedFromWorkshop)
                 {
                     return "This status cannot be manually removed.";
@@ -555,6 +569,11 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_successor")
             {
+                if (catalogMod.Successors.Contains(listMember))
+                {
+                    return "Already a successor.";
+                }
+
                 CatalogUpdater.AddSuccessor(catalog, catalogMod, listMember);
             }
             else if (action == "remove_successor")
@@ -568,6 +587,11 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_alternative")
             {
+                if (catalogMod.Alternatives.Contains(listMember))
+                {
+                    return "Already an alternative mod.";
+                }
+
                 CatalogUpdater.AddAlternative(catalog, catalogMod, listMember);
             }
             else if (action == "remove_alternative")
@@ -581,6 +605,11 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "add_recommendation")
             {
+                if (catalogMod.Recommendations.Contains(listMember))
+                {
+                    return "Already a recommended mod.";
+                }
+
                 CatalogUpdater.AddRecommendation(catalog, catalogMod, listMember);
             }
             else if (action == "remove_recommendation")
@@ -835,7 +864,6 @@ namespace CompatibilityReport.Updater
             {
                 return "Invalid group ID.";
             }
-
             if (!catalog.IsValidID(groupMember))
             {
                 return $"Invalid Steam ID { groupMember }.";
@@ -890,13 +918,13 @@ namespace CompatibilityReport.Updater
 
             if (action == "set_authorid")
             {
-                if (catalogAuthor.SteamID != 0)
-                {
-                    return "Author already has an author ID.";
-                }
                 if (newAuthorID == 0)
                 {
                     return "Invalid Author ID.";
+                }
+                if (catalogAuthor.SteamID != 0)
+                {
+                    return "Author already has an author ID.";
                 }
 
                 CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, newAuthorID);
@@ -906,6 +934,10 @@ namespace CompatibilityReport.Updater
                 if (string.IsNullOrEmpty(propertyData))
                 {
                     return "Invalid custom URL.";
+                }
+                if (catalogAuthor.CustomUrl == propertyData)
+                {
+                    return "This custom URL is already active.";
                 }
 
                 CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorUrl: propertyData);
@@ -927,6 +959,10 @@ namespace CompatibilityReport.Updater
                 {
                     return "Invalid date.";
                 }
+                if (lastSeen == catalogAuthor.LastSeen)
+                {
+                    return "Author already has this last seen date.";
+                }
                 if (lastSeen < catalogAuthor.LastSeen)
                 {
                     return "Author already has a more recent last seen date.";
@@ -936,6 +972,11 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "set_retired")
             {
+                if (catalogAuthor.Retired)
+                {
+                    return "Author is already retired.";
+                }
+
                 CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, retired: true);
             }
             else if (action == "remove_retired")
@@ -968,9 +1009,13 @@ namespace CompatibilityReport.Updater
             {
                 return "Incorrect gameversion.";
             }
+            if (newGameVersion == catalog.GameVersion())
+            {
+                return "The catalog already has this game version.";
+            }
             if (newGameVersion <= catalog.GameVersion())
             {
-                return "New game version should be higher than the current game version.";
+                return "New game version should be higher than the current catalog game version.";
             }
 
             catalog.Update(newGameVersion);
