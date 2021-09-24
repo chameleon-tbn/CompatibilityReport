@@ -16,9 +16,9 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Our own Steam ID.
 
         public const string Version = "0.4.0";
-        public const string Build = "296";
-        public const string FullVersion = Version + "." + Build;
-        public const string ReleaseType = "alpha";
+        public const string Build = "297";
+        public const string ReleaseType = " alpha";
+        public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
 
 

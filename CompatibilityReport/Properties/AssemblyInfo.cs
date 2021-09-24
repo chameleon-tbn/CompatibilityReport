@@ -5,12 +5,12 @@ using CompatibilityReport.Util;
 
 // General Information about an assembly is controlled through the following set of attributes.
 // Change these attribute values to modify the information associated with an assembly.
-[assembly: AssemblyTitle(ModSettings.ModName + " v" + ModSettings.Version + " " + ModSettings.Build)]
+[assembly: AssemblyTitle(ModSettings.ModName + " v" + ModSettings.Version + ModSettings.ReleaseType)]
 [assembly: AssemblyDescription(ModSettings.ModDescription)]
 [assembly: AssemblyConfiguration(ModSettings.ReleaseType)]
 [assembly: AssemblyCompany(ModSettings.ModAuthor)]
 [assembly: AssemblyProduct(ModSettings.ModName)]
-[assembly: AssemblyCopyright("Copyright ©  2021  (MIT License)")]
+[assembly: AssemblyCopyright("Copyright © 2021 " + ModSettings.ModAuthor + " (MIT License)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -30,6 +30,6 @@ using CompatibilityReport.Util;
 //
 // You can specify all the values or you can default the Build and Revision Numbers by using the '*' as shown below:
 // [assembly: AssemblyVersion("0.1.*")]
-[assembly: AssemblyVersion(ModSettings.FullVersion)]
-[assembly: AssemblyFileVersion(ModSettings.FullVersion)]
+[assembly: AssemblyVersion(ModSettings.Version + "." + ModSettings.Build)]
+[assembly: AssemblyFileVersion(ModSettings.Version + "." + ModSettings.Build)]
 [assembly: NeutralResourcesLanguage("en")]
