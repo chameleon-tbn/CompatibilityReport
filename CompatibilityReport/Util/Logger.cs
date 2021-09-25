@@ -36,7 +36,7 @@ namespace CompatibilityReport.Util
             if (regularLog == null)
             {
                 string fullPath = Path.Combine(ModSettings.LogPath, ModSettings.LogFileName);
-                regularLog = new LogFiler(fullPath, append: ModSettings.LogAppend);
+                regularLog = new LogFiler(fullPath, append: ModSettings.LogAppend, backup: ModSettings.DebugMode);
 
                 GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(fullPath.Contains("\\") ? fullPath.Replace('/', '\\') : fullPath) }\".");
             }
@@ -56,7 +56,7 @@ namespace CompatibilityReport.Util
             if (updaterLog == null)
             {
                 string fullPath = Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName);
-                updaterLog = new LogFiler(fullPath, append: false);
+                updaterLog = new LogFiler(fullPath, append: false, backup:true);
 
                 Log($"Logging for the updater can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
@@ -105,7 +105,7 @@ namespace CompatibilityReport.Util
 
 
             /// <summary>Default constructor.</summary>
-            public LogFiler(string fileFullPath, bool append)
+            public LogFiler(string fileFullPath, bool append, bool backup)
             {
                 logfileFullPath = fileFullPath;
 
@@ -123,14 +123,17 @@ namespace CompatibilityReport.Util
                     }
                     else
                     {
-                        // Make a backup before overwriting. Can't use Toolkit.CopyFile here because it logs.
-                        try
+                        if (append || backup)
                         {
-                            File.Copy(logfileFullPath, $"{ logfileFullPath }.old", overwrite: true);
-                        }
-                        catch (Exception ex2)
-                        {
-                            GameLog($"[WARNING] Can't create backup file \"{ Toolkit.Privacy(logfileFullPath) }.old\". { Toolkit.ShortException(ex2) }");
+                            // Make a backup before overwriting. Can't use Toolkit.CopyFile here because it logs.
+                            try
+                            {
+                                File.Copy(logfileFullPath, $"{ logfileFullPath }.old", overwrite: true);
+                            }
+                            catch (Exception ex2)
+                            {
+                                GameLog($"[WARNING] Can't create backup file \"{ Toolkit.Privacy(logfileFullPath) }.old\". { Toolkit.ShortException(ex2) }");
+                            }
                         }
 
                         file = File.CreateText(logfileFullPath);
