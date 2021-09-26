@@ -11,8 +11,7 @@ namespace CompatibilityReport.Updater
     public static class DataDumper
     {
         /// <summary>Dumps specific catalog data to a text file to help with creating CSV files for the FileImporter.</summary>
-        /// <remarks>It's inefficient with duplicate foreach loops, but the 100 ms it takes don't count up to the 12 to 15 minutes from the WebCrawler, 
-        ///          and this keeps the code simple.</remarks>
+        /// <remarks>It's very inefficient with all the duplicate foreach loops, but it doesn't run for regular users and I like to keeps the code simple.</remarks>
         public static void Start(Catalog catalog)
         {
             Stopwatch timer = Stopwatch.StartNew();
@@ -27,33 +26,33 @@ namespace CompatibilityReport.Updater
             // Suppressed warnings about unnamed mods and duplicate authors.
             DumpSuppressedWarnings(catalog, DataDump);
 
-            // Required assets that are actually mods.
-            DumpFakeAssets(catalog, DataDump);
-
             // Authors with their Steam ID as name. This is often due to a Steam error, but a few authors really have their ID as name.
             DumpAuthorsWithIDName(catalog, DataDump);
+
+            // Required assets that are actually mods.
+            DumpFakeAssets(catalog, DataDump);
 
             // Unused group and groups with less than 2 members, to see if we can clean up.
             DumpUnusedGroups(catalog, DataDump);
             DumpEmptyGroups(catalog, DataDump);
 
-            // Required mods that are not in a group, to check for the need of additional groups.
-            DumpRequiredUngroupedMods(catalog, DataDump);
-
             // Authors that retire soon, to check them for activity in comments.
             DumpAuthorsSoonRetired(catalog, DataDump, months: 2);
 
-            // Authors with multiple mods, for a check of different version of the same mods (test vs stable).
-            DumpAuthorsWithMultipleMods(catalog, DataDump);
+            // Broken mods without successor or alternative and mods used as required/successor/alternative/recommended that are broken or have a successor.
+            DumpBrokenModsWithoutSuccessor(catalog, DataDump);
+            DumpUsedModsWithIssues(catalog, DataDump);
 
             // Mods with an old review or without a review, to know which to review (again).
             DumpModsWithOldReview(catalog, DataDump, months: 2);
             DumpModsWithoutStability(catalog, DataDump);
             DumpModsWithoutReview(catalog, DataDump);
 
-            // Broken mods without successor or alternative and mods used as required/successor/alternative/recommended that are broken or have a successor.
-            DumpBrokenModsWithoutSuccessor(catalog, DataDump);
-            DumpUsedModsWithIssues(catalog, DataDump);
+            // Required mods that are not in a group, to check for the need of additional groups.
+            DumpRequiredUngroupedMods(catalog, DataDump);
+
+            // Authors with multiple mods, for a check of different version of the same mods (test vs stable).
+            DumpAuthorsWithMultipleMods(catalog, DataDump);
 
             // Retired authors, for a one time check at the start of this mod for activity in comments.
             DumpRetiredAuthors(catalog, DataDump);
