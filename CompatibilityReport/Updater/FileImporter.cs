@@ -130,7 +130,7 @@ namespace CompatibilityReport.Updater
             ulong numericSecond = Toolkit.ConvertToUlong(stringSecond);
 
             // Third element - numeric: required/successor/alternative mod ID, recommended mod ID, mod ID for compatibility/group, author ID, asset ID
-            //              and string: unlisted/removed text, source URL, game version, DLC string, stability, mod/compatibility status, generic note,
+            //              and string: unlisted/removed text, source URL, game version, DLC string, stability, mod/compatibility status, mod note,
             //                          exclusion category, author name, author custom URL, last seen date
             string stringThird = lineElements.Length < 3 ? "" : lineElements[2].Trim();
             ulong numericThird = Toolkit.ConvertToUlong(stringThird); ;
@@ -168,19 +168,20 @@ namespace CompatibilityReport.Updater
 
                 case "set_stability":
                     // Join the lineFragments for the note, to allow for commas. Replace "\n" in the CSV text by real newline characters.
-                    string note = (lineElements.Length < 4 || lineElements[3].Trim()[0] == '#') ? "" :
+                    string stabilityNote = (lineElements.Length < 4 || lineElements[3].Trim()[0] == '#') ? "" :
                         string.Join(",", lineElements, 3, lineElements.Length - 3).Trim().Replace("\\n", "\n");
-                    return lineElements.Length < 3 ? "Not enough parameters." : ChangeStability(catalog, steamID: numericSecond, stabilityString: stringThird, note);
+                    return lineElements.Length < 3 ? "Not enough parameters." : 
+                        ChangeStability(catalog, steamID: numericSecond, stabilityString: stringThird, stabilityNote);
 
-                case "set_genericnote":
+                case "set_note":
                     // Join the lineFragments for the note, to allow for commas. Replace "\n" in the CSV text by real newline characters.
-                    string genericNote = lineElements.Length < 3 ? "" : string.Join(",", lineElements, 2, lineElements.Length - 2).Trim().Replace("\\n", "\n");
-                    return lineElements.Length < 3 ? "Not enough parameters." : ChangeModProperty(catalog, action, steamID: numericSecond, genericNote);
+                    string note = lineElements.Length < 3 ? "" : string.Join(",", lineElements, 2, lineElements.Length - 2).Trim().Replace("\\n", "\n");
+                    return lineElements.Length < 3 ? "Not enough parameters." : ChangeModProperty(catalog, action, steamID: numericSecond, note);
 
                 case "update_review":
                 case "remove_sourceurl":
                 case "remove_gameversion":
-                case "remove_genericnote":
+                case "remove_note":
                     return lineElements.Length < 2 ? "Not enough parameters." : ChangeModProperty(catalog, action, steamID: numericSecond);
 
                 case "add_requiredmod":
@@ -201,11 +202,11 @@ namespace CompatibilityReport.Updater
                 case "add_compatibility":
                 case "remove_compatibility":
                     // Join the lineFragments for the optional note, to allow for commas. If the note starts with a '#', it's a comment instead of a note.
-                    string compatNote = (lineElements.Length < 5 || lineElements[4].Trim()[0] == '#') ? "" : 
+                    string compatibilityNote = (lineElements.Length < 5 || lineElements[4].Trim()[0] == '#') ? "" : 
                         string.Join(",", lineElements, 4, lineElements.Length - 4).Trim().Replace("\\n", "\n");
 
-                    return lineElements.Length < 4 ? "Not enough parameters." : 
-                        AddRemoveCompatibility(catalog, action, firstSteamID: numericSecond, secondSteamID: numericThird, compatibilityString: stringFourth, compatNote);
+                    return lineElements.Length < 4 ? "Not enough parameters." : AddRemoveCompatibility(catalog, action, 
+                        firstSteamID: numericSecond, secondSteamID: numericThird, compatibilityString: stringFourth, compatibilityNote);
 
                 case "add_compatibilitiesforone":
                 case "add_compatibilitiesforall":
@@ -527,23 +528,23 @@ namespace CompatibilityReport.Updater
                     return "Status not found for this mod.";
                 }
             }
-            else if (action == "set_genericnote")
+            else if (action == "set_note")
             {
-                if (!string.IsNullOrEmpty(catalogMod.GenericNote) && catalogMod.GenericNote == propertyData)
+                if (!string.IsNullOrEmpty(catalogMod.Note) && catalogMod.Note == propertyData)
                 {
                     return "Note already added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: propertyData);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, note: propertyData);
             }
-            else if (action == "remove_genericnote")
+            else if (action == "remove_note")
             {
-                if (string.IsNullOrEmpty(catalogMod.GenericNote))
+                if (string.IsNullOrEmpty(catalogMod.Note))
                 {
                     return "Note already empty.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, genericNote: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, note: "");
             }
             else if (action == "update_review")
             {

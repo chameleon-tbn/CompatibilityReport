@@ -166,7 +166,7 @@ namespace CompatibilityReport.Reporter
             modReview.Append(Alternatives(catalog, subscribedMod));
             modReview.Append(Recommendations(catalog, subscribedMod));
             modReview.Append(CameraScript(subscribedMod));
-            modReview.Append(GenericNote(subscribedMod));
+            modReview.Append(ModNote(subscribedMod));
 
             bool somethingToReport = modReview.Length > 0;
 
@@ -243,10 +243,10 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        // Generic note.
-        private static string GenericNote(Mod subscribedMod)
+        // Mod note.
+        private static string ModNote(Mod subscribedMod)
         {
-            return ReviewLine(subscribedMod.GenericNote ?? "");
+            return ReviewLine(subscribedMod.Note ?? "");
         }
 
 

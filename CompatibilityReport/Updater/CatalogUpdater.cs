@@ -184,7 +184,7 @@ namespace CompatibilityReport.Updater
                                      string authorUrl = null,
                                      Enums.Stability stability = default,
                                      string stabilityNote = null,
-                                     string genericNote = null,
+                                     string note = null,
                                      string gameVersionString = null,
                                      string sourceUrl = null,
                                      bool updatedByWebCrawler = false)
@@ -202,7 +202,7 @@ namespace CompatibilityReport.Updater
                 (stability != default && stability != catalogMod.Stability ? ", stability changed" :
                     (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : 
                         $", stability note { Toolkit.GetChange(catalogMod.StabilityNote, stabilityNote) }")) +
-                (genericNote == null || genericNote == catalogMod.GenericNote ? "" : $", generic note { Toolkit.GetChange(catalogMod.GenericNote, genericNote) }") +
+                (note == null || note == catalogMod.Note ? "" : $", note { Toolkit.GetChange(catalogMod.Note, note) }") +
                 (gameVersionString == null || gameVersionString == catalogMod.GameVersionString ? "" : 
                     $", compatible game version { Toolkit.GetChange(catalogMod.GameVersion(), Toolkit.ConvertToVersion(gameVersionString)) }") +
                 (sourceUrl == null || sourceUrl == catalogMod.SourceUrl ? "" : $", source URL { Toolkit.GetChange(catalogMod.SourceUrl, sourceUrl) }");
@@ -223,7 +223,7 @@ namespace CompatibilityReport.Updater
                 catalogMod.UpdateExclusions(exclusionForGameVersion: gameVersionString != "");
             }
 
-            catalogMod.Update(string.IsNullOrEmpty(name) ? null : name, published, updated, authorID, authorUrl, stability, stabilityNote, genericNote, 
+            catalogMod.Update(string.IsNullOrEmpty(name) ? null : name, published, updated, authorID, authorUrl, stability, stabilityNote, note, 
                 gameVersionString, sourceUrl, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
             // Update the authors last seen date if the mod had a new update.

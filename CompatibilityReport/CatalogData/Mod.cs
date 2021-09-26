@@ -22,7 +22,7 @@ namespace CompatibilityReport.CatalogData
 
         public List<Enums.Status> Statuses { get; private set; } = new List<Enums.Status>();
         public bool ExclusionForNoDescription { get; private set; }
-        public string GenericNote { get; private set; }
+        public string Note { get; private set; }
 
         // Game version this mod is compatible with. 'Version' is not serializable, so a converted string is used.
         [XmlElement("GameVersion")] public string GameVersionString { get; private set; }
@@ -89,7 +89,7 @@ namespace CompatibilityReport.CatalogData
                            string authorUrl = null,
                            Enums.Stability stability = default,
                            string stabilityNote = null,
-                           string genericNote = null,
+                           string note = null,
                            string gameVersionString = null,
                            string sourceUrl = null,
                            DateTime reviewDate = default,
@@ -108,7 +108,7 @@ namespace CompatibilityReport.CatalogData
             Stability = stability == default ? Stability : stability;
             StabilityNote = stabilityNote ?? StabilityNote ?? "";
 
-            GenericNote = genericNote ?? GenericNote ?? "";
+            Note = note ?? Note ?? "";
             GameVersionString = gameVersionString ?? GameVersionString ?? Toolkit.UnknownVersion().ToString();
             SourceUrl = sourceUrl ?? SourceUrl ?? "";
 
