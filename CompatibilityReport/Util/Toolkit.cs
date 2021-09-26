@@ -43,6 +43,7 @@ namespace CompatibilityReport.Util
 
 
         /// <summary>Moves or renames a file.</summary>
+        /// <remarks>If the destination already exists, it will be overwritten.</remarks>
         /// <returns>True if succesful, false on errors.</returns>
         public static bool MoveFile(string sourceFullPath, string destinationFullPath)
         {
@@ -50,6 +51,8 @@ namespace CompatibilityReport.Util
             {
                 return false;
             }
+
+            DeleteFile(destinationFullPath);
 
             try
             {
@@ -65,6 +68,7 @@ namespace CompatibilityReport.Util
 
 
         /// <summary>Copies a file.</summary>
+        /// <remarks>If the destination already exists, it will be overwritten.</remarks>
         /// <returns>True if succesful, false on errors.</returns>
         public static bool CopyFile(string sourceFullPath, string destinationFullPath)
         {
