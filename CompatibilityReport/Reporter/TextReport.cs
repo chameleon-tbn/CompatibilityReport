@@ -659,6 +659,10 @@ namespace CompatibilityReport.Reporter
                         text += ReviewLine("This has minor issues with:") + otherMod + note;
                         break;
 
+                    case Enums.CompatibilityStatus.MajorIssues:
+                        text += ReviewLine("This has major issues with:") + otherMod + note;
+                        break;
+
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
                         text += ReviewLine("This is incompatible with (unsubscribe either one):") + otherMod + note;
                         break;

@@ -726,7 +726,7 @@ namespace CompatibilityReport.Updater
         /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddCompatibilitiesForOne(Catalog catalog, ulong firstSteamID, string compatibilityString, List<ulong> steamIDs)
         {
-            if (compatibilityString == "minorissues" || compatibilityString == "requiresspecificsettings")
+            if (compatibilityString == "majorissues" || compatibilityString == "minorissues" || compatibilityString == "requiresspecificsettings")
             {
                 return "This compatibility status needs a note and cannot be used in an action with multiple compatibilities.";
             }
@@ -781,7 +781,8 @@ namespace CompatibilityReport.Updater
             {
                 return "Invalid compatibility status.";
             }
-            if (string.IsNullOrEmpty(note) && (compatibilityString == "minorissues" || compatibilityString == "requiresspecificsettings"))
+            if (string.IsNullOrEmpty(note) && 
+                (compatibilityString == "majorissues" || compatibilityString == "minorissues" || compatibilityString == "requiresspecificsettings"))
             {
                 return "A note is mandatory for this compatibility.";
             }
@@ -791,6 +792,8 @@ namespace CompatibilityReport.Updater
 
             if (action == "add_compatibility")
             {
+                // Todo 0.4 Check for conflicting compatibilities, including mirrored
+
                 if (existingCompatibility != null)
                 {
                     return "Compatibility already exists.";

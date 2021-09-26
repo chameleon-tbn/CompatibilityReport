@@ -46,8 +46,11 @@
         }
 
 
-        /// <summary>Compatibility statuses between two mods.</summary>
-        /// <remarks>There is no need to create 'mirrored' compatibilities (between A and B and between B and A). The mods handles that.</remarks>
+        /// <summary>Compatibility statuses between two mods. Some statuses can coexist, meaning two mods can have more than one compatibility.</summary>
+        /// <remarks>There is no need to create 'mirrored' compatibilities (between A and B and between B and A). The mods handles that. 
+        ///          Coexistence allowed: RequiresSpecificSettings with MinorIssues, MajorIssues or CompatibleAccordingToAuthor; 
+        ///                               SameModDifferentReleaseType with SameFunctionality (second will not be mentioned in the report);
+        ///                               NewerVersion with SameModDifferentReleaseType (second will not be mentioned in the report).</remarks>
         public enum CompatibilityStatus
         {
             Undefined = 0,                      // Unused.
@@ -57,6 +60,7 @@
             IncompatibleAccordingToAuthor,      // These mods are incompatible according to the author of one of the mods
             IncompatibleAccordingToUsers,       // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim.
             CompatibleAccordingToAuthor,        // These mods are fully compatible according to the author of one of the mods.
+            MajorIssues,                        // These mods have some serious issues when used together. A compatibility note should clarify this and is mandatory.
             MinorIssues,                        // These mods have minor issues when used together. A compatibility note should clarify this and is mandatory.
             RequiresSpecificSettings            // These mods require specific settings when used together. A compatibility note should clarify this and is mandatory.
         }
