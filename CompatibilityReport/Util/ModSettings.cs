@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Our own Steam ID.
 
         public const string Version = "0.4.0";
-        public const string Build = "299";
+        public const string Build = "300";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -189,16 +189,17 @@ namespace CompatibilityReport.Util
                 "loading another savegame (called 'second loading') gives lots of mod issues.\n" + 
             Bullet1 + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" + 
             Bullet1 + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" + 
-            Bullet1 + "Mods not updated for a while might still work fine. Check their Workshop page.\n" + 
+            Bullet1 + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
             "\n" +
             "Some remarks about incompatibilities:\n" +
             Bullet1 + "Mods that do the same thing are generally incompatible with each other.\n" +
             Bullet1 + "Some issues are a conflict between more than two mods or a loading order issue, making it hard to find the real culprit. " +
-                "This can lead to users blaming the wrong mod for an error. Don't believe everything you read about mod conflicts.\n" +
-            Bullet1 + "Savegame not loading? Use the optimization and safe mode options from Loading Screen: " +
-                "https://steamcommunity.com/sharedfiles/filedetails/?id=667342976 \n" +
+                "This can lead to users blaming the wrong mod.\n" +
+            Bullet1 + "Mod compatible but not working? Try unsubscribe and resubscribe (while not in game)." +
             Bullet1 + "Getting errors despite all your mods being compatible? Try the Loading Order Mod: " +
                 "https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112 \n" +
+            Bullet1 + "Savegame not loading? Use the optimization and safe mode options from Loading Screen: " +
+                "https://steamcommunity.com/sharedfiles/filedetails/?id=667342976 \n" +
             "\n" +
             "Disclaimer:\n" +
             Bullet1 + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " +

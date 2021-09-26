@@ -33,8 +33,8 @@ namespace CompatibilityReport.Reporter
             TextReport.AppendLine(Toolkit.WordWrap($"{ ModSettings.ReportName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
 
             TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }. " +
-                $"The catalog contains { catalog.ReviewedModCount } reviewed mods and { catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. " +
-                $"Your game has { catalog.SubscriptionCount() } mods.\n"));
+                $"The catalog contains { catalog.ReviewedModCount } reviewed mods with { catalog.Compatibilities.Count } compatibilities and " +
+                $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. Your game has { catalog.SubscriptionCount() } mods.\n"));
 
             if (!string.IsNullOrEmpty(catalog.Note))
             {
