@@ -193,9 +193,9 @@ namespace CompatibilityReport.Updater
 
             // Collect change notes for all changed values. For stability note only if stability itself is unchanged.
             string addedChangeNote =
-                (string.IsNullOrEmpty(name) || name == catalogMod.Name ? "" : $", mod name { Toolkit.GetChange(catalogMod.Name, name) }") +
+                (string.IsNullOrEmpty(name) || name == catalogMod.Name ? "" : $", name { Toolkit.GetChange(catalogMod.Name, name) }") +
                 // No change note for published
-                (updated == default || updated == catalogMod.Updated || hideNote ? "" : ", new update added") +
+                (updated == default || updated == catalogMod.Updated || hideNote ? "" : ", new update") +
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || hideNote ? "" : ", author ID added") +
                 (authorUrl == null || authorUrl == catalogMod.AuthorUrl || hideNote ? "" : 
                     $", author URL { Toolkit.GetChange(catalogMod.AuthorUrl, authorUrl) }") +
@@ -335,9 +335,9 @@ namespace CompatibilityReport.Updater
         /// <returns>A reference to the new author.</returns>
         public static Author AddAuthor(Catalog catalog, ulong authorID, string authorUrl, string name, bool retired = false)
         {
-            CheckDuplicateName(catalog, authorID, authorUrl, name);
-
             Author catalogAuthor = catalog.AddAuthor(authorID, authorUrl);
+
+            CheckDuplicateName(catalog, catalogAuthor, name);
             catalogAuthor.Update(name: name, retired: retired);
 
             catalogAuthor.AddChangeNote($"{ Toolkit.DateString(catalog.Updated) }: added{ (retired ? " as retired" : "") }");
@@ -368,11 +368,6 @@ namespace CompatibilityReport.Updater
                 authorUrl = null;
             }
 
-            if (name != null && name != catalogAuthor.Name)
-            {
-                CheckDuplicateName(catalog, authorID, authorUrl, name);
-            }
-
             bool hideNote = catalogAuthor.AddedThisSession && updatedByWebCrawler;
             string oldUrl = catalogAuthor.CustomUrl;
 
@@ -386,7 +381,14 @@ namespace CompatibilityReport.Updater
                 (retired == null || retired == catalogAuthor.Retired ? "" : $", { (retired == true ? "now" : "no longer") } retired");
 
             // Set an exclusion if retired was set to true here or reset it if retired was set to false. Exclusion will be re-evaluated at UpdateAuthorRetirement().
-            catalogAuthor.Update(catalogAuthor.SteamID == 0 ? authorID : 0, authorUrl, name, lastSeen, retired, exclusionForRetired: retired);
+            catalogAuthor.Update(catalogAuthor.SteamID == 0 ? authorID : 0, authorUrl, name: null, lastSeen, retired, exclusionForRetired: retired);
+
+            if (name != null && name != catalogAuthor.Name)
+            {
+                CheckDuplicateName(catalog, catalogAuthor, name);
+                catalogAuthor.Update(name: name);
+            }
+
             catalog.ChangeNotes.AddUpdatedAuthor(catalogAuthor, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
             if (addedChangeNote.Contains("Steam ID") || addedChangeNote.Contains("Custom URL"))
@@ -407,15 +409,16 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Check if an author exists with this name already.</summary>
-        /// <remarks>Two authors with the same name could be an existing author we missed. There are Steam authors with the same name though.</remarks>
-        private static void CheckDuplicateName(Catalog catalog, ulong authorID, string authorUrl, string name)
+        /// <summary>Checks if an author exists with this name already. Check must be made before changing the author to the new name.</summary>
+        /// <remarks>Two authors with the same name could be an existing author we missed.  There are Steam authors with the same name though.</remarks>
+        private static void CheckDuplicateName(Catalog catalog, Author catalogAuthor, string newName)
         {
-            Author namesake = catalog.Authors.Find(x => x.Name == name);
-            if (namesake != default && !catalog.SuppressedWarnings.Contains(authorID) && !catalog.SuppressedWarnings.Contains(namesake.SteamID))
+            Author namesake = catalog.Authors.Find(x => x.Name == newName);
+            if (namesake != default && (!catalog.SuppressedWarnings.Contains(catalogAuthor.SteamID) || !catalog.SuppressedWarnings.Contains(namesake.SteamID)))
             {
-                string authors = $"{ (authorID == 0 ? authorUrl : $"{ authorID }") } and { (namesake.SteamID == 0 ? namesake.CustomUrl : $"{ namesake.SteamID }") }";
-                Logger.UpdaterLog($"Found two authors with the name \"{ name }\": { authors }. This could be a coincidence or an error.", Logger.Warning);
+                string authors = $"{ (catalogAuthor.SteamID == 0 ? catalogAuthor.CustomUrl : $"{ catalogAuthor.SteamID }") } and " +
+                    $"{ (namesake.SteamID == 0 ? namesake.CustomUrl : $"{ namesake.SteamID }") }";
+                Logger.UpdaterLog($"Found two authors with the name \"{ newName }\": { authors }. This could be a coincidence or an error.", Logger.Warning);
             }
         }
 
