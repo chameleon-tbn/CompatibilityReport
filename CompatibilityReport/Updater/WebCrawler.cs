@@ -236,7 +236,6 @@ namespace CompatibilityReport.Updater
             {
                 while ((line = reader.ReadLine()) != null)
                 {
-                    // Only continue when we have found the correct Steam ID.
                     if (!steamIDmatched)
                     {
                         steamIDmatched = line.Contains($"{ ModSettings.SearchSteamID }{catalogMod.SteamID}");
@@ -267,6 +266,7 @@ namespace CompatibilityReport.Updater
                             }
                         }
 
+                        // Keep reading lines until we find the Steam ID.
                         continue;
                     }
 
@@ -444,7 +444,9 @@ namespace CompatibilityReport.Updater
             if (!steamIDmatched && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
                 // We didn't find a Steam ID on the page, but no error page either. Must be a download issue or another Steam error.
-                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }.", Logger.Warning);
+                Toolkit.CopyFile(ModSettings.TempDownloadFullPath, Path.Combine(ModSettings.UpdaterPath, $"{ catalogMod.SteamID } - error.html"));
+
+                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }. Downloaded page saved.", Logger.Warning);
                 return false;
             }
 

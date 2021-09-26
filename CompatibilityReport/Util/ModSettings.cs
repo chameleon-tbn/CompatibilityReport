@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Our own Steam ID.
 
         public const string Version = "0.4.0";
-        public const string Build = "301";
+        public const string Build = "302";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -153,7 +153,7 @@ namespace CompatibilityReport.Util
         // public const string SearchAuthorNameRight = "</a>";
 
         // Search strings for individual mod pages.
-        public const string SearchItemNotFound = "There was a problem accessing the item. Please try again.";
+        public const string SearchItemNotFound = "There was a problem accessing the item.";
         public const string SearchSteamID = "var publishedfileid = '";                                                  // Followed by the Steam ID.
         public const string SearchAuthorLeft = "&gt;&nbsp;<a href=\"https://steamcommunity.com/";                       // Followed by 'id' or 'profiles'.
         public const string SearchAuthorMid = "/myworkshopfiles/?appid=255710\">";                                      // Sits between ID/URL and name.
