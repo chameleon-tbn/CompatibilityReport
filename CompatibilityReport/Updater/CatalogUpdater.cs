@@ -515,9 +515,9 @@ namespace CompatibilityReport.Updater
             {
                 catalogMod.UpdateExclusions(exclusionForNoDescription: true);
             }
-            else if (status == Enums.Status.NoLongerNeeded || status == Enums.Status.Deprecated || status == Enums.Status.Abandoned)
+            else if (status == Enums.Status.Obsolete || status == Enums.Status.Deprecated || status == Enums.Status.Abandoned)
             {
-                catalogMod.Statuses.Remove(Enums.Status.NoLongerNeeded);
+                catalogMod.Statuses.Remove(Enums.Status.Obsolete);
                 catalogMod.Statuses.Remove(Enums.Status.Deprecated);
                 catalogMod.Statuses.Remove(Enums.Status.Abandoned);
             }

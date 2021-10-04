@@ -28,9 +28,9 @@
             RemovedFromWorkshop,                // This was once available in the Steam Workshop, but no more. Better not to use it anymore.
             NoDescription,                      // No (real) description in the Steam Workshop for this mod, which indicates a sparsely supported mod.
             NoCommentSection,                   // This mods Steam Workshop page has the comment section disabled, making it hard to see if people are experiencing issues.
-            NoLongerNeeded,                     // Obsolete, because whatever it did is now done by the game itself or by another mod it was a patch/addon for.
+            Obsolete,                           // No longer needed, because whatever it did is now done by the game itself or by the mod it was a patch/addon for.
             Deprecated,                         // No longer supported and should not be used anymore.
-            Abandoned,                          // No longer updated and the author doesn't respond to question/issues.
+            Abandoned,                          // No longer updated and the author doesn't respond to questions/issues in the comments.
             Reupload,                           // This is reupload from another persons mod and should not be used. Use the original, which should be added as alternative.
             SavesCantLoadWithout,               // Needed to successfully load a savegame where it was used. You might lose access to the savegame if the mod breaks.
             BreaksEditors,                      // Gives serious issues in the map and/or asset editor, or prevents them from loading.
@@ -49,14 +49,13 @@
         /// <summary>Compatibility statuses between two mods. Some statuses can coexist, meaning two mods can have more than one compatibility.</summary>
         /// <remarks>There is no need to create 'mirrored' compatibilities (between A and B and between B and A). The mods handles that. 
         ///          Coexistence allowed: RequiresSpecificSettings with MinorIssues, MajorIssues or CompatibleAccordingToAuthor; 
-        ///                               SameModDifferentReleaseType with SameFunctionality (second will not be mentioned in the report);
-        ///                               NewerVersion with SameModDifferentReleaseType (second will not be mentioned in the report).</remarks>
+        ///                               SameModDifferentReleaseType with SameFunctionality (second will not be mentioned in the report)</remarks>
         public enum CompatibilityStatus
         {
             Undefined = 0,                      // Unused.
-            NewerVersion,                       // The first mod is an newer version of the second. The compatibility note will only be reported for the second mod.
             SameModDifferentReleaseType,        // These mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable' one.
-            SameFunctionality,                  // These mods are incompatible because they do the same thing or change the same functionality.
+            SameFunctionality,                  // These mods are incompatible because they change the same functionality.
+            SameFunctionalityCompatible,        // These mods are compatible, but the first mod has all functionality of the second one. Note is reported for second only.
             IncompatibleAccordingToAuthor,      // These mods are incompatible according to the author of one of the mods
             IncompatibleAccordingToUsers,       // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim.
             CompatibleAccordingToAuthor,        // These mods are fully compatible according to the author of one of the mods.

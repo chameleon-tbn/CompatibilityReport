@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,7 +16,6 @@ namespace CompatibilityReport.Updater
         public static void Start(Catalog catalog)
         {
             Logger.UpdaterLog("Updater started the CSV import.");
-            Stopwatch timer = Stopwatch.StartNew();
 
             CatalogUpdater.SetReviewDate(DateTime.Now);
 
@@ -39,13 +37,12 @@ namespace CompatibilityReport.Updater
 
             if (errors == 0)
             {
-                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
+                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files.");
                 Logger.Log($"Updater processed { CsvFilenames.Count } CSV files.");
             }
             else
             {
-                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, with { errors } errors.", 
-                    Logger.Warning);
+                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files and encountered { errors } errors.", Logger.Warning);
 
                 Logger.Log($"Updater processed { CsvFilenames.Count } CSV files and encountered { errors } errors. See separate log for details.", Logger.Warning);
             }
@@ -499,7 +496,7 @@ namespace CompatibilityReport.Updater
                 {
                     return "Status cannot be combined with existing 'RemovedFromWorkshop' status.";
                 }
-                if ((status == Enums.Status.Abandoned || status == Enums.Status.Deprecated) && catalogMod.Statuses.Contains(Enums.Status.NoLongerNeeded))
+                if ((status == Enums.Status.Abandoned || status == Enums.Status.Deprecated) && catalogMod.Statuses.Contains(Enums.Status.Obsolete))
                 {
                     return "Status cannot be combined with existing 'NoLongerNeeded' status.";
                 }

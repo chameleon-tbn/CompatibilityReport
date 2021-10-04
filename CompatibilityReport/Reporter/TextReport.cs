@@ -36,6 +36,8 @@ namespace CompatibilityReport.Reporter
                 $"The catalog contains { catalog.ReviewedModCount } reviewed mods with { catalog.Compatibilities.Count } compatibilities and " +
                 $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. Your game has { catalog.SubscriptionCount() } mods.\n"));
 
+            TextReport.AppendLine("This is a PREVIEW version of the mod, not thoroughly tested and with limited data.\nRESULT SHOULD NOT BE TRUSTED!\n");   // Todo 0.4 Remove this.
+
             if (!string.IsNullOrEmpty(catalog.Note))
             {
                 TextReport.AppendLine(Toolkit.WordWrap($"{ catalog.Note }\n"));
@@ -525,7 +527,7 @@ namespace CompatibilityReport.Reporter
         {
             string text = "";
 
-            if (subscribedMod.Statuses.Contains(Enums.Status.NoLongerNeeded))
+            if (subscribedMod.Statuses.Contains(Enums.Status.Obsolete))
             {
                 text += ReviewLine("Unsubscribe. This is no longer needed.");
             }
@@ -596,7 +598,7 @@ namespace CompatibilityReport.Reporter
                 }
             }
 
-            bool unsupported = subscribedMod.Statuses.Contains(Enums.Status.NoLongerNeeded) || subscribedMod.Statuses.Contains(Enums.Status.Deprecated) || 
+            bool unsupported = subscribedMod.Statuses.Contains(Enums.Status.Obsolete) || subscribedMod.Statuses.Contains(Enums.Status.Deprecated) || 
                 subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop) || subscribedMod.Statuses.Contains(Enums.Status.Reupload) || 
                 subscribedMod.Statuses.Contains(Enums.Status.Abandoned) || (subscribedMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop);
 
@@ -630,14 +632,6 @@ namespace CompatibilityReport.Reporter
 
                 switch (compatibility.Status)
                 {
-                    case Enums.CompatibilityStatus.NewerVersion:
-                        // Only reported for the older mod.
-                        if (subscribedMod.SteamID == compatibility.SecondModID)
-                        {
-                            text += ReviewLine("Unsubscribe. You're already subscribed to a newer version:") + firstMod + note;
-                        }
-                        break;
-
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
                         // Only reported for the test mod.
                         if (subscribedMod.SteamID == compatibility.SecondModID)
