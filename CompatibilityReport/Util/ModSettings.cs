@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Our own Steam ID.
 
         public const string Version = "0.4.0";
-        public const string Build = "308";
+        public const string Build = "309";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -139,6 +139,7 @@ namespace CompatibilityReport.Util
 
         public const int MonthsOfInactivityToRetireAuthor = 12;
         public const int SteamMaxModListingPages = 200;
+        public const int EstimatedMillisecondsPerModPage = 550;
 
         // Search strings for mod and author info in the mod listing files.
         public const string SearchModStart = "<div class=\"workshopItemTitle ellipsis\">";

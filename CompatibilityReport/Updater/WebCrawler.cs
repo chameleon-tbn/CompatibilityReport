@@ -32,7 +32,6 @@ namespace CompatibilityReport.Updater
         {
             Logger.UpdaterLog("Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
 
-            Stopwatch timer = Stopwatch.StartNew();
             int totalMods = 0;
             int totalPages = 0;
             
@@ -81,8 +80,7 @@ namespace CompatibilityReport.Updater
             Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
 
             // Note: about 75% of the total time is downloading, the other 25% is processing.
-            Logger.UpdaterLog($"Updater finished downloading { totalPages } Steam Workshop 'mod listing' pages in " +
-                $"{ Toolkit.TimeString(timer.ElapsedMilliseconds) }. { totalMods } mods found.");
+            Logger.UpdaterLog($"Updater finished downloading { totalPages } Steam Workshop 'mod listing' pages and found { totalMods } mods.");
 
             return totalMods > 0;
         }
@@ -156,10 +154,10 @@ namespace CompatibilityReport.Updater
         {
             Stopwatch timer = Stopwatch.StartNew();
             int numberOfMods = catalog.Mods.Count - ModSettings.BuiltinMods.Count;
-            long estimate = 500 * numberOfMods;
+            long estimatedMilliseconds = ModSettings.EstimatedMillisecondsPerModPage * numberOfMods;
 
-            Logger.UpdaterLog($"Updater started downloading { numberOfMods } individual Steam Workshop mod pages. This takes about { Toolkit.TimeString(estimate) } " +
-                $"and should be ready around { DateTime.Now.AddMilliseconds(estimate + 30*1000):HH:mm}.");
+            Logger.UpdaterLog($"Updater started downloading { numberOfMods } individual Steam Workshop mod pages. This should take about " +
+                $"{ Toolkit.TimeString(estimatedMilliseconds) } and should be ready around { DateTime.Now.AddMilliseconds(estimatedMilliseconds + 30*1000):HH:mm}.");
 
             int modsDownloaded = 0;
             int failedDownloads = 0;
