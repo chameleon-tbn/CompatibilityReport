@@ -12,6 +12,8 @@ namespace CompatibilityReport.Updater
         /// <remarks>It uses a mixture of CatalogUpdater methods and direct object updates to get relevant change notes.</remarks>
         public static void Create()
         {
+            Toolkit.DeleteFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName));
+
             Catalog firstCatalog = new Catalog();
             firstCatalog.NewVersion(DateTime.Now);
             firstCatalog.Update(Toolkit.CurrentGameVersion(), ModSettings.FirstCatalogNote, ModSettings.DefaultHeaderText, ModSettings.DefaultFooterText);
@@ -34,15 +36,18 @@ namespace CompatibilityReport.Updater
                 Mod builtinMod = CatalogUpdater.AddMod(firstCatalog, steamID: ModSettings.BuiltinMods[modName], modName);
                 builtinMod.Update(stability: Enums.Stability.Stable);
                 builtinMod.Statuses.Add(Enums.Status.SourceBundled);
-                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID);
-                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, updatedByWebCrawler: true);
+
+                // 'UpdatedByWebcrawler' assures an auto review date filled and compact change notes
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID, updatedByWebCrawler: true);
+
+                // Add a review date to avoid the review being considered out-of-date at some point
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, updatedByWebCrawler: false);
             }
 
             // Import a SuppressedWarnings.csv file if it exists.
             string suppressedWarningFullPath = Path.Combine(ModSettings.UpdaterPath, "SuppressedWarnings.csv");
             if (File.Exists(suppressedWarningFullPath))
             {
-                Toolkit.DeleteFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName));
                 FileImporter.ReadCsv(firstCatalog, suppressedWarningFullPath);
             }
 
