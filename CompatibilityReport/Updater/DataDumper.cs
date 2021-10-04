@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,7 +13,6 @@ namespace CompatibilityReport.Updater
         /// <remarks>It's very inefficient with all the duplicate foreach loops, but it doesn't run for regular users and I like to keeps the code simple.</remarks>
         public static void Start(Catalog catalog)
         {
-            Stopwatch timer = Stopwatch.StartNew();
             StringBuilder DataDump = new StringBuilder(512);
 
             DataDump.AppendLine($"{ ModSettings.ModName } DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
@@ -39,11 +37,14 @@ namespace CompatibilityReport.Updater
             // Authors that retire soon, to check them for activity in comments.
             DumpAuthorsSoonRetired(catalog, DataDump, months: 2);
 
-            // Broken mods without successor or alternative and mods used as required/successor/alternative/recommended that are broken or have a successor.
-            DumpBrokenModsWithoutSuccessor(catalog, DataDump);
+            // Mods used as required/successor/alternative/recommended that are broken or have a successor.
             DumpUsedModsWithIssues(catalog, DataDump);
+            
+            // Broken mods without successor or alternative.
+            DumpBrokenModsWithoutSuccessor(catalog, DataDump);
 
-            // Mods with an old review or without a review, to know which to review (again).
+            // Mods with a new update, an old review or without a (full) review, to know which to review (again).
+            DumpModsWithNewReview(catalog, DataDump);
             DumpModsWithOldReview(catalog, DataDump, months: 2);
             DumpModsWithoutStability(catalog, DataDump);
             DumpModsWithoutReview(catalog, DataDump);
@@ -51,15 +52,16 @@ namespace CompatibilityReport.Updater
             // Required mods that are not in a group, to check for the need of additional groups.
             DumpRequiredUngroupedMods(catalog, DataDump);
 
-            // Authors with multiple mods, for a check of different version of the same mods (test vs stable).
+            // One time only checks: Authors with multiple mods (check for different version of the same mod) and all mods with source URLs.
             DumpAuthorsWithMultipleMods(catalog, DataDump);
+            DumpModsWithSourceURL(catalog, DataDump);
 
             // Retired authors, for a one time check at the start of this mod for activity in comments.
             DumpRetiredAuthors(catalog, DataDump);
 
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
 
-            Logger.UpdaterLog($"Datadump created in { Toolkit.TimeString(timer.ElapsedMilliseconds) }, as { ModSettings.DataDumpFileName }.");
+            Logger.UpdaterLog($"Datadump created as { ModSettings.DataDumpFileName }.");
         }
 
 
@@ -112,6 +114,22 @@ namespace CompatibilityReport.Updater
         }
 
 
+        /// <summary>Dumps all non-incompatible, reviewed mods with an update equal to or newer than their review date.</summary>
+        /// <remarks>It lists the mods Workshop URL and name.</remarks>
+        private static void DumpModsWithNewReview(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Mods with an update newer than their review:"));
+
+            foreach (Mod catalogMod in catalog.Mods)
+            {
+                if (catalogMod.ReviewDate != default && catalogMod.Updated.Date >= catalogMod.ReviewDate.Date)
+                {
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
+                }
+            }
+        }
+
+
         /// <summary>Dumps all mods that are broken or worse, and don't have a successor or alternative.</summary>
         /// <remarks>It lists the mods Workshop URL, name and stability.</remarks>
         private static void DumpBrokenModsWithoutSuccessor(Catalog catalog, StringBuilder DataDump)
@@ -140,9 +158,23 @@ namespace CompatibilityReport.Updater
                     catalog.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID) || x.Successors.Contains(catalogMod.SteamID) || 
                         x.Alternatives.Contains(catalogMod.SteamID) || x.Recommendations.Contains(catalogMod.SteamID)) != default)
                 {
-                    string statuses = "";
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }]");
+                }
+            }
+        }
 
-                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }{ statuses }]");
+
+        /// <summary>Dumps all mods that have a source URL.</summary>
+        /// <remarks>It lists the mods Workshop URL, name and source URL.</remarks>
+        private static void DumpModsWithSourceURL(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Mods with a source URL:"));
+
+            foreach (Mod catalogMod in catalog.Mods)
+            {
+                if (!string.IsNullOrEmpty(catalogMod.SourceUrl))
+                {
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } : { catalogMod.SourceUrl }");
                 }
             }
         }
