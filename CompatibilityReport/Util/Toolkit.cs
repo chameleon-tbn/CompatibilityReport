@@ -361,7 +361,7 @@ namespace CompatibilityReport.Util
             // Decide on when to show minutes, seconds and decimals for seconds.
             bool showMinutes = seconds >= 120;
             bool showSeconds = seconds < 120 || alwaysShowSeconds;
-            bool showDecimal = seconds < 9.9;
+            bool showDecimal = milliseconds < 9950;
 
             return (showSeconds ? (showDecimal ? $"{ seconds:F1} seconds" : $"{ seconds:0} seconds") : "") +
                    (showSeconds && showMinutes ? " (" : "") +
@@ -445,7 +445,9 @@ namespace CompatibilityReport.Util
         {
             try
             {
-                return (T)Enum.Parse(typeof(T), enumString, ignoreCase: true);
+                T enumValue = (T)Enum.Parse(typeof(T), enumString, ignoreCase: true);
+
+                return Enum.IsDefined(typeof(T), enumValue) ? enumValue : default;
             }
             catch
             {
