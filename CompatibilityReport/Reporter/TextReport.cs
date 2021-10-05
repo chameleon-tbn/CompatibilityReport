@@ -13,7 +13,14 @@ namespace CompatibilityReport.Reporter
     {
         // Todo 0.4.1 When we detect local mods, warn that the warning in this report might not be accurate.
         // Todo 0.4.1 What to do with the static stringbuilders? Change TextReport into non-static for better garbage collection?
-        // Todo 0.4.1 Split report in four: major issues (stability, missing mods/dlc, ...), minor issues (stability), remarks (alternatives, recommended), not reviewed
+        // Todo 0.4.1 Split report in five:
+        //      unsubscribe       - mod: incompatible / gamebreaking / broken, obsolete, unneeded dependency; compatibility: incompatible / samemod / samefunc
+        //      major issues      - mod: major issues, missing required mods/dlc, removed, deprecated, reupload; compatibility: major issues
+        //      minor issues      - mod: minor issues / users report issues, breaks editors, unlisted, no description, no comment section, successor;
+        //                          compatibility: minor issues
+        //      remarks           - mod: not enough information, note, game version, abandoned, other statuses, alternatives, recommendations;
+        //                          compatibility: requires specific settings / compatible with note / samefunc compatible with note
+        //      nothing to report - mod: stable / not reviewed
         // Todo 0.4.1 Review needed for all texts that appear in the report.
         // Todo 0.4.1 This class needs XML documentation tagged comments.
         private static StringBuilder reviewedModsText;
@@ -224,7 +231,7 @@ namespace CompatibilityReport.Reporter
         // Say hi to ourselves.
         private static string ThisMod(Mod subscribedMod)
         {
-            // Todo 0.6 More reliable check for ourselves.
+            // Todo 0.6 More reliable check for ourselves, to detect local copies.
             return (subscribedMod.SteamID != ModSettings.OurOwnSteamID) ? "" : ReviewLine("This mod.");
         }
 

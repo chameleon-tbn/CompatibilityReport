@@ -434,8 +434,6 @@ namespace CompatibilityReport.Updater
                         // Description is the last info we need from the page, so break out of the while loop.
                         break;
                     }
-
-                    // Todo 0.4.2 Can we get the NoCommentSection status automatically?
                 }
             }
 

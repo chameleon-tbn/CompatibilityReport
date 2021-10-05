@@ -13,10 +13,10 @@ namespace CompatibilityReport.Util
 
         public const string ModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
         public const string ModAuthor = "Finwickle";
-        public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Our own Steam ID.
+        public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
 
         public const string Version = "0.4.0";
-        public const string Build = "311";
+        public const string Build = "312";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;

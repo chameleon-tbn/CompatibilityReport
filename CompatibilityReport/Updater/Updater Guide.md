@@ -12,37 +12,43 @@ Lines starting with a '#' are considered comments and will be ignored by the upd
 
 ### First action to use in any CSV file
 * ReviewDate, \<date: yyyy-mm-dd\> 
-  * *Used as review update date for any following Mod actions. Can be used anywhere and multiple times in a CSV file if you want different review dates for different actions. Uses today if omitted.*
+  * *Used as review update date for any following Mod and Author actions. Can be used anywhere and multiple times in a CSV file if you want different review dates for different actions. Uses today if omitted.*
 
-### Available mod actions
+### Mod actions
 Parameters in square brackets are optional. The symbol :zap: means an exclusion will be created.
 * Add_Mod, \<mod ID\>, Unlisted | Removed [, \<author ID | custom URL\> [, \<mod name\>] ]
-* Set_SourceURL, \<mod ID\>, \<URL\> :zap:
+* Set_Stability, \<mod ID\>, \<stability string\> [, \<note\>]
+  * *To remove a stability note, set the same stability again without a note*
+* Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription status)*
+* Set_Note, \<mod ID\>, \<text\>
 * Set_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled when a newer game version is found)*
 * Add_RequiredDLC, \<mod ID\>, \<DLC string\> :zap:
 * Add_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
-* Set_Stability, \<mod ID\>, \<stability string\> [, \<note\>]
-  * *To remove a stability note, set the same stability again without a note*
-* Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription status)*
-* Set_GenericNote, \<mod ID\>, \<text\>
+* Set_SourceURL, \<mod ID\>, \<URL\> :zap:
 * Update_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
 * Remove_Mod, \<mod ID\> *(only works on mods that are removed from the Steam Workshop)*
-* Remove_SourceURL, \<mod ID\> :zap:
+* Remove_Status, \<mod ID\>, \<status string\>
+* Remove_Note, \<mod ID\>
 * Remove_GameVersion, \<mod ID\> *(only works if an exclusion exists)*
 * Remove_RequiredDLC, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*
 * Remove_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
-* Remove_Status, \<mod ID\>, \<status string\>
-* Remove_GenericNote, \<mod ID\>
+* Remove_SourceURL, \<mod ID\> :zap:
 * Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required DLC string | mod ID\>]
   * *Available categories: SourceURL, GameVersion, NoDescription, RequiredDLC, RequiredMod*
 
-### Available compatibility actions (will not change review date for included mods)
+### Group actions (will not change review date for included mods)
+* Add_Group, \<name\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
+* Add_GroupMember, \<group ID\>, \<mod ID\>
+* Remove_Group, \<group ID\>
+* Remove_GroupMember, \<group ID\>, \<mod ID\>
+
+### Compatibility actions (will not change review date for included mods)
 * Add_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>[, \<note\>]
 * Add_CompatibilitiesForOne, \<first mod ID\>, \<compatibility status\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
   * *This will create compatibilities between the first mod and each of the other mods. Cannot be used for some statuses.*
@@ -50,18 +56,12 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
   * *This will create 'SameFunctionality' compatibilities between each of these mods in pairs (1 with 2, 1 with 3, 2 with 3, etc.).*
 * Remove_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>
 
-### Available group actions (will not change review date for included mods)
-* Add_Group, \<name\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
-* Add_GroupMember, \<group ID\>, \<mod ID\>
-* Remove_Group, \<group ID\>
-* Remove_GroupMember, \<group ID\>, \<mod ID\>
-
-### Available author actions (author ID is much more reliable, and mandatory if the custom URL is a number)
+### Author actions (author ID is much more reliable, and mandatory if the custom URL is a number)
 * Add_Author, \<author ID | custom URL\>, \<author name\> *(only needed for unknown authors of 'removed' mods, will be set to retired)*
 * Set_AuthorID, \<author custom URL\>, \<author ID\>
 * Set_AuthorURL, \<author ID\>, \<author custom URL\>
 * Set_LastSeen, \<author ID | custom URL\>, \<date: yyyy-mm-dd\> *(should be more recent than newest mod update)*
-  * *Author will be assumed retired if not seen for a year*
+  * *Author retirement will be recalculated. An author is assumed retired if not seen for a year.*
 * Set_Retired, \<author ID | custom URL\> :zap:
 * Remove_AuthorURL, \<author ID\>
 * Remove_Retired, \<author ID | custom URL\> *(only works if added manually before)*
@@ -77,10 +77,10 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
 
 ### Available miscellaneous actions
 * Add_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
-  * *Only needed to differentiate between a required asset and a required mod that isn't in the catalog*
+  * *Only needed to differentiate between a required asset and a required mod that isn't in the catalog.*
 * Remove_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
 * Add_SuppressedWarning, \<mod or author ID\>
-  * *Suppresses warnings about an unnamed mod or a duplicate author name (add both authors, cannot use custom URL)*
+  * *Suppresses warnings about an unnamed mod or a duplicate author name (add both authors). Author URL is not supported.*
 * Remove_SuppressedWarning, \<mod or author ID\>
 
 

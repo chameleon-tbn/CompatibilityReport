@@ -382,7 +382,7 @@ namespace CompatibilityReport.CatalogData
                 }
 
                 // Update the catalog mod with subscription info.
-                // Todo 0.4.2 How reliable is downloadTime? Is ToLocalTime needed? Check how Loading Order Mod does this.
+                // Todo 0.6 How reliable is downloadTime? Is ToLocalTime needed? Check how Loading Order Mod does this.
                 subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript,
                     downloadedTime: PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime());
 

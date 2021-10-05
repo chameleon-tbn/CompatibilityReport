@@ -3,9 +3,9 @@
 Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This will report compatibility issues for your subscribed mods.
 
 ### Current status
-This is still in early alpha stage and not yet available on the Steam Workshop. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
+This is still in early alpha stage and not yet available on the Steam Workshop. It has not been thoroughly tested yet and has only very limited data at this time. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
 
-Due to the early development stage and very frequent changes to all parts of the code, pull requests are discouraged right now. Create an [issue](https://github.com/Finwickle/CompatibilityReport/issues) or use the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) for questions and feedback.
+Due to the early development stage and very frequent changes to the code, pull requests are discouraged right now. Please create an [issue](https://github.com/Finwickle/CompatibilityReport/issues) or use the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) for questions and feedback.
 
 ### Implemented features
 * Detection of subscribed and local mods.
@@ -16,13 +16,15 @@ Due to the early development stage and very frequent changes to all parts of the
 * Support for mod groups, to allow different editions (e.g. stable and test) of mods as mod requirement.
 * Catalog Updater method (for mod maintainer only), based on web crawling the Steam Workshop and CSV import.
   * Automatically detects new mods and changes in mod information: name, required DLC/mods, source URL, ...
-  * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This allows for catalog maintenance by multiple people.
+  * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This allows for catalog maintenance by multiple people in the future.
   * Automatic change notes and catalog versioning.
-  * Manual upload of a new catalog, after quality assurance checks.
+  * Manual upload of a new catalog, after a quality assurance check.
 
 ### Roadmap towards version 1.0 (subject to change)
 * 0.4.1 - Report revision
-* 0.5 - Alpha release on GitHub and Steam Workshop (unlisted)
+  * restructure and textual changes
+  * split into five categories: unsubscribe, major issues, minor issues, remarks, nothing to report
+* 0.5 - Alpha release on Steam Workshop (unlisted)
   * Catalog with mod compatibilities and dependencies for most mods.
   * Steam pinned discussions for submissions by mod authors and others.
   * Alpha testing; hopefully also some Mac and Linux testing.
@@ -44,17 +46,17 @@ Due to the early development stage and very frequent changes to all parts of the
 * 1.0 - Stable release
 
 ### Future ideas (might not happen)
-* 1.1 HTML report, categorized by severity; mod setting for text or HTML report.
+* 1.1 HTML report; mod setting for text or HTML report.
 * 1.2 In-game popup with summary and button to open report.
 * 'Second load' detection with warning popup.
 * Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112)).
-* Localization. Part of the report text is in the CSV import, making it hard to keep translations up to date.
+* Localization. Part of the report text is in the CSV import, making it harder to keep translations up to date.
 * Version check before (down)loading a full catalog.
 * Reviewing local mods.
 * Interface for getting info about an unsubscribed mod, to review compatibility with currently subscribed mods.
 * Online catalog update procedure, supporting multiple simultaneous contributors.
 * Replace WebCrawler by Steam API, for better performance, easier update detection and more reliable author links.
-* Detect missing mods subscribed for assets, like ETST, NExt2, Trolleybus Trailer AI, ... (needs Steam API).
+* Detect missing required mods for assets, like ETST, NExt2, Trolleybus Trailer AI, ... (needs Steam API).
 * TLS 1.2 support for download, if possible (needs .NET 4.6+).
 
 ### Credits

@@ -52,11 +52,8 @@ namespace CompatibilityReport.Updater
             // Required mods that are not in a group, to check for the need of additional groups.
             DumpRequiredUngroupedMods(catalog, DataDump);
 
-            // One time only checks: Authors with multiple mods (check for different version of the same mod) and all mods with source URLs.
+            // One time only checks: Authors with multiple mods (check for different version of the same mod), retired authors.
             DumpAuthorsWithMultipleMods(catalog, DataDump);
-            DumpModsWithSourceURL(catalog, DataDump);
-
-            // Retired authors, for a one time check at the start of this mod for activity in comments.
             DumpRetiredAuthors(catalog, DataDump);
 
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
@@ -159,22 +156,6 @@ namespace CompatibilityReport.Updater
                         x.Alternatives.Contains(catalogMod.SteamID) || x.Recommendations.Contains(catalogMod.SteamID)) != default)
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }]");
-                }
-            }
-        }
-
-
-        /// <summary>Dumps all mods that have a source URL.</summary>
-        /// <remarks>It lists the mods Workshop URL, name and source URL.</remarks>
-        private static void DumpModsWithSourceURL(Catalog catalog, StringBuilder DataDump)
-        {
-            DataDump.AppendLine(Title("Mods with a source URL:"));
-
-            foreach (Mod catalogMod in catalog.Mods)
-            {
-                if (!string.IsNullOrEmpty(catalogMod.SourceUrl))
-                {
-                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } : { catalogMod.SourceUrl }");
                 }
             }
         }

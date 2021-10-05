@@ -8,8 +8,8 @@
         {
             Undefined = 0,                      // Unused.
             NotReviewed,                        // Mod is not reviewed yet, stability is unknown. Assigned by default.
-            NotEnoughInformation,               // Stability unknown, because we don't have enough information yet to determine it.
             Stable,                             // This mod will function.
+            NotEnoughInformation,               // Stability unknown, because we don't have enough information yet to determine it.
             UsersReportIssues,                  // Stability uncertain, but various users report issues, while others may say it still works fine for them.
             MinorIssues,                        // Will function but might give minor issues.
             MajorIssues,                        // Will function, at least partially, but with some serious issues.
