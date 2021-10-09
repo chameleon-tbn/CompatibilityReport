@@ -15,8 +15,8 @@ namespace CompatibilityReport.Util
         public const string ModAuthor = "Finwickle";
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
 
-        public const string Version = "0.4.0";
-        public const string Build = "312";
+        public const string Version = "0.4.1";
+        public const string Build = "313";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -196,7 +196,7 @@ namespace CompatibilityReport.Util
             Bullet1 + "Mods that do the same thing are generally incompatible with each other.\n" +
             Bullet1 + "Some issues are a conflict between more than two mods or a loading order issue, making it hard to find the real culprit. " +
                 "This can lead to users blaming the wrong mod.\n" +
-            Bullet1 + "Mod compatible but not working? Try unsubscribe and resubscribe (while not in game)." +
+            Bullet1 + "Mod compatible but not working? Try unsubscribe and resubscribe (while not in game).\n" +
             Bullet1 + "Getting errors despite all your mods being compatible? Try the Loading Order Mod: " +
                 "https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112 \n" +
             Bullet1 + "Savegame not loading? Use the optimization and safe mode options from Loading Screen: " +

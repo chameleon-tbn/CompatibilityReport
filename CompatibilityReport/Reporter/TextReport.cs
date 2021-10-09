@@ -9,129 +9,64 @@ using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Reporter
 {
-    public static class TextReport
+    // The report is split into five categories:
+    //  - Unsubscribe:       broken, incompatible (mod and compatibility), obsolete, disabled, reuploads, missing dlc, unneeded dependency.
+    //  - Major Issues:      major issues (mod and compatibility), removed, deprecated, missing required mods.
+    //  - Minor Issues:      minor issues (mod and compatibility), users report issues, no description, no comment section, successors.
+    //  - Remarks:           not enough information, retired author, abandoned, breaks editors, other statuses, mod note, game version, alternatives, recommendations,
+    //                       specific settings, compatible (with compatibility note).
+    //  - Nothing to Report: stable, not reviewed.
+    //          
+    // Currently not reported: SourceURL (no-source and source-not-updated are reported), Updated, Downloaded.
+    // Todo 0.4 Review needed for all texts that appear in the report.
+
+    public class TextReport
     {
-        // Todo 0.4.1 When we detect local mods, warn that the warning in this report might not be accurate.
-        // Todo 0.4.1 What to do with the static stringbuilders? Change TextReport into non-static for better garbage collection?
-        // Todo 0.4.1 Split report in five:
-        //      unsubscribe       - mod: incompatible / gamebreaking / broken, obsolete, unneeded dependency; compatibility: incompatible / samemod / samefunc
-        //      major issues      - mod: major issues, missing required mods/dlc, removed, deprecated, reupload; compatibility: major issues
-        //      minor issues      - mod: minor issues / users report issues, breaks editors, unlisted, no description, no comment section, successor;
-        //                          compatibility: minor issues
-        //      remarks           - mod: not enough information, note, game version, abandoned, other statuses, alternatives, recommendations;
-        //                          compatibility: requires specific settings / compatible with note / samefunc compatible with note
-        //      nothing to report - mod: stable / not reviewed
-        // Todo 0.4.1 Review needed for all texts that appear in the report.
-        // Todo 0.4.1 This class needs XML documentation tagged comments.
-        private static StringBuilder reviewedModsText;
-        private static StringBuilder nonReviewedModsText;
+        // The complete report text.
+        private readonly StringBuilder reportText = new StringBuilder(512);
+
+        // The different mod report categories and their mod counters.
+        private readonly StringBuilder unsubscribe = new StringBuilder();
+        private readonly StringBuilder majorIssues = new StringBuilder();
+        private readonly StringBuilder minorIssues = new StringBuilder();
+        private readonly StringBuilder remarks = new StringBuilder();
+        private readonly StringBuilder nothingToReport = new StringBuilder();
+        int unsubscribeCount, majorCount, minorCount, remarksCount, nothingCount;
+
+        private readonly Catalog catalog;
+        private readonly string separatorDouble = new string('=', ModSettings.TextReportWidth);
+
+
+        /// <summary>Default constructor.</summary>
+        public TextReport(Catalog currentCatalog)
+        {
+            catalog = currentCatalog;
+        }
 
 
         /// <summary>Creates the text report.</summary>
-        public static void Create(Catalog catalog)
+        /// <remarks>If the report can't be saved in the report path selected by the user, try the default path.</remarks>
+        public void Create()
         {
-            reviewedModsText = new StringBuilder();
-            nonReviewedModsText = new StringBuilder();
+            AddHeader();
 
-            StringBuilder TextReport = new StringBuilder(512);
-            DateTime reportCreationTime = DateTime.Now;
-            string separatorDouble = new string('=', ModSettings.TextReportWidth);
+            AddAllMods();
 
-            TextReport.AppendLine(Toolkit.WordWrap($"{ ModSettings.ReportName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
-
-            TextReport.AppendLine(Toolkit.WordWrap($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }. " +
-                $"The catalog contains { catalog.ReviewedModCount } reviewed mods with { catalog.Compatibilities.Count } compatibilities and " +
-                $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. Your game has { catalog.SubscriptionCount() } mods.\n"));
-
-            TextReport.AppendLine("This is a PREVIEW version of the mod, not thoroughly tested and with limited data.\nRESULT SHOULD NOT BE TRUSTED!\n");   // Todo 0.4 Remove this.
-
-            if (!string.IsNullOrEmpty(catalog.Note))
-            {
-                TextReport.AppendLine(Toolkit.WordWrap($"{ catalog.Note }\n"));
-            }
-
-            if (Toolkit.CurrentGameVersion() != catalog.GameVersion())
-            {
-                TextReport.AppendLine(Toolkit.WordWrap($"WARNING: The review catalog is made for game version " +
-                    Toolkit.ConvertGameVersionToString(catalog.GameVersion()) +
-                    $". Your game is { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "older" : "newer") }. Results may not be accurate.\n", 
-                    indent: new string(' ', "WARNING: ".Length)));
-            }
-
-            TextReport.AppendLine($"{ separatorDouble }\n");
-
-            if (!string.IsNullOrEmpty(catalog.ReportHeaderText))
-            {
-                TextReport.AppendLine(Toolkit.WordWrap($"{ catalog.ReportHeaderText }\n", indent: ModSettings.Indent1, indentAfterNewLine: ""));
-            }
-
-            int modsWithOnlyRemarks = 0;
-
-            if (ModSettings.ReportSortByName)
-            {
-                // Report mods sorted by name.
-                List<string> AllSubscriptionNames = catalog.GetSubscriptionNames();
-
-                foreach (string name in AllSubscriptionNames)
-                {
-                    // Get the Steam ID(s) for this mod name. There could be multiple IDs for mods with the same name.
-                    foreach (ulong steamID in catalog.GetSubscriptionIDsByName(name))
-                    {
-                        if (GetModText(catalog, steamID, nameFirst: true))
-                        {
-                            modsWithOnlyRemarks++;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // Report mods sorted by Steam ID.
-                foreach (ulong steamID in catalog.GetSubscriptionIDs())
-                {
-                    if (GetModText(catalog, steamID, nameFirst: false))
-                    {
-                        modsWithOnlyRemarks++;
-                    }
-                }
-            }
-
-            if (reviewedModsText.Length > 0)
-            {
-                TextReport.AppendLine(separatorDouble);
-
-                TextReport.AppendLine($"REVIEWED MODS ({ catalog.ReviewedSubscriptionCount })" +
-                    (modsWithOnlyRemarks == 0 ? ":" : $" AND OTHER MODS WITH REMARKS ({ modsWithOnlyRemarks }): "));
-
-                TextReport.AppendLine(reviewedModsText.ToString());
-            }
-
-            if (nonReviewedModsText.Length > 0)
-            {
-                TextReport.AppendLine(separatorDouble);
-
-                TextReport.AppendLine($"MODS NOT REVIEWED YET ({ catalog.SubscriptionCount() - catalog.ReviewedSubscriptionCount - modsWithOnlyRemarks }):");
-
-                TextReport.AppendLine(nonReviewedModsText.ToString());
-            }
-
-            TextReport.AppendLine($"{ separatorDouble }\n");
-            TextReport.AppendLine(Toolkit.WordWrap(catalog.ReportFooterText));
-
-            reviewedModsText = null;
-            nonReviewedModsText = null;
+            AddFooter();
 
             string TextReportFullPath = Path.Combine(ModSettings.ReportPath, ModSettings.ReportTextFileName);
-            if (Toolkit.SaveToFile(TextReport.ToString(), TextReportFullPath, createBackup: ModSettings.DebugMode))
+
+            if (Toolkit.SaveToFile(reportText.ToString(), TextReportFullPath, createBackup: ModSettings.DebugMode))
             {
                 Logger.Log($"Text Report ready at \"{ Toolkit.Privacy(TextReportFullPath) }\".", duplicateToGameLog: true);
             }
             else
             {
                 TextReportFullPath = Path.Combine(ModSettings.DefaultReportPath, ModSettings.ReportTextFileName);
-                if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(TextReport.ToString(), TextReportFullPath))
+
+                if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(reportText.ToString(), TextReportFullPath))
                 {
-                    Logger.Log($"Text Report could not be saved at the location set in the options. It is instead saved as \"{ Toolkit.Privacy(TextReportFullPath) }\".", 
+                    Logger.Log($"Text Report could not be saved at the location set in the options. It is instead saved as \"{ Toolkit.Privacy(TextReportFullPath) }\".",
                         Logger.Warning, duplicateToGameLog: true);
                 }
                 else
@@ -142,148 +77,369 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        /// <summary>Gets the report text for one mod.</summary>
-        /// <returns>True if this mod has no review in the catalog but has remarks to report nonetheless, false otherwise.</returns>
-        // Todo 0.4.1 Change GetModText(), which is now quite cumbersome.
-        // Todo 0.4.1 Currently not reported: SourceURL, Updated, Downloaded.
-        private static bool GetModText(Catalog catalog, ulong steamID, bool nameFirst)
+        /// <summary>Adds header text to the report.</summary>
+        private void AddHeader()
         {
-            Mod subscribedMod = catalog.GetMod(steamID);
-            Author subscriptionAuthor = catalog.GetAuthor(subscribedMod.AuthorID, subscribedMod.AuthorUrl);
-            string AuthorName = subscriptionAuthor == null ? "" : subscriptionAuthor.Name;
-            string modName = subscribedMod.ToString(hideFakeID: true, nameFirst, cutOff: true);
+            DateTime reportCreationTime = DateTime.Now;
+            reportText.AppendLine(Toolkit.WordWrap($"{ ModSettings.ReportName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
 
-            StringBuilder modReview = new StringBuilder();
-            string modHeader = $"{ new string('-', ModSettings.TextReportWidth) }\n\n{ modName }";
+            reportText.AppendLine(Toolkit.WordWrap($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }. " +
+                $"The catalog contains { catalog.ReviewedModCount } reviewed mods with { catalog.Compatibilities.Count } compatibilities, and " +
+                $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. Your game has { catalog.SubscriptionCount() } mods.\n"));
 
-            modHeader += string.IsNullOrEmpty(AuthorName) ? "\n" : 
-                ((modName.Length + 4 + AuthorName.Length <= ModSettings.TextReportWidth) ? $" by { AuthorName }\n" :
-                $"\n{ $"by { AuthorName}".PadLeft(ModSettings.TextReportWidth) }\n");
+            reportText.AppendLine("This is a PREVIEW version of the mod, not thoroughly tested and with limited data.\nRESULTS SHOULD NOT BE TRUSTED!\n");   // Todo 0.4 Remove this.
 
-            // Todo 0.4.1 Rethink which review texts to include in 'somethingToReport'. Combine author retired and mod abandoned into one line.
-            modReview.Append(ThisMod(subscribedMod));
-            modReview.Append(Stability(subscribedMod));
-            modReview.Append(RequiredDlc(subscribedMod));
-            modReview.Append(RequiredMods(catalog, subscribedMod));
-            modReview.Append(Compatibilities(catalog, subscribedMod));
-            modReview.Append(Statuses(subscribedMod));
-            modReview.Append(DependencyMod(catalog, subscribedMod));
-            modReview.Append(Disabled(subscribedMod));
-            modReview.Append(RetiredAuthor(subscriptionAuthor));
-            modReview.Append(GameVersionCompatible(subscribedMod));
-            modReview.Append(Successors(catalog, subscribedMod));
-            modReview.Append(Alternatives(catalog, subscribedMod));
-            modReview.Append(Recommendations(catalog, subscribedMod));
-            modReview.Append(CameraScript(subscribedMod));
-            modReview.Append(ModNote(subscribedMod));
-
-            bool somethingToReport = modReview.Length > 0;
-
-            // Insert the 'not reviewed' text at the start of the text. This does not count towards somethingToReport.
-            modReview.Insert(0, NotReviewed(subscribedMod));
-
-            // Todo 0.4.1 Keep better track of issues. Now the "nothing found" text doesn't show if the author is retired.
-            if (modReview.Length == 0)
+            if (!string.IsNullOrEmpty(catalog.Note))
             {
-                modReview.Append(ReviewLine("No known issues or incompatibilities with your other mods."));
+                reportText.AppendLine(Toolkit.WordWrap($"{ catalog.Note }\n"));
             }
 
-            modReview.Append((steamID > ModSettings.HighestFakeID) ? ReviewLine($"Steam Workshop page: { Toolkit.GetWorkshopUrl(steamID) }"): "");
-
-            if ((subscribedMod.ReviewDate != default) || somethingToReport)
+            if (Toolkit.CurrentGameVersion() != catalog.GameVersion())
             {
-                reviewedModsText.AppendLine(modHeader + modReview);
+                reportText.AppendLine(Toolkit.WordWrap($"WARNING: The review catalog is made for game version " +
+                    Toolkit.ConvertGameVersionToString(catalog.GameVersion()) +
+                    $". Your game is { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "older" : "newer") }. Results may not be accurate.\n",
+                    indent: new string(' ', "WARNING: ".Length)));
+            }
+
+            if (catalog.IsValidID(ModSettings.LowestLocalModID))
+            {
+                reportText.AppendLine(Toolkit.WordWrap("NOTE: You have local mods, which we can't review. The report does not check for incompatibilities with these.\n", 
+                    indent: new string(' ', "NOTE: ".Length)));
+            }
+            
+            reportText.AppendLine($"{ separatorDouble }\n");
+
+            if (!string.IsNullOrEmpty(catalog.ReportHeaderText))
+            {
+                reportText.AppendLine(Toolkit.WordWrap($"{ catalog.ReportHeaderText }\n", indent: ModSettings.Indent1, indentAfterNewLine: ""));
+            }
+        }
+
+
+        /// <summary>Adds footer text to the report.</summary>
+        private void AddFooter()
+        {
+            reportText.AppendLine($"{ separatorDouble }\n");
+            reportText.AppendLine(Toolkit.WordWrap(catalog.ReportFooterText));
+        }
+
+
+        /// <summary>Adds the report text for all mods to the report.</summary>
+        private void AddAllMods()
+        {
+            if (ModSettings.ReportSortByName)
+            {
+                // Report mods sorted by name.
+                List<string> AllSubscriptionNames = catalog.GetSubscriptionNames();
+
+                foreach (string name in AllSubscriptionNames)
+                {
+                    // Get the Steam ID(s) for this mod name. There could be multiple IDs for mods with the same name.
+                    foreach (ulong steamID in catalog.GetSubscriptionIDsByName(name))
+                    {
+                        CreateModText(steamID, nameFirst: true);
+                    }
+                }
             }
             else
             {
-                nonReviewedModsText.AppendLine(modHeader + modReview);
+                // Report mods sorted by Steam ID.
+                foreach (ulong steamID in catalog.GetSubscriptionIDs())
+                {
+                    CreateModText(steamID, nameFirst: false);
+                }
             }
 
-            // Indicate whether we found a mod without a review in the catalog, but with remarks to report.
-            return subscribedMod.ReviewDate == default && somethingToReport;
+            if (unsubscribeCount > 0)
+            {
+                reportText.AppendLine(separatorDouble);
+                reportText.AppendLine($"{ unsubscribeCount } { (unsubscribeCount == 1 ? "MOD" : "MODS") } SHOULD BE UNSUBSCRIBED:");
+                reportText.AppendLine(unsubscribe.ToString());
+            }
+            if (majorCount > 0)
+            {
+                reportText.AppendLine(separatorDouble);
+                reportText.AppendLine($"{ majorCount } { (majorCount == 1 ? "MOD HAS" : "MODS HAVE") } MAJOR ISSUES:");
+                reportText.AppendLine(majorIssues.ToString());
+            }
+            if (minorCount > 0)
+            {
+                reportText.AppendLine(separatorDouble);
+                reportText.AppendLine($"{ minorCount } { (minorCount == 1 ? "MOD HAS" : "MODS HAVE") } MINOR ISSUES:");
+                reportText.AppendLine(minorIssues.ToString());
+            }
+            if (remarksCount > 0)
+            {
+                reportText.AppendLine(separatorDouble);
+                reportText.AppendLine($"{ remarksCount } { (remarksCount == 1 ? "MOD" : "MODS") } WITH REMARKS:");
+                reportText.AppendLine(remarks.ToString());
+            }
+            if (nothingCount > 0)
+            {
+                reportText.AppendLine(separatorDouble);
+                reportText.AppendLine($"{ nothingCount } { (nothingCount == 1 ? "MOD" : "MODS") } WITH NOTHING TO REPORT:");
+                reportText.AppendLine(nothingToReport.ToString());
+            }
+        }
+
+
+        /// <summary>Creates the report text for a single mod and increase the counter.</summary>
+        /// <remarks>The text is added to the relevant StringBuilder, not directly to the report.</remarks>
+        private void CreateModText(ulong steamID, bool nameFirst)
+        {
+            Mod subscribedMod = catalog.GetMod(steamID);
+            string modName = subscribedMod.ToString(hideFakeID: true, nameFirst, cutOff: true);
+            Author subscriptionAuthor = catalog.GetAuthor(subscribedMod.AuthorID, subscribedMod.AuthorUrl);
+            string authorName = subscriptionAuthor == null ? "" : subscriptionAuthor.Name;
+
+            StringBuilder modText = new StringBuilder($"{ new string('-', ModSettings.TextReportWidth) }\n\n");
+
+            modText.AppendLine(string.IsNullOrEmpty(authorName) ? $"{ modName }\n" :
+                ((modName.Length + 4 + authorName.Length <= ModSettings.TextReportWidth) ? $"{ modName } by { authorName }\n" :
+                $"{ modName }\n{ $"by { authorName}".PadLeft(ModSettings.TextReportWidth) }"));
+
+            if (subscribedMod.SteamID >= ModSettings.LowestLocalModID && subscribedMod.SteamID <= ModSettings.HighestLocalModID)
+            {
+                modText.Append(Format("Can't review local mods (yet)."));
+                modText.Append(subscribedMod.IsCameraScript ? Format("This is a cinematic camera script, which technically is a mod and thus listed here.") : "");
+                modText.AppendLine();
+            }
+            else
+            {
+                modText.Append(RequiredDlc(subscribedMod));
+                modText.Append(UnneededDependencyMod(subscribedMod));
+                modText.Append(Disabled(subscribedMod));
+                modText.Append(Stability(subscribedMod));
+                modText.Append(RequiredMods(subscribedMod));
+                modText.Append(Compatibilities(subscribedMod));
+                modText.Append(Statuses(subscribedMod, authorRetired: (subscriptionAuthor != null && subscriptionAuthor.Retired)));
+                modText.Append(ModNote(subscribedMod));
+                modText.Append(Successors(subscribedMod));
+                modText.Append(Alternatives(subscribedMod));
+                modText.Append(subscribedMod.ReportSeverity <= Enums.ReportSeverity.MajorIssues ? Recommendations(subscribedMod) : "");
+                modText.Append(Format(subscribedMod.ReportSeverity == Enums.ReportSeverity.NothingToReport ? 
+                    "No known issues or incompatibilities with your other mods." : ""));
+                modText.Append(subscribedMod.IsCameraScript ? Format("This is a cinematic camera script, which technically is a mod and thus listed here.") : "");
+                modText.Append(subscribedMod.SteamID <= ModSettings.HighestFakeID ? "" : $"\nSteam Workshop page: { Toolkit.GetWorkshopUrl(steamID) }\n");
+                modText.AppendLine();
+            }
+
+            if (subscribedMod.ReportSeverity == Enums.ReportSeverity.Unsubscribe)
+            {
+                unsubscribe.Append(modText);
+                unsubscribeCount++;
+            }
+            else if (subscribedMod.ReportSeverity == Enums.ReportSeverity.MajorIssues)
+            {
+                majorIssues.Append(modText);
+                majorCount++;
+            }
+            else if (subscribedMod.ReportSeverity == Enums.ReportSeverity.MinorIssues)
+            {
+                minorIssues.Append(modText);
+                minorCount++;
+            }
+            else if (subscribedMod.ReportSeverity == Enums.ReportSeverity.Remarks)
+            {
+                remarks.Append(modText);
+                remarksCount++;
+            }
+            else
+            {
+                nothingToReport.Append(modText);
+                nothingCount++;
+            }
         }
 
 
         /// <summary>Formats a text for the report, including optional bullet and indenting.</summary>
-        /// <remarks>The text will be wordwrapped, or optionally cutoff, at report width.</remarks>
+        /// <remarks>The text will be wordwrapped, or optionally cutoff, at report width and end with a newline character.</remarks>
         /// <returns>A formatted string for the report.</returns>
-        private static string ReviewLine(string message, string bullet = ModSettings.Bullet1, bool cutOff = false)
+        private string Format(string message, string bullet = ModSettings.Bullet1, bool cutOff = false)
         {
             message = $"{ bullet }{ message }";
 
-            if (message.Length > ModSettings.TextReportWidth)
+            if (message.Length > ModSettings.TextReportWidth || message.Contains("\n"))
             {
-                if (cutOff)
+                message = cutOff ? Toolkit.CutOff(message, ModSettings.TextReportWidth) : 
+                    Toolkit.WordWrap(message, indent: new string(' ', bullet.Length), indentAfterNewLine: bullet);
+            }
+
+            return (message == bullet) ? "" : $"{ message }\n";
+        }
+
+
+        /// <summary>Creates report text for the stability of a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <returns>Formatted text.</returns>
+        private string Stability(Mod subscribedMod)
+        {
+            string updatedText = subscribedMod.GameVersion() < Toolkit.CurrentMajorGameVersion() ? "." : 
+                subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? ", but it was updated for the current game version." : 
+                $", but it was updated for game version { subscribedMod.GameVersion().ToString(2) }.";
+
+            string note = Format(subscribedMod.StabilityNote, ModSettings.Bullet2);
+
+            switch (subscribedMod.Stability)
+            {
+                case Enums.Stability.IncompatibleAccordingToWorkshop:
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    return Format("UNSUBSCRIBE! This is totally incompatible with the current game version.") + note;
+
+                case Enums.Stability.RequiresIncompatibleMod:
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    return Format("UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.") + note;
+
+                case Enums.Stability.GameBreaking:
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    return Format("UNSUBSCRIBE! This breaks the game.") + note;
+
+                case Enums.Stability.Broken:
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    return Format("Unsubscribe! This mod is broken.") + note;
+
+                case Enums.Stability.MajorIssues:
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                    return Format($"Unsubscribe would be wise. This has major issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + 
+                        note;
+
+                case Enums.Stability.MinorIssues:
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                    return Format($"This has minor issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + note;
+
+                case Enums.Stability.UsersReportIssues:
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                    return Format($"Some users are reporting issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ": ") }") + note;
+
+                case Enums.Stability.NotEnoughInformation:
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                    return Format($"There is not enough information about this mod to know if it works well{ updatedText }") + note;
+
+                case Enums.Stability.Stable:
+                    return Format($"This is compatible with the current game version.") + note;
+
+                case Enums.Stability.NotReviewed:
+                default:
+                    return Format($"This mod has not been reviewed yet{ updatedText }");
+            }
+        }
+
+
+        /// <summary>Creates report text for the statuses of a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <remarks>Also reported: retired author. DependencyMod has its own method. Not reported: UnlistedInWorkshop, SourceObfuscated.</remarks>
+        /// <returns>Formatted text, or an empty string if no reported status found.</returns>
+        private string Statuses(Mod subscribedMod, bool authorRetired)
+        {
+            string text = "";
+
+            if (subscribedMod.Statuses.Contains(Enums.Status.Obsolete))
+            {
+                subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                text += Format("Unsubscribe. This is no longer needed.");
+            }
+            else if (subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
+            {
+                subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                text += Format("Unsubscribe would be wise. This is no longer available on the Steam Workshop.");
+            }
+            else if (subscribedMod.Statuses.Contains(Enums.Status.Deprecated))
+            {
+                subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                text += Format("Unsubscribe would be wise. This is deprecated and no longer supported by the author.");
+            }
+            else if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
+            {
+                text += authorRetired ? Format("This seems to be abandoned and the author seems to be retired. Updates are unlikely.") :
+                    Format("This seems to be abandoned. Updates are unlikely.");    // Todo 0.4 Add something to say abandoned is only an issue with mod issues.
+            }
+            else if (authorRetired)
+            {
+                text += Format("The author seems to be retired. Updates are unlikely.");    // Todo 0.4 idem.
+            }
+
+            if (subscribedMod.ReportSeverity < Enums.ReportSeverity.Unsubscribe)
+            {
+                // Several statuses only listed if there are no breaking issues.
+                if (subscribedMod.Statuses.Contains(Enums.Status.Reupload))
                 {
-                    message = Toolkit.CutOff(message, ModSettings.TextReportWidth);
-                    Logger.Log($"Report line cut off: { message }", Logger.Debug);
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    text += Format("Unsubscribe. This is a re-upload of another mod, use that one (or its successor) instead. See below.");
                 }
-                else
+
+                if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription))
                 {
-                    message = Toolkit.WordWrap($"{ message }", indent: new string(' ', bullet.Length));
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                    text += Format("This has no description on the Steam Workshop. Support from the author is unlikely.");
+                }
+
+                if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection))
+                {
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                    text += Format("This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. " +
+                        "Use with caution.");
+                }
+
+                if (subscribedMod.Statuses.Contains(Enums.Status.BreaksEditors))
+                {
+                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                    text += Format("If you use the asset editor and/or map editor, this might give serious issues.");
+                }
+
+                if (subscribedMod.Statuses.Contains(Enums.Status.ModForModders))
+                {
+                    text += Format("This is only needed for modders. Regular users don't need this one.");
+                }
+
+                if (subscribedMod.Statuses.Contains(Enums.Status.TestVersion))
+                {
+                    text += Format("This is a test version. If you don't have a specific reason to use it, and there is a stable version, " +
+                        "you'd better subscribe to that one instead.");
+                }
+
+                if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))
+                {
+                    text += Format("The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.");
+                }
+                else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrighted))
+                {
+                    text += Format("This includes copyrighted music and should not be used for streaming.");
+                }
+                else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightUnknown))
+                {
+                    text += Format("This includes music with unknown copyright status. Safer not to use it for streaming.");
                 }
             }
 
-            return string.IsNullOrEmpty(message) || (message == bullet) ? "" : $"{ message }\n";
+            if (subscribedMod.Statuses.Contains(Enums.Status.SavesCantLoadWithout))
+            {
+                text += Format("NOTE: After using this mod, savegames won't (easily) load without it anymore.");
+            }
+
+            bool abandoned = subscribedMod.Statuses.Contains(Enums.Status.Obsolete) || subscribedMod.Statuses.Contains(Enums.Status.Deprecated) ||
+                subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop) || subscribedMod.Statuses.Contains(Enums.Status.Abandoned) ||
+                (subscribedMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop) || authorRetired;
+
+            if (abandoned && string.IsNullOrEmpty(subscribedMod.SourceUrl) && !subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
+            {
+                text += Format($"No public source code found, making it hard to continue by another modder.");
+            }
+            else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceNotUpdated))
+            {
+                text += Format($"Published source seems out of date, making it hard to continue by another modder.");
+            }
+
+            if (!string.IsNullOrEmpty(text))
+            {
+                subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+            }
+
+            return text;
         }
 
 
-        // Say hi to ourselves.
-        private static string ThisMod(Mod subscribedMod)
-        {
-            // Todo 0.6 More reliable check for ourselves, to detect local copies.
-            return (subscribedMod.SteamID != ModSettings.OurOwnSteamID) ? "" : ReviewLine("This mod.");
-        }
-
-
-        // Mod not reviewed, Local mods get a slightly different text.
-        private static string NotReviewed(Mod subscribedMod)
-        {
-            bool IsLocal = subscribedMod.SteamID >= ModSettings.LowestLocalModID && subscribedMod.SteamID <= ModSettings.HighestLocalModID;
-
-            return IsLocal ? ReviewLine("Can't review local mods (yet).") : (subscribedMod.ReviewDate != default) ? "" : ReviewLine("Not reviewed yet.");
-        }
-
-
-        // Cinematic camera script.
-        private static string CameraScript(Mod subscribedMod)
-        {
-            return !subscribedMod.IsCameraScript ? "" : ReviewLine("This is a cinematic camera script, which technically is a mod and thus listed here.");
-        }
-
-
-        // Mod note.
-        private static string ModNote(Mod subscribedMod)
-        {
-            return ReviewLine(subscribedMod.Note ?? "");
-        }
-
-
-        // Game version compatible, only listed for current major game version.
-        private static string GameVersionCompatible(Mod subscribedMod)
-        {
-            string currentOrNot = subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? "current " : "";
-            return (subscribedMod.GameVersion() < Toolkit.CurrentMajorGameVersion()) ? "" : ReviewLine("Created for " +
-                $"{ currentOrNot }game version { Toolkit.ConvertGameVersionToString(subscribedMod.GameVersion()) }. Less likely to have issues by itself.");
-        }
-
-
-        // Disabled mod.
-        private static string Disabled(Mod subscribedMod)
-        {
-            return !subscribedMod.IsDisabled ? "" : ReviewLine("Mod is disabled. Unsubscribe it if not used. Disabled mods can still cause issues.");
-        }
-
-
-        // Retired author.
-        private static string RetiredAuthor(Author subscriptionAuthor)
-        {
-            return (subscriptionAuthor == null || !subscriptionAuthor.Retired) ? "" : ReviewLine("The author seems to be retired. Updates are unlikely.");
-        }
-
-
-        // Unneeded dependency mod.
-        private static string DependencyMod(Catalog catalog, Mod subscribedMod)
+        /// <summary>Creates report text for an unneeded dependency mod and increases the report severity for the mod if appropriate.</summary>
+        /// <returns>Formatted text, or an empty string if not a dependency mod or if another subscription has this mod as required.</returns>
+        private string UnneededDependencyMod(Mod subscribedMod)
         {
             if (!subscribedMod.Statuses.Contains(Enums.Status.DependencyMod))
             {
@@ -302,71 +458,55 @@ namespace CompatibilityReport.Reporter
                 }
             }
 
-            return catalog.IsValidID(ModSettings.LowestLocalModID) ? ReviewLine("You should unsubscribe this, unless it is needed for one of your local mods. " +
-                "None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.") : 
-                ReviewLine("You should unsubscribe this. It is only needed for mods you don't have.");
+            if (catalog.IsValidID(ModSettings.LowestLocalModID))
+            {
+                subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+
+                return Format("If this is not needed for one of your local mods, you can unsubscribe it. " +
+                    "None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.");
+            }
+            else
+            {
+                subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+
+                return Format("You should unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.");
+            }
         }
 
 
-        // Successor(s)
-        private static string Successors(Catalog catalog, Mod subscribedMod)
+        /// <summary>Creates report text for a disabled mod and increases the report severity for the mod if appropriate.</summary>
+        /// <returns>Formatted text, or an empty string if not disabled.</returns>
+        private string Disabled(Mod subscribedMod)
         {
-            string text = (subscribedMod.Successors.Count == 0) ? "" : (subscribedMod.Successors.Count == 1) ? ReviewLine("This is succeeded by:") :
-                ReviewLine("This is succeeded by any of the following (pick one, not all):");
-
-            foreach (ulong steamID in subscribedMod.Successors)
+            if (!subscribedMod.IsDisabled)
             {
-                if (catalog.IsValidID(steamID))
-                {
-                    if (catalog.GetSubscription(steamID) != null)
-                    {
-                        return ReviewLine("Unsubscribe. This is succeeded by a mod you already have:") + 
-                            ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                    }
-
-                    text += ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                }
-                else
-                {
-                    // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
-                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
-
-                    Logger.Log($"Successor mod { steamID } not found in catalog.", Logger.Warning);
-                }
+                return "";
             }
 
-            return text;
+            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+
+            return Format("Mod is disabled, but disabled mods can still cause issues. Unsubscribe it, or enable it if you want to use it and recheck the report.");
         }
 
 
-        // Alternative mods
-        private static string Alternatives(Catalog catalog, Mod subscribedMod)
+        /// <summary>Creates report text for a mod not and increases the report severity for the mod if appropriate.</summary>
+        /// <returns>Formatted text, or an empty string if no mod note exists.</returns>
+        private string ModNote(Mod subscribedMod)
         {
-            string text = (subscribedMod.Alternatives.Count == 0) ? "" : (subscribedMod.Alternatives.Count == 1) ? ReviewLine("An alternative you could use:") :
-                ReviewLine("Some alternatives for this are (pick one, not all):");
-
-            foreach (ulong steamID in subscribedMod.Alternatives)
+            if (string.IsNullOrEmpty(subscribedMod.Note))
             {
-                if (catalog.IsValidID(steamID))
-                {
-                    text += ReviewLine($"{ (catalog.GetSubscription(steamID) == null ? "" : "[Subscribed] ") }{ catalog.GetMod(steamID).ToString(hideFakeID: true) }", 
-                        ModSettings.Bullet2, cutOff: true);
-                }
-                else
-                {
-                    // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
-                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
-
-                    Logger.Log($"Alternative mod { steamID } not found in catalog.", Logger.Warning);
-                }
+                return "";
             }
 
-            return text;
+            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+
+            return Format(subscribedMod.Note);
         }
+        
 
-
-        // Required DLC
-        private static string RequiredDlc(Mod subscribedMod)
+        /// <summary>Creates report text for missing DLCs for a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <returns>Formatted text, or an empty string if no DLC is required or if all required DLCs are installed.</returns>
+        private string RequiredDlc(Mod subscribedMod)
         {
             string dlcs = "";
 
@@ -374,19 +514,27 @@ namespace CompatibilityReport.Reporter
             {
                 if (!PlatformService.IsDlcInstalled((uint)dlc))
                 {
-                    // Add the missing DLC, replacing the underscores in the DLC enum name with spaces and semicolons
-                    dlcs += ReviewLine(Toolkit.ConvertDlcToString(dlc), ModSettings.Bullet2);
+                    // Add the missing DLC.
+                    dlcs += Format(Toolkit.ConvertDlcToString(dlc), ModSettings.Bullet2);
                 }
             }
 
-            return string.IsNullOrEmpty(dlcs) ? "" : ReviewLine("Unsubscribe. This requires DLC you don't have:") + dlcs;
+            if (string.IsNullOrEmpty(dlcs))
+            {
+                return "";
+            }
+
+            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+
+            return Format("Unsubscribe. This requires DLC you don't have:") + dlcs;
         }
 
 
-        /// <summary>Check for required mods that are not subscribed or disabled.</summary>
-        /// <remarks>If a required mod is not subscribed but in a group, the other group members are checked.</remarks>
-        /// <returns>A string with text for the report, or an empty string if there is no required mod or no required mod is missing.</returns>
-        private static string RequiredMods(Catalog catalog, Mod subscribedMod)
+        /// <summary>Creates report text for missing 'required mods' for a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <remarks>If a required mod is not subscribed but in a group, the other group members are checked. 
+        ///          Required mods that are disabled are mentioned as such.</remarks>
+        /// <returns>Formatted text, or an empty string if this requires no other mods or all required mods are subscribed and enabled.</returns>
+        private string RequiredMods(Mod subscribedMod)
         {
             string text = "";
 
@@ -394,25 +542,33 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(steamID))
                 {
-                    text += CheckModAndGroup(catalog, steamID);
+                    text += CheckModAndGroup(steamID);
                 }
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
-                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
-
                     Logger.Log($"Required mod { steamID } not found in catalog.", Logger.Warning);
+
+                    text += Format($"[Steam ID { steamID, 10 }]", ModSettings.Bullet2);
                 }
             }
 
-            return string.IsNullOrEmpty(text) ? "" : ReviewLine("This mod requires other mods you don't have, or which are not enabled:") + text;
+            if (string.IsNullOrEmpty(text))
+            {
+                return "";
+            }
+
+            subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+
+            return Format("This mod requires other mods you don't have, or which are not enabled:") + text;
         }
 
 
-        /// <summary>Check for recommended mods that are not subscribed or disabled.</summary>
-        /// <remarks>If a recommended mod is not subscribed but in a group, the other group members are checked.</remarks>
-        /// <returns>A string with text for the report, or an empty string if there is no recommendation or no recommended mod is missing.</returns>
-        private static string Recommendations(Catalog catalog, Mod subscribedMod)
+        /// <summary>Creates report text for recommended mods for a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <remarks>If a recommended mod is not subscribed but in a group, the other group members are checked. 
+        ///          Recommended mods that are disabled are mentioned as such.</remarks>
+        /// <returns>Formatted text, or an empty string if this mod has no recommendations or all recommended mods are subscribed and enabled.</returns>
+        private string Recommendations(Mod subscribedMod)
         {
             string text = "";
 
@@ -420,222 +576,159 @@ namespace CompatibilityReport.Reporter
             {
                 if (catalog.IsValidID(steamID))
                 {
-                    text += CheckModAndGroup(catalog, steamID);
+                    text += CheckModAndGroup(steamID);
                 }
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
-                    text += ReviewLine($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
-
                     Logger.Log($"Recommended mod { steamID } not found in catalog.", Logger.Warning);
+
+                    text += Format($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
                 }
             }
 
-            return string.IsNullOrEmpty(text) ? "" : ReviewLine("The author of this mod recommends using the following with this:") + text;
+            if (string.IsNullOrEmpty(text))
+            {
+                return "";
+            }
+
+            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+
+            return Format("The author of this mod recommends using the following mods as well:") + text;
         }
 
 
-        /// <summary>Check if a mod or any member of its group is subscribed and enabled.</summary>
+        /// <summary>Checks if a mod or any member of its group is subscribed and enabled.</summary>
         /// <returns>A string with text for the report, or an empty string if the mod or another group member is subscribed and enabled.</returns>
-        private static string CheckModAndGroup(Catalog catalog, ulong steamID)
+        private string CheckModAndGroup(ulong steamID)
         {
-            string text = "";
-
             if (catalog.GetSubscription(steamID) != null && !catalog.GetSubscription(steamID).IsDisabled)
             {
-                // Mod is subscribed and enabled. Nothing to report.
+                // Mod is subscribed and enabled. Don't report.
+                return "";
             }
             else if (catalog.GetMod(steamID).IsDisabled)
             {
                 // Mod is subscribed and disabled. Report as "missing", without Workshop page.
-                text = ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                return Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
             }
             else if (!catalog.IsGroupMember(steamID))
             {
-                // Mod is not subscribed and not in a group. Report as missing.
-                text = ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
-                    ReviewLine($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
+                // Mod is not subscribed and not in a group. Report as missing with Workshop page.
+                return Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
+                    Format($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
             }
             else
             {
                 // Mod is not subscribed but in a group. Check if another group member is subscribed.
-                bool subscribedGroupMember = false;
-
                 foreach (ulong groupMemberID in catalog.GetThisModsGroup(steamID).GroupMembers)
                 {
-                    if (subscribedGroupMember = catalog.GetSubscription(groupMemberID) != null)
+                    if (catalog.GetSubscription(groupMemberID) != null)
                     {
                         // Group member is subscribed. No need to check other group members, but report as "missing" if disabled.
-                        if (catalog.GetMod(groupMemberID).IsDisabled)
-                        {
-                            text = ReviewLine(catalog.GetMod(groupMemberID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                        }
-                        break;
+                        return !catalog.GetMod(groupMemberID).IsDisabled ? "" : 
+                            Format(catalog.GetMod(groupMemberID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                     }
                 }
 
-                if (!subscribedGroupMember)
+                // No group member is subscribed. Report original mod as missing.
+                return Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
+                    Format($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
+            }
+        }
+
+
+        /// <summary>Creates report text for successors of a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <returns>Formatted text, or an empty string if this mod has no successors.</returns>
+        private string Successors(Mod subscribedMod)
+        {
+            if (!subscribedMod.Successors.Any())
+            {
+                return "";
+            }
+
+            string text = (subscribedMod.Successors.Count == 1) ? Format("This is succeeded by:") : Format("This is succeeded by any of the following (pick one, not all):");
+
+            foreach (ulong steamID in subscribedMod.Successors)
+            {
+                if (catalog.IsValidID(steamID))
                 {
-                    // No group member is subscribed. Report original mod as missing.
-                    text = ReviewLine(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
-                        ReviewLine($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
+                    if (catalog.GetSubscription(steamID) != null)
+                    {
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+
+                        return Format("Unsubscribe. This is succeeded by a mod you already have:") +
+                            Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    }
+
+                    text += Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                }
+                else
+                {
+                    // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
+                    Logger.Log($"Successor mod { steamID } not found in catalog.", Logger.Warning);
+
+                    text += Format($"[Steam ID { steamID, 10 }]", ModSettings.Bullet2);
                 }
             }
+
+            subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
 
             return text;
         }
 
 
-        // Mod stability.
-        private static string Stability(Mod subscribedMod)
+        /// <summary>Creates report text for alternatives for a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <returns>Formatted text, or an empty string if this mod has no alternatives.</returns>
+        private string Alternatives(Mod subscribedMod)
         {
-            string note = ReviewLine(subscribedMod.StabilityNote, ModSettings.Bullet2);
-
-            switch (subscribedMod.Stability)
+            if (!subscribedMod.Alternatives.Any())
             {
-                case Enums.Stability.IncompatibleAccordingToWorkshop:
-                    return ReviewLine("UNSUBSCRIBE! This is totally incompatible with the current game version.") + note;
+                return "";
+            }
 
-                case Enums.Stability.RequiresIncompatibleMod:
-                    return ReviewLine("UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.") + note;
+            string text = (subscribedMod.Alternatives.Count == 1) ? Format("An alternative you could use:") : Format("Some alternatives for this are (pick one, not all):");
 
-                case Enums.Stability.GameBreaking:
-                    return ReviewLine("UNSUBSCRIBE! This breaks the game.") + note;
-
-                case Enums.Stability.Broken:
-                    return ReviewLine("Unsubscribe! This mod is broken.") + note;
-
-                case Enums.Stability.MajorIssues:
-                    return ReviewLine($"Unsubscribe would be wise. This has major issues{ (string.IsNullOrEmpty(note) ? "." : ":") }") + note;
-
-                case Enums.Stability.MinorIssues:
-                    return ReviewLine($"This has minor issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + note;
-
-                case Enums.Stability.UsersReportIssues:
-                    return ReviewLine("Stability is uncertain. Some users are reporting issues" +
-                        (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ": ")) + note;
-
-                case Enums.Stability.Stable:
-                    bool isBuiltin = subscribedMod.SteamID <= ModSettings.BuiltinMods.Values.Max();
-                    return ReviewLine($"This { (isBuiltin ? "is" : "should be") } compatible with the current game version.") + note;
-
-                case Enums.Stability.NotEnoughInformation:
-                    return ReviewLine("There is not enough information about this mod to know if it is compatible with the current game version.") + note;
-
-                case Enums.Stability.NotReviewed:
-                default:
+            foreach (ulong steamID in subscribedMod.Alternatives)
+            {
+                if (catalog.GetSubscription(steamID) != null && !catalog.GetSubscription(steamID).IsDisabled)
+                {
+                    // Already subscribed, don't report any.
                     return "";
-            }
-        }
-
-
-        // Mod statuses. Not reported: UnlistedInWorkshop, SourceObfuscated.
-        private static string Statuses(Mod subscribedMod)
-        {
-            string text = "";
-
-            if (subscribedMod.Statuses.Contains(Enums.Status.Obsolete))
-            {
-                text += ReviewLine("Unsubscribe. This is no longer needed.");
-            }
-
-            if (subscribedMod.Statuses.Contains(Enums.Status.SavesCantLoadWithout))
-            {
-                text += ReviewLine("NOTE: After using this mod, savegames won't (easily) load without it anymore.");
-            }
-
-            if (subscribedMod.Stability <= Enums.Stability.Broken)
-            {
-                // Several statuses only listed if there are no breaking issues.
-                if (subscribedMod.Statuses.Contains(Enums.Status.Deprecated))
-                {
-                    text += ReviewLine("Unsubscribe would be wise. This mod is no longer supported by the author.");
-                }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
-                {
-                    text += ReviewLine("Unsubscribe would be wise. This is no longer available on the Steam Workshop.");
-                }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.Reupload))
-                {
-                    text += ReviewLine("Unsubscribe. This is a re-upload of another mod, use that one instead.");
-                }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
-                {
-                    text += ReviewLine("This seems to be abandoned and probably won't be updated anymore.");
                 }
 
-                if (subscribedMod.Statuses.Contains(Enums.Status.BreaksEditors))
+                if (catalog.IsValidID(steamID))
                 {
-                    text += ReviewLine("If you use the asset editor and/or map editor, this might give serious issues.");
+                    text += Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 }
+                else
+                {
+                    // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
+                    Logger.Log($"Alternative mod { steamID } not found in catalog.", Logger.Warning);
 
-                if (subscribedMod.Statuses.Contains(Enums.Status.ModForModders))
-                {
-                    text += ReviewLine("This is only needed for modders. Regular users don't need this one.");
-                }
-
-                if (subscribedMod.Statuses.Contains(Enums.Status.TestVersion))
-                {
-                    text += ReviewLine("This is a test version. If you don't have a specific reason to use it, you'd better subscribe to the stable version instead.");
-                }
-
-                if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))
-                {
-                    text += ReviewLine(Toolkit.WordWrap("The included music is said to be copyright-free and safe for streaming. " +
-                        "Some restrictions might still apply though."));
-                }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrighted))
-                {
-                    text += ReviewLine("This includes copyrighted music and should not be used for streaming.");
-                }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightUnknown))
-                {
-                    text += ReviewLine("This includes music with unknown copyright status. Safer not to use it for streaming.");
-                }
-
-                if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription))
-                {
-                    text += ReviewLine("This has no description on the Steam Workshop. Support from the author is unlikely.");
-                }
-
-                if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection))
-                {
-                    text += ReviewLine("This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. " +
-                        "Use with caution.");
+                    text += Format($"[Steam ID { steamID, 10 }]", ModSettings.Bullet2);
                 }
             }
 
-            bool unsupported = subscribedMod.Statuses.Contains(Enums.Status.Obsolete) || subscribedMod.Statuses.Contains(Enums.Status.Deprecated) || 
-                subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop) || subscribedMod.Statuses.Contains(Enums.Status.Reupload) || 
-                subscribedMod.Statuses.Contains(Enums.Status.Abandoned) || (subscribedMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop);
-
-            if (string.IsNullOrEmpty(subscribedMod.SourceUrl) && !subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
-            {
-                text += ReviewLine($"No public source code found, making it hard to continue by another modder" +
-                    (unsupported ? "." : " if this would get abandoned in the future."));
-            }
-            else if (subscribedMod.Statuses.Contains(Enums.Status.SourceNotUpdated))
-            {
-                text += ReviewLine($"Published source seems out of date, making it hard to continue by another modder" +
-                    (unsupported ? "." : " if this would get abandoned in the future."));
-            }
+            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
 
             return text;
         }
 
 
-        // Compatibilities with other mods. Result could be multiple mods with multiple statuses. Not reported: CompatibleAccordingToAuthor.
-        private static string Compatibilities(Catalog catalog, Mod subscribedMod)
+        /// <summary>Creates report text for compatibility issues with other subscribed mods, and increases the report severity for the mod if appropriate.</summary>
+        /// <remarks>Result could be multiple mods with multiple statuses. Not reported: CompatibleAccordingToAuthor and SameFunctionalityCompatible without note.</remarks>
+        /// <returns>Formatted text, or an empty string if there are no known compatibility issues.</returns>
+        private string Compatibilities(Mod subscribedMod)
         {
             string text = "";
 
             foreach (Compatibility compatibility in catalog.GetSubscriptionCompatibilities(subscribedMod.SteamID))
             {
-                string firstMod = ReviewLine(catalog.GetMod(compatibility.FirstModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                string secondMod = ReviewLine(catalog.GetMod(compatibility.SecondModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
-                string otherMod = subscribedMod.SteamID == compatibility.FirstModID ? secondMod : firstMod;
+                ulong otherModID = (subscribedMod.SteamID == compatibility.FirstModID) ? compatibility.SecondModID : compatibility.FirstModID;
+                string otherMod = Format(catalog.GetMod(otherModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
 
-                string note = ReviewLine(compatibility.Note, ModSettings.Bullet3);
+                string note = Format(compatibility.Note, ModSettings.Indent2);
 
                 switch (compatibility.Status)
                 {
@@ -643,33 +736,49 @@ namespace CompatibilityReport.Reporter
                         // Only reported for the test mod.
                         if (subscribedMod.SteamID == compatibility.SecondModID)
                         {
-                            text += ReviewLine("Unsubscribe. You're already subscribe to another edition of the same mod:") + firstMod + note;
+                            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                            text += Format("Unsubscribe. You're already subscribe to another edition of the same mod:") + otherMod + note;
                         }
                         break;
 
                     // The statuses below are reported for both mods
                     case Enums.CompatibilityStatus.SameFunctionality:
-                        text += ReviewLine("Unsubscribe either this one or the other mod with the same functionality:") + otherMod + note;
-                        break;
-
-                    case Enums.CompatibilityStatus.RequiresSpecificSettings:
-                        text += ReviewLine("This requires specific configuration to work together with:") + otherMod + note;
-                        break;
-
-                    case Enums.CompatibilityStatus.MinorIssues:
-                        text += ReviewLine("This has minor issues with:") + otherMod + note;
-                        break;
-
-                    case Enums.CompatibilityStatus.MajorIssues:
-                        text += ReviewLine("This has major issues with:") + otherMod + note;
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                        text += Format("Unsubscribe either this one or the other mod with the same functionality:") + otherMod + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
-                        text += ReviewLine("This is incompatible with (unsubscribe either one):") + otherMod + note;
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                        text += Format("This is incompatible with (unsubscribe either one):") + otherMod + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToUsers:
-                        text += ReviewLine("Users report incompatibility with (best to unsubscribe one):") + otherMod + note;
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                        text += Format("Users report incompatibility with (best to unsubscribe one):") + otherMod + note;
+                        break;
+
+                    case Enums.CompatibilityStatus.MajorIssues:
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                        text += Format("This has major issues with:") + otherMod + note;
+                        break;
+
+                    case Enums.CompatibilityStatus.MinorIssues:
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                        text += Format("This has minor issues with:") + otherMod + note;
+                        break;
+
+                    case Enums.CompatibilityStatus.RequiresSpecificSettings:
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                        text += Format("This requires specific configuration to work together with:") + otherMod + note;
+                        break;
+
+                    case Enums.CompatibilityStatus.CompatibleAccordingToAuthor:
+                    case Enums.CompatibilityStatus.SameFunctionalityCompatible:
+                        if (!string.IsNullOrEmpty(note))
+                        {
+                            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                            text += Format("This is compatible with:") + otherMod + note;
+                        }
                         break;
 
                     default:

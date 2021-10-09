@@ -68,7 +68,8 @@ namespace CompatibilityReport.Reporter
             // Always create the text report if the HTML report is disabled, so at least one report is created.
             if (ModSettings.TextReport || !ModSettings.HtmlReport)
             {
-                TextReport.Create(catalog);
+                TextReport textReport = new TextReport(catalog);
+                textReport.Create();
             }
 
             Logger.Log("Mod has finished.", duplicateToGameLog: true);
