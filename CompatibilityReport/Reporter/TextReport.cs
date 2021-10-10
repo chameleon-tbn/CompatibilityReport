@@ -10,15 +10,14 @@ using CompatibilityReport.Util;
 namespace CompatibilityReport.Reporter
 {
     // The report is split into five categories:
-    //  - Unsubscribe:       broken, incompatible (mod and compatibility), obsolete, disabled, reuploads, missing dlc, unneeded dependency.
-    //  - Major Issues:      major issues (mod and compatibility), removed, deprecated, missing required mods.
+    //  - Unsubscribe:       broken/gamebreaking, incompatible according to workshop or author, obsolete, disabled, reuploads, missing dlc, unneeded dependency.
+    //  - Major Issues:      major issues (mod and compatibility), incompatible according to users, removed, deprecated, missing required mods.
     //  - Minor Issues:      minor issues (mod and compatibility), users report issues, no description, no comment section, successors.
     //  - Remarks:           not enough information, retired author, abandoned, breaks editors, other statuses, mod note, game version, alternatives, recommendations,
     //                       specific settings, compatible (with compatibility note).
     //  - Nothing to Report: stable, not reviewed.
     //          
-    // Currently not reported: SourceURL (no-source and source-not-updated are reported), Updated, Downloaded.
-    // Todo 0.4 Review needed for all texts that appear in the report.
+    // Currently not reported: SourceURL (no-source and source-not-updated are reported), SourceBundled, Updated, Downloaded.
 
     public class TextReport
     {
@@ -87,7 +86,7 @@ namespace CompatibilityReport.Reporter
                 $"The catalog contains { catalog.ReviewedModCount } reviewed mods with { catalog.Compatibilities.Count } compatibilities, and " +
                 $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. Your game has { catalog.SubscriptionCount() } mods.\n"));
 
-            reportText.AppendLine("This is a PREVIEW version of the mod, not thoroughly tested and with limited data.\nRESULTS SHOULD NOT BE TRUSTED!\n");   // Todo 0.4 Remove this.
+            reportText.AppendLine("This is a PREVIEW version of the mod, not thoroughly tested and with limited data.\nRESULTS SHOULD NOT BE TRUSTED!\n");  // Todo 0.5 Remove this.
 
             if (!string.IsNullOrEmpty(catalog.Note))
             {
@@ -210,12 +209,12 @@ namespace CompatibilityReport.Reporter
                 modText.Append(RequiredDlc(subscribedMod));
                 modText.Append(UnneededDependencyMod(subscribedMod));
                 modText.Append(Disabled(subscribedMod));
+                modText.Append(Successors(subscribedMod));
                 modText.Append(Stability(subscribedMod));
-                modText.Append(RequiredMods(subscribedMod));
                 modText.Append(Compatibilities(subscribedMod));
+                modText.Append(RequiredMods(subscribedMod));
                 modText.Append(Statuses(subscribedMod, authorRetired: (subscriptionAuthor != null && subscriptionAuthor.Retired)));
                 modText.Append(ModNote(subscribedMod));
-                modText.Append(Successors(subscribedMod));
                 modText.Append(Alternatives(subscribedMod));
                 modText.Append(subscribedMod.ReportSeverity <= Enums.ReportSeverity.MajorIssues ? Recommendations(subscribedMod) : "");
                 modText.Append(Format(subscribedMod.ReportSeverity == Enums.ReportSeverity.NothingToReport ? 
@@ -284,7 +283,7 @@ namespace CompatibilityReport.Reporter
             {
                 case Enums.Stability.IncompatibleAccordingToWorkshop:
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                    return Format("UNSUBSCRIBE! This is totally incompatible with the current game version.") + note;
+                    return Format("UNSUBSCRIBE! This mod is totally incompatible with the current game version.") + note;
 
                 case Enums.Stability.RequiresIncompatibleMod:
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
@@ -292,7 +291,7 @@ namespace CompatibilityReport.Reporter
 
                 case Enums.Stability.GameBreaking:
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                    return Format("UNSUBSCRIBE! This breaks the game.") + note;
+                    return Format("UNSUBSCRIBE! This mod breaks the game.") + note;
 
                 case Enums.Stability.Broken:
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
@@ -335,7 +334,7 @@ namespace CompatibilityReport.Reporter
             if (subscribedMod.Statuses.Contains(Enums.Status.Obsolete))
             {
                 subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                text += Format("Unsubscribe. This is no longer needed.");
+                text += Format("Unsubscribe this. It is no longer needed.");
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
@@ -349,12 +348,12 @@ namespace CompatibilityReport.Reporter
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
             {
-                text += authorRetired ? Format("This seems to be abandoned and the author seems to be retired. Updates are unlikely.") :
-                    Format("This seems to be abandoned. Updates are unlikely.");    // Todo 0.4 Add something to say abandoned is only an issue with mod issues.
+                text += authorRetired ? Format("This seems to be abandoned and the author seems retired. Future updates are unlikely.") :
+                    Format("This seems to be abandoned. Future updates are unlikely.");
             }
             else if (authorRetired)
             {
-                text += Format("The author seems to be retired. Updates are unlikely.");    // Todo 0.4 idem.
+                text += Format("The author seems to be retired. Future updates are unlikely.");
             }
 
             if (subscribedMod.ReportSeverity < Enums.ReportSeverity.Unsubscribe)
@@ -363,7 +362,7 @@ namespace CompatibilityReport.Reporter
                 if (subscribedMod.Statuses.Contains(Enums.Status.Reupload))
                 {
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                    text += Format("Unsubscribe. This is a re-upload of another mod, use that one (or its successor) instead. See below.");
+                    text += Format("Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).");
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription))
@@ -462,14 +461,14 @@ namespace CompatibilityReport.Reporter
             {
                 subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
 
-                return Format("If this is not needed for one of your local mods, you can unsubscribe it. " +
+                return Format("Unsubscribe this unless it's needed for one of your local mods. " +
                     "None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.");
             }
             else
             {
                 subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
-                return Format("You should unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.");
+                return Format("Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.");
             }
         }
 
@@ -485,7 +484,7 @@ namespace CompatibilityReport.Reporter
 
             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
-            return Format("Mod is disabled, but disabled mods can still cause issues. Unsubscribe it, or enable it if you want to use it and recheck the report.");
+            return Format("Unsubscribe this, or enable it if you want to use it. Disabled mods can still cause issues.");
         }
 
 
@@ -526,7 +525,7 @@ namespace CompatibilityReport.Reporter
 
             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
-            return Format("Unsubscribe. This requires DLC you don't have:") + dlcs;
+            return Format("Unsubscribe this. It requires DLC you don't have:") + dlcs;
         }
 
 
@@ -657,11 +656,12 @@ namespace CompatibilityReport.Reporter
                     {
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
-                        return Format("Unsubscribe. This is succeeded by a mod you already have:") +
+                        return Format("Unsubscribe this. It is succeeded by a mod you already have:") +
                             Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                     }
 
-                    text += Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
+                        Format($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
                 }
                 else
                 {
@@ -699,7 +699,8 @@ namespace CompatibilityReport.Reporter
 
                 if (catalog.IsValidID(steamID))
                 {
-                    text += Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                    text += Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
+                        Format($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
                 }
                 else
                 {
@@ -726,7 +727,8 @@ namespace CompatibilityReport.Reporter
             foreach (Compatibility compatibility in catalog.GetSubscriptionCompatibilities(subscribedMod.SteamID))
             {
                 ulong otherModID = (subscribedMod.SteamID == compatibility.FirstModID) ? compatibility.SecondModID : compatibility.FirstModID;
-                string otherMod = Format(catalog.GetMod(otherModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                string otherMod = Format(catalog.GetMod(otherModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) + 
+                    Format($"Workshop page: { Toolkit.GetWorkshopUrl(otherModID) }", ModSettings.Indent2);
 
                 string note = Format(compatibility.Note, ModSettings.Indent2);
 
@@ -737,24 +739,24 @@ namespace CompatibilityReport.Reporter
                         if (subscribedMod.SteamID == compatibility.SecondModID)
                         {
                             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                            text += Format("Unsubscribe. You're already subscribe to another edition of the same mod:") + otherMod + note;
+                            text += Format("Unsubscribe this. You're already subscribe to another edition of the same mod:") + otherMod + note;
                         }
                         break;
 
                     // The statuses below are reported for both mods
                     case Enums.CompatibilityStatus.SameFunctionality:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        text += Format("Unsubscribe either this one or the other mod with the same functionality:") + otherMod + note;
+                        text += Format("Unsubscribe either this one or the following mod with the same functionality:") + otherMod + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        text += Format("This is incompatible with (unsubscribe either one):") + otherMod + note;
+                        text += Format("Unsubscribe either this one or the following mod it's incompatible with:") + otherMod + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToUsers:
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        text += Format("Users report incompatibility with (best to unsubscribe one):") + otherMod + note;
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                        text += Format("Users report an incompatibility with:") + otherMod + note;
                         break;
 
                     case Enums.CompatibilityStatus.MajorIssues:

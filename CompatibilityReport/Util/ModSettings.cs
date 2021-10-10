@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
 
         public const string Version = "0.4.1";
-        public const string Build = "315";
+        public const string Build = "316";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -117,7 +117,7 @@ namespace CompatibilityReport.Util
         public static int DownloadRetries { get; private set; } = 2;
         public static bool ScanBeforeMainMenu { get; private set; } = true;
         public static bool DebugMode { get; private set; } = true;
-        public static bool LogAppend { get; private set; } = false || DebugMode;
+        public static bool LogAppend { get; private set; } = false;
         public static long LogMaxSize { get; private set; } = 100 * 1024;
 
 
