@@ -323,7 +323,8 @@ namespace CompatibilityReport.Updater
             }
 
             catalog.ChangeNotes.AppendRemovedCompatibility("Removed compatibility between " +
-                $"{ Toolkit.CutOff(catalog.GetMod(oldCompatibility.FirstModID).ToString(), 25) } and { oldCompatibility.SecondModID, 10 }: { oldCompatibility.Status }" +
+                $"{ Toolkit.CutOff(catalog.GetMod(oldCompatibility.FirstModID).ToString(), 45), -45 } and " +
+                $"{ Toolkit.CutOff(catalog.GetMod(oldCompatibility.SecondModID).ToString(), 45), -45 }: { oldCompatibility.Status }" +
                 (string.IsNullOrEmpty(oldCompatibility.Note) ? "" : $", { oldCompatibility.Note }"));
 
             return true;
