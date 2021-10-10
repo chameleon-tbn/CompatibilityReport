@@ -528,9 +528,9 @@ namespace CompatibilityReport.Util
         /// <returns>The word-wrapped, and optionally indented, string.</returns>
         public static string WordWrap(string unwrapped, int maxWidth = 0, string indent = "", string indentAfterNewLine = null)
         {
-            if (unwrapped == null || unwrapped.Length <= maxWidth)
+            if (string.IsNullOrEmpty(unwrapped))
             {
-                return unwrapped ?? "";
+                return "";
             }
 
             if (unwrapped.Contains("\n"))
@@ -539,6 +539,10 @@ namespace CompatibilityReport.Util
                 unwrapped = unwrapped.Replace("\n", " \n").Replace("  \n", " \n");
 
                 indentAfterNewLine = indentAfterNewLine ?? indent;
+            }
+            else if (unwrapped.Length <= maxWidth)
+            {
+                return unwrapped;
             }
 
             maxWidth = maxWidth == 0 ? ModSettings.TextReportWidth : maxWidth;
@@ -579,6 +583,8 @@ namespace CompatibilityReport.Util
         /// <returns>The cut off string.</returns>
         public static string CutOff(string text, int width)
         {
+            text = text.Contains("\n") ? text.Substring(0, text.IndexOf("\n")): text;
+
             return text.Length <= width ? text : $"{ text.Substring(0, width - 3) }...";
         }
     }
