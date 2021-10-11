@@ -132,7 +132,7 @@ namespace CompatibilityReport.CatalogData
             Mod newMod = new Mod(steamID);
 
             Mods.Add(newMod);
-            modIndex.Add(steamID, newMod);
+            modIndex.Add(newMod.SteamID, newMod);
 
             return newMod;
         }
@@ -222,23 +222,35 @@ namespace CompatibilityReport.CatalogData
         public Author AddAuthor(ulong authorID, string authorUrl)
         {
             Author author = new Author(authorID, authorUrl ?? "");
+
             Authors.Add(author);
-
-            if (authorID != 0)
-            {
-                authorIDIndex.Add(authorID, author);
-            }
-
-            if (!string.IsNullOrEmpty(authorUrl))
-            {
-                AuthorUrlIndex.Add(authorUrl, author);
-            }
+            UpdateAuthorIndexes(author);
 
             return author;
         }
 
 
         // A RemoveAuthor() method is not needed right now.
+
+
+        /// <summary>Updates the author index for a new author, or an author with a new Steam ID and/or changed custom URL.</summary>
+        public void UpdateAuthorIndexes(Author catalogAuthor, string oldCustomURL = null)
+        {
+            if (catalogAuthor.SteamID != 0 && !authorIDIndex.ContainsKey(catalogAuthor.SteamID))
+            {
+                authorIDIndex.Add(catalogAuthor.SteamID, catalogAuthor);
+            }
+
+            if (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) && !AuthorUrlIndex.ContainsKey(catalogAuthor.CustomUrl))
+            {
+                AuthorUrlIndex.Add(catalogAuthor.CustomUrl, catalogAuthor);
+            }
+
+            if (oldCustomURL != null && oldCustomURL != catalogAuthor.CustomUrl)
+            {
+                AuthorUrlIndex.Remove(oldCustomURL);
+            }
+        }
 
 
         /// <summary>Adds an asset to the list of required assets.</summary>

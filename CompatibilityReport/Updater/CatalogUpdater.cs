@@ -383,6 +383,7 @@ namespace CompatibilityReport.Updater
 
             // Set an exclusion if retired was set to true here or reset it if retired was set to false. Exclusion will be re-evaluated at UpdateAuthorRetirement().
             catalogAuthor.Update(catalogAuthor.SteamID == 0 ? authorID : 0, authorUrl, name: null, lastSeen, retired, exclusionForRetired: retired);
+            catalog.UpdateAuthorIndexes(catalogAuthor, oldUrl);
 
             if (name != null && name != catalogAuthor.Name)
             {
@@ -394,17 +395,17 @@ namespace CompatibilityReport.Updater
 
             if (addedChangeNote.Contains("Steam ID") || addedChangeNote.Contains("Custom URL"))
             {
-                // Update the author ID and URL for all mods from this author, without additional changes notes.
-                oldUrl = oldUrl == catalogAuthor.CustomUrl ? null : oldUrl;
+                // Update the author ID and URL for all mods from this author, including additional changes notes.
+                oldUrl = (oldUrl == catalogAuthor.CustomUrl) ? null : oldUrl;
 
-                List<Mod> AuthorMods = catalog.Mods.FindAll(x => 
+                List<Mod> ModsFromSameAuthor = catalog.Mods.FindAll(x => 
                     (catalogAuthor.SteamID != 0 && x.AuthorID == catalogAuthor.SteamID) || 
                     (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) && x.AuthorUrl == catalogAuthor.CustomUrl) || 
                     (!string.IsNullOrEmpty(oldUrl) && x.AuthorUrl == oldUrl));
 
-                foreach (Mod AuthorMod in AuthorMods)
+                foreach (Mod ModFromSameAuthor in ModsFromSameAuthor)
                 {
-                    AuthorMod.Update(authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);
+                    UpdateMod(catalog, ModFromSameAuthor, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl, updatedByWebCrawler: updatedByWebCrawler);
                 }
             }
         }

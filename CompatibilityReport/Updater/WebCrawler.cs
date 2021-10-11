@@ -305,7 +305,10 @@ namespace CompatibilityReport.Updater
                             authorName = string.IsNullOrEmpty(catalogAuthor.Name) ? authorName : null;
                         }
 
+                        // Update the author. All mods from the author will be updated, including this one if it already existed in the catalog.
                         CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName, updatedByWebCrawler: true);
+
+                        // Still need to update the mod if this is a new mod.
                         CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl, updatedByWebCrawler: true);
                     }
 

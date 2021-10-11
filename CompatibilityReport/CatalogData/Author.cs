@@ -45,7 +45,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Updates one or more author properties.</summary>
-        /// <remarks>The Steam ID can only be changed if it was zero before.</remarks>
+        /// <remarks>The Steam ID can only be added, not changed. Make sure to call Catalog.UpdateAuthorIndexes() after changing the Steam ID or custom URL.</remarks>
         public void Update(ulong steamID = 0, string customUrl = null, string name = null, DateTime lastSeen = default, 
             bool? retired = null, bool? exclusionForRetired = null)
         {

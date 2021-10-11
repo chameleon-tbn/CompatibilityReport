@@ -127,8 +127,8 @@ namespace CompatibilityReport.Updater
         /// <returns>True if have any change notes, false otherwise.</returns>
         public bool Any()
         {
-            return NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length + UpdatedMods.Length + UpdatedAuthors.Length +
-                RemovedMods.Length + RemovedGroups.Length + RemovedCompatibilities.Length > 0;
+            return NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length + UpdatedMods.Length + UpdatedModsDict.Count + 
+                UpdatedAuthors.Length + UpdatedAuthorsDict.Count + RemovedMods.Length + RemovedGroups.Length + RemovedCompatibilities.Length > 0;
         }
 
 
