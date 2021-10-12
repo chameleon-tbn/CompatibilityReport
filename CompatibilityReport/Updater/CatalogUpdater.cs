@@ -375,7 +375,7 @@ namespace CompatibilityReport.Updater
             // Collect change notes for all changed values.
             string addedChangeNote =
                 (authorID == 0 || authorID == catalogAuthor.SteamID || catalogAuthor.SteamID != 0 ? "" : ", Steam ID added") +
-                (authorUrl == null || authorUrl == catalogAuthor.CustomUrl ? "" : $", Custom URL { Toolkit.GetChange(catalogAuthor.CustomUrl, authorUrl) }") +
+                (authorUrl == null || authorUrl == catalogAuthor.CustomUrl ? "" : $", custom URL { Toolkit.GetChange(catalogAuthor.CustomUrl, authorUrl) }") +
                 (name == null || name == catalogAuthor.Name ? "" : $", name { Toolkit.GetChange(catalogAuthor.Name, name) }") +
                 (lastSeen == default || lastSeen == catalogAuthor.LastSeen || hideNote ? "" : 
                     $", last seen date { Toolkit.GetChange(lastSeen, catalogAuthor.LastSeen) }") +
@@ -393,7 +393,7 @@ namespace CompatibilityReport.Updater
 
             catalog.ChangeNotes.AddUpdatedAuthor(catalogAuthor, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
-            if (addedChangeNote.Contains("Steam ID") || addedChangeNote.Contains("Custom URL"))
+            if (addedChangeNote.Contains("Steam ID") || addedChangeNote.Contains("custom URL"))
             {
                 // Update the author ID and URL for all mods from this author, including additional changes notes.
                 oldUrl = (oldUrl == catalogAuthor.CustomUrl) ? null : oldUrl;

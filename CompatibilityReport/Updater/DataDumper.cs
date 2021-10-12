@@ -83,7 +83,7 @@ namespace CompatibilityReport.Updater
         /// <remarks>It lists the mods Workshop URL and name.</remarks>
         private static void DumpModsWithoutStability(Catalog catalog, StringBuilder DataDump)
         {
-            DataDump.AppendLine(Title("Mods with a review but without a reviewed stability:"));
+            DataDump.AppendLine(Title("Mods with a review date, but without a reviewed stability:"));
 
             foreach (Mod catalogMod in catalog.Mods)
             {
