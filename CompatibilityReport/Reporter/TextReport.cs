@@ -153,7 +153,7 @@ namespace CompatibilityReport.Reporter
             if (unsubscribeCount > 0)
             {
                 reportText.AppendLine(separatorDouble);
-                reportText.AppendLine($"{ unsubscribeCount } { (unsubscribeCount == 1 ? "MOD" : "MODS") } SHOULD BE UNSUBSCRIBED:");
+                reportText.AppendLine($"{ unsubscribeCount } { (unsubscribeCount == 1 ? "MOD" : "MODS") } COULD OR SHOULD BE UNSUBSCRIBED:");
                 reportText.AppendLine(unsubscribe.ToString());
             }
             if (majorCount > 0)

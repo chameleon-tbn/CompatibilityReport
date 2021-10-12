@@ -1,5 +1,9 @@
 # Compatibility Report
 
+### Version 0.4.1 alpha - Report revision
+* Split report into multiple categories, based on issue severity
+* Report layout and textual changes
+
 ### Version 0.4 alpha - Code revision and cleanup
 * Major code revision and restructure
 * Textual changes

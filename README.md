@@ -11,7 +11,7 @@ Due to the early development stage and very frequent changes to the code, pull r
 * Detection of subscribed and local mods.
 * XML catalog with basic mod information and compatibility information.
 * Review of subscribed mods with the catalog information.
-* Text report, sorted by mod name. Split into reviewed and non-reviewed mods.
+* Text report, sorted by mod name. Split into multiple categories, based on issue severity.
 * Automatic download of a new catalog. No need for a mod update for every new mod or compatibility.
 * Support for mod groups, to allow different editions (e.g. stable and test) of mods as mod requirement.
 * Catalog Updater method (for mod maintainer only), based on web crawling the Steam Workshop and CSV import.
@@ -21,9 +21,7 @@ Due to the early development stage and very frequent changes to the code, pull r
   * Manual upload of a new catalog, after a quality assurance check.
 
 ### Roadmap towards version 1.0 (subject to change)
-* 0.4.1 - Report revision
-  * restructure and textual changes
-  * split into five categories: unsubscribe, major issues, minor issues, remarks, nothing to report
+* 0.4.2 - Further report revision
 * 0.5 - Alpha release on Steam Workshop (unlisted)
   * Catalog with mod compatibilities and dependencies for most mods.
   * Steam pinned discussions for submissions by mod authors and others.
@@ -62,7 +60,7 @@ Due to the early development stage and very frequent changes to the code, pull r
 ### Credits
 This mod is inspired by and uses code from [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine. It also uses code snippets from:
 * **Enhanced District Services** by chronofanz a.k.a. Tim ([GitHub](https://github.com/chronofanz/EnhancedDistrictServices) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2303997489))
-* **Change Loading Screen 2** by BloodyPenguin ([GitHub](https://github.com/bloodypenguin/ChangeLoadingImage) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110))
+* **Change Loading Image 2** by BloodyPenguin ([GitHub](https://github.com/bloodypenguin/ChangeLoadingImage) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110))
 
 A big thanks to these modders and all those others for making their code available for education and re-use.
 
