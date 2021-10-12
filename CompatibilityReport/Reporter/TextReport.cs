@@ -217,7 +217,7 @@ namespace CompatibilityReport.Reporter
                 modText.Append(ModNote(subscribedMod));
                 modText.Append(Alternatives(subscribedMod));
                 modText.Append(subscribedMod.ReportSeverity <= Enums.ReportSeverity.MajorIssues ? Recommendations(subscribedMod) : "");
-                modText.Append(Format(subscribedMod.ReportSeverity == Enums.ReportSeverity.NothingToReport ? 
+                modText.Append(Format(subscribedMod.ReportSeverity == Enums.ReportSeverity.NothingToReport && subscribedMod.Stability > Enums.Stability.NotReviewed ? 
                     "No known issues or incompatibilities with your other mods." : ""));
                 modText.Append(subscribedMod.IsCameraScript ? Format("This is a cinematic camera script, which technically is a mod and thus listed here.") : "");
                 modText.Append(subscribedMod.SteamID <= ModSettings.HighestFakeID ? "" : $"\nSteam Workshop page: { Toolkit.GetWorkshopUrl(steamID) }\n");
@@ -315,6 +315,7 @@ namespace CompatibilityReport.Reporter
                     return Format($"There is not enough information about this mod to know if it works well{ updatedText }") + note;
 
                 case Enums.Stability.Stable:
+                    subscribedMod.SetReportSeverity(string.IsNullOrEmpty(note) ? Enums.ReportSeverity.NothingToReport : Enums.ReportSeverity.Remarks);
                     return Format($"This is compatible with the current game version.") + note;
 
                 case Enums.Stability.NotReviewed:
@@ -593,7 +594,7 @@ namespace CompatibilityReport.Reporter
 
             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
 
-            return Format("The author of this mod recommends using the following mods as well:") + text;
+            return Format("The author of this mod recommends using the following as well:") + text;
         }
 
 
