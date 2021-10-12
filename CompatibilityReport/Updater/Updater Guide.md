@@ -11,7 +11,7 @@ The lines in the CSV files all start with an action, often followed by a Steam I
 Lines starting with a '#' are considered comments and will be ignored by the updater. Comments can also be added as an extra parameter at the end of any action, except Add_Mod or the actions that add a note or header/footer text. Use a comma after the last parameter and start the comment with a '#'. Commas in these end-of-line comments are not supported.
 
 ### First action to use in any CSV file
-* ReviewDate, \<date: yyyy-mm-dd\> 
+* Set_ReviewDate, \<date: yyyy-mm-dd\> 
   * *Used as review update date for any following Mod and Author actions. Can be used anywhere and multiple times in a CSV file if you want different review dates for different actions. Uses today if omitted.*
 
 ### Mod actions
@@ -63,6 +63,8 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
 * Set_LastSeen, \<author ID | custom URL\>, \<date: yyyy-mm-dd\> *(should be more recent than newest mod update)*
   * *Author retirement will be recalculated. An author is assumed retired if not seen for a year.*
 * Set_Retired, \<author ID | custom URL\> :zap:
+* Merge_Author, \<author ID\>, \<author custom URL\>
+  * *For when the WebCrawler created two authors that should be one. Author retirement will be recalculated and exclusion will be removed.*
 * Remove_AuthorURL, \<author ID\>
 * Remove_Retired, \<author ID | custom URL\> *(only works if added manually before)*
 

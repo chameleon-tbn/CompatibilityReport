@@ -47,10 +47,10 @@ namespace CompatibilityReport.CatalogData
         private readonly Dictionary<ulong, Mod> modIndex = new Dictionary<ulong, Mod>();
         private readonly Dictionary<ulong, Group> groupIndex = new Dictionary<ulong, Group>();
         private readonly Dictionary<ulong, Author> authorIDIndex = new Dictionary<ulong, Author>();
-        private readonly Dictionary<string, Author> AuthorUrlIndex = new Dictionary<string, Author>();
-        private readonly List<ulong> SubscriptionIDIndex = new List<ulong>();
+        private readonly Dictionary<string, Author> authorUrlIndex = new Dictionary<string, Author>();
+        private readonly List<ulong> subscriptionIDIndex = new List<ulong>();
         private readonly Dictionary<string, List<ulong>> subscriptionNameIndex = new Dictionary<string, List<ulong>>();
-        private readonly Dictionary<ulong, List<Compatibility>> SubscriptionCompatibilityIndex = new Dictionary<ulong, List<Compatibility>>();
+        private readonly Dictionary<ulong, List<Compatibility>> subscriptionCompatibilityIndex = new Dictionary<ulong, List<Compatibility>>();
 
         [XmlIgnore] public int ReviewedModCount { get; private set; }
         [XmlIgnore] public int ReviewedSubscriptionCount { get; private set; }
@@ -213,7 +213,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the found author, or null if the author doesn't exist.</returns>
         public Author GetAuthor(ulong authorID, string authorUrl)
         {
-            return authorIDIndex.ContainsKey(authorID) ? authorIDIndex[authorID] : AuthorUrlIndex.ContainsKey(authorUrl ?? "") ? AuthorUrlIndex[authorUrl] : null;
+            return authorIDIndex.ContainsKey(authorID) ? authorIDIndex[authorID] : authorUrlIndex.ContainsKey(authorUrl ?? "") ? authorUrlIndex[authorUrl] : null;
         }
 
 
@@ -230,7 +230,23 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        // A RemoveAuthor() method is not needed right now.
+        /// <summary>Removes an author from the catalog.</summary>
+        /// <returns>True if removal succeeded, false if not.</returns>
+        public bool RemoveAuthor(Author oldAuthor)
+        {
+            bool result = Authors.Remove(oldAuthor);
+
+            if (result && oldAuthor.SteamID != 0)
+            {
+                result = authorIDIndex.Remove(oldAuthor.SteamID);
+            }
+            if (result && !string.IsNullOrEmpty(oldAuthor.CustomUrl))
+            {
+                result = authorUrlIndex.Remove(oldAuthor.CustomUrl);
+            }
+
+            return result;
+        }
 
 
         /// <summary>Updates the author index for a new author, or an author with a new Steam ID and/or changed custom URL.</summary>
@@ -241,14 +257,14 @@ namespace CompatibilityReport.CatalogData
                 authorIDIndex.Add(catalogAuthor.SteamID, catalogAuthor);
             }
 
-            if (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) && !AuthorUrlIndex.ContainsKey(catalogAuthor.CustomUrl))
+            if (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) && !authorUrlIndex.ContainsKey(catalogAuthor.CustomUrl))
             {
-                AuthorUrlIndex.Add(catalogAuthor.CustomUrl, catalogAuthor);
+                authorUrlIndex.Add(catalogAuthor.CustomUrl, catalogAuthor);
             }
 
             if (oldCustomURL != null && oldCustomURL != catalogAuthor.CustomUrl)
             {
-                AuthorUrlIndex.Remove(oldCustomURL);
+                authorUrlIndex.Remove(oldCustomURL);
             }
         }
 
@@ -403,7 +419,7 @@ namespace CompatibilityReport.CatalogData
                     ReviewedSubscriptionCount++;
                 }
 
-                SubscriptionIDIndex.Add(subscribedMod.SteamID);
+                subscriptionIDIndex.Add(subscribedMod.SteamID);
 
                 if (subscriptionNameIndex.ContainsKey(subscribedMod.Name))
                 {
@@ -417,18 +433,18 @@ namespace CompatibilityReport.CatalogData
                 }
 
                 // Add an empty entry to the compatibilities index for this mod, to make sure every subscription has an empty list in that index instead of null.
-                SubscriptionCompatibilityIndex.Add(subscribedMod.SteamID, new List<Compatibility>());
+                subscriptionCompatibilityIndex.Add(subscribedMod.SteamID, new List<Compatibility>());
             }
 
-            SubscriptionIDIndex.Sort();
+            subscriptionIDIndex.Sort();
 
             // Find all compatibilities with two subscribed mods.
             foreach (Compatibility catalogCompatibility in Compatibilities)
             {
-                if (SubscriptionIDIndex.Contains(catalogCompatibility.FirstModID) && SubscriptionIDIndex.Contains(catalogCompatibility.SecondModID))
+                if (subscriptionIDIndex.Contains(catalogCompatibility.FirstModID) && subscriptionIDIndex.Contains(catalogCompatibility.SecondModID))
                 {
-                    SubscriptionCompatibilityIndex[catalogCompatibility.FirstModID].Add(catalogCompatibility);
-                    SubscriptionCompatibilityIndex[catalogCompatibility.SecondModID].Add(catalogCompatibility);
+                    subscriptionCompatibilityIndex[catalogCompatibility.FirstModID].Add(catalogCompatibility);
+                    subscriptionCompatibilityIndex[catalogCompatibility.SecondModID].Add(catalogCompatibility);
                 }
             }
         }
@@ -438,7 +454,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>The number of subscriptions.</returns>
         public int SubscriptionCount()
         {
-            return SubscriptionIDIndex.Count;
+            return subscriptionIDIndex.Count;
         }
 
 
@@ -446,7 +462,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the found mod, or null if the subscription doesn't exist.</returns>
         public Mod GetSubscription(ulong steamID)
         {
-            return SubscriptionIDIndex.Contains(steamID) && modIndex.ContainsKey(steamID) ? modIndex[steamID] : null;
+            return subscriptionIDIndex.Contains(steamID) && modIndex.ContainsKey(steamID) ? modIndex[steamID] : null;
         }
 
 
@@ -454,7 +470,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the list of subscription Steam IDs.</returns>
         public List<ulong> GetSubscriptionIDs()
         {
-            return SubscriptionIDIndex;
+            return subscriptionIDIndex;
         }
 
 
@@ -480,7 +496,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the list of compatibilities for this subscription, or an empty list if the subscription does not exist.</returns>
         public List<Compatibility> GetSubscriptionCompatibilities(ulong steamID)
         {
-            return GetSubscription(steamID) == null ? new List<Compatibility>() : SubscriptionCompatibilityIndex[steamID];
+            return GetSubscription(steamID) == null ? new List<Compatibility>() : subscriptionCompatibilityIndex[steamID];
         }
 
 
@@ -773,9 +789,9 @@ namespace CompatibilityReport.CatalogData
                     authorIDIndex.Add(catalogAuthor.SteamID, catalogAuthor);
                 }
 
-                if (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) && !AuthorUrlIndex.ContainsKey(catalogAuthor.CustomUrl))
+                if (!string.IsNullOrEmpty(catalogAuthor.CustomUrl) && !authorUrlIndex.ContainsKey(catalogAuthor.CustomUrl))
                 {
-                    AuthorUrlIndex.Add(catalogAuthor.CustomUrl, catalogAuthor);
+                    authorUrlIndex.Add(catalogAuthor.CustomUrl, catalogAuthor);
                 }
             }
         }

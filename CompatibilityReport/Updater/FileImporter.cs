@@ -141,7 +141,7 @@ namespace CompatibilityReport.Updater
 
             switch (action)
             {
-                case "reviewdate":
+                case "set_reviewdate":
                     DateTime newDate = Toolkit.ConvertDate(stringSecond);
                     CatalogUpdater.SetReviewDate(newDate);
                     return (newDate == default) ? "Invalid date." : "";
@@ -254,6 +254,9 @@ namespace CompatibilityReport.Updater
                 case "set_lastseen":
                     return lineElements.Length < 3 ? "Not enough parameters." : ChangeAuthorProperty(catalog, action, authorID: numericSecond,
                         authorUrl: (numericSecond == 0 ? stringSecond : ""), propertyData: stringThird, newAuthorID: numericThird);
+
+                case "merge_author":
+                    return lineElements.Length < 3 ? "Not enough parameters." : MergeAuthor(catalog, authorID: numericSecond, authorUrl: stringThird);
 
                 case "set_retired":
                 case "remove_authorurl":
@@ -905,6 +908,54 @@ namespace CompatibilityReport.Updater
             return "";
         }
 
+
+        /// <summary>Merges two authors into one.</summary>
+        /// <remarks>One author should have only a Steam ID, the other only a custom URL. If the author name is not equal for both, the name of the author 
+        ///          with the newest 'last seen' date will be chosen, unless it is equal to the Steam ID. A retired exclusion will be reset.</remarks>
+        /// <returns>Error message, or empty string when all was well.</returns>
+        private static string MergeAuthor(Catalog catalog, ulong authorID, string authorUrl)
+        {
+            Author IDAuthor = catalog.GetAuthor(authorID, "");
+            Author UrlAuthor = catalog.GetAuthor(0, authorUrl);
+
+            if (authorID == 0 || IDAuthor == null)
+            {
+                return $"Author not found: { authorID }";
+            }
+            if (UrlAuthor == null)
+            {
+                return $"Author not found: { authorUrl }";
+            }
+            if (!string.IsNullOrEmpty(IDAuthor.CustomUrl))
+            {
+                return $"Author has both an ID and Custom URL: { authorID }";
+            }
+            if (UrlAuthor.SteamID != 0)
+            {
+                return $"Author has both an ID and Custom URL: { authorUrl }";
+            }
+
+            string authorName = (!string.IsNullOrEmpty(IDAuthor.Name) && IDAuthor.Name != IDAuthor.SteamID.ToString() && IDAuthor.LastSeen >= UrlAuthor.LastSeen) ||
+                string.IsNullOrEmpty(UrlAuthor.Name) ? IDAuthor.Name ?? "" : UrlAuthor.Name;
+
+            DateTime lastSeen = IDAuthor.LastSeen >= UrlAuthor.LastSeen ? IDAuthor.LastSeen : UrlAuthor.LastSeen;
+
+            if (!catalog.RemoveAuthor(UrlAuthor))
+            {
+                return $"Author removal error during merge operation.";
+            }
+
+            catalog.ChangeNotes.AddUpdatedAuthor(UrlAuthor, $"merged with { IDAuthor.SteamID }");
+            catalog.ChangeNotes.AddUpdatedAuthor(IDAuthor, $"merged with { UrlAuthor.CustomUrl }");
+
+            CatalogUpdater.UpdateAuthor(catalog, IDAuthor, authorUrl: UrlAuthor.CustomUrl, name: authorName, lastSeen: lastSeen);
+            IDAuthor.Update(exclusionForRetired: false);
+
+            catalog.RemoveSuppressedWarning(IDAuthor.SteamID);
+
+            return "";
+        }
+        
 
         /// <summary>Changes an author property.</summary>
         /// <returns>Error message, or empty string when all was well.</returns>
