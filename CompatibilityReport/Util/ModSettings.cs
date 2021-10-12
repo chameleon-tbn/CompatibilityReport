@@ -15,8 +15,8 @@ namespace CompatibilityReport.Util
         public const string ModAuthor = "Finwickle";
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
 
-        public const string Version = "0.4.1";
-        public const string Build = "321";
+        public const string Version = "0.4.2";
+        public const string Build = "322";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;

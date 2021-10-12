@@ -142,6 +142,7 @@ namespace CompatibilityReport.Updater
             switch (action)
             {
                 case "set_reviewdate":
+                case "reviewdate":
                     DateTime newDate = Toolkit.ConvertDate(stringSecond);
                     CatalogUpdater.SetReviewDate(newDate);
                     return (newDate == default) ? "Invalid date." : "";
@@ -394,6 +395,11 @@ namespace CompatibilityReport.Updater
             if (catalogMod == null)
             {
                 return $"Invalid Steam ID { steamID }.";
+            }
+
+            if (listMember == steamID)
+            {
+                return $"Both Steam IDs are the same.";
             }
 
             if (action == "set_sourceurl")
