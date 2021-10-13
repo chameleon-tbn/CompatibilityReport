@@ -226,7 +226,7 @@ namespace CompatibilityReport.Updater
         /// <returns>True if succesful, false if there was an error with the mod page.</returns>
         public static bool ReadModPage(Catalog catalog, Mod catalogMod)
         {
-            List<Enums.Dlc> newRequiredDlcs = new List<Enums.Dlc>();
+            List<Enums.Dlc> RequiredDlcsToRemove = new List<Enums.Dlc>(catalogMod.RequiredDlcs);
             bool steamIDmatched = false;
             string line;
 
@@ -362,10 +362,17 @@ namespace CompatibilityReport.Updater
 
                         if (dlc != default)
                         {
+                            if (catalogMod.ExclusionForRequiredDlcs.Contains(dlc) && catalogMod.RequiredDlcs.Contains(dlc))
+                            {
+                                // This required DLC was manually added (thus the exclusion), but was now found on the Steam page. The exclusion is no longer needed.
+                                catalogMod.RemoveExclusion(dlc);
+                            }
+
+                            // If an exclusion exists at this point, then it's about a required DLC that was manually removed. Don't add it again.
                             if (!catalogMod.ExclusionForRequiredDlcs.Contains(dlc))
                             {
                                 CatalogUpdater.AddRequiredDlc(catalog, catalogMod, dlc);
-                                newRequiredDlcs.Add(dlc);
+                                RequiredDlcsToRemove.Remove(dlc);
                             }
                         }
                     }
@@ -373,7 +380,7 @@ namespace CompatibilityReport.Updater
                     // Required mods and assets. The search string is a container with all required items on the next lines.
                     else if (line.Contains(ModSettings.SearchRequiredMod))
                     {
-                        List<ulong> newRequiredMods = new List<ulong>();
+                        List<ulong> RequiredModsToRemove = new List<ulong>(catalogMod.RequiredMods);
 
                         // Get all required items from the next lines, until we find no more. Max. 50 times to avoid an infinite loop.
                         for (var i = 1; i <= 50; i++)
@@ -386,10 +393,17 @@ namespace CompatibilityReport.Updater
                                 break;
                             }
 
+                            if (catalogMod.ExclusionForRequiredMods.Contains(requiredID) && catalogMod.RequiredMods.Contains(requiredID))
+                            {
+                                // This required mod was manually added (thus the exclusion), but was now found on the Steam page. The exclusion is no longer needed.
+                                catalogMod.RemoveExclusion(requiredID);
+                            }
+
+                            // If an exclusion exists at this point, then it's about a required mod that was manually removed. Don't add it again.
                             if (!catalogMod.ExclusionForRequiredMods.Contains(requiredID))
                             {
                                 CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByImporter: false);
-                                newRequiredMods.Add(requiredID);
+                                RequiredModsToRemove.Remove(requiredID);
                             }
 
                             line = reader.ReadLine();
@@ -397,14 +411,6 @@ namespace CompatibilityReport.Updater
                             line = reader.ReadLine();
                         }
 
-                        List<ulong> RequiredModsToRemove = new List<ulong>();
-                        foreach (ulong oldRequiredID in catalogMod.RequiredMods)
-                        {
-                            if (!newRequiredMods.Contains(oldRequiredID) && !catalogMod.ExclusionForRequiredMods.Contains(oldRequiredID))
-                            {
-                                RequiredModsToRemove.Add(oldRequiredID);
-                            }
-                        }
                         foreach (ulong oldRequiredID in RequiredModsToRemove)
                         {
                             CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID);
@@ -449,14 +455,6 @@ namespace CompatibilityReport.Updater
                 return false;
             }
 
-            List<Enums.Dlc> RequiredDlcsToRemove = new List<Enums.Dlc>();
-            foreach (Enums.Dlc oldRequiredDlc in catalogMod.RequiredDlcs)
-            {
-                if (!newRequiredDlcs.Contains(oldRequiredDlc) && !catalogMod.ExclusionForRequiredDlcs.Contains(oldRequiredDlc))
-                {
-                    RequiredDlcsToRemove.Add(oldRequiredDlc);
-                }
-            }
             foreach (Enums.Dlc oldRequiredDlc in RequiredDlcsToRemove)
             {
                 CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, oldRequiredDlc);
