@@ -46,16 +46,16 @@
         }
 
 
-        /// <summary>Compatibility statuses between two mods. Some statuses can coexist, meaning two mods can have more than one compatibility.</summary>
-        /// <remarks>There is no need to create 'mirrored' compatibilities (between A and B and between B and A). The mods handles that. 
-        ///          Coexistence allowed: RequiresSpecificSettings with MinorIssues, MajorIssues or CompatibleAccordingToAuthor; 
-        ///                               SameModDifferentReleaseType with SameFunctionality (second will not be mentioned in the report)</remarks>
+        /// <summary>Compatibility statuses between two mods. In most cases only one compatibility can exist between two mods.</summary>
+        /// <remarks>Don't create 'mirrored' compatibilities (between A and B and between B and A), the mods handles that. 
+        ///          RequiresSpecificSettings can exist next to MinorIssues, MajorIssues, CompatibleAccordingToAuthor or SameFunctionalityCompatible.
+        ///          SameModDifferentReleaseType can be created when SameFunctionality already exists, but the latter (including note) will then be removed.</remarks>
         public enum CompatibilityStatus
         {
             Undefined = 0,                      // Unused.
             SameModDifferentReleaseType,        // These mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable' one.
             SameFunctionality,                  // These mods are incompatible because they change the same functionality.
-            SameFunctionalityCompatible,        // These mods are compatible, but the first mod has all functionality of the second one. Note is reported for second only.
+            SameFunctionalityCompatible,        // These mods are compatible, but have the same functionality (could be partially) and shouldn't both be necessary. 
             IncompatibleAccordingToAuthor,      // These mods are incompatible according to the author of one of the mods
             IncompatibleAccordingToUsers,       // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim.
             CompatibleAccordingToAuthor,        // These mods are fully compatible according to the author of one of the mods.

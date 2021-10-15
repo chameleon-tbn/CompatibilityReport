@@ -719,7 +719,7 @@ namespace CompatibilityReport.Reporter
 
 
         /// <summary>Creates report text for compatibility issues with other subscribed mods, and increases the report severity for the mod if appropriate.</summary>
-        /// <remarks>Result could be multiple mods with multiple statuses. Not reported: CompatibleAccordingToAuthor and SameFunctionalityCompatible without note.</remarks>
+        /// <remarks>Result could be multiple mods with multiple statuses. Not reported: CompatibleAccordingToAuthor.</remarks>
         /// <returns>Formatted text, or an empty string if there are no known compatibility issues.</returns>
         private string Compatibilities(Mod subscribedMod)
         {
@@ -728,15 +728,15 @@ namespace CompatibilityReport.Reporter
             foreach (Compatibility compatibility in catalog.GetSubscriptionCompatibilities(subscribedMod.SteamID))
             {
                 ulong otherModID = (subscribedMod.SteamID == compatibility.FirstModID) ? compatibility.SecondModID : compatibility.FirstModID;
-                string otherMod = Format(catalog.GetMod(otherModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) + 
-                    Format($"Workshop page: { Toolkit.GetWorkshopUrl(otherModID) }", ModSettings.Indent2);
+                string otherMod = Format(catalog.GetMod(otherModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                string workshopUrl = Format($"Workshop page: { Toolkit.GetWorkshopUrl(otherModID) }", ModSettings.Indent2);
 
                 string note = Format(compatibility.Note, ModSettings.Indent2);
 
                 switch (compatibility.Status)
                 {
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
-                        // Only reported for the test mod.
+                        // This status is only reported for the second mod (the 'test' mod) in the compatibility.
                         if (subscribedMod.SteamID == compatibility.SecondModID)
                         {
                             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
@@ -744,43 +744,46 @@ namespace CompatibilityReport.Reporter
                         }
                         break;
 
-                    // The statuses below are reported for both mods
                     case Enums.CompatibilityStatus.SameFunctionality:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        text += Format("Unsubscribe either this one or the following mod with the same functionality:") + otherMod + note;
+                        text += Format("Unsubscribe either this one or the following mod with the same functionality:") + otherMod + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        text += Format("Unsubscribe either this one or the following mod it's incompatible with:") + otherMod + note;
+                        text += Format("Unsubscribe either this one or the following mod it's incompatible with:") + otherMod + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToUsers:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
-                        text += Format("Users report an incompatibility with:") + otherMod + note;
+                        text += Format("Users report an incompatibility with:") + otherMod + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.MajorIssues:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
-                        text += Format("This has major issues with:") + otherMod + note;
+                        text += Format("This has major issues with:") + otherMod + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.MinorIssues:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
-                        text += Format("This has minor issues with:") + otherMod + note;
+                        text += Format("This has minor issues with:") + otherMod + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.RequiresSpecificSettings:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
-                        text += Format("This requires specific configuration to work together with:") + otherMod + note;
+                        text += Format("This requires specific configuration to work together with:") + otherMod + workshopUrl + note;
+                        break;
+
+                    case Enums.CompatibilityStatus.SameFunctionalityCompatible:
+                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                        text += Format("This has very similar functionality, but is still compatible with (do you need both?):") + otherMod + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.CompatibleAccordingToAuthor:
-                    case Enums.CompatibilityStatus.SameFunctionalityCompatible:
                         if (!string.IsNullOrEmpty(note))
                         {
                             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
-                            text += Format("This is compatible with:") + otherMod + note;
+                            text += Format("This is compatible with:") + otherMod + workshopUrl + note;
                         }
                         break;
 

@@ -769,6 +769,14 @@ namespace CompatibilityReport.Updater
         /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddRemoveCompatibility(Catalog catalog, string action, ulong firstSteamID, ulong secondSteamID, string compatibilityString, string note)
         {
+            const Enums.CompatibilityStatus sameFunctionality = Enums.CompatibilityStatus.SameFunctionality;
+            const Enums.CompatibilityStatus sameModDifferentReleaseType = Enums.CompatibilityStatus.SameModDifferentReleaseType;
+            const Enums.CompatibilityStatus requiresSpecificSettings = Enums.CompatibilityStatus.RequiresSpecificSettings;
+            const Enums.CompatibilityStatus minorIssues = Enums.CompatibilityStatus.MinorIssues;
+            const Enums.CompatibilityStatus majorIssues = Enums.CompatibilityStatus.MajorIssues;
+            const Enums.CompatibilityStatus compatibleAccordingToAuthor = Enums.CompatibilityStatus.CompatibleAccordingToAuthor;
+            const Enums.CompatibilityStatus sameFunctionalityCompatible = Enums.CompatibilityStatus.SameFunctionalityCompatible;
+
             if (firstSteamID == secondSteamID)
             {
                 return $"Duplicate Steam ID { firstSteamID }.";
@@ -788,8 +796,7 @@ namespace CompatibilityReport.Updater
             {
                 return "Invalid compatibility status.";
             }
-            if (string.IsNullOrEmpty(note) && 
-                (compatibilityString == "majorissues" || compatibilityString == "minorissues" || compatibilityString == "requiresspecificsettings"))
+            if (string.IsNullOrEmpty(note) && (compatibilityStatus == majorIssues || compatibilityStatus == minorIssues || compatibilityStatus == requiresSpecificSettings))
             {
                 return "A note is mandatory for this compatibility.";
             }
@@ -799,15 +806,51 @@ namespace CompatibilityReport.Updater
 
             if (action == "add_compatibility")
             {
-                // Todo 0.4 Check for conflicting compatibilities, including mirrored
-
                 if (existingCompatibility != null)
                 {
                     return "Compatibility already exists.";
                 }
-                if (catalog.Compatibilities.Find(x => x.FirstModID == secondSteamID && x.SecondModID == firstSteamID && x.Status == compatibilityStatus) != default)
+                if (catalog.Compatibilities.Find(x => x.FirstModID == secondSteamID && x.SecondModID == firstSteamID && x.Status == compatibilityStatus) != null)
                 {
                     return $"'Mirrored' compatibility already exists, with { secondSteamID } as first and { firstSteamID } as second mod.";
+                }
+
+                // Check for conflicting compatibilities, including mirrored.
+                List<Compatibility> otherCompatibilities = catalog.Compatibilities.FindAll(x => x.FirstModID == firstSteamID && x.SecondModID == secondSteamID &&
+                    x.Status != compatibilityStatus);
+
+                otherCompatibilities.AddRange(catalog.Compatibilities.FindAll(x => x.FirstModID == secondSteamID && x.SecondModID == firstSteamID &&
+                    x.Status != compatibilityStatus));
+
+                foreach (Compatibility otherCompatibility in otherCompatibilities)
+                {
+                    // SameModDifferentReleaseType can be created while SameFunctionality already exists, but the latter (including note) will then be removed.
+                    if (otherCompatibility.Status == sameFunctionality && compatibilityStatus == sameModDifferentReleaseType)
+                    {
+                        // Remove a SameFunctionality compatibility if a SameModDifferentReleaseType compatibility is added to replace it.
+                        CatalogUpdater.RemoveCompatibility(catalog, otherCompatibility);
+                        break;
+                    }
+
+                    if (otherCompatibility.Status == sameModDifferentReleaseType && compatibilityStatus == sameFunctionality)
+                    {
+                        // Ignore a new SameFunctionality compatibility if a SameModDifferentReleaseType compatibility already exists. Don't give an error, just log.
+                        Logger.UpdaterLog($"SameFunctionality compatibility between { firstSteamID} and { secondSteamID } not added because " +
+                            $"a SameModDifferentReleaseType compatibility already exists.");
+                        return "";
+                    }
+
+                    // Only allowed combinations of compatibilities is RequiresSpecificSettings with Minor/MajorIssues, Comp.AccordingToAuthor or SameFunc.Compatible.
+                    bool canCoexist = (otherCompatibility.Status == requiresSpecificSettings && (compatibilityStatus == minorIssues ||
+                        compatibilityStatus == majorIssues || compatibilityStatus == compatibleAccordingToAuthor || compatibilityStatus == sameFunctionalityCompatible)) 
+                        ||
+                        (compatibilityStatus == requiresSpecificSettings && (otherCompatibility.Status == minorIssues || otherCompatibility.Status == majorIssues || 
+                        otherCompatibility.Status == compatibleAccordingToAuthor || otherCompatibility.Status == sameFunctionalityCompatible));
+
+                    if (!canCoexist)
+                    {
+                        return $"This conflicts with the existing compatibility \"{ otherCompatibility.Status }\".";
+                    }
                 }
 
                 CatalogUpdater.AddCompatibility(catalog, firstSteamID, secondSteamID, compatibilityStatus, note);

@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.4.2 alpha - Code revision
+* Bugfixes for reporter and updater
+
 ### Version 0.4.1 alpha - Report revision
 * Split report into multiple categories, based on issue severity
 * Report layout and textual changes
