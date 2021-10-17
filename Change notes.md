@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.4.3 alpha - Bugfixes
+* Miscellaneous bugfixes
+
 ### Version 0.4.2 alpha - Code revision
 * Bugfixes for reporter and updater
 

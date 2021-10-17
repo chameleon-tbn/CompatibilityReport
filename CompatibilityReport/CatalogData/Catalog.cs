@@ -54,6 +54,7 @@ namespace CompatibilityReport.CatalogData
 
         [XmlIgnore] public int ReviewedModCount { get; private set; }
         [XmlIgnore] public int ReviewedSubscriptionCount { get; private set; }
+        [XmlIgnore] public int LocalSubscriptionCount { get; private set; }
 
         [XmlIgnore] public Updater.ChangeNotes ChangeNotes { get; } = new Updater.ChangeNotes();
 
@@ -385,6 +386,8 @@ namespace CompatibilityReport.CatalogData
                 {
                     // Local mod. Matching local mods to catalog mods is a future idea. For now just add it to the catalog.
                     steamID = nextLocalModID++;
+
+                    LocalSubscriptionCount++;
 
                     // Set foundInCatalog true to avoid a 'not found in catalog' log message for local mods.
                     foundInCatalog = true;

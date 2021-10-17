@@ -84,7 +84,8 @@ namespace CompatibilityReport.Reporter
 
             reportText.AppendLine(Toolkit.WordWrap($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }. " +
                 $"The catalog contains { catalog.ReviewedModCount } reviewed mods with { catalog.Compatibilities.Count } compatibilities, and " +
-                $"{ catalog.Mods.Count - catalog.ReviewedModCount } mods with basic information. Your game has { catalog.SubscriptionCount() } mods.\n"));
+                $"{ catalog.Mods.Count - catalog.ReviewedModCount - catalog.LocalSubscriptionCount } mods with basic information. " +
+                $"Your game has { catalog.SubscriptionCount() } mods.\n"));
 
             reportText.AppendLine("This is a PREVIEW version of the mod, not thoroughly tested and with limited data.\nRESULTS SHOULD NOT BE TRUSTED!\n");  // Todo 0.5 Remove this.
 
