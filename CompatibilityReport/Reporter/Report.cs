@@ -13,14 +13,11 @@ namespace CompatibilityReport.Reporter
         /// <summary>Starts the reporter to create a text and/or HTML report.</summary>
         public static void Create(string scene)
         {
-            if (scene != "On-demand")
+            if (hasRun)
             {
-                if (hasRun || (ModSettings.ScanBeforeMainMenu && scene != "IntroScreen") || (!ModSettings.ScanBeforeMainMenu && scene != "Game"))
-                {
-                    return;
-                }
+                return;
             }
-
+            
             hasRun = true;
 
             Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion }. Game version " +
@@ -47,8 +44,9 @@ namespace CompatibilityReport.Reporter
                 return;
             }
 
-            Logger.Log(scene == "IntroScreen" ? "Reporter started during game startup." : 
-                (scene == "Game" ? "Reporter started during map loading." : "Reporter started for an on-demand report."));
+            Logger.Log(scene == "IntroScreen" || scene == "MainMenu" ? "Reporter started during game startup." : 
+                (scene == "Game" ? "Reporter started during map loading." : scene == "OnDemand" ? "Reporter started for an on-demand report." : 
+                $"Reporter started during scene { scene }."));
 
             if (Toolkit.CurrentGameVersion() != catalog.GameVersion())
             {
