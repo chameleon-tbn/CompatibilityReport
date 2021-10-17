@@ -93,7 +93,7 @@ namespace CompatibilityReport.Util
         /// <summary>Logs a message to the game log.</summary>
         private static void GameLog(string message)
         {
-            UnityEngine.Debug.Log($"{ ModSettings.ModName }: { message }");
+            UnityEngine.Debug.Log($"{ ModSettings.InternalName }: { message }");
         }
 
 
