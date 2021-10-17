@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
 
         public const string Version = "0.4.2";
-        public const string Build = "325";
+        public const string Build = "326";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -49,7 +49,7 @@ namespace CompatibilityReport.Util
         //      DataLocation.modsPath               = %localappdata%\Colossal Order\Cities_Skylines\Addons\Mods         // Contains the Windows username.
         //      DataLocation.assemblyDirectory      = ...\Steam Games\steamapps\workshop\content\255710\<mod-steamid>   // Throws "Invalid Path" exception for local mods.
 
-        public static string DefaultReportPath { get; } = DataLocation.applicationBase;
+        public static string DefaultReportPath { get; } = Application.dataPath;
         public const string ReportTextFileName = ModName + ".txt";
         public const string ReportHtmlFileName = ModName + ".html";
         public const string SettingsFileName = InternalName + "_Settings.xml";
