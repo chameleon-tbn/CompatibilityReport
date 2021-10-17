@@ -15,7 +15,8 @@ namespace CompatibilityReport.Updater
         {
             StringBuilder DataDump = new StringBuilder(512);
 
-            DataDump.AppendLine($"{ ModSettings.ModName } DataDump, created on { DateTime.Now:D}, { DateTime.Now:t}.");
+            DateTime creationTime = DateTime.Now;
+            DataDump.AppendLine($"{ ModSettings.ModName } DataDump, created on { creationTime:D}, { creationTime:t}.");
             DataDump.AppendLine($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }.");
 
             DataDump.AppendLine($"\nCatalog has { catalog.Mods.Count } mods, { catalog.Groups.Count } groups, { catalog.Compatibilities.Count } compatibilities, " +

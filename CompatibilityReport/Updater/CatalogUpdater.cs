@@ -40,7 +40,9 @@ namespace CompatibilityReport.Updater
             }
             else
             {
-                Logger.UpdaterLog($"Current catalog version { catalog.VersionString() }, created on { catalog.Updated:D}, { catalog.Updated:t}.");
+                Logger.UpdaterLog($"Current catalog version { catalog.VersionString() }, created on { catalog.Updated.ToLocalTime():D}, " +
+                    $"{ catalog.Updated.ToLocalTime():t}.");
+
                 catalog.NewVersion(DateTime.Now);
 
                 if (ModSettings.WebCrawlerEnabled)

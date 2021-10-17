@@ -588,7 +588,7 @@ namespace CompatibilityReport.CatalogData
             {
                 newestCatalog.CreateIndexes();
 
-                Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.Updated.ToLongDateString() }. " +
+                Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.Updated.ToLocalTime().ToLongDateString() }. " +
                     $"Catalog contains { newestCatalog.ReviewedModCount } reviewed mods with { newestCatalog.Compatibilities.Count } compatibilities and " +
                     $"{ newestCatalog.Mods.Count - newestCatalog.ReviewedModCount } mods with basic information.", duplicateToGameLog: true);
             }
