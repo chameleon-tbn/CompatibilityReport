@@ -413,7 +413,10 @@ namespace CompatibilityReport.Updater
 
                         foreach (ulong oldRequiredID in RequiredModsToRemove)
                         {
-                            CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID);
+                            if (!catalogMod.ExclusionForRequiredMods.Contains(oldRequiredID))
+                            {
+                                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID);
+                            }
                         }
                     }
 
