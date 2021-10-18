@@ -69,8 +69,6 @@ namespace CompatibilityReport.Reporter
                 TextReport textReport = new TextReport(catalog);
                 textReport.Create();
             }
-
-            Logger.Log("Mod has finished.", duplicateToGameLog: true);
         }
     }
 }

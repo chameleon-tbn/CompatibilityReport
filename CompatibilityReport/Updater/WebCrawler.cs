@@ -297,9 +297,15 @@ namespace CompatibilityReport.Updater
                         else if (authorName == authorID.ToString() && authorID != 0 && (authorName != catalogAuthor.Name || catalogAuthor.AddedThisSession))
                         {
                             // An author name equal to the author ID is a common Steam error, although some authors really have their ID as name (ofcourse they do).
-                            Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. " +
-                                (string.IsNullOrEmpty(catalogAuthor.Name) || catalogAuthor.AddedThisSession ? "Some authors do this, but it could be a Steam error." :
-                                $"Old name still used: { catalogAuthor.Name }."), Logger.Warning);
+                            if (string.IsNullOrEmpty(catalogAuthor.Name) || catalogAuthor.AddedThisSession)
+                            {
+                                Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. Some authors do this, but it could be a Steam error.", 
+                                    Logger.Warning);
+                            }
+                            else
+                            {
+                                Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. Old name still used: { catalogAuthor.Name }.");
+                            }
 
                             // Don't update the name if we already know a name.
                             authorName = string.IsNullOrEmpty(catalogAuthor.Name) ? authorName : null;

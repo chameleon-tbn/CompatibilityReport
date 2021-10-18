@@ -368,7 +368,7 @@ namespace CompatibilityReport.CatalogData
 
                     if (!plugin.isEnabled)
                     {
-                        Logger.Log($"Skipped disabled builtin mod: { modName }");
+                        Logger.Log($"Skipped disabled builtin mod: { modName }", Logger.Debug);
                         continue;
                     }
 
@@ -405,7 +405,7 @@ namespace CompatibilityReport.CatalogData
 
                 if (foundInCatalog)
                 {
-                    Logger.Log($"Mod found: { subscribedMod.ToString() }");
+                    Logger.Log($"Mod found: { subscribedMod.ToString() }", Logger.Debug);
                 }
                 else
                 {
@@ -617,29 +617,29 @@ namespace CompatibilityReport.CatalogData
                 return null;
             }
 
+            Catalog downloadedCatalog = null;
             Stopwatch timer = Stopwatch.StartNew();
 
             if (!Toolkit.Download(ModSettings.CatalogUrl, temporaryFile))
             {
-                Toolkit.DeleteFile(temporaryFile);
                 Logger.Log($"Can't download new catalog from { ModSettings.CatalogUrl }", Logger.Warning);
-                return null;
-            }
-
-            Logger.Log($"Catalog downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
-
-            Catalog downloadedCatalog = LoadFromDisk(temporaryFile);
-
-            if (downloadedCatalog == null)
-            {
-                Logger.Log("Could not load newly downloaded catalog.", Logger.Error);
             }
             else
             {
-                Logger.Log($"Downloaded catalog is version { downloadedCatalog.VersionString() }.");
+                timer.Stop();
+                downloadedCatalog = LoadFromDisk(temporaryFile);
 
-                // Copy the temporary file over the previously downloaded catalog.
-                Toolkit.CopyFile(temporaryFile, Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName));
+                if (downloadedCatalog == null)
+                {
+                    Logger.Log($"Could not load newly downloaded catalog (download time { Toolkit.TimeString(timer.ElapsedMilliseconds) }).", Logger.Error);
+                }
+                else
+                {
+                    Logger.Log($"Catalog version { downloadedCatalog.VersionString() } downloaded in { Toolkit.TimeString(timer.ElapsedMilliseconds) }.");
+
+                    // Copy the temporary file over the previously downloaded catalog.
+                    Toolkit.CopyFile(temporaryFile, Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName));
+                }
             }
 
             Toolkit.DeleteFile(temporaryFile);
