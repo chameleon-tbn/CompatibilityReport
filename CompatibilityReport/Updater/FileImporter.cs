@@ -696,13 +696,13 @@ namespace CompatibilityReport.Updater
 
 
         /// <summary>Adds compatibilities between each of the mods in a given list.</summary>
-        /// <remarks>Only 'SameFunctionality' can be used with this method.</remarks>
+        /// <remarks>Only 'SameFunctionality' and 'SameFunctionalityCompatible' can be used with this method.</remarks>
         /// <returns>Error message, or empty string when all was well.</returns>
         private static string AddCompatibilitiesForAll(Catalog catalog, string compatibilityString, List<ulong> steamIDs)
         {
-            if (compatibilityString != "samefunctionality")
+            if (compatibilityString != "samefunctionality" && compatibilityString != "samefunctionalitycompatible")
             {
-                return "Only the 'SameFunctionality' status can be used with 'Add_CompatibilitiesForAll'.";
+                return "Only the 'SameFunctionality' or 'SameFunctionalityCompatibility' status can be used with 'Add_CompatibilitiesForAll'.";
             }
 
             // Sort the steamIDs so we're able to detect duplicate Steam IDs.
