@@ -111,6 +111,13 @@ namespace CompatibilityReport.Util
 
                 try
                 {
+                    // Remove old backup file. Can't use Toolkit.DeleteFile here because it logs.
+                    File.Delete($"{ logfileFullPath }.old");
+                }
+                catch { }
+
+                try
+                {
                     if (!File.Exists(logfileFullPath))
                     {
                         file = File.CreateText(logfileFullPath);

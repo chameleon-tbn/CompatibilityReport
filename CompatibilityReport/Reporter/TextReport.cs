@@ -54,6 +54,7 @@ namespace CompatibilityReport.Reporter
             AddFooter();
 
             string TextReportFullPath = Path.Combine(ModSettings.ReportPath, ModSettings.ReportTextFileName);
+            Toolkit.DeleteFile($"{ TextReportFullPath }.old");
 
             if (Toolkit.SaveToFile(reportText.ToString(), TextReportFullPath, createBackup: ModSettings.DebugMode))
             {
