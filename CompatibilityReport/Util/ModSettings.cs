@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
 
         public const string Version = "0.4.3";
-        public const string Build = "334";
+        public const string Build = "335";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -116,7 +116,7 @@ namespace CompatibilityReport.Util
         // Todo 0.7 Settings that will be available in a settings xml file.
         public static int DownloadRetries { get; private set; } = 4;
         public static bool ScanBeforeMainMenu { get; private set; } = true;
-        public static bool DebugMode { get; private set; } = true;
+        public static bool DebugMode { get; private set; } = File.Exists(Path.Combine(WorkPath, $"{ InternalName }_Debug.enabled"));
         public static bool LogAppend { get; private set; } = false;
         public static long LogMaxSize { get; private set; } = 100 * 1024;
 
@@ -128,7 +128,7 @@ namespace CompatibilityReport.Util
         public const string UpdaterLogFileName = InternalName + "_Updater.log";
         public const string DataDumpFileName = InternalName + "_DataDump.txt";
 
-        public static string TempDownloadFullPath { get; } = Path.Combine(WorkPath, InternalName + "_Download.tmp");
+        public static string TempDownloadFullPath { get; } = Path.Combine(WorkPath, $"{ InternalName }_Download.tmp");
         public const string TempCsvCombinedFileName = InternalName + "_CSVCombined.tmp";
 
         public static List<string> SteamModListingUrls { get; } = new List<string> {
