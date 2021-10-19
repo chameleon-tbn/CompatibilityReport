@@ -439,7 +439,8 @@ namespace CompatibilityReport.Reporter
 
 
         /// <summary>Creates report text for an unneeded dependency mod and increases the report severity for the mod if appropriate.</summary>
-        /// <returns>Formatted text, or an empty string if not a dependency mod or if another subscription has this mod as required.</returns>
+        /// <remarks>If this mod is a member of a group, all group members are considered for this check.</remarks>
+        /// <returns>Formatted text, or an empty string if this is not a dependency mod or if another subscription has this mod as required.</returns>
         private string UnneededDependencyMod(Mod subscribedMod)
         {
             if (!subscribedMod.Statuses.Contains(Enums.Status.DependencyMod))
@@ -447,16 +448,21 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            // Check if any of the mods that need this is actually subscribed, enabled or not.
-            List<Mod> ModsRequiringThis = catalog.Mods.FindAll(x => x.RequiredMods.Contains(subscribedMod.SteamID));
-
-            foreach (Mod mod in ModsRequiringThis)
+            // Check if any of the mods that need this is actually subscribed, enabled or not. If this is a member of a group, check all group members. Exit if any is needed.
+            if (catalog.IsGroupMember(subscribedMod.SteamID))
             {
-                if (catalog.GetSubscription(mod.SteamID) != null)
+                foreach (ulong groupMemberID in catalog.GetThisModsGroup(subscribedMod.SteamID).GroupMembers)
                 {
-                    // Found a subscribed mod that needs this. Nothing to report.
-                    return "";
+                    if (IsModNeeded(groupMemberID))
+                    {
+                        // Group member is needed. No need to check other group members.
+                        return "";
+                    }
                 }
+            }
+            else if (IsModNeeded(subscribedMod.SteamID))
+            {
+                return "";
             }
 
             if (catalog.IsValidID(ModSettings.LowestLocalModID))
@@ -472,6 +478,26 @@ namespace CompatibilityReport.Reporter
 
                 return Format("Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.");
             }
+        }
+
+
+        /// <summary>Checks if any of the mods that need this is actually subscribed, enabled or not.</summary>
+        /// <returns>True if a mod needs this, otherwise false.</returns>
+        private bool IsModNeeded(ulong SteamID)
+        {
+            // Check if any of the mods that need this is actually subscribed, enabled or not.
+            List<Mod> ModsRequiringThis = catalog.Mods.FindAll(x => x.RequiredMods.Contains(SteamID));
+
+            foreach (Mod mod in ModsRequiringThis)
+            {
+                if (catalog.GetSubscription(mod.SteamID) != null)
+                {
+                    // Found a subscribed mod that needs this.
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 
