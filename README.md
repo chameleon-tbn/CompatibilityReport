@@ -65,5 +65,11 @@ This mod is inspired by and uses code from [Mod Compatibility Checker](https://g
 
 A big thanks to these modders and all those others for making their code available for education and re-use.
 
+Special thanks to:
+* [LemonsterOG](https://github.com/LemonsterOG) for being super helpful and patient on almost every mod page in the Workshop. Lemon often used the old MCC for supporting users, and was an inspiration for creating this successor.
+* [asterisk](https://github.com/julia-mcguigan) for feedback and testing.
+* [Chamëleon](https://github.com/chameleon-tbn) for feedback and testing.
+* All of the above and many others for providing a friendly atmosphere on Discord.
+
 ### Disclaimer
 I'm not an experienced programmer. I knew programming fundamentals and taught myself C# with online tutorials, reading other peoples code, browsing Stack Overflow and lots of experimenting. My code is surely sloppy, inefficient and ignoring lots of conventions. I'm open to suggestions and constructive feedback in the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions).
