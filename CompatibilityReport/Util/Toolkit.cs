@@ -21,7 +21,29 @@ namespace CompatibilityReport.Util
         }
 
 
+        /// <summary>Creates a directory.</summary>
+        /// <remarks>This does not log any errors, because it is used by the Logger itself.</remarks>
+        /// <returns>True if succesful or the directory already exist, false on a creation error.</returns>
+        public static bool CreateDirectory(string path)
+        {
+            if (!Directory.Exists(path))
+            {
+                try
+                {
+                    Directory.CreateDirectory(ModSettings.DebugLogPath);
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
         /// <summary>Deletes a file.</summary> 
+        /// <remarks>This does not log any errors, because it is used by the Logger itself.</remarks>
         /// <returns>True if succesful or the file didn't exist, false on a deletion error.</returns>
         public static bool DeleteFile(string fullPath)
         {
@@ -31,9 +53,8 @@ namespace CompatibilityReport.Util
                 {
                     File.Delete(fullPath);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Logger.Log($"Could not delete file \"{ Privacy(fullPath) }\". { ShortException(ex) }", Logger.Debug);
                     return false;
                 }
             }
@@ -43,7 +64,7 @@ namespace CompatibilityReport.Util
 
 
         /// <summary>Moves or renames a file.</summary>
-        /// <remarks>If the destination already exists, it will be overwritten.</remarks>
+        /// <remarks>If the destination already exists, it will be overwritten. This does not log any errors.</remarks>
         /// <returns>True if succesful, false on errors.</returns>
         public static bool MoveFile(string sourceFullPath, string destinationFullPath)
         {
@@ -59,16 +80,15 @@ namespace CompatibilityReport.Util
                 File.Move(sourceFullPath, destinationFullPath);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                Logger.Log($"Could not move file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.Debug);
                 return false;
             }
         }
 
 
         /// <summary>Copies a file.</summary>
-        /// <remarks>If the destination already exists, it will be overwritten.</remarks>
+        /// <remarks>If the destination already exists, it will be overwritten. This does not log any errors, because it is used by the Logger itself.</remarks>
         /// <returns>True if succesful, false on errors.</returns>
         public static bool CopyFile(string sourceFullPath, string destinationFullPath)
         {
@@ -82,9 +102,8 @@ namespace CompatibilityReport.Util
                 File.Copy(sourceFullPath, destinationFullPath, overwrite: true);
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
-                Logger.Log($"Could not copy file \"{ Privacy(sourceFullPath) }\" to \"{ Privacy(destinationFullPath) }\". { ShortException(ex) }", Logger.Debug);
                 return false;
             }
         }
@@ -247,13 +266,13 @@ namespace CompatibilityReport.Util
                 {
                     name = ((IUserMod)plugin.userModInstance).Name;
                 }
-                else if (string.IsNullOrEmpty(plugin.name))
+                else if (!string.IsNullOrEmpty(plugin.name))
                 {
-                    Logger.Log("Can't retrieve plugin name. Both userModInstance and plugin.name are null/empty.", Logger.Debug);
+                    name = $"{ plugin.name }";
                 }
                 else
                 {
-                    name = $"{ plugin.name }";
+                    Logger.Log("Can't retrieve plugin name. Both plugin.userModInstance.Name and plugin.name are null/empty.", Logger.Debug);
                 }
             }
             catch (Exception ex)

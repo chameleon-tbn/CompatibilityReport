@@ -23,8 +23,6 @@ namespace CompatibilityReport
         public void OnSettingsUI(UIHelperBase helper)
         {
             string scene = SceneManager.GetActiveScene().name;
-
-            // Todo 0.9 Remove this debug log
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.Debug);
 
             // Todo 0.8 Move CatalogUpdater to standalone tool.
@@ -37,7 +35,8 @@ namespace CompatibilityReport
 
             UIHelperBase modOptions = helper.AddGroup(ModSettings.ModName);
 
-            modOptions.AddGroup(ModSettings.ModName);
+            modOptions.AddGroup("The mod options are not implemented yet.");
+
             //Todo 0.7 Create Settings UI.
         }
     }

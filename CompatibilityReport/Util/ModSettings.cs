@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
 
         public const string Version = "0.4.3";
-        public const string Build = "337";
+        public const string Build = "338";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -52,9 +52,11 @@ namespace CompatibilityReport.Util
         public static string DefaultReportPath { get; } = Application.dataPath;
         public const string ReportTextFileName = InternalName + ".txt";
         public const string ReportHtmlFileName = InternalName + ".html";
+
+        public static string SettingsPath { get; } = DataLocation.applicationBase;
         public const string SettingsFileName = InternalName + "_Settings.xml";
 
-        public static string LogPath { get; } = Application.dataPath;
+        public static string DebugLogPath { get; } = Path.Combine(Application.dataPath, "Logs");
         public const string LogFileName = InternalName + ".log";
 
         public static string WorkPath { get; } = DataLocation.localApplicationData;
@@ -117,7 +119,6 @@ namespace CompatibilityReport.Util
         public static int DownloadRetries { get; private set; } = 4;
         public static bool ScanBeforeMainMenu { get; private set; } = true;
         public static bool DebugMode { get; private set; } = File.Exists(Path.Combine(WorkPath, $"{ InternalName }_Debug.enabled"));
-        public static bool LogAppend { get; private set; } = false;
         public static long LogMaxSize { get; private set; } = 100 * 1024;
 
 

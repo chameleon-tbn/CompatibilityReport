@@ -58,7 +58,7 @@ namespace CompatibilityReport.Reporter
 
             if (Toolkit.SaveToFile(reportText.ToString(), TextReportFullPath, createBackup: ModSettings.DebugMode))
             {
-                Logger.Log($"Text Report ready at \"{ Toolkit.Privacy(TextReportFullPath) }\".", duplicateToGameLog: true);
+                Logger.Log($"Text Report ready at \"{ Toolkit.Privacy(TextReportFullPath) }\".");
             }
             else
             {
@@ -67,11 +67,11 @@ namespace CompatibilityReport.Reporter
                 if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(reportText.ToString(), TextReportFullPath))
                 {
                     Logger.Log($"Text Report could not be saved at the location set in the options. It is instead saved as \"{ Toolkit.Privacy(TextReportFullPath) }\".",
-                        Logger.Warning, duplicateToGameLog: true);
+                        Logger.Warning);
                 }
                 else
                 {
-                    Logger.Log("Text Report could not be saved.", Logger.Error, duplicateToGameLog: true);
+                    Logger.Log("Text Report could not be saved.", Logger.Error);
                 }
             }
         }
@@ -575,7 +575,7 @@ namespace CompatibilityReport.Reporter
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
-                    Logger.Log($"Required mod { steamID } not found in catalog.", Logger.Warning);
+                    Logger.Log($"Required mod { steamID } not found in catalog.", Logger.Debug);
 
                     text += Format($"[Steam ID { steamID, 10 }]", ModSettings.Bullet2);
                 }
@@ -609,7 +609,7 @@ namespace CompatibilityReport.Reporter
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
-                    Logger.Log($"Recommended mod { steamID } not found in catalog.", Logger.Warning);
+                    Logger.Log($"Recommended mod { steamID } not found in catalog.", Logger.Debug);
 
                     text += Format($"[Steam ID { steamID,10 }]", ModSettings.Bullet2);
                 }
@@ -695,7 +695,7 @@ namespace CompatibilityReport.Reporter
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
-                    Logger.Log($"Successor mod { steamID } not found in catalog.", Logger.Warning);
+                    Logger.Log($"Successor mod { steamID } not found in catalog.", Logger.Debug);
 
                     text += Format($"[Steam ID { steamID, 10 }]", ModSettings.Bullet2);
                 }
@@ -734,7 +734,7 @@ namespace CompatibilityReport.Reporter
                 else
                 {
                     // Mod not found in the catalog, which should not happen unless bugs or a manual edit of the catalog.
-                    Logger.Log($"Alternative mod { steamID } not found in catalog.", Logger.Warning);
+                    Logger.Log($"Alternative mod { steamID } not found in catalog.", Logger.Debug);
 
                     text += Format($"[Steam ID { steamID, 10 }]", ModSettings.Bullet2);
                 }

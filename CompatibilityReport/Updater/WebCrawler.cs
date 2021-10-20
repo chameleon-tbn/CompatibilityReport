@@ -217,8 +217,6 @@ namespace CompatibilityReport.Updater
             // Note: about 90% of the total time is downloading, the other 10% is processing.
             Logger.UpdaterLog($"Updater finished downloading { modsDownloaded } individual Steam Workshop mod pages in " + 
                 $"{ Toolkit.TimeString(timer.ElapsedMilliseconds, alwaysShowSeconds: true) }.");
-
-            Logger.Log($"Updater processed { modsDownloaded } Steam Workshop mod pages.");
         }
 
 

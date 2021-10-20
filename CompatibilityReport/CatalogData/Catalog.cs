@@ -346,7 +346,7 @@ namespace CompatibilityReport.CatalogData
             plugins.AddRange(manager.GetPluginsInfo());
             plugins.AddRange(manager.GetCameraPluginInfos());
 
-            Logger.Log($"Game reports { plugins.Count } mods.");
+            Logger.Log($"Game reports { plugins.Count } mods.", Logger.Debug);
 
             // Local mods get a fake Steam ID.
             ulong nextLocalModID = ModSettings.LowestLocalModID;
@@ -378,7 +378,7 @@ namespace CompatibilityReport.CatalogData
                     }
                     else
                     {
-                        Logger.Log($"Skipped an unknown builtin mod: { modName }. { ModSettings.PleaseReportText }", Logger.Warning);
+                        Logger.Log($"Found an unknown builtin mod: { modName }. { ModSettings.PleaseReportText }", Logger.Warning);
                         continue;
                     }
                 }
@@ -516,7 +516,7 @@ namespace CompatibilityReport.CatalogData
                     serializer.Serialize(writer, this);
                 }
 
-                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".");
+                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".", Logger.Debug);
 
                 return true;
             }
@@ -547,7 +547,7 @@ namespace CompatibilityReport.CatalogData
             }
             catch (XmlException ex)
             {
-                Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Warning);
+                Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Debug);
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
@@ -590,7 +590,7 @@ namespace CompatibilityReport.CatalogData
 
                 Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.Updated.ToLocalTime().ToLongDateString() }. " +
                     $"Catalog contains { newestCatalog.ReviewedModCount } reviewed mods with { newestCatalog.Compatibilities.Count } compatibilities and " +
-                    $"{ newestCatalog.Mods.Count - newestCatalog.ReviewedModCount } mods with basic information.", duplicateToGameLog: true);
+                    $"{ newestCatalog.Mods.Count - newestCatalog.ReviewedModCount } mods with basic information.");
             }
 
             return newestCatalog;
@@ -631,7 +631,7 @@ namespace CompatibilityReport.CatalogData
 
                 if (downloadedCatalog == null)
                 {
-                    Logger.Log($"Could not load newly downloaded catalog (download time { Toolkit.TimeString(timer.ElapsedMilliseconds) }).", Logger.Error);
+                    Logger.Log($"Can't load newly downloaded catalog (download time { Toolkit.TimeString(timer.ElapsedMilliseconds) }).", Logger.Error);
                 }
                 else
                 {
@@ -665,7 +665,7 @@ namespace CompatibilityReport.CatalogData
             {
                 if (Toolkit.DeleteFile(previouslyDownloadedFullPath))
                 {
-                    Logger.Log("Coud not load previously downloaded catalog. It has been deleted.", Logger.Warning);
+                    Logger.Log("Can't load previously downloaded catalog. Deleted it now.", Logger.Debug);
                 }
                 else
                 {
@@ -688,7 +688,7 @@ namespace CompatibilityReport.CatalogData
         {
             if (!File.Exists(ModSettings.BundledCatalogFullPath))
             {
-                Logger.Log($"No bundled catalog found. { ModSettings.PleaseReportText }", Logger.Error, duplicateToGameLog: true);
+                Logger.Log($"No bundled catalog found. { ModSettings.PleaseReportText }", Logger.Error);
                 return null;
             }
 
@@ -696,7 +696,7 @@ namespace CompatibilityReport.CatalogData
 
             if (bundledCatalog == null)
             {
-                Logger.Log($"Can't load bundled catalog. { ModSettings.PleaseReportText }", Logger.Error, duplicateToGameLog: true);
+                Logger.Log($"Can't load bundled catalog. { ModSettings.PleaseReportText }", Logger.Error);
             }
             else
             {

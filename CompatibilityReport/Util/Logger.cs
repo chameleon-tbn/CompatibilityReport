@@ -21,27 +21,37 @@ namespace CompatibilityReport.Util
         public const LogLevel Error   = LogLevel.Error;
         public const LogLevel Debug   = LogLevel.Debug;
 
-        private static LogFiler regularLog;
+        private static LogFiler debugLog;
         private static LogFiler updaterLog;
 
 
         /// <summary>Logs a message to this mods log file, and optionally to the game log.</summary>
-        public static void Log(string message, LogLevel logLevel = LogLevel.Info, bool duplicateToGameLog = false)
+        public static void Log(string message, LogLevel logLevel = LogLevel.Info)
         {
-            if ((logLevel == Debug) && !ModSettings.DebugMode)
+            if (!ModSettings.DebugMode)
             {
-                return;
-            }
+                if (logLevel == Debug)
+                {
+                    return;
+                }
 
-            if (regularLog == null)
+                GameLog($"{ (logLevel == LogLevel.Info ? "" : $"[{ logLevel.ToString().ToUpper() }] ") }{ message }");
+            }
+            else
             {
-                string fullPath = Path.Combine(ModSettings.LogPath, ModSettings.LogFileName);
-                regularLog = new LogFiler(fullPath, append: ModSettings.LogAppend, backup: ModSettings.DebugMode);
+                if (debugLog == null)
+                {
+                    Toolkit.CreateDirectory(ModSettings.DebugLogPath);
 
-                GameLog($"Detailed logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
+                    string fullPath = Path.Combine(ModSettings.DebugLogPath, ModSettings.LogFileName);
+
+                    debugLog = new LogFiler(fullPath, backup: ModSettings.DebugMode);
+
+                    GameLog($"Debug logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
+                }
+
+                debugLog.WriteLine(message, logLevel, timestamp: true, duplicateToGameLog: logLevel != LogLevel.Debug);
             }
-
-            regularLog.WriteLine(message, logLevel, timestamp: true, duplicateToGameLog);
         }
 
 
@@ -56,7 +66,7 @@ namespace CompatibilityReport.Util
             if (updaterLog == null)
             {
                 string fullPath = Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName);
-                updaterLog = new LogFiler(fullPath, append: false, backup:true);
+                updaterLog = new LogFiler(fullPath, backup: true);
 
                 Log($"Logging for the updater can be found in \"{ Toolkit.Privacy(fullPath) }\".");
             }
@@ -66,14 +76,14 @@ namespace CompatibilityReport.Util
 
 
         /// <summary>Closes the updater log.</summary>
-        public static void CloseUpdateLog()
+        public static void CloseUpdaterLog()
         {
             updaterLog = null;
         }
 
 
         /// <summary>Logs an exception to this mods log or updater log, and to the game log unless indicated otherwise.</summary>
-        public static void Exception(Exception ex, LogLevel logLevel = LogLevel.Info, bool duplicateToGameLog = false)
+        public static void Exception(Exception ex, LogLevel logLevel = LogLevel.Info)
         {
             if ((logLevel == Debug) && !ModSettings.DebugMode)
             {
@@ -82,17 +92,17 @@ namespace CompatibilityReport.Util
 
             // Exception with full or shorter stacktrace.
             Log((logLevel == Debug) ? $"[DEBUG][EXCEPTION] { ex }" : $"[EXCEPTION] { ex.GetType().Name }: { ex.Message }\n{ ex.StackTrace }");
-
-            if (duplicateToGameLog)
-            {
-                UnityEngine.Debug.LogException(ex);
-            }                
         }
 
 
         /// <summary>Logs a message to the game log.</summary>
         private static void GameLog(string message)
         {
+            if (string.IsNullOrEmpty(message))
+            {
+                return;
+            }
+
             UnityEngine.Debug.Log($"{ ModSettings.InternalName }: { message }");
         }
 
@@ -105,16 +115,13 @@ namespace CompatibilityReport.Util
 
 
             /// <summary>Default constructor.</summary>
-            public LogFiler(string fileFullPath, bool append, bool backup)
+            /// <remarks>'append' is not currently used.</remarks>
+            public LogFiler(string fileFullPath, bool backup, bool append = false)
             {
                 logfileFullPath = fileFullPath;
 
-                try
-                {
-                    // Remove old backup file. Can't use Toolkit.DeleteFile here because it logs.
-                    File.Delete($"{ logfileFullPath }.old");
-                }
-                catch { }
+                // Remove backup file.
+                Toolkit.DeleteFile($"{ logfileFullPath }.old");
 
                 try
                 {
@@ -132,15 +139,8 @@ namespace CompatibilityReport.Util
                     {
                         if (append || backup)
                         {
-                            // Make a backup before overwriting. Can't use Toolkit.CopyFile here because it logs.
-                            try
-                            {
-                                File.Copy(logfileFullPath, $"{ logfileFullPath }.old", overwrite: true);
-                            }
-                            catch (Exception ex2)
-                            {
-                                GameLog($"[WARNING] Can't create backup file \"{ Toolkit.Privacy(logfileFullPath) }.old\". { Toolkit.ShortException(ex2) }");
-                            }
+                            // Make a backup before overwriting. 
+                            Toolkit.CopyFile(logfileFullPath, $"{ logfileFullPath }.old");
                         }
 
                         file = File.CreateText(logfileFullPath);

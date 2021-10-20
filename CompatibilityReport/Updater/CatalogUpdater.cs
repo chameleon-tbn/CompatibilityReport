@@ -24,7 +24,7 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            Logger.Log("Catalog Updater started. See separate logfile for details.");
+            Logger.Log("Catalog Updater started.");
             Logger.UpdaterLog($"Catalog Updater started. { ModSettings.ModName } version { ModSettings.FullVersion }. " +
                 $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.");
 
@@ -76,9 +76,9 @@ namespace CompatibilityReport.Updater
             Toolkit.DeleteFile(tempCsvCombinedFullPath);
 
             Logger.UpdaterLog("Catalog Updater has finished.");
-            Logger.Log("Catalog Updater has finished.\n");
+            Logger.Log("Catalog Updater has finished.");
 
-            Logger.CloseUpdateLog();
+            Logger.CloseUpdaterLog();
         }
 
 

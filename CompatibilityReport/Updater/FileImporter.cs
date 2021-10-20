@@ -38,13 +38,10 @@ namespace CompatibilityReport.Updater
             if (errors == 0)
             {
                 Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files.");
-                Logger.Log($"Updater processed { CsvFilenames.Count } CSV files.");
             }
             else
             {
                 Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files and encountered { errors } errors.", Logger.Warning);
-
-                Logger.Log($"Updater processed { CsvFilenames.Count } CSV files and encountered { errors } errors. See separate log for details.", Logger.Warning);
             }
         }
 

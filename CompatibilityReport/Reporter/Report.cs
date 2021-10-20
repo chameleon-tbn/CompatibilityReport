@@ -20,19 +20,34 @@ namespace CompatibilityReport.Reporter
             
             hasRun = true;
 
-            Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion }. Game version " +
-                $"{ Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.", duplicateToGameLog: true);
+            // Todo 0.5 Remove this one-time only cleanup action.
+            try
+            {
+                System.IO.File.Delete(System.IO.Path.Combine(ColossalFramework.IO.DataLocation.applicationBase, "Compatibility Report.txt"));
+                System.IO.File.Delete(System.IO.Path.Combine(ColossalFramework.IO.DataLocation.applicationBase, "Compatibility Report.txt.old"));
+                System.IO.File.Delete(System.IO.Path.Combine(UnityEngine.Application.dataPath, "CompatibilityReport.txt.old"));
+                System.IO.File.Delete(System.IO.Path.Combine(UnityEngine.Application.dataPath, "CompatibilityReport.log"));
+                System.IO.File.Delete(System.IO.Path.Combine(UnityEngine.Application.dataPath, "CompatibilityReport.log.old"));
+            }
+            catch { }
+
+            // Remove the debug logfile from a previous session, if it exists.
+            if (!ModSettings.DebugMode)
+            {
+                Toolkit.DeleteFile(System.IO.Path.Combine(ModSettings.DebugLogPath, ModSettings.LogFileName));
+            }
+
+            Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion }. Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.");
+            Logger.Log($"Reporter started during scene { scene }.", Logger.Debug);
 
             if (PlatformService.platformType != PlatformType.Steam)
             {
-                Logger.Log("Your game has no access to the Steam Workshop, and this mod requires that. No report was generated.", Logger.Error, duplicateToGameLog: true);
+                Logger.Log("Your game has no access to the Steam Workshop, and this mod requires that. No report was generated.", Logger.Error);
                 return;
             }
             if (PluginManager.noWorkshop)
             {
-                Logger.Log("The game can't access the Steam Workshop because of the '--noWorkshop' launch option. No report was generated.",
-                    Logger.Warning, duplicateToGameLog: true);
-
+                Logger.Log("The game can't access the Steam Workshop because of the '--noWorkshop' launch option. No report was generated.", Logger.Warning);
                 return;
             }
 
@@ -40,13 +55,9 @@ namespace CompatibilityReport.Reporter
 
             if (catalog == null)
             {
-                Logger.Log("Can't load bundled catalog and can't download a new catalog. No report was generated.", Logger.Error, duplicateToGameLog: true);
+                Logger.Log("Can't load bundled catalog and can't download a new catalog. No report was generated.", Logger.Error);
                 return;
             }
-
-            Logger.Log(scene == "IntroScreen" || scene == "MainMenu" ? "Reporter started during game startup." : 
-                (scene == "Game" ? "Reporter started during map loading." : scene == "OnDemand" ? "Reporter started for an on-demand report." : 
-                $"Reporter started during scene { scene }."));
 
             if (Toolkit.CurrentGameVersion() != catalog.GameVersion())
             {
@@ -56,7 +67,7 @@ namespace CompatibilityReport.Reporter
             }
 
             catalog.ScanSubscriptions();
-            Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionCount() } mods.");
+            Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionCount() } mods.", Logger.Debug);
 
             if (ModSettings.HtmlReport)
             {
