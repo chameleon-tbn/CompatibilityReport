@@ -88,7 +88,10 @@ namespace CompatibilityReport.Reporter
                 $"{ catalog.Mods.Count - catalog.ReviewedModCount - catalog.LocalSubscriptionCount } mods with basic information. " +
                 $"Your game has { catalog.SubscriptionCount() } mods.\n"));
 
-            reportText.AppendLine("This is a PREVIEW version of the mod, not thoroughly tested and with limited data.\nRESULTS SHOULD NOT BE TRUSTED!\n");  // Todo 0.5 Remove this.
+            if (!string.IsNullOrEmpty(ModSettings.ReportTextForThisModVersion))
+            {
+                reportText.AppendLine(Toolkit.WordWrap($"{ ModSettings.ReportTextForThisModVersion }\n"));
+            }
 
             if (!string.IsNullOrEmpty(catalog.Note))
             {
@@ -394,8 +397,9 @@ namespace CompatibilityReport.Reporter
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.TestVersion))
                 {
-                    text += Format("This is a test version. If you don't have a specific reason to use it, and there is a stable version, " +
-                        "you'd better subscribe to that one instead.");
+                    text += Format("This is a test version" + 
+                        (subscribedMod.Alternatives.Any() ? ". If you don't have a specific reason to use it, you'd better use the stable version instead." :
+                        subscribedMod.Stability == Enums.Stability.Stable ? ", but is considered quite stable.": "."));
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))

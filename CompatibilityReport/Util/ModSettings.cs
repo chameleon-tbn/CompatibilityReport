@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
 
         public const string Version = "0.4.3";
-        public const string Build = "338";
+        public const string Build = "339";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -102,6 +102,9 @@ namespace CompatibilityReport.Util
         public const string Indent2 = "       ";
         public const string Bullet3 = "         - ";
         public const string Indent3 = "           ";
+
+        public const string ReportTextForThisModVersion = "This is a PREVIEW version of the mod, not thoroughly tested yet and with limited data.\n" +
+            "RESULTS SHOULD NOT BE TRUSTED!";                                                                                       // Todo 0.5 Update this text.
 
         public const string PleaseReportText = "Please report this on the Steam Workshop page for " + ModName + ".";                // Todo 0.5 Add our Workshop URL.
 
