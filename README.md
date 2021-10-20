@@ -21,8 +21,7 @@ Due to the early development stage and very frequent changes to the code, pull r
   * Manual upload of a new catalog, after a quality assurance check.
 
 ### Roadmap towards version 1.0 (subject to change)
-* 0.4.3 - Further report revision and bugfixing
-* 0.5 - Alpha release on Steam Workshop (unlisted)
+* 0.5 - Alpha release on Steam Workshop
   * Catalog with mod compatibilities and dependencies for most mods.
   * Steam pinned discussions for submissions by mod authors and others.
   * Alpha testing; hopefully also some Mac and Linux testing.
@@ -31,7 +30,7 @@ Due to the early development stage and very frequent changes to the code, pull r
   * Loading time and download time analysis.
   * Implement feedback where possible, or plan for future versions.
 * 0.7 - Settings UI, Settings XML file
-  * when to scan, on-demand scanning, report sorting, what to include in report, ...
+  * when to scan, on-demand scanning, report sorting, what to include in report, 'open report' button, ...
 * 0.8 - Standalone Updater tool for easier scheduling
 * 0.9 - Beta release
   * Code cleanup.
@@ -47,12 +46,14 @@ Due to the early development stage and very frequent changes to the code, pull r
 * 1.1 HTML report; mod setting for text or HTML report.
 * 1.2 In-game popup with summary and button to open report.
 * 'Second load' detection with warning popup.
+* Interface for getting info about an unsubscribed mod, to review compatibility with currently subscribed mods.
 * Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112)).
+* Integration with [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112)?
 * Localization. Part of the report text is in the CSV import, making it harder to keep translations up to date.
 * Version check before (down)loading a full catalog.
-* Reviewing local mods.
-* Interface for getting info about an unsubscribed mod, to review compatibility with currently subscribed mods.
+* In-game catalog update procedure and upload/merge it with the online catalog.
 * Online catalog update procedure, supporting multiple simultaneous contributors.
+* Reviewing local mods.
 * Replace WebCrawler by Steam API, for better performance, easier update detection and more reliable author links.
 * Detect missing required mods for assets, like ETST, NExt2, Trolleybus Trailer AI, ... (needs Steam API).
 * TLS 1.2 support for download, if possible (needs .NET 4.6+).

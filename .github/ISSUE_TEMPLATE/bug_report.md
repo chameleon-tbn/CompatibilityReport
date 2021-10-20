@@ -7,19 +7,18 @@ assignees: ''
 
 ---
 
-### **Describe the bug**
-A clear and concise description of what the bug is.
+### **Describe the bug:**
+...
 
-### **Expected behavior**
-A clear and concise description of what you expected to happen.
+### **Expected behavior:**
+...
 
-### **Attach your log**
-Please attach your CompatibilityReport.log file. You can find it in the Cities_Data subfolder of the game folder: 
-<Steam folder>\steamapps\common\Cities_Skylines\Cities_Data\CompatibilityReport.log
+### **Attach your report and game log**
+Please attach your report (**CompatibilyReport.txt**) and game log (**output_log.txt** or **Player.log**). You can find both in the Cities_Data subfolder of the game folder: 
+- Windows: C:\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\
+- Mac OS: Users/\<username\>/Library/Logs/Unity/
+- Linux: ~/.config/unity3d/Colossal Order/Cities: Skylines/
 
 ### **Your system:**
- - Mod version: [e.g. 0.4.0.292]
- - OS and OS version: [e.g. Window 10, MacOS 10.15, ...]
-
-### **Additional context**
-Add any other context about the problem here.
+ - Mod version: ... [e.g. 0.4.3.340, you find it at the top of the report]
+ - OS: ... [e.g. Window 10, MacOS 10.15]
