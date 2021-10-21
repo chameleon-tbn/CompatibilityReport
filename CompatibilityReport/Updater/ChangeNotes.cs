@@ -123,11 +123,11 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Checks if we have any change notes, ignoring generic catalog change notes.</summary>
+        /// <summary>Checks if we have any change notes.</summary>
         /// <returns>True if have any change notes, false otherwise.</returns>
         public bool Any()
         {
-            return NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length + UpdatedMods.Length + UpdatedModsDict.Count + 
+            return CatalogChanges.Length + NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length + UpdatedMods.Length + UpdatedModsDict.Count + 
                 UpdatedAuthors.Length + UpdatedAuthorsDict.Count + RemovedMods.Length + RemovedGroups.Length + RemovedCompatibilities.Length > 0;
         }
 
