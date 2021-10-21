@@ -752,7 +752,7 @@ namespace CompatibilityReport.Updater
                 if (!string.IsNullOrEmpty(errorMessage))
                 {
                     // Stop if this compatibility could not be added, without processing more compatibilities.
-                    return $"{ errorMessage } Some of the compatibilities might have been added, check the change notes.";
+                    return $"{ errorMessage } Some of the compatibilities may have been added, check the change notes.";
                 }
 
                 previousSecond = secondSteamID;

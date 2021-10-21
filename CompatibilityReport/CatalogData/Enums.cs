@@ -11,7 +11,7 @@
             Stable,                             // This mod will function.
             NotEnoughInformation,               // Stability unknown, because we don't have enough information yet to determine it.
             UsersReportIssues,                  // Stability uncertain, but various users report issues, while others may say it still works fine for them.
-            MinorIssues,                        // Will function but might give minor issues.
+            MinorIssues,                        // Will function but may give minor issues.
             MajorIssues,                        // Will function, at least partially, but with some serious issues.
             Broken,                             // Broken, as in doesn't really function.
             GameBreaking,                       // Broken and also crashes or otherwise disrupts the game.
@@ -32,7 +32,7 @@
             Deprecated,                         // No longer supported and should not be used anymore.
             Abandoned,                          // No longer updated and the author doesn't respond to questions/issues in the comments.
             Reupload,                           // This is reupload from another persons mod and should not be used. Use the original, which should be added as alternative.
-            SavesCantLoadWithout,               // Needed to successfully load a savegame where it was used. You might lose access to the savegame if the mod breaks.
+            SavesCantLoadWithout,               // Needed to successfully load a savegame where it was used. You may lose access to the savegame if the mod breaks.
             BreaksEditors,                      // Gives serious issues in the map and/or asset editor, or prevents them from loading.
             TestVersion,                        // This is a test/beta/alpha/experimental version, and a stable version exists as well.
             DependencyMod,                      // This is a dependency mod (needed for other mods to function) and adds no functionality on its own.

@@ -472,7 +472,7 @@ namespace CompatibilityReport.Updater
 
 
         /// <summary>Gets the source URL.</summary>
-        /// <remarks>If more than one is found, pick the most likely, which is far from perfect and might need a CSV update to set it right.</remarks>
+        /// <remarks>If more than one is found, pick the most likely, which is far from perfect and may need a CSV update to set it right.</remarks>
         /// <returns>The source URL string.</returns>
         private static string GetSourceUrl(string steamDescription, Mod catalogMod)
         {

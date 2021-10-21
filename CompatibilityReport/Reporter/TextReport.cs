@@ -102,22 +102,24 @@ namespace CompatibilityReport.Reporter
             {
                 reportText.AppendLine(Toolkit.WordWrap($"WARNING: The review catalog is made for game version " +
                     Toolkit.ConvertGameVersionToString(catalog.GameVersion()) +
-                    $". Your game is { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "older" : "newer") }. Results may not be accurate.\n",
+                    $". Your game is { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "older" : "newer") }. Results might not be accurate.\n",
                     indent: new string(' ', "WARNING: ".Length)));
             }
 
             if (catalog.GetMod(ModSettings.LowestLocalModID) != null)
             {
-                reportText.AppendLine(Toolkit.WordWrap("NOTE: You have local mods, which we can't review. The report does not check for incompatibilities with these.\n", 
-                    indent: new string(' ', "NOTE: ".Length)));
+                reportText.AppendLine(Toolkit.WordWrap("NOTE: You have local mods, which we can't review. The report does not check for incompatibilities with these." +
+                    "Results might not be completely accurate.\n", indent: new string(' ', "NOTE: ".Length)));
             }
-            
+
             reportText.AppendLine($"{ separatorDouble }\n");
 
             if (!string.IsNullOrEmpty(catalog.ReportHeaderText))
             {
                 reportText.AppendLine(Toolkit.WordWrap($"{ catalog.ReportHeaderText }\n", indent: ModSettings.Indent1, indentAfterNewLine: ""));
             }
+
+            reportText.AppendLine();
         }
 
 
@@ -205,7 +207,7 @@ namespace CompatibilityReport.Reporter
 
             if (subscribedMod.SteamID >= ModSettings.LowestLocalModID && subscribedMod.SteamID <= ModSettings.HighestLocalModID)
             {
-                modText.Append(Format("Can't review local mods (yet)."));
+                modText.Append(Format("Can't review local mods."));
                 modText.Append(subscribedMod.IsCameraScript ? Format("This is a cinematic camera script, which technically is a mod and thus listed here.") : "");
                 modText.AppendLine();
             }
@@ -387,7 +389,7 @@ namespace CompatibilityReport.Reporter
                 if (subscribedMod.Statuses.Contains(Enums.Status.BreaksEditors))
                 {
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
-                    text += Format("If you use the asset editor and/or map editor, this might give serious issues.");
+                    text += Format("If you use the asset editor and/or map editor, this may give serious issues.");
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.ModForModders))
