@@ -106,7 +106,7 @@ namespace CompatibilityReport.Reporter
                     indent: new string(' ', "WARNING: ".Length)));
             }
 
-            if (catalog.IsValidID(ModSettings.LowestLocalModID))
+            if (catalog.GetMod(ModSettings.LowestLocalModID) != null)
             {
                 reportText.AppendLine(Toolkit.WordWrap("NOTE: You have local mods, which we can't review. The report does not check for incompatibilities with these.\n", 
                     indent: new string(' ', "NOTE: ".Length)));
