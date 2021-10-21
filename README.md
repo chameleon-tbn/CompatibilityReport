@@ -3,9 +3,11 @@
 Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This will report compatibility issues for your subscribed mods.
 
 ### Current status
-This is still in early alpha stage and not yet available on the Steam Workshop. It has not been thoroughly tested yet and has only very limited data at this time. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
+This is still in early alpha stage. It has not been thoroughly tested yet and has only very limited data at this time. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
 
 Due to the early development stage and very frequent changes to the code, pull requests are discouraged right now. Please create an [issue](https://github.com/Finwickle/CompatibilityReport/issues) or use the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) for questions and feedback.
+
+It's available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869).
 
 ### Implemented features
 * Detection of subscribed and local mods.
@@ -21,9 +23,8 @@ Due to the early development stage and very frequent changes to the code, pull r
   * Manual upload of a new catalog, after a quality assurance check.
 
 ### Roadmap towards version 1.0 (subject to change)
-* 0.5 - Alpha release on Steam Workshop
-  * Catalog with mod compatibilities and dependencies for most mods.
-  * Steam pinned discussions for submissions by mod authors and others.
+* 0.5.x - Alpha release on Steam Workshop
+  * Further fill the catalog with mod compatibilities and dependencies for most mods.
   * Alpha testing; hopefully also some Mac and Linux testing.
   * Gather feedback from modders.
 * 0.6 - Bugfixing and performance testing
