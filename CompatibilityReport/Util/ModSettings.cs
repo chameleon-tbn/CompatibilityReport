@@ -13,10 +13,10 @@ namespace CompatibilityReport.Util
 
         public const string ModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
         public const string ModAuthor = "Finwickle";
-        public const ulong OurOwnSteamID = HighestLocalModID;       // Todo 0.5 Add our own Steam ID.
+        public const ulong OurOwnSteamID = 2633433869;
 
         public const string Version = "0.5.0";
-        public const string Build = "343";
+        public const string Build = "344";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -41,6 +41,7 @@ namespace CompatibilityReport.Util
 
 
         // Filenames and paths.
+
         // Standard paths on Windows:
         //      DataLocation.applicationBase        = ...\Steam Games\steamapps\common\Cities_Skylines
         //      Application.dataPath                = .../Steam Games/steamapps/common/Cities_Skylines/Cities_Data
@@ -80,7 +81,7 @@ namespace CompatibilityReport.Util
         }
 
 
-        // Download properties
+        // Download properties.
 
         // The default timezone for Steam downloads seems to be UTC-7 (PDT) in summer and UTC-8 (PST) in winter,
         // meaning half the mod publish and update times and author last seen dates will be off by an hour half the time.
@@ -90,7 +91,6 @@ namespace CompatibilityReport.Util
         // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+.
         public const string CatalogUrl = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
 
-
         // Report and log properties.
         public const string ReportName = ModName;
 
@@ -98,15 +98,15 @@ namespace CompatibilityReport.Util
 
         public const string Bullet1 = " - ";
         public const string Indent1 = "   ";
-        public const string Bullet2 = "     * ";
-        public const string Indent2 = "       ";
-        public const string Bullet3 = "         - ";
-        public const string Indent3 = "           ";
+        public const string Bullet2 = "    * ";
+        public const string Indent2 = "      ";
+        public const string Bullet3 = "        - ";
+        public const string Indent3 = "          ";
 
         public const string ReportTextForThisModVersion = "This is a PREVIEW version of the mod, not thoroughly tested yet and with limited data.\n" +
             "RESULTS SHOULD NOT BE TRUSTED!";                                                                                       // Todo 0.5 Update this text.
 
-        public const string PleaseReportText = "Please report this on the Steam Workshop page for " + ModName + ".";                // Todo 0.5 Add our Workshop URL.
+        public static string PleaseReportText { get; } = $"Please report this on the Steam Workshop page: { Toolkit.GetWorkshopUrl(OurOwnSteamID) }.";
 
 
         // Todo 0.7 Settings that will be available to users through mod options within the game.
@@ -189,28 +189,15 @@ namespace CompatibilityReport.Util
         public static bool WebCrawlerEnabled { get; private set; } = !File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.disabled"));
         public static int SteamMaxFailedPages { get; private set; } = 4;
 
-        public const string DefaultHeaderText = "Basic information about mods:\n" + 
-            Bullet1 + "Always exit to desktop and restart the game when loading another save! Exiting to main menu and " +
-                "loading another savegame (called 'second loading') gives lots of mod issues.\n" + 
-            Bullet1 + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" + 
-            Bullet1 + "Always unsubscribe mods you're not using. Disabling often isn't good enough.\n" + 
+        public const string DefaultHeaderText = "General information about using mods:\n" +
+            Bullet1 + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
+            Bullet1 + "Always exit to desktop and restart the game. NEVER exit to main menu!\n" + 
             Bullet1 + "Mods not updated for a while might still work fine. Check their Workshop page.\n" +
-            "\n" +
-            "Some remarks about incompatibilities:\n" +
-            Bullet1 + "Mods that do the same thing are generally incompatible with each other.\n" +
-            Bullet1 + "Some issues are a conflict between more than two mods or a loading order issue, making it hard to find the real culprit. " +
-                "This can lead to users blaming the wrong mod.\n" +
             Bullet1 + "Mod compatible but not working? Try unsubscribe and resubscribe (while not in game).\n" +
-            Bullet1 + "Getting errors despite all your mods being compatible? Try the Loading Order Mod: " +
-                "https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112 \n" +
-            Bullet1 + "Savegame not loading? Use the optimization and safe mode options from Loading Screen: " +
-                "https://steamcommunity.com/sharedfiles/filedetails/?id=667342976 \n" +
             "\n" +
-            "Disclaimer:\n" +
-            Bullet1 + "We try to include reliable, researched information about incompatibilities and highly value the words of mod authors in this. " +
-                "However, we will occasionally get it wrong or miss an update. Found a mistake? Please comment on the Workshop.";   // Todo 0.5 Add our Workshop URL.
+            "Found a mistake? Please comment on the Workshop.";
 
-        public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the Workshop page.";       // Todo 0.5 Add our Workshop URL.
+        public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the Workshop page.";
         public const string FirstCatalogNote = "This first catalog only contains the builtin mods.";
     }
 }
