@@ -23,7 +23,7 @@ It's available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/fi
   * Manual upload of a new catalog, after a quality assurance check.
 
 ### Roadmap towards version 1.0 (subject to change)
-* 0.5.x - Alpha release on Steam Workshop
+* 0.5.x - Fill the catalog
   * Further fill the catalog with mod compatibilities and dependencies for most mods.
   * Alpha testing; hopefully also some Mac and Linux testing.
   * Gather feedback from modders.

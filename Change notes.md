@@ -1,5 +1,12 @@
 # Compatibility Report
 
+### Version 0.5.1 alpha - Minor report changes
+* Add sorted mod list to the end of the report
+
+### Version 0.5 alpha - Steam Workshop release
+* Steam Workshop release
+* Minor textual changes and bugfixes
+
 ### Version 0.4.3 alpha - Bugfixes
 * Miscellaneous bugfixes
 
@@ -45,4 +52,4 @@
 * Text report, sorted by mod name; split into reviewed and non-reviewed mods
 * Automatic download of a new catalog; no need for a mod update for every new incompatibility
 * Logging
-* First catalog created with only the 5 builtin mods
+* First catalog created with only the 5 built-in mods

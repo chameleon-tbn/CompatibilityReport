@@ -223,7 +223,7 @@ namespace CompatibilityReport.Util
 
         /// <summary>Get the Steam Workshop URL for a mod.</summary>
         /// <remarks>It does not check if the given Steam ID is an existing Steam Workshop mod.</remarks>
-        /// <returns>A string with the URL, or an empty string for a local or builtin mod.</returns>
+        /// <returns>A string with the URL, or an empty string for a local or built-in mod.</returns>
         public static string GetWorkshopUrl(ulong steamID)
         {
             return (steamID > ModSettings.HighestFakeID) ? $"https://steamcommunity.com/sharedfiles/filedetails/?id={ steamID }" : "";

@@ -303,7 +303,7 @@ namespace CompatibilityReport.CatalogData
             string disabledPrefix = IsDisabled ? "[Disabled] " : "";
 
             string idString = (SteamID > ModSettings.HighestFakeID) ? $"[Steam ID { SteamID, 10 }]" :
-                ModSettings.BuiltinMods.ContainsValue(SteamID) ? $"[builtin mod{ (hideFakeID ? "" : $" { SteamID }") }]" :
+                ModSettings.BuiltinMods.ContainsValue(SteamID) ? $"[built-in mod{ (hideFakeID ? "" : $" { SteamID }") }]" :
                 $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
 
             string name = !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);

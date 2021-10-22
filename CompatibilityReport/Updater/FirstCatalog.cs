@@ -8,7 +8,7 @@ namespace CompatibilityReport.Updater
 {
     public static class FirstCatalog
     {
-        /// <summary>Creates catalog version 1 from scratch with only builtin mods.</summary>
+        /// <summary>Creates catalog version 1 from scratch with only built-in mods.</summary>
         /// <remarks>It uses a mixture of CatalogUpdater methods and direct object updates to get relevant change notes.</remarks>
         public static void Create()
         {
@@ -23,7 +23,7 @@ namespace CompatibilityReport.Updater
                 return;
             }
 
-            // Use a high review date for builtin mods, to avoid the review being considered out-of-date at some point.
+            // Use a high review date for built-in mods, to avoid the review being considered out-of-date at some point.
             DateTime gameRelease = Toolkit.ConvertDate($"2015-03-10");
             CatalogUpdater.SetReviewDate(gameRelease.AddYears(1000));
 

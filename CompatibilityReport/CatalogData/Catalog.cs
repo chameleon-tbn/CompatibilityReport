@@ -105,7 +105,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Checks if the ID is a valid mod ID, with the option to check if the mod either exist in the catalog or not.</summary>
-        /// <remarks>By default only mod IDs that exist in the catalog are considered valid, including builtin mods.</remarks>
+        /// <remarks>By default only mod IDs that exist in the catalog are considered valid, including built-in mods.</remarks>
         /// <returns>True if the ID is valid with the selected options, false if invalid.</returns>
         public bool IsValidID(ulong steamID, bool allowBuiltin = true, bool shouldExist = true)
         {
@@ -336,7 +336,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Gets all subscribed, local and enabled builtin mods, and merge their info with the mods in the catalog.</summary>
+        /// <summary>Gets all subscribed, local and enabled built-in mods, and merge their info with the mods in the catalog.</summary>
         /// <remarks>Local mods and unknown Steam Workshop mods are temporarily added to the catalog in memory.</remarks>
         public void ScanSubscriptions()
         {
@@ -363,12 +363,12 @@ namespace CompatibilityReport.CatalogData
                 }
                 else if (plugin.isBuiltin)
                 {
-                    // Builtin mod.
+                    // Built-in mod.
                     string modName = Toolkit.GetPluginName(plugin);
 
                     if (!plugin.isEnabled)
                     {
-                        Logger.Log($"Skipped disabled builtin mod: { modName }", Logger.Debug);
+                        Logger.Log($"Skipped disabled built-in mod: { modName }", Logger.Debug);
                         continue;
                     }
 
@@ -378,7 +378,7 @@ namespace CompatibilityReport.CatalogData
                     }
                     else
                     {
-                        Logger.Log($"Found an unknown builtin mod: { modName }. { ModSettings.PleaseReportText }", Logger.Warning);
+                        Logger.Log($"Found an unknown built-in mod: { modName }. { ModSettings.PleaseReportText }", Logger.Warning);
                         continue;
                     }
                 }
@@ -453,7 +453,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Get the number of subscribed, local and enabled builtin mods.</summary>
+        /// <summary>Get the number of subscribed, local and enabled built-in mods.</summary>
         /// <returns>The number of subscriptions.</returns>
         public int SubscriptionCount()
         {
@@ -461,7 +461,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Gets a subscribed, local or enabled builtin mod from the catalog.</summary>
+        /// <summary>Gets a subscribed, local or enabled built-in mod from the catalog.</summary>
         /// <returns>A reference to the found mod, or null if the subscription doesn't exist.</returns>
         public Mod GetSubscription(ulong steamID)
         {
@@ -469,7 +469,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Get the Steam IDs of all subscribed, local and enabled builtin mods.</summary>
+        /// <summary>Get the Steam IDs of all subscribed, local and enabled built-in mods.</summary>
         /// <returns>A reference to the list of subscription Steam IDs.</returns>
         public List<ulong> GetSubscriptionIDs()
         {
@@ -477,7 +477,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Get the names of all subscribed, local and enabled builtin mods.</summary>
+        /// <summary>Get the names of all subscribed, local and enabled built-in mods.</summary>
         /// <returns>A sorted list of mod names.</returns>
         public List<string> GetSubscriptionNames()
         {
@@ -487,7 +487,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Get all Steam IDs of subscribed, local or builtin mods with a given name.</summary>
+        /// <summary>Get all Steam IDs of subscribed, local or built-in mods with a given name.</summary>
         /// <returns>A reference to a list of Steam IDs, or an empty list if the name does not match any.</returns>
         public List<ulong> GetSubscriptionIDsByName(string name)
         {
@@ -495,7 +495,7 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Get all compatibilities of a subscribed, local or builtin mod.</summary>
+        /// <summary>Get all compatibilities of a subscribed, local or built-in mod.</summary>
         /// <returns>A reference to the list of compatibilities for this subscription, or an empty list if the subscription does not exist.</returns>
         public List<Compatibility> GetSubscriptionCompatibilities(ulong steamID)
         {

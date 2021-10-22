@@ -166,7 +166,7 @@ namespace CompatibilityReport.Updater
             {
                 if (!catalog.IsValidID(catalogMod.SteamID, allowBuiltin: false))
                 {
-                    // Skip builtin mods.
+                    // Skip built-in mods.
                     continue;
                 }
 

@@ -16,7 +16,7 @@ namespace CompatibilityReport.Util
         public const ulong OurOwnSteamID = 2633433869;
 
         public const string Version = "0.5.1";
-        public const string Build = "345";
+        public const string Build = "346";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
