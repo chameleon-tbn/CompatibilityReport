@@ -51,6 +51,8 @@ namespace CompatibilityReport.Reporter
 
             AddAllMods();
 
+            AddModList();
+
             AddFooter();
 
             string TextReportFullPath = Path.Combine(ModSettings.ReportPath, ModSettings.ReportTextFileName);
@@ -112,10 +114,9 @@ namespace CompatibilityReport.Reporter
                     "Results might not be completely accurate.\n", indent: new string(' ', "NOTE: ".Length)));
             }
 
-            reportText.AppendLine($"{ separatorDouble }\n");
-
             if (!string.IsNullOrEmpty(catalog.ReportHeaderText))
             {
+                reportText.AppendLine($"{ separatorDouble }\n");
                 reportText.AppendLine(Toolkit.WordWrap($"{ catalog.ReportHeaderText }\n", indent: ModSettings.Indent1, indentAfterNewLine: ""));
             }
 
@@ -123,11 +124,42 @@ namespace CompatibilityReport.Reporter
         }
 
 
+        /// <summary>Adds a list of all mods to the report, sorted by name.</summary>
+        /// <remarks>Built-in mods that are disabled are not included.</remarks>
+        private void AddModList()
+        {
+            reportText.AppendLine($"{ separatorDouble }\n");
+            reportText.AppendLine(Toolkit.WordWrap("This is the end of the report. Below you find a summary of all your subscribed mods.\n"));
+
+            List<string> AllSubscriptionNames = catalog.GetSubscriptionNames();
+
+            foreach (string name in AllSubscriptionNames)
+            {
+                // Get the Steam ID(s) for this mod name. There could be multiple IDs for mods with the same name.
+                foreach (ulong steamID in catalog.GetSubscriptionIDsByName(name))
+                {
+                    string disabled = catalog.GetMod(steamID).IsDisabled ? " [disabled]" : "";
+
+                    string url = steamID > ModSettings.HighestFakeID ? $", { Toolkit.GetWorkshopUrl(steamID) }" :
+                        steamID < ModSettings.LowestLocalModID ? " [built-in]" : " [local]";
+
+                    reportText.AppendLine($"{ name }{ disabled }{ url }");
+                }
+            }
+
+            reportText.AppendLine();
+            reportText.AppendLine();
+        }
+
+
         /// <summary>Adds footer text to the report.</summary>
         private void AddFooter()
         {
-            reportText.AppendLine($"{ separatorDouble }\n");
-            reportText.AppendLine(Toolkit.WordWrap(catalog.ReportFooterText));
+            if (!string.IsNullOrEmpty(catalog.ReportFooterText))
+            {
+                reportText.AppendLine($"{ separatorDouble }\n");
+                reportText.AppendLine(Toolkit.WordWrap(catalog.ReportFooterText));
+            }
         }
 
 

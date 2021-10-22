@@ -15,8 +15,8 @@ namespace CompatibilityReport.Util
         public const string ModAuthor = "Finwickle";
         public const ulong OurOwnSteamID = 2633433869;
 
-        public const string Version = "0.5.0";
-        public const string Build = "344";
+        public const string Version = "0.5.1";
+        public const string Build = "345";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -198,6 +198,6 @@ namespace CompatibilityReport.Util
             "Found a mistake? Please comment on the Workshop.";
 
         public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the Workshop page.";
-        public const string FirstCatalogNote = "This first catalog only contains the builtin mods.";
+        public const string FirstCatalogNote = "This first catalog only contains the built-in mods.";
     }
 }
