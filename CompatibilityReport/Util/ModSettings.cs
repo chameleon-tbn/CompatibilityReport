@@ -15,8 +15,8 @@ namespace CompatibilityReport.Util
         public const string ModAuthor = "Finwickle";
         public const ulong OurOwnSteamID = 2633433869;
 
-        public const string Version = "0.5.2";
-        public const string Build = "348";
+        public const string Version = "0.5.3";
+        public const string Build = "349";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -48,7 +48,7 @@ namespace CompatibilityReport.Util
         //      DataLocation.gameContentPath        = ...\Steam Games\steamapps\common\Cities_Skylines\Files
         //      DataLocation.localApplicationData   = %LocalAppData%\Colossal Order\Cities_Skylines                     // Contains the Windows username.
         //      DataLocation.modsPath               = %localappdata%\Colossal Order\Cities_Skylines\Addons\Mods         // Contains the Windows username.
-        //      DataLocation.assemblyDirectory      = ...\Steam Games\steamapps\workshop\content\255710\<mod-steamid>   // Throws "Invalid Path" exception for local mods.
+        //      DataLocation.assemblyDirectory      = Invalid Path exception (should be mod folder)
 
         public static string DefaultReportPath { get; } = Application.dataPath;
         public const string ReportTextFileName = InternalName + ".txt";
@@ -69,12 +69,21 @@ namespace CompatibilityReport.Util
             {
                 try
                 {
-                    // Steam Workshop mod.
-                    return Path.Combine(DataLocation.assemblyDirectory, $"{ InternalName }_Catalog.xml");
+                    // Steam Workshop mod path. This only works if the workshop is in the same "steamapps" folder as the game, which will be true for most users.
+                    // Todo 0.9 Find a more robust way of getting the mods own folder.
+                    char slash = Path.DirectorySeparatorChar;
+                    string wsModPath = $"{ DataLocation.applicationBase }{ slash }..{ slash }..{ slash }workshop{ slash }content{ slash }255710{ slash }{ OurOwnSteamID }";
+                    
+                    if (!Directory.Exists(wsModPath))
+                    {
+                        throw new DirectoryNotFoundException();
+                    }
+
+                    return Path.Combine(wsModPath, $"{ InternalName }_Catalog.xml");
                 }
                 catch
                 {
-                    // Local mod.
+                    // Local mod path.
                     return Path.Combine(Path.Combine(DataLocation.modsPath, InternalName), $"{ InternalName }_Catalog.xml");
                 }
             }
