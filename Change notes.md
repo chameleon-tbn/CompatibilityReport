@@ -1,21 +1,25 @@
 # Compatibility Report
 
-### Version 0.5.1 alpha - Minor report changes
-* Add sorted mod list to the end of the report
+### Version 0.5.2 alpha
+* Minor textual changes and bugfixes
+
+### Version 0.5.1 alpha
+* Minor report changes
+* Mod summary list added to the end of the report
 
 ### Version 0.5 alpha - Steam Workshop release
 * Steam Workshop release
 * Minor textual changes and bugfixes
 
-### Version 0.4.3 alpha - Bugfixes
+### Version 0.4.3 alpha
 * Miscellaneous bugfixes
 
-### Version 0.4.2 alpha - Code revision
+### Version 0.4.2 alpha
 * Bugfixes for reporter and updater
 
-### Version 0.4.1 alpha - Report revision
+### Version 0.4.1 alpha
+* Report revision
 * Split report into multiple categories, based on issue severity
-* Report layout and textual changes
 
 ### Version 0.4 alpha - Code revision and cleanup
 * Major code revision and restructure
@@ -43,7 +47,8 @@
 * Support for mod groups, to allow different editions of mods as mod requirement
 * Second catalog created, with information of all Steam Workshop mods, but without reviews
 
-### Version 0.1.1 private - Bugfixes and textual changes
+### Version 0.1.1 private
+* Bugfixes and textual changes
 
 ### Version 0.1 private - Initial build
 * Detection of subscribed and local mods

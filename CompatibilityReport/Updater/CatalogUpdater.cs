@@ -68,9 +68,12 @@ namespace CompatibilityReport.Updater
                 }
 
                 SaveCatalog(catalog);
-
-                DataDumper.Start(catalog);
             }
+
+            // Reload the catalog as a validity check of the newly created catalog. Also get the correct catalog version for the datadumper if no new catalog.
+            catalog = Catalog.Load();
+
+            DataDumper.Start(catalog);
 
             Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
             Toolkit.DeleteFile(tempCsvCombinedFullPath);
@@ -85,14 +88,15 @@ namespace CompatibilityReport.Updater
         /// <summary>Saves the updated catalog to disk.</summary>
         /// <remarks>The change notes, a combined CSV file and the updater log file are saved next to the catalog. 
         ///          This will not upload the catalog to the download location.</remarks>
-        public static void SaveCatalog(Catalog catalog)
+        /// <returns>True if a new catalog was saved, otherwise false.</returns>
+        public static bool SaveCatalog(Catalog catalog)
         {
             catalog.ChangeNotes.ConvertUpdated(catalog);
 
             if (!catalog.ChangeNotes.Any())
             {
                 Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
-                return;
+                return false;
             }
             
             string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ catalog.VersionString() }");
@@ -104,10 +108,12 @@ namespace CompatibilityReport.Updater
                 Toolkit.SaveToFile(catalog.ChangeNotes.Combined(catalog), $"{ partialPath }_ChangeNotes.txt");
                 Toolkit.MoveFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), $"{ partialPath }_Imports.csv.txt");
                 Toolkit.CopyFile(Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName), $"{ partialPath }_Updater.log");
+                return true;
             }
             else
             {
                 Logger.UpdaterLog("Could not save the new catalog. All updates were lost.", Logger.Error);
+                return false;
             }
         }
 
