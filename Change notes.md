@@ -2,6 +2,7 @@
 
 ### Version 0.5.2 alpha
 * Minor textual changes and bugfixes
+* Steam Workshop preview image
 
 ### Version 0.5.1 alpha
 * Minor report changes

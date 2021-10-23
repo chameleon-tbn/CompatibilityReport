@@ -245,6 +245,7 @@ namespace CompatibilityReport.Reporter
             }
             else
             {
+                modText.Append(Instability(subscribedMod));
                 modText.Append(RequiredDlc(subscribedMod));
                 modText.Append(UnneededDependencyMod(subscribedMod));
                 modText.Append(Disabled(subscribedMod));
@@ -308,14 +309,11 @@ namespace CompatibilityReport.Reporter
         }
 
 
-        /// <summary>Creates report text for the stability of a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <summary>Creates report text for stability issues of a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <remarks>Only reports major issues and worse.</remarks>
         /// <returns>Formatted text.</returns>
-        private string Stability(Mod subscribedMod)
+        private string Instability(Mod subscribedMod)
         {
-            string updatedText = subscribedMod.GameVersion() < Toolkit.CurrentMajorGameVersion() ? "." : 
-                subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? ", but it was updated for the current game version." : 
-                $", but it was updated for game version { subscribedMod.GameVersion().ToString(2) }.";
-
             string note = Format(subscribedMod.StabilityNote, ModSettings.Bullet2);
 
             switch (subscribedMod.Stability)
@@ -340,6 +338,32 @@ namespace CompatibilityReport.Reporter
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
                     return Format($"Unsubscribe would be wise. This has major issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + 
                         note;
+
+                default:
+                    return "";
+            }
+        }
+
+
+        /// <summary>Creates report text for the stability of a mod and increases the report severity for the mod if appropriate.</summary>
+        /// <remarks>Only reports minor issues and better.</remarks>
+        /// <returns>Formatted text.</returns>
+        private string Stability(Mod subscribedMod)
+        {
+            string updatedText = subscribedMod.GameVersion() < Toolkit.CurrentMajorGameVersion() ? "." :
+                subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? ", but it was updated for the current game version." :
+                $", but it was updated for game version { subscribedMod.GameVersion().ToString(2) }.";
+
+            string note = Format(subscribedMod.StabilityNote, ModSettings.Bullet2);
+
+            switch (subscribedMod.Stability)
+            {
+                case Enums.Stability.IncompatibleAccordingToWorkshop:
+                case Enums.Stability.RequiresIncompatibleMod:
+                case Enums.Stability.GameBreaking:
+                case Enums.Stability.Broken:
+                case Enums.Stability.MajorIssues:
+                    return "";
 
                 case Enums.Stability.MinorIssues:
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
