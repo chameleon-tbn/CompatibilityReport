@@ -405,7 +405,8 @@ namespace CompatibilityReport.CatalogData
 
                 if (foundInCatalog)
                 {
-                    Logger.Log($"Mod found: { subscribedMod.ToString() }", Logger.Debug);
+                    Logger.Log($"Mod found: { subscribedMod.ToString() }{ (steamID == nextLocalModID -1 ? $", Path: { Toolkit.Privacy(plugin.modPath) }" : "") }", 
+                        Logger.Debug);
                 }
                 else
                 {
