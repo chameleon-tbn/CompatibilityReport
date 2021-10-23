@@ -71,6 +71,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Reload the catalog as a validity check of the newly created catalog. Also get the correct catalog version for the datadumper if no new catalog.
+            Logger.Log("Reloading the catalog.", Logger.Debug);
             catalog = Catalog.Load();
 
             DataDumper.Start(catalog);

@@ -1,7 +1,10 @@
 # Compatibility Report
 
+### Version 0.5.3 alpha
+* Textual changes and bugfixes
+
 ### Version 0.5.2 alpha
-* Minor textual changes and bugfixes
+* Textual changes and bugfixes
 * Steam Workshop preview image
 
 ### Version 0.5.1 alpha
@@ -10,7 +13,7 @@
 
 ### Version 0.5 alpha - Steam Workshop release
 * Steam Workshop release
-* Minor textual changes and bugfixes
+* Textual changes and bugfixes
 
 ### Version 0.4.3 alpha
 * Miscellaneous bugfixes

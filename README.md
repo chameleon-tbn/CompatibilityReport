@@ -31,7 +31,7 @@ It's available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/fi
   * Loading time and download time analysis.
   * Implement feedback where possible, or plan for future versions.
 * 0.7 - Settings UI, Settings XML file
-  * when to scan, on-demand scanning, report sorting, what to include in report, 'open report' button, ...
+  * when to scan, on-demand scanning, report sorting, what to include in report, 'open report' button, ignore specific mods, ...
 * 0.8 - Standalone Updater tool for easier scheduling
 * 0.9 - Beta release
   * Code cleanup.
