@@ -371,7 +371,7 @@ namespace CompatibilityReport.Util
             bool showSeconds = seconds < 120 || alwaysShowSeconds;
             bool showDecimal = milliseconds < 9950;
 
-            return (showSeconds ? (showDecimal ? $"{ seconds:F1} seconds" : $"{ seconds:0} seconds") : "") +
+            return (showSeconds ? (showDecimal ? $"{ milliseconds / 1000:F1} seconds" : $"{ seconds:0} seconds") : "") +
                    (showSeconds && showMinutes ? " (" : "") +
                    (showMinutes ? $"{ Math.Floor(seconds / 60):0}:{ seconds % 60:00} minutes" : "") +
                    (showSeconds && showMinutes ? ")" : "");
