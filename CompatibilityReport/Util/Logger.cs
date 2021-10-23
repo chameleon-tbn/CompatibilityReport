@@ -147,7 +147,7 @@ namespace CompatibilityReport.Util
 
                         if (append)
                         {
-                            WriteLine($"Older info moved to \"{ Toolkit.GetFileName(logfileFullPath) }.old\".\n\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", 
+                            WriteLine($"Older info moved to \"{ Path.GetFileName(logfileFullPath) ?? "" }.old\".\n\n\n{ new string('=', ModSettings.TextReportWidth) }\n\n", 
                                 LogLevel.Info, timestamp: false, duplicateToGameLog: false);
                         }
                     }

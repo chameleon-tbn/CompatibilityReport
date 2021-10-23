@@ -158,20 +158,6 @@ namespace CompatibilityReport.Util
         }
 
 
-        /// <summary>Get the filename from a path.</summary>
-        /// <returns>A string with the filename.</returns>
-        public static string GetFileName(string fullPath)
-        {
-            if (string.IsNullOrEmpty(fullPath))
-            {
-                return "";
-            }
-
-            int index = Math.Max(fullPath.LastIndexOf('\\'), fullPath.LastIndexOf('/')) + 1;
-            return (index == 0 || index == fullPath.Length) ? fullPath : fullPath.Substring(index);
-        }
-
-
         // Skip validating SSL certificates to avoid "authentication or decryption has failed" errors. Our downloads are not sensitive data and don't need security.
         // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin.
         private static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;

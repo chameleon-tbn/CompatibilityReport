@@ -51,7 +51,7 @@ namespace CompatibilityReport.Updater
         public static int ReadCsv(Catalog catalog, string CsvFileFullPath)
         {
             StringBuilder processedCsvLines = new StringBuilder();
-            string filename = Toolkit.GetFileName(CsvFileFullPath);
+            string filename = Path.GetFileName(CsvFileFullPath) ?? "";
             int errors = 0;
 
             Logger.UpdaterLog($"Processing \"{ filename }\".");
