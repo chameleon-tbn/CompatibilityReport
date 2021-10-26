@@ -289,6 +289,14 @@ namespace CompatibilityReport.Util
         }
 
 
+        /// <summary>Determines the kind of change between an old and a new stability.</summary>
+        /// <returns>The string "added", "removed" or "changed".</returns>
+        public static string GetChange(Enums.Stability oldValue, Enums.Stability newValue)
+        {
+            return oldValue <= Enums.Stability.NotReviewed ? "added" : newValue <= Enums.Stability.NotReviewed ? "removed" : "changed";
+        }
+
+
         /// <summary>Determines the kind of change between an old and a new Version.</summary>
         /// <returns>The string "added", "removed" or "changed".</returns>
         public static string GetChange(Version oldValue, Version newValue)

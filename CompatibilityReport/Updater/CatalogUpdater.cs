@@ -208,7 +208,7 @@ namespace CompatibilityReport.Updater
                 (authorID == 0 || authorID == catalogMod.AuthorID || catalogMod.AuthorID != 0 || hideNote ? "" : ", author ID added") +
                 (authorUrl == null || authorUrl == catalogMod.AuthorUrl || hideNote ? "" : 
                     $", author URL { Toolkit.GetChange(catalogMod.AuthorUrl, authorUrl) }") +
-                (stability != default && stability != catalogMod.Stability ? ", stability changed" :
+                (stability != default && stability != catalogMod.Stability ? $", stability { Toolkit.GetChange(catalogMod.Stability, stability) }" :
                     (stabilityNote == null || stabilityNote == catalogMod.StabilityNote ? "" : 
                         $", stability note { Toolkit.GetChange(catalogMod.StabilityNote, stabilityNote) }")) +
                 (note == null || note == catalogMod.Note ? "" : $", note { Toolkit.GetChange(catalogMod.Note, note) }") +
