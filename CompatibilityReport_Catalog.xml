@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>11</Version>
-  <Updated>2021-10-26T21:08:58Z</Updated>
+  <Version>12</Version>
+  <Updated>2021-10-26T21:44:12Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note>The catalog is still a work in progress and only a limited number of mods have been reviewed for compatibility with each other so far. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
   <ReportHeaderText>General information about using mods:
@@ -1664,13 +1664,14 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
       <Updated>2021-08-22T19:21:00Z</Updated>
       <AuthorID>76561198313195795</AuthorID>
       <AuthorUrl />
-      <Stability>Stable</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>TestVersion</Status>
+        <Status>Deprecated</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>You can find newer versions of this LABS version on GitHub: https://github.com/kianzarrin/AdaptiveRoads/releases</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -1684,7 +1685,7 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
       <Recommendations />
       <SourceUrl>https://github.com/kianzarrin/AdvancedRoads</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-10-26T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -1692,6 +1693,7 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
         <ChangeNote>2021-10-05: stability changed, TestVersion added, source URL changed</ChangeNote>
         <ChangeNote>2021-10-19: alternative 2414618415 added</ChangeNote>
         <ChangeNote>2021-10-26: name changed</ChangeNote>
+        <ChangeNote>2021-10-26: stability changed, Deprecated added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
