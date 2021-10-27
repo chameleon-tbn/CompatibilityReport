@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>12</Version>
-  <Updated>2021-10-26T21:44:12Z</Updated>
+  <Version>13</Version>
+  <Updated>2021-10-27T20:13:23Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note>The catalog is still a work in progress and only a limited number of mods have been reviewed for compatibility with each other so far. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
   <ReportHeaderText>General information about using mods:
@@ -11,10 +11,8 @@
  - Mods not updated for a while might still work fine. Check their Workshop page.
  - Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).
 
-Found a mistake? Please comment on the Steam Workshop page:
-https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportHeaderText>
-  <ReportFooterText>Did this help? Do you miss anything? Leave a comment at the Steam Workshop page:
-https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterText>
+Found a mistake? Please fill out this form: https://forms.gle/PvezwfpgS1V1DHqA9</ReportHeaderText>
+  <ReportFooterText>Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterText>
   <Mods>
     <Mod>
       <SteamID>1</SteamID>
@@ -3621,7 +3619,7 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
       <Updated>2021-08-25T08:47:00Z</Updated>
       <AuthorID>76561198063330220</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -3635,15 +3633,21 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
       </RequiredMods>
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
-      <Recommendations />
+      <Alternatives>
+        <SteamID>2085403475</SteamID>
+      </Alternatives>
+      <Recommendations>
+        <SteamID>1934023593</SteamID>
+        <SteamID>2255219025</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/MacSergey/NodeController30</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-10-27: stability added, alternative 2085403475 added, recommendation 1934023593 added, recommendation 2255219025 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3715,9 +3719,11 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
       <Updated>2021-09-22T13:53:00Z</Updated>
       <AuthorID>76561198063330220</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>TestVersion</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -3729,15 +3735,18 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
       </RequiredMods>
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>2472062376</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added</ChangeNote>
+        <ChangeNote>2021-10-27: stability added, TestVersion added, alternative 2472062376 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3975,11 +3984,13 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
       <Updated>2021-10-03T21:29:00Z</Updated>
       <AuthorID>76561198109315306</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>Stable</Stability>
+      <StabilityNote>The mod is quite stable. The included standalone 'Load Order Tool' has some features that are still experimental.</StabilityNote>
+      <Statuses>
+        <Status>TestVersion</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.</Note>
       <GameVersion>1.13.3-f9</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -3991,10 +4002,13 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>667342976</SteamID>
+        <SteamID>812107110</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/kianzarrin/LoadOrder</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -4002,6 +4016,7 @@ https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869</ReportFooterT
         <ChangeNote>2021-10-04: name changed, new update</ChangeNote>
         <ChangeNote>2021-10-05: source URL changed</ChangeNote>
         <ChangeNote>2021-10-12: added to [Group 10009] Loading Order Mod</ChangeNote>
+        <ChangeNote>2021-10-27: stability added, TestVersion added, note added, recommendation 667342976 added, recommendation 812107110 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4672,32 +4687,34 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-03-15T17:54:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>vanatu</AuthorUrl>
-      <Stability>NotEnoughInformation</Stability>
-      <StabilityNote>WARNING: Support is very limited for this mod. The author has been banned from the Steam Workshop and cannot update the mod anymore. Support and future updates will be done through https://steamcommunity.com/groups/HarmonyForGames.</StabilityNote>
+      <Stability>MajorIssues</Stability>
+      <StabilityNote>There are several reports of mods having issues with this version. You are strongly encouraged to use the original Harmony mod.</StabilityNote>
       <Statuses>
         <Status>DependencyMod</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>WARNING: Support is very limited for this mod. The author has been banned from the Steam Workshop and cannot update the mod anymore. Support and future updates might be done through https://steamcommunity.com/groups/HarmonyForGames.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
-      <Alternatives>
+      <Successors>
         <SteamID>2040656402</SteamID>
-      </Alternatives>
+      </Successors>
+      <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/drok/Harmony-CitiesSkylines/tree/maintenance-0.9</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-05: DependencyMod added, stability changed, alternative 2040656402 added, added to [Group 10001] Harmony</ChangeNote>
+        <ChangeNote>2021-10-27: stability changed, Abandoned added, note added, alternative 2040656402 removed, successor 2040656402 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7126,8 +7143,8 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2021-10-12T16:40:00Z</Updated>
       <AuthorID>76561198109315306</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Stable</Stability>
+      <StabilityNote>The mod is stable, but the grabber function is still experimental, so use that with caution.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -7142,13 +7159,14 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/kianzarrin/UnifiedUI</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
         <ChangeNote>2021-10-04: new update</ChangeNote>
         <ChangeNote>2021-10-12: new update</ChangeNote>
+        <ChangeNote>2021-10-27: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8509,9 +8527,11 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2021-06-14T22:23:00Z</Updated>
       <AuthorID>76561198109315306</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>ModForModders</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.3-f9</GameVersion>
@@ -8525,11 +8545,12 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/kianzarrin/NetworkDetective</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
+        <ChangeNote>2021-10-27: stability added, ModForModders added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9413,11 +9434,12 @@ Real Time completely changes the simulation, which makes it incompatible with a 
       <AuthorID>76561198109315306</AuthorID>
       <AuthorUrl />
       <Stability>MinorIssues</Stability>
-      <StabilityNote>If intersections look blue, go into the mod's settings and press refresh junctions.
+      <StabilityNote>If intersections look blue, go into the mod's settings and enable auto-refresh.
 This increases loading time if you have many custom roads.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>The in-game name is "Direct Connect Roads".</Note>
+      <Note>If you create a U-turn with TM:PE lane connections, the U-turn rule will remain after you remove that lane connection. So remove it manually.
+The in-game name is "Direct Connect Roads".</Note>
       <GameVersion>1.13.3-f9</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -9432,13 +9454,14 @@ This increases loading time if you have many custom roads.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-10T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 2040656402 added, required mod 1637663252 added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, note added</ChangeNote>
         <ChangeNote>2021-10-12: stability note changed</ChangeNote>
+        <ChangeNote>2021-10-27: stability note changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9983,7 +10006,7 @@ This increases loading time if you have many custom roads.</StabilityNote>
       <Updated>2021-07-20T21:22:00Z</Updated>
       <AuthorID>76561198109315306</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -9999,15 +10022,23 @@ This increases loading time if you have many custom roads.</StabilityNote>
       </RequiredMods>
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
-      <Recommendations />
+      <Alternatives>
+        <SteamID>2472062376</SteamID>
+      </Alternatives>
+      <Recommendations>
+        <SteamID>2255219025</SteamID>
+        <SteamID>2140418403</SteamID>
+        <SteamID>1619685021</SteamID>
+        <SteamID>1844442251</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/kianzarrin/RoadTransitionManager</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 2040656402 added, required mod 1934023593 added, required mod 1637663252 added, source URL added</ChangeNote>
+        <ChangeNote>2021-10-27: stability added, alternative 2472062376 added, recommendation 2255219025 added, recommendation 2140418403 added, recommendation 1619685021 added, recommendation 1844442251 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -11878,9 +11909,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2021-07-24T01:03:00Z</Updated>
       <AuthorID>76561198109315306</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>TestVersion</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.3-f9</GameVersion>
@@ -11891,14 +11924,21 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>1637663252</SteamID>
+        <SteamID>1934023593</SteamID>
+        <SteamID>1625704117</SteamID>
+        <SteamID>1619685021</SteamID>
+        <SteamID>1890830956</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/kianzarrin/PedestrianBridge/</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
+        <ChangeNote>2021-10-27: stability added, TestVersion added, recommendation 1637663252 added, recommendation 1934023593 added, recommendation 1625704117 added, recommendation 1619685021 added, recommendation 1890830956 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -56755,7 +56795,7 @@ This mod is still in an early state of development.</StabilityNote>
         <Status>TestVersion</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -56766,15 +56806,21 @@ This mod is still in an early state of development.</StabilityNote>
       </RequiredMods>
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
-      <Recommendations />
+      <Alternatives>
+        <SteamID>2448824112</SteamID>
+      </Alternatives>
+      <Recommendations>
+        <SteamID>667342976</SteamID>
+        <SteamID>812107110</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-10T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-12: added as unlisted</ChangeNote>
         <ChangeNote>2021-10-12: author URL added, required mod 2040656402 added, required mod 2041457644 added, stability changed, TestVersion added, added to [Group 10009] Loading Order Mod</ChangeNote>
+        <ChangeNote>2021-10-27: note added, alternative 2448824112 added, recommendation 667342976 added, recommendation 812107110 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -57025,7 +57071,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-26T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-10-27T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-26T21:08:58Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -57450,14 +57496,6 @@ This mod is still in an early state of development.</StabilityNote>
       <FirstModName>Network Multitool 1.2</FirstModName>
       <SecondModID>1440928803</SecondModID>
       <SecondModName>Parallel Road Tool</SecondModName>
-      <Status>SameFunctionalityCompatible</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>2560782729</FirstModID>
-      <FirstModName>Network Multitool 1.2</FirstModName>
-      <SecondModID>1625704117</SecondModID>
-      <SecondModName>Roundabout Builder</SecondModName>
       <Status>SameFunctionalityCompatible</Status>
       <Note />
     </Compatibility>
@@ -71700,6 +71738,46 @@ This mod is still in an early state of development.</StabilityNote>
       <SecondModName>Mini FPS Booster</SecondModName>
       <Status>SameFunctionality</Status>
       <Note>FPS Booster has all functionality of Mini FPS Booster, and more.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2448824112</FirstModID>
+      <FirstModName>Loading Order Mod V1.0.15-Beta</FirstModName>
+      <SecondModID>2620852727</SecondModID>
+      <SecondModName>Loading Order Mod V1.1.0-ALPHA</SecondModName>
+      <Status>SameModDifferentReleaseType</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2085403475</FirstModID>
+      <FirstModName>Node controller V2.3  [Stable]</FirstModName>
+      <SecondModID>427258853</SecondModID>
+      <SecondModName>Crossings</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2472062376</FirstModID>
+      <FirstModName>Node Controller Renewal 3.1.3</FirstModName>
+      <SecondModID>2462845270</SecondModID>
+      <SecondModName>Node Controller Renewal 3.2 [BETA]</SecondModName>
+      <Status>SameModDifferentReleaseType</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2085403475</FirstModID>
+      <FirstModName>Node controller V2.3  [Stable]</FirstModName>
+      <SecondModID>2462845270</SecondModID>
+      <SecondModName>Node Controller Renewal 3.2 [BETA]</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2085403475</FirstModID>
+      <FirstModName>Node controller V2.3  [Stable]</FirstModName>
+      <SecondModID>2472062376</SecondModID>
+      <SecondModName>Node Controller Renewal 3.1.3</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
     </Compatibility>
   </Compatibilities>
   <Authors>
