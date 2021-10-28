@@ -174,7 +174,7 @@ namespace CompatibilityReport.Updater
                     "*** CATALOG CHANGES: ***\n" +
                     CatalogChanges.ToString() +
                     "\n") +
-                (NewMods.Length + NewGroups.Length + NewAuthors.Length == 0 ? "" :
+                (NewMods.Length + NewGroups.Length + NewCompatibilities.Length + NewAuthors.Length == 0 ? "" :
                     "*** ADDED: ***\n" +
                     NewMods.ToString() +
                     NewGroups.ToString() +
