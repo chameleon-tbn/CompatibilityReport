@@ -6,7 +6,7 @@ using CompatibilityReport.Util;
 // General Information about an assembly is controlled through the following set of attributes.
 // Change these attribute values to modify the information associated with an assembly.
 [assembly: AssemblyTitle(ModSettings.ModName + " v" + ModSettings.Version + ModSettings.ReleaseType)]
-[assembly: AssemblyDescription(ModSettings.ModDescription)]
+[assembly: AssemblyDescription(ModSettings.IUserModDescription)]
 [assembly: AssemblyConfiguration(ModSettings.ReleaseType)]
 [assembly: AssemblyCompany(ModSettings.ModAuthor)]
 [assembly: AssemblyProduct(ModSettings.ModName)]

@@ -83,7 +83,7 @@ namespace CompatibilityReport.Reporter
         private void AddHeader()
         {
             DateTime reportCreationTime = DateTime.Now;
-            reportText.AppendLine(Toolkit.WordWrap($"{ ModSettings.ReportName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
+            reportText.AppendLine(Toolkit.WordWrap($"{ ModSettings.ModName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
 
             reportText.AppendLine(Toolkit.WordWrap($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }. " +
                 $"The catalog contains { catalog.ReviewedModCount } reviewed mods with { catalog.Compatibilities.Count } compatibilities, and " +

@@ -163,8 +163,10 @@ namespace CompatibilityReport.Updater
         /// <returns>The combined change notes as string.</returns>
         public string Combined(Catalog catalog)
         {
-            return $"Change Notes for Catalog { catalog.VersionString() }\n" +
-                "-------------------------------\n" +
+            string title = $"Change Notes for Catalog { catalog.VersionString() }";
+
+            return $"{ title }\n" +
+                new string('-', title.Length) + "\n" +
                 $"{ catalog.Updated:D}, { catalog.Updated:t}\n" +
                 "These change notes were automatically created by the updater process.\n" +
                 "\n" +

@@ -12,9 +12,8 @@ namespace CompatibilityReport
 {
     public class CompatibilityReport : IUserMod
     {
-        public string Name { get; } = $"{ ModSettings.ModName } v{ ModSettings.Version }{ ModSettings.ReleaseType }";
-
-        public string Description { get; } = ModSettings.ModDescription;
+        public string Name { get; } = ModSettings.IUserModName;
+        public string Description { get; } = ModSettings.IUserModDescription;
 
 
         /// <summary>Start the Updater when enabled and the Reporter when called in the correct scene. Also opens the settings UI.</summary>
@@ -36,7 +35,6 @@ namespace CompatibilityReport
             UIHelperBase modOptions = helper.AddGroup(ModSettings.ModName);
 
             modOptions.AddGroup("The mod options are not implemented yet.");
-
             //Todo 0.7 Create Settings UI.
         }
     }

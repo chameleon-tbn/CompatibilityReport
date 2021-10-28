@@ -11,15 +11,16 @@ namespace CompatibilityReport.Util
         public const string ModName = "Compatibility Report";
         public const string InternalName = "CompatibilityReport";
 
-        public const string ModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
-        public const string ModAuthor = "Finwickle";
-        public const ulong OurOwnSteamID = 2633433869;
-
         public const string Version = "0.5.3";
-        public const string Build = "354";
+        public const string Build = "355";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
+
+        public const string IUserModName = ModName + " v" + Version + ReleaseType;
+        public const string IUserModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
+        public const string ModAuthor = "Finwickle";
+        public const ulong OurOwnSteamID = 2633433869;
 
 
         // Fake Steam IDs.
@@ -70,7 +71,7 @@ namespace CompatibilityReport.Util
                 try
                 {
                     // Steam Workshop mod path. This only works if the workshop is in the same "steamapps" folder as the game, which will be true for most users.
-                    // Todo 0.9 Find a more robust way of getting the mods own folder.
+                    // Todo 0.9 Find a more robust way of getting the mods own folder. See https://github.com/kianzarrin/UnifiedUI/blob/e77391479c0ab36c228402b898771a509535e846/UnifiedUILib/Helpers/UUIHelpers.cs#L376
                     char slash = Path.DirectorySeparatorChar;
                     string wsModPath = $"{ DataLocation.applicationBase }{ slash }..{ slash }..{ slash }workshop{ slash }content{ slash }255710{ slash }{ OurOwnSteamID }";
                     
@@ -100,9 +101,8 @@ namespace CompatibilityReport.Util
         // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+.
         public const string CatalogUrl = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
 
-        // Report and log properties.
-        public const string ReportName = ModName;
 
+        // Report and log properties.
         public const int MinimalTextReportWidth = 90;
 
         public const string Bullet1 = " - ";

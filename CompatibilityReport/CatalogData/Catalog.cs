@@ -72,7 +72,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A formatted string containing the full version, including the structure version.</returns>
         public string VersionString()
         {
-            return $"{ StructureVersion }.{ Version:D4}";
+            return $"{ StructureVersion }.{ Version }";
         }
 
 

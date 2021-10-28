@@ -22,42 +22,8 @@ It's available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/fi
   * Automatic change notes and catalog versioning.
   * Manual upload of a new catalog, after a quality assurance check.
 
-### Roadmap towards version 1.0 (subject to change)
-* 0.5.x - Fill the catalog
-  * Further fill the catalog with mod compatibilities and dependencies for most mods.
-  * Alpha testing; hopefully also some Mac and Linux testing.
-  * Gather feedback from modders.
-* 0.6 - Bugfixing and performance testing
-  * Loading time and download time analysis.
-  * Implement feedback where possible, or plan for future versions.
-* 0.7 - Settings UI, Settings XML file
-  * when to scan, on-demand scanning, report sorting, what to include in report, 'open report' button, ignore specific mods, ...
-* 0.8 - Standalone Updater tool for easier scheduling
-* 0.9 - Beta release
-  * Code cleanup.
-  * Completing the catalog with info from other sources: feedback, MCC mod, guides, forum, discord, ...
-  * Public release on the Steam Workshop.
-  * Gather feedback from users.
-  * Public location for all catalog versions with their change notes.
-  * Regular new catalog releases (weekly?).
-  * Test branch on GitHub.
-* 1.0 - Stable release
-
-### Future ideas (might not happen)
-* 1.1 HTML report; mod setting for text or HTML report.
-* 1.2 In-game popup with summary and button to open report.
-* 'Second load' detection with warning popup.
-* Interface for getting info about an unsubscribed mod, to review compatibility with currently subscribed mods.
-* Detect Steam mods that are not updated locally (already done by [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112)).
-* Integration with [Loading Order Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112)?
-* Localization. Part of the report text is in the CSV import, making it harder to keep translations up to date.
-* Version check before (down)loading a full catalog.
-* In-game catalog update procedure and upload/merge it with the online catalog.
-* Online catalog update procedure, supporting multiple simultaneous contributors.
-* Reviewing local mods.
-* Replace WebCrawler by Steam API, for better performance, easier update detection and more reliable author links.
-* Detect missing required mods for assets, like ETST, NExt2, Trolleybus Trailer AI, ... (needs Steam API).
-* TLS 1.2 support for download, if possible (needs .NET 4.6+).
+### Roadmap and future ideas
+The roadmap towards version 1.0 and the future ideas have been moved to the [Steam Workshop page](https://steamcommunity.com/workshop/filedetails/discussion/2633433869/3162083441792162041/).
 
 ### Credits
 This mod is inspired by and uses code from [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine. It also uses code snippets from:
@@ -68,9 +34,10 @@ A big thanks to these modders and all those others for making their code availab
 
 Special thanks to:
 * **LemonsterOG** for being super helpful and patient on almost every mod page in the Workshop. Lemon often used the old MCC for supporting users, and was an inspiration for creating this successor.
+* **Chamëleon** for feedback, testing and helping with support.
 * **asterisk** for feedback and testing.
-* **Chamëleon** for feedback and testing.
 * All above and many others for providing a friendly atmosphere on Discord.
+* See the Steam Workshop for full credits.
 
 ### Disclaimer
 I'm not an experienced programmer. I knew programming fundamentals and taught myself C# with online tutorials, reading other peoples code, browsing Stack Overflow and lots of experimenting. My code is surely sloppy, inefficient and ignoring lots of conventions. I'm open to suggestions and constructive feedback in the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions).
