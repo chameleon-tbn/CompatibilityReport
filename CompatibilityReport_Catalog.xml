@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>15</Version>
-  <Updated>2021-10-30T21:55:39Z</Updated>
+  <Version>16</Version>
+  <Updated>2021-10-31T13:51:49Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note>The catalog is still a work in progress and only a limited number of mods have been reviewed for compatibility with each other so far. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
   <ReportHeaderText>General information about using mods:
@@ -668,7 +668,7 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-08-28T09:25:00Z</Updated>
       <AuthorID>76561198224448708</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
@@ -686,11 +686,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -836,7 +837,7 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-08-14T19:16:00Z</Updated>
       <AuthorID>76561198875160480</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
@@ -854,11 +855,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1311,10 +1313,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-07-24T05:27:00Z</Updated>
       <AuthorID>76561199132276387</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -1324,16 +1328,20 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1619,10 +1627,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-07-10T01:07:00Z</Updated>
       <AuthorID>76561199178758766</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -1637,11 +1646,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1726,10 +1736,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-07-03T08:09:00Z</Updated>
       <AuthorID>76561198373766531</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -1739,16 +1751,19 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1844440354</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 1844440354 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1789,10 +1804,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-06-29T12:39:00Z</Updated>
       <AuthorID>76561198994451189</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -1807,11 +1823,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1821,10 +1838,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-06-27T18:25:00Z</Updated>
       <AuthorID>76561198862787786</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -1839,11 +1858,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -2051,10 +2071,13 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-06-16T21:50:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>412labs</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
-      <ExclusionForNoDescription>false</ExclusionForNoDescription>
+      <Statuses>
+        <Status>Abandoned</Status>
+        <Status>NoDescription</Status>
+      </Statuses>
+      <ExclusionForNoDescription>true</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
@@ -2067,10 +2090,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, NoDescription added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -2570,10 +2594,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-05-27T20:52:00Z</Updated>
       <AuthorID>76561198150801629</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -2588,11 +2613,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3915,10 +3941,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-04-11T14:42:00Z</Updated>
       <AuthorID>76561198337180510</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -3928,16 +3956,19 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>576997275</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 576997275 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4052,10 +4083,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-04-04T09:50:00Z</Updated>
       <AuthorID>76561198994197880</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -4065,16 +4097,19 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1612287735</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, successor 1612287735 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4250,10 +4285,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-03-14T10:52:00Z</Updated>
       <AuthorID>76561199135186202</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -4263,16 +4299,19 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>576327847</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, successor 576327847 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4450,10 +4489,11 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-02-28T03:48:00Z</Updated>
       <AuthorID>76561198994451189</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -4468,11 +4508,12 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4482,10 +4523,11 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-02-28T02:49:00Z</Updated>
       <AuthorID>76561198994451189</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -4500,11 +4542,12 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4615,10 +4658,11 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-02-23T20:14:00Z</Updated>
       <AuthorID>76561198417807749</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -4633,11 +4677,12 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4789,10 +4834,11 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-02-17T09:53:00Z</Updated>
       <AuthorID>76561199092271486</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -4807,11 +4853,12 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -5483,9 +5530,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2021-01-22T15:01:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>haruhata</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+        <Status>NoCommentSection</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -5499,10 +5549,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, NoCommentSection added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -5599,10 +5650,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2021-01-09T02:07:00Z</Updated>
       <AuthorID>76561198130938337</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -5617,11 +5669,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -5631,10 +5684,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2021-01-09T01:49:00Z</Updated>
       <AuthorID>76561198130938337</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -5649,11 +5703,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6058,10 +6113,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-12-20T10:07:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>BySuperNova15</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -6076,11 +6132,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6259,10 +6316,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-12-07T10:29:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>tlcs</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -6277,11 +6335,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6394,10 +6453,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-11-26T14:52:00Z</Updated>
       <AuthorID>76561198976396148</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -6412,11 +6472,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6759,10 +6820,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-11-04T09:28:00Z</Updated>
       <AuthorID>76561198320732575</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -6777,11 +6839,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6892,10 +6955,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-10-31T03:40:00Z</Updated>
       <AuthorID>76561198072685906</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -6910,11 +6974,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7113,9 +7178,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-10-17T11:38:00Z</Updated>
       <AuthorID>76561198259295903</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -7124,15 +7192,18 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>820157360</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 820157360 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7409,10 +7480,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-09-26T20:51:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>shadito</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -7427,11 +7499,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7533,9 +7606,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-09-17T00:14:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>SAYLORSPOPS</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -7549,10 +7624,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7692,10 +7768,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-09-05T23:49:00Z</Updated>
       <AuthorID>76561199048417565</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -7710,11 +7787,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7754,10 +7832,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-09-01T01:20:00Z</Updated>
       <AuthorID>76561199086692825</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -7772,11 +7851,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7844,10 +7924,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-08-26T14:52:00Z</Updated>
       <AuthorID>76561199017118929</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -7862,11 +7943,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8621,10 +8703,11 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2020-06-28T12:25:00Z</Updated>
       <AuthorID>76561198801480418</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -8639,11 +8722,12 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8782,10 +8866,11 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2020-06-21T19:03:00Z</Updated>
       <AuthorID>76561199066480091</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -8800,11 +8885,12 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8814,10 +8900,13 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2020-06-21T11:21:00Z</Updated>
       <AuthorID>76561198300314636</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
-      <ExclusionForNoDescription>false</ExclusionForNoDescription>
+      <Statuses>
+        <Status>Abandoned</Status>
+        <Status>NoDescription</Status>
+      </Statuses>
+      <ExclusionForNoDescription>true</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
@@ -8830,10 +8919,11 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, NoDescription added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9021,10 +9111,11 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2020-06-12T14:52:00Z</Updated>
       <AuthorID>76561198352299478</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -9039,11 +9130,12 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9053,10 +9145,12 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2020-06-12T14:52:00Z</Updated>
       <AuthorID>76561198352299478</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -9066,16 +9160,19 @@ Some can only walk backwards or are floating.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>803074771</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 803074771 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9792,9 +9889,11 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2020-05-11T15:25:00Z</Updated>
       <AuthorID>76561198959572921</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -9805,16 +9904,19 @@ The in-game name is "Direct Connect Roads".</Note>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2368396560</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/rcav8tr/ExcludeMail</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required DLC Industries added, source URL added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Deprecated added, successor 2368396560 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -10146,9 +10248,11 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2020-05-02T21:38:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Tunaflish</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -10157,15 +10261,18 @@ The in-game name is "Direct Connect Roads".</Note>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>445589127</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Deprecated added, successor 445589127 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -10529,10 +10636,12 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2020-04-18T21:04:00Z</Updated>
       <AuthorID>76561198326185525</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -10542,16 +10651,19 @@ The in-game name is "Direct Connect Roads".</Note>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1612287735</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 1612287735 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -10775,10 +10887,11 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2020-04-12T07:23:00Z</Updated>
       <AuthorID>76561198083833091</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -10793,11 +10906,12 @@ The in-game name is "Direct Connect Roads".</Note>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -11834,10 +11948,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-03-26T02:38:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>915962083</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -11852,11 +11967,12 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -13641,9 +13757,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-11-22T15:36:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>izayoi_sakuya16</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -13652,15 +13770,18 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>466158459</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, successor 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -13733,10 +13854,12 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-11-13T04:23:00Z</Updated>
       <AuthorID>76561198824143537</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>GameBreaking</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -13746,16 +13869,19 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>576327847</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 576327847 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -13765,10 +13891,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-11-10T06:19:00Z</Updated>
       <AuthorID>76561198823642434</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -13778,16 +13905,19 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1612287735</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, successor 1612287735 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -13856,7 +13986,7 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-11-01T16:14:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>avanya87</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses>
         <Status>SourceBundled</Status>
@@ -13878,12 +14008,13 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required DLC Content Creator Pack: European Suburbia added, required mod 466158459 added</ChangeNote>
         <ChangeNote>2021-10-05: SourceBundled added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14322,10 +14453,12 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-20T17:52:00Z</Updated>
       <AuthorID>76561198157671704</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -14335,16 +14468,20 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14505,9 +14642,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-20T11:47:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.12.1-f2</GameVersion>
@@ -14516,16 +14655,20 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1627986403</SteamID>
+        <SteamID>2057780822</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, successor 1627986403 added, successor 2057780822 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14717,10 +14860,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-17T01:30:00Z</Updated>
       <AuthorID>76561198116716368</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -14730,16 +14874,20 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14749,10 +14897,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-17T01:30:00Z</Updated>
       <AuthorID>76561198116716368</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -14762,16 +14911,20 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -16412,10 +16565,11 @@ The author classifies this mod as advanced/experimental.</Note>
       <Updated>2019-07-22T22:08:00Z</Updated>
       <AuthorID>76561198103435635</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -16430,11 +16584,12 @@ The author classifies this mod as advanced/experimental.</Note>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -16801,10 +16956,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-07-01T14:09:00Z</Updated>
       <AuthorID>76561198899617041</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -16819,11 +16975,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -16997,10 +17154,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-06-23T11:01:00Z</Updated>
       <AuthorID>76561197977606791</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -17015,11 +17173,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -17539,10 +17698,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-06-02T23:07:00Z</Updated>
       <AuthorID>76561198272491240</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -17552,16 +17713,20 @@ Color Grading sometimes disables itself.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -17761,10 +17926,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-05-25T09:58:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>78760848</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -17779,11 +17945,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -17888,7 +18055,7 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-05-26T11:40:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>MrMiyagiCS</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -17908,11 +18075,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required DLC Content Creator Pack: University City added, required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18181,10 +18349,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-05-10T13:34:00Z</Updated>
       <AuthorID>76561198883312377</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -18194,16 +18364,20 @@ Color Grading sometimes disables itself.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18213,10 +18387,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-05-08T18:31:00Z</Updated>
       <AuthorID>76561198112291965</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -18226,16 +18402,20 @@ Color Grading sometimes disables itself.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18402,9 +18582,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-04-26T04:18:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>zzfrag</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -18418,10 +18600,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Deprecated added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18586,10 +18769,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-04-20T07:39:00Z</Updated>
       <AuthorID>76561198433482240</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -18604,11 +18788,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -19582,10 +19767,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-02-15T08:59:00Z</Updated>
       <AuthorID>76561198149555891</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -19595,16 +19782,20 @@ Color Grading sometimes disables itself.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -19834,10 +20025,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-02-25T11:06:00Z</Updated>
       <AuthorID>76561198884279048</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -19852,11 +20045,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20093,7 +20287,7 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-01-24T07:54:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>TOKACHI269</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -20111,11 +20305,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20675,10 +20870,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2018-12-27T15:35:00Z</Updated>
       <AuthorID>76561198351199461</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>GameBreaking</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -20688,16 +20885,19 @@ Color Grading sometimes disables itself.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1637663252</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 1637663252 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21053,10 +21253,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2018-12-10T09:51:00Z</Updated>
       <AuthorID>76561198451237203</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -21071,11 +21272,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21602,10 +21804,11 @@ Users are reporting some other issues as well.</StabilityNote>
       <Updated>2018-11-21T14:16:00Z</Updated>
       <AuthorID>76561198809666253</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -21620,11 +21823,12 @@ Users are reporting some other issues as well.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21976,10 +22180,11 @@ Users are reporting some other issues as well.</StabilityNote>
       <Updated>2018-11-07T00:52:00Z</Updated>
       <AuthorID>76561198388955438</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -21994,11 +22199,12 @@ Users are reporting some other issues as well.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -22562,10 +22768,11 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-10-25T11:39:00Z</Updated>
       <AuthorID>76561198419628708</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -22580,11 +22787,12 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -22628,9 +22836,11 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-10-26T19:12:00Z</Updated>
       <AuthorID>76561198111049149</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -22644,10 +22854,11 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Deprecated added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -22686,10 +22897,12 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-10-21T08:48:00Z</Updated>
       <AuthorID>76561198451237203</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -22699,16 +22912,19 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>458519223</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 458519223 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -23011,7 +23227,7 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-09-29T22:48:00Z</Updated>
       <AuthorID>76561198078790250</AuthorID>
       <AuthorUrl>mastersdegreeincplusplus</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -23027,10 +23243,11 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -23438,10 +23655,11 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-09-08T02:21:00Z</Updated>
       <AuthorID>76561198373462365</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -23456,11 +23674,12 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -23470,9 +23689,11 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-09-03T21:19:00Z</Updated>
       <AuthorID>76561198078790250</AuthorID>
       <AuthorUrl>mastersdegreeincplusplus</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -23481,15 +23702,18 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1526302248</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Deprecated added, successor 1526302248 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -23561,10 +23785,12 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-08-25T13:43:00Z</Updated>
       <AuthorID>76561198448680132</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>GameBreaking</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -23579,11 +23805,12 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -25015,10 +25242,11 @@ And some more.</StabilityNote>
       <Updated>2018-05-19T15:31:00Z</Updated>
       <AuthorID>76561198262134062</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -25033,11 +25261,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -25179,10 +25408,11 @@ And some more.</StabilityNote>
       <Updated>2018-05-06T10:33:00Z</Updated>
       <AuthorID>76561198796803757</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -25197,11 +25427,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -26289,10 +26520,11 @@ And some more.</StabilityNote>
       <Updated>2018-02-27T04:53:00Z</Updated>
       <AuthorID>76561198449403436</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -26307,11 +26539,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -27320,10 +27553,11 @@ And some more.</StabilityNote>
       <Updated>2018-01-14T04:06:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>18734925333</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -27338,11 +27572,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -27352,10 +27587,11 @@ And some more.</StabilityNote>
       <Updated>2018-01-11T08:01:00Z</Updated>
       <AuthorID>76561198178013591</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -27370,11 +27606,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -27384,10 +27621,11 @@ And some more.</StabilityNote>
       <Updated>2018-01-11T05:41:00Z</Updated>
       <AuthorID>76561198286861861</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -27402,11 +27640,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -27975,10 +28214,12 @@ And some more.</StabilityNote>
       <Updated>2017-12-09T03:54:00Z</Updated>
       <AuthorID>76561198284033489</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -27993,11 +28234,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -28107,7 +28349,7 @@ And some more.</StabilityNote>
       <Updated>2017-12-05T17:35:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>MrMiyagiCS</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -28125,11 +28367,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -28290,10 +28533,11 @@ And some more.</StabilityNote>
       <Updated>2017-11-10T09:35:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>18045674051</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -28308,11 +28552,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -28322,10 +28567,11 @@ And some more.</StabilityNote>
       <Updated>2017-11-10T09:35:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>18045674051</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -28340,11 +28586,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -28354,9 +28601,11 @@ And some more.</StabilityNote>
       <Updated>2017-11-10T09:34:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>18045674051</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -28370,10 +28619,11 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -28444,10 +28694,12 @@ And some more.</StabilityNote>
       <Updated>2017-11-02T19:57:00Z</Updated>
       <AuthorID>76561198355868850</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -28457,16 +28709,19 @@ And some more.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1758376843</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 1758376843 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -29078,10 +29333,12 @@ And some more.</StabilityNote>
       <Updated>2017-09-17T09:47:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>18045674051</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -29091,16 +29348,19 @@ And some more.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>458519223</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 458519223 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32227,10 +32487,12 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Updated>2017-03-04T05:04:00Z</Updated>
       <AuthorID>76561198296122350</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -32240,16 +32502,19 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>445589127</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 445589127 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -35588,10 +35853,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2016-06-11T05:45:00Z</Updated>
       <AuthorID>76561198089475076</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -35606,11 +35873,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -35654,7 +35922,7 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2016-06-12T23:11:00Z</Updated>
       <AuthorID>76561198083475061</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -35672,11 +35940,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -35888,7 +36157,7 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2016-04-24T22:33:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Scarfmonster</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -35906,11 +36175,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36114,9 +36384,11 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2016-09-12T15:45:00Z</Updated>
       <AuthorID>76561197976682879</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -36125,15 +36397,18 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1553517176</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Deprecated added, successor 1553517176 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36333,9 +36608,11 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2016-03-29T19:36:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>simon56modder</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Obsolete</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -36344,15 +36621,18 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>4</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Obsolete added, successor 4 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -37985,7 +38265,7 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2016-01-22T09:11:00Z</Updated>
       <AuthorID>76561197978975775</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -38003,11 +38283,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -38610,7 +38891,7 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2015-12-30T02:24:00Z</Updated>
       <AuthorID>76561198004696667</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -38621,19 +38902,23 @@ There are some reports about a missing icon/button.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods>
         <SteamID>466158459</SteamID>
-        <SteamID>530871278</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>530871278</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>530871278</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added, required mod 530871278 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required Mod 530871278 removed, recommendation 530871278 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -38828,7 +39113,7 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2015-12-29T17:55:00Z</Updated>
       <AuthorID>76561198004696667</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -38838,20 +39123,24 @@ There are some reports about a missing icon/button.</StabilityNote>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>530871278</SteamID>
         <SteamID>466158459</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>530871278</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>530871278</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 530871278 added, required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required Mod 530871278 removed, recommendation 530871278 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39130,10 +39419,11 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2015-12-19T13:18:00Z</Updated>
       <AuthorID>76561198109587347</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -39148,11 +39438,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39606,7 +39897,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2015-12-12T23:13:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>dshp01</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -39624,11 +39915,12 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39638,7 +39930,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2015-12-12T23:11:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>dshp01</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -39656,11 +39948,12 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39987,7 +40280,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2015-11-25T10:15:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -39996,17 +40289,22 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -40016,7 +40314,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2015-11-25T22:14:00Z</Updated>
       <AuthorID>76561197978975775</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -40025,17 +40323,22 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -40142,7 +40445,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2015-11-21T11:45:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -40151,17 +40454,22 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -40231,7 +40539,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2015-11-19T23:15:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -40240,17 +40548,22 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -40260,7 +40573,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2018-01-09T00:41:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -40269,18 +40582,23 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42042,7 +42360,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2016-02-27T14:02:00Z</Updated>
       <AuthorID>76561198032260276</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -42051,17 +42369,22 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42071,7 +42394,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2015-08-25T21:27:00Z</Updated>
       <AuthorID>76561198084645817</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses>
         <Status>SourceBundled</Status>
@@ -42091,12 +42414,13 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
         <ChangeNote>2021-10-05: SourceBundled added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42106,7 +42430,7 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2015-08-24T20:38:00Z</Updated>
       <AuthorID>76561198035630804</AuthorID>
       <AuthorUrl>boformer</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -42124,12 +42448,13 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
         <ChangeNote>2021-10-23: author ID added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42176,7 +42501,7 @@ Park panels sometimes become corrupted, requiring a game restart.</StabilityNote
       <Updated>2016-02-20T18:38:00Z</Updated>
       <AuthorID>76561197978975775</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -42194,11 +42519,12 @@ Park panels sometimes become corrupted, requiring a game restart.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42626,7 +42952,7 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-07-21T23:57:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses>
         <Status>SourceBundled</Status>
@@ -42637,18 +42963,23 @@ Users report issues with the map editor.</StabilityNote>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-05: SourceBundled added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42658,7 +42989,7 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-07-21T19:49:00Z</Updated>
       <AuthorID>76561198035630804</AuthorID>
       <AuthorUrl>boformer</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -42676,12 +43007,13 @@ Users report issues with the map editor.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
         <ChangeNote>2021-10-23: author ID added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42691,7 +43023,7 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-10-13T14:34:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -42700,17 +43032,22 @@ Users report issues with the map editor.</StabilityNote>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42720,7 +43057,7 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-10-13T14:33:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -42729,17 +43066,22 @@ Users report issues with the map editor.</StabilityNote>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42749,7 +43091,7 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-10-13T14:29:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -42758,17 +43100,22 @@ Users report issues with the map editor.</StabilityNote>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42807,7 +43154,7 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-07-18T13:41:00Z</Updated>
       <AuthorID>76561198035630804</AuthorID>
       <AuthorUrl>boformer</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses>
         <Status>SourceBundled</Status>
@@ -42827,13 +43174,14 @@ Users report issues with the map editor.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
         <ChangeNote>2021-10-05: SourceBundled added</ChangeNote>
         <ChangeNote>2021-10-23: author ID added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43202,7 +43550,7 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-09-28T02:19:00Z</Updated>
       <AuthorID>76561198035630804</AuthorID>
       <AuthorUrl>boformer</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -43220,12 +43568,13 @@ Users report issues with the map editor.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
         <ChangeNote>2021-10-23: author ID added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43235,7 +43584,7 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-07-14T18:12:00Z</Updated>
       <AuthorID>76561198035630804</AuthorID>
       <AuthorUrl>boformer</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -43253,12 +43602,13 @@ Users report issues with the map editor.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 466158459 added</ChangeNote>
         <ChangeNote>2021-10-23: author ID added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43329,8 +43679,9 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2021-04-25T10:09:00Z</Updated>
       <AuthorID>76561198035630804</AuthorID>
       <AuthorUrl>boformer</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Many users report errors (exception at "System.Reflection.MonoMethod.Invoke").
+Many users report "Buildings not loaded" errors when using themes from the Workshop. You can create your own theme with the assets from the original theme.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -43345,12 +43696,13 @@ Users report issues with the map editor.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/boformer/BuildingThemes</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-23: author ID added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43699,10 +44051,11 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-06-09T06:01:00Z</Updated>
       <AuthorID>76561198105691462</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -43717,11 +44070,12 @@ Users report issues with the map editor.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43905,10 +44259,12 @@ Users report issues with the map editor.</StabilityNote>
       <Updated>2015-06-07T04:46:00Z</Updated>
       <AuthorID>76561198031713354</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -43918,16 +44274,20 @@ Users report issues with the map editor.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2057780822</SteamID>
+        <SteamID>1627986403</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 2057780822 added, successor 1627986403 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -46650,9 +47010,11 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Updated>2015-04-07T18:22:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>mephane</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -46666,10 +47028,11 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Deprecated added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -46925,10 +47288,11 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Updated>2015-04-06T09:19:00Z</Updated>
       <AuthorID>76561198087918717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -46943,11 +47307,12 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -47377,9 +47742,11 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Updated>2015-03-31T13:49:00Z</Updated>
       <AuthorID>76561197997507574</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -47388,15 +47755,18 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2513657277</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Deprecated added, successor 2513657277 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -56208,10 +56578,11 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Updated>2021-09-29T04:37:00Z</Updated>
       <AuthorID>76561198079784052</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -56226,11 +56597,12 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-04: added</ChangeNote>
         <ChangeNote>2021-10-04: NoDescription added</ChangeNote>
+        <ChangeNote>2021-10-31: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -57111,7 +57483,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-30T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
