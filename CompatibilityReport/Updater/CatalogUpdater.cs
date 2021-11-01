@@ -71,7 +71,7 @@ namespace CompatibilityReport.Updater
             }
 
             // Reload the catalog as a validity check of the newly created catalog. Also get the correct catalog version for the datadumper if no new catalog.
-            Logger.Log("Reloading the catalog.", Logger.Debug);
+            Logger.Log("Reloading the catalog.");
             catalog = Catalog.Load();
 
             DataDumper.Start(catalog);
@@ -80,7 +80,7 @@ namespace CompatibilityReport.Updater
             Toolkit.DeleteFile(tempCsvCombinedFullPath);
 
             Logger.UpdaterLog("Catalog Updater has finished.");
-            Logger.Log("Catalog Updater has finished.");
+            Logger.Log("Catalog Updater has finished. Closing the catalog.");
 
             Logger.CloseUpdaterLog();
         }
@@ -317,7 +317,8 @@ namespace CompatibilityReport.Updater
             catalog.AddCompatibility(firstModID, secondModID, status, note);
 
             catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { Toolkit.CutOff(catalog.GetMod(firstModID).ToString(), 45), -45 } and " +
-                $"{ Toolkit.CutOff(catalog.GetMod(secondModID).ToString(), 45), -45 }: { status }{ (string.IsNullOrEmpty(note) ? "" : $", { note }") }");
+                $"{ Toolkit.CutOff(catalog.GetMod(secondModID).ToString(), 45), -45 }: { status }" +
+                (string.IsNullOrEmpty(note) ? "" : $", { Toolkit.CutOff(note, ModSettings.TextReportWidth) }"));
         }
 
 
