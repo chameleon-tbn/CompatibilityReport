@@ -12,7 +12,7 @@ namespace CompatibilityReport.Util
         public const string InternalName = "CompatibilityReport";
 
         public const string Version = "0.5.3";
-        public const string Build = "356";
+        public const string Build = "357";
         public const string ReleaseType = " alpha";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -195,7 +195,7 @@ namespace CompatibilityReport.Util
 
         // Todo 0.7 Defaults for updater settings that will be available in an updater settings xml file.
         public static bool UpdaterEnabled { get; private set; } = true;
-        public static bool WebCrawlerEnabled { get; private set; } = !File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.disabled"));
+        public static bool WebCrawlerEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.enabled"));
         public static int SteamMaxFailedPages { get; private set; } = 4;
 
         public const string DefaultHeaderText = "General information about using mods:\n" +

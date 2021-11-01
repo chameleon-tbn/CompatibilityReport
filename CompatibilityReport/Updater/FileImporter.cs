@@ -793,16 +793,16 @@ namespace CompatibilityReport.Updater
             {
                 return "Invalid compatibility status.";
             }
-            if (string.IsNullOrEmpty(note) && (compatibilityStatus == majorIssues || compatibilityStatus == minorIssues || compatibilityStatus == requiresSpecificSettings))
-            {
-                return "A note is mandatory for this compatibility.";
-            }
 
             Compatibility existingCompatibility = catalog.Compatibilities.Find(x => x.FirstModID == firstSteamID && x.SecondModID == secondSteamID &&
                 x.Status == compatibilityStatus);
 
             if (action == "add_compatibility")
             {
+                if (string.IsNullOrEmpty(note) && (compatibilityStatus == majorIssues || compatibilityStatus == minorIssues || compatibilityStatus == requiresSpecificSettings))
+                {
+                    return "A note is mandatory for this compatibility.";
+                }
                 if (existingCompatibility != null)
                 {
                     return "Compatibility already exists.";
