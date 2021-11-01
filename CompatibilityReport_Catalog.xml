@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>16</Version>
-  <Updated>2021-10-31T13:51:49Z</Updated>
+  <Version>17</Version>
+  <Updated>2021-11-01T21:19:44Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note>The catalog is still a work in progress and only a limited number of mods have been reviewed for compatibility with each other so far. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
   <ReportHeaderText>General information about using mods:
@@ -5231,7 +5231,7 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-01-28T02:18:00Z</Updated>
       <AuthorID>76561198340914723</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -5249,11 +5249,12 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Recommendations />
       <SourceUrl>https://github.com/sway2020/RotateAroundModule</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-01T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 1094334744 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6721,6 +6722,7 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10012] Fine Road Tool</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7405,7 +7407,7 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2021-08-28T22:18:00Z</Updated>
       <AuthorID>76561198340914723</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -7420,14 +7422,20 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>593588108</SteamID>
+        <SteamID>787611845</SteamID>
+        <SteamID>694512541</SteamID>
+        <SteamID>1094334744</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/sway2020/NonTerrainConformingProps</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-01T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: stability added, recommendation 593588108 added, recommendation 787611845 added, recommendation 694512541 added, recommendation 1094334744 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8214,6 +8222,7 @@ Some can only walk backwards or are floating.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, TestVersion added, note added, recommendation 2016920607 added, recommendation 2133705267 added, recommendation 2448994345 added, recommendation 593588108 added, recommendation 791221322 added, recommendation 787611845 added, recommendation 2172488844 added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10011] Find It</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8538,6 +8547,7 @@ Some can only walk backwards or are floating.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: source URL changed</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10014] IMT</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8578,7 +8588,9 @@ Some can only walk backwards or are floating.</StabilityNote>
       <AuthorUrl>klyte45</AuthorUrl>
       <Stability>NotReviewed</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>NoCommentSection</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -8597,6 +8609,7 @@ Some can only walk backwards or are floating.</StabilityNote>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: NoCommentSection added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8739,7 +8752,9 @@ Some can only walk backwards or are floating.</StabilityNote>
       <AuthorUrl>klyte45</AuthorUrl>
       <Stability>NotReviewed</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>NoCommentSection</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -8758,6 +8773,7 @@ Some can only walk backwards or are floating.</StabilityNote>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: NoCommentSection added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8790,6 +8806,7 @@ Some can only walk backwards or are floating.</StabilityNote>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10014] IMT</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8801,7 +8818,9 @@ Some can only walk backwards or are floating.</StabilityNote>
       <AuthorUrl>klyte45</AuthorUrl>
       <Stability>NotReviewed</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>NoCommentSection</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -8823,6 +8842,7 @@ Some can only walk backwards or are floating.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 898480258 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: source URL changed</ChangeNote>
+        <ChangeNote>2021-11-01: NoCommentSection added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8995,6 +9015,7 @@ Some can only walk backwards or are floating.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, recommendation 2016920607 added, recommendation 2133705267 added, recommendation 2448994345 added, recommendation 593588108 added, recommendation 791221322 added, recommendation 787611845 added, recommendation 2172488844 added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10011] Find It</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9718,6 +9739,7 @@ The in-game name is "Direct Connect Roads".</Note>
         <ChangeNote>2021-09-28: required mod 2040656402 added</ChangeNote>
         <ChangeNote>2021-10-26: new update</ChangeNote>
         <ChangeNote>2021-10-28: new update</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10013] Lifecycle Rebalance</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9855,7 +9877,7 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2021-02-14T22:35:00Z</Updated>
       <AuthorID>76561198340914723</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -9875,11 +9897,12 @@ The in-game name is "Direct Connect Roads".</Note>
       <Recommendations />
       <SourceUrl>https://github.com/sway2020/GravitativeCableCar</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-01T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required DLC Mass Transit added, required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -12188,6 +12211,7 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10013] Lifecycle Rebalance</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14444,6 +14468,7 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10012] Fine Road Tool</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15877,6 +15902,7 @@ On Linux and MacOS some user action is required, see the installation guide: htt
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, recommendation 1844440354 added, compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10012] Fine Road Tool</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -30005,11 +30031,12 @@ And some more.</StabilityNote>
       <Updated>2021-10-21T23:58:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>simon56modder</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>The Escape key doesn't work to exit the pause menu.
+Some report not being able to save the game, especially with large numbers of PO objects.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Some assets are not compatible with PO, including most vanilla props and all terrain-conforming props and buildings. These will disappear after conversion.</Note>
       <GameVersion>1.13.3-f9</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -30018,15 +30045,19 @@ And some more.</StabilityNote>
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>1619685021</SteamID>
+        <SteamID>2133885971</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-01T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
         <ChangeNote>2021-10-23: new update</ChangeNote>
+        <ChangeNote>2021-11-01: stability added, note added, recommendation 1619685021 added, recommendation 2133885971 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -33316,6 +33347,7 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10015] Loading Screen Mod</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36280,6 +36312,7 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-01: added to [Group 10015] Loading Screen Mod</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39697,9 +39730,10 @@ There are some reports about a missing icon/button.</StabilityNote>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
       <Stability>MinorIssues</Stability>
-      <StabilityNote>At map loading terrain might look distorted for a few seconds. 
-If a new map doesn't seem to load correctly, go into the mod options and unlock all tiles, wait for a minute or so, save, exit and restart the game. 
-Not everything works outside the 25 tiles area: dams cause tsunamis, disasters and evacuation don't work, pillars changed with No Pillars or Network Skins get reset. 
+      <StabilityNote>If a new map doesn't seem to load correctly, go into the mod options and unlock all tiles, wait for a minute or so, save, exit and restart the game.
+Always unlock all tiles at the beginning of your game to avoid issues later.
+At map loading terrain might look distorted for a few seconds.
+Not everything works outside the 25 tiles area: dams cause tsunamis, disasters and evacuation don't work, pillars changed with No Pillars or Network Skins get reset.
 Users are reporting metro tunnel issues and "Out of Range" error messages.</StabilityNote>
       <Statuses>
         <Status>SavesCantLoadWithout</Status>
@@ -39717,12 +39751,13 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/cities-skylines-unlimiter-1</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-01T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, SavesCantLoadWithout added, note added</ChangeNote>
+        <ChangeNote>2021-11-01: stability note changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -57483,7 +57518,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-01T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -57702,6 +57737,47 @@ This mod is still in an early state of development.</StabilityNote>
       <GroupMembers>
         <SteamID>2618722776</SteamID>
         <SteamID>1619685021</SteamID>
+      </GroupMembers>
+    </Group>
+    <Group>
+      <GroupID>10011</GroupID>
+      <Name>Find It</Name>
+      <GroupMembers>
+        <SteamID>2133885971</SteamID>
+        <SteamID>2187834843</SteamID>
+      </GroupMembers>
+    </Group>
+    <Group>
+      <GroupID>10012</GroupID>
+      <Name>Fine Road Tool</Name>
+      <GroupMembers>
+        <SteamID>1844442251</SteamID>
+        <SteamID>1895440521</SteamID>
+        <SteamID>2278785796</SteamID>
+      </GroupMembers>
+    </Group>
+    <Group>
+      <GroupID>10013</GroupID>
+      <Name>Lifecycle Rebalance</Name>
+      <GroupMembers>
+        <SteamID>2027161563</SteamID>
+        <SteamID>2097938060</SteamID>
+      </GroupMembers>
+    </Group>
+    <Group>
+      <GroupID>10014</GroupID>
+      <Name>IMT</Name>
+      <GroupMembers>
+        <SteamID>2140418403</SteamID>
+        <SteamID>2159934925</SteamID>
+      </GroupMembers>
+    </Group>
+    <Group>
+      <GroupID>10015</GroupID>
+      <Name>Loading Screen Mod</Name>
+      <GroupMembers>
+        <SteamID>667342976</SteamID>
+        <SteamID>833779378</SteamID>
       </GroupMembers>
     </Group>
   </Groups>
@@ -68787,14 +68863,6 @@ This mod is still in an early state of development.</StabilityNote>
       <Note />
     </Compatibility>
     <Compatibility>
-      <FirstModID>1442713872</FirstModID>
-      <FirstModName>Detail</FirstModName>
-      <SecondModID>1094334744</SecondModID>
-      <SecondModName>Procedural Objects</SecondModName>
-      <Status>MinorIssues</Status>
-      <Note>PO'd Ploppable Asphalt objects may disappear on load.</Note>
-    </Compatibility>
-    <Compatibility>
       <FirstModID>413748580</FirstModID>
       <FirstModName>ImageOverlay</FirstModName>
       <SecondModID>421400880</SecondModID>
@@ -72490,6 +72558,49 @@ This mod is still in an early state of development.</StabilityNote>
       <Status>SameFunctionality</Status>
       <Note />
     </Compatibility>
+    <Compatibility>
+      <FirstModID>1094334744</FirstModID>
+      <FirstModName>Procedural Objects</FirstModName>
+      <SecondModID>1410003347</SecondModID>
+      <SecondModName>Additive Shader</SecondModName>
+      <Status>MajorIssues</Status>
+      <Note>Additive Shader props converted to PO don't show up after reloading a save.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1094334744</FirstModID>
+      <FirstModName>Procedural Objects</FirstModName>
+      <SecondModID>2607980391</SecondModID>
+      <SecondModName>Extended Managers Library 0.7.3</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1094334744</FirstModID>
+      <FirstModName>Procedural Objects</FirstModName>
+      <SecondModID>1442713872</SecondModID>
+      <SecondModName>Detail</SecondModName>
+      <Status>MajorIssues</Status>
+      <Note>All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2246271550</FirstModID>
+      <FirstModName>Non-Terrain Conforming Props</FirstModName>
+      <SecondModID>667342976</SecondModID>
+      <SecondModName>Loading Screen Mod</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Placed 'NTCP' props show as missing props in Loading Screen Mod. This is a false alert and can be ignored.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1183931915</FirstModID>
+      <FirstModName>Cubemap Replacer (Read description!)</FirstModName>
+      <SecondModID>2483920668</SecondModID>
+      <SecondModName>Fog Controller</SecondModName>
+      <Status>RequiresSpecificSettings</Status>
+      <Note>If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller:
+- "Daynight Fog" and "Classic Fog",
+and enable the following settings for Daylight Classic:
+- "Classic sunlight color", "Classic sunlight intensity", "Classic fog Effect" and "Allow Classic fog effect if day/night cycle is on".</Note>
+    </Compatibility>
   </Compatibilities>
   <Authors>
     <Author>
@@ -73943,10 +74054,11 @@ This mod is still in an early state of development.</StabilityNote>
       <CustomUrl />
       <Name>Vestige</Name>
       <LastSeen>2020-10-31T03:40:00Z</LastSeen>
-      <Retired>false</Retired>
+      <Retired>true</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-01: now retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
