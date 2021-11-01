@@ -22,6 +22,10 @@ namespace CompatibilityReport.Updater
             if (GetBasicInfo(catalog))
             {
                 GetDetails(catalog);
+
+                // Todo 0.7 This can be removed after updater settings are implemented.
+                Toolkit.MoveFile(Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_WebCrawler.enabled"), 
+                    Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_WebCrawler.disabled"));
             }
         }
 
