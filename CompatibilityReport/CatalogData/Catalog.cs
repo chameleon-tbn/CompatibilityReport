@@ -517,7 +517,7 @@ namespace CompatibilityReport.CatalogData
                     serializer.Serialize(writer, this);
                 }
 
-                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".", Logger.Debug);
+                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".");
 
                 return true;
             }

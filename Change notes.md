@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.5.4 alpha
+* Bugfixes for the Updater
+
 ### Version 0.5.3 alpha
 * Textual changes and bugfixes
 
