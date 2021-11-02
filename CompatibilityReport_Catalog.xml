@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>17</Version>
-  <Updated>2021-11-01T21:19:44Z</Updated>
+  <Version>18</Version>
+  <Updated>2021-11-02T22:54:42Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note>The catalog is still a work in progress and only a limited number of mods have been reviewed for compatibility with each other so far. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
   <ReportHeaderText>General information about using mods:
@@ -735,9 +735,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-08-24T21:43:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>jameskmonger</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>TestVersion</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.3-f9</GameVersion>
@@ -747,15 +749,18 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>2475986859</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, TestVersion added, alternative 2475986859 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -2467,7 +2472,7 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-06-05T13:07:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>delta51</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -2485,11 +2490,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl>https://github.com/WildQuoll/Better-Road-Toolbar</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3084,8 +3090,9 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-05-23T16:02:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>The warehouse does not empty for some users. This might be caused by fishing boats taking up all 'vehicle slots', so no warehouse truck can spawn.
+Users have noticed trucks transferring fish from one warehouse to another.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -3105,11 +3112,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-FishWarehousing</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required DLC Sunset Harbor added, required DLC Industries added, required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3382,8 +3390,8 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-05-24T22:39:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>MajorIssues</Stability>
+      <StabilityNote>There are many reports that barges stop spawning after a while, or between loads. Removing and rebuilding barge harbors might help.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -3402,11 +3410,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-CargoFerries</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required DLC Mass Transit added, required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3478,7 +3487,7 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-06-24T23:02:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>jameskmonger</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -3496,11 +3505,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl>https://github.com/Jameskmonger/CSL-ShowCommuterDestination</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3873,13 +3883,13 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-05-24T12:53:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>daegi</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <Note>This is especially meant for users that manually plop RICO buildings (with Ploppable RICO or Plop the Growables).</Note>
+      <GameVersion>1.13.3-f9</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -3889,11 +3899,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl>https://github.com/DaEgi01/CitiesSkylines-CheckRoadAccessForGrowables</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, compatible game version added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4353,9 +4364,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-10-08T13:52:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Strdate</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>Stable</Stability>
+      <StabilityNote>This mod only works on Windows, not on MacOS or Linux.
+This is an advanced mod that requires Python scripting knowledge to use.</StabilityNote>
+      <Statuses>
+        <Status>TestVersion</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -4369,12 +4383,13 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl>https://github.com/Strdate/PythonConsole</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-12: new update</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, TestVersion added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -5296,7 +5311,7 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-09-08T15:48:00Z</Updated>
       <AuthorID>76561198959572921</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -5314,11 +5329,12 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Recommendations />
       <SourceUrl>https://github.com/rcav8tr/EnhancedOutsideConnectionsView</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -5880,7 +5896,7 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2021-02-15T19:12:00Z</Updated>
       <AuthorID>76561198093886807</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -5898,11 +5914,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/themonthlydaily/Cities-Skylines---Smarter-Firefighters-Improved-AI</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -11499,26 +11516,31 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2020-04-12T09:28:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>KMT_Yuuki</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>The original mod has been updated with a Chinese translation.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>667342976</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, Abandoned added, note added, successor 667342976 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14516,27 +14538,32 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-04-03T14:03:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>The original mod has been updated with a Chinese translation.</Note>
       <GameVersion>1.13.0-f7</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>667342976</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, Abandoned added, note added, successor 667342976 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14959,11 +14986,14 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-31T13:30:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Strdate</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>MinorIssues</Stability>
+      <StabilityNote>Sometimes pillars might remain when undoing a road. Use Move It to delete them.
+Some users report having to press the hotkey multiple times to activate undo.
+Some users report that undoing doesn't refund money.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This supports undoing building/bulldozing roads, buildings, props and trees.
+Don't use this to undo buildings relocation or actions from the mods Move It (use built-in undo), Prop Line Tool, Roundabout Builder and Smart Intersection Builder.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -14975,11 +15005,12 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Recommendations />
       <SourceUrl>https://github.com/Strdate/UndoMod</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15668,27 +15699,32 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-09-17T18:10:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>TimiYang</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>The original mod has been updated with a Chinese translation.</Note>
       <GameVersion>1.12.1-f2</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>667342976</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, Abandoned added, note added, successor 667342976 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20515,11 +20551,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2020-05-14T21:30:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Strdate</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>Intended only for flat ground without buildings.</Note>
+      <Note>Intended only for flat ground.</Note>
       <GameVersion>1.13.0-f8</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -20530,16 +20566,19 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Alternatives />
       <Recommendations>
         <SteamID>2030755273</SteamID>
+        <SteamID>1844440354</SteamID>
+        <SteamID>1844442251</SteamID>
       </Recommendations>
       <SourceUrl>https://github.com/Strdate/AutomaticRoundaboutBuilder</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: source URL changed, note added, recommendation 2030755273 added, successor 2560782729 added</ChangeNote>
         <ChangeNote>2021-10-19: successor 2560782729 removed</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, note changed, recommendation 1844440354 added, recommendation 1844442251 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -33326,9 +33365,12 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Updated>2021-05-22T11:30:00Z</Updated>
       <AuthorID>76561197993041956</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>TestVersion</Status>
+        <Status>SourceNotUpdated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -33338,16 +33380,19 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>667342976</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl>https://github.com/thale5/LSM/tree/test</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-11-01: added to [Group 10015] Loading Screen Mod</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, TestVersion added, SourceNotUpdated added, alternative 667342976 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36291,9 +36336,11 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2021-05-22T11:31:00Z</Updated>
       <AuthorID>76561197993041956</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>SourceNotUpdated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -36307,12 +36354,13 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl>https://github.com/thale5/LSM</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-11-01: added to [Group 10015] Loading Screen Mod</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, SourceNotUpdated added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36740,8 +36788,8 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2020-03-26T18:00:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>This might block the quay upgrade tool from the 1.13.3 patch.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -36756,11 +36804,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-QuayAnarchy</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -45843,8 +45892,9 @@ Many users report "Buildings not loaded" errors when using themes from the Works
       <Updated>2020-08-02T05:42:00Z</Updated>
       <AuthorID>76561197989728922</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Traffic lights removed on crossings from this mod might reset after game load.
+Many users report a missing button, or another button hiding it from sight.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -45857,15 +45907,18 @@ Many users report "Buildings not loaded" errors when using themes from the Works
       </RequiredMods>
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>2472062376</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl>https://github.com/bernardd/Crossings</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, alternative 2472062376 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -45875,27 +45928,30 @@ Many users report "Buildings not loaded" errors when using themes from the Works
       <Updated>2021-06-01T10:01:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>kei_em</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.3-f9</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>1299863509</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/mzch/Cities-Skylines-Mod_Lang_JA</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, compatible game version added, recommendation 1299863509 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -57308,7 +57364,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Updated>2021-10-28T03:04:00Z</Updated>
       <AuthorID>76561198035962690</AuthorID>
       <AuthorUrl>klyte45</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -57321,16 +57377,22 @@ This mod is still in an early state of development.</StabilityNote>
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>1619685021</SteamID>
+        <SteamID>2133885971</SteamID>
+        <SteamID>1758376843</SteamID>
+        <SteamID>515489008</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/klyte45/TouchThisTool</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-19: added</ChangeNote>
         <ChangeNote>2021-10-19: source URL added</ChangeNote>
         <ChangeNote>2021-10-26: new update</ChangeNote>
         <ChangeNote>2021-10-28: new update</ChangeNote>
+        <ChangeNote>2021-11-02: stability added, recommendation 1619685021 added, recommendation 2133885971 added, recommendation 1758376843 added, recommendation 515489008 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -57435,7 +57497,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Updated>2021-10-19T20:02:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>simon56modder</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -57453,11 +57515,12 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added</ChangeNote>
         <ChangeNote>2021-10-21: compatible game version added, required mod 1094334744 added</ChangeNote>
+        <ChangeNote>2021-11-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -57518,7 +57581,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-01T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-10-30T21:55:39Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -72263,14 +72326,6 @@ This mod is still in an early state of development.</StabilityNote>
       <Note />
     </Compatibility>
     <Compatibility>
-      <FirstModID>2085403475</FirstModID>
-      <FirstModName>Node controller V2.3  [Stable]</FirstModName>
-      <SecondModID>427258853</SecondModID>
-      <SecondModName>Crossings</SecondModName>
-      <Status>IncompatibleAccordingToAuthor</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
       <FirstModID>2472062376</FirstModID>
       <FirstModName>Node Controller Renewal 3.1.3</FirstModName>
       <SecondModID>2462845270</SecondModID>
@@ -72600,6 +72655,366 @@ This mod is still in an early state of development.</StabilityNote>
 - "Daynight Fog" and "Classic Fog",
 and enable the following settings for Daylight Classic:
 - "Classic sunlight color", "Classic sunlight intensity", "Classic fog Effect" and "Allow Classic fog effect if day/night cycle is on".</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2502526929</FirstModID>
+      <FirstModName>Better Road Toolbar</FirstModName>
+      <SecondModID>812125426</SecondModID>
+      <SecondModName>Network Extensions 2 (Updated for Sunset Harbor)</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2502526929</FirstModID>
+      <FirstModName>Better Road Toolbar</FirstModName>
+      <SecondModID>1577882296</SecondModID>
+      <SecondModName>Resize It!</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2502526929</FirstModID>
+      <FirstModName>Better Road Toolbar</FirstModName>
+      <SecondModID>1597852915</SecondModID>
+      <SecondModName>More Advanced Toolbar</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2502526929</FirstModID>
+      <FirstModName>Better Road Toolbar</FirstModName>
+      <SecondModID>2133885971</SecondModID>
+      <SecondModName>Find It! 2</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2502526929</FirstModID>
+      <FirstModName>Better Road Toolbar</FirstModName>
+      <SecondModID>2448994345</SecondModID>
+      <SecondModName>Yet Another Toolbar</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>406354745</SecondModID>
+      <SecondModName>Speed Slider [v2]</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>412292157</SecondModID>
+      <SecondModName>More Simulation Speed Options</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>734025380</SecondModID>
+      <SecondModName>Configure Outside Connections' Limits</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>1425061566</SecondModID>
+      <SecondModName>V10Speed</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>1721492498</SecondModID>
+      <SecondModName>Optimised Outside Connections</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>2016920607</SecondModID>
+      <SecondModName>Ploppable RICO Revisited 2.4.9</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>2090425593</SecondModID>
+      <SecondModName>Game Speed mod</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>2105755179</SecondModID>
+      <SecondModName>FPS Booster</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>1729576238</SecondModID>
+      <SecondModName>Date Changer</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Changing the date may cause a gap in the graph or cause part of the graph to be overwritten.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2368396560</FirstModID>
+      <FirstModName>Enhanced Outside Connections View</FirstModName>
+      <SecondModID>1420955187</SecondModID>
+      <SecondModName>Real Time</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>The graphs from Enhanced Outside Connections View are far less useful because time flows much more slowly.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>667342976</FirstModID>
+      <FirstModName>Loading Screen Mod</FirstModName>
+      <SecondModID>833779378</SecondModID>
+      <SecondModName>Loading Screen Mod [Test]</SecondModName>
+      <Status>SameModDifferentReleaseType</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>667342976</FirstModID>
+      <FirstModName>Loading Screen Mod</FirstModName>
+      <SecondModID>1860379049</SecondModID>
+      <SecondModName>加载优化 Loading Screen</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>667342976</FirstModID>
+      <FirstModName>Loading Screen Mod</FirstModName>
+      <SecondModID>1894425170</SecondModID>
+      <SecondModName>Loading Screen Mod 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>667342976</FirstModID>
+      <FirstModName>Loading Screen Mod</FirstModName>
+      <SecondModID>2045011960</SecondModID>
+      <SecondModName>Loading Screen 中文版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>833779378</FirstModID>
+      <FirstModName>Loading Screen Mod [Test]</FirstModName>
+      <SecondModID>1860379049</SecondModID>
+      <SecondModName>加载优化 Loading Screen</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>833779378</FirstModID>
+      <FirstModName>Loading Screen Mod [Test]</FirstModName>
+      <SecondModID>1894425170</SecondModID>
+      <SecondModName>Loading Screen Mod 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>833779378</FirstModID>
+      <FirstModName>Loading Screen Mod [Test]</FirstModName>
+      <SecondModID>2045011960</SecondModID>
+      <SecondModName>Loading Screen 中文版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1860379049</FirstModID>
+      <FirstModName>加载优化 Loading Screen</FirstModName>
+      <SecondModID>1894425170</SecondModID>
+      <SecondModName>Loading Screen Mod 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1860379049</FirstModID>
+      <FirstModName>加载优化 Loading Screen</FirstModName>
+      <SecondModID>2045011960</SecondModID>
+      <SecondModName>Loading Screen 中文版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1894425170</FirstModID>
+      <FirstModName>Loading Screen Mod 汉化版</FirstModName>
+      <SecondModID>2045011960</SecondModID>
+      <SecondModName>Loading Screen 中文版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2487163475</FirstModID>
+      <FirstModName>Barges (Cargo Ferries)</FirstModName>
+      <SecondModID>928128676</SecondModID>
+      <SecondModName>Improved Public Transport 2</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2487163475</FirstModID>
+      <FirstModName>Barges (Cargo Ferries)</FirstModName>
+      <SecondModID>934994075</SecondModID>
+      <SecondModName>Service Vehicle Selector 2</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2487163475</FirstModID>
+      <FirstModName>Barges (Cargo Ferries)</FirstModName>
+      <SecondModID>1637663252</SecondModID>
+      <SecondModName>TM:PE V11 STABLE (Traffic Manager: President Edition)</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2487163475</FirstModID>
+      <FirstModName>Barges (Cargo Ferries)</FirstModName>
+      <SecondModID>1764208250</SecondModID>
+      <SecondModName>More Vehicles</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2487163475</FirstModID>
+      <FirstModName>Barges (Cargo Ferries)</FirstModName>
+      <SecondModID>2303997489</SecondModID>
+      <SecondModName>Enhanced District Services</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2487163475</FirstModID>
+      <FirstModName>Barges (Cargo Ferries)</FirstModName>
+      <SecondModID>2496034669</SecondModID>
+      <SecondModName>Movable Bridge Mod (Beta)</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1625704117</FirstModID>
+      <FirstModName>Roundabout Builder</FirstModName>
+      <SecondModID>1637663252</SecondModID>
+      <SecondModName>TM:PE V11 STABLE (Traffic Manager: President Edition)</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2475986859</FirstModID>
+      <FirstModName>Commuter Destination</FirstModName>
+      <SecondModID>928128676</SecondModID>
+      <SecondModName>Improved Public Transport 2</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2475986859</FirstModID>
+      <FirstModName>Commuter Destination</FirstModName>
+      <SecondModID>1764637396</SecondModID>
+      <SecondModName>Toggle It!</SecondModName>
+      <Status>IncompatibleAccordingToUsers</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2584094654</FirstModID>
+      <FirstModName>Commuter Destination [BETA]</FirstModName>
+      <SecondModID>928128676</SecondModID>
+      <SecondModName>Improved Public Transport 2</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2475986859</FirstModID>
+      <FirstModName>Commuter Destination</FirstModName>
+      <SecondModID>2584094654</SecondModID>
+      <SecondModName>Commuter Destination [BETA]</SecondModName>
+      <Status>SameModDifferentReleaseType</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>427258853</FirstModID>
+      <FirstModName>Crossings</FirstModName>
+      <SecondModID>2085403475</SecondModID>
+      <SecondModName>Node controller V2.3  [Stable]</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>Node Controller already has the ability to add a crosswalk anywhere on a road.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>427258853</FirstModID>
+      <FirstModName>Crossings</FirstModName>
+      <SecondModID>2472062376</SecondModID>
+      <SecondModName>Node Controller Renewal 3.1.3</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>Node Controller already has the ability to add a crosswalk anywhere on a road.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>427258853</FirstModID>
+      <FirstModName>Crossings</FirstModName>
+      <SecondModID>2462845270</SecondModID>
+      <SecondModName>Node Controller Renewal 3.2 [BETA]</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>Node Controller already has the ability to add a crosswalk anywhere on a road.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2346565561</FirstModID>
+      <FirstModName>Smarter Firefighters: Improved AI</FirstModName>
+      <SecondModID>1420955187</SecondModID>
+      <SecondModName>Real Time</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2346565561</FirstModID>
+      <FirstModName>Smarter Firefighters: Improved AI</FirstModName>
+      <SecondModID>1637663252</SecondModID>
+      <SecondModName>TM:PE V11 STABLE (Traffic Manager: President Edition)</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2346565561</FirstModID>
+      <FirstModName>Smarter Firefighters: Improved AI</FirstModName>
+      <SecondModID>1680840913</SecondModID>
+      <SecondModName>More Effective Transfer Manager</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2629141193</FirstModID>
+      <FirstModName>Upgrade Untouchable: Convert stations</FirstModName>
+      <SecondModID>445589127</SecondModID>
+      <SecondModName>Precision Engineering</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2629141193</FirstModID>
+      <FirstModName>Upgrade Untouchable: Convert stations</FirstModName>
+      <SecondModID>1758376843</SecondModID>
+      <SecondModName>Network Skins (Sunset Harbor compatible)</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2629141193</FirstModID>
+      <FirstModName>Upgrade Untouchable: Convert stations</FirstModName>
+      <SecondModID>2085403475</SecondModID>
+      <SecondModName>Node controller V2.3  [Stable]</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
     </Compatibility>
   </Compatibilities>
   <Authors>
@@ -73068,11 +73483,12 @@ and enable the following settings for Daylight Classic:
       <SteamID>0</SteamID>
       <CustomUrl>delta51</CustomUrl>
       <Name>Delta 5-1</Name>
-      <LastSeen>2021-06-19T11:36:00Z</LastSeen>
+      <LastSeen>2021-09-09T12:00:00Z</LastSeen>
       <Retired>false</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-02: last seen date changed</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
@@ -73364,11 +73780,12 @@ and enable the following settings for Daylight Classic:
       <SteamID>0</SteamID>
       <CustomUrl>daegi</CustomUrl>
       <Name>egi</Name>
-      <LastSeen>2021-05-24T12:53:00Z</LastSeen>
+      <LastSeen>2021-11-01T12:00:00Z</LastSeen>
       <Retired>false</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-02: last seen date changed</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
@@ -74043,10 +74460,11 @@ and enable the following settings for Daylight Classic:
       <CustomUrl>lovlysuicide</CustomUrl>
       <Name>Col. Cornelius "Cooky" Cockburn</Name>
       <LastSeen>2020-11-01T15:24:00Z</LastSeen>
-      <Retired>false</Retired>
+      <Retired>true</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-02: now retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
@@ -74066,10 +74484,11 @@ and enable the following settings for Daylight Classic:
       <CustomUrl />
       <Name>Shonn</Name>
       <LastSeen>2020-11-01T10:52:00Z</LastSeen>
-      <Retired>false</Retired>
+      <Retired>true</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-02: now retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
