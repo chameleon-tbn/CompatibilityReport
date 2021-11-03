@@ -20,17 +20,6 @@ namespace CompatibilityReport.Reporter
             
             hasRun = true;
 
-            // Todo 0.5 Remove this one-time only cleanup action.
-            try
-            {
-                System.IO.File.Delete(System.IO.Path.Combine(ColossalFramework.IO.DataLocation.applicationBase, "Compatibility Report.txt"));
-                System.IO.File.Delete(System.IO.Path.Combine(ColossalFramework.IO.DataLocation.applicationBase, "Compatibility Report.txt.old"));
-                System.IO.File.Delete(System.IO.Path.Combine(UnityEngine.Application.dataPath, "CompatibilityReport.txt.old"));
-                System.IO.File.Delete(System.IO.Path.Combine(UnityEngine.Application.dataPath, "CompatibilityReport.log"));
-                System.IO.File.Delete(System.IO.Path.Combine(UnityEngine.Application.dataPath, "CompatibilityReport.log.old"));
-            }
-            catch { }
-
             // Remove the debug logfile from a previous session, if it exists.
             if (!ModSettings.DebugMode)
             {

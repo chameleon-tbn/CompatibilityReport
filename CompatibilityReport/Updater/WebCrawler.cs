@@ -23,7 +23,7 @@ namespace CompatibilityReport.Updater
             {
                 GetDetails(catalog);
 
-                // Todo 0.7 This can be removed after updater settings are implemented.
+                // Todo 0.7 This can be removed after updater settings are implemented. Make disable-after-run an option in the settings file.
                 Toolkit.MoveFile(Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_WebCrawler.enabled"), 
                     Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_WebCrawler.disabled"));
             }
@@ -282,7 +282,7 @@ namespace CompatibilityReport.Updater
 
                         // Try to get the author with ID/URL from the mod, to prevent creating a new author on an ID/URL change or when Steam gives ID instead of URL.
                         // On a new mod that fails, so try the newly found ID/URL. If it still fails we have an unknown author, so create a new author.
-                        // Todo 2.x This is not foolproof and we can still accidentally create a new author on new mods. Requires Steam API for better reliability.
+                        // Todo 1.x This is not foolproof and we can still accidentally create a new author on new mods. Requires Steam API for better reliability.
                         Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
                             CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
 

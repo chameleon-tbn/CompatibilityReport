@@ -11,9 +11,9 @@ namespace CompatibilityReport.Util
         public const string ModName = "Compatibility Report";
         public const string InternalName = "CompatibilityReport";
 
-        public const string Version = "0.5.3";
-        public const string Build = "360";
-        public const string ReleaseType = " alpha";
+        public const string Version = "0.6.0";
+        public const string Build = "361";
+        public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
 
@@ -71,7 +71,7 @@ namespace CompatibilityReport.Util
                 try
                 {
                     // Steam Workshop mod path. This only works if the workshop is in the same "steamapps" folder as the game, which will be true for most users.
-                    // Todo 0.9 Find a more robust way of getting the mods own folder. See https://github.com/kianzarrin/UnifiedUI/blob/e77391479c0ab36c228402b898771a509535e846/UnifiedUILib/Helpers/UUIHelpers.cs#L376
+                    // Todo 0.8 Find a more robust way of getting the mods own folder. See https://github.com/kianzarrin/UnifiedUI/blob/e77391479c0ab36c228402b898771a509535e846/UnifiedUILib/Helpers/UUIHelpers.cs#L376
                     char slash = Path.DirectorySeparatorChar;
                     string wsModPath = $"{ DataLocation.applicationBase }{ slash }..{ slash }..{ slash }workshop{ slash }content{ slash }255710{ slash }{ OurOwnSteamID }";
                     
@@ -112,8 +112,7 @@ namespace CompatibilityReport.Util
         public const string Bullet3 = "        - ";
         public const string Indent3 = "          ";
 
-        public const string ReportTextForThisModVersion = "This is a PREVIEW version of the mod, not thoroughly tested yet and with limited data.\n" +
-            "RESULTS SHOULD NOT BE TRUSTED!";                                                                                       // Todo 0.5 Update this text.
+        public const string ReportTextForThisModVersion = "This is a BETA version of the mod, not thoroughly tested yet.";
 
         public static string PleaseReportText { get; } = $"Please report this on the Steam Workshop page: { Toolkit.GetWorkshopUrl(OurOwnSteamID) }.";
 

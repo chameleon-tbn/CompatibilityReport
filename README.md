@@ -1,11 +1,11 @@
 # Compatibility Report
 
-Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This will report compatibility issues for your subscribed mods.
+Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This will report compatibility issues and missing dependencies for your subscribed mods.
 
 ### Current status
-This is still in early alpha stage. It has not been thoroughly tested yet and has only very limited data at this time. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
+This is still in beta. It has not been thoroughly tested yet and has only limited data at this time. This mod aims to become a successor for the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
 
-Due to the early development stage and very frequent changes to the code, pull requests are discouraged right now. Please create an [issue](https://github.com/Finwickle/CompatibilityReport/issues) or use the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) for questions and feedback.
+Due to the early development stage and frequent changes to the code, pull requests are discouraged right now. Please create an [issue](https://github.com/Finwickle/CompatibilityReport/issues) or use the [Discussions section](https://github.com/Finwickle/CompatibilityReport/discussions) for questions and feedback.
 
 It's available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869).
 
@@ -33,9 +33,10 @@ This mod is inspired by and uses code from [Mod Compatibility Checker](https://g
 A big thanks to these modders and all those others for making their code available for education and re-use.
 
 Special thanks to:
+* **Aubergine** for the awesome MCC mod.
+* **Chamëleon** for feedback, testing and helping with support and communication.
 * **LemonsterOG** for being super helpful and patient on almost every mod page in the Workshop. Lemon often used the old MCC for supporting users, and was an inspiration for creating this successor.
-* **Chamëleon** for feedback, testing and helping with support.
-* **asterisk** for feedback and testing.
+* **Asterisk** for feedback and testing.
 * All above and many others for providing a friendly atmosphere on Discord.
 * See the Steam Workshop for full credits.
 

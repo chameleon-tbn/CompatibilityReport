@@ -1,6 +1,7 @@
 # Compatibility Report
 
-### Version 0.5.4 alpha
+### Version 0.6 beta
+* Public beta on Steam Workshop
 * Bugfixes for the Updater
 
 ### Version 0.5.3 alpha
