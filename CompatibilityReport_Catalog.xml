@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>20</Version>
-  <Updated>2021-11-04T19:37:11Z</Updated>
+  <Version>21</Version>
+  <Updated>2021-11-06T15:56:28Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note>The catalog is still a work in progress and not all mods have been reviewed yet for compatibility with each other. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
   <ReportHeaderText>General information about using mods:
@@ -12446,7 +12446,7 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>Not recommended for use with disasters. Rescue teams will get 'confused' by RICO buildings.</Note>
+      <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -12462,7 +12462,7 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       </Recommendations>
       <SourceUrl>https://github.com/algernon-A/Ploppable-RICO-Revisited</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -12472,6 +12472,7 @@ On Linux and MacOS some user action is required, see the installation guide: htt
         <ChangeNote>2021-10-19: new update</ChangeNote>
         <ChangeNote>2021-10-23: new update</ChangeNote>
         <ChangeNote>2021-10-26: name changed</ChangeNote>
+        <ChangeNote>2021-11-06: note removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -16063,7 +16064,7 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <Updated>2019-08-20T16:51:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>CSLsliN</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -16081,11 +16082,12 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -16513,7 +16515,7 @@ The author classifies this mod as advanced/experimental.</Note>
       <Updated>2019-07-31T22:34:00Z</Updated>
       <AuthorID>76561198258962876</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -16531,11 +16533,12 @@ The author classifies this mod as advanced/experimental.</Note>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18166,7 +18169,9 @@ Color Grading sometimes disables itself.</StabilityNote>
       <AuthorUrl>MrMiyagiCS</AuthorUrl>
       <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>SourceBundled</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -18190,6 +18195,7 @@ Color Grading sometimes disables itself.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required DLC Content Creator Pack: University City added, required mod 466158459 added</ChangeNote>
         <ChangeNote>2021-10-31: stability added</ChangeNote>
+        <ChangeNote>2021-11-06: SourceBundled added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18941,7 +18947,7 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-04-14T18:01:00Z</Updated>
       <AuthorID>76561198258962876</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -18959,11 +18965,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -19981,7 +19988,7 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-02-10T22:31:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>CyanideCarrot1</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -19993,20 +20000,24 @@ Color Grading sometimes disables itself.</StabilityNote>
       <RequiredMods>
         <SteamID>595017353</SteamID>
         <SteamID>530771650</SteamID>
-        <SteamID>2133885971</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>2133885971</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>2133885971</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added, required mod 2133885971 added</ChangeNote>
         <ChangeNote>2021-10-19: author URL changed</ChangeNote>
+        <ChangeNote>2021-11-06: stability added, required Mod 2133885971 removed, recommendation 2133885971 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20929,7 +20940,7 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-01-01T19:54:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>adsii1970</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -20947,11 +20958,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -22436,7 +22448,7 @@ CAUTION: This is incompatible with almost every other mod!</StabilityNote>
       <Updated>2018-11-04T10:05:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>greg_man</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -22455,11 +22467,12 @@ CAUTION: This is incompatible with almost every other mod!</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 530771650 added, required mod 595017353 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -24834,7 +24847,7 @@ Does not work in scenario games.</StabilityNote>
       <Updated>2018-06-10T20:05:00Z</Updated>
       <AuthorID>76561198258962876</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -24852,11 +24865,12 @@ Does not work in scenario games.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -26779,7 +26793,7 @@ And some more.</StabilityNote>
       <Updated>2018-02-20T20:36:00Z</Updated>
       <AuthorID>76561198156181995</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -26798,11 +26812,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -27660,7 +27675,7 @@ And some more.</StabilityNote>
       <Updated>2018-01-15T04:35:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>hafiz_h4</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -27679,11 +27694,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -29090,7 +29106,7 @@ And some more.</StabilityNote>
       <Updated>2018-09-13T06:37:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>seven150528</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -29109,11 +29125,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -29152,7 +29169,7 @@ And some more.</StabilityNote>
       <Updated>2018-09-13T06:36:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>seven150528</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -29171,11 +29188,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -29330,7 +29348,7 @@ And some more.</StabilityNote>
       <Updated>2018-08-27T20:04:00Z</Updated>
       <AuthorID>76561198057672530</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -29349,11 +29367,12 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -29437,7 +29456,7 @@ And some more.</StabilityNote>
       <Updated>2018-10-13T16:24:00Z</Updated>
       <AuthorID>76561198276317238</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -29458,12 +29477,13 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 530771650 added, required mod 595017353 added, required mod 505480567 added</ChangeNote>
         <ChangeNote>2021-10-05: required Mod 505480567 removed</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -29539,7 +29559,7 @@ And some more.</StabilityNote>
       <Updated>2017-09-16T11:12:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>ienbrana</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -29560,12 +29580,13 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 595017353 added, required mod 530771650 added, required mod 505480567 added</ChangeNote>
         <ChangeNote>2021-10-05: required Mod 505480567 removed</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -29726,7 +29747,7 @@ And some more.</StabilityNote>
       <Updated>2017-09-01T04:57:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Iamawolfgetoverit</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -29746,12 +29767,13 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 505480567 added</ChangeNote>
         <ChangeNote>2021-10-05: required Mod 505480567 removed</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -30724,7 +30746,7 @@ Some report not being able to save the game, especially with large numbers of PO
       <Updated>2017-06-05T15:29:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>armesto</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -30743,11 +30765,12 @@ Some report not being able to save the game, especially with large numbers of PO
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 596557137 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -31761,7 +31784,7 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Updated>2017-04-25T02:09:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>winterqt</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -31780,11 +31803,12 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -31911,7 +31935,7 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Updated>2017-04-21T16:54:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>PARAdoxiBLE</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -31929,11 +31953,12 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32825,7 +32850,7 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Updated>2017-02-10T19:05:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>APeeler2017</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -32846,12 +32871,13 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added, required mod 505480567 added</ChangeNote>
         <ChangeNote>2021-10-05: required Mod 505480567 removed</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32861,7 +32887,7 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Updated>2017-02-05T08:25:00Z</Updated>
       <AuthorID>76561198185805649</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -32880,11 +32906,12 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 530771650 added, required mod 595017353 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -33801,7 +33828,7 @@ Train station sound issues.</StabilityNote>
       <Updated>2016-12-12T13:41:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>jensz12</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -33820,11 +33847,12 @@ Train station sound issues.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/jensz12/Cities-Danish-Flag</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 530771650 added, required mod 595017353 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -35271,7 +35299,7 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>This is only needed if a Prop requires it. Newer props should no longer need this.</Note>
+      <Note>This is only needed if a prop requires it. Newer props should no longer need this.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -35283,12 +35311,13 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, note added</ChangeNote>
         <ChangeNote>2021-10-23: author ID added</ChangeNote>
+        <ChangeNote>2021-11-06: note changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36577,7 +36606,7 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2016-04-08T13:07:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>stmSantana</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -36596,11 +36625,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -38769,7 +38799,7 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2016-01-09T07:05:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>LeoMysticMagic</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -38788,11 +38818,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 595017353 added, required mod 530771650 added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -38802,9 +38833,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2019-08-14T20:00:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>MinorIssues</Stability>
+      <StabilityNote>It produces 'duplicate prefab' errors, which seem to be harmless.
+Some users report that traffic light props still turn white after the last update that should have fixed this.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.12.1-f2</GameVersion>
@@ -38820,11 +38854,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-MoreFlags</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 530771650 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-06: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -57681,7 +57716,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-04T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-06T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-04T19:37:11Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -74845,7 +74880,7 @@ and enable the following settings for Daylight Classic:
       <CustomUrl>alyrenk</CustomUrl>
       <Name>alyrenk</Name>
       <LastSeen>2020-11-05T00:44:00Z</LastSeen>
-      <Retired>false</Retired>
+      <Retired>true</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -74857,6 +74892,7 @@ and enable the following settings for Daylight Classic:
         <ChangeNote>2021-10-26: name changed</ChangeNote>
         <ChangeNote>2021-11-03: name changed</ChangeNote>
         <ChangeNote>2021-11-04: name changed</ChangeNote>
+        <ChangeNote>2021-11-06: now retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
@@ -74864,12 +74900,13 @@ and enable the following settings for Daylight Classic:
       <CustomUrl>ninurl</CustomUrl>
       <Name>im a car</Name>
       <LastSeen>2020-11-04T21:36:00Z</LastSeen>
-      <Retired>false</Retired>
+      <Retired>true</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-12: name changed</ChangeNote>
         <ChangeNote>2021-11-03: custom URL changed, name changed</ChangeNote>
+        <ChangeNote>2021-11-06: now retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
@@ -74877,10 +74914,11 @@ and enable the following settings for Daylight Classic:
       <CustomUrl />
       <Name>Snorlax</Name>
       <LastSeen>2020-11-04T09:28:00Z</LastSeen>
-      <Retired>false</Retired>
+      <Retired>true</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-06: now retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
