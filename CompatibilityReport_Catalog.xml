@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>23</Version>
-  <Updated>2021-11-11T19:45:53Z</Updated>
+  <Version>24</Version>
+  <Updated>2021-11-13T20:56:54Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
-  <Note>The catalog is still a work in progress and not all mods have been reviewed yet for compatibility with each other. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
+  <Note>Not all mods have been reviewed yet for compatibility with each other. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
   <ReportHeaderText>General information about using mods:
  - Never (un)subscribe to anything while the game is running! This resets some mods.
  - Always exit to desktop and restart the game. NEVER exit to main menu!
@@ -1222,13 +1222,13 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-07-27T01:19:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>quboid</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.3-f9</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
@@ -1240,11 +1240,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl>https://github.com/Quboid/LHNF</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3779,7 +3780,7 @@ Users have noticed trucks transferring fish from one warehouse to another.</Stab
       <Updated>2021-04-26T12:53:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>coldrifting</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -3795,11 +3796,12 @@ Users have noticed trucks transferring fish from one warehouse to another.</Stab
       <Recommendations />
       <SourceUrl>https://github.com/coldrifting/BetterHighwayIcons</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3982,7 +3984,7 @@ Users have noticed trucks transferring fish from one warehouse to another.</Stab
       <Updated>2021-04-11T14:42:00Z</Updated>
       <AuthorID>76561198337180510</AuthorID>
       <AuthorUrl />
-      <Stability>Broken</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
@@ -3997,19 +3999,20 @@ Users have noticed trucks transferring fish from one warehouse to another.</Stab
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors>
+      <Successors />
+      <Alternatives>
         <SteamID>576997275</SteamID>
-      </Successors>
-      <Alternatives />
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
         <ChangeNote>2021-10-31: stability added, Abandoned added, Reupload added, successor 576997275 added</ChangeNote>
+        <ChangeNote>2021-11-13: stability changed, alternative 576997275 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -10283,7 +10286,7 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2021-02-26T21:34:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>quboid</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -10298,14 +10301,18 @@ The in-game name is "Direct Connect Roads".</Note>
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>1844440354</SteamID>
+        <SteamID>445589127</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 1844442251 added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, recommendation 1844440354 added, recommendation 445589127 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -17400,13 +17407,16 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-06-26T09:20:00Z</Updated>
       <AuthorID>76561198878381236</AuthorID>
       <AuthorUrl>dendraspis</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>You can no longer hit the first letter of a mod name to browse to that mod.
+Some people get an error message, possibly caused by a wrong loading order. Loading Order Mod might help with that: https://steamcommunity.com/sharedfiles/filedetails/?id=2448824112</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.12.1-f2</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -17416,11 +17426,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-21: author ID added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Abandoned added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -17628,13 +17639,15 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-06-27T23:26:00Z</Updated>
       <AuthorID>76561198050123811</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.0-f7</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -17644,10 +17657,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Abandoned added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -17755,27 +17769,32 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-06-07T22:55:00Z</Updated>
       <AuthorID>76561198878381236</AuthorID>
       <AuthorUrl>dendraspis</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.12.1-f2</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1773106708</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-21: author ID added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, compatible game version added, Abandoned added, successor 1773106708 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18209,10 +18228,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-05-26T11:40:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>MrMiyagiCS</AuthorUrl>
-      <Stability>Stable</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>SourceBundled</Status>
+        <Status>Deprecated</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -18231,7 +18251,7 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -18239,6 +18259,7 @@ Color Grading sometimes disables itself.</StabilityNote>
         <ChangeNote>2021-10-31: stability added</ChangeNote>
         <ChangeNote>2021-11-06: SourceBundled added</ChangeNote>
         <ChangeNote>2021-11-11: name changed</ChangeNote>
+        <ChangeNote>2021-11-13: stability changed, Deprecated added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18867,11 +18888,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-09-30T21:32:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>quboid</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Tip: if you have Industries DLC, put a warehouse near power stations to help give them consistent supplies.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -18883,10 +18904,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -19653,13 +19675,13 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2021-04-04T21:43:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>daegi</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.1-f1</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -19669,11 +19691,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/DaEgi01/CitiesSkylines-SkipIntro</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20359,7 +20382,7 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2019-01-27T13:55:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>quboid</AuthorUrl>
-      <Stability>NotEnoughInformation</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -20377,11 +20400,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, successor 2527486462 added</ChangeNote>
+        <ChangeNote>2021-11-13: stability changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21500,7 +21524,7 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2021-06-28T17:00:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>quboid</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -21516,10 +21540,11 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -22282,8 +22307,8 @@ Users are reporting some other issues as well.</StabilityNote>
       <Updated>2020-06-04T18:33:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>quboid</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Stable</Stability>
+      <StabilityNote>The building info panel that pops up from the toolbar when placing buildings gives the old values for trucks/employees/etc.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -22300,11 +22325,12 @@ Users are reporting some other issues as well.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Quboid/CSL_RebalancedIndustries</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required DLC Industries added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -23232,7 +23258,7 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-10-21T19:55:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>quboid</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -23245,13 +23271,16 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>1536223783</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, recommendation 1536223783 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -23734,9 +23763,11 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-09-21T12:25:00Z</Updated>
       <AuthorID>76561198011375967</AuthorID>
       <AuthorUrl>ronyx69</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>ModForModders</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.10.1-f3</GameVersion>
@@ -23750,12 +23781,13 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-10T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
         <ChangeNote>2021-10-12: author ID added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, ModForModders added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -24729,13 +24761,14 @@ Real Time completely changes the simulation, which makes it incompatible with a 
       <Updated>2020-03-23T22:12:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>daegi</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <Note>Movement speed has a significant impact on the boarding times at train and metro stations, especially for longer trains.
+Citizens crossing the streets slowly can lead to more stuttering of traffic, because they block the cars.</Note>
+      <GameVersion>1.13.1-f1</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -24745,11 +24778,12 @@ Real Time completely changes the simulation, which makes it incompatible with a 
       <Recommendations />
       <SourceUrl>https://github.com/DaEgi01/CitiesSkylines-RealisticWalkingSpeed</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, note added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -30376,13 +30410,13 @@ Some report not being able to save the game, especially with large numbers of PO
       <Updated>2020-04-23T21:52:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>daegi</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.1-f1</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -30392,11 +30426,12 @@ Some report not being able to save the game, especially with large numbers of PO
       <Recommendations />
       <SourceUrl>https://github.com/DaEgi01/CitiesSkylines-SortModSettings</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32651,9 +32686,11 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Updated>2017-03-16T11:19:00Z</Updated>
       <AuthorID>76561197993350574</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.6.3-f1</GameVersion>
@@ -32662,16 +32699,19 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1764637396</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Deprecated added, successor 1764637396 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -34764,13 +34804,15 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2016-11-01T09:14:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>samsamts</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.10.0-f3</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -34780,11 +34822,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl>https://github.com/SamsamTS/CS-PropPrecision</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, compatible game version added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -34827,13 +34870,15 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2018-05-24T12:59:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
-      <GameVersion>1.10.0-f3</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <Note>Terrain conforming props cannot be moved up/down.</Note>
+      <GameVersion>1.13.0-f7</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
@@ -34845,11 +34890,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-PropSnapping</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 593588108 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Abandoned added, compatible game version changed, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36226,9 +36272,13 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2019-08-09T07:58:00Z</Updated>
       <AuthorID>76561198067251670</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Missing UI.
+Performance issues (fps drops).</StabilityNote>
+      <Statuses>
+        <Status>TestVersion</Status>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -36239,14 +36289,18 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>791221322</SteamID>
+        <SteamID>593588108</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/Alterran/CS-PropLineTool</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, TestVersion added, Abandoned added, recommendation 791221322 added, recommendation 593588108 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36330,11 +36384,14 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Updated>2017-08-17T18:08:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Painted surfaces (partially) missing after loading a game.
+Unable to save the game after subscribing to anything while the game is running.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Painted surfaces might reset when subscribing to anything while the game is running.</Note>
       <GameVersion>1.8.0-f3</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -36348,11 +36405,12 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-SurfacePainter</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 502750307 added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Abandoned added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39024,11 +39082,12 @@ Some users report that traffic light props still turn white after the last updat
       <Updated>2021-04-15T20:51:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Either toggle anarchy off or bulldoze trees/rocks before placing anything, to prevent trees/rocks in buildings or roads.
+To prevent props/trees from disappearing after loading a game, set this mod options to 'Anarchy ON by default'.</Note>
       <GameVersion>1.13.1-f1</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -39040,11 +39099,12 @@ Some users report that traffic light props still turn white after the last updat
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-PropAnarchy</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39901,11 +39961,13 @@ Some users report that traffic light props still turn white after the last updat
       <Updated>2018-08-25T15:28:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>overhatted</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>MinorIssues</Stability>
+      <StabilityNote>This might generate 'No Heat' warning on maps that don't require heat. Fix this by applying the policy 'Only use electricity for heating'.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>You need to connect at least one pipe per water processing facility.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -39914,13 +39976,16 @@ Some users report that traffic light props still turn white after the last updat
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>572888650</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Abandoned added, note added, recommendation 572888650 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -40293,9 +40358,11 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2018-08-26T11:00:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>overhatted</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -40306,13 +40373,16 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>576997275</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Abandoned added, recommendation 576997275 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -41858,27 +41928,32 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2019-11-01T21:31:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Mod options resetting on game load.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>1.12.1-f2</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.0-f7</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>523824395</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/bloodypenguin/Skylines-DaylightClassic</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Abandoned added, compatible game version changed, recommendation 523824395 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43997,9 +44072,10 @@ Users report issues with the map editor.</StabilityNote>
       <AuthorID>76561198035630804</AuthorID>
       <AuthorUrl>boformer</AuthorUrl>
       <Stability>UsersReportIssues</Stability>
-      <StabilityNote>Many users report errors (exception at "System.Reflection.MonoMethod.Invoke").
-Many users report "Buildings not loaded" errors when using themes from the Workshop. You can create your own theme with the assets from the original theme.</StabilityNote>
-      <Statuses />
+      <StabilityNote>Many users report "Buildings not loaded" errors when using themes from the Workshop. You can create your own theme with the assets from the original theme.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -44013,13 +44089,14 @@ Many users report "Buildings not loaded" errors when using themes from the Works
       <Recommendations />
       <SourceUrl>https://github.com/boformer/BuildingThemes</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-31T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-23: author ID added</ChangeNote>
         <ChangeNote>2021-10-31: stability added</ChangeNote>
+        <ChangeNote>2021-11-13: stability note changed, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -44800,13 +44877,15 @@ Many users report "Buildings not loaded" errors when using themes from the Works
       <Updated>2016-11-29T14:44:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>samsamts</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <Note>Tip: a red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.</Note>
+      <GameVersion>1.9.0-f5</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -44816,11 +44895,12 @@ Many users report "Buildings not loaded" errors when using themes from the Works
       <Recommendations />
       <SourceUrl>https://github.com/SamsamTS/CS-MeshInfo</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-13: stability added, Abandoned added, compatible game version added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -57847,8 +57927,9 @@ This mod is still in an early state of development.</StabilityNote>
       <Updated>2021-11-04T16:28:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>finwickle</AuthorUrl>
-      <Stability>MinorIssues</Stability>
-      <StabilityNote>Compatibility information is not yet complete and it was not fully tested yet. Results might not be accurate.</StabilityNote>
+      <Stability>Stable</Stability>
+      <StabilityNote>Compatibility information is not yet complete.
+Not tested on MacOS yet.</StabilityNote>
       <Statuses>
         <Status>TestVersion</Status>
       </Statuses>
@@ -57865,7 +57946,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-11T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-13T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-11T19:45:53Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -57875,6 +57956,7 @@ This mod is still in an early state of development.</StabilityNote>
         <ChangeNote>2021-10-30: new update</ChangeNote>
         <ChangeNote>2021-11-04: name changed, new update, stability changed</ChangeNote>
         <ChangeNote>2021-11-08: UnlistedInWorkshop removed</ChangeNote>
+        <ChangeNote>2021-11-13: stability changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -72799,24 +72881,8 @@ This mod is still in an early state of development.</StabilityNote>
     <Compatibility>
       <FirstModID>2607980391</FirstModID>
       <FirstModName>Extended Managers Library 0.7.7</FirstModName>
-      <SecondModID>694512541</SecondModID>
-      <SecondModName>Prop Line Tool  [PLT]  (vAlpha)</SecondModName>
-      <Status>IncompatibleAccordingToAuthor</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>2607980391</FirstModID>
-      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
       <SecondModID>911295408</SecondModID>
       <SecondModName>Prop Scaling 0.3 [Experimental ALPHA]</SecondModName>
-      <Status>IncompatibleAccordingToAuthor</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>2607980391</FirstModID>
-      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
-      <SecondModID>1410003347</SecondModID>
-      <SecondModName>Additive Shader</SecondModName>
       <Status>IncompatibleAccordingToAuthor</Status>
       <Note />
     </Compatibility>
@@ -72833,14 +72899,6 @@ This mod is still in an early state of development.</StabilityNote>
       <FirstModName>Extended Managers Library 0.7.7</FirstModName>
       <SecondModID>1869561285</SecondModID>
       <SecondModName>Prop Painter 4.0 + PaintUI</SecondModName>
-      <Status>IncompatibleAccordingToAuthor</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>2607980391</FirstModID>
-      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
-      <SecondModID>2172488844</SecondModID>
-      <SecondModName>Picker</SecondModName>
       <Status>IncompatibleAccordingToAuthor</Status>
       <Note />
     </Compatibility>
@@ -73726,6 +73784,94 @@ and enable the following settings for Daylight Classic:
       <SecondModName>Building Spawn Points 1.2.3</SecondModName>
       <Status>SameFunctionality</Status>
       <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2607980391</FirstModID>
+      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
+      <SecondModID>694512541</SecondModID>
+      <SecondModName>Prop Line Tool  [PLT]  (vAlpha)</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note>Use Prop Anarchy instead of Prop Line Tool.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2607980391</FirstModID>
+      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
+      <SecondModID>1410003347</SecondModID>
+      <SecondModName>Additive Shader</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note>Use Prop Anarchy instead of Additive Shader.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2607980391</FirstModID>
+      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
+      <SecondModID>2119477759</SecondModID>
+      <SecondModName>[TEST] Additive Shader</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note>Use Prop Anarchy instead of Additive Shader.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2607980391</FirstModID>
+      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
+      <SecondModID>2133885971</SecondModID>
+      <SecondModName>Find It! 2</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note>Use Find It BETA instead of Find It.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2607980391</FirstModID>
+      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
+      <SecondModID>2187834843</SecondModID>
+      <SecondModName>Find It! 2 [BETA]</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2607980391</FirstModID>
+      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
+      <SecondModID>1530376523</SecondModID>
+      <SecondModName>Railway Replacer</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note>This combination generates an "Operation is not valid" error.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2607980391</FirstModID>
+      <FirstModName>Extended Managers Library 0.7.7</FirstModName>
+      <SecondModID>2172488844</SecondModID>
+      <SecondModName>Picker</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>973512634</FirstModID>
+      <FirstModName>Sort Mod Settings</FirstModName>
+      <SecondModID>1762394554</SecondModID>
+      <SecondModName>Wider OptionsPanel</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>973512634</FirstModID>
+      <FirstModName>Sort Mod Settings</FirstModName>
+      <SecondModID>1773106708</SecondModID>
+      <SecondModName>More Advanced OptionsPanel</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>More Advanced OptionsPanel has the functionality of Sort Mod Settings, and more.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1773106708</FirstModID>
+      <FirstModName>More Advanced OptionsPanel</FirstModName>
+      <SecondModID>1762394554</SecondModID>
+      <SecondModName>Wider OptionsPanel</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>More Advanced OptionsPanel has the functionality of Wider OptionsPanel, and more.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2468668508</FirstModID>
+      <FirstModName>Better Highway Icons</FirstModName>
+      <SecondModID>466158459</SecondModID>
+      <SecondModName>Building Themes</SecondModName>
+      <Status>MajorIssues</Status>
+      <Note>Better Highway Icons triggers an error popup from Building Themes ('System.Reflection.MonoMethod.Invoke'). Both mods still appear to work after.</Note>
     </Compatibility>
   </Compatibilities>
   <Authors>
@@ -75108,11 +75254,12 @@ and enable the following settings for Daylight Classic:
       <CustomUrl>firelordbppage</CustomUrl>
       <Name>1998 Catachan Jungle Fighter</Name>
       <LastSeen>2020-11-11T00:14:00Z</LastSeen>
-      <Retired>false</Retired>
+      <Retired>true</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-08: name changed</ChangeNote>
+        <ChangeNote>2021-11-13: now retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
