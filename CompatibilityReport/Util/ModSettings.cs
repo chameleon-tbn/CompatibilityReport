@@ -11,8 +11,8 @@ namespace CompatibilityReport.Util
         public const string ModName = "Compatibility Report";
         public const string InternalName = "CompatibilityReport";
 
-        public const string Version = "0.6.0";
-        public const string Build = "361";
+        public const string Version = "0.6.1";
+        public const string Build = "362";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -112,7 +112,7 @@ namespace CompatibilityReport.Util
         public const string Bullet3 = "        - ";
         public const string Indent3 = "          ";
 
-        public const string ReportTextForThisModVersion = "This is a BETA version of the mod, not thoroughly tested yet.";
+        public const string ReportTextForThisModVersion = "This is a BETA version of the mod, not thoroughly tested yet.";      // Todo 0.9 Change this note.
 
         public static string PleaseReportText { get; } = $"Please report this on the Steam Workshop page: { Toolkit.GetWorkshopUrl(OurOwnSteamID) }.";
 
@@ -188,6 +188,8 @@ namespace CompatibilityReport.Util
         public const string SearchDescription = "<div class=\"workshopItemDescriptionTitle\">Description</div>";
         public const string SearchDescriptionLeft = "workshopItemDescription\" id=\"highlightContent\">";               // One line below 'Find' text.
         public const string SearchDescriptionRight = "</div>";
+        public const string SearchDescriptionNextLine = "\t\t\t</div>";
+        public const string SearchDescriptionNextSection = "<script>";
         public const string SearchSourceUrlLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";     // Only GitHub is recognized.
         public const string SearchSourceUrlRight = "\" ";
 

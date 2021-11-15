@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
@@ -431,24 +432,43 @@ namespace CompatibilityReport.Updater
                     // Description for 'no description' status and for source URL.
                     else if (line.Contains(ModSettings.SearchDescription))
                     {
-                        line = reader.ReadLine();
+                        // We can't search for the right part, because it might exist inside the description.
+                        StringBuilder descriptionSB = new StringBuilder(Toolkit.MidString($"{ reader.ReadLine() }\n", ModSettings.SearchDescriptionLeft, "\n"));
 
-                        // The complete description is on one line. We can't search for the right part, because it might exist inside the description.
-                        string description = Toolkit.MidString($"{ line }\n", ModSettings.SearchDescriptionLeft, "\n");
-                        
+                        // Usually, the complete description is on one line. However, it might be split when using certain bbcode. Combine up to 30 lines.
+                        for (var i = 1; i <= 30; i++)
+                        {
+                            line = reader.ReadLine();
+
+                            // Break out of the for loop when a line is found that marks the end of the description.
+                            if (line == ModSettings.SearchDescriptionNextLine || line == ModSettings.SearchDescriptionNextSection)
+                            {
+                                break;
+                            }
+
+                            descriptionSB.Append(line);
+                        }
+
                         // A 'no description' status is when the description is not at least a few characters longer than the mod name.
-                        if ((description.Length <= catalogMod.Name.Length + ModSettings.SearchDescriptionRight.Length + 3) && !catalogMod.ExclusionForNoDescription)
+                        int noDescriptionThreshold = catalogMod.Name.Length + 3 + ModSettings.SearchDescriptionRight.Length;
+
+                        if ((descriptionSB.Length <= noDescriptionThreshold) && !catalogMod.ExclusionForNoDescription)
                         {
                             CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.NoDescription);
                         }
-                        else if ((description.Length > catalogMod.Name.Length + 3) && !catalogMod.ExclusionForNoDescription)
+                        else
                         {
-                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription);
-                        }
+                            if ((descriptionSB.Length > noDescriptionThreshold) && !catalogMod.ExclusionForNoDescription)
+                            {
+                                CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription);
+                            }
 
-                        if (description.Contains(ModSettings.SearchSourceUrlLeft) && !catalogMod.ExclusionForSourceUrl)
-                        {
-                            CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(description, catalogMod), updatedByWebCrawler: true);
+                            string description = descriptionSB.ToString();
+
+                            if (description.Contains(ModSettings.SearchSourceUrlLeft) && !catalogMod.ExclusionForSourceUrl)
+                            {
+                                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(description, catalogMod), updatedByWebCrawler: true);
+                            }
                         }
 
                         // Description is the last info we need from the page, so break out of the while loop.
