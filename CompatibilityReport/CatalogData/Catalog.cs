@@ -410,7 +410,7 @@ namespace CompatibilityReport.CatalogData
                 }
                 else
                 {
-                    Logger.Log($"Mod found in game but not in the catalog: { subscribedMod.ToString() }", Logger.Warning);
+                    Logger.Log($"Mod found in game but not in the catalog: { subscribedMod.ToString() }");
                 }
 
                 // Update the catalog mod with subscription info.

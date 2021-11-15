@@ -110,7 +110,7 @@ namespace CompatibilityReport.Reporter
 
             if (catalog.GetMod(ModSettings.LowestLocalModID) != null)
             {
-                reportText.AppendLine(Toolkit.WordWrap("NOTE: You have local mods, which we can't review. The report does not check for incompatibilities with these." +
+                reportText.AppendLine(Toolkit.WordWrap("NOTE: You have local mods, which we can't review. The report does not check for incompatibilities with these. " +
                     "Results might not be completely accurate.\n", indent: new string(' ', "NOTE: ".Length)));
             }
 
@@ -371,7 +371,7 @@ namespace CompatibilityReport.Reporter
 
                 case Enums.Stability.UsersReportIssues:
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
-                    return Format($"Some users are reporting issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ": ") }") + note;
+                    return Format($"Users are reporting issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ": ") }") + note;
 
                 case Enums.Stability.NotEnoughInformation:
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
