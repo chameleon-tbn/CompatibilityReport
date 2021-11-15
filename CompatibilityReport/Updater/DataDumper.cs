@@ -36,7 +36,11 @@ namespace CompatibilityReport.Updater
             DumpEmptyGroups(catalog, DataDump);
 
             // Authors that retire soon, to check them for activity in comments.
-            DumpAuthorsSoonRetired(catalog, DataDump, months: 2);
+            DumpAuthorsSoonRetired(catalog, DataDump, months: 1);
+
+            // Mods with a new update or an old review
+            DumpModsWithNewUpdate(catalog, DataDump);
+            DumpModsWithOldReview(catalog, DataDump, months: 2);
 
             // Mods used as required/successor/alternative/recommended that are broken or have a successor.
             DumpUsedModsWithIssues(catalog, DataDump);
@@ -44,9 +48,7 @@ namespace CompatibilityReport.Updater
             // Broken mods without successor or alternative.
             DumpBrokenModsWithoutSuccessor(catalog, DataDump);
 
-            // Mods with a new update, an old review or without a (full) review, to know which to review (again).
-            DumpModsWithNewReview(catalog, DataDump);
-            DumpModsWithOldReview(catalog, DataDump, months: 2);
+            // Mods without a (full) review.
             DumpModsWithoutStability(catalog, DataDump);
             DumpModsWithoutReview(catalog, DataDump);
 
@@ -55,7 +57,8 @@ namespace CompatibilityReport.Updater
 
             // One time only checks: Authors with multiple mods (check for different version of the same mod), retired authors.
             DumpAuthorsWithMultipleMods(catalog, DataDump);
-            DumpRetiredAuthors(catalog, DataDump);
+            DumpAuthorsWithoutID(catalog, DataDump);
+            // NO LONGER NEEDED: DumpRetiredAuthors(catalog, DataDump);
 
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
 
@@ -114,7 +117,7 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Dumps all non-incompatible, reviewed mods with an update equal to or newer than their review date.</summary>
         /// <remarks>It lists the mods Workshop URL and name.</remarks>
-        private static void DumpModsWithNewReview(Catalog catalog, StringBuilder DataDump)
+        private static void DumpModsWithNewUpdate(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Mods with an update newer than their review:"));
 
@@ -253,7 +256,7 @@ namespace CompatibilityReport.Updater
             }
         }
 
-
+        
         /// <summary>Dumps all authors that have their ID as name.</summary>
         /// <remarks>It lists the authors name and Workshop URL.</remarks>
         private static void DumpAuthorsWithIDName(Catalog catalog, StringBuilder DataDump)
@@ -270,11 +273,27 @@ namespace CompatibilityReport.Updater
         }
 
 
+        /// <summary>Dumps all authors that have no ID but only a custom URL.</summary>
+        /// <remarks>It lists the authors name, custom URL and Workshop URL.</remarks>
+        private static void DumpAuthorsWithoutID(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title($"Authors without Author ID:"));
+
+            foreach (Author catalogAuthor in catalog.Authors)
+            {
+                if (catalogAuthor.SteamID == 0)
+                {
+                    DataDump.AppendLine($"{ catalogAuthor.Name } : { catalogAuthor.CustomUrl }, { Toolkit.GetAuthorWorkshopUrl(0, catalogAuthor.CustomUrl) }");
+                }
+            }
+        }
+
+
         /// <summary>Dumps all authors that will get the retired status within x months.</summary>
         /// <remarks>It lists the authors name and Workshop URL.</remarks>
         private static void DumpAuthorsSoonRetired(Catalog catalog, StringBuilder DataDump, int months)
         {
-            DataDump.AppendLine(Title($"Authors that will retire within { months } months:"));
+            DataDump.AppendLine(Title($"Authors that will retire within { months } month{ (months > 1 ? "s" : "") }:"));
 
             foreach (Author catalogAuthor in catalog.Authors)
             {
@@ -285,7 +304,7 @@ namespace CompatibilityReport.Updater
             }
         }
 
-
+/*
         /// <summary>Dumps all authors with the retired status.</summary>
         /// <remarks>It lists the authors name and Workshop URL.</remarks>
         private static void DumpRetiredAuthors(Catalog catalog, StringBuilder DataDump)
@@ -300,7 +319,7 @@ namespace CompatibilityReport.Updater
                 }
             }
         }
-
+*/
 
         /// <summary>Dumps the suppressed warnings about unnamed mods and duplicate authors.</summary>
         /// <remarks>It lists the Steam ID and name from the mods and authors.</remarks>
