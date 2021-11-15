@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.6.1 beta
+* Textual changes and bugfixes
+
 ### Version 0.6 beta
 * Public beta on Steam Workshop
 * Bugfixes for the Updater
