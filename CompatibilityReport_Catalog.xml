@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>26</Version>
-  <Updated>2021-11-18T21:02:13Z</Updated>
+  <Version>27</Version>
+  <Updated>2021-11-20T22:28:07Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note>Not all mods have been reviewed yet for compatibility with each other. All information from the famous Google Doc by Aquilasol and Avanya is included.</Note>
   <ReportHeaderText>General information about using mods:
@@ -329,11 +329,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-09-21T08:34:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Riddikulus233</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>All recoloring will be lost when you (un)subscribe to anything while the game is running.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -341,14 +341,17 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1869561285</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, note added, alternative 1869561285 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -487,10 +490,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-09-05T02:57:00Z</Updated>
       <AuthorID>76561198326185525</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -505,11 +510,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, Reupload added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1617,10 +1623,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-07-11T08:28:00Z</Updated>
       <AuthorID>76561199182601340</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -1635,11 +1642,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Reupload added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1649,10 +1657,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-07-11T08:27:00Z</Updated>
       <AuthorID>76561199182601340</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -1667,11 +1676,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Reupload added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -2382,10 +2392,11 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-06-09T17:53:00Z</Updated>
       <AuthorID>76561199172887019</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -2400,11 +2411,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4175,7 +4187,7 @@ Users have noticed trucks transferring fish from one warehouse to another.</Stab
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note>The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.
-The standalone 'Load Order Tool' has some features that are still experimental.</Note>
+The standalone 'Load Order Tool' has an auto download feature that is still experimental.</Note>
       <GameVersion>1.13.3-f9</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -4193,7 +4205,7 @@ The standalone 'Load Order Tool' has some features that are still experimental.<
       </Recommendations>
       <SourceUrl>https://github.com/kianzarrin/LoadOrder</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-18T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -4205,6 +4217,7 @@ The standalone 'Load Order Tool' has some features that are still experimental.<
         <ChangeNote>2021-10-30: name changed, new update</ChangeNote>
         <ChangeNote>2021-11-11: name changed, new update</ChangeNote>
         <ChangeNote>2021-11-18: stability note removed, note changed</ChangeNote>
+        <ChangeNote>2021-11-20: note changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -5348,26 +5361,33 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-01-29T11:49:00Z</Updated>
       <AuthorID>76561198862554902</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6858,7 +6878,7 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-11-07T09:15:00Z</Updated>
       <AuthorID>76561198259295903</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -6870,14 +6890,17 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1541897355</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, alternative 1541897355 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6887,7 +6910,7 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-11-06T11:13:00Z</Updated>
       <AuthorID>76561198259295903</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -6899,15 +6922,18 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1844442251</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-01: added to [Group 10012] Fine Road Tool</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, alternative 1844442251 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6917,7 +6943,7 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-11-05T10:31:00Z</Updated>
       <AuthorID>76561198259295903</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -6929,14 +6955,17 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>576997275</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, alternative 576997275 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -7245,9 +7274,11 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <Updated>2020-10-21T08:54:00Z</Updated>
       <AuthorID>76561198259295903</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -7256,15 +7287,18 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1637663252</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, successor 1637663252 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8538,27 +8572,34 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2020-07-29T12:55:00Z</Updated>
       <AuthorID>76561198041936125</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.1-f1</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -10109,7 +10150,7 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2020-05-14T21:30:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>PlatinoPL</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -10118,17 +10159,22 @@ The in-game name is "Direct Connect Roads".</Note>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>595017353</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>595017353</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, required mod 595017353 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -10946,10 +10992,11 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2020-04-20T11:27:00Z</Updated>
       <AuthorID>76561199048943963</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -10960,15 +11007,18 @@ The in-game name is "Direct Connect Roads".</Note>
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>498386331</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, alternative 498386331 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -11489,26 +11539,33 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2020-04-10T17:12:00Z</Updated>
       <AuthorID>76561197985517364</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -12692,26 +12749,33 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-03-15T08:58:00Z</Updated>
       <AuthorID>76561198169794667</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -12990,10 +13054,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-02-28T09:58:00Z</Updated>
       <AuthorID>76561198442985201</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -13008,11 +13073,12 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -13390,26 +13456,33 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-01-24T15:14:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>EarthwormDan</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrightUnknown</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, MusicCopyrightUnknown added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14104,26 +14177,33 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-12-05T05:13:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Waterclaw</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14571,9 +14651,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-28T06:39:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>CRSLi</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -14583,14 +14665,17 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>602336261</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, alternative 602336261 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14600,9 +14685,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-27T14:08:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>andyhuyuxin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -14614,12 +14701,13 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Successors />
       <Alternatives />
       <Recommendations />
-      <SourceUrl />
-      <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <SourceUrl>https://gist.github.com/OwiHH-NC/4cefbd1fbc7ff7135c59</SourceUrl>
+      <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, source URL added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14788,11 +14876,13 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-25T10:20:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Warnings don't (always) update when resolved and might duplicate on new issues.</Note>
       <GameVersion>1.12.1-f2</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -14800,15 +14890,18 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1643902284</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, note added, Abandoned added, alternative 1643902284 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14818,9 +14911,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-24T08:39:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.12.1-f2</GameVersion>
@@ -14830,15 +14925,18 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1804882663</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, alternative 1804882663 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14848,9 +14946,12 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-04-11T06:54:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>TestVersion</Status>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.0-f8</GameVersion>
@@ -14861,16 +14962,19 @@ On Linux and MacOS some user action is required, see the installation guide: htt
         <SteamID>1895443005</SteamID>
       </RequiredMods>
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1677913611</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 1895443005 added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, TestVersion added, Abandoned added, successor 1677913611 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14880,11 +14984,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-05-27T18:34:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Intended only for flat ground.</Note>
       <GameVersion>1.13.0-f8</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -14892,15 +14996,18 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1625704117</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, note added, alternative 1625704117 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14941,7 +15048,7 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-04-02T17:53:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -14953,16 +15060,19 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1844442251</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
         <ChangeNote>2021-11-01: added to [Group 10012] Fine Road Tool</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, alternative 1844442251 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15112,9 +15222,13 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-04-11T06:55:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>MajorIssues</Stability>
+      <StabilityNote>This often blocks the road upgrade button.
+The scaling feature is broken and should not be used.
+Users are reporting some other issues as well.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.0-f8</GameVersion>
@@ -15123,16 +15237,19 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2448994345</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, successor 2448994345 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15142,9 +15259,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-24T04:40:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.12.1-f2</GameVersion>
@@ -15154,15 +15273,18 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1591417160</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, alternative 1591417160 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15208,9 +15330,14 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2019-10-19T12:49:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Errors on startup.
+Missing UI.
+Performance issues (fps drops).</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+        <Status>TestVersion</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.12.1-f2</GameVersion>
@@ -15224,11 +15351,12 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, TestVersion added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15238,11 +15366,14 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-04-03T16:53:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This does not work on growable buildings.
+The author classifies this mod as experimental. Crazy changes may affect gameplay.</Note>
       <GameVersion>1.13.0-f7</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -15250,15 +15381,18 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1806759255</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, note added, alternative 1806759255 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15298,9 +15432,11 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-05-27T17:33:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.0-f8</GameVersion>
@@ -15310,15 +15446,18 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>650805785</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, alternative 650805785 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15328,27 +15467,32 @@ On Linux and MacOS some user action is required, see the installation guide: htt
       <Updated>2020-06-15T15:18:00Z</Updated>
       <AuthorID>76561198357805717</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>The original mod supports the Chinese language.</Note>
       <GameVersion>1.13.1-f1</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1619685021</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Deprecated added, note added, successor 1619685021 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15603,26 +15747,31 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <Updated>2019-10-09T16:21:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>izayoi_sakuya16</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>The original mod supports the Chinese language.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1094334744</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Deprecated added, note added, successor 1094334744 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15692,29 +15841,40 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <Updated>2019-10-04T10:35:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>izayoi_sakuya16</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Hotkey not working (try left shift instead of right shift).
+Light settings of Ultimate Eyecandy resetting or the light getting very dark on any change in Relight settings, or at game loading.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <Note>If the default looks too dark, turn up the global and/or ambient light intensity settings in Ultimate Eyecandy.
+Shadows must be set to max using Shadow Strength Adjuster to prevent the sun from leaking through objects.
+To make shadows less visible, reduce global light intensity and increase ambient light intensity in Ultimate Eyecandy.</Note>
+      <GameVersion>1.11.0-f3</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
         <SteamID>1870670690</SteamID>
+        <SteamID>762520291</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>762520291</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>1209581656</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 1870670690 added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, note added, compatible game version added, required mod 762520291 added, alternative 1209581656 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15909,6 +16069,7 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added, BreaksEditors added</ChangeNote>
+        <ChangeNote>2021-11-20: added to [Group 10017] Ultimate Eyecandy</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15918,9 +16079,12 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <Updated>2019-09-22T09:10:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>izayoi_sakuya16</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Screen flashes / flickering.
+Time jumping or going backwards.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -15930,14 +16094,17 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>814698320</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, alternative 814698320 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15976,11 +16143,12 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <Updated>2020-10-20T21:04:00Z</Updated>
       <AuthorID>76561198205075381</AuthorID>
       <AuthorUrl>gabrielium</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Several users report colors resetting when reloading a game.
+Copy-pasting colors from one prop to another doesn't (always) work.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>All recoloring will be lost when you (un)subscribe to anything while the game is running.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -15994,12 +16162,13 @@ Don't use this to undo buildings relocation or actions from the mods Move It (us
       <Recommendations />
       <SourceUrl>https://github.com/CosignCosine/CS-PropPainter</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 1619685021 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-12: author ID added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -17302,13 +17471,16 @@ The author classifies this mod as experimental. Crazy changes may affect gamepla
       <Updated>2019-10-20T16:56:00Z</Updated>
       <AuthorID>76561198050123811</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Not being able to drag the window.
+Missing button.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <Note>Mono memory reports zero on Windows systems.</Note>
+      <GameVersion>1.13.0-f7</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -17318,11 +17490,12 @@ The author classifies this mod as experimental. Crazy changes may affect gamepla
       <Recommendations />
       <SourceUrl>https://github.com/keallu/CSL-MonitorIt</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-15: source URL added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, note added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -19278,7 +19451,9 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1541897355</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
@@ -19288,6 +19463,7 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-31: stability added, Deprecated added</ChangeNote>
+        <ChangeNote>2021-11-20: successor 1541897355 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -23900,11 +24076,17 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2019-08-16T15:01:00Z</Updated>
       <AuthorID>76561197980466749</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Game crashes when loading a savegame.
+Buffers not being enough to handle city growth.
+Buffers being too low for electricity and water to properly function.
+Errors with post offices.
+Sudden short drops in budget.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Autobudgetting police, healthcare and fire stations could cause land value to drop, because lower budget means lower cover area.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -23916,11 +24098,12 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Recommendations />
       <SourceUrl>https://github.com/ZenyaIse/Cities-Skylines-Total-Autobudget</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -29765,11 +29948,16 @@ And some more.</StabilityNote>
       <Updated>2018-12-08T21:42:00Z</Updated>
       <AuthorID>76561198011375967</AuthorID>
       <AuthorUrl>ronyx69</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Hotkey not working (try left shift instead of right shift).
+Light settings of Ultimate Eyecandy resetting or the light getting very dark on any change in Relight settings, or at game loading.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>If the default looks too dark, turn up the global and/or ambient light intensity settings in Ultimate Eyecandy.
+Shadows must be set to max using Shadow Strength Adjuster to prevent the sun from leaking through objects.
+To make shadows less visible, reduce global light intensity and increase ambient light intensity in Ultimate Eyecandy.</Note>
       <GameVersion>1.11.0-f3</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -29782,14 +29970,15 @@ And some more.</StabilityNote>
       <Successors />
       <Alternatives />
       <Recommendations />
-      <SourceUrl />
-      <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-10T12:00:00Z</ReviewDate>
+      <SourceUrl>https://gist.github.com/ronyx69/a75400389e7561164bacabadf0095a2b</SourceUrl>
+      <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 672248733 added, required mod 762520291 added</ChangeNote>
         <ChangeNote>2021-10-12: author ID added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, note added, source URL added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -35354,9 +35543,12 @@ This doesn't work yet for the new metro stations from the 'Content Creator Pack:
       <Updated>2017-05-30T21:36:00Z</Updated>
       <AuthorID>76561197989338502</AuthorID>
       <AuthorUrl>boldhedgehog2</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Screen flashes / flickering.
+Time jumping or going backwards.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -35368,13 +35560,14 @@ This doesn't work yet for the new metro stations from the 'Content Creator Pack:
       <Successors />
       <Alternatives />
       <Recommendations />
-      <SourceUrl />
-      <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <SourceUrl>https://github.com/boldhedgehog/TimeWarp</SourceUrl>
+      <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-21: author ID added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added, source URL added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -37787,6 +37980,7 @@ Unable to save the game after subscribing to anything while the game is running.
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added, BreaksEditors added</ChangeNote>
         <ChangeNote>2021-10-12: author ID added</ChangeNote>
+        <ChangeNote>2021-11-20: added to [Group 10017] Ultimate Eyecandy</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -40011,9 +40205,11 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2017-05-27T23:59:00Z</Updated>
       <AuthorID>76561197970366328</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -40027,11 +40223,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/belom/Maintenancefee</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -59315,7 +59512,7 @@ Not tested on MacOS yet.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-18T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -59505,10 +59702,11 @@ Not tested on MacOS yet.</StabilityNote>
       <Updated>2021-11-02T13:20:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>16482i74817</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -59518,16 +59716,19 @@ Not tested on MacOS yet.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1558438291</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-11-03: added</ChangeNote>
         <ChangeNote>2021-11-03: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Reupload added, successor 1558438291 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -59537,10 +59738,11 @@ Not tested on MacOS yet.</StabilityNote>
       <Updated>2021-11-01T16:12:00Z</Updated>
       <AuthorID>76561198820705776</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -59550,16 +59752,19 @@ Not tested on MacOS yet.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1558438291</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-11-03: added</ChangeNote>
         <ChangeNote>2021-11-03: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added, Reupload added, successor 1558438291 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -59724,7 +59929,7 @@ Not tested on MacOS yet.</StabilityNote>
       <Updated>2021-11-17T12:29:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>11469799</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
@@ -59742,11 +59947,12 @@ Not tested on MacOS yet.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-11-20T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-18T21:02:13Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-11-18: added</ChangeNote>
         <ChangeNote>2021-11-18: NoDescription added</ChangeNote>
+        <ChangeNote>2021-11-20: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
   </Mods>
@@ -59880,6 +60086,14 @@ Not tested on MacOS yet.</StabilityNote>
       <GroupMembers>
         <SteamID>888017364</SteamID>
         <SteamID>576970398</SteamID>
+      </GroupMembers>
+    </Group>
+    <Group>
+      <GroupID>10017</GroupID>
+      <Name>Ultimate Eyecandy</Name>
+      <GroupMembers>
+        <SteamID>672248733</SteamID>
+        <SteamID>1870670690</SteamID>
       </GroupMembers>
     </Group>
   </Groups>
@@ -75414,6 +75628,510 @@ and enable the following settings for Daylight Classic:
       <SecondModName>Custom Namelists</SecondModName>
       <Status>CompatibleAccordingToAuthor</Status>
       <Note>UK Street Names takes priority for street names, but Custom Namelists can still be used for district names.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2643245070</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>1556669944</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>1558438291</SecondModID>
+      <SecondModName>Cities: Skylines Multiplayer (CSM) [Beta]</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>1731754018</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>1841616225</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2021598295</SecondModID>
+      <SecondModName>1558438291 [Beta] CSM - Cities_ Skylines Multiplayer</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2027716634</SecondModID>
+      <SecondModName>CitiesSkylinesMultiplayer_2002.2.0</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2030131871</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2080356971</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2261025679</SecondModID>
+      <SecondModName>Greg's CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2326186273</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2330696251</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2330742524</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2345340418</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2394524110</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2497082534</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2513702805</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2542516762</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643961628</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2571962851</SecondModID>
+      <SecondModName>1558438291 Cities_ Skylines Multiplayer (CSM) [Beta]</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>1556669944</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>1558438291</SecondModID>
+      <SecondModName>Cities: Skylines Multiplayer (CSM) [Beta]</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>1731754018</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>1841616225</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2021598295</SecondModID>
+      <SecondModName>1558438291 [Beta] CSM - Cities_ Skylines Multiplayer</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2027716634</SecondModID>
+      <SecondModName>CitiesSkylinesMultiplayer_2002.2.0</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2030131871</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2080356971</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2261025679</SecondModID>
+      <SecondModName>Greg's CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2326186273</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2330696251</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2330742524</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2345340418</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2394524110</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2497082534</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2513702805</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2542516762</SecondModID>
+      <SecondModName>CSM</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2643245070</FirstModID>
+      <FirstModName>CSM</FirstModName>
+      <SecondModID>2571962851</SecondModID>
+      <SecondModName>1558438291 Cities_ Skylines Multiplayer (CSM) [Beta]</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1869561285</FirstModID>
+      <FirstModName>Prop Painter 4.0 + PaintUI</FirstModName>
+      <SecondModID>2607725772</SecondModID>
+      <SecondModName>道具油漆+颜料UI 中文汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>576997275</FirstModID>
+      <FirstModName>Remove Need For Pipes</FirstModName>
+      <SecondModID>2277881221</SecondModID>
+      <SecondModName>RemoveNeedForPipes汉化</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1844442251</FirstModID>
+      <FirstModName>Fine Road Tool 2.0.4</FirstModName>
+      <SecondModID>1895440521</SecondModID>
+      <SecondModName>Fine Road Tool 2 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1844442251</FirstModID>
+      <FirstModName>Fine Road Tool 2.0.4</FirstModName>
+      <SecondModID>2278785796</SecondModID>
+      <SecondModName>FineRoadTool汉化</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1895440521</FirstModID>
+      <FirstModName>Fine Road Tool 2 汉化版</FirstModName>
+      <SecondModID>2278785796</SecondModID>
+      <SecondModName>FineRoadTool汉化</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>420972688</FirstModID>
+      <FirstModName>Better Budget</FirstModName>
+      <SecondModID>1541897355</SecondModID>
+      <SecondModName>Total Autobudget</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1541897355</FirstModID>
+      <FirstModName>Total Autobudget</FirstModName>
+      <SecondModID>1723583521</SecondModID>
+      <SecondModName>Total Autobudget (Buffer Increase fix) deprecated</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1541897355</FirstModID>
+      <FirstModName>Total Autobudget</FirstModName>
+      <SecondModID>2279746791</SecondModID>
+      <SecondModName>TotalAutobudget汉化</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1723583521</FirstModID>
+      <FirstModName>Total Autobudget (Buffer Increase fix) deprecated</FirstModName>
+      <SecondModID>2279746791</SecondModID>
+      <SecondModName>TotalAutobudget汉化</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>602336261</FirstModID>
+      <FirstModName>Maintenance Fees</FirstModName>
+      <SecondModID>1900802168</SecondModID>
+      <SecondModName>Maintenance Fees汉化</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1643902284</FirstModID>
+      <FirstModName>Watch It!</FirstModName>
+      <SecondModID>1898084870</SecondModID>
+      <SecondModName>Watch It!-汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1804882663</FirstModID>
+      <FirstModName>Monitor It!</FirstModName>
+      <SecondModID>1897310477</SecondModID>
+      <SecondModName>Monitor It!-汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1677913611</FirstModID>
+      <FirstModName>Smart Intersection Builder</FirstModName>
+      <SecondModID>1896212212</SecondModID>
+      <SecondModName>Smart Intersection Builder 汉化修改版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1625704117</FirstModID>
+      <FirstModName>Roundabout Builder</FirstModName>
+      <SecondModID>1895912123</SecondModID>
+      <SecondModName>Roundabout Builder 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1577882296</FirstModID>
+      <FirstModName>Resize It!</FirstModName>
+      <SecondModID>1894299113</SecondModID>
+      <SecondModName>Resize It! 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1591417160</FirstModID>
+      <FirstModName>Hide It!</FirstModName>
+      <SecondModID>1894297972</SecondModID>
+      <SecondModName>Hide It! 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>694512541</FirstModID>
+      <FirstModName>Prop Line Tool  [PLT]  (vAlpha)</FirstModName>
+      <SecondModID>1893235480</SecondModID>
+      <SecondModName>[PLT]Prop Line Tool汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1806759255</FirstModID>
+      <FirstModName>Customize It Extended</FirstModName>
+      <SecondModID>1893049735</SecondModID>
+      <SecondModName>Customize It Extended 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>650805785</FirstModID>
+      <FirstModName>First Person Camera: Updated</FirstModName>
+      <SecondModID>1892205219</SecondModID>
+      <SecondModName>FPSCamera 汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1619685021</FirstModID>
+      <FirstModName>Move It</FirstModName>
+      <SecondModID>1892174866</SecondModID>
+      <SecondModName>MoveIt2.8.1汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1094334744</FirstModID>
+      <FirstModName>Procedural Objects</FirstModName>
+      <SecondModID>1883386307</SecondModID>
+      <SecondModName>Procedural Objects 魔物模组(PO) Sakuya16汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1209581656</FirstModID>
+      <FirstModName>Relight</FirstModName>
+      <SecondModID>643364914</SecondModID>
+      <SecondModName>Softer Shadows</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1209581656</FirstModID>
+      <FirstModName>Relight</FirstModName>
+      <SecondModID>530871278</SecondModID>
+      <SecondModName>Daylight Classic</SecondModName>
+      <Status>RequiresSpecificSettings</Status>
+      <Note>Disable the Classic sunlight color, Classic sunlight intensity and Classic for color settings in Daylight Classic.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1880045672</FirstModID>
+      <FirstModName>Relight 色彩调整 Sakuya16个人汉化版</FirstModName>
+      <SecondModID>643364914</SecondModID>
+      <SecondModName>Softer Shadows</SecondModName>
+      <Status>IncompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1209581656</FirstModID>
+      <FirstModName>Relight</FirstModName>
+      <SecondModID>1880045672</SecondModID>
+      <SecondModName>Relight 色彩调整 Sakuya16个人汉化版</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>814698320</FirstModID>
+      <FirstModName>TimeWarp Fix</FirstModName>
+      <SecondModID>1869777403</SecondModID>
+      <SecondModName>TimeWarp Fix 时间光照控制 Sakuya16个人汉化</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
     </Compatibility>
   </Compatibilities>
   <Authors>
