@@ -459,7 +459,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Author catalogAuthor in catalog.Authors)
             {
-                bool oldEnoughForRetirement = catalogAuthor.LastSeen.AddMonths(ModSettings.MonthsOfInactivityToRetireAuthor) < DateTime.Today;
+                bool oldEnoughForRetirement = catalogAuthor.LastSeen.AddDays(ModSettings.DaysOfInactivityToRetireAuthor) < DateTime.Today;
                 bool authorWithoutMods = !IDsOfAuthorsWithMods.Contains(catalogAuthor.SteamID) && !UrlsOfAuthorsWithMods.Contains(catalogAuthor.CustomUrl);
 
                 if (authorWithoutMods)

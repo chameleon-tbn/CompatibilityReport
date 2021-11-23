@@ -11,8 +11,8 @@ namespace CompatibilityReport.Util
         public const string ModName = "Compatibility Report";
         public const string InternalName = "CompatibilityReport";
 
-        public const string Version = "0.6.1";
-        public const string Build = "365";
+        public const string Version = "0.6.2";
+        public const string Build = "366";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -149,7 +149,7 @@ namespace CompatibilityReport.Util
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras&requiredflags[]=incompatible" };
 
-        public const int MonthsOfInactivityToRetireAuthor = 12;
+        public const int DaysOfInactivityToRetireAuthor = 365;
         public const int SteamMaxModListingPages = 200;
         public const int EstimatedMillisecondsPerModPage = 550;
 
@@ -209,5 +209,7 @@ namespace CompatibilityReport.Util
 
         public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the Workshop page.";
         public const string FirstCatalogNote = "This first catalog only contains the built-in mods.";
+
+        public static int WeeksForSoonRetired { get; private set; } = 2;
     }
 }

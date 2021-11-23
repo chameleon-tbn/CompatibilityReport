@@ -17,10 +17,12 @@ namespace CompatibilityReport.Updater
 
             DateTime creationTime = DateTime.Now;
             DataDump.AppendLine($"{ ModSettings.ModName } DataDump, created on { creationTime:D}, { creationTime:t}.");
-            DataDump.AppendLine($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }.");
+            DataDump.AppendLine($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }.\n");
 
-            DataDump.AppendLine($"\nCatalog has { catalog.Mods.Count } mods, { catalog.Groups.Count } groups, { catalog.Compatibilities.Count } compatibilities, " +
+            DataDump.AppendLine($"Catalog has { catalog.Mods.Count } mods, { catalog.Groups.Count } groups, { catalog.Compatibilities.Count } compatibilities, " +
                 $"{ catalog.Authors.Count } authors and { catalog.RequiredAssets.Count } required assets.");
+
+            // Checks for potential errors:
 
             // Suppressed warnings about unnamed mods and duplicate authors.
             DumpSuppressedWarnings(catalog, DataDump);
@@ -35,37 +37,48 @@ namespace CompatibilityReport.Updater
             DumpUnusedGroups(catalog, DataDump);
             DumpEmptyGroups(catalog, DataDump);
 
+
+            // Checks for needed review updates:
+
             // Authors that retire soon, to check them for activity in comments.
-            DumpAuthorsSoonRetired(catalog, DataDump, months: 1);
+            DumpAuthorsSoonRetired(catalog, DataDump, weeks: ModSettings.WeeksForSoonRetired);
 
-            // Mods with a new update or an old review
+            // Mods with a new update
             DumpModsWithNewUpdate(catalog, DataDump);
-            DumpModsWithOldReview(catalog, DataDump, months: 2);
-
-            // Mods used as required/successor/alternative/recommended that are broken or have a successor.
-            DumpUsedModsWithIssues(catalog, DataDump);
-            
-            // Broken mods without successor or alternative.
-            DumpBrokenModsWithoutSuccessor(catalog, DataDump);
 
             // Mods without a (full) review.
             DumpModsWithoutStability(catalog, DataDump);
             DumpModsWithoutReview(catalog, DataDump);
 
+            // Mods used as required/successor/alternative/recommended that are broken or have a successor.
+            DumpUsedModsWithIssues(catalog, DataDump);
+
+
+            // Checks for potential review refinement:
+
+            // Temporary datadumps
+            DumpInterestingForNow(catalog, DataDump);
+
+            // Broken mods without successor or alternative.
+            DumpBrokenModsWithoutSuccessor(catalog, DataDump);
+
             // Required mods that are not in a group, to check for the need of additional groups.
             DumpRequiredUngroupedMods(catalog, DataDump);
 
-            // One time only checks: Authors with multiple mods (check for different version of the same mod), retired authors.
+            // One time only checks: Authors with multiple mods (check for different version of the same mod), authors without ID.
             DumpAuthorsWithMultipleMods(catalog, DataDump);
             DumpAuthorsWithoutID(catalog, DataDump);
-            // NO LONGER NEEDED: DumpRetiredAuthors(catalog, DataDump);
+
+            // No longer needed:
+            // * DumpModsWithOldReview(catalog, DataDump, months: 2);
+            // * DumpRetiredAuthors(catalog, DataDump);
 
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
-
             Logger.UpdaterLog($"Datadump created as { ModSettings.DataDumpFileName }.");
         }
 
 
+/*
         /// <summary>Dumps all non-incompatible mods that have not been reviewed in the last x months.</summary>
         /// <remarks>It lists the mods Workshop URL, last review date and name.</remarks>
         private static void DumpModsWithOldReview(Catalog catalog, StringBuilder DataDump, int months)
@@ -81,6 +94,7 @@ namespace CompatibilityReport.Updater
                 }
             }
         }
+*/
 
 
         /// <summary>Dumps all mods that have a review date but still have a 'Not Reviewed' stability.</summary>
@@ -115,7 +129,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dumps all non-incompatible, reviewed mods with an update equal to or newer than their review date.</summary>
+        /// <summary>Dumps all non-incompatible, reviewed mods with an update date equal to or newer than their review date.</summary>
         /// <remarks>It lists the mods Workshop URL and name.</remarks>
         private static void DumpModsWithNewUpdate(Catalog catalog, StringBuilder DataDump)
         {
@@ -291,18 +305,19 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Dumps all authors that will get the retired status within x months.</summary>
         /// <remarks>It lists the authors name and Workshop URL.</remarks>
-        private static void DumpAuthorsSoonRetired(Catalog catalog, StringBuilder DataDump, int months)
+        private static void DumpAuthorsSoonRetired(Catalog catalog, StringBuilder DataDump, int weeks)
         {
-            DataDump.AppendLine(Title($"Authors that will retire within { months } month{ (months > 1 ? "s" : "") }:"));
+            DataDump.AppendLine(Title($"Authors that will retire within { weeks } week{ (weeks > 1 ? "s" : "") }:"));
 
             foreach (Author catalogAuthor in catalog.Authors)
             {
-                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddMonths(ModSettings.MonthsOfInactivityToRetireAuthor - months) < DateTime.Now)
+                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddDays(ModSettings.DaysOfInactivityToRetireAuthor - (weeks * 7)) < DateTime.Now)
                 {
                     DataDump.AppendLine($"{ catalogAuthor.Name } : { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }
             }
         }
+
 
 /*
         /// <summary>Dumps all authors with the retired status.</summary>
@@ -320,6 +335,7 @@ namespace CompatibilityReport.Updater
             }
         }
 */
+
 
         /// <summary>Dumps the suppressed warnings about unnamed mods and duplicate authors.</summary>
         /// <remarks>It lists the Steam ID and name from the mods and authors.</remarks>
@@ -366,6 +382,21 @@ namespace CompatibilityReport.Updater
         }
 
 
+        /// <summary>Dumps data that is interesting for now. This will be skipped when not needed.</summary>
+        private static void DumpInterestingForNow(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Non-reviewed mods that need the Ambient Sound Tuner 2.0 mod:"));
+
+            foreach (Mod catalogMod in catalog.Mods)
+            {
+                if (catalogMod.Stability <= Enums.Stability.NotReviewed && catalogMod.RequiredMods.Contains(818641631))
+                {
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
+                }
+            }
+        }
+
+                
         /// <summary>Formats a title.</summary>
         /// <returns>A formatted title with blank lines and separators.</returns>
         private static string Title(string title)
