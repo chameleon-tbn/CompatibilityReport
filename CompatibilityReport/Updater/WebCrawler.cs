@@ -463,11 +463,10 @@ namespace CompatibilityReport.Updater
                                 CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription);
                             }
 
-                            string description = descriptionSB.ToString();
-
-                            if (description.Contains(ModSettings.SearchSourceUrlLeft) && !catalogMod.ExclusionForSourceUrl)
+                            // Try to find the source URL, unless an exception exists.
+                            if (!catalogMod.ExclusionForSourceUrl)
                             {
-                                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(description, catalogMod), updatedByWebCrawler: true);
+                                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(descriptionSB.ToString(), catalogMod), updatedByWebCrawler: true);
                             }
                         }
 
@@ -496,64 +495,90 @@ namespace CompatibilityReport.Updater
 
 
         /// <summary>Gets the source URL.</summary>
-        /// <remarks>If more than one is found, pick the most likely, which is far from perfect and may need a CSV update to set it right.</remarks>
-        /// <returns>The source URL string.</returns>
+        /// <remarks>If more than one is found, pick the first one that isn't on the ignore or discard list. This may occasionally require a correction by CSV.</remarks>
+        /// <returns>The source URL string, or null if no source URL was found.</returns>
         private static string GetSourceUrl(string steamDescription, Mod catalogMod)
         {
-            string sourceUrl = $"https://github.com/{ Toolkit.MidString(steamDescription, ModSettings.SearchSourceUrlLeft, ModSettings.SearchSourceUrlRight) }";
-            string currentLower = sourceUrl.ToLower();
-
-            if (sourceUrl == "https://github.com/")
-            {
-                return null;
-            }
-
-            // Some commonly listed source URLs to always ignore: Pardeike's Harmony and Sschoener's detour
-            const string pardeike  = "https://github.com/pardeike";
-            const string sschoener = "https://github.com/sschoener/cities-skylines-detour";
-
+            string sourceUrl = "";
+            string lowerUrl = "";
             string discardedUrls = "";
-            int tries = 0;
 
             // Keep comparing source URLs until we find no more. Max. 50 times to avoid infinite loops.
-            while (steamDescription.IndexOf(ModSettings.SearchSourceUrlLeft) != steamDescription.LastIndexOf(ModSettings.SearchSourceUrlLeft) && tries < 50)
+            for (var i = 1; i <= 50; i++)
             {
-                tries++;
+                int index = -1;
+                string newSourceSite = "";
 
-                int index = steamDescription.IndexOf(ModSettings.SearchSourceUrlLeft) + 1;
-                steamDescription = steamDescription.Substring(index);
-
-                string nextSourceUrl = $"https://github.com/{ Toolkit.MidString(steamDescription, ModSettings.SearchSourceUrlLeft, ModSettings.SearchSourceUrlRight) }";
-                string nextLower = nextSourceUrl.ToLower();
-
-                // Decide on which source URL to use.
-                if (nextLower == "https://github.com/" || nextLower == currentLower || nextLower.Contains(pardeike) || nextLower.Contains(sschoener))
+                // Find the first source URL in the (remaining) description.
+                foreach (string searchSourceUrlSite in ModSettings.SearchSourceUrlSites)
                 {
-                    // Silently discard the new source URL.
+                    int newIndex = steamDescription.IndexOf($"{ ModSettings.SearchSteamUrlFilter }{ searchSourceUrlSite }");
+
+                    if (newIndex != -1 && (index == -1 || newIndex < index))
+                    {
+                        index = newIndex;
+                        newSourceSite = searchSourceUrlSite;
+                    }
                 }
-                else if (currentLower.Contains(pardeike) || currentLower.Contains(sschoener))
+
+                string newSourceUrl = Toolkit.MidString(steamDescription, $"{ ModSettings.SearchSteamUrlFilter }{ newSourceSite }", ModSettings.SearchSourceUrlRight);
+
+                // Break out of the for loop if no (more) source URL was found.
+                if (string.IsNullOrEmpty(newSourceSite) || string.IsNullOrEmpty(newSourceUrl))
                 {
-                    // Silently discard the old source URL.
-                    sourceUrl = nextSourceUrl;
+                    break;
                 }
-                else if (currentLower.Contains("issue") || currentLower.Contains("wiki") || currentLower.Contains("documentation") 
-                    || currentLower.Contains("readme") || currentLower.Contains("guide") || currentLower.Contains("translation"))
+
+                newSourceUrl = $"{ newSourceSite }{ newSourceUrl }";
+                string newLowerUrl = newSourceUrl.ToLower();
+
+                // Time to decide if we want to select this source URL.
+                foreach (string ignoreUrl in ModSettings.CommonSourceUrlsToIgnore)
                 {
-                    discardedUrls += $"\n                      * Discarded: { sourceUrl }";
-                    sourceUrl = nextSourceUrl;
+                    if (newLowerUrl.Contains(ignoreUrl))
+                    {
+                        // Set newLowerUrl so it will be detected below and this source URL will be silently ignored. And break out of the foreach loop.
+                        newLowerUrl = lowerUrl;
+                        break;
+                    }
+                }
+
+                if (newLowerUrl == lowerUrl)
+                {
+                    // Silently discard the newly found source URL if it is the same as the currently selected one, or if it is in the ignore list.
+                }
+                else if (string.IsNullOrEmpty(sourceUrl))
+                {
+                    // Select this source URL if it's the first (non-ignored) one we found.
+                    sourceUrl = newSourceUrl;
+                    lowerUrl = newLowerUrl;
                 }
                 else
                 {
-                    discardedUrls += $"\n                      * Discarded: { nextSourceUrl }";
+                    // Discard the previously found source URL if it is found in the discard list, and select the new one.
+                    foreach (string discardUrl in ModSettings.sourceUrlsToDiscard)
+                    {
+                        if (lowerUrl.Contains(discardUrl))
+                        {
+                            discardedUrls += $"\n                      * Discarded: { sourceUrl }";
+
+                            sourceUrl = newSourceUrl;
+                            lowerUrl = newLowerUrl;
+
+                            // Break out of the foreach loop
+                            break;
+                        }
+                    }
+
+                    // Discard the newly found source URL if we didn't just discard the old one.
+                    if (sourceUrl != newSourceUrl)
+                    {
+                        discardedUrls += $"\n                      * Discarded: { newSourceUrl }";
+                    }
                 }
 
-                currentLower = sourceUrl.ToLower();
-            }
-
-            // Discard the selected source URL if it is Pardeike or Sschoener. This happens when that is the only GitHub link in the description.
-            if (currentLower.Contains(pardeike) || currentLower.Contains(sschoener))
-            {
-                return null;
+                // Cut off the first part of the description to just behind the found source URL.
+                steamDescription = steamDescription.Substring(index + ModSettings.SearchSteamUrlFilter.Length + newSourceUrl.Length);
             }
 
             if (!string.IsNullOrEmpty(discardedUrls) && sourceUrl != catalogMod.SourceUrl)
@@ -561,7 +586,7 @@ namespace CompatibilityReport.Updater
                 Logger.UpdaterLog($"Found multiple source URLs for { catalogMod.ToString() }\n                      * Selected:  { sourceUrl }{ discardedUrls }");
             }
 
-            return sourceUrl;
+            return string.IsNullOrEmpty(sourceUrl) ? null : sourceUrl;
         }
     }
 }

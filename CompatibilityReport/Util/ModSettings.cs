@@ -12,7 +12,7 @@ namespace CompatibilityReport.Util
         public const string InternalName = "CompatibilityReport";
 
         public const string Version = "0.6.2";
-        public const string Build = "366";
+        public const string Build = "367";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -190,8 +190,31 @@ namespace CompatibilityReport.Util
         public const string SearchDescriptionRight = "</div>";
         public const string SearchDescriptionNextLine = "\t\t\t</div>";
         public const string SearchDescriptionNextSection = "<script>";
-        public const string SearchSourceUrlLeft = "https://steamcommunity.com/linkfilter/?url=https://github.com/";     // Only GitHub is recognized.
+        public const string SearchSteamUrlFilter = "https://steamcommunity.com/linkfilter/?url=";
+        public static readonly List<string> SearchSourceUrlSites = new List<string>                                      // All must end in a slash.
+        { 
+            "https://github.com/",
+            "https://gist.github.com/" 
+        };
         public const string SearchSourceUrlRight = "\" ";
+
+        // Source URLs to ignore completely.
+        public static readonly List<string> CommonSourceUrlsToIgnore = new List<string>
+        {
+            "https://github.com/pardeike",
+            "https://github.com/sschoener/cities-skylines-detour"
+        };
+
+        // Source URLs (parts) to discard if another source URL was already found.
+        public static readonly List<string> sourceUrlsToDiscard = new List<string>
+        {
+            "issue",
+            "wiki",
+            "documentation",
+            "readme",
+            "guide",
+            "translation"
+        };
 
 
         // Todo 0.7 Defaults for updater settings that will be available in an updater settings xml file.
