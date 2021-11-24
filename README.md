@@ -3,7 +3,7 @@
 Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This will report compatibility issues and missing dependencies for your subscribed mods.
 
 ### Current status
-This mod is available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869). It's still in beta. This is a successor to the [Mod Compatibility Checker](https://steamcommunity.com/sharedfiles/filedetails/?id=2034713132) by aubergine.
+This mod is available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869). It's still in beta. This is a successor to the [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine.
 
 
 ### Implemented features

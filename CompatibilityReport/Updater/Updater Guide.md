@@ -16,31 +16,31 @@ Lines starting with a '#' are considered comments and will be ignored by the upd
 
 ### Mod actions
 Parameters in square brackets are optional. The symbol :zap: means an exclusion will be created.
-* Add_Mod, \<mod ID\>, Unlisted | Removed [, \<author ID | custom URL\> [, \<mod name\>] ]
+* Add_Mod, \<mod ID\>, Unlisted | Removed [, \<author ID | custom url\> [, \<mod name\>] ]
 * Set_Stability, \<mod ID\>, \<stability string\> [, \<note\>]
   * *To remove a stability note, set the same stability again without a note*
 * Add_Status, \<mod ID\>, \<status string\> :zap: *(exclusion only for NoDescription status)*
 * Set_Note, \<mod ID\>, \<text\>
 * Set_GameVersion, \<mod ID\>, \<game version string\> :zap: *(will be overruled when a newer game version is found)*
-* Add_RequiredDLC, \<mod ID\>, \<DLC string\> :zap:
+* Add_RequiredDlc, \<mod ID\>, \<dlc string\> :zap:
 * Add_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Add_Successor, \<mod ID\>, \<successor mod ID\>
 * Add_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Add_Recommendation, \<mod ID\>, \<recommended mod ID\>
-* Set_SourceURL, \<mod ID\>, \<URL\> :zap:
+* Set_SourceUrl, \<mod ID\>, \<url\> :zap:
 * Update_Review, \<mod ID\> *(updates the review date; use for reviews without changes to the mod itself)*
 * Remove_Mod, \<mod ID\> *(only works on mods that are removed from the Steam Workshop)*
 * Remove_Status, \<mod ID\>, \<status string\>
 * Remove_Note, \<mod ID\>
 * Remove_GameVersion, \<mod ID\> *(only works if an exclusion exists)*
-* Remove_RequiredDLC, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*
+* Remove_RequiredDlc, \<mod ID\>, \<DLC string\> *(only works if an exclusion exists)*
 * Remove_RequiredMod, \<mod ID\>, \<required mod ID\> :zap:
 * Remove_Successor, \<mod ID\>, \<successor mod ID\>
 * Remove_Alternative, \<mod ID\>, \<alternative mod ID\>
 * Remove_Recommendation, \<mod ID\>, \<recommended mod ID\>
-* Remove_SourceURL, \<mod ID\> :zap:
-* Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required DLC string | mod ID\>]
-  * *Available categories: SourceURL, GameVersion, NoDescription, RequiredDLC, RequiredMod*
+* Remove_SourceUrl, \<mod ID\> :zap:
+* Remove_Exclusion, \<mod ID\>, \<exclusion category\> [,\<required dlc string | mod ID\>]
+  * *Available categories: SourceUrl, GameVersion, NoDescription, RequiredDlc, RequiredMod*
 
 ### Group actions (will not change review date for included mods)
 * Add_Group, \<name\>, \<mod ID\>, \<mod ID\> [, \<mod ID\>, ...]
@@ -57,16 +57,16 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
 * Remove_Compatibility, \<first mod ID\>, \<second mod ID\>, \<compatibility status\>
 
 ### Author actions (author ID is much more reliable, and mandatory if the custom URL is a number)
-* Add_Author, \<author ID | custom URL\>, \<author name\> *(only needed for unknown authors of 'removed' mods, will be set to retired)*
-* Set_AuthorID, \<author custom URL\>, \<author ID\>
-* Set_AuthorURL, \<author ID\>, \<author custom URL\>
-* Set_LastSeen, \<author ID | custom URL\>, \<date: yyyy-mm-dd\> *(should be more recent than newest mod update)*
+* Add_Author, \<author ID | custom url\>, \<author name\> *(only needed for unknown authors of 'removed' mods, will be set to retired)*
+* Set_AuthorID, \<author custom url\>, \<author ID\>
+* Set_AuthorUrl, \<author ID\>, \<author custom url\>
+* Set_LastSeen, \<author ID | custom url\>, \<date: yyyy-mm-dd\> *(should be more recent than newest mod update)*
   * *Author retirement will be recalculated. An author is assumed retired if not seen for a year.*
-* Set_Retired, \<author ID | custom URL\> :zap:
-* Merge_Author, \<author ID\>, \<author custom URL\>
+* Set_Retired, \<author ID | custom url\> :zap:
+* Merge_Author, \<author ID\>, \<author custom url\>
   * *For when the WebCrawler created two authors that should be one. Author retirement will be recalculated and exclusion will be removed.*
-* Remove_AuthorURL, \<author ID\>
-* Remove_Retired, \<author ID | custom URL\> *(only works if added manually before)*
+* Remove_AuthorUrl, \<author ID\>
+* Remove_Retired, \<author ID | custom url\> *(only works if added manually before)*
 
 ### Available catalog actions
 * Set_CatalogGameVersion, \<game version string\>
