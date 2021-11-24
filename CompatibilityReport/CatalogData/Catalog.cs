@@ -771,7 +771,7 @@ namespace CompatibilityReport.CatalogData
                 {
                     modIndex.Add(catalogMod.SteamID, catalogMod);
 
-                    if (catalogMod.ReviewDate != default || catalogMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop)
+                    if (catalogMod.Stability > Enums.Stability.NotReviewed)
                     {
                         ReviewedModCount++;
                     }

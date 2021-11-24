@@ -3,7 +3,7 @@
     public static class Enums
     {
         /// <summary>The stability of a mod.</summary>
-        /// <remarks>Order matters because it is used by the Reporter.</remarks>
+        /// <remarks>Order matters because it is used by the Catalog and Reporter.</remarks>
         public enum Stability
         {
             Undefined = 0,                      // Unused.

@@ -1,5 +1,10 @@
 # Compatibility Report
 
+### Version 0.6.2 beta
+* Bugfix: some non-reviewed mods were counted as reviewed
+* Updater: Gist source URLs now automatically found by the Updater
+* Updater: Datadumper changes
+
 ### Version 0.6.1 beta
 * Textual changes and bugfixes
 
