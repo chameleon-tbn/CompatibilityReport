@@ -12,7 +12,7 @@ namespace CompatibilityReport.Util
         public const string InternalName = "CompatibilityReport";
 
         public const string Version = "0.6.2";
-        public const string Build = "372";
+        public const string Build = "373";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -149,10 +149,6 @@ namespace CompatibilityReport.Util
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras&requiredflags[]=incompatible" };
 
-        public const int DaysOfInactivityToRetireAuthor = 365;
-        public const int SteamMaxModListingPages = 200;
-        public const int EstimatedMillisecondsPerModPage = 550;
-
         // Search strings for mod and author info in the mod listing files.
         public const string SearchModStart = "<div class=\"workshopItemTitle ellipsis\">";
         public const string SearchSteamIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
@@ -221,6 +217,12 @@ namespace CompatibilityReport.Util
         public static bool UpdaterEnabled { get; private set; } = true;
         public static bool WebCrawlerEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.enabled"));
         public static int SteamMaxFailedPages { get; private set; } = 4;
+        public static int SteamMaxModListingPages { get; private set; } = 200;
+        public static int EstimatedMillisecondsPerModPage { get; private set; } = 550;
+        public static int DaysOfInactivityToRetireAuthor { get; private set; } = 365;
+        public static int WeeksForSoonRetired { get; private set; } = 2;
+
+        public const string FeedbackFormUrl = "https://forms.gle/PvezwfpgS1V1DHqA9";
 
         public const string DefaultHeaderText = "General information about using mods:\n" +
             Bullet1 + "Never (un)subscribe to anything while the game is running! This resets some mods.\n" +
@@ -232,7 +234,5 @@ namespace CompatibilityReport.Util
 
         public const string DefaultFooterText = "Did this help? Do you miss anything? Leave a comment at the Workshop page.";
         public const string FirstCatalogNote = "This first catalog only contains the built-in mods.";
-
-        public static int WeeksForSoonRetired { get; private set; } = 2;
     }
 }

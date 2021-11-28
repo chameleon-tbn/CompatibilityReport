@@ -30,6 +30,9 @@ namespace CompatibilityReport.Updater
 
             hasRun = true;
             string tempCsvCombinedFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName);
+
+            // Download the feedback form. Download might fail because of TLS 1.2, but that doesn't matter because we only want to make sure the URL stays active.
+            Toolkit.Download(ModSettings.FeedbackFormUrl, tempCsvCombinedFullPath);
             Toolkit.DeleteFile(tempCsvCombinedFullPath);
 
             Catalog catalog = Catalog.Load();
