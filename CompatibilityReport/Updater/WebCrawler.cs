@@ -424,7 +424,7 @@ namespace CompatibilityReport.Updater
                         {
                             if (!catalogMod.ExclusionForRequiredMods.Contains(oldRequiredID))
                             {
-                                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID);
+                                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID, updatedByImporter: false);
                             }
                         }
                     }

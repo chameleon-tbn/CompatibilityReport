@@ -625,18 +625,18 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Removes a required mod from a mod.</summary>
         /// <remarks>(Re)sets the related exclusion and creates an entry for the change notes.</remarks>
-        public static void RemoveRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID)
+        public static void RemoveRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID, bool updatedByImporter)
         {
             if (catalogMod.RemoveRequiredMod(requiredID))
             {
                 catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"required Mod { requiredID } removed");
 
-                // If an exclusion exists remove it, otherwise add it to prevent the required mod from returning.
+                // If an exclusion exists remove it, otherwise (if updated by the Importer) add it to prevent the required mod from returning.
                 if (catalogMod.ExclusionForRequiredMods.Contains(requiredID))
                 {
                     catalogMod.RemoveExclusion(requiredID);
                 }
-                else
+                else if (updatedByImporter)
                 {
                     catalogMod.AddExclusion(requiredID);
                 }

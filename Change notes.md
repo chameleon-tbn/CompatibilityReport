@@ -2,9 +2,11 @@
 
 ### Version 0.6.2 beta
 * Added note to the report about non-reviewed subscribed mods
+* Removed note in the report about beta version
 * Bugfix: some non-reviewed mods were counted as reviewed
 * Updater: Gist source URLs now automatically found by the Updater
-* Updater: Datadumper and CatalogUpdater changes
+* Updater: Datadumper changes
+* Bugfixes for the Updater
 
 ### Version 0.6.1 beta
 * Textual changes and bugfixes

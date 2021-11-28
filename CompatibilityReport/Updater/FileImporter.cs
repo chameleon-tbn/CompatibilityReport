@@ -569,7 +569,7 @@ namespace CompatibilityReport.Updater
                     return "Mod is not required.";
                 }
 
-                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, listMember);
+                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, listMember, updatedByImporter: true);
             }
             else if (action == "add_successor")
             {
