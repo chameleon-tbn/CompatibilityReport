@@ -869,6 +869,11 @@ namespace CompatibilityReport.Reporter
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionalityCompatible:
+                        if (subscribedMod.Successors.Contains(otherModID))
+                        {
+                            // Don't mention this if the other mod is the successor, to avoid duplicate mentions of that mod.
+                            break;
+                        }
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
                         text += Format("This has very similar functionality, but is still compatible with (do you need both?):") + otherMod + workshopUrl + note;
                         break;
