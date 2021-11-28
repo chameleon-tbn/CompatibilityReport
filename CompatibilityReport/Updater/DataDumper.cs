@@ -46,8 +46,7 @@ namespace CompatibilityReport.Updater
             // Mods with a new update
             DumpModsWithNewUpdate(catalog, DataDump);
 
-            // Mods without a (full) review.
-            DumpModsWithoutStability(catalog, DataDump);
+            // Mods without a review.
             DumpModsWithoutReview(catalog, DataDump);
 
             // Mods used as required/successor/alternative/recommended that are broken or have a successor.
@@ -62,7 +61,7 @@ namespace CompatibilityReport.Updater
             // Broken mods without successor or alternative.
             DumpBrokenModsWithoutSuccessor(catalog, DataDump);
 
-            // Required mods that are not in a group, to check for the need of additional groups.
+            // Required and recommended mods that are not in a group, to check for the need of additional groups.
             DumpRequiredUngroupedMods(catalog, DataDump);
 
             // One time only checks: Authors with multiple mods (check for different version of the same mod), authors without ID.
@@ -71,6 +70,7 @@ namespace CompatibilityReport.Updater
 
             // No longer needed:
             // * DumpModsWithOldReview(catalog, DataDump, months: 2);
+            // * DumpModsWithoutStability(catalog, DataDump);
             // * DumpRetiredAuthors(catalog, DataDump);
 
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
@@ -97,6 +97,7 @@ namespace CompatibilityReport.Updater
 */
 
 
+/*
         /// <summary>Dumps all mods that have a review date but still have a 'Not Reviewed' stability.</summary>
         /// <remarks>It lists the mods Workshop URL and name.</remarks>
         private static void DumpModsWithoutStability(Catalog catalog, StringBuilder DataDump)
@@ -111,6 +112,7 @@ namespace CompatibilityReport.Updater
                 }
             }
         }
+*/
 
 
         /// <summary>Dumps all non-incompatible mods that have no review date.</summary>
@@ -121,7 +123,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.ReviewDate == default && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
+                if (catalogMod.Stability > Enums.Stability.NotReviewed && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
                 }
@@ -129,7 +131,7 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dumps all non-incompatible, reviewed mods with an update date equal to or newer than their review date.</summary>
+        /// <summary>Dumps all reviewed mods with an update date equal to or newer than their review date.</summary>
         /// <remarks>It lists the mods Workshop URL and name.</remarks>
         private static void DumpModsWithNewUpdate(Catalog catalog, StringBuilder DataDump)
         {
@@ -137,7 +139,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.ReviewDate != default && catalogMod.Updated.Date >= catalogMod.ReviewDate.Date)
+                if (catalogMod.Stability > Enums.Stability.NotReviewed && catalogMod.Updated.Date >= catalogMod.ReviewDate.Date)
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
                 }
@@ -179,15 +181,16 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dumps all required mods that are not in a group.</summary>
+        /// <summary>Dumps all required and recommended mods that are not in a group.</summary>
         /// <remarks>It lists the mods Workshop URL, name, stability and statuses.</remarks>
         private static void DumpRequiredUngroupedMods(Catalog catalog, StringBuilder DataDump)
         {
-            DataDump.AppendLine(Title("Required mods that are not in a group:"));
+            DataDump.AppendLine(Title("Required and recommended mods that are not in a group:"));
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (!catalog.IsGroupMember(catalogMod.SteamID) && catalog.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID)) != default)
+                if (!catalog.IsGroupMember(catalogMod.SteamID) && (catalog.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID)) != default || 
+                    catalog.Mods.Find(x => x.Recommendations.Contains(catalogMod.SteamID)) != default))
                 {
                     string statuses = "";
 
@@ -385,11 +388,12 @@ namespace CompatibilityReport.Updater
         /// <summary>Dumps data that is interesting for now. This will be skipped when not needed.</summary>
         private static void DumpInterestingForNow(Catalog catalog, StringBuilder DataDump)
         {
-            DataDump.AppendLine(Title("Non-reviewed mods that need the Ambient Sound Tuner 2.0 mod:"));
+            DataDump.AppendLine(Title("Non-reviewed mods that need the Ambient Sound Tuner or (Extra) Vehicle Effects:"));
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.Stability <= Enums.Stability.NotReviewed && catalogMod.RequiredMods.Contains(818641631))
+                if (catalogMod.Stability <= Enums.Stability.NotReviewed && 
+                    (catalogMod.RequiredMods.Contains(818641631) || catalogMod.RequiredMods.Contains(815103125) || catalogMod.RequiredMods.Contains(780720853)))
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
                 }
