@@ -52,22 +52,29 @@ namespace CompatibilityReport.Updater
 
                 FileImporter.Start(catalog);
 
-                UpdateAuthorRetirement(catalog);
-
-                UpdateCompatibilityModNames(catalog);
-
-                if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
+                if (!catalog.ChangeNotes.Any())
                 {
-                    SetNote(catalog, "");
+                    Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
                 }
-
-                string potentialAssets = catalog.GetPotentialAssetsString();
-                if (!string.IsNullOrEmpty(potentialAssets))
+                else
                 {
-                    Logger.UpdaterLog($"CSV action for adding assets to the catalog (after verification): Add_RequiredAssets { potentialAssets }");
-                }
+                    UpdateAuthorRetirement(catalog);
 
-                SaveCatalog(catalog);
+                    UpdateCompatibilityModNames(catalog);
+
+                    if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
+                    {
+                        SetNote(catalog, "");
+                    }
+
+                    string potentialAssets = catalog.GetPotentialAssetsString();
+                    if (!string.IsNullOrEmpty(potentialAssets))
+                    {
+                        Logger.UpdaterLog($"CSV action for adding assets to the catalog (after verification): Add_RequiredAssets { potentialAssets }");
+                    }
+
+                    SaveCatalog(catalog);
+                }
             }
 
             // Reload the catalog as a validity check of the newly created catalog. Also get the correct catalog version for the datadumper if no new catalog.
@@ -94,12 +101,6 @@ namespace CompatibilityReport.Updater
         {
             catalog.ChangeNotes.ConvertUpdated(catalog);
 
-            if (!catalog.ChangeNotes.Any())
-            {
-                Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
-                return false;
-            }
-            
             string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ catalog.VersionString() }");
 
             if (catalog.Save($"{ partialPath }.xml"))
