@@ -418,7 +418,7 @@ namespace CompatibilityReport.CatalogData
                 subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript,
                     downloadedTime: PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime());
 
-                if (subscribedMod.ReviewDate != default)
+                if (subscribedMod.Stability > Enums.Stability.NotReviewed)
                 {
                     ReviewedSubscriptionCount++;
                 }

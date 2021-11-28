@@ -1,6 +1,7 @@
 # Compatibility Report
 
 ### Version 0.6.2 beta
+* Added note to the report about non-reviewed subscribed mods
 * Bugfix: some non-reviewed mods were counted as reviewed
 * Updater: Gist source URLs now automatically found by the Updater
 * Updater: Datadumper changes

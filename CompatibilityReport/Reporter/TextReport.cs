@@ -114,6 +114,14 @@ namespace CompatibilityReport.Reporter
                     "Results might not be completely accurate.\n", indent: new string(' ', "NOTE: ".Length)));
             }
 
+            int nonReviewedSubscriptions = catalog.SubscriptionCount() - catalog.ReviewedSubscriptionCount;
+
+            if (nonReviewedSubscriptions != 0)
+            {
+                reportText.AppendLine(Toolkit.WordWrap($"NOTE: { nonReviewedSubscriptions } of your mods have not been reviewed yet. " +
+                    "Some incompatibilities or warnings might be missing in the report due to this.\n", indent: new string(' ', "NOTE: ".Length)));
+            }
+
             if (!string.IsNullOrEmpty(catalog.ReportHeaderText))
             {
                 reportText.AppendLine($"{ separatorDouble }\n");
@@ -358,13 +366,6 @@ namespace CompatibilityReport.Reporter
 
             switch (subscribedMod.Stability)
             {
-                case Enums.Stability.IncompatibleAccordingToWorkshop:
-                case Enums.Stability.RequiresIncompatibleMod:
-                case Enums.Stability.GameBreaking:
-                case Enums.Stability.Broken:
-                case Enums.Stability.MajorIssues:
-                    return "";
-
                 case Enums.Stability.MinorIssues:
                     subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
                     return Format($"This has minor issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + note;
@@ -382,8 +383,11 @@ namespace CompatibilityReport.Reporter
                     return Format($"This is compatible with the current game version.") + note;
 
                 case Enums.Stability.NotReviewed:
-                default:
+                case Enums.Stability.Undefined:
                     return Format($"This mod has not been reviewed yet{ updatedText }");
+
+                default:
+                    return "";
             }
         }
 

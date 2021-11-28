@@ -12,7 +12,7 @@ namespace CompatibilityReport.Util
         public const string InternalName = "CompatibilityReport";
 
         public const string Version = "0.6.2";
-        public const string Build = "368";
+        public const string Build = "369";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -112,7 +112,7 @@ namespace CompatibilityReport.Util
         public const string Bullet3 = "        - ";
         public const string Indent3 = "          ";
 
-        public const string ReportTextForThisModVersion = "This is a BETA version of the mod, not thoroughly tested yet.";      // Todo 0.9 Change this note.
+        public const string ReportTextForThisModVersion = "";
 
         public static string PleaseReportText { get; } = $"Please report this on the Steam Workshop page: { Toolkit.GetWorkshopUrl(OurOwnSteamID) }.";
 
