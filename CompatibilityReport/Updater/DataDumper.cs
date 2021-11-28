@@ -139,7 +139,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.Stability > Enums.Stability.NotReviewed && catalogMod.Updated.Date >= catalogMod.ReviewDate.Date)
+                if (catalogMod.Stability > Enums.Stability.NotReviewed && catalogMod.ReviewDate != default && catalogMod.Updated.Date >= catalogMod.ReviewDate.Date)
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
                 }
