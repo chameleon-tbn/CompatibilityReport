@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>31</Version>
-  <Updated>2021-11-28T11:56:30Z</Updated>
+  <Version>32</Version>
+  <Updated>2021-12-02T21:54:11Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note />
   <ReportHeaderText>General information about using mods:
@@ -398,13 +398,16 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-09-12T12:02:00Z</Updated>
       <AuthorID>76561198002723575</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>MajorIssues</Stability>
+      <StabilityNote>It is strongly recommended to unsubscribe this mod! This mod can prevent the loading of many modern mods that use the Harmony 2 mod (which are a lot of mods).
+This mod is not optimized and can cause performance issues.</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -416,11 +419,12 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added, Abandoned added, Reupload added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -531,7 +535,7 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Updated>2021-09-04T12:26:00Z</Updated>
       <AuthorID>76561198055667606</AuthorID>
       <AuthorUrl>kcfskaio</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
@@ -549,12 +553,13 @@ Placing props on networks produces a null object reference error.</StabilityNote
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
         <ChangeNote>2021-11-18: author ID added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -2511,11 +2516,11 @@ Some users report issues with using the Enter and Tab key.</StabilityNote>
       <Updated>2021-06-07T07:02:00Z</Updated>
       <AuthorID>76561197966119793</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>A few users are reporting Flow Battery Facilities not charging, with a "Not enough fuel" message, despite having enough electricity available.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This might not work if you have several separate power grids.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -2527,11 +2532,12 @@ Some users report issues with using the Enter and Tab key.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/willdud/PowerStorage</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -3776,7 +3782,7 @@ Users have noticed trucks transferring fish from one warehouse to another.</Stab
       <Updated>2021-05-02T15:56:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>coldrifting</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -3794,11 +3800,12 @@ Users have noticed trucks transferring fish from one warehouse to another.</Stab
       <Recommendations />
       <SourceUrl>https://github.com/coldrifting/DynamicAssetSorter</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4335,11 +4342,13 @@ This will work for tracks from the basegame and DLCs, and selected Workshop trac
       <Updated>2021-03-28T20:41:00Z</Updated>
       <AuthorID>76561199085952707</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>The game sometimes forgets the real start of a route and might show it as 'No District'.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -4351,11 +4360,12 @@ This will work for tracks from the basegame and DLCs, and selected Workshop trac
       <Recommendations />
       <SourceUrl>https://github.com/whyoh/CitiesBreakdown</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added, Abandoned added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -4821,11 +4831,12 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-11-13T11:10:00Z</Updated>
       <AuthorID>76561197968592937</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Elevated road, bridges and tunnels are separate network types and will need to be replaced separately.
+Subscribe to this collection if you use RON to replace Network Extensions roads: https://steamcommunity.com/workshop/filedetails/?id=2585558081</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -4834,10 +4845,12 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>2389414419</SteamID>
+      </Recommendations>
       <SourceUrl>https://github.com/algernon-A/RON</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -4848,6 +4861,7 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
         <ChangeNote>2021-10-28: new update</ChangeNote>
         <ChangeNote>2021-11-11: name changed, new update</ChangeNote>
         <ChangeNote>2021-11-15: new update</ChangeNote>
+        <ChangeNote>2021-12-02: stability added, note added, recommendation 2389414419 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9279,7 +9293,7 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2021-10-05T01:22:00Z</Updated>
       <AuthorID>76561197968592937</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -9297,13 +9311,14 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/algernon-A/GarbageBinManager</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-04: new update</ChangeNote>
         <ChangeNote>2021-10-12: new update</ChangeNote>
+        <ChangeNote>2021-12-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9672,8 +9687,8 @@ Some can only walk backwards or are floating.</StabilityNote>
       <Updated>2020-06-11T14:08:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>kushbird</AuthorUrl>
-      <Stability>NotEnoughInformation</Stability>
-      <StabilityNote>This does not have a lot of users or comments on the Steam Workshop, so it's unknown how well this functions.</StabilityNote>
+      <Stability>Broken</Stability>
+      <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note>Real Time is meant for cities with a population of up to 65.000.
@@ -9691,12 +9706,13 @@ Real Time completely changes the simulation, which makes it incompatible with a 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-10T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-05: compatible game version added, stability changed, note added, alternative 1420955187 added</ChangeNote>
         <ChangeNote>2021-10-12: note changed</ChangeNote>
+        <ChangeNote>2021-12-02: stability changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -10144,7 +10160,7 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2021-10-12T00:20:00Z</Updated>
       <AuthorID>76561197968592937</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -10162,13 +10178,14 @@ The in-game name is "Direct Connect Roads".</Note>
       <Recommendations />
       <SourceUrl>https://github.com/algernon-A/Repaint</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-04: name changed, new update</ChangeNote>
         <ChangeNote>2021-10-12: name changed, new update</ChangeNote>
+        <ChangeNote>2021-12-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -10495,11 +10512,13 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2020-05-10T01:46:00Z</Updated>
       <AuthorID>76561197968592937</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>MinorIssues</Stability>
+      <StabilityNote>This will spam the game log and seriously increase the size.
+Unsubscribe after use!</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This is meant as a one-off fix for cities ruined by sickness. It's recommended to unsubscribe afterwards.
+This only removes sickness from existing citizens once, a few seconds after game load. It does not prevent new sickness to appear.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -10511,11 +10530,12 @@ The in-game name is "Direct Connect Roads".</Note>
       <Recommendations />
       <SourceUrl>https://github.com/algernon-A/Remove-Sickness</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -18191,13 +18211,13 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Updated>2020-04-11T20:24:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>dymanoid</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.0-f7</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -18207,11 +18227,12 @@ Color Grading sometimes disables itself.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/dymanoid/StopsAndStations</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -19039,9 +19060,7 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors>
-        <SteamID>2126383845</SteamID>
-      </Successors>
+      <Successors />
       <Alternatives>
         <SteamID>1420955187</SteamID>
       </Alternatives>
@@ -19053,6 +19072,7 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Deprecated added, successor 2126383845 added, alternative 1420955187 added</ChangeNote>
+        <ChangeNote>2021-12-02: successor 2126383845 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21757,13 +21777,13 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Updated>2019-01-10T16:54:00Z</Updated>
       <AuthorID>76561197993041956</AuthorID>
       <AuthorUrl />
-      <Stability>Stable</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>Deprecated</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>You can use the 'Try to recover from Simulation Errors' option from Loading Screen Mod. It is more powerful than this mod.</Note>
+      <Note>Use the 'Try to recover from Simulation Errors' option from Loading Screen Mod instead, which is more powerful than this mod.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -21777,12 +21797,13 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Recommendations />
       <SourceUrl>https://github.com/thale5/Safenets</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-15T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-11-15: stability added, Deprecated added, note added, successor 667342976 added</ChangeNote>
+        <ChangeNote>2021-12-02: stability changed, note changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -25745,13 +25766,13 @@ Button not working.</StabilityNote>
       <Updated>2020-04-11T20:00:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>dymanoid</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.0-f7</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -25761,11 +25782,12 @@ Button not working.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/dymanoid/Snooper</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -26790,8 +26812,8 @@ And some more.</StabilityNote>
       <Updated>2018-05-21T22:38:00Z</Updated>
       <AuthorID>76561198071460484</AuthorID>
       <AuthorUrl>TPBDev</AuthorUrl>
-      <Stability>Broken</Stability>
-      <StabilityNote>This breaks the Harmony mod and any mod depending on it.</StabilityNote>
+      <Stability>GameBreaking</Stability>
+      <StabilityNote />
       <Statuses>
         <Status>Abandoned</Status>
       </Statuses>
@@ -26810,12 +26832,13 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
         <ChangeNote>2021-10-05: Abandoned added, stability changed, successor 2139035212 added</ChangeNote>
+        <ChangeNote>2021-12-02: stability changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -26961,8 +26984,8 @@ And some more.</StabilityNote>
       <Updated>2018-05-02T09:42:00Z</Updated>
       <AuthorID>76561198071460484</AuthorID>
       <AuthorUrl>TPBDev</AuthorUrl>
-      <Stability>Broken</Stability>
-      <StabilityNote>This breaks the Harmony mod and any mod depending on it.</StabilityNote>
+      <Stability>GameBreaking</Stability>
+      <StabilityNote />
       <Statuses>
         <Status>Abandoned</Status>
       </Statuses>
@@ -26981,12 +27004,13 @@ And some more.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/TPBCS/Painter</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: Abandoned added, stability changed, successor 2101551127 added</ChangeNote>
+        <ChangeNote>2021-12-02: stability changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36096,8 +36120,7 @@ This mod is not optimized and can cause performance issues.</StabilityNote>
         <Status>SavesCantLoadWithout</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>For loading an old save after unsubscribing this, use the "RON" mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2405917899
-Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532</Note>
+      <Note>To automatically replace Network Extensions roads before or after unsubscribing Network Extension, use the "RON" mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2405917899 combined with this collection of alternative roads, including fully rendered tunnels: https://steamcommunity.com/sharedfiles/filedetails/?id=2585558081</Note>
       <GameVersion>1.13.0-f7</GameVersion>
       <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -36109,13 +36132,14 @@ Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/
       <Recommendations />
       <SourceUrl>https://github.com/andreharv/NetworkExtensions</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-10T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-05: Abandoned added, stability changed, SavesCantLoadWithout added, note added, compatible game version added</ChangeNote>
         <ChangeNote>2021-10-12: stability note changed</ChangeNote>
+        <ChangeNote>2021-12-02: note changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -37408,8 +37432,8 @@ This will work for tracks from the basegame and most DLCs, and selected Workshop
       <Updated>2016-10-12T20:51:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>heliosxlr8</AuthorUrl>
-      <Stability>Stable</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Lag, game freezes and screen flashes are reported, but no comment is more recent than early 2019. Use with caution, or unsubscribe.</StabilityNote>
       <Statuses>
         <Status>Abandoned</Status>
       </Statuses>
@@ -37426,11 +37450,12 @@ This will work for tracks from the basegame and most DLCs, and selected Workshop
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added, note added</ChangeNote>
+        <ChangeNote>2021-12-02: stability changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43971,11 +43996,15 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Updated>2017-03-06T04:45:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
-      <Statuses />
+      <Stability>Stable</Stability>
+      <StabilityNote>This does work for some corrupted savegames, but not for all.
+If the savegame loads, the game will freeze for some time. This is normal.</StabilityNote>
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This is only needed to recover a corrupt savegame. Don't use it on regular play.
+This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -43987,10 +44016,11 @@ Users are reporting metro tunnel issues and "Out of Range" error messages.</Stab
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-02: stability added, Abandoned added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -60028,7 +60058,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-28T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -60388,7 +60418,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Updated>2021-11-26T21:49:00Z</Updated>
       <AuthorID>76561197968592937</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -60406,13 +60436,14 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/algernon-A/TransitVehicleSpawnDelay</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-02T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-11-28T11:56:30Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-11-15: added</ChangeNote>
         <ChangeNote>2021-11-15: compatible game version added, required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-11-24: name changed, new update</ChangeNote>
         <ChangeNote>2021-11-28: name changed, new update</ChangeNote>
+        <ChangeNote>2021-12-02: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -60426,6 +60457,7 @@ This mod is still in an early state of development.</StabilityNote>
       <StabilityNote />
       <Statuses>
         <Status>TestVersion</Status>
+        <Status>Deprecated</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note>This is for testing only and might be removed from the Workshop soon.</Note>
@@ -60435,10 +60467,10 @@ This mod is still in an early state of development.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
-      <Alternatives>
+      <Successors>
         <SteamID>2172488844</SteamID>
-      </Alternatives>
+      </Successors>
+      <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
@@ -60449,6 +60481,7 @@ This mod is still in an early state of development.</StabilityNote>
         <ChangeNote>2021-11-24: new update</ChangeNote>
         <ChangeNote>2021-11-26: stability added, TestVersion added, note added, alternative 2172488844 added</ChangeNote>
         <ChangeNote>2021-11-28: name changed</ChangeNote>
+        <ChangeNote>2021-12-02: Deprecated added, alternative 2172488844 removed, successor 2172488844 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -78376,6 +78409,142 @@ and enable the following settings for Daylight Classic:
       <Status>IncompatibleAccordingToAuthor</Status>
       <Note />
     </Compatibility>
+    <Compatibility>
+      <FirstModID>1764208250</FirstModID>
+      <FirstModName>More Vehicles</FirstModName>
+      <SecondModID>1643902284</SecondModID>
+      <SecondModName>Watch It!</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>The vehicle limit will be increased correctly, but Watch It incorrectly shows the old vehicle limit.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2474340659</FirstModID>
+      <FirstModName>Dynamic Asset Sorter</FirstModName>
+      <SecondModID>2502526929</SecondModID>
+      <SecondModName>Better Road Toolbar</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>Both mods touch the same game functionality and probably conflict.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1776052533</FirstModID>
+      <FirstModName>Stops &amp; Stations</FirstModName>
+      <SecondModID>1420955187</SecondModID>
+      <SecondModName>Real Time</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2405917899</FirstModID>
+      <FirstModName>RON, the network replacer 0.8</FirstModName>
+      <SecondModID>1637663252</SecondModID>
+      <SecondModName>TM:PE V11 STABLE (Traffic Manager: President Edition)</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>When doing automatic replacement, TM:PE settings will be lost on replaced and connected network segments, and lane arrows and lane connectors might be messed up on the entire map.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2405917899</FirstModID>
+      <FirstModName>RON, the network replacer 0.8</FirstModName>
+      <SecondModID>2489276785</SecondModID>
+      <SecondModName>TM:PE TEST</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>When doing automatic replacement, TM:PE settings will be lost on replaced and connected network segments, and lane arrows and lane connectors might be messed up on the entire map.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2405917899</FirstModID>
+      <FirstModName>RON, the network replacer 0.8</FirstModName>
+      <SecondModID>2140418403</SecondModID>
+      <SecondModName>Intersection Marking Tool 1.8.2</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>IMT markings will be lost on replaced network segments and connected intersections.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2405917899</FirstModID>
+      <FirstModName>RON, the network replacer 0.8</FirstModName>
+      <SecondModID>2159934925</SecondModID>
+      <SecondModName>Intersection Marking Tool 1.8 [BETA]</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>IMT markings will be lost on replaced network segments and connected intersections.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2405917899</FirstModID>
+      <FirstModName>RON, the network replacer 0.8</FirstModName>
+      <SecondModID>1758376843</SecondModID>
+      <SecondModName>Network Skins (Sunset Harbor compatible)</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Network Skins modifications will be lost on replaced network segments.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2405917899</FirstModID>
+      <FirstModName>RON, the network replacer 0.8</FirstModName>
+      <SecondModID>2085403475</SecondModID>
+      <SecondModName>Node controller V2.3  [Stable]</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2405917899</FirstModID>
+      <FirstModName>RON, the network replacer 0.8</FirstModName>
+      <SecondModID>2462845270</SecondModID>
+      <SecondModName>Node Controller Renewal 3.2 [BETA]</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2405917899</FirstModID>
+      <FirstModName>RON, the network replacer 0.8</FirstModName>
+      <SecondModID>2472062376</SecondModID>
+      <SecondModName>Node Controller Renewal 3.1.3</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2654110611</FirstModID>
+      <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
+      <SecondModID>1548831935</SecondModID>
+      <SecondModName>Advanced Vehicle Options (Sunset Harbor)</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2654110611</FirstModID>
+      <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
+      <SecondModID>1637663252</SecondModID>
+      <SecondModName>TM:PE V11 STABLE (Traffic Manager: President Edition)</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2654110611</FirstModID>
+      <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
+      <SecondModID>2489276785</SecondModID>
+      <SecondModName>TM:PE TEST</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2654110611</FirstModID>
+      <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
+      <SecondModID>1420955187</SecondModID>
+      <SecondModName>Real Time</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>While in game, the mod options do show the correct delay time, corresponding to the Real Time slowed time.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2654110611</FirstModID>
+      <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
+      <SecondModID>928128676</SecondModID>
+      <SecondModName>Improved Public Transport 2</SecondModName>
+      <Status>SameFunctionalityCompatible</Status>
+      <Note>IPT2 already has a (slightly different) 'spawning delay' functionality.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2654110611</FirstModID>
+      <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
+      <SecondModID>1312767991</SecondModID>
+      <SecondModName>Transport Lines Manager 14.1</SecondModName>
+      <Status>SameFunctionalityCompatible</Status>
+      <Note>TLM already has a 'spawning delay' functionality.</Note>
+    </Compatibility>
   </Compatibilities>
   <Authors>
     <Author>
@@ -78980,11 +79149,12 @@ and enable the following settings for Daylight Classic:
       <SteamID>76561197966119793</SteamID>
       <CustomUrl />
       <Name>Will</Name>
-      <LastSeen>2021-06-07T07:02:00Z</LastSeen>
+      <LastSeen>2021-09-03T12:00:00Z</LastSeen>
       <Retired>false</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-02: last seen date changed</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
@@ -80290,13 +80460,14 @@ and enable the following settings for Daylight Classic:
       <SteamID>0</SteamID>
       <CustomUrl>aubergine18</CustomUrl>
       <Name>aubergine18</Name>
-      <LastSeen>2020-07-28T12:00:00Z</LastSeen>
-      <Retired>true</Retired>
+      <LastSeen>2021-11-30T12:00:00Z</LastSeen>
+      <Retired>false</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: now retired</ChangeNote>
         <ChangeNote>2021-10-05: last seen date changed</ChangeNote>
+        <ChangeNote>2021-12-02: last seen date changed, no longer retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
@@ -81643,10 +81814,11 @@ and enable the following settings for Daylight Classic:
       <CustomUrl />
       <Name>TsuPan</Name>
       <LastSeen>2020-12-01T11:36:00Z</LastSeen>
-      <Retired>false</Retired>
+      <Retired>true</Retired>
       <ExclusionForRetired>false</ExclusionForRetired>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-02: now retired</ChangeNote>
       </ChangeNotes>
     </Author>
     <Author>
