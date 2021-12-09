@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>35</Version>
-  <Updated>2021-12-08T21:10:27Z</Updated>
+  <Version>36</Version>
+  <Updated>2021-12-09T21:32:17Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note />
   <ReportHeaderText>General information about using mods:
@@ -183,7 +183,7 @@ Loading old saved games with original Prop Precision data will probably result i
         <Status>TestVersion</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>This requires the 'Move It Beta' mod, which is not publicly available (and thus not linked here).</Note>
+      <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -198,7 +198,7 @@ Loading old saved games with original Prop Precision data will probably result i
       <Recommendations />
       <SourceUrl>https://github.com/Quistar-LAB/PropAnarchy</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-08T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -210,6 +210,7 @@ Loading old saved games with original Prop Precision data will probably result i
         <ChangeNote>2021-11-24: name changed, new update, note added</ChangeNote>
         <ChangeNote>2021-11-28: name changed, new update</ChangeNote>
         <ChangeNote>2021-12-03: name changed, new update</ChangeNote>
+        <ChangeNote>2021-12-09: note removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1986,7 +1987,7 @@ Some users report issues with using the Enter and Tab key.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Quistar-LAB/TreeAnarchy</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-07T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -4622,7 +4623,7 @@ This is an advanced mod that requires Python scripting knowledge to use.</Stabil
       <Recommendations />
       <SourceUrl>https://github.com/kianzarrin/AdvancedRoads</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-08T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -4780,7 +4781,7 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Updated>2021-11-16T17:47:00Z</Updated>
       <AuthorID>76561198959572921</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -4798,12 +4799,13 @@ Opposite side traffic lights have some quirks on T-intersections and one-way roa
       <Recommendations />
       <SourceUrl>https://github.com/rcav8tr/PopulationDemographics</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-11-18: new update</ChangeNote>
+        <ChangeNote>2021-12-09: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -8638,7 +8640,7 @@ Some can only walk backwards or are floating.</StabilityNote>
       </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-08T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -10382,7 +10384,7 @@ The in-game name is "Direct Connect Roads".</Note>
       <Updated>2021-05-12T17:46:00Z</Updated>
       <AuthorID>76561198313877216</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -10391,18 +10393,23 @@ The in-game name is "Direct Connect Roads".</Note>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2040656402</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2040656402</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/CodeBardian/SharedStopEnabler</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-09: stability added, required mod 2040656402 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -15506,10 +15513,10 @@ Users are reporting some other issues as well.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
-      <Alternatives>
-        <SteamID>1591417160</SteamID>
-      </Alternatives>
+      <Successors>
+        <SteamID>2513657277</SteamID>
+      </Successors>
+      <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
@@ -15519,6 +15526,7 @@ Users are reporting some other issues as well.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
         <ChangeNote>2021-11-20: stability added, Abandoned added, alternative 1591417160 added</ChangeNote>
+        <ChangeNote>2021-12-09: alternative 1591417160 removed, successor 2513657277 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21457,11 +21465,11 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Updated>2021-05-21T07:21:00Z</Updated>
       <AuthorID>76561198035962690</AuthorID>
       <AuthorUrl>klyte45</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Stable</Stability>
+      <StabilityNote>Vehicle Wealthizer 3</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This doesn't affect tourists.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -21473,10 +21481,11 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-09: stability added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -28155,9 +28164,12 @@ No fist names being assigned.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods>
         <SteamID>818641631</SteamID>
-        <SteamID>559172768</SteamID>
+        <SteamID>2053661585</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>559172768</SteamID>
+        <SteamID>2053661585</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -28169,6 +28181,7 @@ No fist names being assigned.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 818641631 added, required mod 559172768 added</ChangeNote>
         <ChangeNote>2021-11-28: stability added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 559172768 removed, required mod 2053661585 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -34221,7 +34234,7 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <Updated>2018-11-06T12:06:00Z</Updated>
       <AuthorID>76561197970383461</AuthorID>
       <AuthorUrl />
-      <Stability>Broken</Stability>
+      <Stability>GameBreaking</Stability>
       <StabilityNote />
       <Statuses>
         <Status>Abandoned</Status>
@@ -34239,12 +34252,13 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-11T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added, added to [Group 10016] Quartz</ChangeNote>
+        <ChangeNote>2021-12-09: stability changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -38017,11 +38031,13 @@ This will work for tracks from the basegame and most DLCs, and selected Workshop
       <Updated>2017-09-08T18:26:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This is only needed for custom tram stations that require this mod.</Note>
       <GameVersion>1.8.0-f3</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs>
@@ -38035,11 +38051,12 @@ This will work for tracks from the basegame and most DLCs, and selected Workshop
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-TramStationTrack</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required DLC Snowfall added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-09: stability added, Abandoned added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39580,7 +39597,7 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2021-05-24T19:10:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -39594,15 +39611,18 @@ There are some reports about a missing icon/button.</StabilityNote>
       </RequiredMods>
       <ExclusionForRequiredMods />
       <Successors />
-      <Alternatives />
+      <Alternatives>
+        <SteamID>2096382380</SteamID>
+      </Alternatives>
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-ElevatedStopsEnabler</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-09: stability added, alternative 2096382380 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -39934,9 +39954,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>586012417</SteamID>
+        <SteamID>2016920607</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>586012417</SteamID>
+        <SteamID>2016920607</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -39948,6 +39971,7 @@ There are some reports about a missing icon/button.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 586012417 added</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added, note added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 586012417 removed, required mod 2016920607 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -40076,9 +40100,11 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2016-02-18T16:48:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -40092,11 +40118,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-RealisticWinds</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-09: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -41062,9 +41089,12 @@ Some users report that traffic light props still turn white after the last updat
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -41076,6 +41106,7 @@ Some users report that traffic light props still turn white after the last updat
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 576970398 added</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 576970398 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -41821,9 +41852,12 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -41835,6 +41869,7 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 576970398 added</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 576970398 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -41945,9 +41980,12 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -41959,6 +41997,7 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 576970398 added</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 576970398 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42003,7 +42042,7 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <Updated>2015-12-28T15:17:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bnm12</AuthorUrl>
-      <Stability>Broken</Stability>
+      <Stability>GameBreaking</Stability>
       <StabilityNote />
       <Statuses>
         <Status>Abandoned</Status>
@@ -42021,13 +42060,14 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <Recommendations />
       <SourceUrl>https://github.com/bnm12/Skylines-Sapphire</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-11T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-05: source URL changed</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added, added to [Group 10016] Quartz</ChangeNote>
+        <ChangeNote>2021-12-09: stability changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -44677,9 +44717,12 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -44691,6 +44734,7 @@ This will not fix issues related to mods that add networks (Network Extensions, 
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 576970398 added</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 576970398 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -45080,13 +45124,13 @@ Park panels sometimes become corrupted, requiring a game restart.</StabilityNote
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>446764406</SteamID>
         <SteamID>463845891</SteamID>
         <SteamID>2367735356</SteamID>
       </RequiredMods>
       <ExclusionForRequiredMods>
         <SteamID>497033453</SteamID>
         <SteamID>2367735356</SteamID>
+        <SteamID>446764406</SteamID>
       </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
@@ -45099,6 +45143,7 @@ Park panels sometimes become corrupted, requiring a game restart.</StabilityNote
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 497033453 added, required mod 446764406 added, required mod 463845891 added, source URL added</ChangeNote>
         <ChangeNote>2021-12-07: required Mod 497033453 removed, required mod 2367735356 added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 446764406 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -48336,9 +48381,12 @@ Users report several more issues, but unclear if they are caused by this mod.</S
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -48350,6 +48398,7 @@ Users report several more issues, but unclear if they are caused by this mod.</S
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 576970398 added</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 576970398 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -48359,7 +48408,7 @@ Users report several more issues, but unclear if they are caused by this mod.</S
       <Updated>2015-04-23T03:56:00Z</Updated>
       <AuthorID>76561198035858361</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -48369,19 +48418,23 @@ Users report several more issues, but unclear if they are caused by this mod.</S
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>421770876</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>421770876</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/kokonut0802/Silicon-Skin-21-9</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 421770876 added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-09: stability added, required Mod 421770876 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -48519,7 +48572,7 @@ Many users report a missing button, or another button hiding it from sight.</Sta
       <Updated>2015-04-23T03:09:00Z</Updated>
       <AuthorID>76561198035858361</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -48529,19 +48582,23 @@ Many users report a missing button, or another button hiding it from sight.</Sta
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>421770876</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>421770876</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/kokonut0802/Silicon-Skin</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 421770876 added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-09: stability added, required Mod 421770876 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -48910,9 +48967,12 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>576970398</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -48924,6 +48984,7 @@ You might need to set a 180 degress offset for the sun to properly go from east 
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 576970398 added</ChangeNote>
         <ChangeNote>2021-11-11: stability added, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-09: required Mod 576970398 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -48933,7 +48994,7 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Updated>2015-04-12T14:20:00Z</Updated>
       <AuthorID>76561198027947026</AuthorID>
       <AuthorUrl />
-      <Stability>RequiresIncompatibleMod</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>Abandoned</Status>
@@ -48945,21 +49006,25 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>421770876</SteamID>
+        <SteamID>888017364</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>421770876</SteamID>
+        <SteamID>888017364</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/AlexanderDzhoganov/Skylines-Sapphire/tree/master/Skins/Emerald/_SapphireSkin</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-26T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 421770876 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: source URL changed</ChangeNote>
         <ChangeNote>2021-11-26: stability added, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-09: stability changed, required Mod 421770876 removed, required mod 888017364 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -60190,7 +60255,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-08T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -60750,12 +60815,49 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/algernon-A/CurbHeightAdjuster</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-08T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-12-07: added</ChangeNote>
         <ChangeNote>2021-12-07: compatible game version added, required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-12-08: stability added</ChangeNote>
+      </ChangeNotes>
+    </Mod>
+    <Mod>
+      <SteamID>2453723646</SteamID>
+      <Name>[deprecated] Elevated Stops v2</Name>
+      <Published>2021-04-11T09:35:00Z</Published>
+      <Updated>2021-04-12T18:54:00Z</Updated>
+      <AuthorID>76561198313877216</AuthorID>
+      <AuthorUrl />
+      <Stability>NotEnoughInformation</Stability>
+      <StabilityNote />
+      <Statuses>
+        <Status>UnlistedInWorkshop</Status>
+        <Status>Deprecated</Status>
+      </Statuses>
+      <ExclusionForNoDescription>false</ExclusionForNoDescription>
+      <Note />
+      <GameVersion>0.0</GameVersion>
+      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <RequiredDlcs />
+      <ExclusionForRequiredDlcs />
+      <RequiredMods>
+        <SteamID>2040656402</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods />
+      <Successors>
+        <SteamID>634913093</SteamID>
+      </Successors>
+      <Alternatives />
+      <Recommendations />
+      <SourceUrl>https://github.com/CodeBardian/Skylines-ElevatedStopsEnabler</SourceUrl>
+      <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
+      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
+      <AutoReviewDate>2021-12-09T12:00:00Z</AutoReviewDate>
+      <ChangeNotes>
+        <ChangeNote>2021-12-09: added as unlisted</ChangeNote>
+        <ChangeNote>2021-12-09: author ID added, required mod 2040656402 added, source URL added, stability added, Deprecated added, successor 634913093 added</ChangeNote>
       </ChangeNotes>
     </Mod>
   </Mods>
@@ -75296,14 +75398,6 @@ This mod is still in an early state of development.</StabilityNote>
     <Compatibility>
       <FirstModID>2607980391</FirstModID>
       <FirstModName>Extended Managers Library 0.9.0</FirstModName>
-      <SecondModID>1619685021</SecondModID>
-      <SecondModName>Move It</SecondModName>
-      <Status>IncompatibleAccordingToAuthor</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>2607980391</FirstModID>
-      <FirstModName>Extended Managers Library 0.9.0</FirstModName>
       <SecondModID>2434651215</SecondModID>
       <SecondModName>ModTools 3.6.4 (Beta)</SecondModName>
       <Status>IncompatibleAccordingToAuthor</Status>
@@ -79311,6 +79405,86 @@ and enable the following settings for Daylight Classic:
       <SecondModName>TM:PE TEST</SecondModName>
       <Status>MinorIssues</Status>
       <Note>Setting traffic lights or priority signs with TM:PE on train tracks will not work. Other settings do work.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2225551043</FirstModID>
+      <FirstModName>Tree &amp; Vehicle Props Patch</FirstModName>
+      <SecondModID>2607980391</SecondModID>
+      <SecondModName>Extended Managers Library 0.9.0</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>The vehicle props generated by Tree &amp; Vehicle Props Patch will have unwanted light effects when the game time is in the night cycle.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2607980391</FirstModID>
+      <FirstModName>Extended Managers Library 0.9.0</FirstModName>
+      <SecondModID>1619685021</SecondModID>
+      <SecondModName>Move It</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1619685021</FirstModID>
+      <FirstModName>Move It</FirstModName>
+      <SecondModID>2611824446</SecondModID>
+      <SecondModName>Prop Anarchy 0.5.2</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note>When using Prop Anarchy you no longer need Prop Precision and Prop Snapping.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2409471930</FirstModID>
+      <FirstModName>Population Demographics</FirstModName>
+      <SecondModID>2016920607</SecondModID>
+      <SecondModName>Ploppable RICO Revisited 2.4.10</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2409471930</FirstModID>
+      <FirstModName>Population Demographics</FirstModName>
+      <SecondModID>554232266</SecondModID>
+      <SecondModName>Mod: Nursing Homes for Senior Citizens</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2409471930</FirstModID>
+      <FirstModName>Population Demographics</FirstModName>
+      <SecondModID>2654364627</SecondModID>
+      <SecondModName>More CitizenUnits</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2096382380</FirstModID>
+      <FirstModName>SharedStopEnabler</FirstModName>
+      <SecondModID>1959183067</SecondModID>
+      <SecondModName>CSUR Loader</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Shared Stops can't be created on CSUR express roads (it does work on regular and compact roads).</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2096382380</FirstModID>
+      <FirstModName>SharedStopEnabler</FirstModName>
+      <SecondModID>634913093</SecondModID>
+      <SecondModName>Elevated Stops Enabler</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>SharedStopEnabler has the functionality to create elevated stops.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2096382380</FirstModID>
+      <FirstModName>SharedStopEnabler</FirstModName>
+      <SecondModID>2453723646</SecondModID>
+      <SecondModName>[deprecated] Elevated Stops v2</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>SharedStopEnabler has the functionality to create elevated stops.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2453723646</FirstModID>
+      <FirstModName>[deprecated] Elevated Stops v2</FirstModName>
+      <SecondModID>634913093</SecondModID>
+      <SecondModName>Elevated Stops Enabler</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
     </Compatibility>
   </Compatibilities>
   <Authors>
