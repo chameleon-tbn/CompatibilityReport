@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>36</Version>
-  <Updated>2021-12-09T21:32:17Z</Updated>
+  <Version>37</Version>
+  <Updated>2021-12-10T22:27:21Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note />
   <ReportHeaderText>General information about using mods:
@@ -474,7 +474,7 @@ This mod is not optimized and can cause performance issues.</StabilityNote>
       <Updated>2021-09-06T19:38:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>yenyang</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -492,11 +492,12 @@ This mod is not optimized and can cause performance issues.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/yenyang/ParkingLotSnapping</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2040656402 added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -1552,11 +1553,14 @@ Some users report issues with using the Enter and Tab key.</StabilityNote>
       <Updated>2021-07-29T02:26:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>mnh48</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+        <Status>TestVersion</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Note: The locale file will not be removed when unsubscribing. It has to be removed manually, see Workshop page.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -1568,10 +1572,11 @@ Some users report issues with using the Enter and Tab key.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, TestVersion added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -5102,10 +5107,12 @@ Subscribe to this collection if you use RON to replace Network Extensions roads:
       <Updated>2021-02-14T13:39:00Z</Updated>
       <AuthorID>76561199066717841</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -5115,16 +5122,19 @@ Subscribe to this collection if you use RON to replace Network Extensions roads:
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>853916642</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, Reupload added, successor 853916642 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -5259,9 +5269,12 @@ Subscribe to this collection if you use RON to replace Network Extensions roads:
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>2399343344</SteamID>
+        <SteamID>2040656402</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>2399343344</SteamID>
+        <SteamID>2040656402</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -5273,6 +5286,7 @@ Subscribe to this collection if you use RON to replace Network Extensions roads:
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2399343344 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: TestVersion added, stability changed, source URL removed, note added</ChangeNote>
+        <ChangeNote>2021-12-10: required Mod 2399343344 removed, required mod 2040656402 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6485,9 +6499,12 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>2399343344</SteamID>
+        <SteamID>2040656402</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>2399343344</SteamID>
+        <SteamID>2040656402</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -6499,6 +6516,7 @@ It takes some in-game time for the extra money to arrive.</StabilityNote>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2399343344 added, source URL added</ChangeNote>
         <ChangeNote>2021-11-28: stability added, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-10: required Mod 2399343344 removed, required mod 2040656402 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -9092,9 +9110,12 @@ Some can only walk backwards or are floating.</StabilityNote>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods>
-        <SteamID>2399343344</SteamID>
+        <SteamID>2040656402</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>2399343344</SteamID>
+        <SteamID>2040656402</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
@@ -9105,6 +9126,7 @@ Some can only walk backwards or are floating.</StabilityNote>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 2399343344 added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: required Mod 2399343344 removed, required mod 2040656402 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -14488,9 +14510,11 @@ High memory usage.</StabilityNote>
       <Updated>2020-04-07T17:21:00Z</Updated>
       <AuthorID>76561198120677783</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.0-f8</GameVersion>
@@ -14504,11 +14528,12 @@ High memory usage.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -19080,26 +19105,33 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Updated>2019-05-24T12:26:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>smartarrow</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20601,10 +20633,11 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Updated>2019-02-25T18:15:00Z</Updated>
       <AuthorID>76561198255180598</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>MusicCopyrightUnknown</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -20612,18 +20645,23 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrightUnknown added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20633,10 +20671,11 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Updated>2019-02-25T17:57:00Z</Updated>
       <AuthorID>76561198255180598</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>MusicCopyrightUnknown</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -20644,18 +20683,23 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrightUnknown added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20728,26 +20772,33 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Updated>2019-02-22T02:10:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>Waterclaw</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrightUnknown</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrightUnknown added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21137,9 +21188,11 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Updated>2020-05-04T02:36:00Z</Updated>
       <AuthorID>76561198320765559</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.0-f8</GameVersion>
@@ -21153,11 +21206,12 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21466,7 +21520,7 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <AuthorID>76561198035962690</AuthorID>
       <AuthorUrl>klyte45</AuthorUrl>
       <Stability>Stable</Stability>
-      <StabilityNote>Vehicle Wealthizer 3</StabilityNote>
+      <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note>This doesn't affect tourists.</Note>
@@ -21481,11 +21535,12 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-12-09: stability added, note added</ChangeNote>
+        <ChangeNote>2021-12-10: stability note removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -21708,7 +21763,7 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>Intended only for flat ground.</Note>
+      <Note />
       <GameVersion>1.13.0-f8</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -21724,7 +21779,7 @@ In the editors this causes an unresponsive area above the menu.</Note>
       </Recommendations>
       <SourceUrl>https://github.com/Strdate/AutomaticRoundaboutBuilder</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -21732,6 +21787,7 @@ In the editors this causes an unresponsive area above the menu.</Note>
         <ChangeNote>2021-10-05: source URL changed, note added, recommendation 2030755273 added, successor 2560782729 added</ChangeNote>
         <ChangeNote>2021-10-19: successor 2560782729 removed</ChangeNote>
         <ChangeNote>2021-11-02: stability added, note changed, recommendation 1844440354 added, recommendation 1844442251 added</ChangeNote>
+        <ChangeNote>2021-12-10: note removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -24878,27 +24934,34 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-09-23T22:37:00Z</Updated>
       <AuthorID>76561198288500237</AuthorID>
       <AuthorUrl>Adjex18</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-04: author ID added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -24908,27 +24971,34 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-09-23T20:11:00Z</Updated>
       <AuthorID>76561198288500237</AuthorID>
       <AuthorUrl>Adjex18</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-04: author ID added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -24938,27 +25008,34 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-09-23T09:19:00Z</Updated>
       <AuthorID>76561198288500237</AuthorID>
       <AuthorUrl>Adjex18</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-04: author ID added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -25629,26 +25706,33 @@ Highways and highway ramps have the traffic lights on the wrong side of the inte
       <Updated>2018-07-23T19:53:00Z</Updated>
       <AuthorID>76561198040399999</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -25990,10 +26074,12 @@ Button not working.</StabilityNote>
       <Updated>2018-06-22T02:47:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>mungkorn_plus</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -26003,16 +26089,19 @@ Button not working.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>417245527</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, Reupload added, successor 417245527 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -30667,9 +30756,11 @@ To make shadows less visible, reduce global light intensity and increase ambient
       <Updated>2017-10-31T12:03:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.9.0-f5</GameVersion>
@@ -30685,11 +30776,12 @@ To make shadows less visible, reduce global light intensity and increase ambient
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-CubemapReplacer</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 530871278 added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -31066,26 +31158,33 @@ To make shadows less visible, reduce global light intensity and increase ambient
       <Updated>2017-10-02T16:55:00Z</Updated>
       <AuthorID>76561198007478967</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>MusicCopyrighted</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>2474585115</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>2474585115</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, MusicCopyrighted added, required mod 2474585115 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32743,7 +32842,7 @@ Some report not being able to save the game, especially with large numbers of PO
       <Updated>2021-05-23T01:07:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>alien0512</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -32761,11 +32860,12 @@ Some report not being able to save the game, especially with large numbers of PO
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 412149127 added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32811,9 +32911,11 @@ Some report not being able to save the game, especially with large numbers of PO
       <Updated>2017-06-01T13:17:00Z</Updated>
       <AuthorID>76561198059369787</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -32822,16 +32924,19 @@ Some report not being able to save the game, especially with large numbers of PO
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1299863509</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/gansaku/JapaneseLocalizationRD</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, successor 1299863509 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32841,8 +32946,8 @@ Some report not being able to save the game, especially with large numbers of PO
       <Updated>2021-05-29T09:44:00Z</Updated>
       <AuthorID>76561198345568251</AuthorID>
       <AuthorUrl>symbol541</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>This is an incomplete version to lure you into buying a complete version.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -32857,11 +32962,12 @@ Some report not being able to save the game, especially with large numbers of PO
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-10-19: author ID added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32911,11 +33017,11 @@ Some report not being able to save the game, especially with large numbers of PO
       <Updated>2017-05-29T11:01:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>ten_giant_crabs</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This is just a template for creating custom namelists.</Note>
       <GameVersion>1.7.1-f1</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -32929,11 +33035,12 @@ Some report not being able to save the game, especially with large numbers of PO
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 935350530 added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -32943,9 +33050,11 @@ Some report not being able to save the game, especially with large numbers of PO
       <Updated>2017-05-29T11:56:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>ten_giant_crabs</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.7.1-f1</GameVersion>
@@ -32954,16 +33063,19 @@ Some report not being able to save the game, especially with large numbers of PO
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1231957400</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, successor 1231957400 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -33035,9 +33147,11 @@ Some report not being able to save the game, especially with large numbers of PO
       <Updated>2017-05-27T14:52:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>ten_giant_crabs</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -33051,10 +33165,11 @@ Some report not being able to save the game, especially with large numbers of PO
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -33200,10 +33315,12 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <Updated>2017-05-23T11:47:00Z</Updated>
       <AuthorID>76561198045318940</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>Broken</Stability>
+      <StabilityNote>410344523 PopBalanceMod</StabilityNote>
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
+        <Status>Reupload</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -33213,16 +33330,19 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2025147082</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, Reupload added, successor 2025147082 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -34480,9 +34600,11 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <Updated>2018-03-03T17:26:00Z</Updated>
       <AuthorID>76561197970951889</AuthorID>
       <AuthorUrl>Judazzz</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -34491,17 +34613,20 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2197863850</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/Judazzz/CitiesSkylines-PropItUp</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-12: author ID added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, successor 2197863850 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -34969,13 +35094,13 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <Updated>2021-05-24T20:20:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>ivopavko94</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.3-f9</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -34985,10 +35110,11 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -34998,10 +35124,11 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <Updated>2017-01-28T20:16:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>jantoniolis</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -35011,16 +35138,19 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>3</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, successor 3 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -35102,9 +35232,11 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <Updated>2017-01-20T12:55:00Z</Updated>
       <AuthorID>76561198134882422</AuthorID>
       <AuthorUrl>NogginNS</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -35113,16 +35245,19 @@ WARNING: When you subscribe a mod while the game is running (which is NOT recomm
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>417245527</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-04: author ID added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, successor 417245527 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -36150,9 +36285,11 @@ Time jumping or going backwards.</StabilityNote>
       <Updated>2019-05-23T07:06:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>SuefromCHN</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Obsolete</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -36166,10 +36303,11 @@ Time jumping or going backwards.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Obsolete added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -37838,10 +37976,11 @@ This will work for tracks from the basegame and most DLCs, and selected Workshop
       <Updated>2016-07-02T00:14:00Z</Updated>
       <AuthorID>76561198089475076</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -37851,16 +37990,19 @@ This will work for tracks from the basegame and most DLCs, and selected Workshop
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>3</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, successor 3 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -40601,9 +40743,11 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Updated>2020-04-03T18:44:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.0-f8</GameVersion>
@@ -40617,11 +40761,12 @@ There are some reports about a missing icon/button.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-SubBuildingsTabBar</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42008,12 +42153,12 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <AuthorID>0</AuthorID>
       <AuthorUrl>overhatted</AuthorUrl>
       <Stability>Stable</Stability>
-      <StabilityNote />
+      <StabilityNote>This might generate 'No Heat' warning on maps that don't require heat. Apply the policy 'Only use electricity for heating' to fix this.</StabilityNote>
       <Statuses>
         <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>This might generate 'No Heat' warning on maps that don't require heat. Fix this by applying the policy 'Only use electricity for heating'.</Note>
+      <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -42027,12 +42172,13 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-18T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-13: stability added, Abandoned added, note added, recommendation 572888650 added</ChangeNote>
         <ChangeNote>2021-11-18: stability changed, note changed</ChangeNote>
+        <ChangeNote>2021-12-10: note removed, stability note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42109,10 +42255,10 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <AuthorUrl>bloody_penguin</AuthorUrl>
       <Stability>MinorIssues</Stability>
       <StabilityNote>To avoid issues at a later stage (including sinking metro stations), always unlock all tiles at the beginning of your game from the mod options, wait a full minute, save, exit to desktop, restart the game and load the save.
-If a new map doesn't seem to load correctly, unlock all tiles (see the note above).
-At map loading terrain might look distorted for a few seconds.
+If a new map doesn't seem to load correctly, unlock all tiles (see above).
+At map loading, terrain might look distorted for a few seconds.
 Not everything works outside the 25 tiles area: dams cause tsunamis, disasters and evacuation don't work, pillars changed with No Pillars or Network Skins get reset.
-Users are reporting metro tunnel issues, metro stations sinking with metro lines breaking, and "Out of Range" error messages. To prevent the sinking metro stations, see the note above.</StabilityNote>
+Users report a variety of issues, including metro tunnel issues, metro stations sinking with metro lines breaking (see above), and "Out of Range" error messages. Many of these reports lack detailed information and a log file, making it hard to determine if 81 Tiles is indeed the cause of the issue (probably it often isn't).</StabilityNote>
       <Statuses>
         <Status>SavesCantLoadWithout</Status>
       </Statuses>
@@ -42129,7 +42275,7 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/cities-skylines-unlimiter-1</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-03T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
@@ -42137,6 +42283,7 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
         <ChangeNote>2021-10-05: stability changed, SavesCantLoadWithout added, note added</ChangeNote>
         <ChangeNote>2021-11-01: stability note changed</ChangeNote>
         <ChangeNote>2021-12-03: stability note changed</ChangeNote>
+        <ChangeNote>2021-12-10: stability note changed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -42936,9 +43083,11 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <Updated>2016-03-29T18:23:00Z</Updated>
       <AuthorID>76561198212568157</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -42947,16 +43096,19 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>427164957</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/akira-ishizaki/Cities-Skylines-Mod_Lang_JAEX</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, successor 427164957 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43375,9 +43527,11 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <Updated>2015-11-11T12:04:00Z</Updated>
       <AuthorID>76561198071460484</AuthorID>
       <AuthorUrl>TPBDev</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -43391,10 +43545,11 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43404,9 +43559,11 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <Updated>2019-05-27T18:22:00Z</Updated>
       <AuthorID>76561198071460484</AuthorID>
       <AuthorUrl>TPBDev</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.12.0-f5</GameVersion>
@@ -43415,16 +43572,19 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>2133705267</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, successor 2133705267 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43701,7 +43861,7 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <Updated>2018-01-06T16:52:00Z</Updated>
       <AuthorID>76561198025130003</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
@@ -43710,18 +43870,23 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
-      <RequiredMods />
-      <ExclusionForRequiredMods />
+      <RequiredMods>
+        <SteamID>466158459</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
+        <SteamID>466158459</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, required mod 466158459 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -43731,9 +43896,11 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <Updated>2021-04-29T22:57:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>1.13.1-f1</GameVersion>
@@ -43747,11 +43914,12 @@ Users are reporting metro tunnel issues, metro stations sinking with metro lines
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-SpawnPositionInverter</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -44177,11 +44345,13 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Updated>2015-10-01T01:23:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>ewordghost</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>GameBreaking</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This seems to be related to the infamous ali213_mod_01 mod.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -44193,10 +44363,11 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -44270,9 +44441,11 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Updated>2017-06-03T08:21:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>AdmiralAnimE</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -44286,10 +44459,11 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -44541,9 +44715,11 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Updated>2018-06-03T17:21:00Z</Updated>
       <AuthorID>76561198074517378</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -44557,10 +44733,11 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -44639,11 +44816,13 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Updated>2020-03-26T17:59:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>bloody_penguin</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Don't bulldoze existing train, ship and plane outside connections in-game!</Note>
       <GameVersion>1.13.0-f7</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -44657,12 +44836,13 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Recommendations />
       <SourceUrl>https://github.com/bloodypenguin/Skylines-MoreNetworkStuff</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 530771650 added</ChangeNote>
         <ChangeNote>2021-11-15: source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -44779,10 +44959,11 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Updated>2020-08-31T04:52:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>LCUUUD</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses>
         <Status>NoDescription</Status>
+        <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -44797,11 +44978,12 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -48215,9 +48397,11 @@ Users report several more issues, but unclear if they are caused by this mod.</S
       <Updated>2015-05-19T16:39:00Z</Updated>
       <AuthorID>76561197970384939</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>Broken</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -48226,16 +48410,19 @@ Users report several more issues, but unclear if they are caused by this mod.</S
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
+      <Successors>
+        <SteamID>1818482110</SteamID>
+      </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/githubpermutation/ChangeLoadingImage</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Deprecated added, successor 1818482110 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -48484,7 +48671,7 @@ Many users report a missing button, or another button hiding it from sight.</Sta
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Note: The locale file will not be removed when unsubscribing. It has to be removed manually, see Workshop page.</Note>
       <GameVersion>1.13.3-f9</GameVersion>
       <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -48498,12 +48685,13 @@ Many users report a missing button, or another button hiding it from sight.</Sta
       </Recommendations>
       <SourceUrl>https://github.com/mzch/Cities-Skylines-Mod_Lang_JA</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-02T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-11-02: stability added, compatible game version added, recommendation 1299863509 added</ChangeNote>
+        <ChangeNote>2021-12-10: note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -48857,9 +49045,12 @@ Many users report a missing button, or another button hiding it from sight.</Sta
       <Updated>2016-04-04T17:40:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>mortentp</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>MajorIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Abandoned</Status>
+        <Status>TestVersion</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
       <GameVersion>0.0</GameVersion>
@@ -48873,10 +49064,11 @@ Many users report a missing button, or another button hiding it from sight.</Sta
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Abandoned added, TestVersion added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -49162,13 +49354,13 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Updated>2021-05-30T13:14:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>sornzillatte</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>Stable</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.0-f7</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -49178,10 +49370,11 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -49836,11 +50029,13 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Updated>2015-04-07T13:08:00Z</Updated>
       <AuthorID>76561198027947026</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>UsersReportIssues</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>When your city reaches about 15000 citizens, this mod will no longer increase the speed above the x4 game default setting.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -49852,11 +50047,12 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Recommendations />
       <SourceUrl>https://github.com/AlexanderDzhoganov/Skylines-MoreSimulationSpeedOptions</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Deprecated added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -50094,11 +50290,13 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Updated>2015-04-04T07:43:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>ewordghost</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>GameBreaking</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This seems to be related to the infamous ali213_mod_01 mod.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -50110,10 +50308,11 @@ You might need to set a 180 degress offset for the sun to properly go from east 
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Deprecated added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -50649,11 +50848,13 @@ Config files not loading.</StabilityNote>
       <Updated>2015-03-27T09:31:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>ewordghost</AuthorUrl>
-      <Stability>NotReviewed</Stability>
+      <Stability>GameBreaking</Stability>
       <StabilityNote />
-      <Statuses />
+      <Statuses>
+        <Status>Deprecated</Status>
+      </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>This seems to be related to the infamous ali213_mod_01 mod.</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -50665,10 +50866,11 @@ Config files not loading.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, Deprecated added, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -53262,8 +53464,8 @@ Config files not loading.</StabilityNote>
       <Updated>2017-09-16T18:48:00Z</Updated>
       <AuthorID>0</AuthorID>
       <AuthorUrl>rojoss</AuthorUrl>
-      <Stability>NotReviewed</Stability>
-      <StabilityNote />
+      <Stability>MinorIssues</Stability>
+      <StabilityNote>For some users the speed setting isn't preserved between loads.</StabilityNote>
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
@@ -53278,10 +53480,11 @@ Config files not loading.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
+        <ChangeNote>2021-12-10: stability added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -60255,7 +60458,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -60344,13 +60547,13 @@ This mod is still in an early state of development.</StabilityNote>
       <Updated>2021-10-23T13:54:00Z</Updated>
       <AuthorID>76561198050185797</AuthorID>
       <AuthorUrl />
-      <Stability>NotReviewed</Stability>
+      <Stability>NotEnoughInformation</Stability>
       <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
       <Note />
-      <GameVersion>0.0</GameVersion>
-      <ExclusionForGameVersion>false</ExclusionForGameVersion>
+      <GameVersion>1.13.3-f9</GameVersion>
+      <ExclusionForGameVersion>true</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
@@ -60360,12 +60563,13 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-26: added</ChangeNote>
         <ChangeNote>2021-10-26: NoDescription added</ChangeNote>
         <ChangeNote>2021-11-11: name changed, NoDescription removed</ChangeNote>
+        <ChangeNote>2021-12-10: stability added, compatible game version added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -60798,10 +61002,11 @@ This mod is still in an early state of development.</StabilityNote>
       <AuthorID>76561197968592937</AuthorID>
       <AuthorUrl />
       <Stability>Stable</Stability>
-      <StabilityNote>A few Workshop roads will not have their curb height adjusted by this mod, including CSUR roads.</StabilityNote>
+      <StabilityNote />
       <Statuses />
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>Roads with non-standard curb heights will not have their curb height adjusted by this mod, including some bridges from the Bridges and Piers Pack and some Workshop roads.
+Decals and terrain-conforming props placed on the road surface, will automatically adjust to the new height. Ploppable surfaces and other non-terrain-conforming props will need to be manually moved up/down.</Note>
       <GameVersion>1.13.3-f9</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
@@ -60815,12 +61020,13 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/algernon-A/CurbHeightAdjuster</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-09T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-12-07: added</ChangeNote>
         <ChangeNote>2021-12-07: compatible game version added, required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-12-08: stability added</ChangeNote>
+        <ChangeNote>2021-12-10: stability note removed, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -77015,14 +77221,6 @@ and enable the following settings for Daylight Classic:
       <Note>Use 'Enlighten Your Mouse' instead of 'Enhanced Mouse Light'.</Note>
     </Compatibility>
     <Compatibility>
-      <FirstModID>2197863850</FirstModID>
-      <FirstModName>BOB, the Tree and Prop Replacer 0.8.6.2</FirstModName>
-      <SecondModID>878991312</SecondModID>
-      <SecondModName>Prop it Up! 1.4.4</SecondModName>
-      <Status>IncompatibleAccordingToAuthor</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
       <FirstModID>1680642819</FirstModID>
       <FirstModName>Ultimate Level Of Detail (ULOD)</FirstModName>
       <SecondModID>556784825</SecondModID>
@@ -79359,14 +79557,6 @@ and enable the following settings for Daylight Classic:
       <Note />
     </Compatibility>
     <Compatibility>
-      <FirstModID>2674842365</FirstModID>
-      <FirstModName>Curb Height Adjuster</FirstModName>
-      <SecondModID>2140418403</SecondModID>
-      <SecondModName>Intersection Marking Tool 1.8.2</SecondModName>
-      <Status>MinorIssues</Status>
-      <Note>Existing IMT pavement fills rise/lower with the road when adjusting curb height, meaning they won't align with the adjusted height.</Note>
-    </Compatibility>
-    <Compatibility>
       <FirstModID>649147853</FirstModID>
       <FirstModName>Birdcage - More Chirper controls</FirstModName>
       <SecondModID>407871375</SecondModID>
@@ -79483,6 +79673,134 @@ and enable the following settings for Daylight Classic:
       <FirstModName>[deprecated] Elevated Stops v2</FirstModName>
       <SecondModID>634913093</SecondModID>
       <SecondModName>Elevated Stops Enabler</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2674842365</FirstModID>
+      <FirstModName>Curb Height Adjuster</FirstModName>
+      <SecondModID>2140418403</SecondModID>
+      <SecondModName>Intersection Marking Tool 1.8.2</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Existing IMT 'raised meshes' (traffic islands) will not automatically have their heights adjusted. Other markings will adjust automatically.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2674842365</FirstModID>
+      <FirstModName>Curb Height Adjuster</FirstModName>
+      <SecondModID>1959342332</SecondModID>
+      <SecondModName>CSUR ToolBox</SecondModName>
+      <Status>CompatibleAccordingToAuthor</Status>
+      <Note>Curb Height Adjuster will not affect CSUR roads, because they don't use standard road depths.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2197863850</FirstModID>
+      <FirstModName>BOB, the Tree and Prop Replacer 0.8.6.2</FirstModName>
+      <SecondModID>878991312</SecondModID>
+      <SecondModName>Prop it Up! 1.4.4</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>BOB has the functionality of Prop it Up, and more.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>552309905</FirstModID>
+      <FirstModName>No Abandonment</FirstModName>
+      <SecondModID>2133705267</SecondModID>
+      <SecondModName>Advanced Building Level Control 1.0.3</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note>ABLC has the functionality to prevent abandonment, and much more.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>552309905</FirstModID>
+      <FirstModName>No Abandonment</FirstModName>
+      <SecondModID>1403136223</SecondModID>
+      <SecondModName>Control Building Level Up v0.5 (Industries)</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>931330091</FirstModID>
+      <FirstModName>410344523 PopBalanceMod</FirstModName>
+      <SecondModID>410344523</SecondModID>
+      <SecondModName>PopBalanceMod</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>931330091</FirstModID>
+      <FirstModName>410344523 PopBalanceMod</FirstModName>
+      <SecondModID>426163185</SecondModID>
+      <SecondModName>Realistic Population and Consumption Mod v8.4.0</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>931330091</FirstModID>
+      <FirstModName>410344523 PopBalanceMod</FirstModName>
+      <SecondModID>429238904</SecondModID>
+      <SecondModName>Enhanced Building Capacity</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>931330091</FirstModID>
+      <FirstModName>410344523 PopBalanceMod</FirstModName>
+      <SecondModID>654707599</SecondModID>
+      <SecondModName>Citizen Lifecycle Rebalance v2.6</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>931330091</FirstModID>
+      <FirstModName>410344523 PopBalanceMod</FirstModName>
+      <SecondModID>1551563197</SecondModID>
+      <SecondModName>EnhancedBuildingCapacity - Fixed</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>931330091</FirstModID>
+      <FirstModName>410344523 PopBalanceMod</FirstModName>
+      <SecondModID>1555378173</SecondModID>
+      <SecondModName>410344523</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>931330091</FirstModID>
+      <FirstModName>410344523 PopBalanceMod</FirstModName>
+      <SecondModID>2025147082</SecondModID>
+      <SecondModName>Realistic Population Revisited 1.4.3</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>931330091</FirstModID>
+      <FirstModName>410344523 PopBalanceMod</FirstModName>
+      <SecondModID>2243670411</SecondModID>
+      <SecondModName>Realistic Population 2 PUBLIC BETA</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>3</FirstModID>
+      <FirstModName>Unlimited Oil And Ore</FirstModName>
+      <SecondModID>715316103</SecondModID>
+      <SecondModName>InfiniteOilAndOre</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>3</FirstModID>
+      <FirstModName>Unlimited Oil And Ore</FirstModName>
+      <SecondModID>852103955</SecondModID>
+      <SecondModName>InfiniteOilAndOre</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>715316103</FirstModID>
+      <FirstModName>InfiniteOilAndOre</FirstModName>
+      <SecondModID>852103955</SecondModID>
+      <SecondModName>InfiniteOilAndOre</SecondModName>
       <Status>SameFunctionality</Status>
       <Note />
     </Compatibility>
