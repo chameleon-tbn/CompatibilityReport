@@ -151,7 +151,7 @@ namespace CompatibilityReport.Util
         // Todo 0.8 Something similar for MacOS or Linux?
         public static string Privacy(string path)
         {
-            path = path.Contains("\\") ? path.Replace('/', '\\') : path;
+            path = path.Replace('/', Path.DirectorySeparatorChar);
 
             int index = path.ToLower().IndexOf("\\appdata\\local");
             return (index == -1) ? path : $"%LocalAppData%{ path.Substring(index + "\\appdata\\local".Length) }";

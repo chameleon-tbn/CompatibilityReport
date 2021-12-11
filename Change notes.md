@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.6.3 beta
+* Minor textual changes and improvements
+
 ### Version 0.6.2 beta
 * Added note to the report about non-reviewed subscribed mods
 * Removed note in the report about beta version

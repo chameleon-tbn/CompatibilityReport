@@ -11,8 +11,8 @@ namespace CompatibilityReport.Util
         public const string ModName = "Compatibility Report";
         public const string InternalName = "CompatibilityReport";
 
-        public const string Version = "0.6.2";
-        public const string Build = "375";
+        public const string Version = "0.6.3";
+        public const string Build = "376";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 1;
@@ -51,7 +51,7 @@ namespace CompatibilityReport.Util
         //      DataLocation.modsPath               = %localappdata%\Colossal Order\Cities_Skylines\Addons\Mods         // Contains the Windows username.
         //      DataLocation.assemblyDirectory      = Invalid Path exception (should be mod folder)
 
-        public static string DefaultReportPath { get; } = Application.dataPath;
+        public static string DefaultReportPath { get; } = Application.dataPath.Replace('/', '\\');
         public const string ReportTextFileName = InternalName + ".txt";
         public const string ReportHtmlFileName = InternalName + ".html";
 
@@ -118,7 +118,7 @@ namespace CompatibilityReport.Util
 
 
         // Todo 0.7 Settings that will be available to users through mod options within the game.
-        public static string ReportPath { get; private set; } = DefaultReportPath;
+        public static string ReportPath { get; private set; } = Toolkit.Privacy(DefaultReportPath);
         public static int TextReportWidth { get; private set; } = MinimalTextReportWidth;
         public static bool ReportSortByName { get; private set; } = true;
         public static bool HtmlReport { get; private set; } = false;
@@ -209,7 +209,8 @@ namespace CompatibilityReport.Util
             "documentation",
             "readme",
             "guide",
-            "translation"
+            "translation",
+            "blob"
         };
 
 
