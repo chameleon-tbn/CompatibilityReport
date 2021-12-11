@@ -52,6 +52,9 @@ namespace CompatibilityReport.Updater
             // Mods used as required/successor/alternative/recommended that are broken or have a successor.
             DumpUsedModsWithIssues(catalog, DataDump);
 
+            // Mods with a old update but without the 'abandoned' status.
+            DumpOldModsNotAbandoned(catalog, DataDump, months: 12);
+
 
             // Checks for potential review refinement:
 
@@ -123,7 +126,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.Stability > Enums.Stability.NotReviewed && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop)
+                if (catalogMod.Stability <= Enums.Stability.NotReviewed)
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
                 }
@@ -148,14 +151,14 @@ namespace CompatibilityReport.Updater
 
 
         /// <summary>Dumps all mods that are broken or worse, and don't have a successor or alternative.</summary>
-        /// <remarks>It lists the mods Workshop URL, name and stability.</remarks>
+        /// <remarks>It lists the mods Workshop URL, name and stability. It skips all 'ali213_mod_01' mods.</remarks>
         private static void DumpBrokenModsWithoutSuccessor(Catalog catalog, StringBuilder DataDump)
         {
             DataDump.AppendLine(Title("Broken (or worse) mods without a successor or alternative:"));
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.Stability >= Enums.Stability.Broken && !catalogMod.Successors.Any() && !catalogMod.Alternatives.Any())
+                if (catalogMod.Stability >= Enums.Stability.Broken && !catalogMod.Successors.Any() && !catalogMod.Alternatives.Any() && catalogMod.Name != "ali213_mod_01")
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }]");
                 }
@@ -174,6 +177,27 @@ namespace CompatibilityReport.Updater
                 if ((catalogMod.Stability >= Enums.Stability.Broken || catalogMod.Successors.Any()) && 
                     catalog.Mods.Find(x => x.RequiredMods.Contains(catalogMod.SteamID) || x.Successors.Contains(catalogMod.SteamID) || 
                         x.Alternatives.Contains(catalogMod.SteamID) || x.Recommendations.Contains(catalogMod.SteamID)) != default)
+                {
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } " +
+                        $"[{ catalogMod.Stability }{ (catalogMod.Successors.Any() ? ", has successor" : "") }]");
+                }
+            }
+        }
+
+
+        /// <summary>Dumps all mods with an old update that don't have an abandoned, deprecated or obsolete status.</summary>
+        /// <remarks>It lists the mods Workshop URL, name and stability. Incompatible mods are not included.</remarks>
+        private static void DumpOldModsNotAbandoned(Catalog catalog, StringBuilder DataDump, int months)
+        {
+            DataDump.AppendLine(Title($"Mods with an update older than { months } months but without an abandoned/deprecated/obsolete status:"));
+
+            DateTime deadline = DateTime.Today.AddMonths(-months);
+
+            foreach (Mod catalogMod in catalog.Mods)
+            {
+                if (catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop && catalogMod.Stability != Enums.Stability.NotReviewed && 
+                    catalogMod.Updated < deadline && !catalogMod.Statuses.Contains(Enums.Status.Abandoned) && !catalogMod.Statuses.Contains(Enums.Status.Deprecated) &&  
+                    !catalogMod.Statuses.Contains(Enums.Status.Obsolete))
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }]");
                 }
