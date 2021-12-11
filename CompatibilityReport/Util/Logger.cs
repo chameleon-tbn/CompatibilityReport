@@ -25,7 +25,7 @@ namespace CompatibilityReport.Util
         private static LogFiler updaterLog;
 
 
-        /// <summary>Logs a message to this mods log file, and optionally to the game log.</summary>
+        /// <summary>Logs a message to the game log, and optionally to a dedicated debug log for this mod.</summary>
         public static void Log(string message, LogLevel logLevel = LogLevel.Info)
         {
             if (!ModSettings.DebugMode)
@@ -50,7 +50,7 @@ namespace CompatibilityReport.Util
                     GameLog($"Debug logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
                 }
 
-                debugLog.WriteLine(message, logLevel, timestamp: true, duplicateToGameLog: logLevel != LogLevel.Debug);
+                debugLog.WriteLine(message, logLevel, timestamp: true, duplicateToGameLog: true);
             }
         }
 
