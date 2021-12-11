@@ -200,9 +200,9 @@ namespace CompatibilityReport.Updater
                                      string note = null,
                                      string gameVersionString = null,
                                      string sourceUrl = null,
-                                     bool updatedByWebCrawler = false)
+                                     bool updatedByImporter = false)
         {
-            bool hideNote = catalogMod.AddedThisSession && updatedByWebCrawler;
+            bool hideNote = catalogMod.AddedThisSession && !updatedByImporter;
 
             // Collect change notes for all changed values. For stability note only if stability itself is unchanged.
             string addedChangeNote =
@@ -222,15 +222,15 @@ namespace CompatibilityReport.Updater
 
             catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, (string.IsNullOrEmpty(addedChangeNote) ? "" : addedChangeNote.Substring(2)));
 
-            DateTime modReviewDate = !updatedByWebCrawler && reviewDate > catalogMod.ReviewDate ? reviewDate : default;
-            DateTime modAutoReviewDate = updatedByWebCrawler && reviewDate > catalogMod.AutoReviewDate ? reviewDate : default;
+            DateTime modReviewDate = updatedByImporter && reviewDate > catalogMod.ReviewDate ? reviewDate : default;
+            DateTime modAutoReviewDate = !updatedByImporter && reviewDate > catalogMod.AutoReviewDate ? reviewDate : default;
 
-            if (!updatedByWebCrawler && sourceUrl != null && sourceUrl != catalogMod.SourceUrl)
+            if (updatedByImporter && sourceUrl != null && sourceUrl != catalogMod.SourceUrl)
             {
                 // Add exclusion on new or changed URL, and swap exclusion on removal.
                 catalogMod.UpdateExclusions(exclusionForSourceUrl: sourceUrl != "" || !catalogMod.ExclusionForSourceUrl);
             }
-            if (!updatedByWebCrawler && gameVersionString != null && gameVersionString != catalogMod.GameVersionString)
+            if (updatedByImporter && gameVersionString != null && gameVersionString != catalogMod.GameVersionString)
             {
                 // Add exclusion on new or changed game version, and remove the exclusion on removal of the game version.
                 catalogMod.UpdateExclusions(exclusionForGameVersion: gameVersionString != "");
@@ -243,7 +243,7 @@ namespace CompatibilityReport.Updater
             Author modAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl);
             if (modAuthor != null && catalogMod.Updated > modAuthor.LastSeen)
             {
-                UpdateAuthor(catalog, modAuthor, lastSeen: catalogMod.Updated, updatedByWebCrawler: updatedByWebCrawler);
+                UpdateAuthor(catalog, modAuthor, lastSeen: catalogMod.Updated, updatedByImporter: updatedByImporter);
             }
         }
 
@@ -365,7 +365,7 @@ namespace CompatibilityReport.Updater
         /// <summary>Updates one or more author properties.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
         public static void UpdateAuthor(Catalog catalog, Author catalogAuthor, ulong authorID = 0, string authorUrl = null, string name = null,
-            DateTime lastSeen = default, bool? retired = null, bool updatedByWebCrawler = false)
+            DateTime lastSeen = default, bool? retired = null, bool updatedByImporter = true)
         {
             if (authorID != 0 && authorID != catalogAuthor.SteamID && catalog.GetAuthor(authorID, "") != null)
             {
@@ -383,7 +383,7 @@ namespace CompatibilityReport.Updater
                 authorUrl = null;
             }
 
-            bool hideNote = catalogAuthor.AddedThisSession && updatedByWebCrawler;
+            bool hideNote = catalogAuthor.AddedThisSession && !updatedByImporter;
             string oldUrl = catalogAuthor.CustomUrl;
 
             // Collect change notes for all changed values.
@@ -419,7 +419,7 @@ namespace CompatibilityReport.Updater
 
                 foreach (Mod ModFromSameAuthor in ModsFromSameAuthor)
                 {
-                    UpdateMod(catalog, ModFromSameAuthor, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl, updatedByWebCrawler: updatedByWebCrawler);
+                    UpdateMod(catalog, ModFromSameAuthor, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl, updatedByImporter: updatedByImporter);
                 }
             }
         }
@@ -545,6 +545,12 @@ namespace CompatibilityReport.Updater
             }
 
             catalogMod.Statuses.Add(status);
+            
+            if (updatedByImporter)
+            {
+                catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+            }
+            
             catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"{ status } added");
         }
 
@@ -560,10 +566,15 @@ namespace CompatibilityReport.Updater
             {
                 catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"{ status } removed");
 
-                if (status == Enums.Status.NoDescription && updatedByImporter)
+                if (updatedByImporter)
                 {
-                    // If there was an exclusion, remove it, otherwise add it.
-                    catalogMod.UpdateExclusions(exclusionForNoDescription: !catalogMod.ExclusionForNoDescription);
+                    if (status == Enums.Status.NoDescription)
+                    {
+                        // If there was an exclusion, remove it, otherwise add it.
+                        catalogMod.UpdateExclusions(exclusionForNoDescription: !catalogMod.ExclusionForNoDescription);
+                    }
+
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
                 }
             }
 
@@ -582,6 +593,7 @@ namespace CompatibilityReport.Updater
                 if (updatedByImporter)
                 {
                     catalogMod.AddExclusion(requiredDlc);
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
                 }
             }
         }
@@ -589,12 +601,17 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Removes a required DLC.</summary>
         /// <remarks>This also removes the related exclusion and creates an entry for the change notes.</remarks>
-        public static void RemoveRequiredDlc(Catalog catalog, Mod catalogMod, Enums.Dlc requiredDlc)
+        public static void RemoveRequiredDlc(Catalog catalog, Mod catalogMod, Enums.Dlc requiredDlc, bool updatedByImporter = false)
         {
             if (catalogMod.RemoveRequiredDlc(requiredDlc))
             {
                 catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"required DLC { Toolkit.ConvertDlcToString(requiredDlc) } removed");
                 catalogMod.RemoveExclusion(requiredDlc);
+
+                if (updatedByImporter)
+                {
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+                }
             }
         }
 
@@ -602,7 +619,7 @@ namespace CompatibilityReport.Updater
         /// <summary>Adds a required mod to a mod.</summary>
         /// <remarks>Sets an exclusion if needed and creates an entry for the change notes. If a unknown Steam ID is found, 
         ///          it is probably an asset and will be added to the PotentialAssets list for later evaluation.</remarks>
-        public static void AddRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID, bool updatedByImporter)
+        public static void AddRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID, bool updatedByImporter = false)
         {
             if (catalog.IsValidID(requiredID) && !catalogMod.RequiredMods.Contains(requiredID))
             {
@@ -617,6 +634,7 @@ namespace CompatibilityReport.Updater
                 if (updatedByImporter)
                 {
                     catalogMod.AddExclusion(requiredID);
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
                 }
             }
             else if (catalog.IsValidID(requiredID, shouldExist: false) && !catalog.RequiredAssets.Contains(requiredID) && catalog.AddPotentialAsset(requiredID))
@@ -628,7 +646,7 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Removes a required mod from a mod.</summary>
         /// <remarks>(Re)sets the related exclusion and creates an entry for the change notes.</remarks>
-        public static void RemoveRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID, bool updatedByImporter)
+        public static void RemoveRequiredMod(Catalog catalog, Mod catalogMod, ulong requiredID, bool updatedByImporter = false)
         {
             if (catalogMod.RemoveRequiredMod(requiredID))
             {
@@ -643,13 +661,18 @@ namespace CompatibilityReport.Updater
                 {
                     catalogMod.AddExclusion(requiredID);
                 }
+
+                if (updatedByImporter)
+                {
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+                }
             }
         }
 
 
         /// <summary>Adds a successor to a mod.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void AddSuccessor(Catalog catalog, Mod catalogMod, ulong successorID)
+        public static void AddSuccessor(Catalog catalog, Mod catalogMod, ulong successorID, bool updatedByImporter = false)
         {
             if (catalogMod.AddSuccessor(successorID))
             {
@@ -658,24 +681,34 @@ namespace CompatibilityReport.Updater
                 catalogMod.RemoveRequiredMod(successorID);
                 catalogMod.RemoveAlternative(successorID);
                 catalogMod.RemoveRecommendation(successorID);
+
+                if (updatedByImporter)
+                {
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+                }
             }
         }
 
 
         /// <summary>Removes a successor from a mod.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void RemoveSuccessor(Catalog catalog, Mod catalogMod, ulong successorID)
+        public static void RemoveSuccessor(Catalog catalog, Mod catalogMod, ulong successorID, bool updatedByImporter = false)
         {
             if (catalogMod.RemoveSuccessor(successorID))
             {
                 catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"successor { successorID } removed");
+
+                if (updatedByImporter)
+                {
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+                }
             }
         }
 
 
         /// <summary>Adds an alternative to a mod.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void AddAlternative(Catalog catalog, Mod catalogMod, ulong alternativeID)
+        public static void AddAlternative(Catalog catalog, Mod catalogMod, ulong alternativeID, bool updatedByImporter = false)
         {
             if (catalogMod.AddAlternative(alternativeID))
             {
@@ -684,24 +717,34 @@ namespace CompatibilityReport.Updater
                 catalogMod.RemoveRequiredMod(alternativeID);
                 catalogMod.RemoveSuccessor(alternativeID);
                 catalogMod.RemoveRecommendation(alternativeID);
+
+                if (updatedByImporter)
+                {
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+                }
             }
         }
 
 
         /// <summary>Removes an alternative from a mod.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void RemoveAlternative(Catalog catalog, Mod catalogMod, ulong alternativeID)
+        public static void RemoveAlternative(Catalog catalog, Mod catalogMod, ulong alternativeID, bool updatedByImporter = false)
         {
             if (catalogMod.RemoveAlternative(alternativeID))
             {
                 catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"alternative { alternativeID } removed");
+
+                if (updatedByImporter)
+                {
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+                }
             }
         }
 
 
         /// <summary>Adds a recommended mod.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void AddRecommendation(Catalog catalog, Mod catalogMod, ulong recommendationID)
+        public static void AddRecommendation(Catalog catalog, Mod catalogMod, ulong recommendationID, bool updatedByImporter = false)
         {
             if (catalogMod.AddRecommendation(recommendationID))
             {
@@ -710,17 +753,27 @@ namespace CompatibilityReport.Updater
                 catalogMod.RemoveRequiredMod(recommendationID);
                 catalogMod.RemoveSuccessor(recommendationID);
                 catalogMod.RemoveAlternative(recommendationID);
+
+                if (updatedByImporter)
+                {
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+                }
             }
         }
 
 
         /// <summary>Removes a recommended mod from a mod.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void RemoveRecommendation(Catalog catalog, Mod catalogMod, ulong recommendationID)
+        public static void RemoveRecommendation(Catalog catalog, Mod catalogMod, ulong recommendationID, bool updatedByImporter = false)
         {
             if (catalogMod.RemoveRecommendation(recommendationID))
             {
                 catalog.ChangeNotes.AddUpdatedMod(catalogMod.SteamID, $"recommendation { recommendationID } removed");
+
+                if (updatedByImporter)
+                {
+                    catalogMod.Update(reviewDate: reviewDate > catalogMod.ReviewDate ? reviewDate : default);
+                }
             }
         }
     }

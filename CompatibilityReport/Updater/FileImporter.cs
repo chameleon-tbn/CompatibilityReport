@@ -304,7 +304,7 @@ namespace CompatibilityReport.Updater
             }
 
             Mod newMod = CatalogUpdater.AddMod(catalog, steamID, modName, unlisted: status == "unlisted", removed: status == "removed");
-            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: string.IsNullOrEmpty(authorUrl) ? null : authorUrl);
+            CatalogUpdater.UpdateMod(catalog, newMod, authorID: authorID, authorUrl: string.IsNullOrEmpty(authorUrl) ? null : authorUrl, updatedByImporter: true);
 
             if (newMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
             {
@@ -378,7 +378,7 @@ namespace CompatibilityReport.Updater
                 return "Mod has the Incompatible stability and that can only be changed for a mod that is removed from the Steam Workshop.";
             }
 
-            CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability, stabilityNote: note);
+            CatalogUpdater.UpdateMod(catalog, catalogMod, stability: stability, stabilityNote: note, updatedByImporter: true);
             return "";
         }
 
@@ -410,7 +410,7 @@ namespace CompatibilityReport.Updater
                     return "Mod already has this source URL.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: propertyData);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: propertyData, updatedByImporter: true);
             }
             else if (action == "remove_sourceurl")
             {
@@ -419,7 +419,7 @@ namespace CompatibilityReport.Updater
                     return "No source URL to remove.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: "", updatedByImporter: true);
             }
             else if (action == "set_gameversion")
             {
@@ -435,7 +435,7 @@ namespace CompatibilityReport.Updater
                     return "Mod already has this game version.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion));
+                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: Toolkit.ConvertGameVersionToString(newGameVersion), updatedByImporter: true);
             }
             else if (action == "remove_gameversion")
             {
@@ -444,7 +444,7 @@ namespace CompatibilityReport.Updater
                     return "Cannot remove compatible game version because it was not manually added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: "", updatedByImporter: true);
             }
             else if (action == "add_requireddlc")
             {
@@ -478,7 +478,7 @@ namespace CompatibilityReport.Updater
                     return "Cannot remove required DLC because it was not manually added.";
                 }
 
-                CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, requiredDlc);
+                CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, requiredDlc, updatedByImporter: true);
             }
             else if (action == "add_status")
             {
@@ -538,7 +538,7 @@ namespace CompatibilityReport.Updater
                     return "Note already added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, note: propertyData);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, note: propertyData, updatedByImporter: true);
             }
             else if (action == "remove_note")
             {
@@ -547,11 +547,11 @@ namespace CompatibilityReport.Updater
                     return "Note already empty.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, note: "");
+                CatalogUpdater.UpdateMod(catalog, catalogMod, note: "", updatedByImporter: true);
             }
             else if (action == "update_review")
             {
-                CatalogUpdater.UpdateMod(catalog, catalogMod);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, updatedByImporter: true);
             }
             else if (action == "add_requiredmod")
             {
@@ -578,7 +578,7 @@ namespace CompatibilityReport.Updater
                     return "Already a successor.";
                 }
 
-                CatalogUpdater.AddSuccessor(catalog, catalogMod, listMember);
+                CatalogUpdater.AddSuccessor(catalog, catalogMod, listMember, updatedByImporter: true);
             }
             else if (action == "remove_successor")
             {
@@ -587,7 +587,7 @@ namespace CompatibilityReport.Updater
                     return "Successor not found.";
                 }
 
-                CatalogUpdater.RemoveSuccessor(catalog, catalogMod, listMember);
+                CatalogUpdater.RemoveSuccessor(catalog, catalogMod, listMember, updatedByImporter: true);
             }
             else if (action == "add_alternative")
             {
@@ -596,7 +596,7 @@ namespace CompatibilityReport.Updater
                     return "Already an alternative mod.";
                 }
 
-                CatalogUpdater.AddAlternative(catalog, catalogMod, listMember);
+                CatalogUpdater.AddAlternative(catalog, catalogMod, listMember, updatedByImporter: true);
             }
             else if (action == "remove_alternative")
             {
@@ -605,7 +605,7 @@ namespace CompatibilityReport.Updater
                     return "Alternative mod not found.";
                 }
 
-                CatalogUpdater.RemoveAlternative(catalog, catalogMod, listMember);
+                CatalogUpdater.RemoveAlternative(catalog, catalogMod, listMember, updatedByImporter: true);
             }
             else if (action == "add_recommendation")
             {
@@ -614,7 +614,7 @@ namespace CompatibilityReport.Updater
                     return "Already a recommended mod.";
                 }
 
-                CatalogUpdater.AddRecommendation(catalog, catalogMod, listMember);
+                CatalogUpdater.AddRecommendation(catalog, catalogMod, listMember, updatedByImporter: true);
             }
             else if (action == "remove_recommendation")
             {
@@ -623,7 +623,7 @@ namespace CompatibilityReport.Updater
                     return "Recommended mod not found.";
                 }
 
-                CatalogUpdater.RemoveRecommendation(catalog, catalogMod, listMember);
+                CatalogUpdater.RemoveRecommendation(catalog, catalogMod, listMember, updatedByImporter: true);
             }
             else
             {

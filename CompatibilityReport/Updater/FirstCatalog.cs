@@ -38,10 +38,10 @@ namespace CompatibilityReport.Updater
                 builtinMod.Statuses.Add(Enums.Status.SourceBundled);
 
                 // 'UpdatedByWebcrawler' assures an auto review date filled and compact change notes
-                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID, updatedByWebCrawler: true);
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, published: gameRelease, authorID: colossalOrder.SteamID, updatedByImporter: false);
 
                 // Add a review date to avoid the review being considered out-of-date at some point
-                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, updatedByWebCrawler: false);
+                CatalogUpdater.UpdateMod(firstCatalog, builtinMod, updatedByImporter: true);
             }
 
             // Import a SuppressedWarnings.csv file if it exists.
