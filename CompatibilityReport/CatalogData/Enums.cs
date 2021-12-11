@@ -42,7 +42,8 @@
             SourceObfuscated,                   // The author has deliberately hidden the mod code from other modders, which is somewhat suspicious.
             MusicCopyrightFree,                 // This mod uses music that is all copyright-free. It's safe to use for videos and streaming.
             MusicCopyrighted,                   // This mod uses music with copyright and should not be used in videos and streaming.
-            MusicCopyrightUnknown               // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming.
+            MusicCopyrightUnknown,              // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming.
+            WorksWhenDisabled                   // This mod will still work when disabled. This suppresses any 'enable this' warnings.
         }
 
 

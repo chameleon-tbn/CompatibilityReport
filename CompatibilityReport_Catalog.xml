@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CompatibilityReportCatalog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <StructureVersion>1</StructureVersion>
-  <Version>37</Version>
-  <Updated>2021-12-10T22:27:21Z</Updated>
+  <Version>38</Version>
+  <Updated>2021-12-11T22:01:30Z</Updated>
   <GameVersion>1.13.3.9</GameVersion>
   <Note />
   <ReportHeaderText>General information about using mods:
@@ -2154,20 +2154,25 @@ Some users report issues with using the Enter and Tab key.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods>
         <SteamID>1209581656</SteamID>
+      </RequiredMods>
+      <ExclusionForRequiredMods>
         <SteamID>523824395</SteamID>
         <SteamID>530871278</SteamID>
-      </RequiredMods>
-      <ExclusionForRequiredMods />
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>523824395</SteamID>
+        <SteamID>530871278</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 1209581656 added, required mod 523824395 added, required mod 530871278 added</ChangeNote>
+        <ChangeNote>2021-12-11: required Mod 523824395 removed, recommendation 523824395 added, required Mod 530871278 removed, recommendation 530871278 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -6696,26 +6701,23 @@ Potentially incompatible with all mods that modify the Vehicle AI.</StabilityNot
       <Updated>2021-01-07T17:35:00Z</Updated>
       <AuthorID>76561198073436745</AuthorID>
       <AuthorUrl />
-      <Stability>UsersReportIssues</Stability>
-      <StabilityNote>Savegame not loading (try disabling the 'new algorithm option' in the mod options).
-Traffic not spawning.
-Custom vehicles have to be reassigned after loading.
-Errors popping up (please link your logs in a Workshop comment).</StabilityNote>
+      <Stability>Broken</Stability>
+      <StabilityNote>Some users still get it to work, but for many it is partially or totally broken, including not being able to load a savegame.</StabilityNote>
       <Statuses>
         <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note>This is not a plug &amp; play mod. It requires some setup to function properly. Read the wiki: https://github.com/chronofanz/EnhancedDistrictServices/wiki</Note>
+      <Note />
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors />
-      <Alternatives>
+      <Successors>
         <SteamID>1680840913</SteamID>
-      </Alternatives>
+      </Successors>
+      <Alternatives />
       <Recommendations>
         <SteamID>1721492498</SteamID>
         <SteamID>1764208250</SteamID>
@@ -6723,13 +6725,14 @@ Errors popping up (please link your logs in a Workshop comment).</StabilityNote>
       </Recommendations>
       <SourceUrl>https://github.com/chronofanz/EnhancedDistrictServices</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-22T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, note added, source URL changed, recommendation 1721492498 added, recommendation 1764208250 added, recommendation 928128676 added</ChangeNote>
         <ChangeNote>2021-11-22: stability changed, Abandoned added, alternative 1680840913 added</ChangeNote>
+        <ChangeNote>2021-12-11: stability changed, note removed, alternative 1680840913 removed, successor 1680840913 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -20231,7 +20234,7 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <AuthorID>76561198320765559</AuthorID>
       <AuthorUrl />
       <Stability>UsersReportIssues</Stability>
-      <StabilityNote />
+      <StabilityNote>This works for many users, but some report that they can't get local transfer of goods to work.</StabilityNote>
       <Statuses>
         <Status>Abandoned</Status>
       </Statuses>
@@ -20250,12 +20253,13 @@ In the editors this causes an unresponsive area above the menu.</Note>
       <Recommendations />
       <SourceUrl>https://github.com/pcfantasy/MoreEffectiveTransfer</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, required mod 2040656402 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added</ChangeNote>
+        <ChangeNote>2021-12-11: stability note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -33533,18 +33537,18 @@ MacOS and Linux are not supported for this mod, and probably won't work.</Stabil
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives>
-        <SteamID>2303997489</SteamID>
         <SteamID>1680840913</SteamID>
       </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added, alternative 2303997489 added, alternative 1680840913 added</ChangeNote>
+        <ChangeNote>2021-12-11: alternative 2303997489 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -37151,17 +37155,16 @@ This mod is not optimized and can cause performance issues.</StabilityNote>
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives />
-      <Recommendations>
-        <SteamID>2303997489</SteamID>
-      </Recommendations>
+      <Recommendations />
       <SourceUrl>https://github.com/DaEgi01/CitiesSkylines-ServiceRadiusAdjuster</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, compatible game version added, recommendation 2303997489 added</ChangeNote>
+        <ChangeNote>2021-12-11: recommendation 2303997489 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -37368,32 +37371,30 @@ This will work for tracks from the basegame and most DLCs, and selected Workshop
       <Updated>2016-10-01T09:21:00Z</Updated>
       <AuthorID>76561198030890176</AuthorID>
       <AuthorUrl />
-      <Stability>Broken</Stability>
-      <StabilityNote />
+      <Stability>UsersReportIssues</Stability>
+      <StabilityNote>Some users get it to work fine, but there are quite some reports, including about settings resetting between loads.</StabilityNote>
       <Statuses>
         <Status>Abandoned</Status>
       </Statuses>
       <ExclusionForNoDescription>false</ExclusionForNoDescription>
-      <Note />
+      <Note>If you only use it for pollution , consider replacing it with Pollution Solution: https://steamcommunity.com/sharedfiles/filedetails/?id=1263262833</Note>
       <GameVersion>0.0</GameVersion>
       <ExclusionForGameVersion>false</ExclusionForGameVersion>
       <RequiredDlcs />
       <ExclusionForRequiredDlcs />
       <RequiredMods />
       <ExclusionForRequiredMods />
-      <Successors>
-        <SteamID>803074771</SteamID>
-        <SteamID>1263262833</SteamID>
-      </Successors>
+      <Successors />
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://bitbucket.org/KUDr/cs-pollutionremovermod/</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-11-28T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-11-28: stability added, Abandoned added, source URL added, successor 803074771 added, successor 1263262833 added</ChangeNote>
+        <ChangeNote>2021-12-11: stability changed, successor 803074771 removed, successor 1263262833 removed, note added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -41006,20 +41007,24 @@ There are some reports about a missing icon/button.</StabilityNote>
       <ExclusionForRequiredDlcs />
       <RequiredMods>
         <SteamID>574674741</SteamID>
-        <SteamID>530871278</SteamID>
       </RequiredMods>
-      <ExclusionForRequiredMods />
+      <ExclusionForRequiredMods>
+        <SteamID>530871278</SteamID>
+      </ExclusionForRequiredMods>
       <Successors />
       <Alternatives />
-      <Recommendations />
+      <Recommendations>
+        <SteamID>530871278</SteamID>
+      </Recommendations>
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 574674741 added, required mod 530871278 added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed</ChangeNote>
+        <ChangeNote>2021-12-11: required Mod 530871278 removed, recommendation 530871278 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -41621,18 +41626,18 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives>
-        <SteamID>2303997489</SteamID>
         <SteamID>1680840913</SteamID>
       </Alternatives>
       <Recommendations />
       <SourceUrl>https://github.com/akira-ishizaki/CS-EarlyDeath/tree/develop</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 583538182 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added, alternative 2303997489 added, alternative 1680840913 added</ChangeNote>
+        <ChangeNote>2021-12-11: alternative 2303997489 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -41732,18 +41737,18 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives>
-        <SteamID>2303997489</SteamID>
         <SteamID>1680840913</SteamID>
       </Alternatives>
       <Recommendations />
       <SourceUrl>https://github.com/akira-ishizaki/CS-EnhancedHearseAI/tree/develop</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 583538182 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added, alternative 2303997489 added, alternative 1680840913 added</ChangeNote>
+        <ChangeNote>2021-12-11: alternative 2303997489 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -41770,18 +41775,18 @@ To prevent props/trees from disappearing after loading a game, set this mod opti
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives>
-        <SteamID>2303997489</SteamID>
         <SteamID>1680840913</SteamID>
       </Alternatives>
       <Recommendations />
       <SourceUrl>https://github.com/akira-ishizaki/CS-EnhancedGarbageTruckAI/tree/develop</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: required mod 583538182 added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added, alternative 2303997489 added, alternative 1680840913 added</ChangeNote>
+        <ChangeNote>2021-12-11: alternative 2303997489 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -44795,18 +44800,18 @@ This will not fix issues related to mods that add networks (Network Extensions, 
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives>
-        <SteamID>2303997489</SteamID>
         <SteamID>1680840913</SteamID>
       </Alternatives>
       <Recommendations />
       <SourceUrl>https://github.com/DinkyToyz/wtmcsServiceDispatcher</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: compatible game version added, source URL added</ChangeNote>
         <ChangeNote>2021-10-05: stability changed, Abandoned added, alternative 2303997489 added, alternative 1680840913 added</ChangeNote>
+        <ChangeNote>2021-12-11: alternative 2303997489 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -55358,18 +55363,19 @@ Doesn't work in the main menu, only works after loading a map.</StabilityNote>
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors>
-        <SteamID>2303997489</SteamID>
+        <SteamID>1680840913</SteamID>
       </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
         <ChangeNote>2021-10-05: successor 2303997489 added, Reupload added</ChangeNote>
+        <ChangeNote>2021-12-11: successor 2303997489 removed, successor 1680840913 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -55639,18 +55645,19 @@ Doesn't work in the main menu, only works after loading a map.</StabilityNote>
       <RequiredMods />
       <ExclusionForRequiredMods />
       <Successors>
-        <SteamID>2303997489</SteamID>
+        <SteamID>1680840913</SteamID>
       </Successors>
       <Alternatives />
       <Recommendations />
       <SourceUrl>https://github.com/chronofanz/EnhancedDistrictServices</SourceUrl>
       <ExclusionForSourceUrl>true</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: source URL added</ChangeNote>
         <ChangeNote>2021-10-05: successor 2303997489 added, source URL changed</ChangeNote>
+        <ChangeNote>2021-12-11: successor 2303997489 removed, successor 1680840913 added</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -55779,18 +55786,18 @@ Doesn't work in the main menu, only works after loading a map.</StabilityNote>
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives>
-        <SteamID>2303997489</SteamID>
         <SteamID>1680840913</SteamID>
       </Alternatives>
       <Recommendations />
       <SourceUrl />
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>0001-01-01T00:00:00</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-09-28: added</ChangeNote>
         <ChangeNote>2021-09-28: NoDescription added</ChangeNote>
         <ChangeNote>2021-10-05: Reupload added, alternative 2303997489 added, alternative 1680840913 added</ChangeNote>
+        <ChangeNote>2021-12-11: alternative 2303997489 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -59778,17 +59785,17 @@ If you get a NullReferenceException error, make sure your image is a PNG file an
       <ExclusionForRequiredMods />
       <Successors />
       <Alternatives>
-        <SteamID>2303997489</SteamID>
         <SteamID>1680840913</SteamID>
       </Alternatives>
       <Recommendations />
       <SourceUrl>https://github.com/gsteigert/cs-districts</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-10-05T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-05: added as unlisted</ChangeNote>
         <ChangeNote>2021-10-05: author ID added, source URL added, stability changed, Deprecated added, alternative 2303997489 added, alternative 1680840913 added</ChangeNote>
+        <ChangeNote>2021-12-11: alternative 2303997489 removed</ChangeNote>
       </ChangeNotes>
     </Mod>
     <Mod>
@@ -60458,7 +60465,7 @@ This mod is still in an early state of development.</StabilityNote>
       <Recommendations />
       <SourceUrl>https://github.com/Finwickle/CompatibilityReport</SourceUrl>
       <ExclusionForSourceUrl>false</ExclusionForSourceUrl>
-      <ReviewDate>2021-12-10T12:00:00Z</ReviewDate>
+      <ReviewDate>2021-12-11T12:00:00Z</ReviewDate>
       <AutoReviewDate>2021-12-08T21:10:27Z</AutoReviewDate>
       <ChangeNotes>
         <ChangeNote>2021-10-21: added as unlisted</ChangeNote>
@@ -66436,14 +66443,6 @@ Decals and terrain-conforming props placed on the road surface, will automatical
     <Compatibility>
       <FirstModID>1591417160</FirstModID>
       <FirstModName>Hide It!</FirstModName>
-      <SecondModID>523824395</SecondModID>
-      <SecondModName>Clouds &amp; Fog Toggler</SecondModName>
-      <Status>SameFunctionality</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>1591417160</FirstModID>
-      <FirstModName>Hide It!</FirstModName>
       <SecondModID>547533304</SecondModID>
       <SecondModName>Remove Decoration Sprites ("Grass" and "Rocks")</SecondModName>
       <Status>SameFunctionality</Status>
@@ -66700,14 +66699,6 @@ Decals and terrain-conforming props placed on the road surface, will automatical
     <Compatibility>
       <FirstModID>2513657277</FirstModID>
       <FirstModName>Hide it, Bobby!</FirstModName>
-      <SecondModID>523824395</SecondModID>
-      <SecondModName>Clouds &amp; Fog Toggler</SecondModName>
-      <Status>SameFunctionality</Status>
-      <Note />
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>2513657277</FirstModID>
-      <FirstModName>Hide it, Bobby!</FirstModName>
       <SecondModID>547533304</SecondModID>
       <SecondModName>Remove Decoration Sprites ("Grass" and "Rocks")</SecondModName>
       <Status>SameFunctionality</Status>
@@ -66752,14 +66743,6 @@ Decals and terrain-conforming props placed on the road surface, will automatical
       <SecondModName>Remove Chirper</SecondModName>
       <Status>SameFunctionality</Status>
       <Note />
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>2513657277</FirstModID>
-      <FirstModName>Hide it, Bobby!</FirstModName>
-      <SecondModID>530871278</SecondModID>
-      <SecondModName>Daylight Classic</SecondModName>
-      <Status>MinorIssues</Status>
-      <Note>The fog options of Daylight Classic overrule the fog hiding options of Hide It, Bobby.</Note>
     </Compatibility>
     <Compatibility>
       <FirstModID>2513657277</FirstModID>
@@ -78927,14 +78910,6 @@ and enable the following settings for Daylight Classic:
     <Compatibility>
       <FirstModID>2654110611</FirstModID>
       <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
-      <SecondModID>928128676</SecondModID>
-      <SecondModName>Improved Public Transport 2</SecondModName>
-      <Status>SameFunctionalityCompatible</Status>
-      <Note>IPT2 already has a (slightly different) 'spawning delay' functionality.</Note>
-    </Compatibility>
-    <Compatibility>
-      <FirstModID>2654110611</FirstModID>
-      <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
       <SecondModID>1312767991</SecondModID>
       <SecondModName>Transport Lines Manager 14.1</SecondModName>
       <Status>SameFunctionalityCompatible</Status>
@@ -79803,6 +79778,78 @@ and enable the following settings for Daylight Classic:
       <SecondModName>InfiniteOilAndOre</SecondModName>
       <Status>SameFunctionality</Status>
       <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>769744928</FirstModID>
+      <FirstModName>Pollution, Death, Garbage and Crime Remover Mod</FirstModName>
+      <SecondModID>803074771</SecondModID>
+      <SecondModName>No Deathcare</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>769744928</FirstModID>
+      <FirstModName>Pollution, Death, Garbage and Crime Remover Mod</FirstModName>
+      <SecondModID>1263262833</SecondModID>
+      <SecondModName>Pollution Solution</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>769744928</FirstModID>
+      <FirstModName>Pollution, Death, Garbage and Crime Remover Mod</FirstModName>
+      <SecondModID>1385468094</SecondModID>
+      <SecondModName>PollutionRemoverMod</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1263262833</FirstModID>
+      <FirstModName>Pollution Solution</FirstModName>
+      <SecondModID>1385468094</SecondModID>
+      <SecondModName>PollutionRemoverMod</SecondModName>
+      <Status>SameFunctionality</Status>
+      <Note />
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1591417160</FirstModID>
+      <FirstModName>Hide It!</FirstModName>
+      <SecondModID>523824395</SecondModID>
+      <SecondModName>Clouds &amp; Fog Toggler</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Clouds &amp; Fog Toggler overrules the fog options of Hide It.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2513657277</FirstModID>
+      <FirstModName>Hide it, Bobby!</FirstModName>
+      <SecondModID>523824395</SecondModID>
+      <SecondModName>Clouds &amp; Fog Toggler</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Clouds &amp; Fog Toggler overrules the fog options of Hide it, Bobby.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2513657277</FirstModID>
+      <FirstModName>Hide it, Bobby!</FirstModName>
+      <SecondModID>530871278</SecondModID>
+      <SecondModName>Daylight Classic</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Daylight Classic overrules the fog options of Hide It, Bobby.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>1591417160</FirstModID>
+      <FirstModName>Hide It!</FirstModName>
+      <SecondModID>530871278</SecondModID>
+      <SecondModName>Daylight Classic</SecondModName>
+      <Status>MinorIssues</Status>
+      <Note>Daylight Classic overrules the fog options of Hide It.</Note>
+    </Compatibility>
+    <Compatibility>
+      <FirstModID>2654110611</FirstModID>
+      <FirstModName>Transit Vehicle Spawn Delay 1.2</FirstModName>
+      <SecondModID>928128676</SecondModID>
+      <SecondModName>Improved Public Transport 2</SecondModName>
+      <Status>SameFunctionalityCompatible</Status>
+      <Note>IPT2 already has a (different) 'spawning delay' functionality. This works in real-time instead of game-time, and for individual depots.</Note>
     </Compatibility>
   </Compatibilities>
   <Authors>

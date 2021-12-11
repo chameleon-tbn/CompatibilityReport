@@ -525,7 +525,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            // Check if any of the mods that need this is actually subscribed, enabled or not. If this is a member of a group, check all group members. Exit if any is needed.
+            // Check if any of the mods that need this is actually subscribed, enabled or not. If this is in a group, check all group members. Exit if any is needed.
             if (catalog.IsGroupMember(subscribedMod.SteamID))
             {
                 foreach (ulong groupMemberID in catalog.GetThisModsGroup(subscribedMod.SteamID).GroupMembers)
@@ -579,17 +579,17 @@ namespace CompatibilityReport.Reporter
 
 
         /// <summary>Creates report text for a disabled mod and increases the report severity for the mod if appropriate.</summary>
-        /// <returns>Formatted text, or an empty string if not disabled.</returns>
+        /// <returns>Formatted text, or an empty string if not disabled or if this mod works while disabled.</returns>
         private string Disabled(Mod subscribedMod)
         {
-            if (!subscribedMod.IsDisabled)
+            if (!subscribedMod.IsDisabled || subscribedMod.Statuses.Contains(Enums.Status.WorksWhenDisabled))
             {
                 return "";
             }
 
             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
-            return Format("Unsubscribe this, or enable it if you want to use it. Disabled mods can still cause issues.");
+            return Format("Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.");
         }
 
 
@@ -706,12 +706,17 @@ namespace CompatibilityReport.Reporter
         /// <returns>A string with text for the report, or an empty string if the mod or another group member is subscribed and enabled.</returns>
         private string CheckModAndGroup(ulong steamID)
         {
-            if (catalog.GetSubscription(steamID) != null && !catalog.GetSubscription(steamID).IsDisabled)
+            Mod catalogMod = catalog.GetSubscription(steamID);
+
+            if (catalogMod != null && (!catalogMod.IsDisabled || catalogMod.Statuses.Contains(Enums.Status.WorksWhenDisabled)))
             {
-                // Mod is subscribed and enabled. Don't report.
+                // Mod is subscribed and enabled (or works when disabled). Don't report.
                 return "";
             }
-            else if (catalog.GetMod(steamID).IsDisabled)
+
+            catalogMod = catalog.GetMod(steamID);
+
+            if (catalogMod.IsDisabled)
             {
                 // Mod is subscribed and disabled. Report as "missing", without Workshop page.
                 return Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
@@ -719,7 +724,7 @@ namespace CompatibilityReport.Reporter
             else if (!catalog.IsGroupMember(steamID))
             {
                 // Mod is not subscribed and not in a group. Report as missing with Workshop page.
-                return Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
+                return Format(catalogMod.ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
                     Format($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
             }
             else
@@ -727,16 +732,18 @@ namespace CompatibilityReport.Reporter
                 // Mod is not subscribed but in a group. Check if another group member is subscribed.
                 foreach (ulong groupMemberID in catalog.GetThisModsGroup(steamID).GroupMembers)
                 {
-                    if (catalog.GetSubscription(groupMemberID) != null)
+                    Mod groupMember = catalog.GetSubscription(groupMemberID);
+
+                    if (groupMember != null)
                     {
-                        // Group member is subscribed. No need to check other group members, but report as "missing" if disabled.
-                        return !catalog.GetMod(groupMemberID).IsDisabled ? "" : 
-                            Format(catalog.GetMod(groupMemberID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
+                        // Group member is subscribed. No need to check other group members, but report as "missing" if disabled (unless it works when disabled).
+                        return (!groupMember.IsDisabled || groupMember.Statuses.Contains(Enums.Status.WorksWhenDisabled)) ? "" : 
+                            Format(groupMember.ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                     }
                 }
 
                 // No group member is subscribed. Report original mod as missing.
-                return Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
+                return Format(catalogMod.ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true) +
                     Format($"Workshop page: { Toolkit.GetWorkshopUrl(steamID) }", ModSettings.Indent2);
             }
         }
@@ -796,7 +803,9 @@ namespace CompatibilityReport.Reporter
 
             foreach (ulong steamID in subscribedMod.Alternatives)
             {
-                if (catalog.GetSubscription(steamID) != null && !catalog.GetSubscription(steamID).IsDisabled)
+                Mod alternativeMod = catalog.GetSubscription(steamID);
+
+                if (alternativeMod != null && (!alternativeMod.IsDisabled || alternativeMod.Statuses.Contains(Enums.Status.WorksWhenDisabled)))
                 {
                     // Already subscribed, don't report any.
                     return "";
