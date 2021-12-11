@@ -108,13 +108,15 @@ namespace CompatibilityReport.Reporter
                     indent: new string(' ', "WARNING: ".Length)));
             }
 
-            if (catalog.GetMod(ModSettings.LowestLocalModID) != null)
+            if (catalog.LocalSubscriptionCount != 0)
             {
-                reportText.AppendLine(Toolkit.WordWrap("NOTE: You have local mods, which we can't review. The report does not check for incompatibilities with these. " +
-                    "Results might not be completely accurate.\n", indent: new string(' ', "NOTE: ".Length)));
+                reportText.AppendLine(Toolkit.WordWrap($"NOTE: You have { catalog.LocalSubscriptionCount } local mod{ (catalog.LocalSubscriptionCount == 1 ? "" : "s") }" +
+                    ", which we can't review. The report does not check for incompatibilities with these. Results might not be completely accurate.\n" +
+                    "Use mods as Workshop subscription whenever possible. Mods copied to the local mod folder don't always work and often cannot " +
+                    "be detected correctly by other mods.\n", indent: new string(' ', "NOTE: ".Length)));
             }
 
-            int nonReviewedSubscriptions = catalog.SubscriptionCount() - catalog.ReviewedSubscriptionCount;
+            int nonReviewedSubscriptions = catalog.SubscriptionCount() - catalog.ReviewedSubscriptionCount - catalog.LocalSubscriptionCount;
 
             if (nonReviewedSubscriptions != 0)
             {

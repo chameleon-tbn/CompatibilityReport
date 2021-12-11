@@ -1,6 +1,7 @@
 # Compatibility Report
 
 ### Version 0.6.3 beta
+* Bugfix: local mods counted as non-reviewed subscribed mods
 * Minor textual changes and improvements
 
 ### Version 0.6.2 beta
