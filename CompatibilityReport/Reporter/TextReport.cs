@@ -108,6 +108,12 @@ namespace CompatibilityReport.Reporter
                     indent: new string(' ', "WARNING: ".Length)));
             }
 
+            if (Catalog.DownloadStarted && !Catalog.DownloadSuccessful)
+            {
+                reportText.AppendLine(Toolkit.WordWrap($"WARNING: The latest review catalog could not be downloaded. Results might be outdated.\n",
+                    indent: new string(' ', "WARNING: ".Length)));
+            }
+
             if (catalog.LocalSubscriptionCount != 0)
             {
                 reportText.AppendLine(Toolkit.WordWrap($"NOTE: You have { catalog.LocalSubscriptionCount } local mod{ (catalog.LocalSubscriptionCount == 1 ? "" : "s") }" +

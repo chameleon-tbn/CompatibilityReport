@@ -58,7 +58,8 @@ namespace CompatibilityReport.CatalogData
 
         [XmlIgnore] public Updater.ChangeNotes ChangeNotes { get; } = new Updater.ChangeNotes();
 
-        private static bool downloadedThisSession;
+        public static bool DownloadStarted { get; private set; }
+        public static bool DownloadSuccessful { get; private set; }
 
 
         /// <summary>Default constructor for deserialization and catalog creation.</summary>
@@ -603,12 +604,14 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the catalog, or null if the download failed.</returns>
         private static Catalog Download()
         {
-            if (downloadedThisSession)
+            if (DownloadStarted)
             {
                 return null;
             }
 
-            downloadedThisSession = true;
+            // Todo 0.7 Check settings if we should download this session. Otherwise, return before setting DownloadStarted.
+
+            DownloadStarted = true;
 
             string temporaryFile = Path.Combine(ModSettings.WorkPath, $"{ ModSettings.DownloadedCatalogFileName }.tmp");
 
@@ -640,6 +643,8 @@ namespace CompatibilityReport.CatalogData
 
                     // Copy the temporary file over the previously downloaded catalog.
                     Toolkit.CopyFile(temporaryFile, Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName));
+
+                    DownloadSuccessful = true;
                 }
             }
 
