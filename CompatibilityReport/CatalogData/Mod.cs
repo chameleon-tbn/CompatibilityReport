@@ -49,6 +49,7 @@ namespace CompatibilityReport.CatalogData
         // Properties used by the Reporter for subscribed mods.
         [XmlIgnore] public bool IsDisabled { get; private set; }
         [XmlIgnore] public bool IsCameraScript { get; private set; }
+        [XmlIgnore] public string ModPath { get; private set; }
         [XmlIgnore] public DateTime DownloadedTime { get; private set; }
         [XmlIgnore] public Enums.ReportSeverity ReportSeverity { get; private set; }
 
@@ -271,10 +272,11 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Updates the subscription properties.</summary>
-        public void UpdateSubscription(bool isDisabled, bool isCameraScript, DateTime downloadedTime)
+        public void UpdateSubscription(bool isDisabled, bool isCameraScript, string modPath, DateTime downloadedTime)
         {
             IsDisabled = isDisabled;
             IsCameraScript = isCameraScript;
+            ModPath = modPath;
             DownloadedTime = downloadedTime;
         }
 

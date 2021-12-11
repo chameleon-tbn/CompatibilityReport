@@ -387,7 +387,6 @@ namespace CompatibilityReport.CatalogData
                 {
                     // Local mod. Matching local mods to catalog mods is a future idea. For now just add it to the catalog.
                     steamID = nextLocalModID++;
-
                     LocalSubscriptionCount++;
 
                     // Set foundInCatalog true to avoid a 'not found in catalog' log message for local mods.
@@ -416,7 +415,7 @@ namespace CompatibilityReport.CatalogData
 
                 // Update the catalog mod with subscription info.
                 // Todo 1.x Will we use downloadTime? How reliable is it? Is ToLocalTime needed? Check how Loading Order Mod does this.
-                subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript,
+                subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript, modPath: plugin.modPath, 
                     downloadedTime: PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime());
 
                 if (subscribedMod.Stability > Enums.Stability.NotReviewed)

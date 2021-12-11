@@ -154,10 +154,12 @@ namespace CompatibilityReport.Reporter
                 // Get the Steam ID(s) for this mod name. There could be multiple IDs for mods with the same name.
                 foreach (ulong steamID in catalog.GetSubscriptionIDsByName(name))
                 {
-                    string disabled = catalog.GetMod(steamID).IsDisabled ? " [disabled]" : "";
+                    Mod catalogMod = catalog.GetMod(steamID);
+
+                    string disabled = catalogMod.IsDisabled ? " [disabled]" : "";
 
                     string url = steamID > ModSettings.HighestFakeID ? $", { Toolkit.GetWorkshopUrl(steamID) }" :
-                        steamID < ModSettings.LowestLocalModID ? " [built-in]" : " [local]";
+                        steamID < ModSettings.LowestLocalModID ? " [built-in]" : $" [local], { Toolkit.Privacy(catalogMod.ModPath) }";
 
                     reportText.AppendLine($"{ name }{ disabled }{ url }");
                 }
