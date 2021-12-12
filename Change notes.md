@@ -1,10 +1,13 @@
 # Compatibility Report
 
 ### Version 0.6.3 beta
-* Added local mod count, local mod path and warning about failed download to the report
-* Minor textual changes and improvements
+* Catalog major version has increased. New catalogs cannot be read by previous mod versions
+* Added 'Work when disabled' status that suppresses warnings about disabled state for certain mods
+* Added local mod count, local mod path and warning about failed catalog download to the report
+* Minor improvements and textual changes
 * Bugfix: local mods counted as non-reviewed subscribed mods
-* Bugfixes for the Updater
+* Updater: Datadumper changes
+* Bugfix for the Updater: Mod review dates now correctly updated
 
 ### Version 0.6.2 beta
 * Added note to the report about non-reviewed subscribed mods

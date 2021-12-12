@@ -12,10 +12,10 @@ namespace CompatibilityReport.Util
         public const string InternalName = "CompatibilityReport";
 
         public const string Version = "0.6.3";
-        public const string Build = "383";
+        public const string Build = "384";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
-        public const int CurrentCatalogStructureVersion = 1;
+        public const int CurrentCatalogStructureVersion = 2;
 
         public const string IUserModName = ModName + " v" + Version + ReleaseType;
         public const string IUserModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
