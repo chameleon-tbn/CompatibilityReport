@@ -1,9 +1,9 @@
-# Compatibility Report
+# Compatibility Report version 0.6.3 beta
 
-Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This will report compatibility issues and missing dependencies for your subscribed mods.
+Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This reports compatibility issues and missing dependencies for your subscribed mods.
 
 ### Current status
-This mod is available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869). It's still in beta. This is a successor to the [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine.
+This mod is available at the [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2633433869). This is a successor to the [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine.
 
 
 ### Implemented features
@@ -11,7 +11,7 @@ This mod is available at the [Steam Workshop](https://steamcommunity.com/sharedf
 * XML catalog with basic mod information and compatibility information.
 * Review of subscribed mods with the catalog information.
 * Text report, sorted by mod name. Split into multiple categories, based on issue severity.
-* Automatic download of a new catalog. No need for a mod update for every new mod or compatibility.
+* Automatic download of a new catalog. No need for a mod update for every new mod or compatibility change.
 * Support for mod groups, to allow different editions (e.g. stable and test) of mods as mod requirement.
 * Catalog Updater method (for mod maintainer only), based on web crawling the Steam Workshop and CSV import.
   * Automatically detects new mods and changes in mod information: name, required DLC/mods, source URL, ...
