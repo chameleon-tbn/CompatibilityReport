@@ -5,6 +5,7 @@
 * Added 'Work when disabled' status that suppresses warnings about disabled state for certain mods
 * Added local mod count, local mod path and warning about failed catalog download to the report
 * Minor improvements and textual changes
+* Airports DLC added for mods that will require this
 * Bugfix: local mods counted as non-reviewed subscribed mods
 * Updater: Datadumper changes
 * Bugfix for the Updater: Mod review dates now correctly updated

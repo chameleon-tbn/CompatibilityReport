@@ -105,7 +105,8 @@
             Rail_Hawk_Radio = 1531472,
             Sunny_Breeze_Radio = 1531473,
             Content_Creator_Pack__Train_Station = 1531470,
-            Content_Creator_Pack__Bridges_and_Piers = 1531471
+            Content_Creator_Pack__Bridges_and_Piers = 1531471,
+            Airports = 1726380
         }
 
 
