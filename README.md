@@ -1,4 +1,4 @@
-# Compatibility Report version 0.6.3 beta
+# Compatibility Report version 0.6.4 beta
 
 Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This reports compatibility issues and missing dependencies for your subscribed mods.
 

@@ -12,7 +12,7 @@ namespace CompatibilityReport.Util
         public const string InternalName = "CompatibilityReport";
 
         public const string Version = "0.6.4";
-        public const string Build = "387";
+        public const string Build = "388";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 3;
