@@ -11,11 +11,11 @@ namespace CompatibilityReport.Util
         public const string ModName = "Compatibility Report";
         public const string InternalName = "CompatibilityReport";
 
-        public const string Version = "0.6.3";
-        public const string Build = "386";
+        public const string Version = "0.6.4";
+        public const string Build = "387";
         public const string ReleaseType = " beta";
         public const string FullVersion = Version + "." + Build + ReleaseType;
-        public const int CurrentCatalogStructureVersion = 2;
+        public const int CurrentCatalogStructureVersion = 3;
 
         public const string IUserModName = ModName + " v" + Version + ReleaseType;
         public const string IUserModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
@@ -149,6 +149,8 @@ namespace CompatibilityReport.Util
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Mod&requiredflags[]=incompatible",
             "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Cinematic+Cameras&requiredflags[]=incompatible" };
 
+        public const string SteamMapThemesListingUrl = "https://steamcommunity.com/workshop/browse/?appid=255710&browsesort=mostrecent&requiredtags[]=Map+Theme";
+
         // Search strings for mod and author info in the mod listing files.
         public const string SearchModStart = "<div class=\"workshopItemTitle ellipsis\">";
         public const string SearchSteamIDLeft = "steamcommunity.com/sharedfiles/filedetails/?id=";
@@ -218,7 +220,7 @@ namespace CompatibilityReport.Util
         public static bool UpdaterEnabled { get; private set; } = true;
         public static bool WebCrawlerEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.enabled"));
         public static int SteamMaxFailedPages { get; private set; } = 4;
-        public static int SteamMaxModListingPages { get; private set; } = 200;
+        public static int SteamMaxListingPages { get; private set; } = 200;
         public static int EstimatedMillisecondsPerModPage { get; private set; } = 550;
         public static int DaysOfInactivityToRetireAuthor { get; private set; } = 365;
         public static int WeeksForSoonRetired { get; private set; } = 2;

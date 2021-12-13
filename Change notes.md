@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.6.4 beta
+* Ignore Map Themes, which are technically mods, in the report
+
 ### Version 0.6.3 beta
 * Catalog major version has increased. New catalogs cannot be read by previous mod versions
 * Added 'Work when disabled' status that suppresses warnings about disabled state for certain mods

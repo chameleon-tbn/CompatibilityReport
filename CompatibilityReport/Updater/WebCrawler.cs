@@ -24,6 +24,8 @@ namespace CompatibilityReport.Updater
             {
                 GetDetails(catalog);
 
+                GetMapThemes(catalog);
+
                 // Todo 0.7 This can be removed after updater settings are implemented. Make disable-after-run an option in the settings file.
                 Toolkit.MoveFile(Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_WebCrawler.enabled"), 
                     Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_WebCrawler.disabled"));
@@ -48,7 +50,7 @@ namespace CompatibilityReport.Updater
                 int pageNumber = 0;
 
                 // Download and read pages until we find no more mods, or we reach a maximum number of pages, to avoid missing the mark and continuing for eternity.
-                while (pageNumber < ModSettings.SteamMaxModListingPages)
+                while (pageNumber < ModSettings.SteamMaxListingPages)
                 {
                     pageNumber++;
                     string url = $"{ steamUrl }&p={ pageNumber }";
@@ -152,9 +154,76 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Downloads individual mod pages from the Steam Workshop to get detailed mod information for all mods in the catalog.</summary>
-        /// <remarks>Known unlisted mods are included. Removed mods are checked, to catch reappearing mods.</remarks>
-        private static void GetDetails(Catalog catalog)
+        /// <summary>Downloads 'Map Theme listing' pages from the Steam Workshop to get Steam IDs for all available map themes.</summary>
+        /// <remarks>The Steam IDs will be added to the list of Map Themes.</remarks>
+        private static void GetMapThemes(Catalog catalog)
+        {
+            Logger.UpdaterLog("Updater started downloading Steam Workshop 'map theme listing' pages. This should take less than 2 minutes.");
+
+            string steamUrl = ModSettings.SteamMapThemesListingUrl;
+            int pageNumber = 0;
+            int newMapThemes = 0;
+
+            // Download and read pages until we find no more map themes, or we reach a maximum number of pages, to avoid missing the mark and continuing for eternity.
+            while (pageNumber < ModSettings.SteamMaxListingPages)
+            {
+                pageNumber++;
+                int mapThemesFoundThisPage = 0;
+                string url = $"{ steamUrl }&p={ pageNumber }";
+
+                if (!Toolkit.Download(url, ModSettings.TempDownloadFullPath))
+                {
+                    Logger.UpdaterLog($"Download process interrupted due to a permanent error while downloading { url }", Logger.Error);
+
+                    pageNumber--;
+                    break;
+                }
+
+                using (StreamReader reader = File.OpenText(ModSettings.TempDownloadFullPath))
+                {
+                    string line;
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        // Search for the identifying string for the next map theme; continue with next line if not found.
+                        if (!line.Contains(ModSettings.SearchModStart))
+                        {
+                            continue;
+                        }
+
+                        ulong steamID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.SearchSteamIDLeft, ModSettings.SearchSteamIDRight));
+
+                        if (steamID == 0)
+                        {
+                            Logger.UpdaterLog($"Steam ID not recognized on HTML line: { line }", Logger.Error);
+                            continue;
+                        }
+
+                        // Add the found map theme Steam ID only if that Steam ID is not a valid mod in the catalog.
+                        if (catalog.IsValidID(steamID, shouldExist: false) && catalog.AddMapTheme(steamID))
+                        {
+                            newMapThemes++;
+                        }
+
+                        mapThemesFoundThisPage++;
+                    }
+                }
+
+                if (mapThemesFoundThisPage == 0)
+                {
+                    pageNumber--;
+                    break;
+                }
+            }
+
+            Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
+            Logger.UpdaterLog($"Updater finished downloading { pageNumber } Steam Workshop 'map themes listing' pages and found { newMapThemes } new map themes.");
+        }
+
+
+    /// <summary>Downloads individual mod pages from the Steam Workshop to get detailed mod information for all mods in the catalog.</summary>
+    /// <remarks>Known unlisted mods are included. Removed mods are checked, to catch reappearing mods.</remarks>
+    private static void GetDetails(Catalog catalog)
         {
             Stopwatch timer = Stopwatch.StartNew();
             int numberOfMods = catalog.Mods.Count - ModSettings.BuiltinMods.Count;

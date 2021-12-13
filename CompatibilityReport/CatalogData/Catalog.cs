@@ -34,6 +34,9 @@ namespace CompatibilityReport.CatalogData
         public List<Compatibility> Compatibilities { get; private set; } = new List<Compatibility>();
         public List<Author> Authors { get; private set; } = new List<Author>();
 
+        // Map Themes are technically mods, but we don't want to include them in the catalog or the report. This list is used to recognize them.
+        [XmlArrayItem("SteamID")] public List<ulong> MapThemes { get; private set; } = new List<ulong>();
+
         // Assets that show up as required items. This is used to distinguish between a required asset and an unknown required mod.
         [XmlArrayItem("SteamID")] public List<ulong> RequiredAssets { get; private set; } = new List<ulong>();
 
@@ -137,6 +140,9 @@ namespace CompatibilityReport.CatalogData
 
             Mods.Add(newMod);
             modIndex.Add(newMod.SteamID, newMod);
+
+            MapThemes.Remove(steamID);
+            RequiredAssets.Remove(steamID);
 
             return newMod;
         }
@@ -299,6 +305,28 @@ namespace CompatibilityReport.CatalogData
         }
 
 
+        /// <summary>Adds a Steam ID to the list of Map Themes.</summary>
+        /// <returns>True if added, false if it was already in the list.</returns>
+        public bool AddMapTheme(ulong steamID)
+        {
+            if (MapThemes.Contains(steamID))
+            {
+                return false;
+            }
+
+            MapThemes.Add(steamID);
+            return true;
+        }
+
+
+        /// <summary>Removes a Steam ID from the list of Map Themes.</summary>
+        /// <returns>True if removal succeeded, false if not</remarks>
+        public bool RemoveMapTheme(ulong steamID)
+        {
+            return MapThemes.Remove(steamID);
+        }
+
+
         /// <summary>Adds an asset to the list of potential assets.</summary>
         /// <returns>True if added, false if it was already in the list.</returns>
         public bool AddPotentialAsset(ulong potentialAsset)
@@ -322,6 +350,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Adds a Steam ID to the list of suppressed warnings.</summary>
+        /// <remarks>No message is logged if the Steam ID was already on the list.</remarks>
         public void AddSuppressedWarning(ulong steamID)
         {
             if (!SuppressedWarnings.Contains(steamID))
@@ -363,6 +392,12 @@ namespace CompatibilityReport.CatalogData
                 {
                     // Steam Workshop mod.
                     steamID = plugin.publishedFileID.AsUInt64;
+
+                    if (MapThemes.Contains(steamID))
+                    {
+                        Logger.Log($"Skipped Map Theme: { Toolkit.GetPluginName(plugin) }", Logger.Debug);
+                        continue;
+                    }
                 }
                 else if (plugin.isBuiltin)
                 {
