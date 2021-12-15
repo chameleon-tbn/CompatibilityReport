@@ -1,4 +1,4 @@
-# Compatibility Report version 0.6.4 beta
+# Compatibility Report version 0.6.5 beta
 
 Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This reports compatibility issues and missing dependencies for your subscribed mods.
 
@@ -26,6 +26,7 @@ The roadmap towards version 1.0 and the future ideas have been moved to the [Ste
 This mod is inspired by and uses code from [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine. It also uses code snippets from:
 * **Enhanced District Services** by chronofanz a.k.a. Tim ([GitHub](https://github.com/chronofanz/EnhancedDistrictServices) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=2303997489))
 * **Change Loading Image 2** by BloodyPenguin ([GitHub](https://github.com/bloodypenguin/ChangeLoadingImage) | [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1818482110))
+* **Loading Screen Mod** by thale5: ([GitHub](https://github.com/thale5/LSM) | [SteamWorkshop](https://steamcommunity.com/sharedfiles/filedetails/?id=667342976))
 
 A big thanks to these modders and all those others for making their code available for education and re-use.
 

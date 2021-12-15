@@ -55,27 +55,36 @@ namespace CompatibilityReport.Reporter
 
             AddFooter();
 
-            string TextReportFullPath = Path.Combine(ModSettings.ReportPath, ModSettings.ReportTextFileName);
-            Toolkit.DeleteFile($"{ TextReportFullPath }.old");
+            string textReportFullPath = Path.Combine(ModSettings.ReportPath, ModSettings.ReportTextFileName);
+            Toolkit.DeleteFile($"{ textReportFullPath }.old");
 
-            if (Toolkit.SaveToFile(reportText.ToString(), TextReportFullPath, createBackup: ModSettings.DebugMode))
+            if (Toolkit.SaveToFile(reportText.ToString(), textReportFullPath, createBackup: ModSettings.DebugMode))
             {
-                Logger.Log($"Text Report ready at \"{ Toolkit.Privacy(TextReportFullPath) }\".");
+                Logger.Log($"Text Report ready at \"{ Toolkit.Privacy(textReportFullPath) }\".");
+                return;
             }
-            else
-            {
-                TextReportFullPath = Path.Combine(ModSettings.DefaultReportPath, ModSettings.ReportTextFileName);
 
-                if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(reportText.ToString(), TextReportFullPath))
-                {
-                    Logger.Log($"Text Report could not be saved at the location set in the options. It is instead saved as \"{ Toolkit.Privacy(TextReportFullPath) }\".",
-                        Logger.Warning);
-                }
-                else
-                {
-                    Logger.Log("Text Report could not be saved.", Logger.Error);
-                }
+            Logger.Log($"Text Report could not be saved to \"{ Toolkit.Privacy(textReportFullPath) }\". Trying an alternative location.", Logger.Warning);
+
+            string altTextReportFullPath = Path.Combine(ModSettings.DefaultReportPath, ModSettings.ReportTextFileName);
+            Toolkit.DeleteFile($"{ altTextReportFullPath }.old");
+            if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(reportText.ToString(), altTextReportFullPath))
+            {
+                Logger.Log($"Text Report could not be saved to the location set in the options. It is instead saved as \"{ Toolkit.Privacy(altTextReportFullPath) }\".", 
+                    Logger.Warning);
+                return;
             }
+
+            altTextReportFullPath = Path.Combine(ModSettings.AlternativeReportPath, ModSettings.ReportTextFileName);
+            Toolkit.DeleteFile($"{ altTextReportFullPath }.old");
+            if (Toolkit.SaveToFile(reportText.ToString(), altTextReportFullPath))
+            {
+                Logger.Log($"Text Report could not be saved to the location set in the options. It is instead saved as \"{ Toolkit.Privacy(altTextReportFullPath) }\".", 
+                    Logger.Warning);
+                return;
+            }
+
+            Logger.Log($"Text Report could not be saved. No report was created.", Logger.Error);
         }
 
 

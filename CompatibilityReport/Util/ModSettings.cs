@@ -8,18 +8,17 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string ModName = "Compatibility Report";
-        public const string InternalName = "CompatibilityReport";
-
-        public const string Version = "0.6.4";
-        public const string Build = "388";
+        public const string Version = "0.6.5";
+        public const string Build = "389";
         public const string ReleaseType = " beta";
-        public const string FullVersion = Version + "." + Build + ReleaseType;
         public const int CurrentCatalogStructureVersion = 3;
 
+        public const string ModName = "Compatibility Report";
+        public const string InternalName = "CompatibilityReport";
         public const string IUserModName = ModName + " v" + Version + ReleaseType;
         public const string IUserModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
         public const string ModAuthor = "Finwickle";
+        public const string FullVersion = Version + "." + Build + ReleaseType;
         public const ulong OurOwnSteamID = 2633433869;
 
 
@@ -51,7 +50,8 @@ namespace CompatibilityReport.Util
         //      DataLocation.modsPath               = %localappdata%\Colossal Order\Cities_Skylines\Addons\Mods         // Contains the Windows username.
         //      DataLocation.assemblyDirectory      = Invalid Path exception (should be mod folder)
 
-        public static string DefaultReportPath { get; } = Application.dataPath.Replace('/', '\\');
+        public static string DefaultReportPath { get; } = Application.dataPath;
+        public static string AlternativeReportPath { get; } = DataLocation.localApplicationData;
         public const string ReportTextFileName = InternalName + ".txt";
         public const string ReportHtmlFileName = InternalName + ".html";
 
@@ -118,7 +118,7 @@ namespace CompatibilityReport.Util
 
 
         // Todo 0.7 Settings that will be available to users through mod options within the game.
-        public static string ReportPath { get; private set; } = Toolkit.Privacy(DefaultReportPath);
+        public static string ReportPath { get; private set; } = DefaultReportPath;
         public static int TextReportWidth { get; private set; } = MinimalTextReportWidth;
         public static bool ReportSortByName { get; private set; } = true;
         public static bool HtmlReport { get; private set; } = false;

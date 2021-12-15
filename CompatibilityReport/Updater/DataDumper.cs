@@ -20,7 +20,7 @@ namespace CompatibilityReport.Updater
             DataDump.AppendLine($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }.\n");
 
             DataDump.AppendLine($"Catalog has { catalog.Mods.Count } mods, { catalog.Groups.Count } groups, { catalog.Compatibilities.Count } compatibilities, " +
-                $"{ catalog.Authors.Count } authors and { catalog.RequiredAssets.Count } required assets.");
+                $"{ catalog.Authors.Count } authors, { catalog.MapThemes.Count } ignored map themes and { catalog.RequiredAssets.Count } ignored required assets.");
 
             // Checks for potential errors:
 

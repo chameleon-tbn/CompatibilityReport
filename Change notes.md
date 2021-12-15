@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.6.5 beta
+* Logging of path/filenames when saving fails
+
 ### Version 0.6.4 beta
 * Ignore Map Themes, which are technically mods, in the report
 
