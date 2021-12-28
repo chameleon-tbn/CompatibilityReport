@@ -30,8 +30,9 @@ namespace CompatibilityReport.Updater
             // Authors with their Steam ID as name. This is often due to a Steam error, but a few authors really have their ID as name.
             DumpAuthorsWithIDName(catalog, DataDump);
 
-            // Required assets that are actually mods.
+            // Required assets and map themes that are actually mods.
             DumpFakeAssets(catalog, DataDump);
+            DumpFakeMapThemes(catalog, DataDump);
 
             // Unused group and groups with less than 2 members, to see if we can clean up.
             DumpUnusedGroups(catalog, DataDump);
@@ -409,9 +410,29 @@ namespace CompatibilityReport.Updater
         }
 
 
+        /// <summary>Dumps map themes that are actually existing mods.</summary>
+        /// <remarks>It lists the mods Workshop URL and name.</remarks>
+        private static void DumpFakeMapThemes(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Map themes that are actually mods:"));
+
+            foreach (ulong steamID in catalog.MapThemes)
+            {
+                Mod fakeMapTheme = catalog.GetMod(steamID);
+
+                if (fakeMapTheme != null)
+                {
+                    DataDump.AppendLine($"{ WorkshopUrl(fakeMapTheme.SteamID) } : { fakeMapTheme.Name }");
+                }
+            }
+        }
+
+
         /// <summary>Dumps data that is interesting for now. This will be skipped when not needed.</summary>
         private static void DumpInterestingForNow(Catalog catalog, StringBuilder DataDump)
         {
+            return;
+
             DataDump.AppendLine(Title("Non-reviewed mods that need the Ambient Sound Tuner or (Extra) Vehicle Effects:"));
 
             foreach (Mod catalogMod in catalog.Mods)
