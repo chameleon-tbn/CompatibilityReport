@@ -1,7 +1,11 @@
 # Compatibility Report
 
+### Version 0.7
+* No longer in beta
+
 ### Version 0.6.5 beta
 * Logging of path/filenames when saving fails
+* Bugfix: report no longer saved on MacOS (and possibly Linux) in version 0.6.4.
 
 ### Version 0.6.4 beta
 * Ignore Map Themes, which are technically mods, in the report

@@ -18,7 +18,7 @@ namespace CompatibilityReport.Updater
         /// <summary>Starts the updater, which gathers new mod and compatibility information and save an updated catalog.</summary>
         public static void Start()
         {
-            // Todo 0.7 Read updater settings file.
+            // Todo 0.8 Read updater settings file.
             if (hasRun || !ModSettings.UpdaterEnabled)
             {
                 return;

@@ -645,7 +645,7 @@ namespace CompatibilityReport.CatalogData
                 return null;
             }
 
-            // Todo 0.7 Check settings if we should download this session. Otherwise, return before setting DownloadStarted.
+            // Todo 0.8 Check settings if we should download this session. Otherwise, return before setting DownloadStarted.
 
             DownloadStarted = true;
 

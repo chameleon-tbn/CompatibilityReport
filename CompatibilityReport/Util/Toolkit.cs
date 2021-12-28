@@ -148,7 +148,7 @@ namespace CompatibilityReport.Util
         /// <summary>Removes the Windows username from the '...\AppData\Local' path for privacy reasons.</summary>
         /// <remarks>This will also remove inconsistency between slashes and backslashes in the path.</remarks>
         /// <returns>A path string with a little more privacy.</returns>
-        // Todo 0.8 Something similar for MacOS or Linux?
+        // Todo 1.x Something similar for MacOS or Linux?
         public static string Privacy(string path)
         {
             path = path.Replace('/', Path.DirectorySeparatorChar);

@@ -26,7 +26,7 @@ namespace CompatibilityReport.Updater
 
                 GetMapThemes(catalog);
 
-                // Todo 0.7 This can be removed after updater settings are implemented. Make disable-after-run an option in the settings file.
+                // Todo 0.8 This can be removed after updater settings are implemented. Make disable-after-run an option in the settings file.
                 Toolkit.MoveFile(Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_WebCrawler.enabled"), 
                     Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_WebCrawler.disabled"));
             }

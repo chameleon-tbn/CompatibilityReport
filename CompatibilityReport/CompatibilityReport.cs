@@ -3,11 +3,6 @@ using ICities;
 using CompatibilityReport.Util;
 using CompatibilityReport.Reporter;
 
-// This mod is inspired by & partially based on the Mod Compatibility Checker mod by aubergine18 / aubergine10: https://github.com/CitiesSkylinesMods/AutoRepair
-// It also uses code snippets from:
-//    * Enhanced District Services by Tim / chronofanz: https://github.com/chronofanz/EnhancedDistrictServices
-//    * Change Loading Screen 2 by bloodypenguin: https://github.com/bloodypenguin/ChangeLoadingImage
-
 namespace CompatibilityReport
 {
     public class CompatibilityReport : IUserMod
@@ -24,7 +19,6 @@ namespace CompatibilityReport
             string scene = SceneManager.GetActiveScene().name;
             Logger.Log($"OnSettingsUI called in scene { scene }.", Logger.Debug);
 
-            // Todo 0.8 Move CatalogUpdater to standalone tool.
             if (ModSettings.UpdaterAvailable)
             {
                 Updater.CatalogUpdater.Start();
@@ -35,7 +29,7 @@ namespace CompatibilityReport
             UIHelperBase modOptions = helper.AddGroup(ModSettings.ModName);
 
             modOptions.AddGroup("The mod options are not implemented yet.");
-            //Todo 0.7 Create Settings UI.
+            //Todo 0.8 Create Settings UI.
         }
     }
 }

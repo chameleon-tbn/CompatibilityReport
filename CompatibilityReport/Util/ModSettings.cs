@@ -8,8 +8,8 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string Version = "0.7.0";
-        public const string Build = "391";
+        public const string Version = "0.7";
+        public const string Build = "0.392";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 3;
 
@@ -71,7 +71,7 @@ namespace CompatibilityReport.Util
                 try
                 {
                     // Steam Workshop mod path. This only works if the workshop is in the same "steamapps" folder as the game, which will be true for most users.
-                    // Todo 0.8 Find a more robust way of getting the mods own folder. See https://github.com/kianzarrin/UnifiedUI/blob/e77391479c0ab36c228402b898771a509535e846/UnifiedUILib/Helpers/UUIHelpers.cs#L376
+                    // Todo 1.x Find a more robust way of getting the mods own folder. See https://github.com/kianzarrin/UnifiedUI/blob/e77391479c0ab36c228402b898771a509535e846/UnifiedUILib/Helpers/UUIHelpers.cs#L376
                     char slash = Path.DirectorySeparatorChar;
                     string wsModPath = $"{ DataLocation.applicationBase }{ slash }..{ slash }..{ slash }workshop{ slash }content{ slash }255710{ slash }{ OurOwnSteamID }";
                     
@@ -117,7 +117,7 @@ namespace CompatibilityReport.Util
         public static string PleaseReportText { get; } = $"Please report this on the Steam Workshop page: { Toolkit.GetWorkshopUrl(OurOwnSteamID) }.";
 
 
-        // Todo 0.7 Settings that will be available to users through mod options within the game.
+        // Todo 0.8 Settings that will be available to users through mod options within the game.
         public static string ReportPath { get; private set; } = DefaultReportPath;
         public static int TextReportWidth { get; private set; } = MinimalTextReportWidth;
         public static bool ReportSortByName { get; private set; } = true;
@@ -126,7 +126,7 @@ namespace CompatibilityReport.Util
         public static bool AllowOnDemandScanning { get; private set; } = false;
 
 
-        // Todo 0.7 Settings that will be available in a settings xml file.
+        // Todo 0.8 Settings that will be available in a settings xml file.
         public static int DownloadRetries { get; private set; } = 4;
         public static bool ScanBeforeMainMenu { get; private set; } = true;
         public static bool DebugMode { get; private set; } = File.Exists(Path.Combine(WorkPath, $"{ InternalName }_Debug.enabled"));
@@ -216,7 +216,7 @@ namespace CompatibilityReport.Util
         };
 
 
-        // Todo 0.7 Defaults for updater settings that will be available in an updater settings xml file.
+        // Todo 0.8 Defaults for updater settings that will be available in an updater settings xml file.
         public static bool UpdaterEnabled { get; private set; } = true;
         public static bool WebCrawlerEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.enabled"));
         public static int SteamMaxFailedPages { get; private set; } = 4;
