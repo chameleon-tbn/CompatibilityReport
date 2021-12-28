@@ -8,9 +8,9 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string Version = "0.6.5";
-        public const string Build = "389";
-        public const string ReleaseType = " beta";
+        public const string Version = "0.7.0";
+        public const string Build = "390";
+        public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 3;
 
         public const string ModName = "Compatibility Report";
@@ -220,7 +220,7 @@ namespace CompatibilityReport.Util
         public static bool UpdaterEnabled { get; private set; } = true;
         public static bool WebCrawlerEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.enabled"));
         public static int SteamMaxFailedPages { get; private set; } = 4;
-        public static int SteamMaxListingPages { get; private set; } = 200;
+        public static int SteamMaxListingPages { get; private set; } = 300;
         public static int EstimatedMillisecondsPerModPage { get; private set; } = 550;
         public static int DaysOfInactivityToRetireAuthor { get; private set; } = 365;
         public static int WeeksForSoonRetired { get; private set; } = 2;
