@@ -177,9 +177,10 @@ namespace CompatibilityReport.Util
             {
                 try
                 {
-                    using (WebClient webclient = new WebClient())
+                    using (WebClient webClient = new WebClient())
                     {
-                        webclient.DownloadFile(url, fullPath);
+                        webClient.Proxy = null;
+                        webClient.DownloadFile(url, fullPath);
                     }
 
                     success = true;
