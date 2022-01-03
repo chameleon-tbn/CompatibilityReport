@@ -247,18 +247,15 @@ namespace CompatibilityReport.Updater
                 {
                     failedDownloads++;
 
+                    Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Details not updated.", Logger.Error);
+
                     if (failedDownloads <= ModSettings.SteamMaxFailedPages)
                     {
-                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Details not updated.", 
-                            Logger.Error);
-
                         continue;
                     }
                     else
                     {
-                        Logger.UpdaterLog($"Permanent error while downloading Steam Workshop page for { catalogMod.ToString() }. Download process stopped prematurely.", 
-                            Logger.Error);
-
+                        Logger.UpdaterLog("Download process stopped prematurely.", Logger.Error);
                         break;
                     }
                 }
