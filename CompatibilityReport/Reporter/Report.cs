@@ -56,7 +56,7 @@ namespace CompatibilityReport.Reporter
             }
 
             catalog.ScanSubscriptions();
-            Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionCount() } mods.", Logger.Debug);
+            Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionCount() } mods.");
 
             if (ModSettings.HtmlReport)
             {
