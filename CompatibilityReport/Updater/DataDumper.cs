@@ -431,16 +431,16 @@ namespace CompatibilityReport.Updater
         /// <summary>Dumps data that is interesting for now. This will be skipped when not needed.</summary>
         private static void DumpInterestingForNow(Catalog catalog, StringBuilder DataDump)
         {
-            return;
-
-            DataDump.AppendLine(Title("Non-reviewed mods that need the Ambient Sound Tuner or (Extra) Vehicle Effects:"));
+            DataDump.AppendLine(Title("Mods that need Ambient Sound Tuner or (Extra) Vehicle Effects, and are not Stable, have no SourceBundled or are Abandoned:"));
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.Stability <= Enums.Stability.NotReviewed && 
+                if ((catalogMod.Stability != Enums.Stability.Stable || !catalogMod.Statuses.Contains(Enums.Status.SourceBundled) || 
+                    catalogMod.Statuses.Contains(Enums.Status.Abandoned)) &&
                     (catalogMod.RequiredMods.Contains(818641631) || catalogMod.RequiredMods.Contains(815103125) || catalogMod.RequiredMods.Contains(780720853)))
                 {
-                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : [{ catalogMod.Stability }" +
+                        $"{ (catalogMod.Statuses.Contains(Enums.Status.Abandoned) ? ", Abandoned" : "") }] { catalogMod.Name }");
                 }
             }
         }
