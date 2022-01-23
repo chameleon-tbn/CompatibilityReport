@@ -9,7 +9,7 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.7.2";
-        public const string Build = "400";
+        public const string Build = "401";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 3;
 
@@ -100,8 +100,8 @@ namespace CompatibilityReport.Util
         // .NET 3.5 only support TSL 1.2 with registry edits, which we can't rely on for mod users. So for a download location we
         // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+ or
         // use UnityWebRequest and use a Coroutine setup on a MonoBehaviour.
-        public const string CatalogUrl = "https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2";
-        // future new url: https://drive.google.com/uc?export=download&id=1P8hakzFi2ydlXGybx5aatuggSW7RpBYG
+        public const string CatalogUrl = "https://drive.google.com/uc?export=download&id=1P8hakzFi2ydlXGybx5aatuggSW7RpBYG";
+        // Todo 1.0 Remove this: old download URL: https://drive.google.com/uc?export=download&id=1oUT2U_PhLfW-KGWOyShHL2GvU6kyE4a2
 
         // Report and log properties.
         public const int MinimalTextReportWidth = 90;
