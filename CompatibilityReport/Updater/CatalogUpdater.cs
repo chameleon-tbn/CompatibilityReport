@@ -239,6 +239,12 @@ namespace CompatibilityReport.Updater
             catalogMod.Update(string.IsNullOrEmpty(name) ? null : name, published, updated, authorID, authorUrl, stability, stabilityNote, note, 
                 gameVersionString, sourceUrl, reviewDate: modReviewDate, autoReviewDate: modAutoReviewDate);
 
+            // Remove the Abandoned status if the mod had a new update.
+            if (addedChangeNote.Contains("new update")) 
+            {
+                RemoveStatus(catalog, catalogMod, Enums.Status.Abandoned, updatedByImporter);
+            }
+
             // Update the authors last seen date if the mod had a new update.
             Author modAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl);
             if (modAuthor != null && catalogMod.Updated > modAuthor.LastSeen)

@@ -9,7 +9,7 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.7.2";
-        public const string Build = "398";
+        public const string Build = "399";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 3;
 
