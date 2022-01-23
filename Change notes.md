@@ -1,6 +1,10 @@
 # Compatibility Report
 
 ### Version 0.7.2
+* Minor textual changes
+* Preparation for new DLCs
+* New catalog download location
+* Minor Updater improvements
 
 ### Version 0.7.1
 * Minor textual changes
