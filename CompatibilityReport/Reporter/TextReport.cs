@@ -92,16 +92,13 @@ namespace CompatibilityReport.Reporter
         private void AddHeader()
         {
             DateTime reportCreationTime = DateTime.Now;
-            int nonReviewed = catalog.Mods.Count - catalog.ReviewedModCount - catalog.LocalSubscriptionCount;
 
-            reportText.AppendLine(Toolkit.WordWrap($"{ ModSettings.ModName }, created on { reportCreationTime:D}, { reportCreationTime:t}.\n"));
+            reportText.AppendLine(Toolkit.WordWrap($"{ ModSettings.ModName }, created on { reportCreationTime:d MMMM yyyy}, { reportCreationTime:t}.\n"));
 
             reportText.AppendLine(Toolkit.WordWrap($"Version { ModSettings.FullVersion } with catalog { catalog.VersionString() }. " +
                 $"Your game has { catalog.SubscriptionCount() } mods.\n" +
-                $"The catalog contains { catalog.ReviewedModCount } reviewed mods" + (nonReviewed > 0 ? ", " : " and ")  + 
-                $"{ catalog.Compatibilities.Count } compatibilities" + 
-                (nonReviewed > 0 ? $" and { nonReviewed } non-reviewed mods" : "") + 
-                ".\n"));
+                $"The mod catalog contains { catalog.ReviewedModCount } reviewed mods and was created on { catalog.Updated:d MMMM yyyy}. " +
+                "Mods updated after this date might have an outdated review below.\n"));
 
             if (!string.IsNullOrEmpty(ModSettings.ReportTextForThisModVersion))
             {
@@ -711,7 +708,7 @@ namespace CompatibilityReport.Reporter
 
             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
 
-            return Format("The author of this mod recommends using the following as well:") + text;
+            return Format("The author or the users of this mod recommend using the following as well:") + text;
         }
 
 
