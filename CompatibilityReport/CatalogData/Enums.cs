@@ -106,7 +106,11 @@
             Sunny_Breeze_Radio = 1531473,
             Content_Creator_Pack__Train_Station = 1531470,
             Content_Creator_Pack__Bridges_and_Piers = 1531471,
-            Airports = 1726380
+            Airports = 1726380,
+            Content_Creator_Pack__Vehicles_of_the_World = 1726381,
+            Content_Creator_Pack__Map_Pack = 1726382,
+            On_Air_Radio = 1726383,
+            Calm_The_Mind_Radio = 1726384
         }
 
 
