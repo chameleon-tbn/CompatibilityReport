@@ -112,10 +112,11 @@ namespace CompatibilityReport.Reporter
 
             if (Toolkit.CurrentGameVersion() != catalog.GameVersion())
             {
-                reportText.AppendLine(Toolkit.WordWrap($"WARNING: The review catalog is made for game version " +
+                reportText.AppendLine(Toolkit.WordWrap($"WARNING: The catalog is made for game version " +
                     Toolkit.ConvertGameVersionToString(catalog.GameVersion()) +
-                    $". Your game is { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "older" : "newer") }. Results might not be accurate.\n",
-                    indent: new string(' ', "WARNING: ".Length)));
+                    $". Your game is { (Toolkit.CurrentGameVersion() < catalog.GameVersion() ? "older" : "newer") } (" +
+                    Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) + 
+                    "). Results might not be accurate.\n", indent: new string(' ', "WARNING: ".Length)));
             }
 
             if (Catalog.DownloadStarted && !Catalog.DownloadSuccessful)
