@@ -864,7 +864,7 @@ namespace CompatibilityReport.Reporter
                         if (subscribedMod.SteamID == compatibility.SecondModID)
                         {
                             subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                            text += Format("Unsubscribe this. You're already subscribe to another edition of the same mod:") + otherMod + note;
+                            text += Format("Unsubscribe this. You're already subscribed to another edition of the same mod:") + otherMod + note;
                         }
                         break;
 
