@@ -442,8 +442,7 @@ namespace CompatibilityReport.Util
         /// <returns>The current game version.</returns>
         public static Version CurrentGameVersion()
         {
-            return new Version((int)BuildConfig.APPLICATION_VERSION_A, (int)BuildConfig.APPLICATION_VERSION_B,
-                (int)BuildConfig.APPLICATION_VERSION_C, (int)BuildConfig.APPLICATION_BUILD_NUMBER);
+            return ConvertToVersion(BuildConfig.applicationVersion);
         }
 
 
