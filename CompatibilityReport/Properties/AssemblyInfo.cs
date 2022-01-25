@@ -10,7 +10,7 @@ using CompatibilityReport.Util;
 [assembly: AssemblyConfiguration(ModSettings.ReleaseType)]
 [assembly: AssemblyCompany(ModSettings.ModAuthor)]
 [assembly: AssemblyProduct(ModSettings.ModName)]
-[assembly: AssemblyCopyright("Copyright © 2021 " + ModSettings.ModAuthor + " (MIT License)")]
+[assembly: AssemblyCopyright("Copyright © " + ModSettings.CopyrightYear + " " + ModSettings.ModAuthor + " (MIT License)")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

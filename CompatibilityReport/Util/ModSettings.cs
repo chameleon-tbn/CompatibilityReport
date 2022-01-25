@@ -8,8 +8,8 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string Version = "0.7.2";
-        public const string Build = "403";
+        public const string Version = "0.7.3";
+        public const string Build = "404";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 3;
 
@@ -19,6 +19,7 @@ namespace CompatibilityReport.Util
         public const string IUserModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
         public const string ModAuthor = "Finwickle";
         public const string FullVersion = Version + "." + Build + ReleaseType;
+        public const string CopyrightYear = "2022";
         public const ulong OurOwnSteamID = 2633433869;
 
 
