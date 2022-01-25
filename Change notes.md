@@ -1,5 +1,9 @@
 # Compatibility Report
 
+### Version 0.7.3
+* Minor textual changes
+* Bugfix: current game version was not detected correctly
+
 ### Version 0.7.2
 * Minor textual changes
 * Preparation for new DLCs
