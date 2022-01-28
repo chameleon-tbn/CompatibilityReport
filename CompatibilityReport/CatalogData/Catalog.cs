@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
@@ -578,9 +579,23 @@ namespace CompatibilityReport.CatalogData
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
 
-                using (TextReader reader = new StreamReader(fullPath))
+                try
                 {
-                    loadedCatalog = (Catalog)serializer.Deserialize(reader);
+                    using (FileStream file = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
+                    using (GZipStream gzip = new GZipStream(file, CompressionMode.Decompress))
+                    using (TextReader reader = new StreamReader(gzip))
+                    {
+                        loadedCatalog = (Catalog)serializer.Deserialize(reader);
+                    }
+                }
+                catch (IOException)
+                {
+                    Logger.Log($"Failed to read gzipped catalog \"{ Toolkit.Privacy(fullPath) }\". Will attempt to read as plain text.", Logger.Warning);
+
+                    using (TextReader reader = new StreamReader(fullPath))
+                    {
+                        loadedCatalog = (Catalog) serializer.Deserialize(reader);
+                    }
                 }
             }
             catch (XmlException ex)
