@@ -542,15 +542,30 @@ namespace CompatibilityReport.CatalogData
         }
 
 
-        /// <summary>Saves the catalog to disk.</summary>
+        /// <summary>Saves the catalog to disk, both in plain text and gzipped.</summary>
+        /// <remarks>The fullPath parameter should not contain the GZip extension.</remarks>
         /// <returns>True if saved succesfully, false otherwise.</returns>
         public bool Save(string fullPath)
         {
             try
             {
+                // Catalog as plain text XML file.
                 XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
 
                 using (TextWriter writer = new StreamWriter(fullPath))
+                {
+                    serializer.Serialize(writer, this);
+                }
+
+                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".");
+
+                // Catalog as gzipped XML file.
+                fullPath = $"{ fullPath }.gz";
+                serializer = new XmlSerializer(typeof(Catalog));
+
+                using (FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                using (GZipStream gzip = new GZipStream(file, CompressionMode.Compress))
+                using (TextWriter writer = new StreamWriter(gzip))
                 {
                     serializer.Serialize(writer, this);
                 }
@@ -570,6 +585,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Loads a catalog from disk.</summary>
+        /// <remarks>Support gzipped and plain text files.</remarks>
         /// <returns>A reference to the catalog, or null if loading failed.</returns>
         private static Catalog LoadFromDisk(string fullPath)
         {
@@ -590,7 +606,7 @@ namespace CompatibilityReport.CatalogData
                 }
                 catch (IOException)
                 {
-                    Logger.Log($"Failed to read gzipped catalog \"{ Toolkit.Privacy(fullPath) }\". Will attempt to read as plain text.", Logger.Warning);
+                    Logger.Log($"Catalog is not a valid GZip file, will attempt to read as plain text: \"{ Toolkit.Privacy(fullPath) }\"", Logger.Debug);
 
                     using (TextReader reader = new StreamReader(fullPath))
                     {
@@ -710,8 +726,18 @@ namespace CompatibilityReport.CatalogData
         private static Catalog LoadPreviouslyDownloaded()
         {
             string previouslyDownloadedFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName);
+            string oldPreviouslyDownloadedFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.OldDownloadedCatalogFileName);
 
-            if (!File.Exists(previouslyDownloadedFullPath))
+            if (File.Exists(previouslyDownloadedFullPath))
+            {
+                // Delete old file with previously used filename.
+                Toolkit.DeleteFile(oldPreviouslyDownloadedFullPath);
+            }
+            else if (File.Exists(oldPreviouslyDownloadedFullPath))
+            {
+                previouslyDownloadedFullPath = oldPreviouslyDownloadedFullPath;
+            }
+            else
             {
                 return null;
             }
@@ -779,7 +805,7 @@ namespace CompatibilityReport.CatalogData
 
             try
             {
-                files = Directory.GetFiles(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog*.xml");
+                files = Directory.GetFiles(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog*.xml*");
             }
             catch
             {

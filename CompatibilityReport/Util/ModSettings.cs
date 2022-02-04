@@ -9,7 +9,7 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.7.4";
-        public const string Build = "412";
+        public const string Build = "413";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 3;
 
@@ -63,7 +63,8 @@ namespace CompatibilityReport.Util
         public const string LogFileName = InternalName + ".log";
 
         public static string WorkPath { get; } = DataLocation.localApplicationData;
-        public const string DownloadedCatalogFileName = InternalName + "_Downloaded_Catalog.xml";
+        public static string DownloadedCatalogFileName { get; } = $"{ InternalName }_Downloaded_Catalog";
+        public const string OldDownloadedCatalogFileName = InternalName + "_Downloaded_Catalog.xml";
 
         public static string BundledCatalogFullPath
         { 
@@ -89,12 +90,12 @@ namespace CompatibilityReport.Util
                         }
                     }
 
-                    return Path.Combine(workshopModPath, $"{ InternalName }_Catalog.xml");
+                    return Path.Combine(workshopModPath, $"{ InternalName }_Catalog.xml.gz");
                 }
                 catch
                 {
                     // Local mod path.
-                    return Path.Combine(Path.Combine(DataLocation.modsPath, InternalName), $"{ InternalName }_Catalog.xml");
+                    return Path.Combine(Path.Combine(DataLocation.modsPath, InternalName), $"{ InternalName }_Catalog.xml.gz");
                 }
             }
         }

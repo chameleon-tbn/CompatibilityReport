@@ -1,5 +1,13 @@
 # Compatibility Report
 
+### Version 0.7.4
+* Don't report incompatibilities if one mod is the successor of the other mod
+* Gzip support for the catalog (thanks Mircea Chirea!)
+* Bugfix: bundled catalog not located on MacOS
+* Updater: allow author name change to Steam ID
+* Bugfix for the Updater: adding required mod as successor/etc. should not be allowed
+NOTE: the bundled catalog is changed to gzip, but the catalog download file not yet
+
 ### Version 0.7.3
 * Minor textual changes
 * Bugfix: current game version was not detected correctly
