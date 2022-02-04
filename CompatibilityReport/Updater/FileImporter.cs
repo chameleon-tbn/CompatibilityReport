@@ -577,6 +577,10 @@ namespace CompatibilityReport.Updater
                 {
                     return "Already a successor.";
                 }
+                if (catalogMod.RequiredMods.Contains(listMember))
+                {
+                    return "Already a required mod. Can't be both.";
+                }
 
                 CatalogUpdater.AddSuccessor(catalog, catalogMod, listMember, updatedByImporter: true);
             }
@@ -595,6 +599,10 @@ namespace CompatibilityReport.Updater
                 {
                     return "Already an alternative mod.";
                 }
+                if (catalogMod.RequiredMods.Contains(listMember))
+                {
+                    return "Already a required mod. Can't be both.";
+                }
 
                 CatalogUpdater.AddAlternative(catalog, catalogMod, listMember, updatedByImporter: true);
             }
@@ -612,6 +620,10 @@ namespace CompatibilityReport.Updater
                 if (catalogMod.Recommendations.Contains(listMember))
                 {
                     return "Already a recommended mod.";
+                }
+                if (catalogMod.RequiredMods.Contains(listMember))
+                {
+                    return "Already a required mod. Can't be both.";
                 }
 
                 CatalogUpdater.AddRecommendation(catalog, catalogMod, listMember, updatedByImporter: true);
