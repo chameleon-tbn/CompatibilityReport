@@ -431,16 +431,93 @@ namespace CompatibilityReport.Updater
         /// <summary>Dumps data that is interesting for now. This will be skipped when not needed.</summary>
         private static void DumpInterestingForNow(Catalog catalog, StringBuilder DataDump)
         {
-            DataDump.AppendLine(Title("Mods that need Ambient Sound Tuner or (Extra) Vehicle Effects, and are not Stable, have no SourceBundled or are Abandoned:"));
+            return;
+
+            DataDump.AppendLine(Title("All issues and compatibilities with BloodyPenguin's mods:"));
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if ((catalogMod.Stability != Enums.Stability.Stable || !catalogMod.Statuses.Contains(Enums.Status.SourceBundled) || 
-                    catalogMod.Statuses.Contains(Enums.Status.Abandoned)) &&
-                    (catalogMod.RequiredMods.Contains(818641631) || catalogMod.RequiredMods.Contains(815103125) || catalogMod.RequiredMods.Contains(780720853)))
+                if (catalogMod.AuthorUrl == "bloody_penguin")
                 {
-                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : [{ catalogMod.Stability }" +
-                        $"{ (catalogMod.Statuses.Contains(Enums.Status.Abandoned) ? ", Abandoned" : "") }] { catalogMod.Name }");
+                    DataDump.AppendLine($"{ catalogMod.Name } - { WorkshopUrl(catalogMod.SteamID) }");
+
+                    DataDump.AppendLine($"Stability      : { catalogMod.Stability }");
+                    if (!string.IsNullOrEmpty(catalogMod.StabilityNote))
+                    {
+                        DataDump.AppendLine($"Stability note : { catalogMod.StabilityNote.Replace("\n", "\n                 ") }");
+                    }
+
+                    if (catalogMod.Statuses.Any())
+                    {
+                        string statuses = "";
+                        foreach (Enums.Status status in catalogMod.Statuses)
+                        {
+                            statuses += (statuses == "" ? "" : ", ") + status.ToString();
+                        }
+                        DataDump.AppendLine($"Statuses       : { statuses }");
+                    }
+
+                    if (!string.IsNullOrEmpty(catalogMod.Note))
+                    {
+                        DataDump.AppendLine($"Generic Note   : { catalogMod.Note.Replace("\n", "\n                 ") }");
+                    }
+
+                    if (catalogMod.Successors.Any())
+                    {
+                        string successors = "";
+                        foreach (ulong successor in catalogMod.Successors)
+                        {
+                            successors += (successors == "" ? "" : "\n                 ") + catalog.GetMod(successor).ToString();
+                        }
+                        DataDump.AppendLine($"Successor(s)   : { successors }");
+                    }
+
+                    if (catalogMod.Alternatives.Any())
+                    {
+                        string alternatives = "";
+                        foreach (ulong alternative in catalogMod.Alternatives)
+                        {
+                            alternatives += (alternatives == "" ? "" : "\n                 ") + catalog.GetMod(alternative).ToString();
+                        }
+                        DataDump.AppendLine($"Alternative(s) : { alternatives }");
+                    }
+
+                    string compatibilities = "";
+                    foreach (Compatibility compatibility in catalog.Compatibilities)
+                    {
+                        if (compatibility.Status == Enums.CompatibilityStatus.CompatibleAccordingToAuthor)
+                        {
+                            continue;
+                        }
+
+                        if (compatibility.FirstModID == catalogMod.SteamID && compatibility.SecondModID != 1372431101 && compatibility.SecondModID != 1386697922)
+                        {
+                            compatibilities += $"  * { compatibility.SecondModName } [{ compatibility.SecondModID }]: { compatibility.Status }\n";
+                            if (!string.IsNullOrEmpty(compatibility.Note)) 
+                            {
+                                compatibilities += $"    Note: { compatibility.Note }\n";
+                            }
+                        }
+                        else if (compatibility.SecondModID == catalogMod.SteamID && compatibility.FirstModID != 1372431101 && compatibility.FirstModID != 1386697922)
+                        {
+                            compatibilities += $"  * { compatibility.FirstModName } [{ compatibility.FirstModID }]: { compatibility.Status }\n";
+                            if (!string.IsNullOrEmpty(compatibility.Note))
+                            {
+                                compatibilities += $"    Note: { compatibility.Note }\n";
+                            }
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(compatibilities))
+                    {
+                        DataDump.AppendLine("Compatibilities:");
+                        DataDump.AppendLine(compatibilities);
+                    }
+                    else
+                    {
+                        DataDump.AppendLine("\n");
+                    }
+
+                    DataDump.AppendLine("\n");
                 }
             }
         }
