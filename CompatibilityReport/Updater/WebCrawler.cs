@@ -362,7 +362,8 @@ namespace CompatibilityReport.Updater
                             // Don't update the name to an empty string.
                             authorName = null;
                         }
-                        else if (authorName == authorID.ToString() && authorID != 0 && (authorName != catalogAuthor.Name || catalogAuthor.AddedThisSession))
+                        else if (authorName == authorID.ToString() && authorID != 0 && (authorName != catalogAuthor.Name || catalogAuthor.AddedThisSession) &&
+                            !catalog.SuppressedWarnings.Contains(authorID))
                         {
                             // An author name equal to the author ID is a common Steam error, although some authors really have their ID as name (ofcourse they do).
                             if (string.IsNullOrEmpty(catalogAuthor.Name) || catalogAuthor.AddedThisSession)
