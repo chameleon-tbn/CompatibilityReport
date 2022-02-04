@@ -8,8 +8,8 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string Version = "0.7.3";
-        public const string Build = "407";
+        public const string Version = "0.7.4";
+        public const string Build = "408";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 3;
 
@@ -74,14 +74,22 @@ namespace CompatibilityReport.Util
                     // Steam Workshop mod path. This only works if the workshop is in the same "steamapps" folder as the game, which will be true for most users.
                     // Todo 1.x Find a more robust way of getting the mods own folder. See https://github.com/kianzarrin/UnifiedUI/blob/e77391479c0ab36c228402b898771a509535e846/UnifiedUILib/Helpers/UUIHelpers.cs#L376
                     char slash = Path.DirectorySeparatorChar;
-                    string wsModPath = $"{ DataLocation.applicationBase }{ slash }..{ slash }..{ slash }workshop{ slash }content{ slash }255710{ slash }{ OurOwnSteamID }";
-                    
-                    if (!Directory.Exists(wsModPath))
+                    string up = $"{ slash }..";
+                    string workshop = $"{ slash }workshop{ slash }content{ slash }255710{ slash }{ OurOwnSteamID }";
+                    string workshopModPath = $"{ DataLocation.applicationBase }{ up }{ up }{ workshop }";
+
+                    if (!Directory.Exists(workshopModPath))
                     {
-                        throw new DirectoryNotFoundException();
+                        // Steam Workshop path for MacOS.
+                        workshopModPath = $"{ DataLocation.applicationBase }{ up }{ up }{ up }{ up }{ workshop }";
+
+                        if (!Directory.Exists(workshopModPath))
+                        {
+                            throw new DirectoryNotFoundException();
+                        }
                     }
 
-                    return Path.Combine(wsModPath, $"{ InternalName }_Catalog.xml");
+                    return Path.Combine(workshopModPath, $"{ InternalName }_Catalog.xml");
                 }
                 catch
                 {
@@ -96,7 +104,7 @@ namespace CompatibilityReport.Util
 
         // The default timezone for Steam downloads seems to be UTC-7 (PDT) in summer and UTC-8 (PST) in winter,
         // meaning half the mod publish and update times and author last seen dates will be off by an hour half the time.
-        public const string DefaultSteamTimezone = "-07:00";
+        public const string DefaultSteamTimezone = "-08:00";
 
         // .NET 3.5 only support TSL 1.2 with registry edits, which we can't rely on for mod users. So for a download location we
         // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+ or
