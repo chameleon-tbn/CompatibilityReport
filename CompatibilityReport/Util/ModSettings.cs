@@ -9,7 +9,7 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.7.4";
-        public const string Build = "418";
+        public const string Build = "419";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 4;
 
@@ -105,7 +105,8 @@ namespace CompatibilityReport.Util
 
         // The default timezone for Steam downloads seems to be UTC-7 (PDT) in summer and UTC-8 (PST) in winter,
         // meaning half the mod publish and update times and author last seen dates will be off by an hour half the time.
-        public const string DefaultSteamTimezone = "-08:00";
+        // DON'T CHANGE THIS! Changing this will result in a new update for EVERY mod.
+        public const string DefaultSteamTimezone = "-07:00";
 
         // .NET 3.5 only support TSL 1.2 with registry edits, which we can't rely on for mod users. So for a download location we
         // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+ or
