@@ -561,7 +561,6 @@ namespace CompatibilityReport.CatalogData
 
                 // Catalog as gzipped XML file.
                 fullPath = $"{ fullPath }.gz";
-                serializer = new XmlSerializer(typeof(Catalog));
 
                 using (FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
                 using (GZipStream gzip = new GZipStream(file, CompressionMode.Compress))
