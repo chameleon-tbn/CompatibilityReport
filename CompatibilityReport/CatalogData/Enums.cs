@@ -43,7 +43,8 @@
             MusicCopyrightFree,                 // This mod uses music that is all copyright-free. It's safe to use for videos and streaming.
             MusicCopyrighted,                   // This mod uses music with copyright and should not be used in videos and streaming.
             MusicCopyrightUnknown,              // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming.
-            WorksWhenDisabled                   // This mod will still work when disabled. This suppresses any 'enable this' warnings.
+            WorksWhenDisabled,                  // This mod will still work when disabled. This suppresses any 'enable this' warnings.
+            ModNamesDiffer                      // This mods in-game name differs so much from the Workshop name that it can be confusing.
         }
 
 

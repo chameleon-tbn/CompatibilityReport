@@ -6,7 +6,8 @@
 * Bugfix: bundled catalog not located on MacOS
 * Updater: allow author name change to Steam ID
 * Bugfix for the Updater: adding required mod as successor/etc. should not be allowed
-NOTE: the bundled catalog is changed to gzip, but the catalog download file not yet
+NOTE: The bundled catalog is changed to gzip, but the catalog download file not yet
+NOTE: Catalog major version has increased. New catalogs can soon not be read by previous mod versions
 
 ### Version 0.7.3
 * Minor textual changes
@@ -34,7 +35,6 @@ NOTE: the bundled catalog is changed to gzip, but the catalog download file not 
 * Ignore Map Themes, which are technically mods, in the report
 
 ### Version 0.6.3 beta
-* Catalog major version has increased. New catalogs cannot be read by previous mod versions
 * Added 'Work when disabled' status that suppresses warnings about disabled state for certain mods
 * Added local mod count, local mod path and warning about failed catalog download to the report
 * Minor improvements and textual changes
@@ -42,6 +42,7 @@ NOTE: the bundled catalog is changed to gzip, but the catalog download file not 
 * Bugfix: local mods counted as non-reviewed subscribed mods
 * Updater: Datadumper changes
 * Bugfix for the Updater: Mod review dates now correctly updated
+NOTE: Catalog major version has increased. New catalogs cannot be read by previous mod versions
 
 ### Version 0.6.2 beta
 * Added note to the report about non-reviewed subscribed mods

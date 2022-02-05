@@ -17,6 +17,7 @@ This mod is available at the [Steam Workshop](https://steamcommunity.com/sharedf
   * Automatically detects new mods and changes in mod information: name, required DLC/mods, source URL, ...
   * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This allows for catalog maintenance by multiple people in the future.
   * Automatic change notes and catalog versioning.
+  * Gzipped catalog for lower bandwidth usage (partially implemented).
   * Manual upload of a new catalog, after a quality assurance check.
 
 ### Roadmap and future ideas
