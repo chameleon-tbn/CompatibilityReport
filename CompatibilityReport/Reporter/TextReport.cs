@@ -878,7 +878,7 @@ namespace CompatibilityReport.Reporter
 
                     case Enums.CompatibilityStatus.SameFunctionality:
                         subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        text += Format("Unsubscribe either this one or the following mod with the same functionality:") + otherModString + workshopUrl + note;
+                        text += Format("Unsubscribe either this or the following incompatible mod with similar functionality:") + otherModString + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
