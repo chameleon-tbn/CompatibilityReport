@@ -283,7 +283,7 @@ namespace CompatibilityReport.CatalogData
 
         /// <summary>Sets the report severity for a mod.</summary>
         /// <remarks>This will only set the severity higher, not lower it.</remarks>
-        public void SetReportSeverity(Enums.ReportSeverity newSeverity)
+        public void IncreaseReportSeverity(Enums.ReportSeverity newSeverity)
         {
             ReportSeverity = (newSeverity > ReportSeverity) ? newSeverity : ReportSeverity;
         }

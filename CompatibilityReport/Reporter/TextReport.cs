@@ -156,7 +156,8 @@ namespace CompatibilityReport.Reporter
         private void AddModList()
         {
             reportText.AppendLine($"{ separatorDouble }\n");
-            reportText.AppendLine(Toolkit.WordWrap("This is the end of the report. Below you find a summary of all your subscribed mods.\n"));
+            reportText.AppendLine(Toolkit.WordWrap("This is the end of the report. Below you find a sorted list of all your subscribed mods. " +
+                "Mods that had a name change very recently might still show their old name here.\n"));
 
             List<string> AllSubscriptionNames = catalog.GetSubscriptionNames();
 
@@ -348,23 +349,23 @@ namespace CompatibilityReport.Reporter
             switch (subscribedMod.Stability)
             {
                 case Enums.Stability.IncompatibleAccordingToWorkshop:
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                     return Format("UNSUBSCRIBE! This mod is totally incompatible with the current game version.") + note;
 
                 case Enums.Stability.RequiresIncompatibleMod:
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                     return Format("UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.") + note;
 
                 case Enums.Stability.GameBreaking:
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                     return Format("UNSUBSCRIBE! This mod breaks the game.") + note;
 
                 case Enums.Stability.Broken:
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                     return Format("Unsubscribe! This mod is broken.") + note;
 
                 case Enums.Stability.MajorIssues:
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                     return Format($"Unsubscribe would be wise. This has major issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + 
                         note;
 
@@ -388,19 +389,19 @@ namespace CompatibilityReport.Reporter
             switch (subscribedMod.Stability)
             {
                 case Enums.Stability.MinorIssues:
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
                     return Format($"This has minor issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ":") }") + note;
 
                 case Enums.Stability.UsersReportIssues:
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
                     return Format($"Users are reporting issues{ (string.IsNullOrEmpty(note) ? ". Check its Workshop page for details." : ": ") }") + note;
 
                 case Enums.Stability.NotEnoughInformation:
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                     return Format($"There is not enough information about this mod to know if it works well{ updatedText }") + note;
 
                 case Enums.Stability.Stable:
-                    subscribedMod.SetReportSeverity(string.IsNullOrEmpty(note) ? Enums.ReportSeverity.NothingToReport : Enums.ReportSeverity.Remarks);
+                    subscribedMod.IncreaseReportSeverity(string.IsNullOrEmpty(note) ? Enums.ReportSeverity.NothingToReport : Enums.ReportSeverity.Remarks);
                     return Format($"This is compatible with the current game version.") + note;
 
                 case Enums.Stability.NotReviewed:
@@ -422,17 +423,17 @@ namespace CompatibilityReport.Reporter
 
             if (subscribedMod.Statuses.Contains(Enums.Status.Obsolete))
             {
-                subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                 text += Format("Unsubscribe this. It is no longer needed.");
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
-                subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                 text += Format("Unsubscribe would be wise. This is no longer available on the Steam Workshop.");
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.Deprecated))
             {
-                subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                 text += Format("Unsubscribe would be wise. This is deprecated and no longer supported by the author.");
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
@@ -450,26 +451,26 @@ namespace CompatibilityReport.Reporter
                 // Several statuses only listed if there are no breaking issues.
                 if (subscribedMod.Statuses.Contains(Enums.Status.Reupload))
                 {
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                     text += Format("Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).");
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription))
                 {
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
                     text += Format("This has no description on the Steam Workshop. Support from the author is unlikely.");
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection))
                 {
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
                     text += Format("This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. " +
                         "Use with caution.");
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.BreaksEditors))
                 {
-                    subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                    subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                     text += Format("If you use the asset editor and/or map editor, this may give serious issues.");
                 }
 
@@ -519,7 +520,7 @@ namespace CompatibilityReport.Reporter
 
             if (!string.IsNullOrEmpty(text))
             {
-                subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
             }
 
             return text;
@@ -555,14 +556,14 @@ namespace CompatibilityReport.Reporter
 
             if (catalog.IsValidID(ModSettings.LowestLocalModID))
             {
-                subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
 
                 return Format("Unsubscribe this unless it's needed for one of your local mods. " +
                     "None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.");
             }
             else
             {
-                subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
                 return Format("Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.");
             }
@@ -598,7 +599,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+            subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
             return Format("Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.");
         }
@@ -613,7 +614,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+            subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
 
             return Format(subscribedMod.Note);
         }
@@ -639,7 +640,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+            subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
             return Format("Unsubscribe this. It requires DLC you don't have:") + dlcs;
         }
@@ -673,7 +674,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+            subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
 
             return Format("This mod requires other mods you don't have, or which are not enabled:") + text;
         }
@@ -707,7 +708,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+            subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
 
             return Format("The author or the users of this mod recommend using the following as well:") + text;
         }
@@ -777,7 +778,7 @@ namespace CompatibilityReport.Reporter
                 {
                     if (catalog.GetSubscription(steamID) != null)
                     {
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
                         return Format("Unsubscribe this. It is succeeded by a mod you already have:") +
                             Format(catalog.GetMod(steamID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
@@ -795,7 +796,7 @@ namespace CompatibilityReport.Reporter
                 }
             }
 
-            subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+            subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
 
             return text;
         }
@@ -836,7 +837,7 @@ namespace CompatibilityReport.Reporter
                 }
             }
 
-            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+            subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
 
             return text;
         }
@@ -854,7 +855,7 @@ namespace CompatibilityReport.Reporter
                 ulong otherModID = (subscribedMod.SteamID == compatibility.FirstModID) ? compatibility.SecondModID : compatibility.FirstModID;
 
                 Mod otherMod = catalog.GetMod(otherModID);
-                if (otherMod == null || subscribedMod.Successors.Contains(otherModID) || otherMod.Successors.Contains(subscribedMod.SteamID))
+                if (subscribedMod.Successors.Contains(otherModID) || otherMod == null || otherMod.Successors.Contains(subscribedMod.SteamID))
                 {
                     // Don't mention the incompatibility if either mod is the others successor. The succeeded mod will already be mentioned in 'Unsubscribe' severity.
                     continue;
@@ -868,53 +869,49 @@ namespace CompatibilityReport.Reporter
                 switch (compatibility.Status)
                 {
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
-                        // This status is only reported for the second mod (the 'test' mod) in the compatibility.
-                        if (subscribedMod.SteamID == compatibility.SecondModID)
-                        {
-                            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                            text += Format("Unsubscribe this. You're already subscribed to another edition of the same mod:") + otherModString + note;
-                        }
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                        text += Format("Unsubscribe either this or the other edition of the same mod:") + otherModString + note;
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionality:
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                         text += Format("Unsubscribe either this or the following incompatible mod with similar functionality:") + otherModString + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Unsubscribe);
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                         text += Format("Unsubscribe either this one or the following mod it's incompatible with:") + otherModString + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToUsers:
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                         text += Format("Users report an incompatibility with:") + otherModString + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.MajorIssues:
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.MajorIssues);
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                         text += Format("This has major issues with:") + otherModString + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.MinorIssues:
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.MinorIssues);
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
                         text += Format("This has minor issues with:") + otherModString + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.RequiresSpecificSettings:
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                         text += Format("This requires specific configuration to work together with:") + otherModString + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionalityCompatible:
-                        subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                        subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                         text += Format("This has very similar functionality, but is still compatible with (do you need both?):") + otherModString + workshopUrl + note;
                         break;
 
                     case Enums.CompatibilityStatus.CompatibleAccordingToAuthor:
                         if (!string.IsNullOrEmpty(note))
                         {
-                            subscribedMod.SetReportSeverity(Enums.ReportSeverity.Remarks);
+                            subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                             text += Format("This is compatible with:") + otherModString + workshopUrl + note;
                         }
                         break;
