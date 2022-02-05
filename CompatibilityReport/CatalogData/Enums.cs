@@ -55,8 +55,8 @@
         public enum CompatibilityStatus
         {
             Undefined = 0,                      // Unused.
-            SameModDifferentReleaseType,        // These mods are different release types ('stable' vs. 'beta', etc.) of the same mod. First mod should be the 'stable' one.
-            SameFunctionality,                  // These mods are incompatible because they change the same functionality.
+            SameModDifferentReleaseType,        // These mods are different release types ('stable' vs. 'beta', etc.) of the same mod.
+            SameFunctionality,                  // These mods are incompatible because they change the same functionality (at least partially).
             SameFunctionalityCompatible,        // These mods are compatible, but have the same functionality (could be partially) and shouldn't both be necessary. 
             IncompatibleAccordingToAuthor,      // These mods are incompatible according to the author of one of the mods
             IncompatibleAccordingToUsers,       // These mods are incompatible according to users of one of the mods. Should only be used on 'clear cases', not on a whim.
