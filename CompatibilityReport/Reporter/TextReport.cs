@@ -17,7 +17,7 @@ namespace CompatibilityReport.Reporter
     //                       specific settings, compatible (with compatibility note).
     //  - Nothing to Report: stable, not reviewed.
     //          
-    // Currently not reported: SourceURL (no-source and source-not-updated are reported), SourceBundled, Updated, Downloaded.
+    // Currently not reported: SourceURL (no-source and source-not-updated are reported), SourceBundled (only used to prevent no-source), Updated, Downloaded.
 
     public class TextReport
     {
@@ -287,8 +287,8 @@ namespace CompatibilityReport.Reporter
                 modText.Append(ModNote(subscribedMod));
                 modText.Append(Alternatives(subscribedMod));
                 modText.Append(subscribedMod.ReportSeverity <= Enums.ReportSeverity.MajorIssues ? Recommendations(subscribedMod) : "");
-                modText.Append(Format(subscribedMod.ReportSeverity == Enums.ReportSeverity.NothingToReport && subscribedMod.Stability > Enums.Stability.NotReviewed ? 
-                    "No known issues or incompatibilities with your other mods." : ""));
+                modText.Append(subscribedMod.ReportSeverity == Enums.ReportSeverity.NothingToReport && subscribedMod.Stability > Enums.Stability.NotReviewed ?
+                    Format("No known issues or incompatibilities with your other mods.") : "");
                 modText.Append(subscribedMod.IsCameraScript ? Format("This is a cinematic camera script, which technically is a mod and thus listed here.") : "");
                 modText.Append(subscribedMod.SteamID <= ModSettings.HighestFakeID ? "" : $"\nSteam Workshop page: { Toolkit.GetWorkshopUrl(steamID) }\n");
                 modText.AppendLine();
@@ -415,7 +415,8 @@ namespace CompatibilityReport.Reporter
 
 
         /// <summary>Creates report text for the statuses of a mod and increases the report severity for the mod if appropriate.</summary>
-        /// <remarks>Also reported: retired author. DependencyMod has its own method. Not reported: UnlistedInWorkshop, SourceObfuscated.</remarks>
+        /// <remarks>Also reported: retired author. DependencyMod has its own method. ModNamesDiffer is reported in the mod note (at Catalog.ScanSubscriptions()).
+        ///          Not reported: UnlistedInWorkshop, SourceObfuscated.</remarks>
         /// <returns>Formatted text, or an empty string if no reported status found.</returns>
         private string Statuses(Mod subscribedMod, bool authorRetired)
         {

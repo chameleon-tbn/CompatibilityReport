@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.7.5
+* Minor code changes
+
 ### Version 0.7.4
 * Don't report incompatibilities if one mod is the successor of the other mod
 * Report 'different release type' (stable vs beta) at both mods
@@ -8,8 +11,8 @@
 * Bugfix: bundled catalog not located on MacOS
 * Updater: allow author name change to Steam ID
 * Bugfix for the Updater: adding required mod as successor/etc. should not be allowed
-NOTE: The bundled catalog is changed to gzip, but the catalog download file not yet
-NOTE: Catalog major version has increased. Previous mod versions might not be able to read new catalogs
+* NOTE: The bundled catalog is changed to gzip, but the catalog download file not yet
+* NOTE: Catalog major version has increased. Previous mod versions might not be able to read new catalogs
 
 ### Version 0.7.3
 * Minor textual changes
@@ -44,7 +47,7 @@ NOTE: Catalog major version has increased. Previous mod versions might not be ab
 * Bugfix: local mods counted as non-reviewed subscribed mods
 * Updater: Datadumper changes
 * Bugfix for the Updater: Mod review dates now correctly updated
-NOTE: Catalog major version has increased. New catalogs cannot be read by previous mod versions
+* NOTE: Catalog major version has increased. New catalogs cannot be read by previous mod versions
 
 ### Version 0.6.2 beta
 * Added note to the report about non-reviewed subscribed mods

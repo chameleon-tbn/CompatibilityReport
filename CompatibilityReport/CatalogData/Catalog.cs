@@ -441,6 +441,16 @@ namespace CompatibilityReport.CatalogData
                     subscribedMod.Update(name: Toolkit.GetPluginName(plugin));
                 }
 
+                // Add the in-game name to the mod note, for mods where it seriously differs from the Workshop name.
+                if (subscribedMod.Statuses.Contains(Enums.Status.ModNamesDiffer))
+                {
+                    string inGameName = Toolkit.GetPluginName(plugin);
+                    if (inGameName != subscribedMod.Name)
+                    {
+                        subscribedMod.Update(note: $"{ (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is: { inGameName }");
+                    }
+                }
+
                 if (foundInCatalog)
                 {
                     Logger.Log($"Mod found: { subscribedMod.ToString() }{ (steamID == nextLocalModID -1 ? $", Path: { Toolkit.Privacy(plugin.modPath) }" : "") }", 
@@ -609,7 +619,7 @@ namespace CompatibilityReport.CatalogData
 
                     using (TextReader reader = new StreamReader(fullPath))
                     {
-                        loadedCatalog = (Catalog) serializer.Deserialize(reader);
+                        loadedCatalog = (Catalog)serializer.Deserialize(reader);
                     }
                 }
             }

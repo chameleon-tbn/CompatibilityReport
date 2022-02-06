@@ -8,8 +8,8 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string Version = "0.7.4";
-        public const string Build = "420";
+        public const string Version = "0.7.5";
+        public const string Build = "421";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 4;
 
