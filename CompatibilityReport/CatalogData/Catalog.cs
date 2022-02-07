@@ -447,7 +447,7 @@ namespace CompatibilityReport.CatalogData
                     string inGameName = Toolkit.GetPluginName(plugin);
                     if (inGameName != subscribedMod.Name)
                     {
-                        subscribedMod.Update(note: $"{ (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is: { inGameName }");
+                        subscribedMod.Update(note: $"{ (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is { inGameName }");
                     }
                 }
 
@@ -623,9 +623,22 @@ namespace CompatibilityReport.CatalogData
                     }
                 }
             }
+            catch (InvalidOperationException ex)
+            {
+                if (ex.InnerException != null && ex.InnerException.Message.Contains("<html xmlns=''> was not expected"))
+                {
+                    Logger.Log($"Catalog not downloaded due to download limits at the website.", Logger.Warning);
+                }
+                else
+                {
+                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                }
+                Logger.Exception(ex, Logger.Debug);
+                return null;
+            }
             catch (XmlException ex)
             {
-                Logger.Log($"XML error in catalog \"{ Toolkit.Privacy(fullPath) }\". Catalog could not be loaded.", Logger.Debug);
+                Logger.Log($"XML error while reading the catalog. Catalog could not be loaded: \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
