@@ -9,7 +9,7 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.7.5";
-        public const string Build = "421";
+        public const string Build = "422";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 4;
 
@@ -204,7 +204,9 @@ namespace CompatibilityReport.Util
         public static readonly List<string> SearchSourceUrlSites = new List<string>                                      // All must end in a slash.
         { 
             "https://github.com/",
-            "https://gist.github.com/" 
+            "http://github.com/",
+            "https://gist.github.com/",
+            "http://gist.github.com/"
         };
         public const string SearchSourceUrlRight = "\" ";
 
@@ -212,7 +214,9 @@ namespace CompatibilityReport.Util
         public static readonly List<string> CommonSourceUrlsToIgnore = new List<string>
         {
             "https://github.com/pardeike",
-            "https://github.com/sschoener/cities-skylines-detour"
+            "http://github.com/pardeike",
+            "https://github.com/sschoener/cities-skylines-detour",
+            "http://github.com/sschoener/cities-skylines-detour"
         };
 
         // Source URLs (parts) to discard if another source URL was already found.
