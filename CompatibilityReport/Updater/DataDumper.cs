@@ -31,8 +31,7 @@ namespace CompatibilityReport.Updater
             DumpAuthorsWithIDName(catalog, DataDump);
 
             // Required assets and map themes that are actually mods.
-            DumpFakeAssets(catalog, DataDump);
-            DumpFakeMapThemes(catalog, DataDump);
+            DumpFakeNonMods(catalog, DataDump);
 
             // Unused group and groups with less than 2 members, to see if we can clean up.
             DumpUnusedGroups(catalog, DataDump);
@@ -47,8 +46,9 @@ namespace CompatibilityReport.Updater
             // Mods with a new update
             DumpModsWithNewUpdate(catalog, DataDump);
 
-            // Mods without a review.
+            // Mods without a review and with an old review.
             DumpModsWithoutReview(catalog, DataDump);
+            DumpModsWithOldReview(catalog, DataDump, months: 6);
 
             // Mods used as required/successor/alternative/recommended that are broken or have a successor.
             DumpUsedModsWithIssues(catalog, DataDump);
@@ -60,7 +60,7 @@ namespace CompatibilityReport.Updater
             // Checks for potential review refinement:
 
             // Temporary datadumps
-            DumpInterestingForNow(catalog, DataDump);
+            // DumpInterestingForNow(catalog, DataDump);
 
             // Broken mods without successor or alternative.
             DumpBrokenModsWithoutSuccessor(catalog, DataDump);
@@ -72,17 +72,27 @@ namespace CompatibilityReport.Updater
             DumpAuthorsWithMultipleMods(catalog, DataDump);
             DumpAuthorsWithoutID(catalog, DataDump);
 
-            // No longer needed:
-            // * DumpModsWithOldReview(catalog, DataDump, months: 2);
-            // * DumpModsWithoutStability(catalog, DataDump);
-            // * DumpRetiredAuthors(catalog, DataDump);
-
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
             Logger.UpdaterLog($"Datadump created as { ModSettings.DataDumpFileName }.");
         }
 
 
-/*
+        /// <summary>Dumps all non-incompatible mods that have no review.</summary>
+        /// <remarks>It lists the mods Workshop URL and name.</remarks>
+        private static void DumpModsWithoutReview(Catalog catalog, StringBuilder DataDump)
+        {
+            DataDump.AppendLine(Title("Mods without a review:"));
+
+            foreach (Mod catalogMod in catalog.Mods)
+            {
+                if (catalogMod.Stability <= Enums.Stability.NotReviewed)
+                {
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
+                }
+            }
+        }
+
+
         /// <summary>Dumps all non-incompatible mods that have not been reviewed in the last x months.</summary>
         /// <remarks>It lists the mods Workshop URL, last review date and name.</remarks>
         private static void DumpModsWithOldReview(Catalog catalog, StringBuilder DataDump, int months)
@@ -98,38 +108,23 @@ namespace CompatibilityReport.Updater
                 }
             }
         }
-*/
 
 
-/*
-        /// <summary>Dumps all mods that have a review date but still have a 'Not Reviewed' stability.</summary>
-        /// <remarks>It lists the mods Workshop URL and name.</remarks>
-        private static void DumpModsWithoutStability(Catalog catalog, StringBuilder DataDump)
+        /// <summary>Dumps all mods with an old update that don't have an abandoned, deprecated or obsolete status.</summary>
+        /// <remarks>It lists the mods Workshop URL, name and stability. Incompatible mods are not included.</remarks>
+        private static void DumpOldModsNotAbandoned(Catalog catalog, StringBuilder DataDump, int months)
         {
-            DataDump.AppendLine(Title("Mods with a review date, but without a reviewed stability:"));
+            DataDump.AppendLine(Title($"Mods with an update older than { months } months but without an abandoned/deprecated/obsolete status:"));
+
+            DateTime deadline = DateTime.Today.AddMonths(-months);
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.ReviewDate != default && catalogMod.Stability <= Enums.Stability.NotReviewed)
+                if (catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop && catalogMod.Stability != Enums.Stability.NotReviewed &&
+                    catalogMod.Updated < deadline && !catalogMod.Statuses.Contains(Enums.Status.Abandoned) && !catalogMod.Statuses.Contains(Enums.Status.Deprecated) &&
+                    !catalogMod.Statuses.Contains(Enums.Status.Obsolete))
                 {
-                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
-                }
-            }
-        }
-*/
-
-
-        /// <summary>Dumps all non-incompatible mods that have no review date.</summary>
-        /// <remarks>It lists the mods Workshop URL and name.</remarks>
-        private static void DumpModsWithoutReview(Catalog catalog, StringBuilder DataDump)
-        {
-            DataDump.AppendLine(Title("Mods without a review:"));
-
-            foreach (Mod catalogMod in catalog.Mods)
-            {
-                if (catalogMod.Stability <= Enums.Stability.NotReviewed)
-                {
-                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name }");
+                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }]");
                 }
             }
         }
@@ -181,26 +176,6 @@ namespace CompatibilityReport.Updater
                 {
                     DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } " +
                         $"[{ catalogMod.Stability }{ (catalogMod.Successors.Any() ? ", has successor" : "") }]");
-                }
-            }
-        }
-
-
-        /// <summary>Dumps all mods with an old update that don't have an abandoned, deprecated or obsolete status.</summary>
-        /// <remarks>It lists the mods Workshop URL, name and stability. Incompatible mods are not included.</remarks>
-        private static void DumpOldModsNotAbandoned(Catalog catalog, StringBuilder DataDump, int months)
-        {
-            DataDump.AppendLine(Title($"Mods with an update older than { months } months but without an abandoned/deprecated/obsolete status:"));
-
-            DateTime deadline = DateTime.Today.AddMonths(-months);
-
-            foreach (Mod catalogMod in catalog.Mods)
-            {
-                if (catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop && catalogMod.Stability != Enums.Stability.NotReviewed && 
-                    catalogMod.Updated < deadline && !catalogMod.Statuses.Contains(Enums.Status.Abandoned) && !catalogMod.Statuses.Contains(Enums.Status.Deprecated) &&  
-                    !catalogMod.Statuses.Contains(Enums.Status.Obsolete))
-                {
-                    DataDump.AppendLine($"{ WorkshopUrl(catalogMod.SteamID) } : { catalogMod.Name } [{ catalogMod.Stability }]");
                 }
             }
         }
@@ -347,24 +322,6 @@ namespace CompatibilityReport.Updater
         }
 
 
-/*
-        /// <summary>Dumps all authors with the retired status.</summary>
-        /// <remarks>It lists the authors name and Workshop URL.</remarks>
-        private static void DumpRetiredAuthors(Catalog catalog, StringBuilder DataDump)
-        {
-            DataDump.AppendLine(Title("Retired authors:"));
-
-            foreach (Author catalogAuthor in catalog.Authors)
-            {
-                if (catalogAuthor.Retired)
-                {
-                    DataDump.AppendLine($"{ catalogAuthor.Name } : { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
-                }
-            }
-        }
-*/
-
-
         /// <summary>Dumps the suppressed warnings about unnamed mods and duplicate authors.</summary>
         /// <remarks>It lists the Steam ID and name from the mods and authors.</remarks>
         private static void DumpSuppressedWarnings(Catalog catalog, StringBuilder DataDump)
@@ -392,47 +349,29 @@ namespace CompatibilityReport.Updater
         }
 
 
-        /// <summary>Dumps required assets that are actually existing mods.</summary>
+        /// <summary>Dumps required assets and map themes that are actually existing mods.</summary>
         /// <remarks>It lists the mods Workshop URL and name.</remarks>
-        private static void DumpFakeAssets(Catalog catalog, StringBuilder DataDump)
+        private static void DumpFakeNonMods(Catalog catalog, StringBuilder DataDump)
         {
-            DataDump.AppendLine(Title("Required assets that are actually mods:"));
+            DataDump.AppendLine(Title("Required assets and/or map themes that are actually mods:"));
 
-            foreach (ulong steamID in catalog.RequiredAssets)
+            foreach (ulong steamID in catalog.RequiredAssets.Concat(catalog.MapThemes))
             {
-                Mod fakeAsset = catalog.GetMod(steamID);
+                Mod actualMod = catalog.GetMod(steamID);
 
-                if (fakeAsset != null)
+                if (actualMod != null)
                 {
-                    DataDump.AppendLine($"{ WorkshopUrl(fakeAsset.SteamID) } : { fakeAsset.Name }");
+                    DataDump.AppendLine($"{ WorkshopUrl(actualMod.SteamID) } : { actualMod.Name }");
                 }
             }
         }
 
 
-        /// <summary>Dumps map themes that are actually existing mods.</summary>
-        /// <remarks>It lists the mods Workshop URL and name.</remarks>
-        private static void DumpFakeMapThemes(Catalog catalog, StringBuilder DataDump)
-        {
-            DataDump.AppendLine(Title("Map themes that are actually mods:"));
-
-            foreach (ulong steamID in catalog.MapThemes)
-            {
-                Mod fakeMapTheme = catalog.GetMod(steamID);
-
-                if (fakeMapTheme != null)
-                {
-                    DataDump.AppendLine($"{ WorkshopUrl(fakeMapTheme.SteamID) } : { fakeMapTheme.Name }");
-                }
-            }
-        }
-
-
-        /// <summary>Dumps data that is interesting for now. This will be skipped when not needed.</summary>
+        /// <summary>Dumps data that is interesting for now.</summary>
+#pragma warning disable IDE0051 // Remove unused private members
         private static void DumpInterestingForNow(Catalog catalog, StringBuilder DataDump)
+#pragma warning restore IDE0051
         {
-            return;
-
             DataDump.AppendLine(Title("All issues and compatibilities with BloodyPenguin's mods:"));
 
             foreach (Mod catalogMod in catalog.Mods)
@@ -529,7 +468,7 @@ namespace CompatibilityReport.Updater
         {
             string separator = new string('=', title.Length);
 
-            return $"\n\n{ separator }\n{ title }\n{ separator }\n";
+            return $"\n\n{ separator }\n{ title }\n{ separator }";
         }
 
 
