@@ -1,7 +1,8 @@
 # Compatibility Report
 
 ### Version 0.7.5
-* Minor code changes
+* Minor code improvements
+* Bugfix for the Updater: some GitHub source URLs not detected
 
 ### Version 0.7.4
 * Don't report incompatibilities if one mod is the successor of the other mod
