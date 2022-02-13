@@ -9,8 +9,8 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.7.5";
-        public const string Build = "426";
-        public const string ReleaseType = ".debug";
+        public const string Build = "427";
+        public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 4;
 
         public const string ModName = "Compatibility Report";

@@ -2,6 +2,7 @@
 
 ### Version 0.7.5
 * Minor code improvements
+* Improved logging
 * Bugfix for the Updater: some GitHub source URLs not detected
 
 ### Version 0.7.4
