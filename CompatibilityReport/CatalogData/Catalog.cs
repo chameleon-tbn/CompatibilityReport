@@ -600,18 +600,21 @@ namespace CompatibilityReport.CatalogData
         {
             Catalog loadedCatalog = new Catalog();
 
+            Logger.Log($"Trying to load catalog from disk: \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
 
                 try
                 {
+                    Logger.Log($"Trying to load as GZip.", Logger.Debug);
                     using (FileStream file = new FileStream(fullPath, FileMode.Open, FileAccess.Read))
                     using (GZipStream gzip = new GZipStream(file, CompressionMode.Decompress))
                     using (TextReader reader = new StreamReader(gzip))
                     {
                         loadedCatalog = (Catalog)serializer.Deserialize(reader);
                     }
+                    Logger.Log($"Successfully loaded as GZip.", Logger.Debug);
                 }
                 catch (IOException)
                 {
@@ -621,6 +624,7 @@ namespace CompatibilityReport.CatalogData
                     {
                         loadedCatalog = (Catalog)serializer.Deserialize(reader);
                     }
+                    Logger.Log($"Successfully loaded as plain text.", Logger.Debug);
                 }
             }
             catch (InvalidOperationException ex)
@@ -657,6 +661,7 @@ namespace CompatibilityReport.CatalogData
                 return null;
             }
 
+            Logger.Log($"Catalog loaded successfully.", Logger.Debug);
             return loadedCatalog;
         }
 

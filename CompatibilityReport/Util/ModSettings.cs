@@ -9,8 +9,8 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.7.5";
-        public const string Build = "424";
-        public const string ReleaseType = "";
+        public const string Build = "425";
+        public const string ReleaseType = ".debug";
         public const int CurrentCatalogStructureVersion = 4;
 
         public const string ModName = "Compatibility Report";
@@ -141,7 +141,7 @@ namespace CompatibilityReport.Util
         // Todo 0.8 Settings that will be available in a settings xml file.
         public static int DownloadRetries { get; private set; } = 4;
         public static bool ScanBeforeMainMenu { get; private set; } = true;
-        public static bool DebugMode { get; private set; } = File.Exists(Path.Combine(WorkPath, $"{ InternalName }_Debug.enabled"));
+        public static bool DebugMode { get; private set; } = !string.IsNullOrEmpty(ReleaseType) || File.Exists(Path.Combine(WorkPath, $"{ InternalName }_Debug.enabled"));
         public static long LogMaxSize { get; private set; } = 100 * 1024;
 
 

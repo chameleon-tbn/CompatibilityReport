@@ -84,7 +84,14 @@ namespace CompatibilityReport.Updater
             Logger.Log("Reloading the catalog.");
             catalog = Catalog.Load();
 
-            DataDumper.Start(catalog);
+            if (catalog == null)
+            {
+                Logger.Log("Catalog could not be reloaded.", Logger.Error);
+            }
+            else
+            {
+                DataDumper.Start(catalog);
+            }
 
             Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
             Toolkit.DeleteFile(tempCsvCombinedFullPath);

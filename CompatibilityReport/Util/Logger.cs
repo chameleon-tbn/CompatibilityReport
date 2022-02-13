@@ -47,7 +47,7 @@ namespace CompatibilityReport.Util
 
                     debugLog = new LogFiler(fullPath, backup: ModSettings.DebugMode);
 
-                    GameLog($"Debug logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
+                    GameLog($"Debug enabled. Debug logging for this mod can be found in \"{ Toolkit.Privacy(fullPath) }\".");
                 }
 
                 debugLog.WriteLine(message, logLevel, timestamp: true, duplicateToGameLog: true);
