@@ -133,6 +133,12 @@ namespace CompatibilityReport.Reporter
                     "be detected correctly by other mods.\n", indent: new string(' ', "NOTE: ".Length)));
             }
 
+            if (catalog.FakeSubscriptionCount != 0)
+            {
+                reportText.AppendLine(Toolkit.WordWrap($"NOTE: The report includes { catalog.FakeSubscriptionCount } fake " +
+                    $"subscription{ (catalog.FakeSubscriptionCount == 1 ? "" : "s") }\n", indent: new string(' ', "NOTE: ".Length)));
+            }
+
             int nonReviewedSubscriptions = catalog.SubscriptionCount() - catalog.ReviewedSubscriptionCount - catalog.LocalSubscriptionCount;
 
             if (nonReviewedSubscriptions != 0)

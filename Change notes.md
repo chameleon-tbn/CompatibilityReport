@@ -1,5 +1,8 @@
 # Compatibility Report
 
+### Version 0.7.6
+* Support for fake subscriptions, for testing
+
 ### Version 0.7.5
 * Minor code improvements
 * Improved logging

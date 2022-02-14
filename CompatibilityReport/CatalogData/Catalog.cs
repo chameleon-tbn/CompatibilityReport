@@ -59,6 +59,7 @@ namespace CompatibilityReport.CatalogData
         [XmlIgnore] public int ReviewedModCount { get; private set; }
         [XmlIgnore] public int ReviewedSubscriptionCount { get; private set; }
         [XmlIgnore] public int LocalSubscriptionCount { get; private set; }
+        [XmlIgnore] public int FakeSubscriptionCount { get; private set; }
 
         [XmlIgnore] public Updater.ChangeNotes ChangeNotes { get; } = new Updater.ChangeNotes();
 
@@ -370,7 +371,8 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Gets all subscribed, local and enabled built-in mods, and merge their info with the mods in the catalog.</summary>
-        /// <remarks>Local mods and unknown Steam Workshop mods are temporarily added to the catalog in memory.</remarks>
+        /// <remarks>Local mods and unknown Steam Workshop mods are temporarily added to the catalog in memory. 
+        ///          This also gets all fake subscriptions, if supplied.</remarks>
         public void ScanSubscriptions()
         {
             List<PluginManager.PluginInfo> plugins = new List<PluginManager.PluginInfo>();
@@ -466,26 +468,32 @@ namespace CompatibilityReport.CatalogData
                 subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript, modPath: plugin.modPath, 
                     downloadedTime: PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime());
 
-                if (subscribedMod.Stability > Enums.Stability.NotReviewed)
-                {
-                    ReviewedSubscriptionCount++;
-                }
+                AddSubscription(subscribedMod);
+            }
 
-                subscriptionIDIndex.Add(subscribedMod.SteamID);
-
-                if (subscriptionNameIndex.ContainsKey(subscribedMod.Name))
+            // Add fake subscriptions from a file, if it exists. Ignores lines that are not a Steam ID and all IDs that are subscribed or don't exist in the catalog.
+            if (File.Exists(ModSettings.FakeSubscriptionsFileFullPath))
+            {
+                using (StreamReader reader = File.OpenText(ModSettings.FakeSubscriptionsFileFullPath))
                 {
-                    // Identical name found earlier for another mod. Add the Steam ID to the list of Steam IDs for this name and sort the list.
-                    subscriptionNameIndex[subscribedMod.Name].Add(subscribedMod.SteamID);
-                    subscriptionNameIndex[subscribedMod.Name].Sort();
-                }
-                else
-                {
-                    subscriptionNameIndex.Add(subscribedMod.Name, new List<ulong> { subscribedMod.SteamID });
-                }
+                    string line;
 
-                // Add an empty entry to the compatibilities index for this mod, to make sure every subscription has an empty list in that index instead of null.
-                subscriptionCompatibilityIndex.Add(subscribedMod.SteamID, new List<Compatibility>());
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        Mod subscribedMod = GetMod(Toolkit.ConvertToUlong(line));
+
+                        if (subscribedMod != null && !subscriptionIDIndex.Contains(subscribedMod.SteamID))
+                        {
+                            Logger.Log($"Fake subscription added for testing: { subscribedMod.ToString() }");
+
+                            subscribedMod.Update(note: (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") +
+                                "This is a fake subscription for testing purposes. This is not really subscribed.");
+
+                            AddSubscription(subscribedMod);
+                            FakeSubscriptionCount++;
+                        }
+                    }
+                }
             }
 
             subscriptionIDIndex.Sort();
@@ -499,6 +507,31 @@ namespace CompatibilityReport.CatalogData
                     subscriptionCompatibilityIndex[catalogCompatibility.SecondModID].Add(catalogCompatibility);
                 }
             }
+        }
+
+
+        private void AddSubscription(Mod subscribedMod)
+        {
+            if (subscribedMod.Stability > Enums.Stability.NotReviewed)
+            {
+                ReviewedSubscriptionCount++;
+            }
+
+            subscriptionIDIndex.Add(subscribedMod.SteamID);
+
+            if (subscriptionNameIndex.ContainsKey(subscribedMod.Name))
+            {
+                // Identical name found earlier for another mod. Add the Steam ID to the list of Steam IDs for this name and sort the list.
+                subscriptionNameIndex[subscribedMod.Name].Add(subscribedMod.SteamID);
+                subscriptionNameIndex[subscribedMod.Name].Sort();
+            }
+            else
+            {
+                subscriptionNameIndex.Add(subscribedMod.Name, new List<ulong> { subscribedMod.SteamID });
+            }
+
+            // Add an empty entry to the compatibilities index for this mod, to make sure every subscription has an empty list in that index instead of null.
+            subscriptionCompatibilityIndex.Add(subscribedMod.SteamID, new List<Compatibility>());
         }
 
 

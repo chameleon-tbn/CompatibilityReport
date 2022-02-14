@@ -8,8 +8,8 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string Version = "0.7.5";
-        public const string Build = "427";
+        public const string Version = "0.7.6";
+        public const string Build = "428";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 4;
 
@@ -34,11 +34,11 @@ namespace CompatibilityReport.Util
         };
 
         public const ulong FakeAuthorIDforColossalOrder = 101;
-        public const ulong LowestLocalModID =            1001;
-        public const ulong HighestLocalModID =           9999;
-        public const ulong LowestGroupID =              10001;
-        public const ulong HighestGroupID =             99999;
-        public const ulong HighestFakeID =             999999;
+        public const ulong LowestLocalModID = 1001;
+        public const ulong HighestLocalModID = 9999;
+        public const ulong LowestGroupID = 10001;
+        public const ulong HighestGroupID = 99999;
+        public const ulong HighestFakeID = 999999;
 
 
         // Filenames and paths.
@@ -67,8 +67,8 @@ namespace CompatibilityReport.Util
         public const string OldDownloadedCatalogFileName = InternalName + "_Downloaded_Catalog.xml";
 
         public static string BundledCatalogFullPath
-        { 
-            get 
+        {
+            get
             {
                 try
                 {
@@ -151,6 +151,8 @@ namespace CompatibilityReport.Util
         public const string UpdaterSettingsFileName = InternalName + "_UpdaterSettings.xml";
         public const string UpdaterLogFileName = InternalName + "_Updater.log";
         public const string DataDumpFileName = InternalName + "_DataDump.txt";
+
+        public static string FakeSubscriptionsFileFullPath { get; } = Path.Combine(WorkPath, $"{ InternalName }_FakeSubscriptions.txt");
 
         public static string TempDownloadFullPath { get; } = Path.Combine(WorkPath, $"{ InternalName }_Download.tmp");
         public const string TempCsvCombinedFileName = InternalName + "_CSVCombined.tmp";
