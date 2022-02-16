@@ -61,8 +61,8 @@ namespace CompatibilityReport.Updater
                 }
                 else
                 {
+                    // Save the new catalog.
                     UpdateAuthorRetirement(catalog);
-
                     UpdateCompatibilityModNames(catalog);
 
                     if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
@@ -91,6 +91,11 @@ namespace CompatibilityReport.Updater
             else
             {
                 DataDumper.Start(catalog);
+            }
+
+            if (ModSettings.UpdaterOneTimeActionEnabled)
+            {
+                OneTimeAction.Start();
             }
 
             Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);

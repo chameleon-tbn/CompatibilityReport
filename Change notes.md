@@ -2,6 +2,7 @@
 
 ### Version 0.7.6
 * Support for fake subscriptions, for testing
+* Support for one-time actions of the Updater
 
 ### Version 0.7.5
 * Minor code improvements

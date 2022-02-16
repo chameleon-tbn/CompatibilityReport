@@ -9,7 +9,7 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.7.6";
-        public const string Build = "428";
+        public const string Build = "429";
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 4;
 
@@ -151,6 +151,7 @@ namespace CompatibilityReport.Util
         public const string UpdaterSettingsFileName = InternalName + "_UpdaterSettings.xml";
         public const string UpdaterLogFileName = InternalName + "_Updater.log";
         public const string DataDumpFileName = InternalName + "_DataDump.txt";
+        public const string OneTimeActionFileName = InternalName + "_OneTimeAction.txt";
 
         public static string FakeSubscriptionsFileFullPath { get; } = Path.Combine(WorkPath, $"{ InternalName }_FakeSubscriptions.txt");
 
@@ -237,9 +238,10 @@ namespace CompatibilityReport.Util
         // Todo 0.8 Defaults for updater settings that will be available in an updater settings xml file.
         public static bool UpdaterEnabled { get; private set; } = true;
         public static bool WebCrawlerEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.enabled"));
+        public static bool UpdaterOneTimeActionEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_OneTimeAction.enabled"));
         public static int SteamMaxFailedPages { get; private set; } = 4;
         public static int SteamMaxListingPages { get; private set; } = 300;
-        public static int EstimatedMillisecondsPerModPage { get; private set; } = 550;
+        public static int EstimatedMillisecondsPerModPage { get; private set; } = 500;
         public static int DaysOfInactivityToRetireAuthor { get; private set; } = 365;
         public static int WeeksForSoonRetired { get; private set; } = 2;
 

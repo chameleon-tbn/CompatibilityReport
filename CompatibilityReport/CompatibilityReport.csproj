@@ -70,6 +70,7 @@
     <Compile Include="Reporter\Report.cs" />
     <Compile Include="Reporter\TextReport.cs" />
     <Compile Include="Updater\ChangeNotes.cs" />
+    <Compile Include="Updater\OneTimeAction.cs" />
     <Compile Include="Updater\WebCrawler.cs" />
     <Compile Include="Updater\CatalogUpdater.cs" />
     <Compile Include="Updater\FirstCatalog.cs" />
