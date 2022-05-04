@@ -56,6 +56,7 @@ namespace CompatibilityReport.CatalogData
         private readonly Dictionary<string, List<ulong>> subscriptionNameIndex = new Dictionary<string, List<ulong>>();
         private readonly Dictionary<ulong, List<Compatibility>> subscriptionCompatibilityIndex = new Dictionary<ulong, List<Compatibility>>();
 
+        [XmlIgnore] public DateTime Downloaded { get; private set; }
         [XmlIgnore] public int ReviewedModCount { get; private set; }
         [XmlIgnore] public int ReviewedSubscriptionCount { get; private set; }
         [XmlIgnore] public int LocalSubscriptionCount { get; private set; }
@@ -65,6 +66,7 @@ namespace CompatibilityReport.CatalogData
 
         public static bool DownloadStarted { get; private set; }
         public static bool DownloadSuccessful { get; private set; }
+        public static string SettingsUIText { get; private set; } = "unknown, catalog not loaded yet."; 
 
 
         /// <summary>Default constructor for deserialization and catalog creation.</summary>
@@ -690,6 +692,8 @@ namespace CompatibilityReport.CatalogData
                 return null;
             }
 
+            loadedCatalog.Downloaded = File.GetLastWriteTime(fullPath);
+
             return loadedCatalog;
         }
 
@@ -711,6 +715,9 @@ namespace CompatibilityReport.CatalogData
             if (newestCatalog != null)
             {
                 newestCatalog.CreateIndexes();
+
+                SettingsUIText = $"<color { ModSettings.SettingsUIColor }>{ newestCatalog.VersionString() }</color>, created on { newestCatalog.Updated:d MMM yyyy}" +
+                    $", downloaded on { newestCatalog.Downloaded:d MMM yyyy}";
 
                 Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.Updated.ToLocalTime().ToLongDateString() }. " +
                     $"Catalog contains { newestCatalog.ReviewedModCount } reviewed mods with { newestCatalog.Compatibilities.Count } compatibilities and " +

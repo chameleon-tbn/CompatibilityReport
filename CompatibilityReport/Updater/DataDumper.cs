@@ -120,7 +120,7 @@ namespace CompatibilityReport.Updater
 
             foreach (Mod catalogMod in catalog.Mods)
             {
-                if (catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop && catalogMod.Stability != Enums.Stability.NotReviewed &&
+                if (catalogMod.SteamID > ModSettings.HighestFakeID && catalogMod.Stability != Enums.Stability.IncompatibleAccordingToWorkshop && catalogMod.Stability != Enums.Stability.NotReviewed &&
                     catalogMod.Updated < deadline && !catalogMod.Statuses.Contains(Enums.Status.Abandoned) && !catalogMod.Statuses.Contains(Enums.Status.Deprecated) &&
                     !catalogMod.Statuses.Contains(Enums.Status.Obsolete))
                 {

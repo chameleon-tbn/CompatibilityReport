@@ -1,0 +1,180 @@
+﻿TODO and IDEAS (also see roadmap in readme)
+===========================================
+
+* CURRENT VERSION
+    - Bugs / issues:
+        * Google Drive quota, resulting in no catalog update on some downloads
+        * Google Drive blocked in China, resulting in very slow game start (and no catalog update ofc.)
+    - Changes to CSV actions:
+        * new: Set_CompatibilityNote to add or replace a(n existing) compatibility note without changing the compatibility
+        * new: Remove_CompatibilityNote
+    - Changes to DataDumper:
+        * new: all with status NoCommentSection
+        * new: mods that require a broken (or worse) mod and have a stability better than broken themselves
+    - Other changes:
+        * detect certain local mods (name and/or mod path) and link them to Workshop mod through Steam ID
+            - create LocalMods in catalog, with the data for linking
+            - example: mod name "Update from GitHub", folder UpdateFromGitHub
+        * sort mods in compatibilities, so first mod is always lowest Steam ID
+            - including a one time sort of existing catalog data
+
+
+* 1.0 Mod Options
+    - settings xml
+	- on-demand catalog download
+	- on-demand report creation
+    - report format (text / html)
+    - report path
+	- schedule catalog download every time, once a day, once a week, never (on-demand only)
+    - option to show source URL and download date/time in report (default off)
+    - debug logging
+    - button to open the report and to open the Google Form
+    - ignore compatibilities between specific mods (planned for 1.x, not 0.7)
+    - maybe: compact report as option. Skip: retired author, abandoned mod, no source, ws url from "issues with", ...; maybe regular, compact, custom (with all options)
+    - examples for mod options: 
+        - https://skylines.paradoxwikis.com/Mod_Options_Panel
+        - https://github.com/keallu/CSL-StreamIt/blob/5df6d18acb2a8b4613c39ceab1fe0d37a8b3338b/StreamIt/StreamUtils.cs
+        - LSM: field for input, button to open text file, lines between categories
+        - AVO: button to open folder and website, version top right, field with last version/date, lines between categories
+        - MCC: button to open folder, lines between categories
+        - Autoline Color Redux: slider, dropdown, lines between categories
+        - FPS Booster: colored text
+
+
+* 1.1 Reporter
+    - new HTML layout (LoadingScreen style); categorize on issue severity
+    - keep track of some things for a summary warning: disabled mods, local (non built-in) mods, ...
+
+
+* 2.0 Steam API instead of crawler; requires Steam Web API user authentication key
+    - https://partner.steamgames.com/doc/webapi/IPublishedFileService
+    - https://partner.steamgames.com/doc/api/ISteamUGC#CreateQueryAllUGCRequest
+
+
+Other ideas
+    - Mod linking, for mods that aren't really mods but "settings" for other mods (like building themes)
+    - Succeeded by is minor issue or major issue category? (or its own?)
+    - Split minor issues into two categories? minor issues and: trivial issues / warnings / ???; Github #37
+    - Check Loading Order Mod/Tool for time zone issue fixes
+    - Put OS and memory info at the bottom of the report?
+    - Remove old mod change notes from catalog, or keep them all?
+    - Warnings about conflicting hotkeys that cannot be changed
+    - Standalone Updater tool; move Change Notes from Catalog to CatalogUpdater or something
+    - TLS issue, see https://steamcommunity.com/sharedfiles/filedetails/?id=2588499551 (comment 2-2-2022):
+      "You can't really get around the TLS issues, you have to approach it like a Unity game, e.g. instead of using the .NET WebRequest, WebClient etc you use a UnityWebRequest and use a Coroutine setup on a MonoBehaviour."  -> search for StartCoroutine()
+    - Encapsulate TextReport file/stringbuilder in a class. The class would have a data structure and Generate report method and get report text string method. (suggested by asterisk)
+
+
+===========================================
+
+CODE CLEANUP
+
+- check the tasklist for todo comments (View -> Tasklist); search for leftover todo's afterwards
+- remove unneeded/unused code; incl. vars in CatalogData
+- check for potential nullreference exception conditions
+- code cleanup:
+    - unneeded usings
+    - unneeded return values
+    - unneeded $"" string
+    - unused parameters, especially those with default values
+	- public vs private; no internal
+    - uint -> int where possible
+    - string vs StringBuilder
+    - ' & ' and ' | ' => ' && ' and ' || '
+    - Comment consistency: not too much, not too little. Preferably not behind code.
+    - Method comments using /// with 'summary', 'remarks' and 'returns' tags. Each tag with text on one line.
+    - loglevel debug vs warning vs error
+    - coding conventions (https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions):
+        * Capitalization of methods, public fields/properties and constants; uncapitalize private fields, method parameters and local vars within methods.
+        * Capitalization of abbreviations and names:
+            * Code: URL -> Url, DLC -> Dlc, HTML -> Html, CSV -> Csv, but ID stays ID.
+            * Text: URL, DLC, HTML, CSV, ID, Steam, Workshop, GitHub, game version (with space).
+        * Comments end with a period. No comments behind code.
+        * Blank lines where appropriate, only one (except between properties/fields and first method and between methods).
+        * Spacing, naming consistency, etc.
+        * use string interpolation ($"{ string1 } { string2 }") for concatenating (search for +).
+
+
+===========================================
+
+RANDOM CODE IDEAS
+
+MacOS check
+        Application.platform == RuntimePlatform.OSXPlayer
+
+
+Subscription update date:
+        foreach (var modEntry in PluginManager.instance.GetPluginsInfo().Select(pi => new EntryData(pi))
+        { var updated = modEntry.updated; }
+
+
+Activate TLS 1.2; sadly doesn't work for .Net FW 3.5:
+
+        public const SslProtocols _Tls12 = (SslProtocols)0x00000C00;
+        public const SecurityProtocolType Tls12 = (SecurityProtocolType)_Tls12;
+        System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolTypeExtensions.Tls12;     // not recognized
+
+    * add this, still doesn't work:
+
+        namespace System.Security.Authentication
+        {
+            public static class SslProtocolsExtensions
+            {
+                public const SslProtocols Tls12 = (SslProtocols)0x00000C00;
+                public const SslProtocols Tls11 = (SslProtocols)0x00000300;
+            }
+        }
+
+        namespace System.Net
+        {
+            using System.Security.Authentication;
+
+            public static class SecurityProtocolTypeExtensions
+            {
+                public const SecurityProtocolType Tls12 = (SecurityProtocolType)SslProtocolsExtensions.Tls12;
+                public const SecurityProtocolType Tls11 = (SecurityProtocolType)SslProtocolsExtensions.Tls11;
+                public const SecurityProtocolType SystemDefault = (SecurityProtocolType)0;
+            }
+        }
+
+
+Get our own mod path:
+
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                var pluginManager = PluginManager.instance;
+                var plugins = pluginManager.GetPluginsInfo();
+
+                foreach (var item in plugins)
+                {
+                    try
+                    {
+                        var instances = item.GetInstances<IUserMod>();
+                        if (!(instances.FirstOrDefault() is ChangeLoadingImageMod))
+                        {
+                            continue;
+                        }
+
+                        return item.modPath;
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                throw new Exception("Failed to find ChangeLoadingImage assembly!");
+            }
+        }
+
+
+Get mod path for any plugin:
+
+        private static string GetModPath()
+        {
+            PluginInfo pluginInfo = PluginManager.instance.GetPluginsInfo()
+                .FirstOrDefault(pi => pi.publishedFileID.AsUInt64 == SteamID);
+
+            return pluginInfo?.modPath;
+        }
