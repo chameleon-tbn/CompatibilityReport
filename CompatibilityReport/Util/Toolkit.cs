@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -8,11 +9,19 @@ using System.Text;
 using ColossalFramework.Plugins;
 using ICities;
 using CompatibilityReport.CatalogData;
+using UnityEngine;
+using UnityEngine.Networking;
+using GlobalConfig = CompatibilityReport.Settings.GlobalConfig;
 
 namespace CompatibilityReport.Util
 {
     public static class Toolkit
     {
+        public static bool IsMainMenuScene(string scene)
+        {
+            return scene == "Startup" || scene == "MainMenu" || scene == "IntroScreen" || scene == "IntroScreen2";
+        } 
+        
         /// <summary>Creates a short exception message.</summary>
         /// <returns>Exception message string.</returns>
         public static string ShortException(Exception ex)
@@ -173,7 +182,8 @@ namespace CompatibilityReport.Util
 
             ServicePointManager.ServerCertificateValidationCallback += TLSCallback;
 
-            while (failedAttempts <= ModSettings.DownloadRetries)
+            int downloadRetries = GlobalConfig.Instance.AdvancedConfig.DownloadRetries;
+            while (failedAttempts <= downloadRetries)
             {
                 try
                 {
@@ -198,13 +208,51 @@ namespace CompatibilityReport.Util
                     failedAttempts++;
 
                     Logger.Log($"Download of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
-                        (failedAttempts <= ModSettings.DownloadRetries ? ", will retry. " : ". Download abandoned. ") + 
+                        (failedAttempts <= downloadRetries ? ", will retry. " : ". Download abandoned. ") + 
                         (ex.Message.Contains("(502) Bad Gateway") ? "Exception: 502 Bad Gateway" : $"{ ShortException(ex) }"), Logger.Debug);
                 }
             }
 
             ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
             return success;
+        }
+        
+        /// <summary>
+        /// Reads page and invokes onComplete action when finished or failed
+        /// </summary>
+        /// <returns>Enumerator that can be used for creating non-blocking process, invokec onComplete with pari of {status, page (if success otherwise null)}</returns>
+        public static IEnumerator DownloadPageText(string url, Action<KeyValuePair<bool, string>> onComplete)
+        {
+            int failedAttempts = 0;
+
+            int downloadRetries = GlobalConfig.Instance.AdvancedConfig.DownloadRetries;
+            while (failedAttempts <= downloadRetries)
+            {
+                using (UnityWebRequest uwr = UnityWebRequest.Get(url))
+                {
+                    yield return uwr.Send();
+
+                    // wait until done (either with or without errors)
+                    while (!uwr.isDone)
+                    {
+                        yield return null;
+                    }
+                    
+                    if (uwr.isError)
+                    {
+                        Logger.Log($"Download of \"{url}\" failed {failedAttempts} time{(failedAttempts > 1 ? "s" : "")}" +
+                            (failedAttempts <= downloadRetries ? ", will retry.  " : ". Download abandoned. ") + $"{uwr.error}");
+                        failedAttempts++;
+                    }
+                    else
+                    {
+                        onComplete(new KeyValuePair<bool, string>(true, uwr.downloadHandler.text));
+                        yield break;
+                    }
+                }
+            }
+            yield return null;
+            onComplete(new KeyValuePair<bool, string>(false, null));
         }
 
 
@@ -214,6 +262,11 @@ namespace CompatibilityReport.Util
         public static string GetWorkshopUrl(ulong steamID)
         {
             return (steamID > ModSettings.HighestFakeID) ? $"https://steamcommunity.com/sharedfiles/filedetails/?id={ steamID }" : "";
+        }
+
+        public static string GetDirectoryUrl(string path)
+        {
+            return  $"file:///{path}";
         }
 
 
@@ -602,6 +655,20 @@ namespace CompatibilityReport.Util
             text = text.Contains("\n") ? text.Substring(0, text.IndexOf("\n")): text;
 
             return text.Length <= width ? text : $"{ text.Substring(0, width - 3) }...";
+        }
+
+        public static bool IsOlderThanFrequencyOption(DateTime lastWriteTimeUtc, int downloadFrequency)
+        {
+            switch (downloadFrequency)
+            {
+                case 0:
+                    return lastWriteTimeUtc.Date <= DateTime.Today.Subtract(TimeSpan.FromDays(7));//once a week
+                case 1:
+                    return false;//never
+                default:
+                    Logger.Log($"Not implemented frequency option: {downloadFrequency}", Logger.LogLevel.Warning);
+                    return false;
+            }
         }
     }
 }

@@ -1,6 +1,9 @@
-﻿using ColossalFramework.PlatformServices;
+﻿using System.IO;
+using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
 using CompatibilityReport.CatalogData;
+using CompatibilityReport.Settings;
+using CompatibilityReport.Settings.ConfigData;
 using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Reporter
@@ -11,19 +14,19 @@ namespace CompatibilityReport.Reporter
 
 
         /// <summary>Starts the reporter to create a text and/or HTML report.</summary>
-        public static void Create(string scene)
+        public static void Create(string scene, bool force = false)
         {
-            if (hasRun)
+            if (hasRun && !force)
             {
                 return;
             }
-            
+
             hasRun = true;
 
             // Remove the debug logfile from a previous session, if it exists.
-            if (!ModSettings.DebugMode)
+            if (!GlobalConfig.Instance.AdvancedConfig.DebugMode)
             {
-                Toolkit.DeleteFile(System.IO.Path.Combine(ModSettings.DebugLogPath, ModSettings.LogFileName));
+                Toolkit.DeleteFile(Path.Combine(ModSettings.DebugLogPath, ModSettings.LogFileName));
             }
 
             Logger.Log($"{ ModSettings.ModName } version { ModSettings.FullVersion }. Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.");
@@ -58,13 +61,15 @@ namespace CompatibilityReport.Reporter
             catalog.ScanSubscriptions();
             Logger.Log($"Reviewed { catalog.ReviewedSubscriptionCount } of your { catalog.SubscriptionCount() } mods.");
 
-            if (ModSettings.HtmlReport)
+            GeneralConfig modConfig = GlobalConfig.Instance.GeneralConfig;
+            if (modConfig.HtmlReport)
             {
-                // Todo 1.1 Create HTML report.
+                HtmlReport htmlReport = new HtmlReport(catalog);
+                htmlReport.Create();
             }
 
             // Always create the text report if the HTML report is disabled, so at least one report is created.
-            if (ModSettings.TextReport || !ModSettings.HtmlReport)
+            if (modConfig.TextReport || !modConfig.HtmlReport)
             {
                 TextReport textReport = new TextReport(catalog);
                 textReport.Create();

@@ -2,6 +2,7 @@
 using System.IO;
 using UnityEngine;
 using ColossalFramework.IO;
+using CompatibilityReport.Settings;
 
 namespace CompatibilityReport.Util
 {
@@ -9,7 +10,12 @@ namespace CompatibilityReport.Util
     {
         // Mod properties.
         public const string Version = "0.8.0";
-        public const string Build = "430";
+#if DEBUG
+        // allow for hot-swapping the mod - rebuild only if it's in the main menu, game will detect and reload the mod
+        public const string Build = "*";
+#else
+        public const string Build = "431";
+#endif
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 5;
 
@@ -55,9 +61,6 @@ namespace CompatibilityReport.Util
         public static string AlternativeReportPath { get; } = DataLocation.localApplicationData;
         public const string ReportTextFileName = InternalName + ".txt";
         public const string ReportHtmlFileName = InternalName + ".html";
-
-        public static string SettingsPath { get; } = DataLocation.applicationBase;
-        public const string SettingsFileName = InternalName + "_Settings.xml";
 
         public static string DebugLogPath { get; } = Path.Combine(Application.dataPath, "Logs");
         public const string LogFileName = InternalName + ".log";
@@ -131,22 +134,13 @@ namespace CompatibilityReport.Util
         // Miscellaneous settings
         public static string SettingsUIColor = "#FF8C00";
 
-
-        // Todo 0.8 Settings that will be available to users through mod options within the game.
-        public static string ReportPath { get; private set; } = DefaultReportPath;
-        public static int TextReportWidth { get; private set; } = MinimalTextReportWidth;
-        public static bool ReportSortByName { get; private set; } = true;
-        public static bool HtmlReport { get; private set; } = false;
-        public static bool TextReport { get; private set; } = true;
-        public static bool AllowOnDemandScanning { get; private set; } = false;
-
-
-        // Todo 0.8 Settings that will be available in a settings xml file.
-        public static int DownloadRetries { get; private set; } = 4;
-        public static bool ScanBeforeMainMenu { get; private set; } = true;
-        public static bool DebugMode { get; private set; } = !string.IsNullOrEmpty(ReleaseType) || File.Exists(Path.Combine(WorkPath, $"{ InternalName }_Debug.enabled"));
-        public static long LogMaxSize { get; private set; } = 100 * 1024;
-
+        public static bool DebugMode =>
+#if DEBUG
+            true;
+#else
+            GlobalConfig.Instance?.AdvancedConfig?.DebugMode ?? false;
+#endif
+        public static int TextReportWidth => GlobalConfig.Instance.GeneralConfig.TextReportWidth;
 
         // Updater properties.
         public static string UpdaterPath { get; } = Path.Combine(WorkPath, $"{ InternalName }Updater");
@@ -154,6 +148,7 @@ namespace CompatibilityReport.Util
         public const string UpdaterSettingsFileName = InternalName + "_UpdaterSettings.xml";
         public const string UpdaterLogFileName = InternalName + "_Updater.log";
         public const string DataDumpFileName = InternalName + "_DataDump.txt";
+        public const string CatalogDumpFileName = InternalName + "_CatalogDump.xml";
         public const string OneTimeActionFileName = InternalName + "_OneTimeAction.txt";
 
         public static string FakeSubscriptionsFileFullPath { get; } = Path.Combine(WorkPath, $"{ InternalName }_FakeSubscriptions.txt");
@@ -236,17 +231,6 @@ namespace CompatibilityReport.Util
             "translation",
             "blob"
         };
-
-
-        // Todo 0.8 Defaults for updater settings that will be available in an updater settings xml file.
-        public static bool UpdaterEnabled { get; private set; } = true;
-        public static bool WebCrawlerEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_WebCrawler.enabled"));
-        public static bool UpdaterOneTimeActionEnabled { get; private set; } = File.Exists(Path.Combine(UpdaterPath, $"{ InternalName }_OneTimeAction.enabled"));
-        public static int SteamMaxFailedPages { get; private set; } = 4;
-        public static int SteamMaxListingPages { get; private set; } = 300;
-        public static int EstimatedMillisecondsPerModPage { get; private set; } = 500;
-        public static int DaysOfInactivityToRetireAuthor { get; private set; } = 365;
-        public static int WeeksForSoonRetired { get; private set; } = 2;
 
         public const string FeedbackFormUrl = "https://forms.gle/PvezwfpgS1V1DHqA9";
 

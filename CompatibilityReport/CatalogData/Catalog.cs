@@ -9,6 +9,8 @@ using System.Xml.Serialization;
 using ColossalFramework;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
+using CompatibilityReport.Settings;
+using CompatibilityReport.Settings.ConfigData;
 using CompatibilityReport.Util;
 
 namespace CompatibilityReport.CatalogData
@@ -702,10 +704,10 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>Four catalogs are considered: new download, previously downloaded, bundled and updater. If a download is succesful, 
         ///          the previously downloaded and bundled catalogs are not checked. An updater catalog only exists for maintainers of this mod.</remarks>
         /// <returns>A reference to the catalog with the highest version, or null if none could be loaded.</returns>
-        public static Catalog Load()
+        public static Catalog Load(bool force = false)
         {
             // Downloaded catalog is always newer than, or same as, the previously downloaded and bundled catalogs, so no need to load those after succesful download.
-            Catalog downloadedCatalog = Download();
+            Catalog downloadedCatalog = Download(force);
             Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
             Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
             Catalog updaterCatalog = LoadUpdaterCatalog();
@@ -722,6 +724,8 @@ namespace CompatibilityReport.CatalogData
                 Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.Updated.ToLocalTime().ToLongDateString() }. " +
                     $"Catalog contains { newestCatalog.ReviewedModCount } reviewed mods with { newestCatalog.Compatibilities.Count } compatibilities and " +
                     $"{ newestCatalog.Mods.Count - newestCatalog.ReviewedModCount } mods with basic information.");
+                
+                SettingsManager.NotifyCatalogUpdated();
             }
 
             return newestCatalog;
@@ -731,14 +735,33 @@ namespace CompatibilityReport.CatalogData
         /// <summary>Downloads a new catalog and loads it into memory.</summary>
         /// <remarks>A download will only be started once per session. On download errors, the download will be retried immediately a few times.</remarks>
         /// <returns>A reference to the catalog, or null if the download failed.</returns>
-        private static Catalog Download()
+        private static Catalog Download(bool force = false)
         {
-            if (DownloadStarted)
+            int downloadFrequency = GlobalConfig.Instance.GeneralConfig.DownloadFrequency;
+            if (!force)
+            {
+                // once a week or never(on demand)
+                try
+                {
+                    FileInfo previouslyDownloadedCatalog = new FileInfo(Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName));
+                    if (!Toolkit.IsOlderThanFrequencyOption(previouslyDownloadedCatalog.LastWriteTimeUtc, downloadFrequency))
+                    {
+                        // Not enough time passed before last update
+                        Logger.Log($"Catalog update skipped. Selected frequency: {GeneralConfig.DownloadFrequencyToString(downloadFrequency)}, last update: {previouslyDownloadedCatalog.LastWriteTimeUtc}");
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    // catalog file probably does not exist, continue
+                    Logger.Exception(e);  
+                }
+            }
+
+            if (!force && DownloadStarted)
             {
                 return null;
             }
-
-            // Todo 0.8 Check settings if we should download this session. Otherwise, return before setting DownloadStarted.
 
             DownloadStarted = true;
 
@@ -881,7 +904,10 @@ namespace CompatibilityReport.CatalogData
 
             Array.Sort(files);
 
-            Catalog catalog = LoadFromDisk(files.Last());
+            string catalogPath = files.Last();
+            Logger.Log($"Loading Updater Catalog from: {catalogPath}");
+            
+            Catalog catalog = LoadFromDisk(catalogPath);
 
             if (catalog == null)
             {

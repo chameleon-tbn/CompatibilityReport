@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using CompatibilityReport.CatalogData;
+using CompatibilityReport.Settings;
+using CompatibilityReport.Settings.ConfigData;
 using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Updater
@@ -41,7 +43,7 @@ namespace CompatibilityReport.Updater
             // Checks for needed review updates:
 
             // Authors that retire soon, to check them for activity in comments.
-            DumpAuthorsSoonRetired(catalog, DataDump, weeks: ModSettings.WeeksForSoonRetired);
+            DumpAuthorsSoonRetired(catalog, DataDump, weeks: GlobalConfig.Instance.UpdaterConfig.WeeksForSoonRetired);
 
             // Mods with a new update
             DumpModsWithNewUpdate(catalog, DataDump);
@@ -312,9 +314,10 @@ namespace CompatibilityReport.Updater
         {
             DataDump.AppendLine(Title($"Authors that will retire within { weeks } week{ (weeks > 1 ? "s" : "") }:"));
 
+            UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
             foreach (Author catalogAuthor in catalog.Authors)
             {
-                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddDays(ModSettings.DaysOfInactivityToRetireAuthor - (weeks * 7)) < DateTime.Now)
+                if (!catalogAuthor.Retired && catalogAuthor.LastSeen.AddDays(updaterConfig.DaysOfInactivityToRetireAuthor - (weeks * 7)) < DateTime.Now)
                 {
                     DataDump.AppendLine($"{ catalogAuthor.Name } : { Toolkit.GetAuthorWorkshopUrl(catalogAuthor.SteamID, catalogAuthor.CustomUrl) }");
                 }

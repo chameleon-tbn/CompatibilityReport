@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CompatibilityReport.CatalogData;
+using CompatibilityReport.Settings;
+using CompatibilityReport.Settings.ConfigData;
+using CompatibilityReport.UI;
 using CompatibilityReport.Util;
+using UnityEngine;
+using Logger = CompatibilityReport.Util.Logger;
 
 namespace CompatibilityReport.Updater
 {
@@ -16,13 +22,9 @@ namespace CompatibilityReport.Updater
 
 
         /// <summary>Starts the updater, which gathers new mod and compatibility information and save an updated catalog.</summary>
+        [Obsolete("Replaced to support reporting progress to UI")]
         public static void Start()
         {
-            // Todo 0.8 Read updater settings file.
-            if (hasRun || !ModSettings.UpdaterEnabled)
-            {
-                return;
-            }
 
             Logger.Log("Catalog Updater started.");
             Logger.UpdaterLog($"Catalog Updater started. { ModSettings.ModName } version { ModSettings.FullVersion }. " +
@@ -47,11 +49,6 @@ namespace CompatibilityReport.Updater
                     $"{ catalog.Updated.ToLocalTime():t}.");
 
                 catalog.NewVersion(DateTime.Now);
-
-                if (ModSettings.WebCrawlerEnabled)
-                {
-                    WebCrawler.Start(catalog);
-                }
 
                 FileImporter.Start(catalog);
 
@@ -93,11 +90,6 @@ namespace CompatibilityReport.Updater
                 DataDumper.Start(catalog);
             }
 
-            if (ModSettings.UpdaterOneTimeActionEnabled)
-            {
-                OneTimeAction.Start();
-            }
-
             Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
             Toolkit.DeleteFile(tempCsvCombinedFullPath);
 
@@ -105,6 +97,143 @@ namespace CompatibilityReport.Updater
             Logger.Log("Catalog Updater has finished. Closing the catalog.");
 
             Logger.CloseUpdaterLog();
+        }
+
+        /// <summary>Starts the updater, which gathers new mod and compatibility information and save an updated catalog.</summary>
+        public static IEnumerator StartWithProgress(ProgressMonitor progressMonitor)
+        {
+            int maxSteps = 10;
+            int currentStep = 1;
+
+            Logger.Log("Catalog Updater started.");
+            progressMonitor.PushMessage("Catalog Updater started");
+            progressMonitor.UpdateStage(currentStep++, maxSteps);
+            
+            Logger.UpdaterLog($"Catalog Updater started. { ModSettings.ModName } version { ModSettings.FullVersion }. " +
+                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.");
+
+            hasRun = true;
+            string tempCsvCombinedFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName);
+
+            // Download the feedback form. Download might fail because of TLS 1.2, but that doesn't matter because we only want to make sure the URL stays active.
+            Toolkit.Download(ModSettings.FeedbackFormUrl, tempCsvCombinedFullPath);
+            Toolkit.DeleteFile(tempCsvCombinedFullPath);
+
+            progressMonitor.PushMessage("Loading Catalog...");
+            yield return new WaitForSeconds(1);
+            
+            Catalog catalog = Catalog.Load();
+
+            yield return new WaitForSeconds(0.5f);
+            
+            progressMonitor.UpdateStage(currentStep++, maxSteps);
+            if (catalog == null)
+            {
+                progressMonitor.PushMessage("<color #ffbf00>Catalog not found. Creating new one.</color>");
+                yield return new WaitForSeconds(0.5f);
+                maxSteps -= 5;
+                progressMonitor.PushMessage("Updated Stage number.");
+                
+                FirstCatalog.Create();
+                
+                progressMonitor.UpdateStage(currentStep++, maxSteps);
+                yield return new WaitForSeconds(0.5f);
+            }
+            else
+            {
+                Logger.UpdaterLog($"Current catalog version { catalog.VersionString() }, created on { catalog.Updated.ToLocalTime():D}, " +
+                    $"{ catalog.Updated.ToLocalTime():t}.");
+
+                catalog.NewVersion(DateTime.Now);
+
+                progressMonitor.PushMessage($"Current catalog version <color #f39c12>{ catalog.VersionString() }</color>. Starting CSV file importer");
+                yield return new WaitForSeconds(0.5f);
+                progressMonitor.UpdateStage(currentStep++, maxSteps);
+                
+                yield return FileImporter.StartWithProgress(catalog, progressMonitor);
+
+                progressMonitor.UpdateStage(currentStep++, maxSteps);
+                if (!catalog.ChangeNotes.Any())
+                {
+                    progressMonitor.PushMessage("<color #00ff00>No changes or new additions found. No new catalog created.</color>");
+                    maxSteps -= 3;
+                    progressMonitor.PushMessage("Updated Stage number.");
+                    
+                    progressMonitor.UpdateStage(currentStep++, maxSteps);
+                    yield return new WaitForSeconds(0.5f);
+                    
+                    Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
+                }
+                else
+                {
+                    progressMonitor.PushMessage("Updating Author Retirement...");
+                    yield return new WaitForSeconds(0.5f);
+                    progressMonitor.UpdateStage(currentStep++, maxSteps);
+                    
+                    // Save the new catalog.
+                    yield return UpdateAuthorRetirementWithProgress(catalog, progressMonitor);
+                    
+                    progressMonitor.PushMessage("Updating Compatibility Mod Names...");
+                    yield return new WaitForSeconds(0.5f);
+                    progressMonitor.UpdateStage(currentStep++, maxSteps);
+                    
+                    UpdateCompatibilityModNames(catalog);
+
+                    if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
+                    {
+                        progressMonitor.PushMessage("Setting new empty Catalog note...");
+                        SetNote(catalog, "");
+                    }
+
+                    progressMonitor.PushMessage("Saving Catalog...");
+                    yield return new WaitForSeconds(0.5f);
+                    progressMonitor.UpdateStage(currentStep++, maxSteps);
+                    
+                    string potentialAssets = catalog.GetPotentialAssetsString();
+                    if (!string.IsNullOrEmpty(potentialAssets))
+                    {
+                        Logger.UpdaterLog($"CSV action for adding assets to the catalog (after verification): Add_RequiredAssets { potentialAssets }");
+                    }
+
+                    SaveCatalog(catalog);
+                }
+            }
+
+            progressMonitor.UpdateStage(currentStep++, maxSteps);
+            progressMonitor.PushMessage("Reloading Catalog...");
+            yield return new WaitForSeconds(0.5f);
+            
+            // Reload the catalog as a validity check of the newly created catalog. Also get the correct catalog version for the datadumper if no new catalog.
+            Logger.Log("Reloading the catalog.");
+            catalog = Catalog.Load();
+
+            progressMonitor.UpdateStage(currentStep++, maxSteps);
+            if (catalog == null)
+            {
+                progressMonitor.PushMessage("Catalog could not be reloaded.");
+                Logger.Log("Catalog could not be reloaded.", Logger.Error);
+            }
+            else
+            {
+                progressMonitor.PushMessage("Starting DataDumper...");
+                yield return new WaitForSeconds(0.5f);
+                DataDumper.Start(catalog);
+            }
+
+            progressMonitor.PushMessage("Finalizing...");
+            progressMonitor.UpdateStage(currentStep, maxSteps);
+            yield return new WaitForSeconds(1f);
+            
+            Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
+            Toolkit.DeleteFile(tempCsvCombinedFullPath);
+
+            Logger.UpdaterLog("Catalog Updater has finished.");
+            Logger.Log("Catalog Updater has finished. Closing the catalog.");
+
+            Logger.CloseUpdaterLog();
+
+            yield return new WaitForSeconds(3);
+            progressMonitor.Dispose();
         }
 
 
@@ -459,6 +588,7 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Retires authors eligible due to last seen date, and authors without mods in the Steam Workshop. Un-retires others.</summary>
         /// <remarks>Resets exclusion when no longer needed. This creates change notes entries for authors that no longer have mods in the Steam Workshop.</remarks>
+        [Obsolete("Replaced to support reporting progress to UI")]
         private static void UpdateAuthorRetirement(Catalog catalog)
         {
             List<ulong> IDsOfAuthorsWithMods = new List<ulong>();
@@ -479,9 +609,10 @@ namespace CompatibilityReport.Updater
                 }
             }
 
+            UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
             foreach (Author catalogAuthor in catalog.Authors)
             {
-                bool oldEnoughForRetirement = catalogAuthor.LastSeen.AddDays(ModSettings.DaysOfInactivityToRetireAuthor) < DateTime.Today;
+                bool oldEnoughForRetirement = catalogAuthor.LastSeen.AddDays(updaterConfig.DaysOfInactivityToRetireAuthor) < DateTime.Today;
                 bool authorWithoutMods = !IDsOfAuthorsWithMods.Contains(catalogAuthor.SteamID) && !UrlsOfAuthorsWithMods.Contains(catalogAuthor.CustomUrl);
 
                 if (authorWithoutMods)
@@ -510,6 +641,90 @@ namespace CompatibilityReport.Updater
                     catalogAuthor.Update(exclusionForRetired: false);
                 }
             }
+        }
+
+
+        /// <summary>Retires authors eligible due to last seen date, and authors without mods in the Steam Workshop. Un-retires others.</summary>
+        /// <remarks>Resets exclusion when no longer needed. This creates change notes entries for authors that no longer have mods in the Steam Workshop.</remarks>
+        private static IEnumerator UpdateAuthorRetirementWithProgress(Catalog catalog, ProgressMonitor progressMonitor)
+        {
+            List<ulong> IDsOfAuthorsWithMods = new List<ulong>();
+            List<string> UrlsOfAuthorsWithMods = new List<string>();
+
+            int counter = 0;
+            progressMonitor.StartProgress(catalog.Mods.Count, $"Preparing ids and urls. <color #00ff00>{catalog.Mods.Count}</color> mods");
+            foreach (Mod catalogMod in catalog.Mods)
+            {
+                if (!catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
+                {
+                    if (catalogMod.AuthorID != 0 && !IDsOfAuthorsWithMods.Contains(catalogMod.AuthorID))
+                    {
+                        IDsOfAuthorsWithMods.Add(catalogMod.AuthorID);
+                    }
+                    else if (!string.IsNullOrEmpty(catalogMod.AuthorUrl) && !UrlsOfAuthorsWithMods.Contains(catalogMod.AuthorUrl))
+                    {
+                        UrlsOfAuthorsWithMods.Add(catalogMod.AuthorUrl);
+                    }
+                }
+                
+                if (++counter % 100 == 0)
+                {
+                    progressMonitor.ReportProgress(counter, $"Scanned {counter} of {catalog.Mods.Count} mods");
+                }
+            }
+            
+            progressMonitor.ReportProgress(catalog.Mods.Count, $"Scan complete. Found {IDsOfAuthorsWithMods.Count} authors and {UrlsOfAuthorsWithMods} urls");
+            yield return new WaitForSeconds(0.5f);
+
+            counter = 0;
+            int updated = 0;
+            progressMonitor.PushMessage("Updating retirement...");
+            progressMonitor.StartProgress(catalog.Authors.Count, $"Updating retirement of {catalog.Authors.Count} authors");
+            
+            UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
+            foreach (Author catalogAuthor in catalog.Authors)
+            {
+                bool oldEnoughForRetirement = catalogAuthor.LastSeen.AddDays(updaterConfig.DaysOfInactivityToRetireAuthor) < DateTime.Today;
+                bool authorWithoutMods = !IDsOfAuthorsWithMods.Contains(catalogAuthor.SteamID) && !UrlsOfAuthorsWithMods.Contains(catalogAuthor.CustomUrl);
+
+                if (authorWithoutMods)
+                {
+                    if (!catalogAuthor.Retired)
+                    {
+                        UpdateAuthor(catalog, catalogAuthor, retired: true);
+                        updated++;
+                        catalog.ChangeNotes.AddUpdatedAuthor(catalogAuthor, "no longer has mods on the Steam Workshop");
+                    }
+                    catalogAuthor.Update(exclusionForRetired: false);
+                }
+                else if (oldEnoughForRetirement)
+                {
+                    if (!catalogAuthor.Retired)
+                    {
+                        UpdateAuthor(catalog, catalogAuthor, retired: true);
+                        updated++;
+                    }
+                    catalogAuthor.Update(exclusionForRetired: false);
+                }
+                else if (!oldEnoughForRetirement && catalogAuthor.Retired && !catalogAuthor.ExclusionForRetired)
+                {
+                    UpdateAuthor(catalog, catalogAuthor, retired: false);
+                    updated++;
+                }
+                else if (!oldEnoughForRetirement && !catalogAuthor.Retired)
+                {
+                    catalogAuthor.Update(exclusionForRetired: false);
+                    updated++;
+                }
+
+                if (++counter % 100 == 0)
+                {
+                    progressMonitor.ReportProgress(counter, $"Updated {counter} of {catalog.Authors.Count} authors");
+                }
+            }
+            
+            progressMonitor.ReportProgress(catalog.Authors.Count, $"Update complete.");
+            progressMonitor.PushMessage($"Update complete. Updated <color #00ff00>{updated}</color> of <color #16a085>{catalog.Authors.Count}</color> authors");
         }
 
 

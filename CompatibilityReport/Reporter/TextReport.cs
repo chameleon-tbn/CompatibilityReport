@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using ColossalFramework.PlatformServices;
 using CompatibilityReport.CatalogData;
+using CompatibilityReport.Settings;
+using CompatibilityReport.Settings.ConfigData;
 using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Reporter
@@ -55,10 +57,11 @@ namespace CompatibilityReport.Reporter
 
             AddFooter();
 
-            string textReportFullPath = Path.Combine(ModSettings.ReportPath, ModSettings.ReportTextFileName);
+            GeneralConfig config = GlobalConfig.Instance.GeneralConfig;
+            string textReportFullPath = Path.Combine(config.ReportPath, ModSettings.ReportTextFileName);
             Toolkit.DeleteFile($"{ textReportFullPath }.old");
 
-            if (Toolkit.SaveToFile(reportText.ToString(), textReportFullPath, createBackup: ModSettings.DebugMode))
+            if (Toolkit.SaveToFile(reportText.ToString(), textReportFullPath, createBackup: GlobalConfig.Instance.AdvancedConfig.DebugMode))
             {
                 Logger.Log($"Text Report ready at \"{ Toolkit.Privacy(textReportFullPath) }\".");
                 return;
@@ -68,7 +71,7 @@ namespace CompatibilityReport.Reporter
 
             string altTextReportFullPath = Path.Combine(ModSettings.DefaultReportPath, ModSettings.ReportTextFileName);
             Toolkit.DeleteFile($"{ altTextReportFullPath }.old");
-            if ((ModSettings.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(reportText.ToString(), altTextReportFullPath))
+            if ((config.ReportPath != ModSettings.DefaultReportPath) && Toolkit.SaveToFile(reportText.ToString(), altTextReportFullPath))
             {
                 Logger.Log($"Text Report could not be saved to the location set in the options. It is instead saved as \"{ Toolkit.Privacy(altTextReportFullPath) }\".", 
                     Logger.Warning);
@@ -202,7 +205,7 @@ namespace CompatibilityReport.Reporter
         /// <summary>Adds the report text for all mods to the report.</summary>
         private void AddAllMods()
         {
-            if (ModSettings.ReportSortByName)
+            if (GlobalConfig.Instance.GeneralConfig.ReportSortByName)
             {
                 // Report mods sorted by name.
                 List<string> AllSubscriptionNames = catalog.GetSubscriptionNames();

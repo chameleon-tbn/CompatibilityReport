@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using CompatibilityReport.Settings;
 
 // This class is based on the Logger class from Enhanced District Services by Tim / chronofanz:
 // https://github.com/chronofanz/EnhancedDistrictServices/blob/master/Source/Logger.cs
@@ -58,7 +59,7 @@ namespace CompatibilityReport.Util
         /// <summary>Logs a message to the updater log.</summary>
         public static void UpdaterLog(string message, LogLevel logLevel = LogLevel.Info)
         {
-            if ((logLevel == Debug) && !ModSettings.DebugMode)
+            if ((logLevel == Debug) && !GlobalConfig.Instance.AdvancedConfig.DebugMode)
             {
                 return;
             }
@@ -78,14 +79,22 @@ namespace CompatibilityReport.Util
         /// <summary>Closes the updater log.</summary>
         public static void CloseUpdaterLog()
         {
+            updaterLog?.Dispose();
             updaterLog = null;
+        }
+        
+        /// <summary>Closes the debug log.</summary>
+        public static void CloseDebugLog()
+        {
+            debugLog?.Dispose();
+            debugLog = null;
         }
 
 
         /// <summary>Logs an exception to this mods log or updater log, and to the game log unless indicated otherwise.</summary>
         public static void Exception(Exception ex, LogLevel logLevel = LogLevel.Info)
         {
-            if ((logLevel == Debug) && !ModSettings.DebugMode)
+            if ((logLevel == Debug) && !GlobalConfig.Instance.AdvancedConfig.DebugMode)
             {
                 return;
             }
@@ -108,7 +117,7 @@ namespace CompatibilityReport.Util
 
 
         /// <summary>The LogFiler class writes the logging to file.</summary>
-        private class LogFiler
+        private class LogFiler : IDisposable
         {
             private readonly StreamWriter file;
             private readonly string logfileFullPath;
@@ -129,7 +138,7 @@ namespace CompatibilityReport.Util
                     {
                         file = File.CreateText(logfileFullPath);
                     }
-                    else if (append && (new FileInfo(logfileFullPath).Length < ModSettings.LogMaxSize))
+                    else if (append && (new FileInfo(logfileFullPath).Length < GlobalConfig.Instance.AdvancedConfig.LogMaxSize))
                     {
                         file = File.AppendText(logfileFullPath);
 
@@ -191,7 +200,7 @@ namespace CompatibilityReport.Util
                     GameLog($"{ logLevelPrefix }{ message }");
                 }
 
-                if (ModSettings.DebugMode)
+                if (GlobalConfig.Instance.AdvancedConfig.DebugMode)
                 {
                     string lowerCaseMessage = message.ToLower();
                     if (lowerCaseMessage.Contains("\\appdata\\local") || lowerCaseMessage.Contains("c:\\users\\") || lowerCaseMessage.Contains("/users/"))
@@ -199,6 +208,11 @@ namespace CompatibilityReport.Util
                         Log("Previously logged path probably needs more privacy.", LogLevel.Debug);
                     }
                 }
+            }
+
+            public void Dispose()
+            {
+                file?.Dispose();
             }
         }
     }
