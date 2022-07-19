@@ -704,15 +704,23 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>Four catalogs are considered: new download, previously downloaded, bundled and updater. If a download is succesful, 
         ///          the previously downloaded and bundled catalogs are not checked. An updater catalog only exists for maintainers of this mod.</remarks>
         /// <returns>A reference to the catalog with the highest version, or null if none could be loaded.</returns>
-        public static Catalog Load(bool force = false)
+        public static Catalog Load(bool force = false, bool updaterRun = false)
         {
             // Downloaded catalog is always newer than, or same as, the previously downloaded and bundled catalogs, so no need to load those after succesful download.
             Catalog downloadedCatalog = Download(force);
             Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
             Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
-            Catalog updaterCatalog = LoadUpdaterCatalog();
-
-            Catalog newestCatalog = Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(bundledCatalog, updaterCatalog));
+            Catalog newestCatalog;
+            if (updaterRun)
+            {
+                Catalog webCrawlerCatalog = LoadWebCrawlerCatalog();
+                Catalog updaterCatalog = LoadUpdaterCatalog();
+                newestCatalog = Newest(Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(bundledCatalog, updaterCatalog)), webCrawlerCatalog);
+            }
+            else
+            {
+                newestCatalog = Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), bundledCatalog);
+            }
 
             if (newestCatalog != null)
             {
@@ -916,6 +924,51 @@ namespace CompatibilityReport.CatalogData
             else
             {
                 Logger.Log($"Updater catalog is version { catalog.VersionString() }.");
+            }
+
+            return catalog;
+        }
+        
+        /// <summary>Loads the web crawler dump catalog.</summary>
+        /// <remarks>A web crawler catalog only exists for maintainers of this mod that run the Web Crawler.</remarks>
+        /// <returns>A reference to the web crawler dump catalog, or null if loading failed.</returns>
+        private static Catalog LoadWebCrawlerCatalog()
+        {
+            if (!ModSettings.UpdaterAvailable)
+            {
+                return null;
+            }
+
+            string[] files;
+
+            try
+            {
+                files = Directory.GetFiles(ModSettings.UpdaterPath, $"{ ModSettings.CatalogDumpFileName }");
+            }
+            catch
+            {
+                return null;
+            }
+
+            if (files.Length == 0)
+            {
+                return null;
+            }
+
+            Array.Sort(files);
+
+            string catalogPath = files.Last();
+            Logger.Log($"Loading WebCrawler Catalog from: {catalogPath}");
+            
+            Catalog catalog = LoadFromDisk(catalogPath);
+
+            if (catalog == null)
+            {
+                Logger.Log("Can't load WebCrawler catalog.", Logger.Error);
+            }
+            else
+            {
+                Logger.Log($"WebCrawler catalog is version { catalog.VersionString() }.");
             }
 
             return catalog;

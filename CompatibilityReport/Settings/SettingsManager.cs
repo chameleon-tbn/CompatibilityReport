@@ -137,7 +137,7 @@ namespace CompatibilityReport.Settings
             }
         }
 
-        public static void OnStartWebCrawler(ProgressMonitorUI progressUI)
+        public static void OnStartWebCrawler(ProgressMonitorUI progressUI, bool quick = false)
         {
             ProgressMonitor monitor = new ProgressMonitor(progressUI);
             progressUI.Title = "Web Crawler progress";
@@ -147,7 +147,7 @@ namespace CompatibilityReport.Settings
                 progressUI.ProgressText = "Processing done.";
                 progressUI.ForceClose();
             };
-            progressUI.StartCoroutine(WebCrawler.StartWithProgress(Catalog.Load(true), monitor));
+            progressUI.StartCoroutine(WebCrawler.StartWithProgress(Catalog.Load(true), monitor, quick));
         }
 
         public static void OnStartUpdater(ProgressMonitorUI progressUI)

@@ -14,7 +14,7 @@ namespace CompatibilityReport.Util
         // allow for hot-swapping the mod - rebuild only if it's in the main menu, game will detect and reload the mod
         public const string Build = "*";
 #else
-        public const string Build = "431";
+        public const string Build = "433";
 #endif
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 5;
@@ -148,7 +148,7 @@ namespace CompatibilityReport.Util
         public const string UpdaterSettingsFileName = InternalName + "_UpdaterSettings.xml";
         public const string UpdaterLogFileName = InternalName + "_Updater.log";
         public const string DataDumpFileName = InternalName + "_DataDump.txt";
-        public const string CatalogDumpFileName = InternalName + "_CatalogDump.xml";
+        public const string CatalogDumpFileName = InternalName + "_WebCrawlerDump.xml";
         public const string OneTimeActionFileName = InternalName + "_OneTimeAction.txt";
 
         public static string FakeSubscriptionsFileFullPath { get; } = Path.Combine(WorkPath, $"{ InternalName }_FakeSubscriptions.txt");

@@ -47,10 +47,10 @@ namespace CompatibilityReport.UI
         {
             Logger.Log("Disposing Settings UI", Logger.LogLevel.Debug);
             eventGlobalOptionsUpdated = null;
-            reportPathTextField = null;
             catalogVersionLabel = null;
-            settingsUIHelper = null;
             optionsPanel = null;
+            reportPathTextField = null;
+            settingsUIHelper = null;
         }
 
         private void BuildUI()
@@ -73,8 +73,11 @@ namespace CompatibilityReport.UI
             
             if (Toolkit.IsMainMenuScene(scene))
             {
-                BuildUpdaterGroupUI();
-                
+                if (ModSettings.UpdaterAvailable)
+                {
+                    BuildUpdaterGroupUI();
+                }
+
                 if (config.AdvancedConfig.ScanBeforeMainMenu)
                 {
                     Report.Create(scene);
@@ -284,6 +287,7 @@ namespace CompatibilityReport.UI
             panel.height = 40;
             var helper = new UIHelper(panel);
             helper.AddButton("Run Web Crawler", () => SettingsManager.OnStartWebCrawler(OpenProgressModal()));
+            helper.AddButton("Run Web Crawler (quick)", () => SettingsManager.OnStartWebCrawler(OpenProgressModal(), quick: true));
             helper.AddButton("Run Updater", () => SettingsManager.OnStartUpdater(OpenProgressModal()));
             panel.autoLayoutDirection = LayoutDirection.Horizontal;
             panel.autoLayoutPadding = new RectOffset(0, 10, 0, 0);

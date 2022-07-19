@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Settings;
@@ -37,7 +38,7 @@ namespace CompatibilityReport.Updater
         }
         
         /// <summary>Starts the WebCrawler, reports progress. Downloads Steam webpages for all mods and update the catalog with found information.</summary>
-        public static IEnumerator StartWithProgress(Catalog catalog, ProgressMonitor progressMonitor)
+        public static IEnumerator StartWithProgress(Catalog catalog, ProgressMonitor progressMonitor, bool quick = false)
         {
             CatalogUpdater.SetReviewDate(DateTime.Now);
 
@@ -48,7 +49,7 @@ namespace CompatibilityReport.Updater
             if (shouldContinue)
             {
                 progressMonitor.PushMessage("Web Crawler fetching mod details...");
-                yield return GetDetailsWithProgress(catalog, progressMonitor);
+                yield return GetDetailsWithProgress(catalog, progressMonitor, quick);
 
                 progressMonitor.PushMessage("Web Crawler fetching map themes...");
                 yield return GetMapThemesWithProgress(catalog, progressMonitor);
@@ -70,6 +71,12 @@ namespace CompatibilityReport.Updater
             bool dumpSuccess = catalog.Save(dumpPath);
             progressMonitor.PushMessage($"Catalog dumper finished. {(dumpSuccess ? "<color #00ff00>Sucess</color>" : "<color #ff0000>Failure</color>")}!\n See: {dumpPath}");
             
+            yield return new WaitForSeconds(1);
+            // additionally dump as downloaded catalog
+            string dumpPathAsDownloaded = Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName);
+            bool dump2Success = catalog.Save(dumpPathAsDownloaded);
+            progressMonitor.PushMessage($"Dumped as downloaded catalog. {(dump2Success ? "<color #00ff00>Sucess</color>" : "<color #ff0000>Failure</color>")}!\n See: {dumpPathAsDownloaded}");
+    
             yield return new WaitForSeconds(3);
             progressMonitor.Dispose();
         }
@@ -557,7 +564,7 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Downloads individual mod pages from the Steam Workshop to get detailed mod information for all mods in the catalog.</summary>
         /// <remarks>Known unlisted mods are included. Removed mods are checked, to catch reappearing mods.</remarks>
-        private static IEnumerator GetDetailsWithProgress(Catalog catalog, ProgressMonitor monitor)
+        private static IEnumerator GetDetailsWithProgress(Catalog catalog, ProgressMonitor monitor, bool quick = false)
         {
             UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
             Stopwatch timer = Stopwatch.StartNew();
@@ -575,8 +582,10 @@ namespace CompatibilityReport.Updater
     
             int modsDownloaded = 0;
             int failedDownloads = 0;
-
-            foreach (Mod catalogMod in catalog.Mods)
+            DateTime yesterday = DateTime.Today.Subtract(TimeSpan.FromDays(1));
+            List<Mod> catalogMods = quick ? catalog.Mods.Where(mod => mod.AutoReviewDate >= yesterday).ToList() : catalog.Mods;
+            
+            foreach (Mod catalogMod in catalogMods)
             {
                 if (!catalog.IsValidID(catalogMod.SteamID, allowBuiltin: false))
                 {

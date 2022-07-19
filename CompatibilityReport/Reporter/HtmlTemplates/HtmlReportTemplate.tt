@@ -259,7 +259,7 @@
 #>
                     <div class="report-content border-b_<#= style #>">
                         <p>
-                            <#= "span".TagConditional(modInfo.isDisabled, "DISABLED &nbsp;", "disabled minor") #>
+                            <#= "span".TagConditional(modInfo.isDisabled, "DISABLED", "disabled minor") #>
                             <#= HtmlExtensions.NameAuthorWithIDAsLink(modInfo.modName, modInfo.authorName, modInfo.steamUrl, modInfo.idString) #>
                         </p>
                         <#= ListItem(modInfo.instability, "instability mt-1") #>

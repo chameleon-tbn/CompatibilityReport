@@ -122,7 +122,7 @@ namespace CompatibilityReport.Updater
             progressMonitor.PushMessage("Loading Catalog...");
             yield return new WaitForSeconds(1);
             
-            Catalog catalog = Catalog.Load();
+            Catalog catalog = Catalog.Load(updaterRun: true);
 
             yield return new WaitForSeconds(0.5f);
             
