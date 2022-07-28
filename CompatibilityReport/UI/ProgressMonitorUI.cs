@@ -189,6 +189,7 @@ namespace CompatibilityReport.UI
             _titleLabel = progressPanel.AddUIComponent<UILabel>();
             _titleLabel.padding = new RectOffset(15, 10, 5, 10);
             _titleLabel.relativePosition = new Vector2(0, 0);
+            _titleLabel.processMarkup = true;
             _titleLabel.text = string.Empty;
 
             _progressBar = progressPanel.AddUIComponent<UIProgressBar>();

@@ -14,7 +14,7 @@ namespace CompatibilityReport.Util
         // allow for hot-swapping the mod - rebuild only if it's in the main menu, game will detect and reload the mod
         public const string Build = "*";
 #else
-        public const string Build = "433";
+        public const string Build = "434";
 #endif
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 5;
@@ -115,9 +115,6 @@ namespace CompatibilityReport.Util
         // either need an 'unsafe' webserver that still support TLS 1.1, or a HTTP only site. Or switch to .NET 4.5+ or
         // use UnityWebRequest and use a Coroutine setup on a MonoBehaviour.
         public const string CatalogUrl = "https://drive.google.com/uc?export=download&id=1P8hakzFi2ydlXGybx5aatuggSW7RpBYG";
-
-        // Report and log properties.
-        public const int MinimalTextReportWidth = 90;
 
         public const string Bullet1 = " - ";
         public const string Indent1 = "   ";

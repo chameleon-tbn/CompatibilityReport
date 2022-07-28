@@ -44,12 +44,16 @@ namespace CompatibilityReport.Updater
 
             progressMonitor.PushMessage("Web Crawler processing Catalog...");
             bool shouldContinue = false;
-            yield return GetBasicInfoWithProgress(catalog, progressMonitor, result => shouldContinue = result);
+            HashSet<ulong> detectedModIds = new HashSet<ulong>();
+            yield return GetBasicInfoWithProgress(catalog, progressMonitor, (result, mods) => {
+                shouldContinue = result;
+                detectedModIds = new HashSet<ulong>(mods);
+            });
             
             if (shouldContinue)
             {
                 progressMonitor.PushMessage("Web Crawler fetching mod details...");
-                yield return GetDetailsWithProgress(catalog, progressMonitor, quick);
+                yield return GetDetailsWithProgress(catalog, progressMonitor, detectedModIds, quick);
 
                 progressMonitor.PushMessage("Web Crawler fetching map themes...");
                 yield return GetMapThemesWithProgress(catalog, progressMonitor);
@@ -145,7 +149,7 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Downloads 'mod listing' pages from the Steam Workshop to get mod names and IDs for all available mods.</summary>
         /// <returns>Enumerator, invokes onCompleted(bool) with status True if at least one mod was found, false otherwise.</returns>
-        private static IEnumerator GetBasicInfoWithProgress(Catalog catalog, ProgressMonitor monitor, Action<bool> onCompleted)
+        private static IEnumerator GetBasicInfoWithProgress(Catalog catalog, ProgressMonitor monitor, Action<bool, List<ulong>> onCompleted)
         {
             Logger.UpdaterLog("Updater started downloading Steam Workshop 'mod listing' pages. This should take less than 1 minute.");
 
@@ -154,6 +158,7 @@ namespace CompatibilityReport.Updater
             UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
             int maxListingPages = updaterConfig.SteamMaxListingPages;
             int index = 0;
+            List<ulong> detectedModIds = new List<ulong>();
             // Go through the different mod listings: mods and camera scripts, both regular and incompatible.
             foreach (string steamUrl in ModSettings.SteamModListingUrls)
             {
@@ -183,7 +188,7 @@ namespace CompatibilityReport.Updater
                         break;
                     }
 
-                    int modsFoundThisPage = ReadModListingTextPage(catalog, statusWithText.Value, incompatibleMods: steamUrl.Contains("incompatible"));
+                    int modsFoundThisPage = ReadModListingTextPage(catalog, statusWithText.Value, incompatibleMods: steamUrl.Contains("incompatible"), detectedModIds);
                         //ReadModListingPage(catalog, incompatibleMods: steamUrl.Contains("incompatible"));
 
                     if (modsFoundThisPage == 0)
@@ -216,7 +221,7 @@ namespace CompatibilityReport.Updater
             monitor.PushMessage($"Updater finished downloading <color #00ff00>{ totalPages }</color> 'mod listing' pages, found: <color #00ff00>{totalMods}</color> mods.");
             
             yield return new WaitForSeconds(2);
-            onCompleted(totalMods > 0);
+            onCompleted(totalMods > 0, detectedModIds);
         }
 
 
@@ -284,7 +289,7 @@ namespace CompatibilityReport.Updater
         /// <summary>Extracts Steam IDs and mod names for all mods from a downloaded mod listing page and adds/updates this in the catalog.</summary>
         /// <remarks>Sets the auto review date, (re)sets 'incompatible according to workshop' stability and removes unlisted and 'removed from workshop' statuses.</remarks>
         /// <returns>The number of mods found on this page.</returns>
-        private static int ReadModListingTextPage(Catalog catalog, string page, bool incompatibleMods)
+        private static int ReadModListingTextPage(Catalog catalog, string page, bool incompatibleMods, List<ulong> detectedModIds)
         {
             int modsFoundThisPage = 0;
             string line;
@@ -308,6 +313,7 @@ namespace CompatibilityReport.Updater
                     continue;
                 }
 
+                detectedModIds.Add(steamID);
                 modsFoundThisPage++;
 
                 string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchListingModNameLeft, ModSettings.SearchListingModNameRight));
@@ -564,11 +570,15 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Downloads individual mod pages from the Steam Workshop to get detailed mod information for all mods in the catalog.</summary>
         /// <remarks>Known unlisted mods are included. Removed mods are checked, to catch reappearing mods.</remarks>
-        private static IEnumerator GetDetailsWithProgress(Catalog catalog, ProgressMonitor monitor, bool quick = false)
+        private static IEnumerator GetDetailsWithProgress(Catalog catalog, ProgressMonitor monitor, HashSet<ulong> detectedModIds, bool quick = false)
         {
             UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
             Stopwatch timer = Stopwatch.StartNew();
-            int numberOfMods = catalog.Mods.Count - ModSettings.BuiltinMods.Count;
+            
+            DateTime yesterday = DateTime.Today.Subtract(TimeSpan.FromDays(1));
+            List<Mod> catalogMods = quick ? catalog.Mods.Where(mod => mod.AutoReviewDate >= yesterday || detectedModIds.Contains(mod.SteamID)).ToList() : catalog.Mods;
+            int numberOfMods = quick ? catalogMods.Count : catalog.Mods.Count - ModSettings.BuiltinMods.Count;
+            
             long estimatedMilliseconds = updaterConfig.EstimatedMillisecondsPerModPage * numberOfMods;
     
             monitor.StartProgress(numberOfMods, $"Started downloading <color #00FF00>{ numberOfMods }</color> Workshop mod pages", true);
@@ -582,8 +592,6 @@ namespace CompatibilityReport.Updater
     
             int modsDownloaded = 0;
             int failedDownloads = 0;
-            DateTime yesterday = DateTime.Today.Subtract(TimeSpan.FromDays(1));
-            List<Mod> catalogMods = quick ? catalog.Mods.Where(mod => mod.AutoReviewDate >= yesterday).ToList() : catalog.Mods;
             
             foreach (Mod catalogMod in catalogMods)
             {
