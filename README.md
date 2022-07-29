@@ -1,4 +1,4 @@
-# Compatibility Report version 0.7.6
+# Compatibility Report version 0.8
 
 Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This reports compatibility issues and missing dependencies for your subscribed mods.
 
@@ -10,13 +10,15 @@ This mod is available at the [Steam Workshop](https://steamcommunity.com/sharedf
 * Detection of subscribed and local mods.
 * XML catalog with basic mod information and compatibility information.
 * Review of subscribed mods with the catalog information.
-* Text report, sorted by mod name. Split into multiple categories, based on issue severity.
-* Automatic download of a new catalog. No need for a mod update for every new mod or compatibility change.
+* Text and/or HTML report, sorted by mod name. Split into multiple categories, based on issue severity.
+* Automatic and on-demand download of a new catalog. No need for a mod update for every new mod or compatibility change.
+* Mod options for easy access to reports and catalog download.
 * Support for mod groups, to allow different editions (e.g. stable and test) of mods as mod requirement.
 * Catalog Updater method (for mod maintainer only), based on web crawling the Steam Workshop and CSV import.
   * Automatically detects new mods and changes in mod information: name, required DLC/mods, source URL, ...
   * Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This allows for catalog maintenance by multiple people in the future.
   * Automatic change notes and catalog versioning.
+  * Dedicated UI for easier maintenance.
   * Gzipped catalog for lower bandwidth usage (partially implemented).
   * Manual upload of a new catalog, after a quality assurance check.
 
