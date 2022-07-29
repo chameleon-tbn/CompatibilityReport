@@ -1,0 +1,331 @@
+<#@ template language="C#v3.5" linePragmas="false" visibility="internal" #>
+<#@ import namespace="Util" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension="html" encoding="utf-8" #>
+<#@ import namespace="System.Linq" #>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><#= ModSettings.ModName #></title>
+</head>
+<style>
+    /* 
+        unsubscribe-color: #dd2323
+        major-color: #e69138
+        minor-color: #ffd966
+        remark-color: #93c47d
+        nothing-color: #5a9b3d
+        processed-color: #4cb2e9
+     */
+    * {font-family:sans-serif;}
+    body {background-color:#f9f6ea; margin: 12px}
+    header {padding: 0 10px;}
+    article header {padding: 0; }
+    footer {margin: 20px 0px 40px 10px}
+    section {padding: 0 10px;}
+
+    h1 {margin-top: 10px; margin-bottom: 0; padding:24px 18px; background-color:#e8e5d4;}
+    h2 {margin-top:0px; border-bottom:1px solid black;}
+    h3 {margin: 20px 0 0 0px; }
+    h4 {margin: 20px 0 0 18px; }
+    a:link {color: black; text-decoration: underline;}
+    a:visited {color: black; text-decoration: underline;}
+    a:hover {color: #0000e0; text-decoration: underline;}
+
+    nav { position: sticky; top: 0; }
+    nav ul { width: 100%; display: flex; align-items: center; min-height: 40px; padding: 0 10px; background-color: #f9f6ea; }
+    nav ul li { display: flex; list-style: none; font-weight: bold; font-size: 16px; cursor: pointer;}
+    nav ul li:hover { background-color: #f9f6ea; }
+    nav ul li a { padding: 12px 15px; text-decoration: none!important; color: black; }
+    nav ul li a:link { text-decoration: none!important; color: black; }
+    nav ul li a:visited { text-decoration: none!important; color: black; }
+    nav ul li a:hover { text-decoration: none!important; color: black; }
+
+    article[id] { margin-top: -40px; padding-top: 60px; }
+    
+    table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; }
+    td, th { border: 1px solid #dddddd; text-align: left; padding: 8px; }
+    tr:nth-child(even) { background-color: #e7e7e7; }
+
+    .text-smaller {font-size: 13px; }
+    .text-small {font-size: 15px; }
+    .show {display: inherit;}
+    .hide {display: none; }
+    .warn { color: #ff9200; }
+    .error { color: red; }
+    .font-bold { font-weight: 600; }
+
+    .mt-1 { margin-top: 1rem; }
+    .center {text-align: center; }
+    .report-section__titleBar { margin-left: 0; padding: 10px;}
+    .report-section__title { }
+    .report-section__content {margin-left: 0; padding: 5px}
+    .report-content:last-child { border-bottom: unset !important; }
+    li.message a {min-width: 260px; display: inline-block;}   
+
+    .author,.modName {font-weight: bold;}
+
+    .disabled {padding: 5px; font-weight: bold;}
+    .unsubscribe {background-color: #dd2323; color: #f9f6ea}
+    .major {background-color: #e69138;}
+    .minor {background-color: #ffd966;}
+    .remark {background-color: #93c47d;}
+    .nothing {background-color: #5a9b3d; color: #f9f6ea}
+    .processed {background-color: #4cb2e9;}
+    
+    .line_unsubscribe {margin-top:-6px; margin-left:0px; border-left: solid 10px #dd2323; border-bottom: solid 10px #dd2323;}
+    .line_major {margin-top:-6px; margin-left:0px; border-left: solid 10px #e69138; border-bottom: solid 10px #e69138;}
+    .line_minor {margin-top:-6px; margin-left:0px; border-left: solid 10px #ffd966; border-bottom: solid 10px #ffd966;}
+    .line_remark {margin-top:-6px; margin-left:0px; border-left: solid 10px #93c47d; border-bottom: solid 10px #93c47d;}
+    .line_nothing {margin-top:-6px; margin-left:0px; border-left: solid 10px #5a9b3d; border-bottom: solid 10px #5a9b3d;}
+    .line_processed {margin-top:-6px; margin-left:0px; border-left: solid 10px #4cb2e9; border-bottom: solid 10px #4cb2e9;}
+    .border-b_unsubscribe {border-bottom: solid 2px #dd2323;}
+    .border-b_major {border-bottom: solid 2px #e69138;}
+    .border-b_minor {border-bottom: solid 2px #ffd966;}
+    .border-b_remark {border-bottom: solid 2px #93c47d;}
+    .border-b_nothing {border-bottom: solid 2px #5a9b3d;}
+    .border-b_processed {border-bottom: solid 2px #4cb2e9;}
+</style>
+
+<body>
+    <header>
+        <h1> <#= ModSettings.ModName #>, created on <#= $"{reportCreationTime:d MMMM yyyy}" #>, <#= $"{reportCreationTime:t}" #></h1>
+    </header>
+
+    <nav>
+        <ul>
+          <# string LI_Link(bool shouldRender, string text, string anchor) => shouldRender ? "<li class=\"" + anchor + "\"><a href=\"#" + anchor + $"\">{text}</a></li>" : ""; #>
+
+          <#= LI_Link(unsubscribe.Count > 0, $"Unsubscribe ({unsubscribe.Count})", "unsubscribe") #>
+          <#= LI_Link(majorIssues.Count > 0, $"Major Issues ({majorIssues.Count})", "major") #>
+          <#= LI_Link(minorIssues.Count > 0, $"Minor Issues ({minorIssues.Count})", "minor") #>
+          <#= LI_Link(remarks.Count > 0, $"Remarks ({remarks.Count})", "remark") #>
+          <#= LI_Link(nothingToReport.Count > 0, $"Nothing to report ({nothingToReport.Count})", "nothing") #>
+          <#= LI_Link(true, $"Mod List ({AllModList().Length})", "processed") #>
+        </ul>
+    </nav>
+
+    <section>
+        <div>
+            <span class="text-smaller">Version <strong><#= ModSettings.FullVersion #></strong> with catalog <strong><#= catalog.VersionString() #></strong>. 
+            Your game has <strong><#= catalog.SubscriptionCount() #></strong> mods.</span>
+            <span class="text-smaller">The mod catalog contains <strong><#= catalog.ReviewedModCount #></strong> reviewed mods and was created on <#= $"{catalog.Updated:d MMMM yyyy}" #>.</span>
+            <br>
+            <span class="text-small mt-1">Mods updated after this date might have an outdated review below.</span>
+            <hr>
+        </div>
+    
+        <div>
+            <#= Toolkit.WordWrap(ModSettings.ReportTextForThisModVersion) #>
+        </div>
+    
+        <div>
+            <#= Toolkit.WordWrap(catalog.Note) #>
+        </div>
+    </section>
+
+    <section>
+<#  // Different Catalog version
+    if (IsDifferentVersion) {#>
+    <div>
+        <h3>WARNING:</h3>
+        <span>The catalog is made for game version <#= CatalogGameVersion #>.</span>
+        <span>Your game is <#= IsOlder ? "older" : "newer" #> (<#= CurrentGameVersion #>>).</span>
+        <span>Results might not be accurate.</span>
+    </div><#
+    }
+#>
+    
+<#  // Local subscriptions
+    if (catalog.LocalSubscriptionCount != 0) {#>
+        <h3>NOTE</h3>
+        <div class="text-small">
+          <span>You have <strong><#= catalog.LocalSubscriptionCount #></strong> local mod<#= catalog.LocalSubscriptionCount == 1 ? "" : "s" #> local mods, which we can't review. The report does not check for incompatibilities with these. Results might not be completely accurate.</span>
+          </br>
+          <span>Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.</span> 
+        </div><#
+    }
+#>
+
+<#  // Fake subscriptions
+    if (catalog.FakeSubscriptionCount != 0) { #>
+        <h3>NOTE</h3>
+        <div>
+           <span>The report includes <strong><#= catalog.LocalSubscriptionCount #></strong> fake subscription<#= catalog.FakeSubscriptionCount == 1 ? "" : "s" #>.</span> 
+        </div><#
+    }
+#>
+
+<#  // Non reviewed subscriptions
+    if (NonReviewedSubscriptions != 0) { #>
+        <h3>NOTE</h3>
+        <div>
+           <span><strong><#= NonReviewedSubscriptions #></strong> of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.</span> 
+        </div><#
+    }
+#>
+
+    <h3>General information</h3>
+    <ul style="padding-left: 30px">
+        <li> Always <strong>EXIT TO DESKTOP</strong> and restart the game. Never exit to main menu!</li> 
+        <li> <strong>NEVER</strong> (un)subscribe to anything while the game is running! This resets some mods.</li> 
+        <li> When playing with mods, save to a new savegame often and make frequent <strong>BACKUPS</strong>.</li> 
+        <li> Always <strong>READ</strong> the mod description on the Steam Workshop before subscribing.</li>
+        <li> Having issues with a mod? Make a comment on its Workshop page so the author knows.</li>
+        <li> Abandoned mods can still work fine. They're just unlikely to get updates.</li>
+        <li> Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).</li>
+        <li> Found a mistake? Please fill out this <a href="https://forms.gle/PvezwfpgS1V1DHqA9>">form</a>.</li>
+    </ul>
+
+<#  // Is outdated
+    if (ShowOutdatedWarning) { #>    
+    <h3 class="warn <#= ShowOutdatedWarning ? "show" : "hide" #>">
+        <strong>WARNING:</strong> The latest review catalog could not be downloaded. Results might be outdated.
+    </h3><#
+    }
+#>
+    </section>
+
+<# // Reusable template
+    
+    string NestedList(MessageList nestedList, string classes = null)
+    {
+        if (nestedList?.messages == null) return string.Empty;
+
+        return !string.IsNullOrEmpty(nestedList.title) 
+            ? "ul".Tag( "li".Tag(nestedList.title, "title") + "ul".Tag(nestedList.messages.NestedLi()), classes)
+            : "ul".Tag(nestedList.messages.NestedLi(), classes);
+    }
+
+    string ListItem(Message item, string classes = null) {
+        return item == null
+            ? string.Empty
+            : "ul".Tag(
+                "li".Tag(item.message + BulletList(item.details, "details"))
+                , classes);
+    }
+
+    string BulletList(string text, string classes = null) {
+        return string.IsNullOrEmpty(text)
+            ? string.Empty
+            : "ul".Tag(
+                string.Join("\n", text
+                    .Split('\n')
+                    .Select(part => "li".Tag(part))
+                    .ToArray())
+                , classes);
+    }
+
+    void RenderSection(int number, string title, string css_style, Func<string> content)
+    {
+        if (number == 0) return;
+#>
+          <article id="<#= css_style #>">
+             <header>                
+               <h3 class="report-section__titleBar <#= css_style #>">
+                   <span><#= number #></span>&nbsp;<span class="report-section__title"><#= title #></span>
+               </h3>
+             </header>
+             <section class="line_<#= css_style #>">
+                <div class="report-section__content">
+                  <#
+        if (content != null)
+            content();
+#>
+                </div>
+             </section>
+          </article>
+<#  }
+    
+    string RenderContent(List<ModInfo> list, string style)
+        {
+            foreach (ModInfo modInfo in list)
+            {
+                if (modInfo.isLocal)
+                {#>
+                    <div class="report-content border-b_<#= style #>">
+                        <p class="font-bold"><#= modInfo.modName #></p>
+                        <ul>
+                            <li><#= cannotReviewMessage #></li>                        
+                        </ul>
+                        <p class="<#= modInfo.isCameraScript? "": "hide" #>"><#= isCameraScriptMessage #></p>
+                    </div><#                    
+                }
+                else
+                {
+#>
+                    <div class="report-content border-b_<#= style #>">
+                        <p>
+                            <#= "span".TagConditional(modInfo.isDisabled, "DISABLED", "disabled minor") #>
+                            <#= HtmlExtensions.NameAuthorWithIDAsLink(modInfo.modName, modInfo.authorName, modInfo.steamUrl, modInfo.idString) #>
+                        </p>
+                        <#= ListItem(modInfo.instability, "instability mt-1") #>
+                        <#= NestedList(modInfo.requiredDlc, "requiredDlc mt-1") #>
+                        <#= ListItem(modInfo.unneededDependencyMod, "unnededDependency mt-1") #>
+                        <#= ListItem(modInfo.disabled, "disabledMod mt-1") #>
+                        <#= NestedList(modInfo.successors, "successors mt-1") #>
+                        <#= ListItem(modInfo.stability, "stability mt-1") #>
+                        <#= NestedList(modInfo.compatibilities, "compatibilities mt-1") #>
+                        <#= NestedList(modInfo.requiredMods, "requiredMods mt-1") #>
+                        <#= NestedList(modInfo.statuses, "statuses mt-1") #>
+                        <#= BulletList(modInfo.note, "note mt-1") #>
+                        <#= NestedList(modInfo.alternatives, "alternatives mt-1") #>
+                        <#= NestedList(modInfo.recommendations, "recommendations") #>
+                        <#= "ul".TagConditional(modInfo.anyIssues, "li".Tag(noKnownIssuesMessage), "noKnownIssues mt-1") #>
+                        <#= "ul".TagConditional(modInfo.isCameraScript, "li".Tag(isCameraScriptMessage), "isCameraScript mt-1") #>
+                    </div><#
+                }
+            }
+            return "";
+        } 
+// End Reusable templates
+#>
+
+    <section>   
+        <# RenderSection(unsubscribe.Count, $"{(unsubscribe.Count == 1 ? "MOD" : "MODS") } COULD OR SHOULD BE UNSUBSCRIBED:", "unsubscribe", () => RenderContent(unsubscribe, "unsubscribe")); #>
+        <# RenderSection(majorIssues.Count, $"{(majorIssues.Count == 1 ? "MOD HAS" : "MODS HAVE") } MAJOR ISSUES:", "major", () => RenderContent(majorIssues, "major")); #>
+        <# RenderSection(minorIssues.Count, $"{(minorIssues.Count == 1 ? "MOD HAS" : "MODS HAVE") } MINOR ISSUES:", "minor", () => RenderContent(minorIssues, "minor")); #>
+        <# RenderSection(remarks.Count, $"{(remarks.Count == 1 ? "MOD" : "MODS") } WITH REMARKS:", "remark", () => RenderContent(remarks, "remark")); #>
+        <# RenderSection(nothingToReport.Count, $"{(nothingToReport.Count == 1 ? "MOD" : "MODS")} WITH NOTHING TO REPORT:", "nothing", () => RenderContent(nothingToReport, "nothing")); #>
+    </section>
+
+    <section>
+        <article id="processed">    
+            <h3 class="report-section__titleBar processed">Processed mods</h3>
+        
+            <div class="line_processed" style="padding: 10px">
+                <table style="margin-top: 10px">
+                    <tr>
+                        <th>Mod Name</th>
+                        <th>Disabled</th>
+                        <th>Type</th>
+                        <th>Url</th>
+                    </tr>
+<#
+                foreach (InstalledModInfo modInfo in AllModList())
+                {
+#>
+                    <tr>
+                       <td><#= modInfo.subscriptionName #></td>
+                       <td class="font-bold center"><#= modInfo.disabled #></td>
+                       <td><#= modInfo.type #></td>
+                       <td><#= OptionalUrlLink(modInfo.url, modInfo.isSteam) #></td>
+                    </tr>
+<#
+                }
+#>
+                </table>
+            </div>
+        </article>
+    </section>
+
+    <footer>
+        <hr>
+        <span> <#= catalog.ReportFooterText #> </span>
+    </footer>
+
+</body>
+</html>

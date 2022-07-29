@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using CompatibilityReport.CatalogData;
+using CompatibilityReport.UI;
 using CompatibilityReport.Util;
+using UnityEngine;
+using Logger = CompatibilityReport.Util.Logger;
 
 namespace CompatibilityReport.Updater
 {
@@ -13,6 +17,7 @@ namespace CompatibilityReport.Updater
     public static class FileImporter
     {
         /// <summary>Starts the FileImporter. Reads all CSV files and updates the catalog with the found information.</summary>
+        [Obsolete("Replaced to support reporting progress to UI")]
         public static void Start(Catalog catalog)
         {
             Logger.UpdaterLog("Updater started the CSV import.");
@@ -41,6 +46,51 @@ namespace CompatibilityReport.Updater
             }
             else
             {
+                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files and encountered { errors } errors.", Logger.Warning);
+            }
+        }
+        
+        /// <summary>Starts the FileImporter. Reads all CSV files and updates the catalog with the found information.</summary>
+        public static IEnumerator StartWithProgress(Catalog catalog, ProgressMonitor progressMonitor)
+        {
+            Logger.UpdaterLog("Updater started the CSV import.");
+
+            CatalogUpdater.SetReviewDate(DateTime.Now);
+
+            List<string> CsvFilenames = Directory.GetFiles(ModSettings.UpdaterPath, "*.csv").ToList();
+            CsvFilenames.Sort();
+
+            if (!CsvFilenames.Any())
+            {
+                Logger.UpdaterLog("No CSV files found.");
+                progressMonitor.PushMessage("<color #ffbf00>No CSV files found!</color>");
+                yield break;
+            }
+            
+            progressMonitor.PushMessage($"<color #00ff00>Starting CSV reader, found {CsvFilenames.Count} files</color>");
+            progressMonitor.StartProgress(CsvFilenames.Count, $"Starting CSV reader, found {CsvFilenames.Count} files");
+
+            int count = 0;
+            int errors = 0;
+
+            foreach (string CsvFilename in CsvFilenames)
+            {
+                errors += ReadCsv(catalog, CsvFilename);
+                progressMonitor.ReportProgress(++count, $"Processed {count} of  {CsvFilenames.Count}");
+                yield return null;
+            }
+            
+            progressMonitor.ReportProgress(CsvFilenames.Count, "Processing complete.");
+            yield return new WaitForSeconds(0.5f);
+
+            if (errors == 0)
+            {
+                progressMonitor.PushMessage($"Updater processed <color #00ff00>{ CsvFilenames.Count }</color> CSV files.");
+                Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files.");
+            }
+            else
+            {
+                progressMonitor.PushMessage($"Updater processed <color #00ff00>{ CsvFilenames.Count }</color> CSV files and encountered <color #ff0000>{ errors }</color> errors.");
                 Logger.UpdaterLog($"Updater processed { CsvFilenames.Count } CSV files and encountered { errors } errors.", Logger.Warning);
             }
         }

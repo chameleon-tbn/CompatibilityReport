@@ -1,5 +1,14 @@
 # Compatibility Report
 
+### Version 0.8.0
+* HTML report generation
+* Options screen with basic info about catalog state and lots of configurable settings
+* Updater: a lot of code improvements and changes, created dedicated UI for easier maintenance
+
+### Version 0.7.6
+* Support for fake subscriptions, for testing
+* Support for one-time actions of the Updater
+
 ### Version 0.7.5
 * Minor code improvements
 * Improved logging

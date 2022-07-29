@@ -304,13 +304,20 @@ namespace CompatibilityReport.CatalogData
         {
             string disabledPrefix = IsDisabled ? "[Disabled] " : "";
 
-            string idString = (SteamID > ModSettings.HighestFakeID) ? $"[Steam ID { SteamID, 10 }]" :
-                ModSettings.BuiltinMods.ContainsValue(SteamID) ? $"[built-in mod{ (hideFakeID ? "" : $" { SteamID }") }]" :
-                $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
+            string idString = IdString(hideFakeID);
 
             string name = !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
 
             return nameFirst ? $"{ disabledPrefix }{ name } { idString }" : $"{ disabledPrefix }{ idString } { name }";
+        }
+
+        public string IdString(bool hideFakeID = false)
+        {
+            return (SteamID > ModSettings.HighestFakeID) 
+                ? $"[Steam ID { SteamID, 10 }]"
+                : ModSettings.BuiltinMods.ContainsValue(SteamID)
+                    ? $"[built-in mod{ (hideFakeID ? "" : $" { SteamID }") }]"
+                    : $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
         }
     }
 }

@@ -9,6 +9,8 @@ using System.Xml.Serialization;
 using ColossalFramework;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
+using CompatibilityReport.Settings;
+using CompatibilityReport.Settings.ConfigData;
 using CompatibilityReport.Util;
 
 namespace CompatibilityReport.CatalogData
@@ -56,14 +58,17 @@ namespace CompatibilityReport.CatalogData
         private readonly Dictionary<string, List<ulong>> subscriptionNameIndex = new Dictionary<string, List<ulong>>();
         private readonly Dictionary<ulong, List<Compatibility>> subscriptionCompatibilityIndex = new Dictionary<ulong, List<Compatibility>>();
 
+        [XmlIgnore] public DateTime Downloaded { get; private set; }
         [XmlIgnore] public int ReviewedModCount { get; private set; }
         [XmlIgnore] public int ReviewedSubscriptionCount { get; private set; }
         [XmlIgnore] public int LocalSubscriptionCount { get; private set; }
+        [XmlIgnore] public int FakeSubscriptionCount { get; private set; }
 
         [XmlIgnore] public Updater.ChangeNotes ChangeNotes { get; } = new Updater.ChangeNotes();
 
         public static bool DownloadStarted { get; private set; }
         public static bool DownloadSuccessful { get; private set; }
+        public static string SettingsUIText { get; private set; } = "unknown, catalog not loaded yet."; 
 
 
         /// <summary>Default constructor for deserialization and catalog creation.</summary>
@@ -370,7 +375,8 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Gets all subscribed, local and enabled built-in mods, and merge their info with the mods in the catalog.</summary>
-        /// <remarks>Local mods and unknown Steam Workshop mods are temporarily added to the catalog in memory.</remarks>
+        /// <remarks>Local mods and unknown Steam Workshop mods are temporarily added to the catalog in memory. 
+        ///          This also gets all fake subscriptions, if supplied.</remarks>
         public void ScanSubscriptions()
         {
             List<PluginManager.PluginInfo> plugins = new List<PluginManager.PluginInfo>();
@@ -466,26 +472,32 @@ namespace CompatibilityReport.CatalogData
                 subscribedMod.UpdateSubscription(isDisabled: !plugin.isEnabled, plugin.isCameraScript, modPath: plugin.modPath, 
                     downloadedTime: PackageEntry.GetLocalModTimeUpdated(plugin.modPath).ToLocalTime());
 
-                if (subscribedMod.Stability > Enums.Stability.NotReviewed)
-                {
-                    ReviewedSubscriptionCount++;
-                }
+                AddSubscription(subscribedMod);
+            }
 
-                subscriptionIDIndex.Add(subscribedMod.SteamID);
-
-                if (subscriptionNameIndex.ContainsKey(subscribedMod.Name))
+            // Add fake subscriptions from a file, if it exists. Ignores lines that are not a Steam ID and all IDs that are subscribed or don't exist in the catalog.
+            if (File.Exists(ModSettings.FakeSubscriptionsFileFullPath))
+            {
+                using (StreamReader reader = File.OpenText(ModSettings.FakeSubscriptionsFileFullPath))
                 {
-                    // Identical name found earlier for another mod. Add the Steam ID to the list of Steam IDs for this name and sort the list.
-                    subscriptionNameIndex[subscribedMod.Name].Add(subscribedMod.SteamID);
-                    subscriptionNameIndex[subscribedMod.Name].Sort();
-                }
-                else
-                {
-                    subscriptionNameIndex.Add(subscribedMod.Name, new List<ulong> { subscribedMod.SteamID });
-                }
+                    string line;
 
-                // Add an empty entry to the compatibilities index for this mod, to make sure every subscription has an empty list in that index instead of null.
-                subscriptionCompatibilityIndex.Add(subscribedMod.SteamID, new List<Compatibility>());
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        Mod subscribedMod = GetMod(Toolkit.ConvertToUlong(line));
+
+                        if (subscribedMod != null && !subscriptionIDIndex.Contains(subscribedMod.SteamID))
+                        {
+                            Logger.Log($"Fake subscription added for testing: { subscribedMod.ToString() }");
+
+                            subscribedMod.Update(note: (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") +
+                                "This is a fake subscription for testing purposes. This is not really subscribed.");
+
+                            AddSubscription(subscribedMod);
+                            FakeSubscriptionCount++;
+                        }
+                    }
+                }
             }
 
             subscriptionIDIndex.Sort();
@@ -499,6 +511,31 @@ namespace CompatibilityReport.CatalogData
                     subscriptionCompatibilityIndex[catalogCompatibility.SecondModID].Add(catalogCompatibility);
                 }
             }
+        }
+
+
+        private void AddSubscription(Mod subscribedMod)
+        {
+            if (subscribedMod.Stability > Enums.Stability.NotReviewed)
+            {
+                ReviewedSubscriptionCount++;
+            }
+
+            subscriptionIDIndex.Add(subscribedMod.SteamID);
+
+            if (subscriptionNameIndex.ContainsKey(subscribedMod.Name))
+            {
+                // Identical name found earlier for another mod. Add the Steam ID to the list of Steam IDs for this name and sort the list.
+                subscriptionNameIndex[subscribedMod.Name].Add(subscribedMod.SteamID);
+                subscriptionNameIndex[subscribedMod.Name].Sort();
+            }
+            else
+            {
+                subscriptionNameIndex.Add(subscribedMod.Name, new List<ulong> { subscribedMod.SteamID });
+            }
+
+            // Add an empty entry to the compatibilities index for this mod, to make sure every subscription has an empty list in that index instead of null.
+            subscriptionCompatibilityIndex.Add(subscribedMod.SteamID, new List<Compatibility>());
         }
 
 
@@ -657,6 +694,8 @@ namespace CompatibilityReport.CatalogData
                 return null;
             }
 
+            loadedCatalog.Downloaded = File.GetLastWriteTime(fullPath);
+
             return loadedCatalog;
         }
 
@@ -665,23 +704,36 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>Four catalogs are considered: new download, previously downloaded, bundled and updater. If a download is succesful, 
         ///          the previously downloaded and bundled catalogs are not checked. An updater catalog only exists for maintainers of this mod.</remarks>
         /// <returns>A reference to the catalog with the highest version, or null if none could be loaded.</returns>
-        public static Catalog Load()
+        public static Catalog Load(bool force = false, bool updaterRun = false)
         {
             // Downloaded catalog is always newer than, or same as, the previously downloaded and bundled catalogs, so no need to load those after succesful download.
-            Catalog downloadedCatalog = Download();
+            Catalog downloadedCatalog = Download(force);
             Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
             Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
-            Catalog updaterCatalog = LoadUpdaterCatalog();
-
-            Catalog newestCatalog = Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(bundledCatalog, updaterCatalog));
+            Catalog newestCatalog;
+            if (updaterRun)
+            {
+                Catalog webCrawlerCatalog = LoadWebCrawlerCatalog();
+                Catalog updaterCatalog = LoadUpdaterCatalog();
+                newestCatalog = Newest(Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(bundledCatalog, updaterCatalog)), webCrawlerCatalog);
+            }
+            else
+            {
+                newestCatalog = Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), bundledCatalog);
+            }
 
             if (newestCatalog != null)
             {
                 newestCatalog.CreateIndexes();
 
+                SettingsUIText = $"<color { ModSettings.SettingsUIColor }>{ newestCatalog.VersionString() }</color>, created on { newestCatalog.Updated:d MMM yyyy}" +
+                    $", downloaded on { newestCatalog.Downloaded:d MMM yyyy}";
+
                 Logger.Log($"Using catalog { newestCatalog.VersionString() }, created on { newestCatalog.Updated.ToLocalTime().ToLongDateString() }. " +
                     $"Catalog contains { newestCatalog.ReviewedModCount } reviewed mods with { newestCatalog.Compatibilities.Count } compatibilities and " +
                     $"{ newestCatalog.Mods.Count - newestCatalog.ReviewedModCount } mods with basic information.");
+                
+                SettingsManager.NotifyCatalogUpdated();
             }
 
             return newestCatalog;
@@ -691,14 +743,33 @@ namespace CompatibilityReport.CatalogData
         /// <summary>Downloads a new catalog and loads it into memory.</summary>
         /// <remarks>A download will only be started once per session. On download errors, the download will be retried immediately a few times.</remarks>
         /// <returns>A reference to the catalog, or null if the download failed.</returns>
-        private static Catalog Download()
+        private static Catalog Download(bool force = false)
         {
-            if (DownloadStarted)
+            int downloadFrequency = GlobalConfig.Instance.GeneralConfig.DownloadFrequency;
+            if (!force)
+            {
+                // once a week or never(on demand)
+                try
+                {
+                    FileInfo previouslyDownloadedCatalog = new FileInfo(Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName));
+                    if (!Toolkit.IsOlderThanFrequencyOption(previouslyDownloadedCatalog.LastWriteTimeUtc, downloadFrequency))
+                    {
+                        // Not enough time passed before last update
+                        Logger.Log($"Catalog update skipped. Selected frequency: {GeneralConfig.DownloadFrequencyToString(downloadFrequency)}, last update: {previouslyDownloadedCatalog.LastWriteTimeUtc}");
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    // catalog file probably does not exist, continue
+                    Logger.Exception(e);  
+                }
+            }
+
+            if (!force && DownloadStarted)
             {
                 return null;
             }
-
-            // Todo 0.8 Check settings if we should download this session. Otherwise, return before setting DownloadStarted.
 
             DownloadStarted = true;
 
@@ -841,7 +912,10 @@ namespace CompatibilityReport.CatalogData
 
             Array.Sort(files);
 
-            Catalog catalog = LoadFromDisk(files.Last());
+            string catalogPath = files.Last();
+            Logger.Log($"Loading Updater Catalog from: {catalogPath}");
+            
+            Catalog catalog = LoadFromDisk(catalogPath);
 
             if (catalog == null)
             {
@@ -850,6 +924,51 @@ namespace CompatibilityReport.CatalogData
             else
             {
                 Logger.Log($"Updater catalog is version { catalog.VersionString() }.");
+            }
+
+            return catalog;
+        }
+        
+        /// <summary>Loads the web crawler dump catalog.</summary>
+        /// <remarks>A web crawler catalog only exists for maintainers of this mod that run the Web Crawler.</remarks>
+        /// <returns>A reference to the web crawler dump catalog, or null if loading failed.</returns>
+        private static Catalog LoadWebCrawlerCatalog()
+        {
+            if (!ModSettings.UpdaterAvailable)
+            {
+                return null;
+            }
+
+            string[] files;
+
+            try
+            {
+                files = Directory.GetFiles(ModSettings.UpdaterPath, $"{ ModSettings.CatalogDumpFileName }");
+            }
+            catch
+            {
+                return null;
+            }
+
+            if (files.Length == 0)
+            {
+                return null;
+            }
+
+            Array.Sort(files);
+
+            string catalogPath = files.Last();
+            Logger.Log($"Loading WebCrawler Catalog from: {catalogPath}");
+            
+            Catalog catalog = LoadFromDisk(catalogPath);
+
+            if (catalog == null)
+            {
+                Logger.Log("Can't load WebCrawler catalog.", Logger.Error);
+            }
+            else
+            {
+                Logger.Log($"WebCrawler catalog is version { catalog.VersionString() }.");
             }
 
             return catalog;

@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -67,14 +69,32 @@
     <Compile Include="CatalogData\Compatibility.cs" />
     <Compile Include="CatalogData\Group.cs" />
     <Compile Include="CatalogData\Mod.cs" />
+    <Compile Include="Reporter\HtmlReport.cs" />
+    <Compile Include="Reporter\HtmlTemplates\HtmlExtensions.cs" />
+    <Compile Include="Reporter\HtmlTemplates\HtmlReportTemplateCode.cs" />
+    <Compile Include="Reporter\HtmlTemplates\HtmlReportTemplate.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HtmlReportTemplate.tt</DependentUpon>
+    </Compile>
     <Compile Include="Reporter\Report.cs" />
     <Compile Include="Reporter\TextReport.cs" />
+    <Compile Include="Settings\ConfigData\AdvancedConfig.cs" />
+    <Compile Include="Settings\ConfigData\GeneralConfig.cs" />
+    <Compile Include="Settings\ConfigData\UpdaterConfig.cs" />
+    <Compile Include="Settings\GlobalConfig.cs" />
+    <Compile Include="Settings\SettingsManager.cs" />
+    <Compile Include="UI\ProgressMonitor.cs" />
+    <Compile Include="UI\ProgressMonitorUI.cs" />
+    <Compile Include="UI\SettingsUI.cs" />
     <Compile Include="Updater\ChangeNotes.cs" />
+    <Compile Include="Updater\OneTimeAction.cs" />
     <Compile Include="Updater\WebCrawler.cs" />
     <Compile Include="Updater\CatalogUpdater.cs" />
     <Compile Include="Updater\FirstCatalog.cs" />
     <Compile Include="Updater\DataDumper.cs" />
     <Compile Include="Updater\FileImporter.cs" />
+    <Compile Include="Util\GameObjectObserver.cs" />
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="CompatibilityReport.cs" />
@@ -85,11 +105,23 @@
   <ItemGroup>
     <None Include="Updater\Updater Guide.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reporter\HtmlTemplates\HtmlReportTemplate.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>HtmlReportTemplate.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>REM mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
-REM del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\$(TargetFileName)"
-REM xcopy /y "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
-xcopy /y "$(TargetPath)" "C:\Games\Steam Games\steamapps\workshop\content\255710\2633433869\"</PostBuildEvent>
+    <PostBuildEvent Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+      <!-- if Release target: copy to workshop directory -->
+      xcopy /y "$(TargetPath)" "C:\Games\Steam Games\steamapps\workshop\content\255710\2633433869\"
+    </PostBuildEvent>
+    <PostBuildEvent Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <!-- if Debug target: copy to workshop directory -->
+      mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
+      del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)\$(TargetFileName)"
+      xcopy /y "$(TargetPath)" "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

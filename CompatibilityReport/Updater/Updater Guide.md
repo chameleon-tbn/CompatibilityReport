@@ -1,6 +1,6 @@
 # Compatibility Report - Updater Guide
 
-The Updater only runs when an Updater folder exists, so it won't run for regular users. The Updater has two parts. The WebCrawler crawls the Steam Workshop for mod information, including mod name, author, published/update dates, required DLC/mods, source URL, compatible game version and several statuses: unlisted/removed from Workshop, incompatible, author retirement, no description. The FileImporter imports data from CSV files, including information that cannot be found by an automated process, like compatibility and suggested successor/alternative mods. It also allows the creation of groups for required and recommended mods. The updater creates a new catalog that can be uploaded to the download location, so all mod users get this new catalog on the next game start. If you think about enabling the updater for yourself, mind that the WebCrawler downloads nearly 2000 webpages and takes about 15 minutes on a fast computer with decent internet connection.
+The Updater only runs when a "CompatibilityReportUpdater" folder exists in the games local AppData folder, so it won't run for regular users. The updater has two parts. The **WebCrawler** crawls the Steam Workshop for mod information, including mod name, author, published/update dates, required DLC/mods, source URL, compatible game version and several statuses: unlisted/removed from Workshop, incompatible, author retirement, no description. The **FileImporter** imports data from CSV files, including information that cannot be found by an automated process, like compatibility and suggested successor/alternative mods. It also allows the creation of groups for required and recommended mods. The updater creates a new catalog that can be uploaded to the download location, so all mod users get this new catalog on the next game start. If you think about enabling the updater for yourself, mind that the WebCrawler downloads more than 2000 webpages and takes about 15 minutes on a fast computer with decent internet connection. To avoid unnecessary downloads, the WebCrawler only runs if a file called "CompatibilityReport_WebCrawler.enabled" exists inside the Updater folder. The updater also creates a DataDump file with various checks and relevant information for updating, and can run a OneTimeAction (disabled by default).
 
 The FileImporter gathers its information from CSV files. These should be placed in the updater folder where the new catalogs are written as well. Update actions can be bundled in one CSV file or split into multiple files. Multiple files will be read in alphabetical order. Filenames don't matter, but should end in .csv. After updating, the processed CSV files are renamed to .txt to avoid duplicate additions to the catalog on a next updater run.
 
@@ -68,7 +68,7 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
 * Remove_AuthorUrl, \<author ID\>
 * Remove_Retired, \<author ID | custom url\> *(only works if added manually before)*
 
-### Available catalog actions
+### Catalog actions
 * Set_CatalogGameVersion, \<game version string\>
 * Set_CatalogNote, \<text\>
 * Set_CatalogHeaderText, \<text\>
@@ -77,7 +77,7 @@ Parameters in square brackets are optional. The symbol :zap: means an exclusion 
 * Remove_CatalogHeaderText
 * Remove_CatalogFooterText
 
-### Available miscellaneous actions
+### Miscellaneous actions
 * Add_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
   * *Only needed to differentiate between a required asset and a required mod that isn't in the catalog.*
 * Remove_RequiredAssets, \<asset ID\> [, \<asset ID\>, ...]
