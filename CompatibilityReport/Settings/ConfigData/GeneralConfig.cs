@@ -34,7 +34,7 @@ namespace CompatibilityReport.Settings.ConfigData
         /// <summary>
         /// "text", "html", "text and html"
         /// </summary>
-        public int ReportType { get; set; } = 0;
+        public int ReportType { get; set; } = 1;
         
         /// <summary>
         /// 0: "Once a week", 1: "Never (on-demand only) - not recommended!"
