@@ -35,9 +35,9 @@ HtmlReportTemplate.tt General information Header","",""
 HtmlReportTemplate.tt General information mistake","",""
 "HRT_GI_NU","NEVER (un)subscribe to anything while the game is running! This resets some mods.","NEVER (un)subscribe to anything while the game is running! This resets some mods.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe","",""
-"HRT_GI_NW","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","HRT_GI_NW
+"HRT_GI_NW","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try to unsubscribe and resubscribe (while not in game).","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking","",""
-"HRT_GI_WP","When playing with mods, save to a new savegame often and make frequent BACKUPS.","When playing with mods, save to a new savegame often and make frequent BACKUPS.","HRT_GI_WP
+"HRT_GI_WP","When playing with mods, save to a new savegame often and make frequent BACKUPS.","When playing with mods, save to a new save game often and make frequent BACKUPS.","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying","",""
 "HRT_IO_SOW","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning","",""
@@ -181,7 +181,7 @@ HtmlReportTemplateCode.cs Stability MinorIssuesCheck","",""
 HtmlReportTemplateCode.cs Stability NotEnoughInformation","",""
 "HRTC_S_NEIC","but it was updated for the current game version.","but it was updated for the current game version.","HRTC_S_NEIC
 HtmlReportTemplateCode.cs Stability NotEnoughInformationCurrent and NotReviewedCurrent","",""
-"HRTC_S_NEIV","but it was updated for game version {GameVersion}.","but it was updated for game version {GameVersion}.","HRTC_S_NEIV
+"HRTC_S_NEIV","but it was updated for game version {GameVersion}.","but it was updated for game version {GameVersion}","HRTC_S_NEIV
 HtmlReportTemplateCode.cs Stability NotEnoughInformationVersion and NotReviewedVersion","",""
 "HRTC_S_NR","This mod has not been reviewed yet.","This mod has not been reviewed yet.","HRTC_S_NR
 HtmlReportTemplateCode.cs Stability NotReviewed","",""
@@ -191,7 +191,7 @@ HtmlReportTemplateCode.cs Stability NotReviewedCurrent","",""
 HtmlReportTemplateCode.cs Stability NotReviewedVersion","",""
 "HRTC_S_S","This is compatible with the current game version.","This is compatible with the current game version.","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable","",""
-"HRTC_S_URI","Users are reporting issues {StabilityNote}. Check its Workshop page for details.","Users are reporting issues {StabilityNote}. Check its Workshop page for details.","HRTC_S_URI
+"HRTC_S_URI","Users are reporting issues {StabilityNote}. Check its Workshop page for details.","Users are reporting issues {StabilityNote} Check its Workshop page for details.","HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues","",""
 "HRTC_S_URIC","Check its Workshop page for details.","Check its Workshop page for details.","HRTC_S_URIC
 HtmlReportTemplateCode.cs Stability UsersReportIssuesCheck","",""
@@ -217,7 +217,7 @@ HtmlReportTemplateCode.cs Statuses nestedItemauthorRetired","",""
 HtmlReportTemplateCode.cs Statuses Obsolete","",""
 "HRTC_S_RFW","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","HRTC_S_RFW
 HtmlReportTemplateCode.cs Statuses RemovedFromWorkshop","",""
-"HRTC_S_SCLW","NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTE: After using this mod, game saves won't (easily) load without it anymore.","HRTC_S_SCLW
+"HRTC_S_SCLW","NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTE: After using this mod, savegames won't (easily) load without it anymore.","HRTC_S_SCLW
 HtmlReportTemplateCode.cs Statuses SavesCantLoadWithout","",""
 "HRTC_S_TVA","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_S_TVA
 HtmlReportTemplateCode.cs Statuses TestVersion Alternatives","",""
@@ -255,7 +255,7 @@ SettingsUI.cs BuildCatalogOptionsUI SettingsUIText","",""
 SettingsUI.cs BuildCatalogOptionsUI textWidthField","",""
 "SET_BRG_CPB","Change path","Change path","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn","",""
-"SET_BRG_NW","'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' launch option detected. No report was generated","SET_BRG_NW
+"SET_BRG_NW","'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' launch option detected. No report was generated.","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop","",""
 "SET_BRG_OGR","Generate report(s)","Generate report(s)","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports","",""
@@ -375,7 +375,7 @@ SettingsUI.cs ReportTypes Text","",""
 "REPORT_NOTE_65","FPS Booster has all functionality of Mini FPS Booster, and more.","FPS Booster has all functionality of Mini FPS Booster, and more.","REPORT_NOTE_65","",""
 "REPORT_NOTE_66","From the main menu, the delay time in the mod options will be incorrect. While in game, the mod options do show the correct delay time, corresponding to the Real Time slowed time.","From the main menu, the delay time in the mod options will be incorrect. While in game, the mod options do show the correct delay time, corresponding to the Real Time slowed time.","REPORT_NOTE_66","",""
 "REPORT_NOTE_67","Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in TimeWarp will not work.","Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in TimeWarp will not work.","REPORT_NOTE_67","",""
-"REPORT_NOTE_68","Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.","Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.","REPORT_NOTE_68","",""
+"REPORT_NOTE_68","Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.","Game pauses automatically when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.","REPORT_NOTE_68","",""
 "REPORT_NOTE_69","Garbage Bin Controller breaks Harmony and any mod depending on Harmony. Switch to Garbage Bin Manager.","Garbage Bin Controller breaks Harmony and any mod depending on Harmony. Switch to Garbage Bin Manager.","REPORT_NOTE_69","",""
 "REPORT_NOTE_70","Harmony Redesigned might disable UI Resolution. Use the regular version of Harmony instead.","Harmony Redesigned might disable UI Resolution. Use the regular version of Harmony instead.","REPORT_NOTE_70","",""
 "REPORT_NOTE_71","If contour lines doesn't work, turn off ""Overwrite Terrain"" and set the value to around 100 in ROTTERdams options.","If contour lines doesn't work, turn off ""Overwrite Terrain"" and set the value to around 100 in ROTTERdams options.","REPORT_NOTE_71","",""
@@ -447,7 +447,7 @@ and enable the following settings for Daylight Classic:
 "REPORT_NOTE_131","Play It has more extensive weather options.","Play It has more extensive weather options.","REPORT_NOTE_131","",""
 "REPORT_NOTE_132","Play It has most functionality of Ultimate Eyecandy. Combine Play It with Render It and Theme Mixer 2 for full replacement functionality.","Play It has most functionality of Ultimate Eyecandy. Combine Play It with Render It and Theme Mixer 2 for full replacement functionality.","REPORT_NOTE_132","",""
 "REPORT_NOTE_133","Please note that RT mod compatibility is in beta and there may be bugs present.","Please note that RT mod compatibility is in beta and there may be bugs present.","REPORT_NOTE_133","",""
-"REPORT_NOTE_134","Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.","Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.","REPORT_NOTE_134","",""
+"REPORT_NOTE_134","Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.","Ploppable RICO now has the functionality of Plop the Growables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Plop the Growables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.","REPORT_NOTE_134","",""
 "REPORT_NOTE_135","Prop Anarchy already has a better prop painting functionality.","Prop Anarchy already has a better prop painting functionality.","REPORT_NOTE_135","",""
 "REPORT_NOTE_136","Prop Anarchy already has prop scaling functionality.","Prop Anarchy already has prop scaling functionality.","REPORT_NOTE_136","",""
 "REPORT_NOTE_137","Prop Anarchy already has the transparency LOD fix.","Prop Anarchy already has the transparency LOD fix.","REPORT_NOTE_137","",""
@@ -502,7 +502,7 @@ Common Ground is not needed for gameplay when you unlock all 81 tiles, but is st
 "REPORT_NOTE_184","The game sometimes forgets the real start of a route and might show it as 'No District'.","The game sometimes forgets the real start of a route and might show it as 'No District'.","REPORT_NOTE_184","",""
 "REPORT_NOTE_185","The graphs from Enhanced Outside Connections View are far less useful because time flows much more slowly.","The graphs from Enhanced Outside Connections View are far less useful because time flows much more slowly.","REPORT_NOTE_185","",""
 "REPORT_NOTE_186","The mod uses an executable to actually draw the map. That executable works on Windows only and requires .Net Framework 4.5.2.","The mod uses an executable to actually draw the map. That executable works on Windows only and requires .Net Framework 4.5.2.","REPORT_NOTE_186","",""
-"REPORT_NOTE_187","The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.","The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.","REPORT_NOTE_187","",""
+"REPORT_NOTE_187","The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.","The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .NET install. See Workshop page for details.","REPORT_NOTE_187","",""
 "REPORT_NOTE_188","The number of CitizenUnits will be increased correctly, but Watch It incorrectly shows the old number.","The number of CitizenUnits will be increased correctly, but Watch It incorrectly shows the old number.","REPORT_NOTE_188","",""
 "REPORT_NOTE_189","The original mod has been updated with a Chinese translation.","The original mod has been updated with a Chinese translation.","REPORT_NOTE_189","",""
 "REPORT_NOTE_190","The original mod supports the Chinese language.","The original mod supports the Chinese language.","REPORT_NOTE_190","",""
@@ -549,8 +549,8 @@ Common Ground is not needed for gameplay when you unlock all 81 tiles, but is st
 "REPORT_NOTE_231","This is only needed if an old flag prop or vehicle sub mesh still requires it.","This is only needed if an old flag prop or vehicle sub mesh still requires it.","REPORT_NOTE_231","",""
 "REPORT_NOTE_232","This is only needed if an old prop still requires it.","This is only needed if an old prop still requires it.","REPORT_NOTE_232","",""
 "REPORT_NOTE_233","This is only needed if you use the single two-way train track.","This is only needed if you use the single two-way train track.","REPORT_NOTE_233","",""
-"REPORT_NOTE_234","This is only needed to convert the settings from Plop the Growables from an existing savegame to Advanced Building Level Control. When it has run, you can unsubscribe it.","This is only needed to convert the settings from Plop the Growables from an existing savegame to Advanced Building Level Control. When it has run, you can unsubscribe it.","REPORT_NOTE_234","",""
-"REPORT_NOTE_235","This is only needed to recover a corrupt savegame. Don't use it on regular play.","This is only needed to recover a corrupt savegame. Don't use it on regular play.","REPORT_NOTE_235","",""
+"REPORT_NOTE_234","This is only needed to convert the settings from Plop the Growables from an existing savegame to Advanced Building Level Control. When it has run, you can unsubscribe it.","This is only needed to convert the settings from Plop the Growables from an existing save game to Advanced Building Level Control. When it has run, you can unsubscribe it.","REPORT_NOTE_234","",""
+"REPORT_NOTE_235","This is only needed to recover a corrupt savegame. Don't use it on regular play.","This is only needed to recover a corrupt save game. Don't use it on regular play.","REPORT_NOTE_235","",""
 "REPORT_NOTE_236","This is succeeded by the following prop pack combined with the BOB mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2632539686","This is succeeded by the following prop pack combined with the BOB mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2632539686","REPORT_NOTE_236","",""
 "REPORT_NOTE_237","This may be streamed as long as no profit is gained (CC-BY-NC 4.0 license for most tracks).","This may be streamed as long as no profit is gained (CC-BY-NC 4.0 license for most tracks).","REPORT_NOTE_237","",""
 "REPORT_NOTE_238","This might be incompatible with a variety of mods with similar functionality, but the author is not providing any information on this.","This might be incompatible with a variety of mods with similar functionality, but the author is not providing any information on this.","REPORT_NOTE_238","",""
@@ -568,7 +568,7 @@ Common Ground is not needed for gameplay when you unlock all 81 tiles, but is st
 "REPORT_NOTE_250","This mod is only needed for the Winter Buildings Unlocker mod. All other functionality was integrated into the game itself.","This mod is only needed for the Winter Buildings Unlocker mod. All other functionality was integrated into the game itself.","REPORT_NOTE_250","",""
 "REPORT_NOTE_251","This mod is only needed if you use props that explicitly require it. Newer props that use an AnimUV shader probably don't need the mod.","This mod is only needed if you use props that explicitly require it. Newer props that use an AnimUV shader probably don't need the mod.","REPORT_NOTE_251","",""
 "REPORT_NOTE_252","This mod needs at least one traffic light prop pack to function. This mod automatically disables individual traffic light mods on game startup to avoid conflicts, but uses the bundled props from those mods. Leave the other traffic mods disabled.","This mod needs at least one traffic light prop pack to function. This mod automatically disables individual traffic light mods on game startup to avoid conflicts, but uses the bundled props from those mods. Leave the other traffic mods disabled.","REPORT_NOTE_252","",""
-"REPORT_NOTE_253","This mod needs at least one traffic light prop pack to function. This mod automatically disables individual traffic light mods on game startup to avoid conflicts, but uses the bundled props from those mods. Leave those other traffic light mods disabled.","This mod needs at least one traffic light prop pack to function. This mod automatically disables individual traffic light mods on game startup to avoid conflicts, but uses the bundled props from those mods. Leave those other traffic light mods disabled.","REPORT_NOTE_253","",""
+"REPORT_NOTE_253","This mod needs at least one traffic light prop pack to function. This mod automatically disables individual traffic light mods on game startup to avoid conflicts, but uses the bundled props from those mods. Leave those other traffic light mods disabled.","This mod needs at least one traffic light prop pack to function. This mod automatically disables individual traffic light mods on game startup to avoid conflicts, but uses the bundled props from those mods. Leave the other traffic mods disabled.","REPORT_NOTE_253","",""
 "REPORT_NOTE_254","This mod was only for scenario developers looking for more options.","This mod was only for scenario developers looking for more options.","REPORT_NOTE_254","",""
 "REPORT_NOTE_255","This only erases the current debt when loading a savegame, not during gameplay.","This only erases the current debt when loading a savegame, not during gameplay.","REPORT_NOTE_255","",""
 "REPORT_NOTE_256","This only works for trucks in cargo train station or cargo harbors. For other spawn points, use Building Spawn Points: https://steamcommunity.com/sharedfiles/filedetails/?id=2511258910","This only works for trucks in cargo train station or cargo harbors. For other spawn points, use Building Spawn Points: https://steamcommunity.com/sharedfiles/filedetails/?id=2511258910","REPORT_NOTE_256","",""
@@ -617,7 +617,7 @@ Common Ground is not needed for gameplay when you unlock all 81 tiles, but is st
 "REPORT_NOTE_299","Use BOB instead of Prop Remover.","Use BOB instead of Prop Remover.","REPORT_NOTE_299","",""
 "REPORT_NOTE_300","Use BOB instead of Prop Switcher.","Use BOB instead of Prop Switcher.","REPORT_NOTE_300","",""
 "REPORT_NOTE_301","Use Ploppable RICO Revisited instead.","Use Ploppable RICO Revisited instead.","REPORT_NOTE_301","",""
-"REPORT_NOTE_302","Use Prop Anarchy and Tree Anarchy instead of Prop &amp; Tree Anarchy.","Use Prop Anarchy and Tree Anarchy instead of Prop &amp; Tree Anarchy.","REPORT_NOTE_302","",""
+"REPORT_NOTE_302","Use Prop Anarchy and Tree Anarchy instead of Prop &amp; Tree Anarchy.","Use Prop Anarchy combined with Tree Anarchy instead of Prop &amp; Tree Anarchy.","REPORT_NOTE_302","",""
 "REPORT_NOTE_303","Use Prop Anarchy combined with Tree Anarchy instead of Prop &amp; Tree Anarchy.","Use Prop Anarchy combined with Tree Anarchy instead of Prop &amp; Tree Anarchy.","REPORT_NOTE_303","",""
 "REPORT_NOTE_304","Use Prop Anarchy instead of Additive Shader.","Use Prop Anarchy instead of Additive Shader.","REPORT_NOTE_304","",""
 "REPORT_NOTE_305","Use Prop Anarchy instead of Decal Prop Fix.","Use Prop Anarchy instead of Decal Prop Fix.","REPORT_NOTE_305","",""
