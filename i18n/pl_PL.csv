@@ -1,69 +1,69 @@
 "Identifier","Source String","Translation","Context","Labels","Max. Length"
 "LANGUAGE","English","Polski","LANGUAGE
 1Language to be translated into","",""
-"CAT_NC_SUIT","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
+"CAT_NC_SUIT","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} utworzony {Updated}, pobrany {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText","",""
-"CAT_S_SUIT","unknown, catalog not loaded yet.","unknown, catalog not loaded yet.","CAT_S_SUIT
+"CAT_S_SUIT","unknown, catalog not loaded yet.","nieznany, katalog nie został jeszcze załadowany.","CAT_S_SUIT
 Catalog.cs string SettingsUIText","",""
-"HE_NAWIDAL_S","by","by","HE_NAWIDAL_S
+"HE_NAWIDAL_S","by","autorstwa","HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string","",""
-"HRT_DCV_H","WARNING:","WARNING:","HRT_DCV_H
+"HRT_DCV_H","WARNING:","OSTRZEŻENIE:","HRT_DCV_H
 HtmlReportTemplate.tt Different Catalog version Header","",""
-"HRT_DCV_RNA","Results might not be accurate.","Results might not be accurate.","HRT_DCV_RNA
+"HRT_DCV_RNA","Results might not be accurate.","Wyniki mogą nie być dokładne.","HRT_DCV_RNA
 HtmlReportTemplate.tt Different Catalog version Resultsnotaccurate","",""
-"HRT_DCV_T","The catalog is made for game version {CatalogGameVersion}.","The catalog is made for game version {CatalogGameVersion}.","HRT_DCV_T
+"HRT_DCV_T","The catalog is made for game version {CatalogGameVersion}.","Katalog jest wykonany dla gry w wersji {CatalogGameVersion}.","HRT_DCV_T
 HtmlReportTemplate.tt Different Catalog version Text","",""
-"HRT_DCV_YGIN","Your game is newer.","Your game is newer.","HRT_DCV_YGIN
+"HRT_DCV_YGIN","Your game is newer.","Twoja gra jest nowsza.","HRT_DCV_YGIN
 HtmlReportTemplate.tt Different Catalog version Your game is newer","",""
-"HRT_DCV_YGIO","Your game is older.","Your game is older.","HRT_DCV_YGIO
+"HRT_DCV_YGIO","Your game is older.","Twoja gra jest starsza.","HRT_DCV_YGIO
 HtmlReportTemplate.tt Different Catalog version Your game is older","",""
-"HRT_FS_P","The report includes {LocalSubscriptionCount} fake subscriptions.","The report includes {LocalSubscriptionCount} fake subscriptions.","HRT_FS_P
+"HRT_FS_P","The report includes {LocalSubscriptionCount} fake subscriptions.","Raport zawiera {LocalSubscriptionCount} fałszywych subskrypcji.","HRT_FS_P
 HtmlReportTemplate.tt Fake subscription plural","",""
-"HRT_FS_S","The report includes {LocalSubscriptionCount} fake subscription.","The report includes {LocalSubscriptionCount} fake subscription.","HRT_FS_S
+"HRT_FS_S","The report includes {LocalSubscriptionCount} fake subscription.","Raport zawiera {LocalSubscriptionCount} fałszywą subskrypcję.","HRT_FS_S
 HtmlReportTemplate.tt Fake subscription singular","",""
-"HRT_GI_AM","Abandoned mods can still work fine. They're just unlikely to get updates.","Abandoned mods can still work fine. They're just unlikely to get updates.","HRT_GI_AM
+"HRT_GI_AM","Abandoned mods can still work fine. They're just unlikely to get updates.","Porzucone modyfikacje mogą nadal działać w porządku. Jest mało prawdopodobne, aby dostały aktualizacje w przyszłości.","HRT_GI_AM
 HtmlReportTemplate.tt General information Abandondedmod","",""
-"HRT_GI_AR","Always READ the mod description on the Steam Workshop before subscribing.","Always READ the mod description on the Steam Workshop before subscribing.","HRT_GI_AR
+"HRT_GI_AR","Always READ the mod description on the Steam Workshop before subscribing.","Przed subskrypcją zawsze PRZECZYTAJ opis modyfikacji w Warsztacie Steam.","HRT_GI_AR
 HtmlReportTemplate.tt General information Alwaysread","",""
 "HRT_GI_ETD","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop","",""
-"HRT_GI_HI","Having issues with a mod? Make a comment on its Workshop page so the author knows.","Having issues with a mod? Make a comment on its Workshop page so the author knows.","HRT_GI_HI
+"HRT_GI_HI","Having issues with a mod? Make a comment on its Workshop page so the author knows.","Masz problemy z modyfikacją? Napisz komentarz na stronie modyfikacji w Warsztacie, aby autor się o tym dowiedział.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues","",""
-"HRT_GI_H","General information","General information","HRT_GI_H
+"HRT_GI_H","General information","Informacje ogólne","HRT_GI_H
 HtmlReportTemplate.tt General information Header","",""
-"HRT_GI_M","Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
+"HRT_GI_M","Found a mistake? Please fill out this {form}.","Znalazłeś błąd? Proszę wypełnić ten formularz {form}.","HRT_GI_M
 HtmlReportTemplate.tt General information mistake","",""
-"HRT_GI_NU","NEVER (un)subscribe to anything while the game is running! This resets some mods.","NEVER (un)subscribe to anything while the game is running! This resets some mods.","HRT_GI_NU
+"HRT_GI_NU","NEVER (un)subscribe to anything while the game is running! This resets some mods.","NIGDY nie (od)subskrybuj modyfikacji, gdy gra jest uruchomiona! To może zresetować niektóre modyfikacje.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe","",""
-"HRT_GI_NW","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","HRT_GI_NW
+"HRT_GI_NW","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Modyfikacja kompatybilna, ale nie działa? Spróbuj anulować subskrypcję i subskrybować ponownie (gdy gra nie jest uruchomiona).","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking","",""
-"HRT_GI_WP","When playing with mods, save to a new savegame often and make frequent BACKUPS.","When playing with mods, save to a new savegame often and make frequent BACKUPS.","HRT_GI_WP
+"HRT_GI_WP","When playing with mods, save to a new savegame often and make frequent BACKUPS.","Podczas grania z modyfikacjami twórz nowe zapisy (nie nadpisuj pliku!), a także ich kopie zapasowe.","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying","",""
-"HRT_IO_SOW","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","HRT_IO_SOW
+"HRT_IO_SOW","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","OSTRZEŻENIE: Nie można pobrać najnowszego katalogu recenzji. Wyniki mogą być nieaktualne.","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning","",""
-"HRT_LIL_MAI","Major Issues","Major Issues","HRT_LIL_MAI
+"HRT_LIL_MAI","Major Issues","Główne problemy","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues","",""
 "HRT_LIL_MI","Minor Issues","Minor Issues","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues","",""
-"HRT_LIL_NTR","Nothing to report","Nothing to report","HRT_LIL_NTR
+"HRT_LIL_NTR","Nothing to report","Nic do zanotowania","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport","",""
-"HRT_LIL_R","Remarks","Remarks","HRT_LIL_R
+"HRT_LIL_R","Remarks","Uwagi","HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks","",""
-"HRT_LSM_E","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","HRT_LSM_E
+"HRT_LSM_E","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","Raport nie sprawdza niezgodności z nimi. Wyniki mogą nie być w pełni dokładne. Użyj modów jako subskrypcji Warsztatu, gdy tylko jest to możliwe. Modyfikacje skopiowane do folderu modów lokalnych nie zawsze działają i często nie mogą być wykryte przez inne modyfikacje.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain","",""
-"HRT_LSM_P","You have {LocalSubscriptionCount} local mods, which we can't review.","You have {LocalSubscriptionCount} local mods, which we can't review.","HRT_LSM_P
+"HRT_LSM_P","You have {LocalSubscriptionCount} local mods, which we can't review.","Masz {LocalSubscriptionCount} lokalnych modyfikacji, których nie możemy przejrzeć.","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural","",""
-"HRT_LSM_S","You have {LocalSubscriptionCount} local mod, which we can't review.","You have {LocalSubscriptionCount} local mod, which we can't review.","HRT_LSM_S
+"HRT_LSM_S","You have {LocalSubscriptionCount} local mod, which we can't review.","Masz {LocalSubscriptionCount} lokalny mod, którego nie możemy przejrzeć.","HRT_LSM_S
 HtmlReportTemplate.tt Local subscription Mod singular","",""
-"HRT_NRS_N","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","HRT_NRS_N
+"HRT_NRS_N","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} z twoich modyfikacji nie zostały jeszcze zweryfikowane. W związku z tym niektóre niezgodności lub ostrzeżenia mogą być niekompletne.","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note","",""
-"HRT_P_D","Disabled","Disabled","HRT_P_D
+"HRT_P_D","Disabled","Wyłączony","HRT_P_D
 HtmlReportTemplate.tt processed Disabled","",""
-"HRT_P_MN","Mod Name","Mod Name","HRT_P_MN
+"HRT_P_MN","Mod Name","Nazwa modyfikacji","HRT_P_MN
 HtmlReportTemplate.tt processed Mod Name","",""
-"HRT_P_PM","Processed mods","Processed mods","HRT_P_PM
+"HRT_P_PM","Processed mods","Przetworzone modyfikacje","HRT_P_PM
 HtmlReportTemplate.tt processed Processed mods","",""
-"HRT_P_T","Type","Type","HRT_P_T
+"HRT_P_T","Type","Rodzaj","HRT_P_T
 HtmlReportTemplate.tt processed Type","",""
 "HRT_P_U","URL","URL","HRT_P_U
 HtmlReportTemplate.tt processed Url","",""
@@ -87,39 +87,39 @@ HtmlReportTemplate.tt RenderSection remarkssingular","",""
 HtmlReportTemplate.tt RenderSection unsubscribeplural","",""
 "HRT_RS_US","MOD COULD OR SHOULD BE UNSUBSCRIBED:","MOD COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular","",""
-"HRT_S_MUA","Mods updated after this date might have an outdated review below.","Mods updated after this date might have an outdated review below.","HRT_S_MUA
+"HRT_S_MUA","Mods updated after this date might have an outdated review below.","Modyfikacje zaktualizowane po tej dacie mogą mieć przestarzałą recenzję poniżej.","HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter","",""
-"HRT_S_TMCC","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","HRT_S_TMCC
+"HRT_S_TMCC","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","Katalog modyfikacji zawiera {ReviewedModCount} sprawdzonych modyfikacji i został utworzony {Updated}.","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains","",""
-"HRT_S_VWC","Version {FullVersion} with catalog {VersionString}.","Version {FullVersion} with catalog {VersionString}.","HRT_S_VWC
+"HRT_S_VWC","Version {FullVersion} with catalog {VersionString}.","Wersja {FullVersion} z katalogiem {VersionString}.","HRT_S_VWC
 HtmlReportTemplate.tt section Versionwithcatalog","",""
-"HRT_S_YGM","Your game has {SubscriptionCount} mods.","Your game has {SubscriptionCount} mods.","HRT_S_YGM
+"HRT_S_YGM","Your game has {SubscriptionCount} mods.","Twoja gra zawiera {SubscriptionCount} modyfikacji.","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods","",""
-"HRTC_A_SNU","Published source seems out of date, making it hard to continue by another modder.","Published source seems out of date, making it hard to continue by another modder.","HRTC_A_SNU
+"HRTC_A_SNU","Published source seems out of date, making it hard to continue by another modder.","Opublikowane źródło wydaje się nieaktualne, co utrudnia kontynuowanie rozwoju innym moderom.","HRTC_A_SNU
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated","",""
-"HRTC_A_SURL","No public source code found, making it hard to continue by another modder.","No public source code found, making it hard to continue by another modder.","HRTC_A_SURL
+"HRTC_A_SURL","No public source code found, making it hard to continue by another modder.","Nie znaleziono publicznego kodu źródłowego, co utrudnia kontynuowanie innym moderom.","HRTC_A_SURL
 HtmlReportTemplateCode.cs abandoned SourceUrl","",""
-"HRTC_A_SM","Some alternatives for this are (pick one, not all):","Some alternatives for this are (pick one, not all):","HRTC_A_SM
+"HRTC_A_SM","Some alternatives for this are (pick one, not all):","Alternatywy dla tej modyfikacji (wybierz tylko jedną):","HRTC_A_SM
 HtmlReportTemplateCode.cs Alternatives subscribedMod","",""
-"HRTC_A_SMC","An alternative you could use:","An alternative you could use:","HRTC_A_SMC
+"HRTC_A_SMC","An alternative you could use:","Alternatywa, której możesz użyć:","HRTC_A_SMC
 HtmlReportTemplateCode.cs Alternatives subscribedModCount","",""
-"HRTC_BE_R","If you use the asset editor and/or map editor, this may give serious issues.","If you use the asset editor and/or map editor, this may give serious issues.","HRTC_BE_R
+"HRTC_BE_R","If you use the asset editor and/or map editor, this may give serious issues.","Jeśli używasz edytora zasobów i/lub edytora map, modyfikacja może powodować poważne problemy.","HRTC_BE_R
 HtmlReportTemplateCode.cs BreaksEditors Remarks","",""
-"HRTC_CRM_S","Can't review local mods.","Can't review local mods.","HRTC_CRM_S
+"HRTC_CRM_S","Can't review local mods.","Nie można sprawdzić lokalnych modyfikacji.","HRTC_CRM_S
 HtmlReportTemplateCode.cs cannotReviewMessage string","",""
-"HRTC_CM_ID","Yes","Yes","HRTC_CM_ID
+"HRTC_CM_ID","Yes","Tak","HRTC_CM_ID
 HtmlReportTemplateCode.cs catalogMod IsDisabled","",""
-"HRTC_IRS_CATA","This is compatible with:","This is compatible with:","HRTC_IRS_CATA
+"HRTC_IRS_CATA","This is compatible with:","Jest on zgodny z:","HRTC_IRS_CATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity CompatibleAccordingToAuthor","",""
 "HRTC_IRS_IATA","Unsubscribe either this one or the following mod it's incompatible with:","Unsubscribe either this one or the following mod it's incompatible with:","HRTC_IRS_IATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToAuthor","",""
-"HRTC_IRS_IATU","Users report an incompatibility with:","Users report an incompatibility with:","HRTC_IRS_IATU
+"HRTC_IRS_IATU","Users report an incompatibility with:","Użytkownicy zgłaszają niezgodność:","HRTC_IRS_IATU
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToUsers","",""
 "HRTC_IRS_MAI","Minor Issues","Minor Issues","HRTC_IRS_MAI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MajorIssues and HtmlReportTemplate.tt LI_Link minorIssues)","",""
-"HRTC_IRS_MI","This has minor issues with:","This has minor issues with:","HRTC_IRS_MI
+"HRTC_IRS_MI","This has minor issues with:","Niewielkie problemy z:","HRTC_IRS_MI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MinorIssues","",""
-"HRTC_IRS_RSS","This requires specific configuration to work together with:","This requires specific configuration to work together with:","HRTC_IRS_RSS
+"HRTC_IRS_RSS","This requires specific configuration to work together with:","Wymaga specyficznej konfiguracji, aby współpracował z:","HRTC_IRS_RSS
 HtmlReportTemplateCode.cs IncreaseReportSeverity RequiresSpecificSettings","",""
 "HRTC_IRS_SF","Unsubscribe either this or the following incompatible mod with similar functionality:","Unsubscribe either this or the following incompatible mod with similar functionality:","HRTC_IRS_SF
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionality","",""
@@ -127,17 +127,17 @@ HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionality","",""
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionalityCompatible","",""
 "HRTC_IRS_SMDRT","Unsubscribe either this or the other edition of the same mod:","Unsubscribe either this or the other edition of the same mod:","HRTC_IRS_SMDRT
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameModDifferentReleaseType","",""
-"HRTC_I_B","UNSUBSCRIBE! This mod is broken.","UNSUBSCRIBE! This mod is broken.","HRTC_I_B
+"HRTC_I_B","UNSUBSCRIBE! This mod is broken.","ODSUBSKRYBUJ! Ta modyfikacja jest zepsuta.","HRTC_I_B
 HtmlReportTemplateCode.cs Instability Broken","",""
-"HRTC_I_GB","UNSUBSCRIBE! This mod breaks the game.","UNSUBSCRIBE! This mod breaks the game.","HRTC_I_GB
+"HRTC_I_GB","UNSUBSCRIBE! This mod breaks the game.","ODSUBSKRYBUJ! Ten mod psuje grę.","HRTC_I_GB
 HtmlReportTemplateCode.cs Instability GameBreaking","",""
-"HRTC_I_IATW","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","HRTC_I_IATW
+"HRTC_I_IATW","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","ODSUBSKRYBUJ! Ten mod jest całkowicie niezgodny z wersją gry, którą posiadasz.","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop","",""
-"HRTC_I_MAI","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","HRTC_I_MAI
+"HRTC_I_MAI","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","Anulowanie subskrypcji byłoby rozsądne. Modyfikacja ma poważne problemy {StabilityNote}. Sprawdź stronę Warsztatu po więcej szczegółów.","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues","",""
 "HRTC_I_MAIC","Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck","",""
-"HRTC_I_RIM","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","HRTC_I_RIM
+"HRTC_I_RIM","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","ODSUBSKRYBUJ! Wymaga modyfikacji, która jest całkowicie niezgodna z aktualną wersją gry.","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod","",""
 "HRTC_ICSM_S","This is a cinematic camera script, which technically is a mod and thus listed here.","This is a cinematic camera script, which technically is a mod and thus listed here.","HRTC_ICSM_S
 HtmlReportTemplateCode.cs isCameraScriptMessage string","",""
@@ -151,11 +151,11 @@ HtmlReportTemplateCode.cs IsModNeeded RemarksLocal","",""
 HtmlReportTemplateCode.cs IsModNeeded Unsubscribe","",""
 "HRTC_IS_S","Steam","Steam","HRTC_IS_S
 HtmlReportTemplateCode.cs isSteam steam","",""
-"HRT_LIL_U","Unsubscribe","Unsubscribe","HRT_LIL_U
+"HRT_LIL_U","Unsubscribe","Odsubskrybuj","HRT_LIL_U
 HtmlReportTemplateCode.cs LI_Link unsubscribe","",""
-"HRTC_LLMID_BI","Built-in","Built-in","HRTC_LLMID_BI
+"HRTC_LLMID_BI","Built-in","Wbudowany","HRTC_LLMID_BI
 HtmlReportTemplateCode.cs LowestLocalModID builtin","",""
-"HRTC_LLMID_L","Local","Local","HRTC_LLMID_L
+"HRTC_LLMID_L","Local","Lokalny","HRTC_LLMID_L
 HtmlReportTemplateCode.cs LowestLocalModID local","",""
 "HRTC_M_TV","If you don't have a specific reason to use it, you'd better use the stable version instead.","If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_M_TV
 HtmlReportTemplateCode.cs Message TestVersion","",""
@@ -227,85 +227,85 @@ HtmlReportTemplateCode.cs Successors subscribedMod","",""
 HtmlReportTemplateCode.cs Successors subscribedModCount","",""
 "HRTC_S_U","Unsubscribe this. It is succeeded by a mod you already have:","Unsubscribe this. It is succeeded by a mod you already have:","HRTC_S_U
 HtmlReportTemplateCode.cs Successors Unsubscribe","",""
-"HRTC_S_WSP","Workshop page:","Workshop page:","HRTC_S_WSP
+"HRTC_S_WSP","Workshop page:","Strona warsztatu:","HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage","",""
-"SET_BAO_AG","Advanced options","Advanced options","SET_BAO_AG
+"SET_BAO_AG","Advanced options","Ustawienia zaawansowane","SET_BAO_AG
 SettingsUI.cs BuildAdvancedOptionsUI advancedGroup","",""
-"SET_BAO_DM","Debug Mode","Debug Mode","SET_BAO_DM
+"SET_BAO_DM","Debug Mode","Tryb Debugowania","SET_BAO_DM
 SettingsUI.cs BuildAdvancedOptionsUI debugMode","",""
-"SET_BAO_MLS","Max log size (in KB)","Max log size (in KB)","SET_BAO_MLS
+"SET_BAO_MLS","Max log size (in KB)","Maks. rozmiar dziennika (w KB)","SET_BAO_MLS
 SettingsUI.cs BuildAdvancedOptionsUI maxLogSize","",""
-"SET_BAO_MR","Number of catalog download retries","Number of catalog download retries","SET_BAO_MR
+"SET_BAO_MR","Number of catalog download retries","Liczba powtórnych prób pobierania katalogu","SET_BAO_MR
 SettingsUI.cs BuildAdvancedOptionsUI maxRetries","",""
-"SET_BAO_MVL","Mod version","Mod version","SET_BAO_MVL
+"SET_BAO_MVL","Mod version","Wersja modyfikacji","SET_BAO_MVL
 SettingsUI.cs BuildAdvancedOptionsUI modVersionLabel","",""
-"SET_BAO_ORAS","Reset all settings","Reset all settings","SET_BAO_ORAS
+"SET_BAO_ORAS","Reset all settings","Zresetuj wszystkie ustawienia","SET_BAO_ORAS
 SettingsUI.cs BuildAdvancedOptionsUI OnResetAllSettings","",""
-"SET_BAO_SBM","Scan before entering Main Menu","Scan before entering Main Menu","SET_BAO_SBM
+"SET_BAO_SBM","Scan before entering Main Menu","Skanuj przed wejściem do menu głównego","SET_BAO_SBM
 SettingsUI.cs BuildAdvancedOptionsUI scanBeforeMenu","",""
-"SET_BCO_CG","Catalog options","Catalog options","SET_BCO_CG
+"SET_BCO_CG","Catalog options","Ustawienia katalogu","SET_BCO_CG
 SettingsUI.cs BuildCatalogOptionsUI catalogGroup","",""
-"SET_BCO_UIBD","Download now","Download now","SET_BCO_UIBD
+"SET_BCO_UIBD","Download now","Pobierz teraz","SET_BCO_UIBD
 SettingsUI.cs BuildCatalogOptionsUI download","",""
-"SET_BCO_DFD","Download","Download","SET_BCO_DFD
+"SET_BCO_DFD","Download","Pobieranie","SET_BCO_DFD
 SettingsUI.cs BuildCatalogOptionsUI downloadFrequencyDropdown","",""
-"SET_BCO_SUIT","Catalog version","Catalog version","SET_BCO_SUIT
+"SET_BCO_SUIT","Catalog version","Wersja katalogu","SET_BCO_SUIT
 SettingsUI.cs BuildCatalogOptionsUI SettingsUIText","",""
-"SET_BCO_TWF","Text Report width","Text Report width","SET_BCO_TWF
+"SET_BCO_TWF","Text Report width","Szerokość raportu tekstowego","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField","",""
-"SET_BRG_CPB","Change path","Change path","SET_BRG_CPB
+"SET_BRG_CPB","Change path","Zmień ścieżkę","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn","",""
-"SET_BRG_NW","'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' launch option detected. No report was generated","SET_BRG_NW
+"SET_BRG_NW","'--noWorkshop' launch option detected. No report was generated","Wykryto opcję uruchomienia '--noWorkshop'. Nie wygenerowano raportu","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop","",""
-"SET_BRG_OGR","Generate report(s)","Generate report(s)","SET_BRG_OGR
+"SET_BRG_OGR","Generate report(s)","Generuj raport(y)","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports","",""
-"SET_BRG_OOR","Open report(s)","Open report(s)","SET_BRG_OOR
+"SET_BRG_OOR","Open report(s)","Otwórz raport(y)","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports","",""
-"SET_BRG_OHRISO","Use Steam Overlay to open HTML report if available.","Use Steam Overlay to open HTML report if available.","SET_BRG_OHRISO
+"SET_BRG_OHRISO","Use Steam Overlay to open HTML report if available.","Użyj Nakładki Steam do otwarcia raportu HTML, jeśli jest dostępny.","SET_BRG_OHRISO
 SettingsUI.cs BuildRecordGroupUI OpenHtmlReportInSteamOverlay","",""
-"SET_BRG_PE","Access to the Steam Workshop is required for the mod to work properly.","Access to the Steam Workshop is required for the mod to work properly.","SET_BRG_PE
+"SET_BRG_PE","Access to the Steam Workshop is required for the mod to work properly.","Dostęp do Warsztatu Steam jest wymagany, aby modyfikacja działała poprawnie.","SET_BRG_PE
 SettingsUI.cs BuildRecordGroupUI platformError","",""
-"SET_BRG_PT","Platform not supported","Platform not supported","SET_BRG_PT
+"SET_BRG_PT","Platform not supported","Platforma nieobsługiwana","SET_BRG_PT
 SettingsUI.cs BuildRecordGroupUI platformType","",""
-"SET_BRG_RG","Report options","Report options","SET_BRG_RG
+"SET_BRG_RG","Report options","Opcje raportowania","SET_BRG_RG
 SettingsUI.cs BuildRecordGroupUI reportGroup","",""
-"SET_BRG_RP","Mod Errors","Mod Errors","SET_BRG_RP
+"SET_BRG_RP","Mod Errors","Błędy modyfikacji","SET_BRG_RP
 SettingsUI.cs BuildRecordGroupUI reportPanel","",""
-"SET_BRG_RPTF","Report path","Report path","SET_BRG_RPTF
+"SET_BRG_RPTF","Report path","Ścieżka raportu","SET_BRG_RPTF
 SettingsUI.cs BuildRecordGroupUI reportPathTextField","",""
-"SET_BRG_RTD","Report type","Report type","SET_BRG_RTD
+"SET_BRG_RTD","Report type","Rodzaj raportu","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown","",""
-"SET_BRG_RPB","Reset path to default","Reset path to default","SET_BRG_RPB
+"SET_BRG_RPB","Reset path to default","Resetuj ścieżkę do domyślnej","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn","",""
-"SET_BUG_DOI","Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
+"SET_BUG_DOI","Days of inactivity to retire author","Dni braku aktywności w celu zaznaczenia przejścia na emeryturę","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity","",""
-"SET_BUG_MSPMP","Estimated milliseconds per mod page","Estimated milliseconds per mod page","SET_BUG_MSPMP
+"SET_BUG_MSPMP","Estimated milliseconds per mod page","Przewidywany czas w milisekundach na stronę modyfikacji","SET_BUG_MSPMP
 SettingsUI.cs BuildUpdaterGroupUI msPerModPage","",""
-"SET_BUG_OOTA","Run Road Asset Crawler (AN dependent)","Run Road Asset Crawler (AN dependent)","SET_BUG_OOTA
+"SET_BUG_OOTA","Run Road Asset Crawler (AN dependent)","Uruchom Crawler zasobów drogi (zależne od AN)","SET_BUG_OOTA
 SettingsUI.cs BuildUpdaterGroupUI OnOneTimeAction","",""
-"SET_BUG_OSU","Run Updater","Run Updater","SET_BUG_OSU
+"SET_BUG_OSU","Run Updater","Uruchom Aktualizator","SET_BUG_OSU
 SettingsUI.cs BuildUpdaterGroupUI OnStartUpdater","",""
-"SET_BUG_OSWC","Run Web Crawler","Run Web Crawler","SET_BUG_OSWC
+"SET_BUG_OSWC","Run Web Crawler","Uruchom Web Crawler","SET_BUG_OSWC
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawler","",""
-"SET_BUG_OSWCQ","Run Web Crawler (quick)","Run Web Crawler (quick)","SET_BUG_OSWCQ
+"SET_BUG_OSWCQ","Run Web Crawler (quick)","Uruchom Web Crawler (szybkie)","SET_BUG_OSWCQ
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawlerquick","",""
-"SET_BUG_SMFP","Steam max failed pages","Steam max failed pages","SET_BUG_SMFP
+"SET_BUG_SMFP","Steam max failed pages","Maksymalna liczba nieudanych stron Steam","SET_BUG_SMFP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxFailedPages","",""
-"SET_BUG_SMLP","Steam max listing pages","Steam max listing pages","SET_BUG_SMLP
+"SET_BUG_SMLP","Steam max listing pages","Maksymalna liczba stron rekordów Steam","SET_BUG_SMLP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxListingPages","",""
-"SET_BUG_UG","Updater","Updater","SET_BUG_UG
+"SET_BUG_UG","Updater","Aktualizator","SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup","",""
-"SET_BUG_WFR","Weeks for soon retired","Weeks for soon retired","SET_BUG_WFR
+"SET_BUG_WFR","Weeks for soon retired","Tygodnie dla oznaczenia o niedługim odejściu","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired","",""
-"SET_DO_NEV","Never (on-demand only) - not recommended!","Never (on-demand only) - not recommended!","SET_DO_NEV
+"SET_DO_NEV","Never (on-demand only) - not recommended!","Nigdy (tylko na żądanie) - niezalecane!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never","",""
-"SET_DO_OAW","Once a week","Once a week","SET_DO_OAW
+"SET_DO_OAW","Once a week","Raz w tygodniu","SET_DO_OAW
 SettingsUI.cs DownloadOptions Once a week","",""
 "SET_RT_HTM","HTML","HTML","SET_RT_HTM
 SettingsUI.cs ReportTypes HTML","",""
-"SET_RT_HAT","HTML and text","HTML and text","SET_RT_HAT
+"SET_RT_HAT","HTML and text","HTML i tekst","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text","",""
-"SET_RT_TXT","Text","Text","SET_RT_TXT
+"SET_RT_TXT","Text","Tekst","SET_RT_TXT
 SettingsUI.cs ReportTypes Text","",""
 "LANGUAGE","English","Polski","LANGUAGE","",""
 "REPORT_NOTE_1","A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.","REPORT_NOTE_1","",""
