@@ -1,5 +1,5 @@
 "Identifier","Source String","Translation","Context","Labels","Max. Length"
-"LANGUAGE","English","English","LANGUAGE
+"LANGUAGE","English","Polski","LANGUAGE
 1Language to be translated into","",""
 "CAT_NC_SUIT","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText","",""
@@ -201,7 +201,7 @@ HtmlReportTemplateCode.cs StabilityStable TestVersion","",""
 HtmlReportTemplateCode.cs Statuses Abandoned","",""
 "HRTC_S_AR","The author seems to be retired. Future updates are unlikely.","The author seems to be retired. Future updates are unlikely.","HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired","",""
-"HRTC_S_D","Unsubscribe would be wise. This is deprecated and no longer supported by the author.","Unsubscribe would be wise. This is deprecated and no longer supported by the author.","HRTC_S_D
+"HRTC_S_D","Unsubscribe would be wise. This is deprecated and no longer supported by the author.","구독 취소하는 것이 좋습니다. 이 모드는 버려졌으며 제작자가 더 이상 지원하고 있지 않습니다.","HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated","",""
 "HRTC_S_MFM","This is only needed for modders or creators. Regular users don't need this one.","This is only needed for modders or creators. Regular users don't need this one.","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders","",""
@@ -307,7 +307,7 @@ SettingsUI.cs ReportTypes HTML","",""
 SettingsUI.cs ReportTypes HTML and Text","",""
 "SET_RT_TXT","Text","Text","SET_RT_TXT
 SettingsUI.cs ReportTypes Text","",""
-"LANGUAGE","English","English","LANGUAGE","",""
+"LANGUAGE","English","Polski","LANGUAGE","",""
 "REPORT_NOTE_1","A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.","REPORT_NOTE_1","",""
 "REPORT_NOTE_2","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","REPORT_NOTE_2","",""
 "REPORT_NOTE_3","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","REPORT_NOTE_3","",""
