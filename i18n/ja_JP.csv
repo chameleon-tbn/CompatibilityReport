@@ -1,313 +1,313 @@
 "Identifier","Source String","Translation","Context","Labels","Max. Length"
-"LANGUAGE","English","English","LANGUAGE
+"LANGUAGE","English","日本語","LANGUAGE
 1Language to be translated into","",""
-"CAT_NC_SUIT","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
+"CAT_NC_SUIT","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} は {Updated} に作成され、{Downloaded} にダウンロードしました。","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText","",""
-"CAT_S_SUIT","unknown, catalog not loaded yet.","unknown, catalog not loaded yet.","CAT_S_SUIT
+"CAT_S_SUIT","unknown, catalog not loaded yet.","カタログが不明、もしくはカタログがロード出来ません。","CAT_S_SUIT
 Catalog.cs string SettingsUIText","",""
 "HE_NAWIDAL_S","by","by","HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string","",""
-"HRT_DCV_H","WARNING:","WARNING:","HRT_DCV_H
+"HRT_DCV_H","WARNING:","警告:","HRT_DCV_H
 HtmlReportTemplate.tt Different Catalog version Header","",""
-"HRT_DCV_RNA","Results might not be accurate.","Results might not be accurate.","HRT_DCV_RNA
+"HRT_DCV_RNA","Results might not be accurate.","検証結果が正確では無い可能性があります。","HRT_DCV_RNA
 HtmlReportTemplate.tt Different Catalog version Resultsnotaccurate","",""
-"HRT_DCV_T","The catalog is made for game version {CatalogGameVersion}.","The catalog is made for game version {CatalogGameVersion}.","HRT_DCV_T
+"HRT_DCV_T","The catalog is made for game version {CatalogGameVersion}.","カタログはゲームバージョン {CatalogGameVersion} 用に作成されています。","HRT_DCV_T
 HtmlReportTemplate.tt Different Catalog version Text","",""
-"HRT_DCV_YGIN","Your game is newer.","Your game is newer.","HRT_DCV_YGIN
+"HRT_DCV_YGIN","Your game is newer.","所持しているゲームは最新版です。","HRT_DCV_YGIN
 HtmlReportTemplate.tt Different Catalog version Your game is newer","",""
-"HRT_DCV_YGIO","Your game is older.","Your game is older.","HRT_DCV_YGIO
+"HRT_DCV_YGIO","Your game is older.","所持しているゲームは旧版です。","HRT_DCV_YGIO
 HtmlReportTemplate.tt Different Catalog version Your game is older","",""
-"HRT_FS_P","The report includes {LocalSubscriptionCount} fake subscriptions.","The report includes {LocalSubscriptionCount} fake subscriptions.","HRT_FS_P
+"HRT_FS_P","The report includes {LocalSubscriptionCount} fake subscriptions.","このレポートには、 {LocalSubscriptionCount} の偽装のサブスクが含まれています。","HRT_FS_P
 HtmlReportTemplate.tt Fake subscription plural","",""
-"HRT_FS_S","The report includes {LocalSubscriptionCount} fake subscription.","The report includes {LocalSubscriptionCount} fake subscription.","HRT_FS_S
+"HRT_FS_S","The report includes {LocalSubscriptionCount} fake subscription.","このレポートには、 {LocalSubscriptionCount} の偽装のサブスクが含まれています。","HRT_FS_S
 HtmlReportTemplate.tt Fake subscription singular","",""
-"HRT_GI_AM","Abandoned mods can still work fine. They're just unlikely to get updates.","Abandoned mods can still work fine. They're just unlikely to get updates.","HRT_GI_AM
+"HRT_GI_AM","Abandoned mods can still work fine. They're just unlikely to get updates.","更新が停止したMODですが正常に動作します。ただし、アップデートされる可能性は低いです。","HRT_GI_AM
 HtmlReportTemplate.tt General information Abandondedmod","",""
-"HRT_GI_AR","Always READ the mod description on the Steam Workshop before subscribing.","Always READ the mod description on the Steam Workshop before subscribing.","HRT_GI_AR
+"HRT_GI_AR","Always READ the mod description on the Steam Workshop before subscribing.","サブスクする前に、SteamのワークショップでMODの説明を必ず読んで下さい。","HRT_GI_AR
 HtmlReportTemplate.tt General information Alwaysread","",""
-"HRT_GI_ETD","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","HRT_GI_ETD
+"HRT_GI_ETD","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","必ずデスクトップに戻ってからゲームを再起動して下さい。決してメインメニューに戻らないで下さい！","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop","",""
-"HRT_GI_HI","Having issues with a mod? Make a comment on its Workshop page so the author knows.","Having issues with a mod? Make a comment on its Workshop page so the author knows.","HRT_GI_HI
+"HRT_GI_HI","Having issues with a mod? Make a comment on its Workshop page so the author knows.","MODに問題がありますか？作者が把握できるように、ワークショップのページでコメントして下さい。","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues","",""
-"HRT_GI_H","General information","General information","HRT_GI_H
+"HRT_GI_H","General information","一般情報","HRT_GI_H
 HtmlReportTemplate.tt General information Header","",""
-"HRT_GI_M","Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
+"HRT_GI_M","Found a mistake? Please fill out this {form}.","間違いや問題を見つけましたか？ この {form} に記入して下さい。","HRT_GI_M
 HtmlReportTemplate.tt General information mistake","",""
-"HRT_GI_NU","NEVER (un)subscribe to anything while the game is running! This resets some mods.","NEVER (un)subscribe to anything while the game is running! This resets some mods.","HRT_GI_NU
+"HRT_GI_NU","NEVER (un)subscribe to anything while the game is running! This resets some mods.","ゲームプレイ中は絶対にサブスク全般の操作はしないで下さい！ 一部MODで機能がリセットされます。","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe","",""
-"HRT_GI_NW","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","HRT_GI_NW
+"HRT_GI_NW","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","MODの互換性はあるが動作しない？サブスクを解除して、サブスクをやり直してみて下さい。 (ゲームを終了して操作)","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking","",""
-"HRT_GI_WP","When playing with mods, save to a new savegame often and make frequent BACKUPS.","When playing with mods, save to a new savegame often and make frequent BACKUPS.","HRT_GI_WP
+"HRT_GI_WP","When playing with mods, save to a new savegame often and make frequent BACKUPS.","MODを使用してプレイする場合は、まめに新しいセーブデータで保存とバックアップを取って下さい。","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying","",""
-"HRT_IO_SOW","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","HRT_IO_SOW
+"HRT_IO_SOW","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","警告: 最新のレビューカタログをダウンロードできませんでした。結果が古い可能性があります。","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning","",""
-"HRT_LIL_MAI","Major Issues","Major Issues","HRT_LIL_MAI
+"HRT_LIL_MAI","Major Issues","主要な問題点","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues","",""
 "HRT_LIL_MI","Minor Issues","Minor Issues","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues","",""
-"HRT_LIL_NTR","Nothing to report","Nothing to report","HRT_LIL_NTR
+"HRT_LIL_NTR","Nothing to report","問題無し","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport","",""
-"HRT_LIL_R","Remarks","Remarks","HRT_LIL_R
+"HRT_LIL_R","Remarks","注釈＆備考","HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks","",""
-"HRT_LSM_E","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","HRT_LSM_E
+"HRT_LSM_E","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","レポートではこれらの非互換性をチェック出来ず、結果が正確でない可能性があります。 MODは可能な限り、Steamのワークショップからサブスクして使用します。ローカルのMODフォルダにコピーされたMODは正常に動作するとは限らず、他のMODで正しく検出できない問題がよく起こります。","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain","",""
-"HRT_LSM_P","You have {LocalSubscriptionCount} local mods, which we can't review.","You have {LocalSubscriptionCount} local mods, which we can't review.","HRT_LSM_P
+"HRT_LSM_P","You have {LocalSubscriptionCount} local mods, which we can't review.","ローカルMODが {LocalSubscriptionCount} 個ありますが、これらはレビュー出来ません。","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural","",""
-"HRT_LSM_S","You have {LocalSubscriptionCount} local mod, which we can't review.","You have {LocalSubscriptionCount} local mod, which we can't review.","HRT_LSM_S
+"HRT_LSM_S","You have {LocalSubscriptionCount} local mod, which we can't review.","ローカルMODが {LocalSubscriptionCount} 個ありますが、これらはレビュー出来ません。","HRT_LSM_S
 HtmlReportTemplate.tt Local subscription Mod singular","",""
-"HRT_NRS_N","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","HRT_NRS_N
+"HRT_NRS_N","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} のMODは、まだレビューされていません。そのため、レポートで非互換性や警告が欠落している可能性があります。","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note","",""
-"HRT_P_D","Disabled","Disabled","HRT_P_D
+"HRT_P_D","Disabled","無効化","HRT_P_D
 HtmlReportTemplate.tt processed Disabled","",""
-"HRT_P_MN","Mod Name","Mod Name","HRT_P_MN
+"HRT_P_MN","Mod Name","MODの名前","HRT_P_MN
 HtmlReportTemplate.tt processed Mod Name","",""
-"HRT_P_PM","Processed mods","Processed mods","HRT_P_PM
+"HRT_P_PM","Processed mods","確認済みMOD","HRT_P_PM
 HtmlReportTemplate.tt processed Processed mods","",""
-"HRT_P_T","Type","Type","HRT_P_T
+"HRT_P_T","Type","タイプ","HRT_P_T
 HtmlReportTemplate.tt processed Type","",""
 "HRT_P_U","URL","URL","HRT_P_U
 HtmlReportTemplate.tt processed Url","",""
-"HRT_RS_MAIP","MODS HAVE MAJOR ISSUES:","MODS HAVE MAJOR ISSUES:","HRT_RS_MAIP
+"HRT_RS_MAIP","MODS HAVE MAJOR ISSUES:","個のMODに主要な問題があります:","HRT_RS_MAIP
 HtmlReportTemplate.tt RenderSection majorIssuesplural","",""
-"HRT_RS_MAIS","MOD HAS MAJOR ISSUES:","MOD HAS MAJOR ISSUES:","HRT_RS_MAIS
+"HRT_RS_MAIS","MOD HAS MAJOR ISSUES:","個のMODに主要な問題があります:","HRT_RS_MAIS
 HtmlReportTemplate.tt RenderSection majorIssuessingular","",""
-"HRT_RS_MIP","MODS HAVE MINOR ISSUES:","MODS HAVE MINOR ISSUES:","HRT_RS_MIP
+"HRT_RS_MIP","MODS HAVE MINOR ISSUES:","個のMODにマイナーな問題があります:","HRT_RS_MIP
 HtmlReportTemplate.tt RenderSection minorIssuesplural","",""
-"HRT_RS_MIS","MOD HAS MINOR ISSUES:","MOD HAS MINOR ISSUES:","HRT_RS_MIS
+"HRT_RS_MIS","MOD HAS MINOR ISSUES:","個のMODにマイナーな問題があります:","HRT_RS_MIS
 HtmlReportTemplate.tt RenderSection minorIssuessingular","",""
-"HRT_RS_NTRP","MODS WITH NOTHING TO REPORT:","MODS WITH NOTHING TO REPORT:","HRT_RS_NTRP
+"HRT_RS_NTRP","MODS WITH NOTHING TO REPORT:","個のMODに問題はありません:","HRT_RS_NTRP
 HtmlReportTemplate.tt RenderSection nothingToReportplural","",""
-"HRT_RS_NTRS","MOD WITH NOTHING TO REPORT:","MOD WITH NOTHING TO REPORT:","HRT_RS_NTRS
+"HRT_RS_NTRS","MOD WITH NOTHING TO REPORT:","個のMODに問題はありません:","HRT_RS_NTRS
 HtmlReportTemplate.tt RenderSection nothingToReportsingular","",""
-"HRT_RS_RP","MODS WITH REMARKS:","MODS WITH REMARKS:","HRT_RS_RP
+"HRT_RS_RP","MODS WITH REMARKS:","個のMODに注釈や備考があります:","HRT_RS_RP
 HtmlReportTemplate.tt RenderSection remarksplural","",""
-"HRT_RS_RS","MOD WITH REMARK:","MOD WITH REMARK:","HRT_RS_RS
+"HRT_RS_RS","MOD WITH REMARK:","個のMODに注釈や備考があります:","HRT_RS_RS
 HtmlReportTemplate.tt RenderSection remarkssingular","",""
-"HRT_RS_UP","MODS COULD OR SHOULD BE UNSUBSCRIBED:","MODS COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_UP
+"HRT_RS_UP","MODS COULD OR SHOULD BE UNSUBSCRIBED:","個のMODはサブスクを全て解除して下さい:","HRT_RS_UP
 HtmlReportTemplate.tt RenderSection unsubscribeplural","",""
-"HRT_RS_US","MOD COULD OR SHOULD BE UNSUBSCRIBED:","MOD COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_US
+"HRT_RS_US","MOD COULD OR SHOULD BE UNSUBSCRIBED:","個のMODはサブスクを全て解除して下さい:","HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular","",""
-"HRT_S_MUA","Mods updated after this date might have an outdated review below.","Mods updated after this date might have an outdated review below.","HRT_S_MUA
+"HRT_S_MUA","Mods updated after this date might have an outdated review below.","この日付以降にアップデートされたMODは、以下のレビューが古い可能性があります。","HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter","",""
-"HRT_S_TMCC","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","HRT_S_TMCC
+"HRT_S_TMCC","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","MODカタログには {ReviewedModCount} 個がレビュー済みで含まれて、 {Updated} に作成されました。","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains","",""
-"HRT_S_VWC","Version {FullVersion} with catalog {VersionString}.","Version {FullVersion} with catalog {VersionString}.","HRT_S_VWC
+"HRT_S_VWC","Version {FullVersion} with catalog {VersionString}.","現在のバージョンは {FullVersion} ＆ カタログは {VersionString} になります。","HRT_S_VWC
 HtmlReportTemplate.tt section Versionwithcatalog","",""
-"HRT_S_YGM","Your game has {SubscriptionCount} mods.","Your game has {SubscriptionCount} mods.","HRT_S_YGM
+"HRT_S_YGM","Your game has {SubscriptionCount} mods.","あなたのゲームには、 {SubscriptionCount} 個のMODがあります。","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods","",""
-"HRTC_A_SNU","Published source seems out of date, making it hard to continue by another modder.","Published source seems out of date, making it hard to continue by another modder.","HRTC_A_SNU
+"HRTC_A_SNU","Published source seems out of date, making it hard to continue by another modder.","公開されたソースが古く、他のMOD作者による開発の継続は難しいです。","HRTC_A_SNU
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated","",""
-"HRTC_A_SURL","No public source code found, making it hard to continue by another modder.","No public source code found, making it hard to continue by another modder.","HRTC_A_SURL
+"HRTC_A_SURL","No public source code found, making it hard to continue by another modder.","公開されたソースが見つからず、他のMOD作者による開発の継続は難しいです。","HRTC_A_SURL
 HtmlReportTemplateCode.cs abandoned SourceUrl","",""
-"HRTC_A_SM","Some alternatives for this are (pick one, not all):","Some alternatives for this are (pick one, not all):","HRTC_A_SM
+"HRTC_A_SM","Some alternatives for this are (pick one, not all):","これに対する複数の代替案は次の通りです。 (全てで無く、1つだけを選択):","HRTC_A_SM
 HtmlReportTemplateCode.cs Alternatives subscribedMod","",""
-"HRTC_A_SMC","An alternative you could use:","An alternative you could use:","HRTC_A_SMC
+"HRTC_A_SMC","An alternative you could use:","使用可能な代替手段:","HRTC_A_SMC
 HtmlReportTemplateCode.cs Alternatives subscribedModCount","",""
-"HRTC_BE_R","If you use the asset editor and/or map editor, this may give serious issues.","If you use the asset editor and/or map editor, this may give serious issues.","HRTC_BE_R
+"HRTC_BE_R","If you use the asset editor and/or map editor, this may give serious issues.","アセットエディタやマップエディタを使用する場合は、深刻な問題が発生する可能性があります。","HRTC_BE_R
 HtmlReportTemplateCode.cs BreaksEditors Remarks","",""
-"HRTC_CRM_S","Can't review local mods.","Can't review local mods.","HRTC_CRM_S
+"HRTC_CRM_S","Can't review local mods.","ローカルMODは確認出来ません。","HRTC_CRM_S
 HtmlReportTemplateCode.cs cannotReviewMessage string","",""
-"HRTC_CM_ID","Yes","Yes","HRTC_CM_ID
+"HRTC_CM_ID","Yes","はい","HRTC_CM_ID
 HtmlReportTemplateCode.cs catalogMod IsDisabled","",""
-"HRTC_IRS_CATA","This is compatible with:","This is compatible with:","HRTC_IRS_CATA
+"HRTC_IRS_CATA","This is compatible with:","これは以下と互換性があります:","HRTC_IRS_CATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity CompatibleAccordingToAuthor","",""
-"HRTC_IRS_IATA","Unsubscribe either this one or the following mod it's incompatible with:","Unsubscribe either this one or the following mod it's incompatible with:","HRTC_IRS_IATA
+"HRTC_IRS_IATA","Unsubscribe either this one or the following mod it's incompatible with:","互換性の無いこのMODか、または以下のMODからどれかサブスクを解除して下さい。","HRTC_IRS_IATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToAuthor","",""
-"HRTC_IRS_IATU","Users report an incompatibility with:","Users report an incompatibility with:","HRTC_IRS_IATU
+"HRTC_IRS_IATU","Users report an incompatibility with:","ユーザーから以下の非互換が報告されています:","HRTC_IRS_IATU
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToUsers","",""
 "HRTC_IRS_MAI","Minor Issues","Minor Issues","HRTC_IRS_MAI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MajorIssues and HtmlReportTemplate.tt LI_Link minorIssues)","",""
-"HRTC_IRS_MI","This has minor issues with:","This has minor issues with:","HRTC_IRS_MI
+"HRTC_IRS_MI","This has minor issues with:","これには小さな問題があります:","HRTC_IRS_MI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MinorIssues","",""
-"HRTC_IRS_RSS","This requires specific configuration to work together with:","This requires specific configuration to work together with:","HRTC_IRS_RSS
+"HRTC_IRS_RSS","This requires specific configuration to work together with:","これと連携するために特定の構成が必要です:","HRTC_IRS_RSS
 HtmlReportTemplateCode.cs IncreaseReportSeverity RequiresSpecificSettings","",""
-"HRTC_IRS_SF","Unsubscribe either this or the following incompatible mod with similar functionality:","Unsubscribe either this or the following incompatible mod with similar functionality:","HRTC_IRS_SF
+"HRTC_IRS_SF","Unsubscribe either this or the following incompatible mod with similar functionality:","同様の機能を持った、以下の非互換MODのどちらかでサブスクを解除して下さい:","HRTC_IRS_SF
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionality","",""
-"HRTC_IRS_SFC","This has very similar functionality, but is still compatible with (do you need both?):","This has very similar functionality, but is still compatible with (do you need both?):","HRTC_IRS_SFC
+"HRTC_IRS_SFC","This has very similar functionality, but is still compatible with (do you need both?):","これは非常に似た機能がありますが、まだ互換性があります。 (両方必要ですか？):","HRTC_IRS_SFC
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionalityCompatible","",""
-"HRTC_IRS_SMDRT","Unsubscribe either this or the other edition of the same mod:","Unsubscribe either this or the other edition of the same mod:","HRTC_IRS_SMDRT
+"HRTC_IRS_SMDRT","Unsubscribe either this or the other edition of the same mod:","このMODを使用するか、他の派生版MODのどちらかでサブスクを解除して下さい。","HRTC_IRS_SMDRT
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameModDifferentReleaseType","",""
-"HRTC_I_B","UNSUBSCRIBE! This mod is broken.","UNSUBSCRIBE! This mod is broken.","HRTC_I_B
+"HRTC_I_B","UNSUBSCRIBE! This mod is broken.","サブスクを解除して下さい！ このMODは破損しています。","HRTC_I_B
 HtmlReportTemplateCode.cs Instability Broken","",""
-"HRTC_I_GB","UNSUBSCRIBE! This mod breaks the game.","UNSUBSCRIBE! This mod breaks the game.","HRTC_I_GB
+"HRTC_I_GB","UNSUBSCRIBE! This mod breaks the game.","サブスクを解除して下さい！ このMODはゲームを破損させます。","HRTC_I_GB
 HtmlReportTemplateCode.cs Instability GameBreaking","",""
-"HRTC_I_IATW","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","HRTC_I_IATW
+"HRTC_I_IATW","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","サブスクを解除して下さい！ このMODは現在のゲームバージョンと全く互換性がありません。","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop","",""
-"HRTC_I_MAI","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","HRTC_I_MAI
+"HRTC_I_MAI","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","サブスクの解除を強く推奨します。これには主要な問題 {StabilityNote} があるので、詳しくはワークショップのページを確認して下さい。","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues","",""
 "HRTC_I_MAIC","Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck","",""
-"HRTC_I_RIM","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","HRTC_I_RIM
+"HRTC_I_RIM","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","サブスクを解除して下さい！ このMODは現在のゲームバージョンと互換性の無い依存MODが必要です。","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod","",""
-"HRTC_ICSM_S","This is a cinematic camera script, which technically is a mod and thus listed here.","This is a cinematic camera script, which technically is a mod and thus listed here.","HRTC_ICSM_S
+"HRTC_ICSM_S","This is a cinematic camera script, which technically is a mod and thus listed here.","これはシネマティックカメラ用のスクリプトで、厳密にはMODなのでここにリストしています。","HRTC_ICSM_S
 HtmlReportTemplateCode.cs isCameraScriptMessage string","",""
-"HRTC_ID_U","Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","HRTC_ID_U
+"HRTC_ID_U","Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","使用時はサブスクを開始＆有効化して、未使用時は解除して下さい。無効化されたMODが、問題を起こす可能性があります。","HRTC_ID_U
 HtmlReportTemplateCode.cs IsDisabled Unsubscribe","",""
-"HRTC_IMN_R","None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","HRTC_IMN_R
+"HRTC_IMN_R","None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","Steamワークショップ内のどのMODも必要とせず、これ自体では何も機能を提供しません。","HRTC_IMN_R
 HtmlReportTemplateCode.cs IsModNeeded Remarks","",""
-"HRTC_IMN_RL","Unsubscribe this unless it's needed for one of your local mods.","Unsubscribe this unless it's needed for one of your local mods.","HRTC_IMN_RL
+"HRTC_IMN_RL","Unsubscribe this unless it's needed for one of your local mods.","ローカルMODのどれかで必要な場合を除き、これはサブスクを解除して下さい。","HRTC_IMN_RL
 HtmlReportTemplateCode.cs IsModNeeded RemarksLocal","",""
-"HRTC_IMN_U","Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","HRTC_IMN_U
+"HRTC_IMN_U","Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","このMODはサブスクを解除して下さい。 依存するMODで必要なだけで、これ自体では何も機能を提供しません。","HRTC_IMN_U
 HtmlReportTemplateCode.cs IsModNeeded Unsubscribe","",""
 "HRTC_IS_S","Steam","Steam","HRTC_IS_S
 HtmlReportTemplateCode.cs isSteam steam","",""
-"HRT_LIL_U","Unsubscribe","Unsubscribe","HRT_LIL_U
+"HRT_LIL_U","Unsubscribe","サブスクを解除","HRT_LIL_U
 HtmlReportTemplateCode.cs LI_Link unsubscribe","",""
-"HRTC_LLMID_BI","Built-in","Built-in","HRTC_LLMID_BI
+"HRTC_LLMID_BI","Built-in","内蔵機能","HRTC_LLMID_BI
 HtmlReportTemplateCode.cs LowestLocalModID builtin","",""
-"HRTC_LLMID_L","Local","Local","HRTC_LLMID_L
+"HRTC_LLMID_L","Local","ローカル","HRTC_LLMID_L
 HtmlReportTemplateCode.cs LowestLocalModID local","",""
-"HRTC_M_TV","If you don't have a specific reason to use it, you'd better use the stable version instead.","If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_M_TV
+"HRTC_M_TV","If you don't have a specific reason to use it, you'd better use the stable version instead.","特に理由がない場合は、代わりに安定版を使用することを推奨します。","HRTC_M_TV
 HtmlReportTemplateCode.cs Message TestVersion","",""
-"HRTC_NCS_MI","This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","HRTC_NCS_MI
+"HRTC_NCS_MI","This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","このMODはSteamワークショップのコメント欄が無効になっています。 他のユーザーで起きた、問題発生を確認することが難しいので注意して下さい。","HRTC_NCS_MI
 HtmlReportTemplateCode.cs NoCommentSection MinorIssues","",""
-"HRTC_ND_MI","This has no description on the Steam Workshop. Support from the author is unlikely.","This has no description on the Steam Workshop. Support from the author is unlikely.","HRTC_ND_MI
+"HRTC_ND_MI","This has no description on the Steam Workshop. Support from the author is unlikely.","Steamのワークショップに説明が何もありません。作者からのサポートは期待出来ません。","HRTC_ND_MI
 HtmlReportTemplateCode.cs NoDescription MinorIssues","",""
-"HRTC_NKIM_S","No known issues or incompatibilities with your other mods.","No known issues or incompatibilities with your other mods.","HRTC_NKIM_S
+"HRTC_NKIM_S","No known issues or incompatibilities with your other mods.","既知の問題や他のMODとの互換性がありません。","HRTC_NKIM_S
 HtmlReportTemplateCode.cs noKnownIssuesMessage string","",""
-"HRTC_R2_SM","The author or the users of this mod recommend using the following as well:","The author or the users of this mod recommend using the following as well:","HRTC_R2_SM
+"HRTC_R2_SM","The author or the users of this mod recommend using the following as well:","このMOD作者やユーザーは、以下のMODも使用することを推奨しています:","HRTC_R2_SM
 HtmlReportTemplateCode.cs Recommendations2 subscribedMod","",""
-"HRTC_RDLC_U","Unsubscribe this. It requires DLC you don't have:","Unsubscribe this. It requires DLC you don't have:","HRTC_RDLC_U
+"HRTC_RDLC_U","Unsubscribe this. It requires DLC you don't have:","このMODはサブスクを解除して下さい。依存するDLCが必要です。","HRTC_RDLC_U
 HtmlReportTemplateCode.cs RequiredDlc Unsubscribe","",""
-"HRTC_RM_SM","This mod requires other mods you don't have, or which are not enabled:","This mod requires other mods you don't have, or which are not enabled:","HRTC_RM_SM
+"HRTC_RM_SM","This mod requires other mods you don't have, or which are not enabled:","このMOD以外でサブスクしていない、または有効化していない他のMODが必要です:","HRTC_RM_SM
 HtmlReportTemplateCode.cs RequiredMods subscribedMod","",""
-"HRTC_RU_U","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","HRTC_RU_U
+"HRTC_RU_U","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","このMODはサブスクを解除して下さい。 これは別MODの再アップロードで、代わりに以下 (または後継版) を使って下さい。","HRTC_RU_U
 HtmlReportTemplateCode.cs Reupload Unsubscribe","",""
-"HRTC_S_MI","This has minor issues {StabilityNote}. Check its Workshop page for details.","This has minor issues {StabilityNote}. Check its Workshop page for details.","HRTC_S_MI
+"HRTC_S_MI","This has minor issues {StabilityNote}. Check its Workshop page for details.","これにはマイナーな問題 {StabilityNote} があるので、詳しくはワークショップのページを確認して下さい。","HRTC_S_MI
 HtmlReportTemplateCode.cs Stability MinorIssues","",""
 "HRTC_S_MIC","Check its Workshop page for details.","Check its Workshop page for details.","HRTC_S_MIC
 HtmlReportTemplateCode.cs Stability MinorIssuesCheck","",""
-"HRTC_S_NEI","There is not enough information about this mod to know if it works well.","There is not enough information about this mod to know if it works well.","HRTC_S_NEI
+"HRTC_S_NEI","There is not enough information about this mod to know if it works well.","このMODについては情報が不足しているため、正常に機能するかどうか分かりません。","HRTC_S_NEI
 HtmlReportTemplateCode.cs Stability NotEnoughInformation","",""
-"HRTC_S_NEIC","but it was updated for the current game version.","but it was updated for the current game version.","HRTC_S_NEIC
+"HRTC_S_NEIC","but it was updated for the current game version.","現在のゲームバージョン用に更新されました。","HRTC_S_NEIC
 HtmlReportTemplateCode.cs Stability NotEnoughInformationCurrent and NotReviewedCurrent","",""
-"HRTC_S_NEIV","but it was updated for game version {GameVersion}.","but it was updated for game version {GameVersion}.","HRTC_S_NEIV
+"HRTC_S_NEIV","but it was updated for game version {GameVersion}.","ゲームバージョン {GameVersion} 用に更新されました。","HRTC_S_NEIV
 HtmlReportTemplateCode.cs Stability NotEnoughInformationVersion and NotReviewedVersion","",""
-"HRTC_S_NR","This mod has not been reviewed yet.","This mod has not been reviewed yet.","HRTC_S_NR
+"HRTC_S_NR","This mod has not been reviewed yet.","このMODは、まだレビューされていません。","HRTC_S_NR
 HtmlReportTemplateCode.cs Stability NotReviewed","",""
-"HRTC_S_NRC","but it was updated for the current game version.","but it was updated for the current game version.","HRTC_S_NRC
+"HRTC_S_NRC","but it was updated for the current game version.","現在のゲームバージョン用に更新されました。","HRTC_S_NRC
 HtmlReportTemplateCode.cs Stability NotReviewedCurrent","",""
 "HRTC_S_NRV","but it was updated for game version {GameVersion}","but it was updated for game version {GameVersion}","HRTC_S_NRV
 HtmlReportTemplateCode.cs Stability NotReviewedVersion","",""
-"HRTC_S_S","This is compatible with the current game version.","This is compatible with the current game version.","HRTC_S_S
+"HRTC_S_S","This is compatible with the current game version.","これは現在のゲームバージョンと互換性があります。","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable","",""
-"HRTC_S_URI","Users are reporting issues {StabilityNote}. Check its Workshop page for details.","Users are reporting issues {StabilityNote}. Check its Workshop page for details.","HRTC_S_URI
+"HRTC_S_URI","Users are reporting issues {StabilityNote}. Check its Workshop page for details.","これにはユーザーから問題の報告 {StabilityNote} があるので、詳しくはワークショップのページを確認して下さい。","HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues","",""
 "HRTC_S_URIC","Check its Workshop page for details.","Check its Workshop page for details.","HRTC_S_URIC
 HtmlReportTemplateCode.cs Stability UsersReportIssuesCheck","",""
-"HRTC_SS_TV","This is a test version, but is considered quite stable.","This is a test version, but is considered quite stable.","HRTC_SS_TV
+"HRTC_SS_TV","This is a test version, but is considered quite stable.","これはテスト版ですが、かなり動作が安定しています。","HRTC_SS_TV
 HtmlReportTemplateCode.cs StabilityStable TestVersion","",""
-"HRTC_S_A","This seems to be abandoned and the author seems retired. Future updates are unlikely.","This seems to be abandoned and the author seems retired. Future updates are unlikely.","HRTC_S_A
+"HRTC_S_A","This seems to be abandoned and the author seems retired. Future updates are unlikely.","これは放棄されたようで、作者も開発を止めたようです。今後の更新は期待出来ません。","HRTC_S_A
 HtmlReportTemplateCode.cs Statuses Abandoned","",""
-"HRTC_S_AR","The author seems to be retired. Future updates are unlikely.","The author seems to be retired. Future updates are unlikely.","HRTC_S_AR
+"HRTC_S_AR","The author seems to be retired. Future updates are unlikely.","作者は開発を引退したようです。今後の更新は期待出来ません。","HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired","",""
-"HRTC_S_D","Unsubscribe would be wise. This is deprecated and no longer supported by the author.","Unsubscribe would be wise. This is deprecated and no longer supported by the author.","HRTC_S_D
+"HRTC_S_D","Unsubscribe would be wise. This is deprecated and no longer supported by the author.","このMODはサブスクの解除を強く推奨します。これは非推奨MODで、作者によるサポートが終了しています。","HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated","",""
-"HRTC_S_MFM","This is only needed for modders or creators. Regular users don't need this one.","This is only needed for modders or creators. Regular users don't need this one.","HRTC_S_MFM
+"HRTC_S_MFM","This is only needed for modders or creators. Regular users don't need this one.","これはMOD作者やクリエイターにのみ必要です。一般的なユーザーには必要ありません。","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders","",""
-"HRTC_S_MC","This includes copyrighted music and should not be used for streaming.","This includes copyrighted music and should not be used for streaming.","HRTC_S_MC
+"HRTC_S_MC","This includes copyrighted music and should not be used for streaming.","これには著作権のある音楽が含まれており、ストリーミングには使用しないで下さい。","HRTC_S_MC
 HtmlReportTemplateCode.cs Statuses MusicCopyrighted","",""
-"HRTC_S_MCF","The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","HRTC_S_MCF
+"HRTC_S_MCF","The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","収録されている音楽は著作権フリーで、安全にストリーミングできるようです。ただし、一部で制限がかかる可能性があります。","HRTC_S_MCF
 HtmlReportTemplateCode.cs Statuses MusicCopyrightFree","",""
-"HRTC_S_MCU","This includes music with unknown copyright status. Safer not to use it for streaming.","This includes music with unknown copyright status. Safer not to use it for streaming.","HRTC_S_MCU
+"HRTC_S_MCU","This includes music with unknown copyright status. Safer not to use it for streaming.","これには著作権の状態が不明な音楽が含まれます。ストリーミングには使用しない方が無難です。","HRTC_S_MCU
 HtmlReportTemplateCode.cs Statuses MusicCopyrightUnknown","",""
-"HRTC_S_NIAR","This seems to be abandoned. Future updates are unlikely.","This seems to be abandoned. Future updates are unlikely.","HRTC_S_NIAR
+"HRTC_S_NIAR","This seems to be abandoned. Future updates are unlikely.","これは放棄されたようです。今後のアップデートは期待出来ません。","HRTC_S_NIAR
 HtmlReportTemplateCode.cs Statuses nestedItemauthorRetired","",""
-"HRTC_S_O","Unsubscribe this. It is no longer needed.","Unsubscribe this. It is no longer needed.","HRTC_S_O
+"HRTC_S_O","Unsubscribe this. It is no longer needed.","このMODはサブスクを解除して下さい。既に不要で必要ありません。","HRTC_S_O
 HtmlReportTemplateCode.cs Statuses Obsolete","",""
-"HRTC_S_RFW","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","HRTC_S_RFW
+"HRTC_S_RFW","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","このMODはサブスクの解除を強く推奨します。Steamのワークショップで公開が終了して、現在は利用出来ません。","HRTC_S_RFW
 HtmlReportTemplateCode.cs Statuses RemovedFromWorkshop","",""
-"HRTC_S_SCLW","NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTE: After using this mod, game saves won't (easily) load without it anymore.","HRTC_S_SCLW
+"HRTC_S_SCLW","NOTE: After using this mod, game saves won't (easily) load without it anymore.","注意: このMOD使用後でセーブデータは、MOD無しでは (単純に) ロード出来ません。","HRTC_S_SCLW
 HtmlReportTemplateCode.cs Statuses SavesCantLoadWithout","",""
-"HRTC_S_TVA","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_S_TVA
+"HRTC_S_TVA","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","このMODはテスト版です。特に理由がない場合は、代わりに安定版を使用することを推奨します。","HRTC_S_TVA
 HtmlReportTemplateCode.cs Statuses TestVersion Alternatives","",""
-"HRTC_SS_SM","This is succeeded by any of the following (pick one, not all):","This is succeeded by any of the following (pick one, not all):","HRTC_SS_SM
+"HRTC_SS_SM","This is succeeded by any of the following (pick one, not all):","これは以下のいずれかで引き継がれています。 (全てで無く、1つを選択):","HRTC_SS_SM
 HtmlReportTemplateCode.cs Successors subscribedMod","",""
-"HRTC_S_SMC","This is succeeded by:","This is succeeded by:","HRTC_S_SMC
+"HRTC_S_SMC","This is succeeded by:","これは以下に引き継がれています:","HRTC_S_SMC
 HtmlReportTemplateCode.cs Successors subscribedModCount","",""
-"HRTC_S_U","Unsubscribe this. It is succeeded by a mod you already have:","Unsubscribe this. It is succeeded by a mod you already have:","HRTC_S_U
+"HRTC_S_U","Unsubscribe this. It is succeeded by a mod you already have:","このMODはサブスクを解除して下さい。既にサブスク中のMODに引き継がれます。","HRTC_S_U
 HtmlReportTemplateCode.cs Successors Unsubscribe","",""
-"HRTC_S_WSP","Workshop page:","Workshop page:","HRTC_S_WSP
+"HRTC_S_WSP","Workshop page:","ワークショップのページ:","HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage","",""
-"SET_BAO_AG","Advanced options","Advanced options","SET_BAO_AG
+"SET_BAO_AG","Advanced options","高度な設定","SET_BAO_AG
 SettingsUI.cs BuildAdvancedOptionsUI advancedGroup","",""
-"SET_BAO_DM","Debug Mode","Debug Mode","SET_BAO_DM
+"SET_BAO_DM","Debug Mode","デバッグモード","SET_BAO_DM
 SettingsUI.cs BuildAdvancedOptionsUI debugMode","",""
-"SET_BAO_MLS","Max log size (in KB)","Max log size (in KB)","SET_BAO_MLS
+"SET_BAO_MLS","Max log size (in KB)","ログの最大サイズ (KB)","SET_BAO_MLS
 SettingsUI.cs BuildAdvancedOptionsUI maxLogSize","",""
-"SET_BAO_MR","Number of catalog download retries","Number of catalog download retries","SET_BAO_MR
+"SET_BAO_MR","Number of catalog download retries","カタログダウンロードの再試行回数","SET_BAO_MR
 SettingsUI.cs BuildAdvancedOptionsUI maxRetries","",""
-"SET_BAO_MVL","Mod version","Mod version","SET_BAO_MVL
+"SET_BAO_MVL","Mod version","MODのバージョン","SET_BAO_MVL
 SettingsUI.cs BuildAdvancedOptionsUI modVersionLabel","",""
-"SET_BAO_ORAS","Reset all settings","Reset all settings","SET_BAO_ORAS
+"SET_BAO_ORAS","Reset all settings","全ての設定をリセット","SET_BAO_ORAS
 SettingsUI.cs BuildAdvancedOptionsUI OnResetAllSettings","",""
-"SET_BAO_SBM","Scan before entering Main Menu","Scan before entering Main Menu","SET_BAO_SBM
+"SET_BAO_SBM","Scan before entering Main Menu","メインメニュー前にスキャン","SET_BAO_SBM
 SettingsUI.cs BuildAdvancedOptionsUI scanBeforeMenu","",""
-"SET_BCO_CG","Catalog options","Catalog options","SET_BCO_CG
+"SET_BCO_CG","Catalog options","カタログのオプション","SET_BCO_CG
 SettingsUI.cs BuildCatalogOptionsUI catalogGroup","",""
-"SET_BCO_UIBD","Download now","Download now","SET_BCO_UIBD
+"SET_BCO_UIBD","Download now","今すぐダウンロード","SET_BCO_UIBD
 SettingsUI.cs BuildCatalogOptionsUI download","",""
-"SET_BCO_DFD","Download","Download","SET_BCO_DFD
+"SET_BCO_DFD","Download","ダウンロード","SET_BCO_DFD
 SettingsUI.cs BuildCatalogOptionsUI downloadFrequencyDropdown","",""
-"SET_BCO_SUIT","Catalog version","Catalog version","SET_BCO_SUIT
+"SET_BCO_SUIT","Catalog version","カタログのバージョン","SET_BCO_SUIT
 SettingsUI.cs BuildCatalogOptionsUI SettingsUIText","",""
-"SET_BCO_TWF","Text Report width","Text Report width","SET_BCO_TWF
+"SET_BCO_TWF","Text Report width","テキストレポートの幅","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField","",""
-"SET_BRG_CPB","Change path","Change path","SET_BRG_CPB
+"SET_BRG_CPB","Change path","パスの変更","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn","",""
-"SET_BRG_NW","'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' launch option detected. No report was generated","SET_BRG_NW
+"SET_BRG_NW","'--noWorkshop' launch option detected. No report was generated","「--noWorkshop」の起動オプションが検出されました。レポートの生成が出来ません。","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop","",""
-"SET_BRG_OGR","Generate report(s)","Generate report(s)","SET_BRG_OGR
+"SET_BRG_OGR","Generate report(s)","レポートを生成","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports","",""
-"SET_BRG_OOR","Open report(s)","Open report(s)","SET_BRG_OOR
+"SET_BRG_OOR","Open report(s)","レポートを開く","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports","",""
-"SET_BRG_OHRISO","Use Steam Overlay to open HTML report if available.","Use Steam Overlay to open HTML report if available.","SET_BRG_OHRISO
+"SET_BRG_OHRISO","Use Steam Overlay to open HTML report if available.","利用可能な場合は、Steamオーバーレイを使用してHTMLレポートを開きます。","SET_BRG_OHRISO
 SettingsUI.cs BuildRecordGroupUI OpenHtmlReportInSteamOverlay","",""
-"SET_BRG_PE","Access to the Steam Workshop is required for the mod to work properly.","Access to the Steam Workshop is required for the mod to work properly.","SET_BRG_PE
+"SET_BRG_PE","Access to the Steam Workshop is required for the mod to work properly.","MODを正常に動作させるには、Steamワークショップへのアクセスが必要です。","SET_BRG_PE
 SettingsUI.cs BuildRecordGroupUI platformError","",""
-"SET_BRG_PT","Platform not supported","Platform not supported","SET_BRG_PT
+"SET_BRG_PT","Platform not supported","未対応のプラットフォームです。","SET_BRG_PT
 SettingsUI.cs BuildRecordGroupUI platformType","",""
-"SET_BRG_RG","Report options","Report options","SET_BRG_RG
+"SET_BRG_RG","Report options","レポートのオプション","SET_BRG_RG
 SettingsUI.cs BuildRecordGroupUI reportGroup","",""
-"SET_BRG_RP","Mod Errors","Mod Errors","SET_BRG_RP
+"SET_BRG_RP","Mod Errors","MODのエラー","SET_BRG_RP
 SettingsUI.cs BuildRecordGroupUI reportPanel","",""
-"SET_BRG_RPTF","Report path","Report path","SET_BRG_RPTF
+"SET_BRG_RPTF","Report path","レポートのパス","SET_BRG_RPTF
 SettingsUI.cs BuildRecordGroupUI reportPathTextField","",""
-"SET_BRG_RTD","Report type","Report type","SET_BRG_RTD
+"SET_BRG_RTD","Report type","レポートの種類","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown","",""
-"SET_BRG_RPB","Reset path to default","Reset path to default","SET_BRG_RPB
+"SET_BRG_RPB","Reset path to default","パスをリセット","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn","",""
-"SET_BUG_DOI","Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
+"SET_BUG_DOI","Days of inactivity to retire author","作家を引退と判断する活動休止の日数","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity","",""
-"SET_BUG_MSPMP","Estimated milliseconds per mod page","Estimated milliseconds per mod page","SET_BUG_MSPMP
+"SET_BUG_MSPMP","Estimated milliseconds per mod page","MODページ毎の推定ミリ秒","SET_BUG_MSPMP
 SettingsUI.cs BuildUpdaterGroupUI msPerModPage","",""
-"SET_BUG_OOTA","Run Road Asset Crawler (AN dependent)","Run Road Asset Crawler (AN dependent)","SET_BUG_OOTA
+"SET_BUG_OOTA","Run Road Asset Crawler (AN dependent)","道路アセットのクローラーを実行 (ANとの依存関係)","SET_BUG_OOTA
 SettingsUI.cs BuildUpdaterGroupUI OnOneTimeAction","",""
-"SET_BUG_OSU","Run Updater","Run Updater","SET_BUG_OSU
+"SET_BUG_OSU","Run Updater","アップデータを実行","SET_BUG_OSU
 SettingsUI.cs BuildUpdaterGroupUI OnStartUpdater","",""
-"SET_BUG_OSWC","Run Web Crawler","Run Web Crawler","SET_BUG_OSWC
+"SET_BUG_OSWC","Run Web Crawler","Webクローラーを実行","SET_BUG_OSWC
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawler","",""
-"SET_BUG_OSWCQ","Run Web Crawler (quick)","Run Web Crawler (quick)","SET_BUG_OSWCQ
+"SET_BUG_OSWCQ","Run Web Crawler (quick)","Webクローラーを実行 (クイック)","SET_BUG_OSWCQ
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawlerquick","",""
-"SET_BUG_SMFP","Steam max failed pages","Steam max failed pages","SET_BUG_SMFP
+"SET_BUG_SMFP","Steam max failed pages","Steamで失敗したページの最大数","SET_BUG_SMFP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxFailedPages","",""
-"SET_BUG_SMLP","Steam max listing pages","Steam max listing pages","SET_BUG_SMLP
+"SET_BUG_SMLP","Steam max listing pages","Steamでリストするページの最大数","SET_BUG_SMLP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxListingPages","",""
-"SET_BUG_UG","Updater","Updater","SET_BUG_UG
+"SET_BUG_UG","Updater","アップデート","SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup","",""
-"SET_BUG_WFR","Weeks for soon retired","Weeks for soon retired","SET_BUG_WFR
+"SET_BUG_WFR","Weeks for soon retired","引退するまでの週間数","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired","",""
-"SET_DO_NEV","Never (on-demand only) - not recommended!","Never (on-demand only) - not recommended!","SET_DO_NEV
+"SET_DO_NEV","Never (on-demand only) - not recommended!","なし (オンデマンドのみ) - 推奨しません！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never","",""
-"SET_DO_OAW","Once a week","Once a week","SET_DO_OAW
+"SET_DO_OAW","Once a week","1週間に1回","SET_DO_OAW
 SettingsUI.cs DownloadOptions Once a week","",""
 "SET_RT_HTM","HTML","HTML","SET_RT_HTM
 SettingsUI.cs ReportTypes HTML","",""
-"SET_RT_HAT","HTML and text","HTML and text","SET_RT_HAT
+"SET_RT_HAT","HTML and text","HTMLとテキスト","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text","",""
-"SET_RT_TXT","Text","Text","SET_RT_TXT
+"SET_RT_TXT","Text","テキスト","SET_RT_TXT
 SettingsUI.cs ReportTypes Text","",""
-"LANGUAGE","English","English","LANGUAGE","",""
+"LANGUAGE","English","日本語","LANGUAGE","",""
 "REPORT_NOTE_1","A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.","REPORT_NOTE_1","",""
 "REPORT_NOTE_2","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","REPORT_NOTE_2","",""
 "REPORT_NOTE_3","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","REPORT_NOTE_3","",""
