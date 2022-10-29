@@ -77,12 +77,12 @@ namespace CompatibilityReport.Settings
             switch (sel)
             {
                 case 0:
-                    config.TextReport = true;
-                    config.HtmlReport = false;
-                    break;
-                case 1:
                     config.TextReport = false;
                     config.HtmlReport = true;
+                    break;
+                case 1:
+                    config.TextReport = true;
+                    config.HtmlReport = false;
                     break;
                 case 2:
                     config.TextReport = true;
@@ -126,6 +126,11 @@ namespace CompatibilityReport.Settings
         {
             
         }
+#if CATALOG_DOWNLOAD
+        internal static void OnUploadCatalog(string username, string password, Action<bool> onCompleted) {
+            onCompleted(Toolkit.Upload(ModSettings.CatalogUrl, Path.Combine(ModSettings.UpdaterPath, ModSettings.UploadCatalogFileName), username, password));
+        }
+#endif
 
         public static void OnOpenHtmlReportInSteamChanged(bool ischecked)
         {

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Security;
+using System.Reflection;
 using System.Text;
 using ColossalFramework.Plugins;
 using ICities;
@@ -17,6 +18,36 @@ namespace CompatibilityReport.Util
 {
     public static class Toolkit
     {
+        private static string modPath = "";
+
+        public static string GetModPath() {
+            if (string.IsNullOrEmpty(modPath))
+            {
+                Assembly thisAssembly = Assembly.GetExecutingAssembly();
+                var plugins = PluginManager.instance.GetPluginsInfo();
+                foreach (PluginManager.PluginInfo pluginInfo in plugins)
+                {
+                    try
+                    {
+                        foreach (Assembly assembly in pluginInfo.GetAssemblies())
+                        {
+                            if (assembly == thisAssembly)
+                            {
+                                modPath = pluginInfo.modPath;
+                                return modPath;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Exception(e);
+                    }
+                }
+
+            }
+            return modPath;
+        }
+        
         public static bool IsMainMenuScene(string scene)
         {
             return scene == "Startup" || scene == "MainMenu" || scene == "IntroScreen" || scene == "IntroScreen2";
@@ -171,7 +202,6 @@ namespace CompatibilityReport.Util
         // Code copied from https://github.com/bloodypenguin/ChangeLoadingImage/blob/master/ChangeLoadingImage/LoadingExtension.cs by bloodypenguin.
         private static readonly RemoteCertificateValidationCallback TLSCallback = (sender, cert, chain, sslPolicyErrors) => true;
 
-
         /// <summary>Download a file to a location on disk.</summary>
         /// <remarks>A failed download will be retried a set number of times, unless an unrecoverable TLS error is encountered.</remarks>
         /// <returns>True if succesful, false on errors.</returns>
@@ -198,6 +228,7 @@ namespace CompatibilityReport.Util
                 }
                 catch (Exception ex)
                 {
+                    Logger.Log("Exception on download: \n" + ex);
                     if (ex.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
                     {
                         // TLS 1.2+ is not supported by .Net Framework 3.5.
@@ -216,6 +247,56 @@ namespace CompatibilityReport.Util
             ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
             return success;
         }
+        
+#if CATALOG_DOWNLOAD
+        /// <summary>Uploads a file to a location on disk.</summary>
+        /// <remarks>A failed download will be retried a set number of times, unless an unrecoverable TLS error is encountered.</remarks>
+        /// <returns>True if succesful, false on errors.</returns>
+        public static bool Upload(string url, string fullPath, string username, string password)
+        {
+            bool success = false;
+            int failedAttempts = 0;
+
+            ServicePointManager.ServerCertificateValidationCallback += TLSCallback;
+
+            int uploadRetries = GlobalConfig.Instance.AdvancedConfig.UploadRetries;
+            while (failedAttempts <= uploadRetries)
+            {
+                try
+                {
+                    using (WebClient webClient = new WebClient())
+                    {
+                        webClient.Proxy = null;
+                        webClient.Credentials = new NetworkCredential(username, password);
+                        var response = webClient.UploadFile(url, fullPath);
+                        Logger.Log($"Upload response: {Encoding.ASCII.GetString(response)}");
+                    }
+
+                    success = true;
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log("Exception on upload: \n" + ex);
+                    if (ex.ToString().Contains("Security.Protocol.Tls.TlsException: The authentication or decryption has failed"))
+                    {
+                        // TLS 1.2+ is not supported by .Net Framework 3.5.
+                        Logger.Log($"Upload failed because the webserver only supports TLS 1.2 or higher: { url }", Logger.Debug);
+                        break;
+                    }
+
+                    failedAttempts++;
+
+                    Logger.Log($"Upload of \"{ url }\" failed { failedAttempts } time{ (failedAttempts > 1 ? "s" : "") }" + 
+                        (failedAttempts <= uploadRetries ? ", will retry. " : ". Upload abandoned. ") + 
+                        (ex.Message.Contains("(502) Bad Gateway") ? "Exception: 502 Bad Gateway" : $"{ ShortException(ex) }"), Logger.Debug);
+                }
+            }
+
+            ServicePointManager.ServerCertificateValidationCallback -= TLSCallback;
+            return success;
+        }
+#endif       
         
         /// <summary>
         /// Reads page and invokes onComplete action when finished or failed
@@ -253,8 +334,7 @@ namespace CompatibilityReport.Util
             }
             yield return null;
             onComplete(new KeyValuePair<bool, string>(false, null));
-        }
-
+        } 
 
         /// <summary>Get the Steam Workshop URL for a mod.</summary>
         /// <remarks>It does not check if the given Steam ID is an existing Steam Workshop mod.</remarks>
@@ -656,19 +736,22 @@ namespace CompatibilityReport.Util
 
             return text.Length <= width ? text : $"{ text.Substring(0, width - 3) }...";
         }
-
+#if CATALOG_DOWNLOAD
         public static bool IsOlderThanFrequencyOption(DateTime lastWriteTimeUtc, int downloadFrequency)
         {
             switch (downloadFrequency)
             {
-                case 0:
-                    return lastWriteTimeUtc.Date <= DateTime.Today.Subtract(TimeSpan.FromDays(7));//once a week
+                case 0: 
+                    return lastWriteTimeUtc.Date <= DateTime.Today.Subtract(TimeSpan.FromHours(12));//once every 12h
                 case 1:
+                    return lastWriteTimeUtc.Date <= DateTime.Today.Subtract(TimeSpan.FromDays(7));//once a week
+                case 2:
                     return false;//never
                 default:
                     Logger.Log($"Not implemented frequency option: {downloadFrequency}", Logger.LogLevel.Warning);
                     return false;
             }
         }
+#endif
     }
 }

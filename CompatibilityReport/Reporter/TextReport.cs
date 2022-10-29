@@ -780,7 +780,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            string text = (subscribedMod.Successors.Count == 1) ? Format("This is succeeded by:") : Format("This is succeeded by any of the following (pick one, not all):");
+            string text = (subscribedMod.Successors.Count == 1) ? Format("The successor of this mod is:") : Format("This is succeeded by any of the following (pick one, not all):");
 
             foreach (ulong steamID in subscribedMod.Successors)
             {

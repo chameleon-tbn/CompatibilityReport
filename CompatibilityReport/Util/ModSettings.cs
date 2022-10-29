@@ -75,25 +75,7 @@ namespace CompatibilityReport.Util
             {
                 try
                 {
-                    // Steam Workshop mod path. This only works if the workshop is in the same "steamapps" folder as the game, which will be true for most users.
-                    // Todo 1.x Find a more robust way of getting the mods own folder. See https://github.com/kianzarrin/UnifiedUI/blob/e77391479c0ab36c228402b898771a509535e846/UnifiedUILib/Helpers/UUIHelpers.cs#L376
-                    char slash = Path.DirectorySeparatorChar;
-                    string up = $"{ slash }..";
-                    string workshop = $"{ slash }workshop{ slash }content{ slash }255710{ slash }{ OurOwnSteamID }";
-                    string workshopModPath = $"{ DataLocation.applicationBase }{ up }{ up }{ workshop }";
-
-                    if (!Directory.Exists(workshopModPath))
-                    {
-                        // Steam Workshop path for MacOS.
-                        workshopModPath = $"{ DataLocation.applicationBase }{ up }{ up }{ up }{ up }{ workshop }";
-
-                        if (!Directory.Exists(workshopModPath))
-                        {
-                            throw new DirectoryNotFoundException();
-                        }
-                    }
-
-                    return Path.Combine(workshopModPath, $"{ InternalName }_Catalog.xml.gz");
+                    return Path.Combine(Toolkit.GetModPath(), $"{ InternalName }_Catalog.xml.gz");
                 }
                 catch
                 {
@@ -142,11 +124,13 @@ namespace CompatibilityReport.Util
         // Updater properties.
         public static string UpdaterPath { get; } = Path.Combine(WorkPath, $"{ InternalName }Updater");
         public static bool UpdaterAvailable { get; } = Directory.Exists(UpdaterPath);
+        public static bool UploadFileAvailable => File.Exists(Path.Combine(UpdaterPath, UploadCatalogFileName));
         public const string UpdaterSettingsFileName = InternalName + "_UpdaterSettings.xml";
         public const string UpdaterLogFileName = InternalName + "_Updater.log";
         public const string DataDumpFileName = InternalName + "_DataDump.txt";
         public const string CatalogDumpFileName = InternalName + "_WebCrawlerDump.xml";
         public const string OneTimeActionFileName = InternalName + "_OneTimeAction.txt";
+        public const string UploadCatalogFileName = "Catalog for download.txt";
 
         public static string FakeSubscriptionsFileFullPath { get; } = Path.Combine(WorkPath, $"{ InternalName }_FakeSubscriptions.txt");
 

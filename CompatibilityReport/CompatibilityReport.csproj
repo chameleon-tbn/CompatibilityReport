@@ -35,6 +35,15 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'With catalog download|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;CATALOG_DOWNLOAD</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\With catalog download\</OutputPath>
+  </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
@@ -87,6 +96,7 @@
     <Compile Include="UI\ProgressMonitor.cs" />
     <Compile Include="UI\ProgressMonitorUI.cs" />
     <Compile Include="UI\SettingsUI.cs" />
+    <Compile Include="UI\UploadCatalogUI.cs" />
     <Compile Include="Updater\ChangeNotes.cs" />
     <Compile Include="Updater\OneTimeAction.cs" />
     <Compile Include="Updater\WebCrawler.cs" />

@@ -46,8 +46,10 @@ namespace CompatibilityReport.Settings.ConfigData
             switch (frequency)
             {
                 case 0:
-                    return "Once a week";
+                    return "Once a day";
                 case 1:
+                    return "Once a week";
+                case 2:
                     return "Never (on-demand only)";
                 default:
                     return $"Not supported: {frequency}";

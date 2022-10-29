@@ -45,8 +45,8 @@ namespace CompatibilityReport.UI
 
         private void Dispose()
         {
-            Logger.Log("Disposing Settings UI", Logger.LogLevel.Debug);
             eventGlobalOptionsUpdated = null;
+            SettingsManager.CleanupEvents();
             catalogVersionLabel = null;
             optionsPanel = null;
             reportPathTextField = null;
@@ -98,7 +98,8 @@ namespace CompatibilityReport.UI
             SettingsManager.eventCatalogUpdated += () => catalogVersionLabel.text = $"Catalog version: {CatalogData.Catalog.SettingsUIText}";
             catalogGroup.AddSpace(10);
 
-            UIDropDown downloadFrequencyDropdown = catalogGroup.AddDropdown("Download: ", DownloadOptions, config.DownloadFrequency, SettingsManager.OnDownloadOptionChanged) as UIDropDown;
+#if CATALOG_DOWNLOAD
+            UIDropDown downloadFrequencyDropdown = catalogGroup.AddDropdown($"{T("SET_BCO_DFD")}: ", DownloadOptions.ToArray(), config.DownloadFrequency, SettingsManager.OnDownloadOptionChanged) as UIDropDown;
             downloadFrequencyDropdown.width = 290f;
             eventGlobalOptionsUpdated += c => downloadFrequencyDropdown.selectedIndex = c.GeneralConfig.DownloadFrequency;
 
@@ -110,6 +111,7 @@ namespace CompatibilityReport.UI
             UIButton download = catalogGroup.AddButton("Download now", SettingsManager.OnDownloadCatalog) as UIButton;
             download.AlignTo(downloadPanel, UIAlignAnchor.TopLeft);
             download.relativePosition += new UnityEngine.Vector3(downloadFrequencyDropdown.width + 30, -download.height);
+#endif
 
 
             var textWidthField = catalogGroup.AddTextfield("Text Report width", config.TextReportWidth.ToString(), _ => { }, text => {
@@ -145,7 +147,8 @@ namespace CompatibilityReport.UI
             // group.AddCheckbox("Debug logging", false, (bool _) => { });
             advancedGroup.AddSpace(10);
 
-            var maxRetries = advancedGroup.AddTextfield("Number of catalog download retries", config.DownloadRetries.ToString(), _ => { }, text => {
+#if CATALOG_DOWNLOAD
+            var maxRetries = advancedGroup.AddTextfield($"{T("SET_BAO_MR")}", config.DownloadRetries.ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number) && number >=0 && number <= 10)
                 {
                     AdvancedConfig advConfig = GlobalConfig.Instance.AdvancedConfig;
@@ -158,8 +161,10 @@ namespace CompatibilityReport.UI
             }) as UITextField;
             maxRetries.submitOnFocusLost = false;
             maxRetries.eventTextCancelled += (component, value) => (component as UITextField).text = GlobalConfig.Instance.AdvancedConfig.DownloadRetries.ToString(); 
-            
-            var maxLogSize = advancedGroup.AddTextfield("Max log size (in kb)", (config.LogMaxSize / 1024).ToString(), _ => { }, text => {
+            eventGlobalOptionsUpdated += c => maxRetries.text = c.AdvancedConfig.DownloadRetries.ToString();
+#endif
+
+            var maxLogSize = advancedGroup.AddTextfield($"{T("SET_BAO_MLS")}", (config.LogMaxSize / 1024).ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number) && number >= 10 && number <= 10000)
                 {
                     AdvancedConfig advConfig = GlobalConfig.Instance.AdvancedConfig;
@@ -207,8 +212,9 @@ namespace CompatibilityReport.UI
 
         private void BuildUpdaterGroupUI()
         {
+            UIHelperBase updaterGroup = settingsUIHelper.AddGroup($"{T("SET_BUG_UG")}");
+#if CATALOG_DOWNLOAD
             UpdaterConfig config = GlobalConfig.Instance.UpdaterConfig;
-            UIHelperBase updaterGroup = settingsUIHelper.AddGroup("Updater");
 
             var steamMaxFailedPages = updaterGroup.AddTextfield("Steam max failed pages", config.SteamMaxFailedPages.ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number))
@@ -279,7 +285,7 @@ namespace CompatibilityReport.UI
             }) as UITextField;
             weeksForRetired.submitOnFocusLost = false;
             weeksForRetired.eventTextCancelled += (component, value) => (component as UITextField).text = GlobalConfig.Instance.UpdaterConfig.WeeksForSoonRetired.ToString();
-
+#endif
             UIPanel updaterPanel = HelperToUIPanel(updaterGroup);
             UIPanel panel = updaterPanel.AddUIComponent<UIPanel>();
             panel.relativePosition = Vector3.zero;
@@ -292,13 +298,16 @@ namespace CompatibilityReport.UI
             panel.autoLayoutDirection = LayoutDirection.Horizontal;
             panel.autoLayoutPadding = new RectOffset(0, 10, 0, 0);
             panel.autoLayout = true;
-            updaterGroup.AddButton("Run Road Asset Crawler (AN dependent)", () => SettingsManager.OnOneTimeAction(OpenProgressModal()));
-            
+            updaterGroup.AddButton($"{T("SET_BUG_OOTA")}", () => SettingsManager.OnOneTimeAction(OpenProgressModal()));
+#if CATALOG_DOWNLOAD
+            updaterGroup.AddButton("Upload Catalog", () => OpenUploadCatalogModal());
+
             eventGlobalOptionsUpdated += (c) => steamMaxFailedPages.text = c.UpdaterConfig.SteamMaxFailedPages.ToString();
             eventGlobalOptionsUpdated += (c) => steamMaxListingPages.text = c.UpdaterConfig.SteamMaxListingPages.ToString();
             eventGlobalOptionsUpdated += (c) => msPerModPage.text = c.UpdaterConfig.EstimatedMillisecondsPerModPage.ToString();
             eventGlobalOptionsUpdated += (c) => daysOfInactivity.text = c.UpdaterConfig.DaysOfInactivityToRetireAuthor.ToString();
             eventGlobalOptionsUpdated += (c) => weeksForRetired.text = c.UpdaterConfig.WeeksForSoonRetired.ToString();
+#endif
         }
 
         private bool TryGetNumber(string text, out int number)
@@ -321,6 +330,18 @@ namespace CompatibilityReport.UI
             UIView.PushModal(ui);
             return ui;
         }
+        
+#if CATALOG_DOWNLOAD
+        private UploadCatalogUI OpenUploadCatalogModal()
+        {
+            UploadCatalogUI ui = (UploadCatalogUI)UIView.GetAView().AddUIComponent(typeof(UploadCatalogUI));
+            ui.Initialize();
+            ui.Show();
+            ui.BringToFront();
+            UIView.PushModal(ui);
+            return ui;
+        }
+#endif
         
         private void BuildRecordGroupUI(out bool shouldBuildOptions)
         {

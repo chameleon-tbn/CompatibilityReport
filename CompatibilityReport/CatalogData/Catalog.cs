@@ -706,8 +706,12 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the catalog with the highest version, or null if none could be loaded.</returns>
         public static Catalog Load(bool force = false, bool updaterRun = false)
         {
+#if CATALOG_DOWNLOAD
             // Downloaded catalog is always newer than, or same as, the previously downloaded and bundled catalogs, so no need to load those after succesful download.
             Catalog downloadedCatalog = Download(force);
+#else
+            Catalog downloadedCatalog = null;
+#endif
             Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
             Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
             Catalog newestCatalog;
@@ -738,8 +742,8 @@ namespace CompatibilityReport.CatalogData
 
             return newestCatalog;
         }
-
-
+        
+#if CATALOG_DOWNLOAD
         /// <summary>Downloads a new catalog and loads it into memory.</summary>
         /// <remarks>A download will only be started once per session. On download errors, the download will be retried immediately a few times.</remarks>
         /// <returns>A reference to the catalog, or null if the download failed.</returns>
@@ -812,7 +816,7 @@ namespace CompatibilityReport.CatalogData
 
             return downloadedCatalog;
         }
-
+#endif
 
         /// <summary>Loads the previously downloaded catalog.</summary>
         /// <returns>A reference to the catalog, or null if loading failed.</returns>
