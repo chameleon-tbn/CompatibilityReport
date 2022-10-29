@@ -1,5 +1,5 @@
 "Identifier","Source String","Translation","Context","Labels","Max. Length"
-"LANGUAGE","English","English","LANGUAGE
+"LANGUAGE","English","Française","LANGUAGE
 1Language to be translated into","",""
 "CAT_NC_SUIT","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText","",""
@@ -307,7 +307,7 @@ SettingsUI.cs ReportTypes HTML","",""
 SettingsUI.cs ReportTypes HTML and Text","",""
 "SET_RT_TXT","Text","Text","SET_RT_TXT
 SettingsUI.cs ReportTypes Text","",""
-"LANGUAGE","English","English","LANGUAGE","",""
+"LANGUAGE","English","Française","LANGUAGE","",""
 "REPORT_NOTE_1","A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.","REPORT_NOTE_1","",""
 "REPORT_NOTE_2","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","REPORT_NOTE_2","",""
 "REPORT_NOTE_3","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","REPORT_NOTE_3","",""
