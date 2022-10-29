@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using ColossalFramework.PlatformServices;
 using ColossalFramework.Plugins;
@@ -6,19 +7,20 @@ using ColossalFramework.UI;
 using CompatibilityReport.Reporter;
 using CompatibilityReport.Settings;
 using CompatibilityReport.Settings.ConfigData;
+using CompatibilityReport.Translations;
 using CompatibilityReport.Util;
 using ICities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Debug = UnityEngine.Debug;
 using Logger = CompatibilityReport.Util.Logger;
 
 namespace CompatibilityReport.UI
 {
     internal class SettingsUI
     {
-        private static readonly string[] ReportTypes = new string[] { "text", "html", "text and html" };
-        private static readonly string[] DownloadOptions = new string[] { "Once a week", "Never (on-demand only) - not recommended!" };
+        private static readonly FastList<string> ReportTypes = new FastList<string>();
+        private static readonly FastList<string> AvailableLangs = new FastList<string>();
+        private static readonly FastList<string> DownloadOptions = new FastList<string>();
 
         private UIHelperBase settingsUIHelper;
         private UIScrollablePanel optionsPanel;
@@ -29,9 +31,11 @@ namespace CompatibilityReport.UI
         private event Action<GlobalConfig> eventGlobalOptionsUpdated;
 
         private static string ReportPathText => $"<color {ModSettings.SettingsUIColor}>{Toolkit.Privacy(GlobalConfig.Instance.GeneralConfig.ReportPath)}</color>";
+        private Translator translator;
 
-        private SettingsUI(UIHelperBase helper)
-        {
+        private SettingsUI(UIHelperBase helper) {
+            Translation.instance.SetCurrentLanguage();
+            translator = Translation.instance.Current;
             settingsUIHelper = helper;
             optionsPanel = (helper as UIHelper).self as UIScrollablePanel;
             optionsPanel.gameObject.AddComponent<GameObjectObserver>().eventGameObjectDestroyed += Dispose;
@@ -60,12 +64,16 @@ namespace CompatibilityReport.UI
 
             GlobalConfig config = GlobalConfig.Instance;
 
+            BuildTranslatedDataSources();
+            
             BuildRecordGroupUI(out bool canContinue);
 
             if (!canContinue)
             {
                 return;
             }
+
+            BuildUsefulLinksOptionsUI();
             
             BuildCatalogOptionsUI();
 
@@ -86,16 +94,46 @@ namespace CompatibilityReport.UI
             
         }
 
+        private void BuildTranslatedDataSources() {
+            AvailableLangs.Clear();
+            AvailableLangs.Add("Game Language");
+
+            var langs = Translation.instance.AvailableLangs;
+            foreach (KeyValuePair<string,string> langCodeTranslationPair in langs)
+            {
+                AvailableLangs.Add(langCodeTranslationPair.Value);
+            }
+            
+            DownloadOptions.Clear();
+            DownloadOptions.Add(T("SET_DO_OAW"));
+            DownloadOptions.Add(T("SET_DO_NEV"));
+            
+            ReportTypes.Clear();
+            ReportTypes.Add(T("SET_RT_HTM"));
+            ReportTypes.Add(T("SET_RT_TXT"));
+            ReportTypes.Add(T("SET_RT_HAT"));
+        }
+
+        private void BuildUsefulLinksOptionsUI() {
+            UIHelperBase linksGroup = settingsUIHelper.AddGroup("Useful links:");
+            UIPanel linksPanel = (linksGroup as UIHelper).self as UIPanel;
+            linksPanel.autoLayoutDirection = LayoutDirection.Horizontal;
+            linksPanel.autoLayoutPadding = new RectOffset(5, 5, 0, 0);
+            UIHelper helper = new UIHelper(linksPanel);
+            helper.AddButton("List of Broken Mods", () => Process.Start("https://pdxint.at/BrokenModCS"));
+            helper.AddButton("Chamëleon TBN Recommended Mods List", () => Process.Start("https://bit.ly/3VA9NxC"));
+        }
+
         private void BuildCatalogOptionsUI()
         {
             GeneralConfig config = GlobalConfig.Instance.GeneralConfig;
-            UIHelperBase catalogGroup = settingsUIHelper.AddGroup("Catalog options:");
+            UIHelperBase catalogGroup = settingsUIHelper.AddGroup($"{T("SET_BCO_CG")}:");
             UIPanel catalogPanel = (catalogGroup as UIHelper).self as UIPanel;
             catalogVersionLabel = catalogPanel.AddUIComponent<UILabel>();
             catalogVersionLabel.processMarkup = true;
-            catalogVersionLabel.text = $"Catalog version: {CatalogData.Catalog.SettingsUIText}";
+            catalogVersionLabel.text = $"{T("SET_BCO_SUIT")}: {CatalogData.Catalog.SettingsUIText}";
             catalogVersionLabel.textScale = 1.1f;
-            SettingsManager.eventCatalogUpdated += () => catalogVersionLabel.text = $"Catalog version: {CatalogData.Catalog.SettingsUIText}";
+            SettingsManager.eventCatalogUpdated += () => catalogVersionLabel.text = $"{T("SET_BCO_SUIT")}: {CatalogData.Catalog.SettingsUIText}";
             catalogGroup.AddSpace(10);
 
 #if CATALOG_DOWNLOAD
@@ -108,13 +146,12 @@ namespace CompatibilityReport.UI
             downloadPanel.width = reportTypeContainer.width;
             downloadPanel.height = downloadFrequencyDropdown.height;
 
-            UIButton download = catalogGroup.AddButton("Download now", SettingsManager.OnDownloadCatalog) as UIButton;
+            UIButton download = catalogGroup.AddButton($"{T("SET_BCO_UIBD")}", SettingsManager.OnDownloadCatalog) as UIButton;
             download.AlignTo(downloadPanel, UIAlignAnchor.TopLeft);
             download.relativePosition += new UnityEngine.Vector3(downloadFrequencyDropdown.width + 30, -download.height);
 #endif
 
-
-            var textWidthField = catalogGroup.AddTextfield("Text Report width", config.TextReportWidth.ToString(), _ => { }, text => {
+            var textWidthField = catalogGroup.AddTextfield($"{T("SET_BCO_TWF")}", config.TextReportWidth.ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number) && number >= 30 && number <= 500)
                 {
                     GeneralConfig c = GlobalConfig.Instance.GeneralConfig;
@@ -132,12 +169,12 @@ namespace CompatibilityReport.UI
         private void BuildAdvancedOptionsUI()
         {
             AdvancedConfig config = GlobalConfig.Instance.AdvancedConfig;
-            UIHelperBase advancedGroup = settingsUIHelper.AddGroup("Advanced options:");
+            UIHelperBase advancedGroup = settingsUIHelper.AddGroup($"{T("SET_BAO_AG")}");
             UIPanel advGroupPanel = (advancedGroup as UIHelper).self as UIPanel;
 
             UILabel modVersionLabel = advGroupPanel.AddUIComponent<UILabel>();
             modVersionLabel.processMarkup = true;
-            modVersionLabel.text = $"Mod version: <color {ModSettings.SettingsUIColor}>{ModSettings.FullVersion}</color>";
+            modVersionLabel.text = $"{T("SET_BAO_MVL")}: <color {ModSettings.SettingsUIColor}>{ModSettings.FullVersion}</color>";
             modVersionLabel.textScale = 1.1f;
 
             
@@ -174,12 +211,16 @@ namespace CompatibilityReport.UI
                         advConfig.LogMaxSize = newSize;
                         GlobalConfig.WriteConfig();
                     }
-                } else { Logger.Log($"Incorrect Max log size: {text}. Value should be between 10 and 10 000 (kb).");}
+                } else { 
+                    Logger.Log($"Incorrect Max log size: {text}. Value should be between 10 and 10 000 (kb).");
+                    // SOMETHING == "Incorrect Max log size: {0}. Value should be between 10 and 10 000 (kb)."
+                    Logger.Log($"{T("SOMETHING", "0" , text)}");
+                }
             }) as UITextField;
             maxLogSize.submitOnFocusLost = false;
             maxLogSize.eventTextCancelled += (component, value) => (component as UITextField).text = (GlobalConfig.Instance.AdvancedConfig.LogMaxSize / 1024).ToString();
             
-            var scanBeforeMenu = advancedGroup.AddCheckbox("Scan before entering Main Menu", config.ScanBeforeMainMenu, value => {
+            var scanBeforeMenu = advancedGroup.AddCheckbox($"{T("SET_BAO_SBM")}", config.ScanBeforeMainMenu, value => {
                 AdvancedConfig advConfig = GlobalConfig.Instance.AdvancedConfig;
                 if (advConfig.ScanBeforeMainMenu != value)
                 {
@@ -188,7 +229,7 @@ namespace CompatibilityReport.UI
                 }
             }) as UICheckBox;
             
-            var debugMode = advancedGroup.AddCheckbox("Debug Mode", config.DebugMode, value => {
+            var debugMode = advancedGroup.AddCheckbox($"{T("SET_BAO_DM")}", config.DebugMode, value => {
                 AdvancedConfig advConfig = GlobalConfig.Instance.AdvancedConfig;
                 if (advConfig.DebugMode != value)
                 {
@@ -197,14 +238,13 @@ namespace CompatibilityReport.UI
                 }
             }) as UICheckBox;
 
-            eventGlobalOptionsUpdated += c => maxRetries.text = c.AdvancedConfig.DownloadRetries.ToString();
             eventGlobalOptionsUpdated += c => maxLogSize.text = (c.AdvancedConfig.LogMaxSize / 1024).ToString();
             eventGlobalOptionsUpdated += c => scanBeforeMenu.isChecked = c.AdvancedConfig.ScanBeforeMainMenu;
             eventGlobalOptionsUpdated += c => debugMode.isChecked = c.AdvancedConfig.DebugMode;
 
             // group.AddButton("Ignore selected incompatibilities", () => dummy++);
 
-            advancedGroup.AddButton("Reset all settings", () => {
+            advancedGroup.AddButton($"{T("SET_BAO_ORAS")}", () => {
                 SettingsManager.OnResetAllSettings();
                 eventGlobalOptionsUpdated?.Invoke(GlobalConfig.Instance);
             });
@@ -216,7 +256,7 @@ namespace CompatibilityReport.UI
 #if CATALOG_DOWNLOAD
             UpdaterConfig config = GlobalConfig.Instance.UpdaterConfig;
 
-            var steamMaxFailedPages = updaterGroup.AddTextfield("Steam max failed pages", config.SteamMaxFailedPages.ToString(), _ => { }, text => {
+            var steamMaxFailedPages = updaterGroup.AddTextfield($"{T("SET_BUG_SMFP")}", config.SteamMaxFailedPages.ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number))
                 {
                     UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
@@ -230,7 +270,7 @@ namespace CompatibilityReport.UI
             steamMaxFailedPages.submitOnFocusLost = false;
             steamMaxFailedPages.eventTextCancelled += (component, value) => (component as UITextField).text = GlobalConfig.Instance.UpdaterConfig.SteamMaxFailedPages.ToString();
 
-            var steamMaxListingPages = updaterGroup.AddTextfield("Steam max listing pages", config.SteamMaxListingPages.ToString(), _ => { }, text => {
+            var steamMaxListingPages = updaterGroup.AddTextfield($"{T("SET_BUG_SMLP")}", config.SteamMaxListingPages.ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number))
                 {
                     UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
@@ -244,7 +284,7 @@ namespace CompatibilityReport.UI
             steamMaxListingPages.submitOnFocusLost = false;
             steamMaxListingPages.eventTextCancelled += (component, value) => (component as UITextField).text = GlobalConfig.Instance.UpdaterConfig.SteamMaxListingPages.ToString();
 
-            var msPerModPage = updaterGroup.AddTextfield("Estimated milliseconds per mod page", config.EstimatedMillisecondsPerModPage.ToString(), _ => { }, text => {
+            var msPerModPage = updaterGroup.AddTextfield($"{T("SET_BUG_MSPMP")}", config.EstimatedMillisecondsPerModPage.ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number))
                 {
                     UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
@@ -258,7 +298,7 @@ namespace CompatibilityReport.UI
             msPerModPage.submitOnFocusLost = false;
             msPerModPage.eventTextCancelled += (component, value) => (component as UITextField).text = GlobalConfig.Instance.UpdaterConfig.EstimatedMillisecondsPerModPage.ToString();
 
-            var daysOfInactivity = updaterGroup.AddTextfield("Days of inactivity to retire author", config.DaysOfInactivityToRetireAuthor.ToString(), _ => { }, text => {
+            var daysOfInactivity = updaterGroup.AddTextfield($"{T("SET_BUG_DOI")}", config.DaysOfInactivityToRetireAuthor.ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number))
                 {
                     UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
@@ -272,7 +312,7 @@ namespace CompatibilityReport.UI
             daysOfInactivity.submitOnFocusLost = false;
             daysOfInactivity.eventTextCancelled += (component, value) => (component as UITextField).text = GlobalConfig.Instance.UpdaterConfig.DaysOfInactivityToRetireAuthor.ToString();
 
-            var weeksForRetired = updaterGroup.AddTextfield("Weeks for soon retired", config.WeeksForSoonRetired.ToString(), _ => { }, text => {
+            var weeksForRetired = updaterGroup.AddTextfield($"{T("SET_BUG_WFR")}", config.WeeksForSoonRetired.ToString(), _ => { }, text => {
                 if (TryGetNumber(text, out int number))
                 {
                     UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
@@ -292,9 +332,9 @@ namespace CompatibilityReport.UI
             panel.width = 650;
             panel.height = 40;
             var helper = new UIHelper(panel);
-            helper.AddButton("Run Web Crawler", () => SettingsManager.OnStartWebCrawler(OpenProgressModal()));
-            helper.AddButton("Run Web Crawler (quick)", () => SettingsManager.OnStartWebCrawler(OpenProgressModal(), quick: true));
-            helper.AddButton("Run Updater", () => SettingsManager.OnStartUpdater(OpenProgressModal()));
+            helper.AddButton($"{T("SET_BUG_OSWC")}", () => SettingsManager.OnStartWebCrawler(OpenProgressModal()));
+            helper.AddButton($"{T("SET_BUG_OSWCQ")}", () => SettingsManager.OnStartWebCrawler(OpenProgressModal(), quick: true));
+            helper.AddButton($"{T("SET_BUG_OSU")}", () => SettingsManager.OnStartUpdater(OpenProgressModal()));
             panel.autoLayoutDirection = LayoutDirection.Horizontal;
             panel.autoLayoutPadding = new RectOffset(0, 10, 0, 0);
             panel.autoLayout = true;
@@ -315,7 +355,7 @@ namespace CompatibilityReport.UI
             return int.TryParse(text, out number);
         }
 
-        private UIPanel HelperToUIPanel(UIHelperBase helperBase)
+        internal static UIPanel HelperToUIPanel(UIHelperBase helperBase)
         {
             // ReSharper disable once PossibleNullReferenceException
             return (helperBase as UIHelper).self as UIPanel;
@@ -348,24 +388,33 @@ namespace CompatibilityReport.UI
             shouldBuildOptions = true;
             if (PluginManager.noWorkshop || PlatformService.platformType != PlatformType.Steam)
             {
-                UIPanel reportPanel = HelperToUIPanel(settingsUIHelper.AddGroup("Mod Errors"));
+                UIPanel reportPanel = HelperToUIPanel(settingsUIHelper.AddGroup($"{T("SET_BRG_RP")}"));
                 UILabel platformError = reportPanel.AddUIComponent<UILabel>();
                 platformError.text = PluginManager.noWorkshop 
-                    ? "'--noWorkshop' launch option detected. No report was generated" 
-                    : $"Platform not supported ({PlatformService.platformType})!\n" +
-                    "Access to the Steam Workshop is required for the mod to work properly.";
+                    ? $"{T("SET_BRG_NW")}" 
+                    : $"{T("SET_BRG_PT")} ({PlatformService.platformType})!\n" +
+                    $"{T("SET_BRG_PE")}";
                 platformError.textColor = Color.red;
                 
                 // skip building the rest of options - won't be usable anyways 
                 shouldBuildOptions = false;
                 return;
             }
-            
+
             GeneralConfig config = GlobalConfig.Instance.GeneralConfig;
-            UIHelperBase reportGroup = settingsUIHelper.AddGroup("Report options:");
+            UIDropDown langsDropdown = settingsUIHelper.AddDropdown(
+                translator.T("LANGUAGE"),
+                AvailableLangs.ToArray(),
+                FindLangIndex(config.Language),
+                (index) => {
+                    optionsPanel.StartCoroutine(Translation.instance.ChangeLanguageByIndex_Deferred(index));
+                }) as UIDropDown;
+            langsDropdown.width = 300f;
+            
+            UIHelperBase reportGroup = settingsUIHelper.AddGroup($"{T("SET_BRG_RG")}:");
 
             reportPathTextField = reportGroup.AddTextfield(
-                text: "Report path:",
+                text: $"{T("SET_BRG_RPTF")}:",
                 defaultContent: config.ReportPath,
                 eventChangedCallback: _ => { },
                 eventSubmittedCallback: SettingsManager.OnChangeReportPath
@@ -378,20 +427,20 @@ namespace CompatibilityReport.UI
 
             reportGroup.AddSpace(5);
 
-            UIButton changePathBtn = reportGroup.AddButton("Change path", OnChangeReportPathClicked) as UIButton;
+            UIButton changePathBtn = reportGroup.AddButton($"{T("SET_BRG_CPB")}", OnChangeReportPathClicked) as UIButton;
             UIComponent pathContainer = changePathBtn.parent;
             UIPanel pathPanel = pathContainer.AddUIComponent<UIPanel>();
             pathPanel.width = pathContainer.width;
             pathPanel.height = changePathBtn.height;
             changePathBtn.AlignTo(pathPanel, UIAlignAnchor.TopLeft);
 
-            UIButton resetPathBtn = reportGroup.AddButton("Reset path to default", OnResetReportPathClicked) as UIButton;
+            UIButton resetPathBtn = reportGroup.AddButton($"{T("SET_BRG_RPB")}", OnResetReportPathClicked) as UIButton;
             resetPathBtn.AlignTo(pathPanel, UIAlignAnchor.TopLeft);
             resetPathBtn.relativePosition += new UnityEngine.Vector3(changePathBtn.width + 10, 0);
 
             reportGroup.AddSpace(20);
 
-            UIDropDown reportTypeDropdown = reportGroup.AddDropdown("Report type:", ReportTypes, config.ReportType, SettingsManager.OnReportTypeChange) as UIDropDown;
+            UIDropDown reportTypeDropdown = reportGroup.AddDropdown($"{T("SET_BRG_RTD")}:", ReportTypes.ToArray(), config.ReportType, SettingsManager.OnReportTypeChange) as UIDropDown;
             reportTypeDropdown.width = 180f;
             eventGlobalOptionsUpdated += c => reportTypeDropdown.selectedIndex = c.GeneralConfig.ReportType;
             UIComponent reportTypeContainer = reportTypeDropdown.parent;
@@ -399,15 +448,21 @@ namespace CompatibilityReport.UI
             reportGenPanel.width = reportTypeContainer.width;
             reportGenPanel.height = reportTypeDropdown.height;
 
-            reportGroup.AddCheckbox("Use Steam Overlay to open html report if available", config.OpenHtmlReportInSteamOverlay, SettingsManager.OnOpenHtmlReportInSteamChanged);
+            reportGroup.AddCheckbox($"{T("SET_BRG_OHRISO")}", config.OpenHtmlReportInSteamOverlay, SettingsManager.OnOpenHtmlReportInSteamChanged);
 
-            UIButton openReportBtn = reportGroup.AddButton("Open report(s)", SettingsManager.OnOpenReports) as UIButton;
+            UIButton openReportBtn = reportGroup.AddButton($"{T("SET_BRG_OOR")}", SettingsManager.OnOpenReports) as UIButton;
 
-            UIButton generateReportBtn = reportGroup.AddButton("Generate report(s)", SettingsManager.OnGenerateReports) as UIButton;
+            UIButton generateReportBtn = reportGroup.AddButton($"{T("SET_BRG_OGR")}", SettingsManager.OnGenerateReports) as UIButton;
             openReportBtn.AlignTo(reportGenPanel, UIAlignAnchor.TopLeft);
             openReportBtn.relativePosition += new UnityEngine.Vector3(reportTypeDropdown.width + 30, -openReportBtn.height);
             generateReportBtn.AlignTo(reportGenPanel, UIAlignAnchor.TopLeft);
             generateReportBtn.relativePosition += new UnityEngine.Vector3(reportTypeDropdown.width + 30 + openReportBtn.width + 10, -openReportBtn.height);
+        }
+
+        private int FindLangIndex(string language) {
+            var langs = Translation.instance.AvailableLangs;
+            int index = langs.FindIndex(kv => kv.Key.Equals(language));
+            return index > -1 ? index + 1 : 0;
         }
 
         private void OnResetReportPathClicked()
@@ -419,6 +474,26 @@ namespace CompatibilityReport.UI
         private void OnChangeReportPathClicked()
         {
             SettingsManager.OnChangeReportPath(reportPathTextField.text);
+        }
+
+        /// <summary>
+        /// Helper method for translating keys
+        /// </summary>
+        /// <param name="key">Translation identifier</param>
+        /// <returns></returns>
+        private string T(string key) {
+            return translator.T(key);
+        }
+
+        /// <summary>
+        /// Helper method for translating keys
+        /// </summary>
+        /// <param name="key">Translation identifier</param>
+        /// <param name="variableName">Search key to be replaced, without {}</param>
+        /// <param name="value">Value for replacement</param>
+        /// <returns></returns>
+        private string T(string key, string variableName, string value) {
+            return translator.T(key, variableName, value);
         }
     }
 }

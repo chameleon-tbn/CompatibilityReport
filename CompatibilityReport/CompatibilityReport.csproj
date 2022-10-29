@@ -61,6 +61,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -77,6 +78,7 @@
     <Compile Include="CatalogData\Author.cs" />
     <Compile Include="CatalogData\Compatibility.cs" />
     <Compile Include="CatalogData\Group.cs" />
+    <Compile Include="CatalogData\LocalizedNote.cs" />
     <Compile Include="CatalogData\Mod.cs" />
     <Compile Include="Reporter\HtmlReport.cs" />
     <Compile Include="Reporter\HtmlTemplates\HtmlExtensions.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="Settings\ConfigData\UpdaterConfig.cs" />
     <Compile Include="Settings\GlobalConfig.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
+    <Compile Include="Translations\Translation.cs" />
+    <Compile Include="Translations\Translator.cs" />
     <Compile Include="UI\ProgressMonitor.cs" />
     <Compile Include="UI\ProgressMonitorUI.cs" />
     <Compile Include="UI\SettingsUI.cs" />

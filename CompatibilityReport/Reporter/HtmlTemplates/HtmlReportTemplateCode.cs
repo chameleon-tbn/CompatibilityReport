@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using ColossalFramework.HTTP;
 using ColossalFramework.PlatformServices;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Settings;
+using CompatibilityReport.Translations;
 using CompatibilityReport.Util;
 
 namespace CompatibilityReport.Reporter.HtmlTemplates
@@ -26,9 +29,29 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         private string CatalogGameVersion => Toolkit.ConvertGameVersionToString(catalog.GameVersion());
         private string CurrentGameVersion => Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion());
 
+        internal const string FLAG_XX = "<path fill=\"#fff\" fill-rule=\"evenodd\" stroke=\"#adb5bd\" stroke-width=\"1.1\" d=\"M.5.5h638.9v478.9H.5z\"/> <path fill=\"none\" stroke=\"#adb5bd\" stroke-width=\"1.1\" d=\"m.5.5 639 479M639.5.5l-639 479\"/>";
+
+        internal List<string> AvailableLanguages = new List<string>();
+        
+        private Dictionary<string, string> _flags = new Dictionary<string, string>()
+        {
+            {"en_US", "<g fill-rule=\"evenodd\"> <g stroke-width=\"1pt\"> <path fill=\"#bd3d44\" d=\"M0 0h912v37H0zm0 73.9h912v37H0zm0 73.8h912v37H0zm0 73.8h912v37H0zm0 74h912v36.8H0zm0 73.7h912v37H0zM0 443h912V480H0z\"/> <path fill=\"#fff\" d=\"M0 37h912v36.9H0zm0 73.8h912v36.9H0zm0 73.8h912v37H0zm0 73.9h912v37H0zm0 73.8h912v37H0zm0 73.8h912v37H0z\"/> </g> <path fill=\"#192f5d\" d=\"M0 0h364.8v258.5H0z\"/> <path fill=\"#fff\" d=\"m30.4 11 3.4 10.3h10.6l-8.6 6.3 3.3 10.3-8.7-6.4-8.6 6.3L25 27.6l-8.7-6.3h10.9zm60.8 0 3.3 10.3h10.8l-8.7 6.3 3.2 10.3-8.6-6.4-8.7 6.3 3.3-10.2-8.6-6.3h10.6zm60.8 0 3.3 10.3H166l-8.6 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.7-6.3h10.8zm60.8 0 3.3 10.3h10.8l-8.7 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.4-10.2-8.8-6.3h10.7zm60.8 0 3.3 10.3h10.7l-8.6 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.6-6.3h10.7zm60.8 0 3.3 10.3h10.8l-8.8 6.3 3.4 10.3-8.7-6.4-8.7 6.3 3.4-10.2-8.8-6.3h10.8zM60.8 37l3.3 10.2H75l-8.7 6.2 3.2 10.3-8.5-6.3-8.7 6.3 3.1-10.3-8.4-6.2h10.7zm60.8 0 3.4 10.2h10.7l-8.8 6.2 3.4 10.3-8.7-6.3-8.7 6.3 3.3-10.3-8.7-6.2h10.8zm60.8 0 3.3 10.2h10.8l-8.7 6.2 3.3 10.3-8.7-6.3-8.7 6.3 3.3-10.3-8.6-6.2H179zm60.8 0 3.4 10.2h10.7l-8.8 6.2 3.4 10.3-8.7-6.3-8.6 6.3 3.2-10.3-8.7-6.2H240zm60.8 0 3.3 10.2h10.8l-8.7 6.2 3.3 10.3-8.7-6.3-8.7 6.3 3.3-10.3-8.6-6.2h10.7zM30.4 62.6l3.4 10.4h10.6l-8.6 6.3 3.3 10.2-8.7-6.3-8.6 6.3L25 79.3 16.3 73h10.9zm60.8 0L94.5 73h10.8l-8.7 6.3 3.2 10.2-8.6-6.3-8.7 6.3 3.3-10.3-8.6-6.3h10.6zm60.8 0 3.3 10.3H166l-8.6 6.3 3.3 10.2-8.7-6.3-8.7 6.3 3.3-10.3-8.7-6.3h10.8zm60.8 0 3.3 10.3h10.8l-8.7 6.3 3.3 10.2-8.7-6.3-8.7 6.3 3.4-10.3-8.8-6.3h10.7zm60.8 0 3.3 10.3h10.7l-8.6 6.3 3.3 10.2-8.7-6.3-8.7 6.3 3.3-10.3-8.6-6.3h10.7zm60.8 0 3.3 10.3h10.8l-8.8 6.3 3.4 10.2-8.7-6.3-8.7 6.3 3.4-10.3-8.8-6.3h10.8zM60.8 88.6l3.3 10.2H75l-8.7 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.6-6.3h10.7zm60.8 0 3.4 10.2h10.7l-8.8 6.3 3.4 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.7-6.3h10.8zm60.8 0 3.3 10.2h10.8l-8.7 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.6-6.3H179zm60.8 0 3.4 10.2h10.7l-8.7 6.3 3.3 10.3-8.7-6.4-8.6 6.3 3.2-10.2-8.7-6.3H240zm60.8 0 3.3 10.2h10.8l-8.7 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.6-6.3h10.7zM30.4 114.5l3.4 10.2h10.6l-8.6 6.3 3.3 10.3-8.7-6.4-8.6 6.3L25 131l-8.7-6.3h10.9zm60.8 0 3.3 10.2h10.8l-8.7 6.3 3.2 10.2-8.6-6.3-8.7 6.3 3.3-10.2-8.6-6.3h10.6zm60.8 0 3.3 10.2H166l-8.6 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.7-6.3h10.8zm60.8 0 3.3 10.2h10.8l-8.7 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.4-10.2-8.8-6.3h10.7zm60.8 0 3.3 10.2h10.7L279 131l3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.6-6.3h10.7zm60.8 0 3.3 10.2h10.8l-8.8 6.3 3.4 10.3-8.7-6.4-8.7 6.3L329 131l-8.8-6.3h10.8zM60.8 140.3l3.3 10.3H75l-8.7 6.2 3.3 10.3-8.7-6.4-8.7 6.4 3.3-10.3-8.6-6.3h10.7zm60.8 0 3.4 10.3h10.7l-8.8 6.2 3.4 10.3-8.7-6.4-8.7 6.4 3.3-10.3-8.7-6.3h10.8zm60.8 0 3.3 10.3h10.8l-8.7 6.2 3.3 10.3-8.7-6.4-8.7 6.4 3.3-10.3-8.6-6.3H179zm60.8 0 3.4 10.3h10.7l-8.7 6.2 3.3 10.3-8.7-6.4-8.6 6.4 3.2-10.3-8.7-6.3H240zm60.8 0 3.3 10.3h10.8l-8.7 6.2 3.3 10.3-8.7-6.4-8.7 6.4 3.3-10.3-8.6-6.3h10.7zM30.4 166.1l3.4 10.3h10.6l-8.6 6.3 3.3 10.1-8.7-6.2-8.6 6.2 3.2-10.2-8.7-6.3h10.9zm60.8 0 3.3 10.3h10.8l-8.7 6.3 3.3 10.1-8.7-6.2-8.7 6.2 3.4-10.2-8.7-6.3h10.6zm60.8 0 3.3 10.3H166l-8.6 6.3 3.3 10.1-8.7-6.2-8.7 6.2 3.3-10.2-8.7-6.3h10.8zm60.8 0 3.3 10.3h10.8l-8.7 6.3 3.3 10.1-8.7-6.2-8.7 6.2 3.4-10.2-8.8-6.3h10.7zm60.8 0 3.3 10.3h10.7l-8.6 6.3 3.3 10.1-8.7-6.2-8.7 6.2 3.3-10.2-8.6-6.3h10.7zm60.8 0 3.3 10.3h10.8l-8.8 6.3 3.4 10.1-8.7-6.2-8.7 6.2 3.4-10.2-8.8-6.3h10.8zM60.8 192l3.3 10.2H75l-8.7 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.6-6.3h10.7zm60.8 0 3.4 10.2h10.7l-8.8 6.3 3.4 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.7-6.3h10.8zm60.8 0 3.3 10.2h10.8l-8.7 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.6-6.3H179zm60.8 0 3.4 10.2h10.7l-8.7 6.3 3.3 10.3-8.7-6.4-8.6 6.3 3.2-10.2-8.7-6.3H240zm60.8 0 3.3 10.2h10.8l-8.7 6.3 3.3 10.3-8.7-6.4-8.7 6.3 3.3-10.2-8.6-6.3h10.7zM30.4 217.9l3.4 10.2h10.6l-8.6 6.3 3.3 10.2-8.7-6.3-8.6 6.3 3.2-10.3-8.7-6.3h10.9zm60.8 0 3.3 10.2h10.8l-8.7 6.3 3.3 10.2-8.7-6.3-8.7 6.3 3.4-10.3-8.7-6.3h10.6zm60.8 0 3.3 10.2H166l-8.4 6.3 3.3 10.2-8.7-6.3-8.7 6.3 3.3-10.3-8.7-6.3h10.8zm60.8 0 3.3 10.2h10.8l-8.7 6.3 3.3 10.2-8.7-6.3-8.7 6.3 3.4-10.3-8.8-6.3h10.7zm60.8 0 3.3 10.2h10.7l-8.6 6.3 3.3 10.2-8.7-6.3-8.7 6.3 3.3-10.3-8.6-6.3h10.7zm60.8 0 3.3 10.2h10.8l-8.8 6.3 3.4 10.2-8.7-6.3-8.7 6.3 3.4-10.3-8.8-6.3h10.8z\"/> </g>"},
+            {"de_DE", "<path fill=\"#ffce00\" d=\"M0 320h640v160H0z\"/> <path d=\"M0 0h640v160H0z\"/> <path fill=\"#d00\" d=\"M0 160h640v160H0z\"/>"},
+            {"fr_FR", "<g fill-rule=\"evenodd\" stroke-width=\"1pt\"> <path fill=\"#fff\" d=\"M0 0h640v480H0z\"/> <path fill=\"#002654\" d=\"M0 0h213.3v480H0z\"/> <path fill=\"#ce1126\" d=\"M426.7 0H640v480H426.7z\"/> </g>"},
+            {"ja_JP", "<defs> <clipPath id=\"jp\"> <path fill-opacity=\".7\" d=\"M-88 32h640v480H-88z\"/> </clipPath> </defs> <g fill-rule=\"evenodd\" stroke-width=\"1pt\" clip-path=\"url(#jp)\" transform=\"translate(88 -32)\"> <path fill=\"#fff\" d=\"M-128 32h720v480h-720z\"/> <circle cx=\"523.1\" cy=\"344.1\" r=\"194.9\" fill=\"#bc002d\" transform=\"translate(-168.4 8.6) scale(.76554)\"/> </g>"},
+            {"ko_KR", "<defs> <clipPath id=\"ko\"> <path fill-opacity=\".7\" d=\"M-95.8-.4h682.7v512H-95.8z\"/> </clipPath> </defs> <g fill-rule=\"evenodd\" clip-path=\"url(#ko)\" transform=\"translate(89.8 .4) scale(.9375)\"> <path fill=\"#fff\" d=\"M-95.8-.4H587v512H-95.8Z\"/> <g transform=\"rotate(-56.3 361.6 -101.3) scale(10.66667)\"> <g id=\"c\"> <path id=\"b\" d=\"M-6-26H6v2H-6Zm0 3H6v2H-6Zm0 3H6v2H-6Z\"/> <use xlink:href=\"#b\" width=\"100%\" height=\"100%\" y=\"44\"/> </g> <path stroke=\"#fff\" d=\"M0 17v10\"/> <path fill=\"#cd2e3a\" d=\"M0-12a12 12 0 0 1 0 24Z\"/> <path fill=\"#0047a0\" d=\"M0-12a12 12 0 0 0 0 24A6 6 0 0 0 0 0Z\"/> <circle cy=\"-6\" r=\"6\" fill=\"#cd2e3a\"/> </g> <g transform=\"rotate(-123.7 191.2 62.2) scale(10.66667)\"> <use xlink:href=\"#c\" width=\"100%\" height=\"100%\"/> <path stroke=\"#fff\" d=\"M0-23.5v3M0 17v3.5m0 3v3\"/> </g> </g>"},
+            {"pl_PL", "<g fill-rule=\"evenodd\"> <path fill=\"#fff\" d=\"M640 480H0V0h640z\"/> <path fill=\"#dc143c\" d=\"M640 480H0V240h640z\"/> </g>"},
+            {"zh_CN", "<defs><path id=\"cn\" fill=\"#ffde00\" d=\"M-0.6 0.8 0 -1 0.6 0.8 -1 -0.3h2z\"/></defs><path fill=\"#de2910\" d=\"M0 0h640v480H0z\"/><use xlink:href=\"#cn\" width=\"30\" height=\"20\" transform=\"matrix(71.9991 0 0 72 120 120)\"/><use xlink:href=\"#cn\" width=\"30\" height=\"20\" transform=\"matrix(-12.33562 -20.5871 20.58684 -12.33577 240.3 48)\"/><use xlink:href=\"#cn\" width=\"30\" height=\"20\" transform=\"matrix(-3.38573 -23.75998 23.75968 -3.38578 288 95.8)\"/><use xlink:href=\"#cn\" width=\"30\" height=\"20\" transform=\"matrix(6.5991 -23.0749 23.0746 6.59919 288 168)\"/><use xlink:href=\"#cn\" width=\"30\" height=\"20\" transform=\"matrix(14.9991 -18.73557 18.73533 14.99929 240 216)\"/>"}
+        };
+
+        public string GetFlag(string name) {
+            return _flags.TryGetValue(name, out string value) ? value : FLAG_XX;
+        }
+
         public HtmlReportTemplate(Catalog catalog)
         {
             this.catalog = catalog;
+            catalog.Save(Path.Combine(ModSettings.UpdaterPath, ModSettings.CatalogDumpFileName));
             reportCreationTime = DateTime.Now;
             unsubscribe = new List<ModInfo>();
             majorIssues = new List<ModInfo>();
@@ -42,7 +65,34 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         
         // todo 0.8 or 0.9 identify if necessary to be read from catalog 
         private string CatalogHeaderText => catalog.ReportHeaderText;
-        
+
+        internal string GetTranslations() {
+            Hashtable langs = new Hashtable();
+#if DEBUG_TRANSLATIONS
+            var all = Translation.instance.All;
+            for (var i = 0; i < all.Length; i++)
+            {
+                langs.Add(all[i].Code, all[i].HtmlTranslations);
+            }
+#else
+            //check current language, if different add to the list, otherwise en_US only
+            string currentLang = Translation.instance.Current.Code;
+            if (!currentLang.Equals(Translation.DEFAULT_LANGUAGE_CODE))
+            {
+                AvailableLanguages.Add(currentLang);
+                langs.Add(currentLang, Translation.instance.Current.HtmlTranslations);
+            }
+            AvailableLanguages.Add(Translation.DEFAULT_LANGUAGE_CODE);
+            langs.Add(Translation.DEFAULT_LANGUAGE_CODE, Translation.instance.Fallback.HtmlTranslations);
+#endif
+            return JSON.JsonEncode(langs);
+        }
+
+        internal string GetPreferredLanguage() {
+            Logger.Log($"Get lang: {Translation.instance.Current.Code}");
+            return Translation.instance.Current.Code;
+        }
+
         private InstalledModInfo[] AllModList()
         {
             List<InstalledModInfo> items = new List<InstalledModInfo>();
@@ -54,9 +104,10 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     string disabled = (catalogMod.IsDisabled ? "Yes" : "");
                     bool isSteam = steamID > ModSettings.HighestFakeID;
                     string type = (isSteam ? "Steam" : steamID < ModSettings.LowestLocalModID ? "Built-in" : "Local");
+                    string localeId = (isSteam ? "HRTC_IS_S" : steamID < ModSettings.LowestLocalModID ? "HRTC_LLMID_BI" : "HRTC_LLMID_L");
                     string url = steamID > ModSettings.HighestFakeID ? Toolkit.GetWorkshopUrl(steamID) : $"{Toolkit.Privacy(catalogMod.ModPath)}";
 
-                    items.Add(new InstalledModInfo(subscriptionName, disabled, type, isSteam, url));
+                    items.Add(new InstalledModInfo(subscriptionName, disabled, type, localeId, isSteam, url));
                 }
             }
             return items.ToArray();
@@ -604,7 +655,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
             MessageList successors = new MessageList();
             successors.title = (subscribedMod.Successors.Count == 1)
-                ? "This is succeeded by:"
+                ? "The successor of this mod is:"
                 : "This is succeeded by any of the following (pick one, not all):";
 
             List<Message> successorsCollection = new List<Message>();
@@ -715,55 +766,54 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                 string otherModString = catalog.GetMod(otherModID).NameWithIDAsLink(false, idFirst: false);
 
                 Message item = new Message();
-                
                 switch (compatibility.Status)
                 {
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                         item.message = "Unsubscribe either this or the other edition of the same mod:";
-                        item.details = otherModString + compatibility.Note;
+                        item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionality:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                         item.message = "Unsubscribe either this or the following incompatible mod with similar functionality:";
-                        item.details = otherModString + compatibility.Note;
+                        item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                         item.message = "Unsubscribe either this one or the following mod it's incompatible with:";
-                        item.details = otherModString + compatibility.Note;
+                        item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToUsers:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                         item.message = "Users report an incompatibility with:";
-                        item.details = otherModString + compatibility.Note;
+                        item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.MajorIssues:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                         item.message = "This has major issues with:";
-                        item.details = otherModString + compatibility.Note;
+                        item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.MinorIssues:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
                         item.message = "This has minor issues with:";
-                        item.details = otherModString + compatibility.Note;
+                        item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.RequiresSpecificSettings:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                         item.message = "This requires specific configuration to work together with:";
-                        item.details = otherModString + compatibility.Note;
+                        item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionalityCompatible:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                         item.message = "This has very similar functionality, but is still compatible with (do you need both?):";
-                        item.details = otherModString + compatibility.Note;
+                        item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.CompatibleAccordingToAuthor:
@@ -771,7 +821,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                         {
                             subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                             item.message = "This is compatible with:";
-                            item.details = otherModString + compatibility.Note;
+                            item.details = $"{otherModString} {compatibility.Note}";
                         }
                         break;
 
@@ -817,13 +867,15 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
             public string subscriptionName;
             public string type;
+            public string typeLocaleID;
             public string url;
 
-            internal InstalledModInfo(string subscriptionName, string disabled, string type, bool isSteam, string url)
+            internal InstalledModInfo(string subscriptionName, string disabled, string type, string typeLocaleID, bool isSteam, string url)
             {
                 this.subscriptionName = subscriptionName;
                 this.disabled = disabled;
                 this.type = type;
+                this.typeLocaleID = typeLocaleID;
                 this.isSteam = isSteam;
                 this.url = url;
             }

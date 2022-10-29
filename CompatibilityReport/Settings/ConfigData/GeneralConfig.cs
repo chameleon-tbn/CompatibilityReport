@@ -1,4 +1,5 @@
 ﻿using System;
+using CompatibilityReport.Translations;
 
 namespace CompatibilityReport.Settings.ConfigData
 {
@@ -6,7 +7,10 @@ namespace CompatibilityReport.Settings.ConfigData
     public class GeneralConfig
     {
         private const int MinimalTextReportWidth = 90;
+        internal const string GAME_DEFAULT_LANG = "game_language";
         internal static string DefaultReportPath { get; } = UnityEngine.Application.dataPath;
+
+        public string Language { get; set; } = GAME_DEFAULT_LANG; //game default language
  
         /// <summary>
         /// Configurable path where html and text reports will be stored

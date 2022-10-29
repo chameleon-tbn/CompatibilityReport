@@ -90,7 +90,14 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>The catalog structure version will also be increased if the current structure version from the mod is higher.</remarks>
         public void NewVersion(DateTime newDate)
         {
-            Version++;
+            if (Version > 99)
+            {
+                Version = 0;
+            }
+            else
+            {
+                Version++;
+            }
             StructureVersion = StructureVersion < ModSettings.CurrentCatalogStructureVersion ? ModSettings.CurrentCatalogStructureVersion : StructureVersion;
             Updated = Toolkit.CleanDateTime(newDate);
         }

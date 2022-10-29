@@ -35,7 +35,7 @@
     a:visited {color: black; text-decoration: underline;}
     a:hover {color: #0000e0; text-decoration: underline;}
 
-    nav { position: sticky; top: 0; }
+    nav { display: flex; position: sticky; top: 0; }
     nav ul { width: 100%; display: flex; align-items: center; min-height: 40px; padding: 0 10px; background-color: #f9f6ea; }
     nav ul li { display: flex; list-style: none; font-weight: bold; font-size: 16px; cursor: pointer;}
     nav ul li:hover { background-color: #f9f6ea; }
@@ -43,6 +43,8 @@
     nav ul li a:link { text-decoration: none!important; color: black; }
     nav ul li a:visited { text-decoration: none!important; color: black; }
     nav ul li a:hover { text-decoration: none!important; color: black; }
+    
+    .languages ul li a { padding: 0 1px; }
 
     article[id] { margin-top: -40px; padding-top: 60px; }
     
@@ -93,28 +95,70 @@
 <body>
     <header>
         <h1> <#= ModSettings.ModName #>, created on <#= $"{reportCreationTime:d MMMM yyyy}" #>, <#= $"{reportCreationTime:t}" #></h1>
+        <script>
+            var translations = <#= GetTranslations() #>
+            function getTranslation(lang, key) {
+                return translations[lang][key];
+            }
+            function applyVariables(translation, variablesString) {
+                if (!variablesString) return translation;
+
+                var keyValues = variablesString.split("|");
+                keyValues.forEach(k => {
+                	console.log('k', k.split(':'))
+                    var keyVal = k.split(':');
+                    translation = translation.replace(`{${keyVal[0]}}`, keyVal[1]);
+                });
+                return translation;
+            }
+            function changeLanguage(lang) {
+                var elements = document.querySelectorAll("[data-i18n]");
+                elements.forEach((element) => {
+                    var key = element.dataset.i18n;
+                    var localeVars = element.dataset.i18nVars;
+                    var value = element.dataset.i18nValue || '';
+                    var translated = getTranslation(lang, key);
+                    console.log(lang, key, translated, element.innerHTML);
+                    element.innerHTML = translated ? applyVariables(translated, localeVars) + value : element.innerHTML;
+                });
+            }
+        </script>
     </header>
 
     <nav>
         <ul>
-          <# string LI_Link(bool shouldRender, string text, string anchor) => shouldRender ? "<li class=\"" + anchor + "\"><a href=\"#" + anchor + $"\">{text}</a></li>" : ""; #>
+          <# string LI_Link(bool shouldRender, string text, string anchor, string t, string tvalue) => shouldRender ? "<li class=\"" + anchor + "\"><a href=\"#" + anchor + $"\" {t.T()} {tvalue.TVal()}>{text}</a></li>" : ""; #>
 
-          <#= LI_Link(unsubscribe.Count > 0, $"Unsubscribe ({unsubscribe.Count})", "unsubscribe") #>
-          <#= LI_Link(majorIssues.Count > 0, $"Major Issues ({majorIssues.Count})", "major") #>
-          <#= LI_Link(minorIssues.Count > 0, $"Minor Issues ({minorIssues.Count})", "minor") #>
-          <#= LI_Link(remarks.Count > 0, $"Remarks ({remarks.Count})", "remark") #>
-          <#= LI_Link(nothingToReport.Count > 0, $"Nothing to report ({nothingToReport.Count})", "nothing") #>
-          <#= LI_Link(true, $"Mod List ({AllModList().Length})", "processed") #>
+          <#= LI_Link(unsubscribe.Count > 0, $"Unsubscribe ({unsubscribe.Count})", "unsubscribe", "HRT_LIL_U", $" ({unsubscribe.Count})") #>
+          <#= LI_Link(majorIssues.Count > 0, $"Major Issues ({majorIssues.Count})", "major", "HRT_LIL_MAI", $" ({majorIssues.Count})") #>
+          <#= LI_Link(minorIssues.Count > 0, $"Minor Issues ({minorIssues.Count})", "minor", "HRT_LIL_MI", $" ({minorIssues.Count})") #>
+          <#= LI_Link(remarks.Count > 0, $"Remarks ({remarks.Count})", "remark", "HRT_LIL_R", $" ({remarks.Count})") #>
+          <#= LI_Link(nothingToReport.Count > 0, $"Nothing to report ({nothingToReport.Count})", "nothing", "HRT_LIL_NTR", $" ({nothingToReport.Count})") #>
+          <#= LI_Link(true, $"Mod List ({AllModList().Length})", "processed", "HRT_P_PM", $" ({AllModList().Length})") #>
         </ul>
+        <div class="languages">
+            <ul>
+                <# string LI_Language(string svgContent, string className, string lang) => "<li class=\"" + className + $"\"><a onclick=\"{(lang == "xx" ? "location.reload()": $"changeLanguage('{lang}')")}\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"0 0 640 480\" width=\"32\" height=\"24\">{svgContent}</svg></a></li>"; #>
+<#
+                   for (int i = 0; i < AvailableLanguages.Count; i++)
+                   {
+                       string langCode = AvailableLanguages[i];
+#>
+                <#= LI_Language(GetFlag(langCode), $"flag-{langCode}", langCode) #>
+<#
+                   }
+#>
+            </ul>
+        </div>
     </nav>
 
     <section>
         <div>
-            <span class="text-smaller">Version <strong><#= ModSettings.FullVersion #></strong> with catalog <strong><#= catalog.VersionString() #></strong>. 
-            Your game has <strong><#= catalog.SubscriptionCount() #></strong> mods.</span>
-            <span class="text-smaller">The mod catalog contains <strong><#= catalog.ReviewedModCount #></strong> reviewed mods and was created on <#= $"{catalog.Updated:d MMMM yyyy}" #>.</span>
+            <span class="text-smaller" data-i18n="HRT_S_VWC" data-i18n-vars="FullVersion:<strong><#= ModSettings.FullVersion #></strong>|VersionString:<strong><#= catalog.VersionString() #></strong>">Version <strong><#= ModSettings.FullVersion #></strong> with catalog <strong><#= catalog.VersionString() #></strong>.</span>
+            <span class="text-smaller" data-i18n="HRT_S_YGM" data-i18n-vars="SubscriptionCount:<strong><#= catalog.SubscriptionCount() #></strong>">Your game has <strong><#= catalog.SubscriptionCount() #></strong> mods.</span>
+            <span class="text-smaller" data-i18n="HRT_S_TMCC" data-i18n-vars="ReviewedModCount:<strong><#= catalog.ReviewedModCount #></strong>|Updated:<#= $"{catalog.Updated:d MMMM yyyy}" #>">The mod catalog contains <strong><#= catalog.ReviewedModCount #></strong> reviewed mods and was created on <#= $"{catalog.Updated:d MMMM yyyy}" #>.</span>
             <br>
-            <span class="text-small mt-1">Mods updated after this date might have an outdated review below.</span>
+            <span class="text-small mt-1" data-i18n="HRT_S_MUA">Mods updated after this date might have an outdated review below.</span>
             <hr>
         </div>
     
@@ -131,10 +175,10 @@
 <#  // Different Catalog version
     if (IsDifferentVersion) {#>
     <div>
-        <h3>WARNING:</h3>
-        <span>The catalog is made for game version <#= CatalogGameVersion #>.</span>
-        <span>Your game is <#= IsOlder ? "older" : "newer" #> (<#= CurrentGameVersion #>>).</span>
-        <span>Results might not be accurate.</span>
+        <h3 data-i18n="HRT_DCV_H">WARNING:</h3>
+        <span data-i18n="HRT_DCV_T" data-i18n-vars="CatalogGameVersion:<#= CatalogGameVersion #>">The catalog is made for game version <#= CatalogGameVersion #>.</span>
+        <span data-i18n="<#= (IsOlder ? "HRT_DCV_YGIO" : "HRT_DCV_YGIN") #>">Your game is <#= IsOlder ? "older" : "newer" #> (<#= CurrentGameVersion #>).</span>
+        <span data-i18n="HRT_DCV_RNA">Results might not be accurate.</span>
     </div><#
     }
 #>
@@ -170,19 +214,21 @@
 
     <h3>General information</h3>
     <ul style="padding-left: 30px">
-        <li> Always <strong>EXIT TO DESKTOP</strong> and restart the game. Never exit to main menu!</li> 
-        <li> <strong>NEVER</strong> (un)subscribe to anything while the game is running! This resets some mods.</li> 
-        <li> When playing with mods, save to a new savegame often and make frequent <strong>BACKUPS</strong>.</li> 
-        <li> Always <strong>READ</strong> the mod description on the Steam Workshop before subscribing.</li>
-        <li> Having issues with a mod? Make a comment on its Workshop page so the author knows.</li>
-        <li> Abandoned mods can still work fine. They're just unlikely to get updates.</li>
-        <li> Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).</li>
+        <li data-i18n="HRT_GI_ETD"> Always <strong>EXIT TO DESKTOP</strong> and restart the game. Never exit to main menu!</li> 
+        <li data-i18n="HRT_GI_NU"> <strong>NEVER</strong> (un)subscribe to anything while the game is running! This resets some mods.</li> 
+        <li data-i18n="HRT_GI_WP"> When playing with mods, save to a new savegame often and make frequent <strong>BACKUPS</strong>.</li> 
+        <li data-i18n="HRT_GI_AR"> Always <strong>READ</strong> the mod description on the Steam Workshop before subscribing.</li>
+        <li data-i18n="HRT_GI_HI"> Having issues with a mod? Make a comment on its Workshop page so the author knows.</li>
+        <li data-i18n="HRT_GI_AM"> Abandoned mods can still work fine. They're just unlikely to get updates.</li>
+        <li data-i18n="HRT_GI_NW"> Mod compatible, but not working? Try unsubscribe and resubscribe (NOT while in game).</li>
+        <li> List of broken and incompatible mods <a href="https://pdxint.at/BrokenModCS">pdxint.at/BrokenModCS</a></li>
+        <li> Recommended Mods List by <strong>chameleon-tbn</strong> <a href="https://bit.ly/3VA9NxC">bit.ly/3VA9NxC</a> </li>
         <li> Found a mistake? Please fill out this <a href="https://forms.gle/PvezwfpgS1V1DHqA9">form</a>.</li>
     </ul>
 
 <#  // Is outdated
     if (ShowOutdatedWarning) { #>    
-    <h3 class="warn <#= ShowOutdatedWarning ? "show" : "hide" #>">
+    <h3 class="warn <#= ShowOutdatedWarning ? "show" : "hide" #>" data-i18n="HRT_IO_SOW">
         <strong>WARNING:</strong> The latest review catalog could not be downloaded. Results might be outdated.
     </h3><#
     }
@@ -219,14 +265,14 @@
                 , classes);
     }
 
-    void RenderSection(int number, string title, string css_style, Func<string> content)
+    void RenderSection(int number, string title, string css_style, string langKey, Func<string> content)
     {
         if (number == 0) return;
 #>
           <article id="<#= css_style #>">
              <header>                
                <h3 class="report-section__titleBar <#= css_style #>">
-                   <span><#= number #></span>&nbsp;<span class="report-section__title"><#= title #></span>
+                   <span><#= number #></span>&nbsp;<span class="report-section__title" data-i18n="<#=langKey#>"><#= title #></span>
                </h3>
              </header>
              <section class="line_<#= css_style #>">
@@ -285,24 +331,24 @@
 #>
 
     <section>   
-        <# RenderSection(unsubscribe.Count, $"{(unsubscribe.Count == 1 ? "MOD" : "MODS") } COULD OR SHOULD BE UNSUBSCRIBED:", "unsubscribe", () => RenderContent(unsubscribe, "unsubscribe")); #>
-        <# RenderSection(majorIssues.Count, $"{(majorIssues.Count == 1 ? "MOD HAS" : "MODS HAVE") } MAJOR ISSUES:", "major", () => RenderContent(majorIssues, "major")); #>
-        <# RenderSection(minorIssues.Count, $"{(minorIssues.Count == 1 ? "MOD HAS" : "MODS HAVE") } MINOR ISSUES:", "minor", () => RenderContent(minorIssues, "minor")); #>
-        <# RenderSection(remarks.Count, $"{(remarks.Count == 1 ? "MOD" : "MODS") } WITH REMARKS:", "remark", () => RenderContent(remarks, "remark")); #>
-        <# RenderSection(nothingToReport.Count, $"{(nothingToReport.Count == 1 ? "MOD" : "MODS")} WITH NOTHING TO REPORT:", "nothing", () => RenderContent(nothingToReport, "nothing")); #>
+        <# RenderSection(unsubscribe.Count, $"{(unsubscribe.Count == 1 ? "MOD" : "MODS") } COULD OR SHOULD BE UNSUBSCRIBED:", "unsubscribe", (unsubscribe.Count == 1 ? "HRT_RS_US": "HRT_RS_UP"), () => RenderContent(unsubscribe, "unsubscribe")); #>
+        <# RenderSection(majorIssues.Count, $"{(majorIssues.Count == 1 ? "MOD HAS" : "MODS HAVE") } MAJOR ISSUES:", "major", (majorIssues.Count == 1 ? "HRT_RS_MAIS": "HRT_RS_MAIP"), () => RenderContent(majorIssues, "major")); #>
+        <# RenderSection(minorIssues.Count, $"{(minorIssues.Count == 1 ? "MOD HAS" : "MODS HAVE") } MINOR ISSUES:", "minor", (minorIssues.Count == 1 ? "HRT_RS_MIS": "HRT_RS_MIP"), () => RenderContent(minorIssues, "minor")); #>
+        <# RenderSection(remarks.Count, $"{(remarks.Count == 1 ? "MOD" : "MODS") } WITH REMARKS:", "remark", (remarks.Count == 1 ? "HRT_RS_RS": "HRT_RS_R"), () => RenderContent(remarks, "remark")); #>
+        <# RenderSection(nothingToReport.Count, $"{(nothingToReport.Count == 1 ? "MOD" : "MODS")} WITH NOTHING TO REPORT:", "nothing", (nothingToReport.Count == 1 ? "HRT_RS_NTRS": "HRT_RS_NTRP"),  () => RenderContent(nothingToReport, "nothing")); #>
     </section>
 
     <section>
         <article id="processed">    
-            <h3 class="report-section__titleBar processed">Processed mods</h3>
+            <h3 class="report-section__titleBar processed" data-i18n="HRT_P_PM">Processed mods</h3>
         
             <div class="line_processed" style="padding: 10px">
                 <table style="margin-top: 10px">
                     <tr>
-                        <th>Mod Name</th>
-                        <th>Disabled</th>
-                        <th>Type</th>
-                        <th>Url</th>
+                        <th data-i18n="HRT_P_MN">Mod Name</th>
+                        <th data-i18n="HRT_P_D">Disabled</th>
+                        <th data-i18n="HRT_P_T">Type</th>
+                        <th data-i18n="HRT_P_U">Url</th>
                     </tr>
 <#
                 foreach (InstalledModInfo modInfo in AllModList())
@@ -310,8 +356,8 @@
 #>
                     <tr>
                        <td><#= modInfo.subscriptionName #></td>
-                       <td class="font-bold center"><#= modInfo.disabled #></td>
-                       <td><#= modInfo.type #></td>
+                       <td class="font-bold center" <#= (!string.IsNullOrEmpty(modInfo.disabled) ? HtmlExtensions.T("HRTC_CM_ID") : "") #>><#= modInfo.disabled #></td>
+                       <td data-i18n="<#= modInfo.typeLocaleID #>"><#= modInfo.type #></td>
                        <td><#= OptionalUrlLink(modInfo.url, modInfo.isSteam) #></td>
                     </tr>
 <#
@@ -328,4 +374,7 @@
     </footer>
 
 </body>
+<script>
+   changeLanguage("<#=GetPreferredLanguage()#>");
+</script>
 </html>

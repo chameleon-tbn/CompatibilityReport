@@ -2,7 +2,7 @@
 
 namespace CompatibilityReport.CatalogData
 {
-    [Serializable] 
+    [Serializable]
     public class Compatibility
     {
         // The mod names are only for catalog readability, they are not used anywhere else.

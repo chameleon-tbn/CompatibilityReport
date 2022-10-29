@@ -20,10 +20,22 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         {
             return string.IsNullOrEmpty(classes) ? string.Empty : "class".Attribute(classes);
         }
+
+        public static string T(this string key) {
+            return string.IsNullOrEmpty(key) ? string.Empty : "data-i18n".Attribute(key);
+        }
         
-        public static string Tag(this string name, string content, string classes = null)
+        public static string TVars(this string vars) {
+            return string.IsNullOrEmpty(vars) ? string.Empty : "data-i18n-vars".Attribute(vars);
+        }
+        
+        public static string TVal(this string value) {
+            return string.IsNullOrEmpty(value) ? string.Empty : "data-i18n-value".Attribute(value);
+        }
+        
+        public static string Tag(this string name, string content, string classes = null, string localeId = null)
         {
-            return string.IsNullOrEmpty(content) ? string.Empty : $"<{name} {classes.Classes()}>{content}</{name}>";
+            return string.IsNullOrEmpty(content) ? string.Empty : $"<{name} {classes.Classes()} {T(localeId)}>{content}</{name}>";
         }
         
         public static string A(this string url, string text= null, string classes = null)
@@ -64,7 +76,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
         public static string NameAuthorWithIDAsLink(string name, string author, string url, string idString)
         {
-            return $"{ (string.IsNullOrEmpty(url) ? "span".Tag(name, "modName") : url.AsLink(name, "modName")) } by " +
+            return $"{ (string.IsNullOrEmpty(url) ? "span".Tag(name, "modName") : url.AsLink(name, "modName")) } {"span".Tag("by", localeId: "HE_NAWIDAL_S")} " +
                 $"{ "span".Tag(author, "author") }&nbsp;{ "span".Tag(idString, "steamId") }";
         }
     }
