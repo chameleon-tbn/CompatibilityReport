@@ -39,17 +39,17 @@ HtmlReportTemplate.tt General information Neverunsubscribe","",""
 HtmlReportTemplate.tt General information notworking","",""
 "HRT_GI_WP","When playing with mods, save to a new savegame often and make frequent BACKUPS.","MODを使用してプレイする場合は、まめに新しいセーブデータで保存とバックアップを取って下さい。","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying","",""
-"HRT_IO_SOW","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","警告: 最新のレビューカタログをダウンロードできませんでした。結果が古い可能性があります。","HRT_IO_SOW
+"HRT_IO_SOW","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","警告: 最新のレビューカタログがダウンロードできません。結果が古い可能性があります。","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning","",""
-"HRT_LIL_MAI","Major Issues","主要な問題点","HRT_LIL_MAI
+"HRT_LIL_MAI","Major Issues","メジャーな問題点","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues","",""
 "HRT_LIL_MI","Minor Issues","Minor Issues","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues","",""
 "HRT_LIL_NTR","Nothing to report","問題無し","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport","",""
-"HRT_LIL_R","Remarks","注釈＆備考","HRT_LIL_R
+"HRT_LIL_R","Remarks","注意点＆補足有り","HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks","",""
-"HRT_LSM_E","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","レポートではこれらの非互換性をチェック出来ず、結果が正確でない可能性があります。 MODは可能な限り、Steamのワークショップからサブスクして使用します。ローカルのMODフォルダにコピーされたMODは正常に動作するとは限らず、他のMODで正しく検出できない問題がよく起こります。","HRT_LSM_E
+"HRT_LSM_E","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","レポートではこれらの非互換性をチェック出来ず、結果が正確でない可能性があります。 MODは可能な限り、Steamのワークショップからサブスクで使用して下さい。ローカルのMODフォルダにコピーされたMODが正常に動作する保証は無く、他のMODで正しく検出できない問題がよく起こります。","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain","",""
 "HRT_LSM_P","You have {LocalSubscriptionCount} local mods, which we can't review.","ローカルMODが {LocalSubscriptionCount} 個ありますが、これらはレビュー出来ません。","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural","",""
@@ -67,9 +67,9 @@ HtmlReportTemplate.tt processed Processed mods","",""
 HtmlReportTemplate.tt processed Type","",""
 "HRT_P_U","URL","URL","HRT_P_U
 HtmlReportTemplate.tt processed Url","",""
-"HRT_RS_MAIP","MODS HAVE MAJOR ISSUES:","個のMODに主要な問題があります:","HRT_RS_MAIP
+"HRT_RS_MAIP","MODS HAVE MAJOR ISSUES:","個のMODにメジャーな問題があります:","HRT_RS_MAIP
 HtmlReportTemplate.tt RenderSection majorIssuesplural","",""
-"HRT_RS_MAIS","MOD HAS MAJOR ISSUES:","個のMODに主要な問題があります:","HRT_RS_MAIS
+"HRT_RS_MAIS","MOD HAS MAJOR ISSUES:","個のMODにメジャーな問題があります:","HRT_RS_MAIS
 HtmlReportTemplate.tt RenderSection majorIssuessingular","",""
 "HRT_RS_MIP","MODS HAVE MINOR ISSUES:","個のMODにマイナーな問題があります:","HRT_RS_MIP
 HtmlReportTemplate.tt RenderSection minorIssuesplural","",""
@@ -79,9 +79,9 @@ HtmlReportTemplate.tt RenderSection minorIssuessingular","",""
 HtmlReportTemplate.tt RenderSection nothingToReportplural","",""
 "HRT_RS_NTRS","MOD WITH NOTHING TO REPORT:","個のMODに問題はありません:","HRT_RS_NTRS
 HtmlReportTemplate.tt RenderSection nothingToReportsingular","",""
-"HRT_RS_RP","MODS WITH REMARKS:","個のMODに注釈や備考があります:","HRT_RS_RP
+"HRT_RS_RP","MODS WITH REMARKS:","個のMODに注意事項があります:","HRT_RS_RP
 HtmlReportTemplate.tt RenderSection remarksplural","",""
-"HRT_RS_RS","MOD WITH REMARK:","個のMODに注釈や備考があります:","HRT_RS_RS
+"HRT_RS_RS","MOD WITH REMARK:","個のMODに注意事項があります:","HRT_RS_RS
 HtmlReportTemplate.tt RenderSection remarkssingular","",""
 "HRT_RS_UP","MODS COULD OR SHOULD BE UNSUBSCRIBED:","個のMODはサブスクを全て解除して下さい:","HRT_RS_UP
 HtmlReportTemplate.tt RenderSection unsubscribeplural","",""
@@ -99,7 +99,7 @@ HtmlReportTemplate.tt section Yourgamemods","",""
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated","",""
 "HRTC_A_SURL","No public source code found, making it hard to continue by another modder.","公開されたソースが見つからず、他のMOD作者による開発の継続は難しいです。","HRTC_A_SURL
 HtmlReportTemplateCode.cs abandoned SourceUrl","",""
-"HRTC_A_SM","Some alternatives for this are (pick one, not all):","これに対する複数の代替案は次の通りです。 (全てで無く、1つだけを選択):","HRTC_A_SM
+"HRTC_A_SM","Some alternatives for this are (pick one, not all):","このMODに対する、複数の代替案は以下の通りです。 (全てで無く、1つだけを選択):","HRTC_A_SM
 HtmlReportTemplateCode.cs Alternatives subscribedMod","",""
 "HRTC_A_SMC","An alternative you could use:","使用可能な代替手段:","HRTC_A_SMC
 HtmlReportTemplateCode.cs Alternatives subscribedModCount","",""
@@ -109,21 +109,21 @@ HtmlReportTemplateCode.cs BreaksEditors Remarks","",""
 HtmlReportTemplateCode.cs cannotReviewMessage string","",""
 "HRTC_CM_ID","Yes","はい","HRTC_CM_ID
 HtmlReportTemplateCode.cs catalogMod IsDisabled","",""
-"HRTC_IRS_CATA","This is compatible with:","これは以下と互換性があります:","HRTC_IRS_CATA
+"HRTC_IRS_CATA","This is compatible with:","このMODは以下と互換性があります:","HRTC_IRS_CATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity CompatibleAccordingToAuthor","",""
-"HRTC_IRS_IATA","Unsubscribe either this one or the following mod it's incompatible with:","互換性の無いこのMODか、または以下のMODからどれかサブスクを解除して下さい。","HRTC_IRS_IATA
+"HRTC_IRS_IATA","Unsubscribe either this one or the following mod it's incompatible with:","このMODと以下のMODは互換性が無いのでサブスクを解除して、どれか1つを使用して下さい。","HRTC_IRS_IATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToAuthor","",""
 "HRTC_IRS_IATU","Users report an incompatibility with:","ユーザーから以下の非互換が報告されています:","HRTC_IRS_IATU
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToUsers","",""
 "HRTC_IRS_MAI","Minor Issues","Minor Issues","HRTC_IRS_MAI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MajorIssues and HtmlReportTemplate.tt LI_Link minorIssues)","",""
-"HRTC_IRS_MI","This has minor issues with:","これには小さな問題があります:","HRTC_IRS_MI
+"HRTC_IRS_MI","This has minor issues with:","このMODにはマイナーな問題があります:","HRTC_IRS_MI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MinorIssues","",""
-"HRTC_IRS_RSS","This requires specific configuration to work together with:","これと連携するために特定の構成が必要です:","HRTC_IRS_RSS
+"HRTC_IRS_RSS","This requires specific configuration to work together with:","このMODと連携するためには特定の構成が必要です:","HRTC_IRS_RSS
 HtmlReportTemplateCode.cs IncreaseReportSeverity RequiresSpecificSettings","",""
-"HRTC_IRS_SF","Unsubscribe either this or the following incompatible mod with similar functionality:","同様の機能を持った、以下の非互換MODのどちらかでサブスクを解除して下さい:","HRTC_IRS_SF
+"HRTC_IRS_SF","Unsubscribe either this or the following incompatible mod with similar functionality:","このMODと同等の機能を持った、以下の互換性の無いMODのどちらかでサブスクを解除して下さい:","HRTC_IRS_SF
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionality","",""
-"HRTC_IRS_SFC","This has very similar functionality, but is still compatible with (do you need both?):","これは非常に似た機能がありますが、まだ互換性があります。 (両方必要ですか？):","HRTC_IRS_SFC
+"HRTC_IRS_SFC","This has very similar functionality, but is still compatible with (do you need both?):","このMODには非常に似た機能がありますが、まだ互換性があります。 (両方必要ですか？):","HRTC_IRS_SFC
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionalityCompatible","",""
 "HRTC_IRS_SMDRT","Unsubscribe either this or the other edition of the same mod:","このMODを使用するか、他の派生版MODのどちらかでサブスクを解除して下さい。","HRTC_IRS_SMDRT
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameModDifferentReleaseType","",""
@@ -131,9 +131,9 @@ HtmlReportTemplateCode.cs IncreaseReportSeverity SameModDifferentReleaseType",""
 HtmlReportTemplateCode.cs Instability Broken","",""
 "HRTC_I_GB","UNSUBSCRIBE! This mod breaks the game.","サブスクを解除して下さい！ このMODはゲームを破損させます。","HRTC_I_GB
 HtmlReportTemplateCode.cs Instability GameBreaking","",""
-"HRTC_I_IATW","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","サブスクを解除して下さい！ このMODは現在のゲームバージョンと全く互換性がありません。","HRTC_I_IATW
+"HRTC_I_IATW","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","サブスクを解除して下さい！ このMODは現在のゲームバージョンと互換性がありません。","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop","",""
-"HRTC_I_MAI","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","サブスクの解除を強く推奨します。これには主要な問題 {StabilityNote} があるので、詳しくはワークショップのページを確認して下さい。","HRTC_I_MAI
+"HRTC_I_MAI","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","サブスクの解除や移行を推奨します。大きな問題 {StabilityNote} があるので、詳しくはワークショップのページを確認して下さい。","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues","",""
 "HRTC_I_MAIC","Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck","",""
@@ -159,9 +159,9 @@ HtmlReportTemplateCode.cs LowestLocalModID builtin","",""
 HtmlReportTemplateCode.cs LowestLocalModID local","",""
 "HRTC_M_TV","If you don't have a specific reason to use it, you'd better use the stable version instead.","特に理由がない場合は、代わりに安定版を使用することを推奨します。","HRTC_M_TV
 HtmlReportTemplateCode.cs Message TestVersion","",""
-"HRTC_NCS_MI","This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","このMODはSteamワークショップのコメント欄が無効になっています。 他のユーザーで起きた、問題発生を確認することが難しいので注意して下さい。","HRTC_NCS_MI
+"HRTC_NCS_MI","This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","このMODはSteamワークショップのコメント欄が無効になっています。 他のユーザーで起きた問題や報告などの確認が、難しいので注意して下さい。","HRTC_NCS_MI
 HtmlReportTemplateCode.cs NoCommentSection MinorIssues","",""
-"HRTC_ND_MI","This has no description on the Steam Workshop. Support from the author is unlikely.","Steamのワークショップに説明が何もありません。作者からのサポートは期待出来ません。","HRTC_ND_MI
+"HRTC_ND_MI","This has no description on the Steam Workshop. Support from the author is unlikely.","このMODにはSteamのワークショップに説明が何もありません。作者からのサポートは期待出来ません。","HRTC_ND_MI
 HtmlReportTemplateCode.cs NoDescription MinorIssues","",""
 "HRTC_NKIM_S","No known issues or incompatibilities with your other mods.","既知の問題や他のMODとの互換性がありません。","HRTC_NKIM_S
 HtmlReportTemplateCode.cs noKnownIssuesMessage string","",""
@@ -171,7 +171,7 @@ HtmlReportTemplateCode.cs Recommendations2 subscribedMod","",""
 HtmlReportTemplateCode.cs RequiredDlc Unsubscribe","",""
 "HRTC_RM_SM","This mod requires other mods you don't have, or which are not enabled:","このMOD以外でサブスクしていない、または有効化していない他のMODが必要です:","HRTC_RM_SM
 HtmlReportTemplateCode.cs RequiredMods subscribedMod","",""
-"HRTC_RU_U","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","このMODはサブスクを解除して下さい。 これは別MODの再アップロードで、代わりに以下 (または後継版) を使って下さい。","HRTC_RU_U
+"HRTC_RU_U","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","このMODはサブスクを解除して下さい。 他者が行ったMODの再アップロード版で、代わりに以下 (または後継版) を使って下さい。","HRTC_RU_U
 HtmlReportTemplateCode.cs Reupload Unsubscribe","",""
 "HRTC_S_MI","This has minor issues {StabilityNote}. Check its Workshop page for details.","これにはマイナーな問題 {StabilityNote} があるので、詳しくはワークショップのページを確認して下さい。","HRTC_S_MI
 HtmlReportTemplateCode.cs Stability MinorIssues","",""
@@ -189,15 +189,15 @@ HtmlReportTemplateCode.cs Stability NotReviewed","",""
 HtmlReportTemplateCode.cs Stability NotReviewedCurrent","",""
 "HRTC_S_NRV","but it was updated for game version {GameVersion}","but it was updated for game version {GameVersion}","HRTC_S_NRV
 HtmlReportTemplateCode.cs Stability NotReviewedVersion","",""
-"HRTC_S_S","This is compatible with the current game version.","これは現在のゲームバージョンと互換性があります。","HRTC_S_S
+"HRTC_S_S","This is compatible with the current game version.","このMODは現在のゲームバージョンと互換性があります。","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable","",""
 "HRTC_S_URI","Users are reporting issues {StabilityNote}. Check its Workshop page for details.","これにはユーザーから問題の報告 {StabilityNote} があるので、詳しくはワークショップのページを確認して下さい。","HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues","",""
 "HRTC_S_URIC","Check its Workshop page for details.","Check its Workshop page for details.","HRTC_S_URIC
 HtmlReportTemplateCode.cs Stability UsersReportIssuesCheck","",""
-"HRTC_SS_TV","This is a test version, but is considered quite stable.","これはテスト版ですが、かなり動作が安定しています。","HRTC_SS_TV
+"HRTC_SS_TV","This is a test version, but is considered quite stable.","このMODはテスト版扱いですが、かなり動作が安定しています。","HRTC_SS_TV
 HtmlReportTemplateCode.cs StabilityStable TestVersion","",""
-"HRTC_S_A","This seems to be abandoned and the author seems retired. Future updates are unlikely.","これは放棄されたようで、作者も開発を止めたようです。今後の更新は期待出来ません。","HRTC_S_A
+"HRTC_S_A","This seems to be abandoned and the author seems retired. Future updates are unlikely.","このMODは放棄されたようで、作者も開発を止めたようです。今後の更新は期待出来ません。","HRTC_S_A
 HtmlReportTemplateCode.cs Statuses Abandoned","",""
 "HRTC_S_AR","The author seems to be retired. Future updates are unlikely.","作者は開発を引退したようです。今後の更新は期待出来ません。","HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired","",""
@@ -205,13 +205,13 @@ HtmlReportTemplateCode.cs Statuses authorRetired","",""
 HtmlReportTemplateCode.cs Statuses Deprecated","",""
 "HRTC_S_MFM","This is only needed for modders or creators. Regular users don't need this one.","これはMOD作者やクリエイターにのみ必要です。一般的なユーザーには必要ありません。","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders","",""
-"HRTC_S_MC","This includes copyrighted music and should not be used for streaming.","これには著作権のある音楽が含まれており、ストリーミングには使用しないで下さい。","HRTC_S_MC
+"HRTC_S_MC","This includes copyrighted music and should not be used for streaming.","このパックには著作権のある音楽が含まれており、ストリーミングには使用しないで下さい。","HRTC_S_MC
 HtmlReportTemplateCode.cs Statuses MusicCopyrighted","",""
-"HRTC_S_MCF","The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","収録されている音楽は著作権フリーで、安全にストリーミングできるようです。ただし、一部で制限がかかる可能性があります。","HRTC_S_MCF
+"HRTC_S_MCF","The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","このパックに収録されている音楽は著作権フリーで、安全にストリーミングできるようです。ただし、一部で制限がかかる可能性があります。","HRTC_S_MCF
 HtmlReportTemplateCode.cs Statuses MusicCopyrightFree","",""
-"HRTC_S_MCU","This includes music with unknown copyright status. Safer not to use it for streaming.","これには著作権の状態が不明な音楽が含まれます。ストリーミングには使用しない方が無難です。","HRTC_S_MCU
+"HRTC_S_MCU","This includes music with unknown copyright status. Safer not to use it for streaming.","このパックには著作権の状態が不明な音楽が含まれます。ストリーミングには使用しない方が無難です。","HRTC_S_MCU
 HtmlReportTemplateCode.cs Statuses MusicCopyrightUnknown","",""
-"HRTC_S_NIAR","This seems to be abandoned. Future updates are unlikely.","これは放棄されたようです。今後のアップデートは期待出来ません。","HRTC_S_NIAR
+"HRTC_S_NIAR","This seems to be abandoned. Future updates are unlikely.","このMODは放棄されたようです。今後のアップデートは期待出来ません。","HRTC_S_NIAR
 HtmlReportTemplateCode.cs Statuses nestedItemauthorRetired","",""
 "HRTC_S_O","Unsubscribe this. It is no longer needed.","このMODはサブスクを解除して下さい。既に不要で必要ありません。","HRTC_S_O
 HtmlReportTemplateCode.cs Statuses Obsolete","",""
@@ -221,11 +221,11 @@ HtmlReportTemplateCode.cs Statuses RemovedFromWorkshop","",""
 HtmlReportTemplateCode.cs Statuses SavesCantLoadWithout","",""
 "HRTC_S_TVA","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","このMODはテスト版です。特に理由がない場合は、代わりに安定版を使用することを推奨します。","HRTC_S_TVA
 HtmlReportTemplateCode.cs Statuses TestVersion Alternatives","",""
-"HRTC_SS_SM","This is succeeded by any of the following (pick one, not all):","これは以下のいずれかで引き継がれています。 (全てで無く、1つを選択):","HRTC_SS_SM
+"HRTC_SS_SM","This is succeeded by any of the following (pick one, not all):","このMODは以下のどれかで引き継がれています。 (全てで無く、1つを選択):","HRTC_SS_SM
 HtmlReportTemplateCode.cs Successors subscribedMod","",""
-"HRTC_S_SMC","This is succeeded by:","これは以下に引き継がれています:","HRTC_S_SMC
+"HRTC_S_SMC","This is succeeded by:","このMODは以下に引き継がれています:","HRTC_S_SMC
 HtmlReportTemplateCode.cs Successors subscribedModCount","",""
-"HRTC_S_U","Unsubscribe this. It is succeeded by a mod you already have:","このMODはサブスクを解除して下さい。既にサブスク中のMODに引き継がれます。","HRTC_S_U
+"HRTC_S_U","Unsubscribe this. It is succeeded by a mod you already have:","このMODはサブスクを解除して下さい。既にサブスク中のMODに引き継がれています。","HRTC_S_U
 HtmlReportTemplateCode.cs Successors Unsubscribe","",""
 "HRTC_S_WSP","Workshop page:","ワークショップのページ:","HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage","",""
@@ -281,7 +281,7 @@ SettingsUI.cs BuildRecordGroupUI resetPathBtn","",""
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity","",""
 "SET_BUG_MSPMP","Estimated milliseconds per mod page","MODページ毎の推定ミリ秒","SET_BUG_MSPMP
 SettingsUI.cs BuildUpdaterGroupUI msPerModPage","",""
-"SET_BUG_OOTA","Run Road Asset Crawler (AN dependent)","道路アセットのクローラーを実行 (ANとの依存関係)","SET_BUG_OOTA
+"SET_BUG_OOTA","Run Road Asset Crawler (AN dependent)","道路アセットの検証を実行 (ANとの依存関係)","SET_BUG_OOTA
 SettingsUI.cs BuildUpdaterGroupUI OnOneTimeAction","",""
 "SET_BUG_OSU","Run Updater","アップデータを実行","SET_BUG_OSU
 SettingsUI.cs BuildUpdaterGroupUI OnStartUpdater","",""
@@ -293,11 +293,11 @@ SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawlerquick","",""
 SettingsUI.cs BuildUpdaterGroupUI steamMaxFailedPages","",""
 "SET_BUG_SMLP","Steam max listing pages","Steamでリストするページの最大数","SET_BUG_SMLP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxListingPages","",""
-"SET_BUG_UG","Updater","アップデート","SET_BUG_UG
+"SET_BUG_UG","Updater","アップデータ","SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup","",""
-"SET_BUG_WFR","Weeks for soon retired","引退するまでの週間数","SET_BUG_WFR
+"SET_BUG_WFR","Weeks for soon retired","数週間後に引退する予定","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired","",""
-"SET_DO_NEV","Never (on-demand only) - not recommended!","なし (オンデマンドのみ) - 推奨しません！","SET_DO_NEV
+"SET_DO_NEV","Never (on-demand only) - not recommended!","しない (オンデマンドのみ) - 推奨しません！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never","",""
 "SET_DO_OAW","Once a week","1週間に1回","SET_DO_OAW
 SettingsUI.cs DownloadOptions Once a week","",""
@@ -308,42 +308,42 @@ SettingsUI.cs ReportTypes HTML and Text","",""
 "SET_RT_TXT","Text","テキスト","SET_RT_TXT
 SettingsUI.cs ReportTypes Text","",""
 "LANGUAGE","English","日本語","LANGUAGE","",""
-"REPORT_NOTE_1","A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.","REPORT_NOTE_1","",""
-"REPORT_NOTE_2","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","REPORT_NOTE_2","",""
-"REPORT_NOTE_3","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","REPORT_NOTE_3","",""
-"REPORT_NOTE_4","ABLC has the functionality to prevent abandonment, and much more.","ABLC has the functionality to prevent abandonment, and much more.","REPORT_NOTE_4","",""
-"REPORT_NOTE_5","Accelarated night/weekend cycles from Real Time might give issues with district services.","Accelarated night/weekend cycles from Real Time might give issues with district services.","REPORT_NOTE_5","",""
-"REPORT_NOTE_6","Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","REPORT_NOTE_6","",""
-"REPORT_NOTE_7","Additive Shader props converted to PO don't show up after reloading a save.","Additive Shader props converted to PO don't show up after reloading a save.","REPORT_NOTE_7","",""
-"REPORT_NOTE_8","Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","REPORT_NOTE_8","",""
-"REPORT_NOTE_9","Advanced Building Level Control has all functionality of Historical Districts, and more.","Advanced Building Level Control has all functionality of Historical Districts, and more.","REPORT_NOTE_9","",""
-"REPORT_NOTE_10","All jobs from non-RICO buildings, including all Industries DLC buildings, are included in the service (SRV) numbers.","All jobs from non-RICO buildings, including all Industries DLC buildings, are included in the service (SRV) numbers.","REPORT_NOTE_10","",""
-"REPORT_NOTE_11","All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.","All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.","REPORT_NOTE_11","",""
-"REPORT_NOTE_12","All players must have the exact same DLCs (none are supported) and mods. CSM is incompatible with most mods, too many to mention here. A (very short) list of supported mods: https://citiesskylinesmultiplayer.com/#/supported-mods","All players must have the exact same DLCs (none are supported) and mods. CSM is incompatible with most mods, too many to mention here. A (very short) list of supported mods: https://citiesskylinesmultiplayer.com/#/supported-mods","REPORT_NOTE_12","",""
-"REPORT_NOTE_13","All recoloring will be lost when you (un)subscribe to anything while the game is running.","All recoloring will be lost when you (un)subscribe to anything while the game is running.","REPORT_NOTE_13","",""
-"REPORT_NOTE_14","Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532","Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532","REPORT_NOTE_14","",""
-"REPORT_NOTE_15","Always run the Steam client before you run the game.","Always run the Steam client before you run the game.","REPORT_NOTE_15","",""
-"REPORT_NOTE_16","As long as you don't use TM:PE to limit the speed for rail tracks, these mods should be compatible.","As long as you don't use TM:PE to limit the speed for rail tracks, these mods should be compatible.","REPORT_NOTE_16","",""
-"REPORT_NOTE_17","Autobudgetting police, healthcare and fire stations could cause land value to drop, because lower budget means lower cover area.","Autobudgetting police, healthcare and fire stations could cause land value to drop, because lower budget means lower cover area.","REPORT_NOTE_17","",""
-"REPORT_NOTE_18","Backup your save before using this tool!","Backup your save before using this tool!","REPORT_NOTE_18","",""
-"REPORT_NOTE_19","Better Highway Icons triggers an error popup from Building Themes ('System.Reflection.MonoMethod.Invoke'). Both mods still appear to work after.","Better Highway Icons triggers an error popup from Building Themes ('System.Reflection.MonoMethod.Invoke'). Both mods still appear to work after.","REPORT_NOTE_19","",""
-"REPORT_NOTE_20","BOB has the functionality of Prop it Up, and more.","BOB has the functionality of Prop it Up, and more.","REPORT_NOTE_20","",""
-"REPORT_NOTE_21","Both mods have options to hide panels on main menu screen. Only use one mod to hide them, or you might run into issues.","Both mods have options to hide panels on main menu screen. Only use one mod to hide them, or you might run into issues.","REPORT_NOTE_21","",""
-"REPORT_NOTE_22","Both mods replace the 'vanilla matchmaker', making them incompatible.","Both mods replace the 'vanilla matchmaker', making them incompatible.","REPORT_NOTE_22","",""
-"REPORT_NOTE_23","Both mods touch the same game functionality and probably conflict.","Both mods touch the same game functionality and probably conflict.","REPORT_NOTE_23","",""
-"REPORT_NOTE_24","Both mods use the Tab key. Use another first person mod, or change the key for First-person Auto-walking.","Both mods use the Tab key. Use another first person mod, or change the key for First-person Auto-walking.","REPORT_NOTE_24","",""
-"REPORT_NOTE_25","Causes trees to float. You could switch to Tree Anarchy, which has the functionality of both these mods.","Causes trees to float. You could switch to Tree Anarchy, which has the functionality of both these mods.","REPORT_NOTE_25","",""
-"REPORT_NOTE_26","CAUTION: DO NOT SUPPRESS ERRORS in the mod options or in the popups from this mod, as it makes troubleshooting mod/asset issues near impossible. Hiding errors does not make them go away, and will make your game less reliable!","CAUTION: DO NOT SUPPRESS ERRORS in the mod options or in the popups from this mod, as it makes troubleshooting mod/asset issues near impossible. Hiding errors does not make them go away, and will make your game less reliable!","REPORT_NOTE_26","",""
-"REPORT_NOTE_27","CAUTION: If you use this and save, the savegame is broken.","CAUTION: If you use this and save, the savegame is broken.","REPORT_NOTE_27","",""
-"REPORT_NOTE_28","CAUTION: This only hides the problem icons. The problems still exist! This can quickly lead to mass abandonment if you forget to check for problems.","CAUTION: This only hides the problem icons. The problems still exist! This can quickly lead to mass abandonment if you forget to check for problems.","REPORT_NOTE_28","",""
-"REPORT_NOTE_29","Change the construction speed to 100% in Real Time's settings to avoid buildings disappearing.","Change the construction speed to 100% in Real Time's settings to avoid buildings disappearing.","REPORT_NOTE_29","",""
-"REPORT_NOTE_30","Changing the date may cause a gap in the graph or cause part of the graph to be overwritten.","Changing the date may cause a gap in the graph or cause part of the graph to be overwritten.","REPORT_NOTE_30","",""
-"REPORT_NOTE_31","Clicking in the bottom bar for UEC functionality does not work.","Clicking in the bottom bar for UEC functionality does not work.","REPORT_NOTE_31","",""
-"REPORT_NOTE_32","Clouds &amp; Fog Toggler overrules the fog options of Hide it, Bobby.","Clouds &amp; Fog Toggler overrules the fog options of Hide it, Bobby.","REPORT_NOTE_32","",""
-"REPORT_NOTE_33","Clouds &amp; Fog Toggler overrules the fog options of Hide It.","Clouds &amp; Fog Toggler overrules the fog options of Hide It.","REPORT_NOTE_33","",""
-"REPORT_NOTE_34","Coloring the road while on a custom map theme, might give intersections a wrong color.","Coloring the road while on a custom map theme, might give intersections a wrong color.","REPORT_NOTE_34","",""
-"REPORT_NOTE_35","Compatibility is uncertain, but the increased limit from More Vehicles is probably not used by PXPVehicleInfo, leading to incorrect numbers when going beyond the original vehicle limit.","Compatibility is uncertain, but the increased limit from More Vehicles is probably not used by PXPVehicleInfo, leading to incorrect numbers when going beyond the original vehicle limit.","REPORT_NOTE_35","",""
-"REPORT_NOTE_36","Consider replacing the old asset(s) that need this by newer ones and then unsubscribe this mod.","Consider replacing the old asset(s) that need this by newer ones and then unsubscribe this mod.","REPORT_NOTE_36","",""
+"REPORT_NOTE_1","A black bar might appear above the bottom toolbar.","下部のツールバーの上側に、黒いバーが表示される場合があります。","REPORT_NOTE_1","",""
+"REPORT_NOTE_2","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","赤色のウェイト表示は、必ずしもそのアセットが悪いという意味ではありません。ただし、非常に詳細なディテールの場合は、パフォーマンスに影響を与える可能性があります。","REPORT_NOTE_2","",""
+"REPORT_NOTE_3","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","バージョン3.0のベータ版がGitHubで公開されましたが、Steamのワークショップでは公開されませんでした。MOD作者はParadox社のDLC商法を非難し、これ以上のMODを更新しないと記述しています。","REPORT_NOTE_3","",""
+"REPORT_NOTE_4","ABLC has the functionality to prevent abandonment, and much more.","ABLCは放棄を防止する機能などをより多く備えています。","REPORT_NOTE_4","",""
+"REPORT_NOTE_5","Accelarated night/weekend cycles from Real Time might give issues with district services.","Real Timeで夜間や週末のサイクルを加速させると、地区サービスに問題が発生する可能性があります。","REPORT_NOTE_5","",""
+"REPORT_NOTE_6","Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","Additive ShaderはReal Timeで変更された、日の出/日の入りの時間と互換性がありません。代わりにAdditive Shaderのテスト版を使用して下さい。","REPORT_NOTE_6","",""
+"REPORT_NOTE_7","Additive Shader props converted to PO don't show up after reloading a save.","POオブジェクトに変換されたAdditive Shader付きのPropが、セーブを再読み込みすると表示されな くなる。","REPORT_NOTE_7","",""
+"REPORT_NOTE_8","Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","Adjustable Business Consumptionは、Rebalanced Industriesにある「Farms produce crops slower and cost less」というオプションと互換性が無い可能性があります。","REPORT_NOTE_8","",""
+"REPORT_NOTE_9","Advanced Building Level Control has all functionality of Historical Districts, and more.","Advanced Building Level Controlは、Historical Districtsの全機能とそれ以上の機能を備えています。","REPORT_NOTE_9","",""
+"REPORT_NOTE_10","All jobs from non-RICO buildings, including all Industries DLC buildings, are included in the service (SRV) numbers.","全てのDLC Industriesの建物を含む非RICOの建物以外で、全ての労働者はサービス (SRV) 番号に含まれます。","REPORT_NOTE_10","",""
+"REPORT_NOTE_11","All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.","Ploppable Asphaltはオブジェクトの消えるなど、様々な問題が起こる可能性があります。","REPORT_NOTE_11","",""
+"REPORT_NOTE_12","All players must have the exact same DLCs (none are supported) and mods. CSM is incompatible with most mods, too many to mention here. A (very short) list of supported mods: https://citiesskylinesmultiplayer.com/#/supported-mods","全てのプレイヤーは、全く同じDLC (サポートされていない) とMODを持つ必要があります。CSMは大半のMODと互換性がなく、ここで紹介出来ないほど多くのMODがあります。対応MODの一覧 (非常に短い): https://citiesskylinesmultiplayer.com/#/supported-mods","REPORT_NOTE_12","",""
+"REPORT_NOTE_13","All recoloring will be lost when you (un)subscribe to anything while the game is running.","ゲーム実行中に何かサブスクの操作をすると、全ての着色情報は喪失します。","REPORT_NOTE_13","",""
+"REPORT_NOTE_14","Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532","このMODの代替案はこちらです: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532","REPORT_NOTE_14","",""
+"REPORT_NOTE_15","Always run the Steam client before you run the game.","ゲームを実行する前に、常にSteamクライアントを実行して下さい。","REPORT_NOTE_15","",""
+"REPORT_NOTE_16","As long as you don't use TM:PE to limit the speed for rail tracks, these mods should be compatible.","TM:PEで線路や軌道の速度制限をしない限り、これらのMODは互換性があるはずです。","REPORT_NOTE_16","",""
+"REPORT_NOTE_17","Autobudgetting police, healthcare and fire stations could cause land value to drop, because lower budget means lower cover area.","警察/医療/消防署を自動で予算化すると、予算が少ない場合は影響範囲が減るので地価が下がる可能性があります。","REPORT_NOTE_17","",""
+"REPORT_NOTE_18","Backup your save before using this tool!","このツールを使用する前に、セーブを必ずバックアップして下さい！","REPORT_NOTE_18","",""
+"REPORT_NOTE_19","Better Highway Icons triggers an error popup from Building Themes ('System.Reflection.MonoMethod.Invoke'). Both mods still appear to work after.","Better Highway IconsはBuilding Themesから、「System.Reflection.MonoMethod.Invoke」のエラーポップアップをトリガーします。エラーが出ても両方のMODは、一応は動作しているように見えます。","REPORT_NOTE_19","",""
+"REPORT_NOTE_20","BOB has the functionality of Prop it Up, and more.","BOBは、Prop it Up以上の機能性などを備えています。","REPORT_NOTE_20","",""
+"REPORT_NOTE_21","Both mods have options to hide panels on main menu screen. Only use one mod to hide them, or you might run into issues.","両方のMODに、メインメニュー画面のパネルを非表示にするオプションがあります。一方のMODで設定しないと、問題が発生する可能性があります。","REPORT_NOTE_21","",""
+"REPORT_NOTE_22","Both mods replace the 'vanilla matchmaker', making them incompatible.","どちらのMODも「vanilla matchmaker」を置き換えるもので、互換性はありません。","REPORT_NOTE_22","",""
+"REPORT_NOTE_23","Both mods touch the same game functionality and probably conflict.","どちらのMODも同じゲーム機能に介入するので、恐らく競合するでしょう。","REPORT_NOTE_23","",""
+"REPORT_NOTE_24","Both mods use the Tab key. Use another first person mod, or change the key for First-person Auto-walking.","どちらのMODもTabキーを使用します。別の一人称視点のMODを使うか、First-person Auto-walkingのキーを変更して下さい。","REPORT_NOTE_24","",""
+"REPORT_NOTE_25","Causes trees to float. You could switch to Tree Anarchy, which has the functionality of both these mods.","樹木が浮くようになります。この2つのMODの機能を持つ、Tree Anarchyに切り替えることも可能です。","REPORT_NOTE_25","",""
+"REPORT_NOTE_26","CAUTION: DO NOT SUPPRESS ERRORS in the mod options or in the popups from this mod, as it makes troubleshooting mod/asset issues near impossible. Hiding errors does not make them go away, and will make your game less reliable!","注意: MODオプションやポップアップ内の設定でエラーを抑制すると、MOD/アセットのトラブルシューティングが出来なくなります。エラーを隠しても何も解決されずに、ゲームの信頼性を低下させます。","REPORT_NOTE_26","",""
+"REPORT_NOTE_27","CAUTION: If you use this and save, the savegame is broken.","注意: これを使用して保存すると、セーブデータが破損します。","REPORT_NOTE_27","",""
+"REPORT_NOTE_28","CAUTION: This only hides the problem icons. The problems still exist! This can quickly lead to mass abandonment if you forget to check for problems.","注意: これは問題の通知アイコンを隠すだけで、諸問題は残ったままです！問題の確認を忘れると、すぐに大量放棄に繋がる可能性があります。","REPORT_NOTE_28","",""
+"REPORT_NOTE_29","Change the construction speed to 100% in Real Time's settings to avoid buildings disappearing.","建物の消失を防ぐため、Real Timeの設定で建設速度を100%に変更して下さい。","REPORT_NOTE_29","",""
+"REPORT_NOTE_30","Changing the date may cause a gap in the graph or cause part of the graph to be overwritten.","日付を変更するとグラフにずれが生じたり、グラフの一部が上書きされる可能性があります。","REPORT_NOTE_30","",""
+"REPORT_NOTE_31","Clicking in the bottom bar for UEC functionality does not work.","下部のバーをクリックしても、UEC機能は動作しません。","REPORT_NOTE_31","",""
+"REPORT_NOTE_32","Clouds &amp; Fog Toggler overrules the fog options of Hide it, Bobby.","Clouds &amp; Fog Togglerは、Hide it, Bobbyにあるフォグのオプションを上書きします。","REPORT_NOTE_32","",""
+"REPORT_NOTE_33","Clouds &amp; Fog Toggler overrules the fog options of Hide It.","Clouds &amp; Fog Togglerは、Hide Itにあるフォグのオプションを上書きします。","REPORT_NOTE_33","",""
+"REPORT_NOTE_34","Coloring the road while on a custom map theme, might give intersections a wrong color.","カスタムマップのテーマで道路に着色すると、交差点の色がおかしくなる場合があります。","REPORT_NOTE_34","",""
+"REPORT_NOTE_35","Compatibility is uncertain, but the increased limit from More Vehicles is probably not used by PXPVehicleInfo, leading to incorrect numbers when going beyond the original vehicle limit.","互換性は不明ですがMore Vehiclesから増加した制限数は、恐らくPXPVehicleInfoでは参照出来ません。デフォルトの車両制限を超えた場合は、不正確な数値が表示されます。","REPORT_NOTE_35","",""
+"REPORT_NOTE_36","Consider replacing the old asset(s) that need this by newer ones and then unsubscribe this mod.","これを必要とする古いアセットから新しいアセットに置き換えて、MODのサブスクを解除することを検討して下さい。","REPORT_NOTE_36","",""
 "REPORT_NOTE_37","Copyright by OpenMSX Authors, licensed under GPL v2.","Copyright by OpenMSX Authors, licensed under GPL v2.","REPORT_NOTE_37","",""
 "REPORT_NOTE_38","Creative Commons license.","Creative Commons license.","REPORT_NOTE_38","",""
 "REPORT_NOTE_39","CSM can break Find It. Running the game as administrator may temporarily solve the incompatibility issue.","CSM can break Find It. Running the game as administrator may temporarily solve the incompatibility issue.","REPORT_NOTE_39","",""
