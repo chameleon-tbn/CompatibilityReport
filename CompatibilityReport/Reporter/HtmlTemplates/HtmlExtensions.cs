@@ -13,7 +13,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
         public static string Attribute(this string name, string content)
         {
-            return string.IsNullOrEmpty(content) ? String.Empty : $"{name}=\"{content}\"";
+            return string.IsNullOrEmpty(content) ? string.Empty : $"{name}=\"{content}\"";
         }
 
         public static string Classes(this string classes)
@@ -33,19 +33,19 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             return string.IsNullOrEmpty(value) ? string.Empty : "data-i18n-value".Attribute(value);
         }
         
-        public static string Tag(this string name, string content, string classes = null, string localeId = null)
+        public static string Tag(this string name, string content, string classes = null, string localeId = null, string localeVars = null)
         {
-            return string.IsNullOrEmpty(content) ? string.Empty : $"<{name} {classes.Classes()} {T(localeId)}>{content}</{name}>";
+            return string.IsNullOrEmpty(content) ? string.Empty : $"<{name} {classes.Classes()} {T(localeId)} {TVars(localeVars)}>{content}</{name}>";
         }
         
-        public static string A(this string url, string text= null, string classes = null)
+        public static string A(this string url, string text= null, string classes = null, bool newTab = false)
         {
-            return string.IsNullOrEmpty(url) ? string.Empty : $"<a {"href".Attribute(url)} {classes.Classes()}>{text ?? url}</a>";
+            return string.IsNullOrEmpty(url) ? string.Empty : $"<a {"href".Attribute(url)} {classes.Classes()} {"target".Attribute(newTab ? "_blank" : null)}>{text ?? url}</a>";
         }
         
-        public static string TagConditional(this string name, bool shouldRender, string content, string classes = null)
+        public static string TagConditional(this string name, bool shouldRender, string content, string classes = null, string localeId = null)
         {
-            return string.IsNullOrEmpty(content) || !shouldRender ? string.Empty : $"<{name} {classes.Classes()}>{content}</{name}>";
+            return string.IsNullOrEmpty(content) || !shouldRender ? string.Empty : $"<{name} {classes.Classes()} {T(localeId)}>{content}</{name}>";
         }
 
         internal static string NestedLi(this List<Message> items)
@@ -55,28 +55,28 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                 string list = "";
                 foreach (Message listItem in items)
                 {
-                    list += "li".Tag( listItem.message + "ul".Tag("li".Tag(listItem.details, "details")), "message");
+                    list += "li".Tag( listItem.message + "ul".Tag("li".Tag(listItem.details, "details")), "message", localeId: listItem.messageLocaleId, localeVars: listItem.localeIdVariables);
                 }
                 return list;
             }
             return string.Empty;
         }
         
-        public static string AsLink(this string link, string text = null, string classes = null)
+        public static string AsLink(this string link, string text = null, string classes = null, bool newTab = false)
         {
-            return A(link, text, classes);
+            return A(link, text, classes, newTab);
         }
         
         public static string NameWithIDAsLink(this Mod mod, bool fakeId = true, bool idFirst = false)
         {
             return idFirst 
-                ? $"{ mod.IdString(fakeId)} {AsLink(Toolkit.GetWorkshopUrl(mod.SteamID), mod.Name) }"
-                : $"{ A(Toolkit.GetWorkshopUrl(mod.SteamID), mod.Name)} {mod.IdString(fakeId) }";
+                ? $"{ mod.IdString(fakeId)} {AsLink(Toolkit.GetWorkshopUrl(mod.SteamID), mod.Name, newTab: true) }"
+                : $"{ A(Toolkit.GetWorkshopUrl(mod.SteamID), mod.Name, newTab: true)} {mod.IdString(fakeId) }";
         }
 
         public static string NameAuthorWithIDAsLink(string name, string author, string url, string idString)
         {
-            return $"{ (string.IsNullOrEmpty(url) ? "span".Tag(name, "modName") : url.AsLink(name, "modName")) } {"span".Tag("by", localeId: "HE_NAWIDAL_S")} " +
+            return $"{ (string.IsNullOrEmpty(url) ? "span".Tag(name, "modName") : url.AsLink(name, "modName", true)) } {"span".Tag("by", localeId: "HE_NAWIDAL_S")} " +
                 $"{ "span".Tag(author, "author") }&nbsp;{ "span".Tag(idString, "steamId") }";
         }
     }

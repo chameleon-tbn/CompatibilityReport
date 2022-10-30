@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using CompatibilityReport.Reporter.HtmlTemplates;
 using CompatibilityReport.Util;
 
 namespace CompatibilityReport.CatalogData
@@ -300,15 +301,17 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>A '[Disabled]' prefix will be included for disabled subscriptions. Optionally hides fake Steam IDs, puts the name before the ID, 
         ///          or cuts off the string at report width.</remarks>
         /// <returns>A string representing the mod.</returns>
-        public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false)
+        public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false, bool html = false)
         {
-            string disabledPrefix = IsDisabled ? "[Disabled] " : "";
+            string disabledPrefix = IsDisabled ? "[Disabled] " : string.Empty;
 
             string idString = IdString(hideFakeID);
 
             string name = !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
 
-            return nameFirst ? $"{ disabledPrefix }{ name } { idString }" : $"{ disabledPrefix }{ idString } { name }";
+            return nameFirst ? 
+                $"{(html && !string.IsNullOrEmpty(disabledPrefix) ? $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>": disabledPrefix)}{ name } { idString }" 
+                : $"{(html && !string.IsNullOrEmpty(disabledPrefix) ? $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>": disabledPrefix)}{ idString } { name }";
         }
 
         public string IdString(bool hideFakeID = false)
@@ -316,8 +319,8 @@ namespace CompatibilityReport.CatalogData
             return (SteamID > ModSettings.HighestFakeID) 
                 ? $"[Steam ID { SteamID, 10 }]"
                 : ModSettings.BuiltinMods.ContainsValue(SteamID)
-                    ? $"[built-in mod{ (hideFakeID ? "" : $" { SteamID }") }]"
-                    : $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
+                    ? $"[{"span".Tag("built-in", localeId: "HRTC_LLMID_BI")} mod{ (hideFakeID ? "" : $" { SteamID }") }]"
+                    : $"[{"span".Tag("local", localeId: "HRTC_LLMID_L")} mod{ (hideFakeID ? "" : $" { SteamID }") }]";
         }
     }
 }

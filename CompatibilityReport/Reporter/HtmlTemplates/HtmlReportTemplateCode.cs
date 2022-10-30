@@ -29,6 +29,8 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         private string CatalogGameVersion => Toolkit.ConvertGameVersionToString(catalog.GameVersion());
         private string CurrentGameVersion => Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion());
 
+        internal const string APPEND_VALUE_ID = "APPEND_VALUE"; 
+        internal const string APPEND_TRANSLATED_VALUE_ID = "APPEND_TRANSLATED_VALUE"; 
         internal const string FLAG_XX = "<path fill=\"#fff\" fill-rule=\"evenodd\" stroke=\"#adb5bd\" stroke-width=\"1.1\" d=\"M.5.5h638.9v478.9H.5z\"/> <path fill=\"none\" stroke=\"#adb5bd\" stroke-width=\"1.1\" d=\"m.5.5 639 479M639.5.5l-639 479\"/>";
 
         internal List<string> AvailableLanguages = new List<string>();
@@ -61,7 +63,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             GenerateModInfo();
         }
 
-        private string OptionalUrlLink(string url, bool isLink) => isLink ? HtmlExtensions.A(url) : url;
+        private string OptionalUrlLink(string url, bool isLink) => isLink ? HtmlExtensions.A(url, newTab: true) : url;
         
         // todo 0.8 or 0.9 identify if necessary to be read from catalog 
         private string CatalogHeaderText => catalog.ReportHeaderText;
@@ -72,6 +74,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             var all = Translation.instance.All;
             for (var i = 0; i < all.Length; i++)
             {
+                AvailableLanguages.Add(all[i].Code);
                 langs.Add(all[i].Code, all[i].HtmlTranslations);
             }
 #else
@@ -203,23 +206,23 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             {
                 case Enums.Stability.IncompatibleAccordingToWorkshop:
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                    return new Message(){message = "UNSUBSCRIBE! This mod is totally incompatible with the current game version.", details = subscribedMod.StabilityNote};
+                    return new Message(){message = "UNSUBSCRIBE! This mod is totally incompatible with the current game version.", messageLocaleId = "HRTC_I_IATW", details = subscribedMod.StabilityNote};
 
                 case Enums.Stability.RequiresIncompatibleMod:
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                    return new Message(){message = "UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.", details = subscribedMod.StabilityNote};
+                    return new Message(){message = "UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.", messageLocaleId = "HRTC_I_RIM", details = subscribedMod.StabilityNote};
 
                 case Enums.Stability.GameBreaking:
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                    return new Message(){message = "UNSUBSCRIBE! This mod breaks the game.", details = subscribedMod.StabilityNote};
+                    return new Message(){message = "UNSUBSCRIBE! This mod breaks the game.", messageLocaleId = "HRTC_I_GB", details = subscribedMod.StabilityNote};
 
                 case Enums.Stability.Broken:
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                    return new Message(){message = "Unsubscribe! This mod is broken.", details = subscribedMod.StabilityNote};
+                    return new Message(){message = "Unsubscribe! This mod is broken.", messageLocaleId = "HRTC_I_B", details = subscribedMod.StabilityNote};
 
                 case Enums.Stability.MajorIssues:
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
-                    return new Message(){message = $"Unsubscribe would be wise. This has major issues{(string.IsNullOrEmpty(subscribedMod.StabilityNote) ? ". Check its Workshop page for details." : ":")}", details = subscribedMod.StabilityNote};
+                    return new Message(){message = $"Unsubscribe would be wise. This has major issues{(string.IsNullOrEmpty(subscribedMod.StabilityNote) ? ". Check its Workshop page for details." : ":")}", messageLocaleId = "HRTC_I_MAI", localeIdVariables = $"StabilityNote:{subscribedMod.StabilityNote}", details = subscribedMod.StabilityNote};
 
                 default:
                     return null;
@@ -238,6 +241,8 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     return new Message()
                     {
                         message = $"This has minor issues{(string.IsNullOrEmpty(subscribedMod.StabilityNote) ? ". Check its Workshop page for details." : ":")}",
+                        messageLocaleId = "HRTC_S_MI",
+                        localeIdVariables = $"StabilityNote:{subscribedMod.StabilityNote}",
                         details = subscribedMod.StabilityNote,
                     };
 
@@ -246,6 +251,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     return new Message()
                     {
                         message = $"Users are reporting issues{(string.IsNullOrEmpty(subscribedMod.StabilityNote) ? ". Check its Workshop page for details." : ": ")}",
+                        messageLocaleId = "HRTC_S_URI",
                         details = subscribedMod.StabilityNote,
                     };
                 case Enums.Stability.NotEnoughInformation:
@@ -258,6 +264,8 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     return new Message()
                     {
                         message = $"There is not enough information about this mod to know if it works well{updatedText}",
+                        messageLocaleId = "HRTC_S_NEI",
+                        localeIdVariables = $"{APPEND_TRANSLATED_VALUE_ID}:{(subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? "HRTC_S_NRC" :"")}",
                         details = subscribedMod.StabilityNote,
                     };
                 case Enums.Stability.Stable:
@@ -265,6 +273,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     return new Message()
                     {
                         message = $"This is compatible with the current game version.",
+                        messageLocaleId = "HRTC_S_S",
                         details = subscribedMod.StabilityNote,
                     };
                 case Enums.Stability.NotReviewed:
@@ -274,7 +283,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                         : subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() 
                             ? ", but it was updated for the current game version." 
                             : $", but it was updated for game version {subscribedMod.GameVersion().ToString(2)}.";
-                    return new Message() { message = $"This mod has not been reviewed yet{updatedText2}", };
+                    return new Message() { message = $"This mod has not been reviewed yet{updatedText2}", messageLocaleId = "HRTC_S_NR", localeIdVariables = ""};
                 default:
                     return null;
             }
@@ -293,26 +302,31 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             {
                 subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                 nestedItem.title = "Unsubscribe this. It is no longer needed.";
+                nestedItem.titleLocaleId = "HRTC_S_O";
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
             {
                 subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                 nestedItem.title = "Unsubscribe would be wise. This is no longer available on the Steam Workshop.";
+                nestedItem.titleLocaleId = "HRTC_S_RFW";
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.Deprecated))
             {
                 subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                 nestedItem.title = "Unsubscribe would be wise. This is deprecated and no longer supported by the author.";
+                nestedItem.titleLocaleId = "HRTC_S_D";
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
             {
                 nestedItem.title = authorRetired 
                     ? "This seems to be abandoned and the author seems retired. Future updates are unlikely."
                     : "This seems to be abandoned. Future updates are unlikely.";
+                nestedItem.titleLocaleId = authorRetired ? "HRTC_S_A" : "HRTC_S_NIAR";
             }
             else if (authorRetired)
             {
                 nestedItem.title = "The author seems to be retired. Future updates are unlikely.";
+                nestedItem.titleLocaleId = "HRTC_S_AR";
             }
 
             if (subscribedMod.ReportSeverity < Enums.ReportSeverity.Unsubscribe)
@@ -321,57 +335,58 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                 if (subscribedMod.Statuses.Contains(Enums.Status.Reupload))
                 {
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                    nestedItem.messages.Add(new Message(){message = "Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor)."});
+                    nestedItem.messages.Add(new Message(){message = "Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).", messageLocaleId = "HRTC_RU_U"});
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription))
                 {
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
-                    nestedItem.messages.Add(new Message(){message = "This has no description on the Steam Workshop. Support from the author is unlikely."});
+                    nestedItem.messages.Add(new Message(){message = "This has no description on the Steam Workshop. Support from the author is unlikely.", messageLocaleId = "HRTC_ND_MI"});
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection))
                 {
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
                     nestedItem.messages.Add(new Message(){message = "This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. " +
-                        "Use with caution."});
+                        "Use with caution.", messageLocaleId = "HRTC_NCS_MI"});
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.BreaksEditors))
                 {
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
-                    nestedItem.messages.Add(new Message(){message = "If you use the asset editor and/or map editor, this may give serious issues."});
+                    nestedItem.messages.Add(new Message(){message = "If you use the asset editor and/or map editor, this may give serious issues.", messageLocaleId = "HRTC_BE_R"});
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.ModForModders))
                 {
-                    nestedItem.messages.Add(new Message(){message = "This is only needed for modders. Regular users don't need this one."});
+                    nestedItem.messages.Add(new Message(){message = "This is only needed for modders. Regular users don't need this one.", messageLocaleId = "HRTC_S_MFM"});
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.TestVersion))
                 {
                     nestedItem.messages.Add(new Message(){message = "This is a test version" +
                         (subscribedMod.Alternatives.Any() ? ". If you don't have a specific reason to use it, you'd better use the stable version instead." :
-                        subscribedMod.Stability == Enums.Stability.Stable ? ", but is considered quite stable." : ".")});
+                        subscribedMod.Stability == Enums.Stability.Stable ? ", but is considered quite stable." : "."), 
+                        messageLocaleId = subscribedMod.Alternatives.Any() ? "HRTC_S_TVA" : subscribedMod.Stability == Enums.Stability.Stable ? "HRTC_SS_TV": string.Empty});
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))
                 {
-                    nestedItem.messages.Add(new Message(){message = "The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though."});
+                    nestedItem.messages.Add(new Message(){message = "The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.", messageLocaleId = "HRTC_S_MCF"});
                 }
                 else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrighted))
                 {
-                    nestedItem.messages.Add(new Message(){message = "This includes copyrighted music and should not be used for streaming."});
+                    nestedItem.messages.Add(new Message(){message = "This includes copyrighted music and should not be used for streaming.", messageLocaleId = "HRTC_S_MC"});
                 }
                 else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightUnknown))
                 {
-                    nestedItem.messages.Add(new Message(){message = "This includes music with unknown copyright status. Safer not to use it for streaming."});
+                    nestedItem.messages.Add(new Message(){message = "This includes music with unknown copyright status. Safer not to use it for streaming.", messageLocaleId = "HRTC_S_MCU"});
                 }
             }
 
             if (subscribedMod.Statuses.Contains(Enums.Status.SavesCantLoadWithout))
             {
-                    nestedItem.messages.Add(new Message(){message = "NOTE: After using this mod, savegames won't (easily) load without it anymore."});
+                    nestedItem.messages.Add(new Message(){message = "NOTE: After using this mod, savegames won't (easily) load without it anymore.", messageLocaleId = "HRTC_S_SCLW"});
             }
 
             bool abandoned = subscribedMod.Statuses.Contains(Enums.Status.Obsolete) || subscribedMod.Statuses.Contains(Enums.Status.Deprecated) ||
@@ -380,11 +395,11 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
             if (abandoned && string.IsNullOrEmpty(subscribedMod.SourceUrl) && !subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
             {
-                nestedItem.messages.Add(new Message(){message = "No public source code found, making it hard to continue by another modder."});
+                nestedItem.messages.Add(new Message(){message = "No public source code found, making it hard to continue by another modder.", messageLocaleId = "HRTC_A_SURL"});
             }
             else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceNotUpdated))
             {
-                nestedItem.messages.Add(new Message(){message = "Published source seems out of date, making it hard to continue by another modder."});
+                nestedItem.messages.Add(new Message(){message = "Published source seems out of date, making it hard to continue by another modder.", messageLocaleId = "HRTC_A_SNU"});
             }
 
             if (!string.IsNullOrEmpty(nestedItem.title) || nestedItem.messages.Count > 0)
@@ -429,13 +444,14 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                 return new Message()
                 {
                     message = "Unsubscribe this unless it's needed for one of your local mods. " +
-                        "None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own."
+                        "None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.",
+                    messageLocaleId = "HRTC_IMN_RL|HRTC_IMN_R"
                 };
             }
             else
             {
                 subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                return new Message() { message = "Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own." };
+                return new Message() { message = "Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.", messageLocaleId = "HRTC_IMN_U"};
             }
         }
 
@@ -470,7 +486,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
             subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
-            return new Message() {message = "Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues."};
+            return new Message() {message = "Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.", messageLocaleId = "HRTC_ID_U"};
         }
 
 
@@ -496,6 +512,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             var dlcs = new MessageList()
             {
                 title = "Unsubscribe this. It requires DLC you don't have:",
+                titleLocaleId = "HRTC_RDLC_U",
                 messages = new List<Message>()
             };
 
@@ -527,6 +544,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             var item = new MessageList()
             {
                 title = "This mod requires other mods you don't have, or which are not enabled:",
+                titleLocaleId = "HRTC_RM_SM",
                 messages = new List<Message>()
             };
 
@@ -567,6 +585,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             MessageList list = new MessageList
             {
                 title = "The author or the users of this mod recommend using the following as well:",
+                titleLocaleId = "HRTC_R2_SM",
                 messages = new List<Message>()
             };
             
@@ -615,7 +634,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             if (catalogMod.IsDisabled)
             {
                 // Mod is subscribed and disabled. Report as "missing", without Workshop page.
-                return new Message() { message = catalog.GetMod(steamID).ToString(hideFakeID: true) };
+                return new Message() { message = catalog.GetMod(steamID).ToString(hideFakeID: true, nameFirst: true, html: true) };
             }
 
             if (!catalog.IsGroupMember(steamID))
@@ -636,7 +655,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     {
                         return null;
                     }
-                    return new Message() { message = groupMember.ToString(hideFakeID: true) };
+                    return new Message() { message = groupMember.ToString(hideFakeID: true, nameFirst: true, html: true) };
                 }
             }
 
@@ -657,6 +676,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             successors.title = (subscribedMod.Successors.Count == 1)
                 ? "The successor of this mod is:"
                 : "This is succeeded by any of the following (pick one, not all):";
+            successors.titleLocaleId = (subscribedMod.Successors.Count == 1) ? "HRTC_S_SMC" : "HRTC_SS_SM";
 
             List<Message> successorsCollection = new List<Message>();
             successors.messages = successorsCollection;
@@ -671,13 +691,16 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
 
                         s.message = "Unsubscribe this. It is succeeded by a mod you already have:";
+                        s.messageLocaleId = "HRTC_S_U";
                         s.details = catalog.GetMod(steamID).ToString(hideFakeID: true);
                         successorsCollection.Add(s);
                         return successors;
                     }
 
                     s.message = catalog.GetMod(steamID).ToString(hideFakeID: true);
-                    s.details = $"Workshop page: {HtmlExtensions.A(Toolkit.GetWorkshopUrl(steamID))}";
+                    s.messageLocaleId = "HRTC_S_WSP";
+                    s.localeIdVariables = $"{APPEND_VALUE_ID}:{HtmlExtensions.A(Toolkit.GetWorkshopUrl(steamID), newTab: true)}";
+                    s.details = $"Workshop page: {HtmlExtensions.A(Toolkit.GetWorkshopUrl(steamID), newTab: true)}";
                     successorsCollection.Add(s);
                 }
                 else
@@ -709,6 +732,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                 title = subscribedMod.Alternatives.Count == 1 
                     ? "An alternative you could use:"
                     : "Some alternatives for this are (pick one, not all):",
+                titleLocaleId = subscribedMod.Alternatives.Count == 1 ? "HRTC_A_SMC": "HRTC_A_SM",
                 messages = new List<Message>()
             };
 
@@ -771,48 +795,56 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                         item.message = "Unsubscribe either this or the other edition of the same mod:";
+                        item.messageLocaleId = "HRTC_IRS_SMDRT";
                         item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionality:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                         item.message = "Unsubscribe either this or the following incompatible mod with similar functionality:";
+                        item.messageLocaleId = "HRTC_IRS_SF";
                         item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
                         item.message = "Unsubscribe either this one or the following mod it's incompatible with:";
+                        item.messageLocaleId = "HRTC_IRS_IATA";
                         item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToUsers:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                         item.message = "Users report an incompatibility with:";
+                        item.messageLocaleId = "HRTC_IRS_IATU";
                         item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.MajorIssues:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
                         item.message = "This has major issues with:";
+                        item.messageLocaleId = "";
                         item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.MinorIssues:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
                         item.message = "This has minor issues with:";
+                        item.messageLocaleId = "HRTC_IRS_MI";
                         item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.RequiresSpecificSettings:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                         item.message = "This requires specific configuration to work together with:";
+                        item.messageLocaleId = "HRTC_IRS_RSS";
                         item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionalityCompatible:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                         item.message = "This has very similar functionality, but is still compatible with (do you need both?):";
+                        item.messageLocaleId = "HRTC_IRS_SFC";
                         item.details = $"{otherModString} {compatibility.Note}";
                         break;
 
@@ -821,6 +853,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                         {
                             subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
                             item.message = "This is compatible with:";
+                            item.messageLocaleId = "HRTC_IRS_CATA";
                             item.details = $"{otherModString} {compatibility.Note}";
                         }
                         break;
@@ -885,12 +918,15 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
     internal class MessageList
     {
         public string title;
+        public string titleLocaleId;
         public List<Message> messages;
     }
 
     internal class Message
     {
         public string message;
+        public string messageLocaleId;
+        public string localeIdVariables;
         public string details;
     }
 }

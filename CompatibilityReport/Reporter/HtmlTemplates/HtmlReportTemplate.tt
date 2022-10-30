@@ -67,10 +67,13 @@
     .report-section__content {margin-left: 0; padding: 5px}
     .report-content:last-child { border-bottom: unset !important; }
     li.message a {min-width: 260px; display: inline-block;}   
+    ul {padding-inline-start: 20px;}    
 
     .author,.modName {font-weight: bold;}
 
+    .f-small {font-size: small; margin-right: 2px; margin-left: -2px; padding: 2px !important;}
     .disabled {padding: 5px; font-weight: bold;}
+    .capitalize {text-transform: uppercase;}
     .unsubscribe {background-color: #dd2323; color: #f9f6ea}
     .major {background-color: #e69138;}
     .minor {background-color: #ffd966;}
@@ -242,7 +245,7 @@
         if (nestedList?.messages == null) return string.Empty;
 
         return !string.IsNullOrEmpty(nestedList.title) 
-            ? "ul".Tag( "li".Tag(nestedList.title, "title") + "ul".Tag(nestedList.messages.NestedLi()), classes)
+            ? "ul".Tag( "li".Tag(nestedList.title, "title", localeId: nestedList.titleLocaleId) + "ul".Tag(nestedList.messages.NestedLi()), classes)
             : "ul".Tag(nestedList.messages.NestedLi(), classes);
     }
 
@@ -251,7 +254,7 @@
             ? string.Empty
             : "ul".Tag(
                 "li".Tag(item.message + BulletList(item.details, "details"))
-                , classes);
+                , classes, localeId: item.messageLocaleId, localeVars: item.localeIdVariables);
     }
 
     string BulletList(string text, string classes = null) {
@@ -295,9 +298,9 @@
                     <div class="report-content border-b_<#= style #>">
                         <p class="font-bold"><#= modInfo.modName #></p>
                         <ul>
-                            <li><#= cannotReviewMessage #></li>                        
+                            <li data-i18n="HRTC_CRM_S"><#= cannotReviewMessage #></li>                        
                         </ul>
-                        <p class="<#= modInfo.isCameraScript? "": "hide" #>"><#= isCameraScriptMessage #></p>
+                        <p class="<#= modInfo.isCameraScript? "": "hide" #>" data-i18n="HRTC_ICSM_S"><#= isCameraScriptMessage #></p>
                     </div><#                    
                 }
                 else
@@ -305,7 +308,7 @@
 #>
                     <div class="report-content border-b_<#= style #>">
                         <p>
-                            <#= "span".TagConditional(modInfo.isDisabled, "DISABLED", "disabled minor") #>
+                            <#= "span".TagConditional(modInfo.isDisabled, "DISABLED", "disabled minor capitalize", localeId: "HRT_P_D") #>
                             <#= HtmlExtensions.NameAuthorWithIDAsLink(modInfo.modName, modInfo.authorName, modInfo.steamUrl, modInfo.idString) #>
                         </p>
                         <#= ListItem(modInfo.instability, "instability mt-1") #>
@@ -320,8 +323,8 @@
                         <#= BulletList(modInfo.note, "note mt-1") #>
                         <#= NestedList(modInfo.alternatives, "alternatives mt-1") #>
                         <#= NestedList(modInfo.recommendations, "recommendations") #>
-                        <#= "ul".TagConditional(modInfo.anyIssues, "li".Tag(noKnownIssuesMessage), "noKnownIssues mt-1") #>
-                        <#= "ul".TagConditional(modInfo.isCameraScript, "li".Tag(isCameraScriptMessage), "isCameraScript mt-1") #>
+                        <#= "ul".TagConditional(modInfo.anyIssues, "li".Tag(noKnownIssuesMessage, localeId: "HRTC_NKIM_S"), "noKnownIssues mt-1") #>
+                        <#= "ul".TagConditional(modInfo.isCameraScript, "li".Tag(isCameraScriptMessage, localeId: "HRTC_ICSM_S"), "isCameraScript mt-1") #>
                     </div><#
                 }
             }
