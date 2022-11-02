@@ -188,7 +188,7 @@ HtmlReportTemplateCode.cs Stability NotEnoughInformationVersion and NotReviewedV
 HtmlReportTemplateCode.cs Stability NotReviewed","",""
 "HRTC_S_NRC","but it was updated for the current game version.","但它已更新到当前游戏版本。","HRTC_S_NRC
 HtmlReportTemplateCode.cs Stability NotReviewedCurrent","",""
-"HRTC_S_NRV","but it was updated for game version {GameVersion}","但它已更新为游戏版本 {GameVersion}","HRTC_S_NRV
+"HRTC_S_NRV","but it was updated for game version {GameVersion}","但它已更新为游戏版本 {GameVersion}。","HRTC_S_NRV
 HtmlReportTemplateCode.cs Stability NotReviewedVersion","",""
 "HRTC_S_S","This is compatible with the current game version.","这个模组与当前游戏版本兼容。","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable","",""
