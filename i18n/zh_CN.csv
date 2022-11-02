@@ -1,7 +1,7 @@
 "Identifier","Source String","Translation","Context","Labels","Max. Length"
 "LANGUAGE","English","简体中文","LANGUAGE
 1Language to be translated into","",""
-"CAT_NC_SUIT","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} 在 {Updated} 上创建，下载于 {Downloaded}","CAT_NC_SUIT
+"CAT_NC_SUIT","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} 创建于 {Updated}，下载于 {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText","",""
 "CAT_S_SUIT","unknown, catalog not loaded yet.","未知的目录尚未加载。","CAT_S_SUIT
 Catalog.cs string SettingsUIText","",""
@@ -43,7 +43,7 @@ HtmlReportTemplate.tt General information Whenplaying","",""
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning","",""
 "HRT_LIL_MAI","Major Issues","主要问题","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues","",""
-"HRT_LIL_MI","Minor Issues","Minor Issues","HRT_LIL_MI
+"HRT_LIL_MI","Minor Issues","次要问题","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues","",""
 "HRT_LIL_NTR","Nothing to report","没有要报告的内容","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport","",""
@@ -135,7 +135,7 @@ HtmlReportTemplateCode.cs Instability GameBreaking","",""
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop","",""
 "HRTC_I_MAI","Unsubscribe would be wise. This has major issues {StabilityNote}. Check its Workshop page for details.","建议取消订阅。这个模组有如下的重大问题：{StabilityNote}。请参考该模组的工坊页面以了解详细信息。","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues","",""
-"HRTC_I_MAIC","Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
+"HRTC_I_MAIC","Check its Workshop page for details.","查看其创意工坊页面的详细信息。","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck","",""
 "HRTC_I_RIM","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","立刻取消订阅！这个模组所依赖的另一个模组与当前的游戏版本不兼容。","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod","",""
@@ -458,7 +458,7 @@ and enable the following settings for Daylight Classic:
 "REPORT_NOTE_140","Real City doesn't detect the extra CitizenUnits.","Real City 没有检测到额外的公民单位。","REPORT_NOTE_140","",""
 "REPORT_NOTE_141","Real Time is meant for cities with a population of up to 65.000.","Real Time 适用于人口达 65000 人的城市。","REPORT_NOTE_141","",""
 "REPORT_NOTE_142","Real Time might delay the arrival of extra Starting Money.","Real Time 可能会延迟额外启动资金的到账。","REPORT_NOTE_142","",""
-"REPORT_NOTE_143","Realistic Population includes a 'no deathcare' functionality.","Realistic Population includes a 'no deathcare' functionality.","REPORT_NOTE_143","",""
+"REPORT_NOTE_143","Realistic Population includes a 'no deathcare' functionality.","Realistic Population 包含了“无死亡”的功能。","REPORT_NOTE_143","",""
 "REPORT_NOTE_144","Render It already has shadow strength functionality.","Render It 已经具有了调整阴影强度的功能。","REPORT_NOTE_144","",""
 "REPORT_NOTE_145","Replacing road arrows with Prop Switcher is not recommended and might give an 'array out of bounds' error.","不推荐使用 Prop Switcher 替换道路箭头，这可能会造成一个“数组超限”错误。","REPORT_NOTE_145","",""
 "REPORT_NOTE_146","Require removing all dependent assets before removing the mod. Button for that is in options of the mod.","需要移除所有依赖资产后才能移除模组。该按钮在模组的选项中。","REPORT_NOTE_146","",""
