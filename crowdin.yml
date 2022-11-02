@@ -1,5 +1,5 @@
 files:
-  - source: i18n/*.csv
+  - source: CompatibilityReport/i18n/*.csv
     translation: /i18n/%locale_with_underscore%.csv
     first_line_contains_header: 1
     scheme: 'identifier,source_phrase,translation,context,none,none'
