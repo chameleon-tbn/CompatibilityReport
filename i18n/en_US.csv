@@ -217,7 +217,7 @@ HtmlReportTemplateCode.cs Statuses nestedItemauthorRetired","",""
 HtmlReportTemplateCode.cs Statuses Obsolete","",""
 "HRTC_S_RFW","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","HRTC_S_RFW
 HtmlReportTemplateCode.cs Statuses RemovedFromWorkshop","",""
-"HRTC_S_SCLW","NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTE: After using this mod, savegames won't (easily) load without it anymore.","HRTC_S_SCLW
+"HRTC_S_SCLW","NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTE: After using this mod, game saves won't (easily) load without it anymore.","HRTC_S_SCLW
 HtmlReportTemplateCode.cs Statuses SavesCantLoadWithout","",""
 "HRTC_S_TVA","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_S_TVA
 HtmlReportTemplateCode.cs Statuses TestVersion Alternatives","",""
@@ -579,7 +579,7 @@ Common Ground is not needed for gameplay when you unlock all 81 tiles, but is st
 "REPORT_NOTE_261","This supports undoing building/bulldozing roads, buildings, props and trees.","This supports undoing building/bulldozing roads, buildings, props and trees.","REPORT_NOTE_261","",""
 "REPORT_NOTE_262","This used to be the newer version, but was deprecated after the original version was updated. Use the original version instead.","This used to be the newer version, but was deprecated after the original version was updated. Use the original version instead.","REPORT_NOTE_262","",""
 "REPORT_NOTE_263","This version is only for beta testers that use the Adaptive Networks ALPHA mod.","This version is only for beta testers that use the Adaptive Networks ALPHA mod.","REPORT_NOTE_263","",""
-"REPORT_NOTE_264","This version may contain bugs, including savegame-breaking bugs.","This version may contain bugs, including savegame-breaking bugs.","REPORT_NOTE_264","",""
+"REPORT_NOTE_264","This version may contain bugs, including savegame-breaking bugs.","This version may contain bugs, including game save-breaking bugs.","REPORT_NOTE_264","",""
 "REPORT_NOTE_265","This was formerly known as Adaptive Roads (AR).","This was formerly known as Adaptive Roads (AR).","REPORT_NOTE_265","",""
 "REPORT_NOTE_266","This was needed for MacOS, because FPS Booster didn't work on MacOS. That should be solved and everyone should be able to use FPS Booster.","This was needed for MacOS, because FPS Booster didn't work on MacOS. That should be solved and everyone should be able to use FPS Booster.","REPORT_NOTE_266","",""
 "REPORT_NOTE_267","This was only ever needed to fix one specific bridge.","This was only ever needed to fix one specific bridge.","REPORT_NOTE_267","",""
