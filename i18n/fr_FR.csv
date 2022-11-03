@@ -1,27 +1,27 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
 LANGUAGE,English,Française,"LANGUAGE
 Language to be translated into",,
-CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
+CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} créé le {Updated}, téléchargé le {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
-CAT_S_SUIT,"unknown, catalog not loaded yet.","unknown, catalog not loaded yet.","CAT_S_SUIT
+CAT_S_SUIT,"unknown, catalog not loaded yet.","inconnu, le catalogue n'est pas encore chargé.","CAT_S_SUIT
 Catalog.cs string SettingsUIText",,
 HRTC_S_MC,"This includes copyrighted music and should not be used for streaming.","This includes copyrighted music and should not be used for streaming.","HRTC_S_MC
 HtmlReportTemplateCode.cs Statuses MusicCopyrighted",,
-HE_NAWIDAL_S,by,by,"HE_NAWIDAL_S
+HE_NAWIDAL_S,by,de,"HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string",,
-HRT_DCV_H,WARNING:,WARNING:,"HRT_DCV_H
+HRT_DCV_H,WARNING:,"ATTENTION :","HRT_DCV_H
 HtmlReportTemplate.tt Different Catalog version Header",,
 HRT_DCV_RNA,"Results might not be accurate.","Results might not be accurate.","HRT_DCV_RNA
 HtmlReportTemplate.tt Different Catalog version Resultsnotaccurate",,
-HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","The catalog is made for game version {CatalogGameVersion}.","HRT_DCV_T
+HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","Le catalogue est fait pour la version du jeu {CatalogGameVersion}.","HRT_DCV_T
 HtmlReportTemplate.tt Different Catalog version Text",,
 HRT_DCV_YGIN,"Your game is newer.","Your game is newer.","HRT_DCV_YGIN
 HtmlReportTemplate.tt Different Catalog version Your game is newer",,
 HRT_DCV_YGIO,"Your game is older.","Your game is older.","HRT_DCV_YGIO
 HtmlReportTemplate.tt Different Catalog version Your game is older",,
-HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","The report includes {LocalSubscriptionCount} fake subscriptions.","HRT_FS_P
+HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","Le rapport contient {LocalSubscriptionCount} faux abonnements.","HRT_FS_P
 HtmlReportTemplate.tt Fake subscription plural",,
-HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","The report includes {LocalSubscriptionCount} fake subscription.","HRT_FS_S
+HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","Le rapport contient {LocalSubscriptionCount} faux abonnement.","HRT_FS_S
 HtmlReportTemplate.tt Fake subscription singular",,
 HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","Abandoned mods can still work fine. They're just unlikely to get updates.","HRT_GI_AM
 HtmlReportTemplate.tt General information Abandondedmod",,
@@ -53,7 +53,7 @@ HRT_LIL_MI,"Minor Issues","Minor Issues","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
 HRT_LIL_NTR,"Nothing to report","Nothing to report","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
-HRT_LIL_R,Remarks,Remarks,"HRT_LIL_R
+HRT_LIL_R,Remarks,Commentaires,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
 HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
@@ -63,7 +63,7 @@ HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.",
 HtmlReportTemplate.tt Local subscription Mod singular",,
 HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note",,
-HRT_P_D,Disabled,Disabled,"HRT_P_D
+HRT_P_D,Disabled,Désactivé,"HRT_P_D
 HtmlReportTemplate.tt processed Disabled",,
 HRT_P_MN,"Mod Name","Mod Name","HRT_P_MN
 HtmlReportTemplate.tt processed Mod Name",,
@@ -313,6 +313,8 @@ SET_RT_TXT,Text,Text,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
 HRT_LIL_MAI,"Major Issues","Major Issues","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues",,
+HRT_S_CRC,"{name}, created on {date+time}","{name}, created on {date+time}","HRT_S_CRC
+HtmlReportTemplate.tt section CompatibilityReportCreated",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",REPORT_NOTE_3,,
