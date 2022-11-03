@@ -84,6 +84,7 @@ namespace CompatibilityReport.Translations
                 case string s when s.StartsWith("HRT_"):
                 case string s2 when s2.StartsWith("HRTC_"):
                 case string s3 when s3.StartsWith("REPORT_NOTE_"):
+                case string s4 when s4.StartsWith("HE_"):
                     return true;
             }
             return false;

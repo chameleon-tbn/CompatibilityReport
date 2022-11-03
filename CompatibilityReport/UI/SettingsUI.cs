@@ -385,6 +385,16 @@ namespace CompatibilityReport.UI
         
         private void BuildRecordGroupUI(out bool shouldBuildOptions)
         {
+            GeneralConfig config = GlobalConfig.Instance.GeneralConfig;
+            UIDropDown langsDropdown = settingsUIHelper.AddDropdown(
+                translator.T("LANGUAGE"),
+                AvailableLangs.ToArray(),
+                FindLangIndex(config.Language),
+                (index) => {
+                    optionsPanel.StartCoroutine(Translation.instance.ChangeLanguageByIndex_Deferred(index));
+                }) as UIDropDown;
+            langsDropdown.width = 300f;
+            
             shouldBuildOptions = true;
             if (PluginManager.noWorkshop || PlatformService.platformType != PlatformType.Steam)
             {
@@ -401,16 +411,6 @@ namespace CompatibilityReport.UI
                 return;
             }
 
-            GeneralConfig config = GlobalConfig.Instance.GeneralConfig;
-            UIDropDown langsDropdown = settingsUIHelper.AddDropdown(
-                translator.T("LANGUAGE"),
-                AvailableLangs.ToArray(),
-                FindLangIndex(config.Language),
-                (index) => {
-                    optionsPanel.StartCoroutine(Translation.instance.ChangeLanguageByIndex_Deferred(index));
-                }) as UIDropDown;
-            langsDropdown.width = 300f;
-            
             UIHelperBase reportGroup = settingsUIHelper.AddGroup($"{T("SET_BRG_RG")}:");
 
             reportPathTextField = reportGroup.AddTextfield(

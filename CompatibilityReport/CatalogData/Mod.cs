@@ -19,11 +19,13 @@ namespace CompatibilityReport.CatalogData
         public string AuthorUrl { get; private set; } = "";
 
         public Enums.Stability Stability { get; private set; } = Enums.Stability.NotReviewed;
-        public string StabilityNote { get; private set; }
+        [XmlElement("StabilityNote")]
+        public ElementWithId StabilityNote { get; private set; }
 
         public List<Enums.Status> Statuses { get; private set; } = new List<Enums.Status>();
         public bool ExclusionForNoDescription { get; private set; }
-        public string Note { get; private set; }
+        [XmlElement("Note")]
+        public ElementWithId Note { get; private set; }
 
         // Game version this mod is compatible with. 'Version' is not serializable, so a converted string is used.
         [XmlElement("GameVersion")] public string GameVersionString { get; private set; }
@@ -90,8 +92,8 @@ namespace CompatibilityReport.CatalogData
                            ulong authorID = 0,
                            string authorUrl = null,
                            Enums.Stability stability = default,
-                           string stabilityNote = null,
-                           string note = null,
+                           ElementWithId stabilityNote = null,
+                           ElementWithId note = null,
                            string gameVersionString = null,
                            string sourceUrl = null,
                            DateTime reviewDate = default,
@@ -108,9 +110,9 @@ namespace CompatibilityReport.CatalogData
             AuthorUrl = authorUrl ?? AuthorUrl ?? "";
 
             Stability = stability == default ? Stability : stability;
-            StabilityNote = stabilityNote ?? StabilityNote ?? "";
+            StabilityNote = stabilityNote ?? StabilityNote ?? new ElementWithId();
 
-            Note = note ?? Note ?? "";
+            Note = note ?? Note ?? new ElementWithId();
             GameVersionString = gameVersionString ?? GameVersionString ?? Toolkit.UnknownVersion().ToString();
             SourceUrl = sourceUrl ?? SourceUrl ?? "";
 
@@ -310,8 +312,8 @@ namespace CompatibilityReport.CatalogData
             string name = !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
 
             return nameFirst ? 
-                $"{(html && !string.IsNullOrEmpty(disabledPrefix) ? $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>": disabledPrefix)}{ name } { idString }" 
-                : $"{(html && !string.IsNullOrEmpty(disabledPrefix) ? $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>": disabledPrefix)}{ idString } { name }";
+                $"{((html && !string.IsNullOrEmpty(disabledPrefix)) ? $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>": disabledPrefix)}{ name } { idString }" 
+                : $"{((html && !string.IsNullOrEmpty(disabledPrefix)) ? $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>": disabledPrefix)}{ idString } { name }";
         }
 
         public string IdString(bool hideFakeID = false)

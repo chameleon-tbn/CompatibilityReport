@@ -384,9 +384,9 @@ namespace CompatibilityReport.Updater
                     DataDump.AppendLine($"{ catalogMod.Name } - { WorkshopUrl(catalogMod.SteamID) }");
 
                     DataDump.AppendLine($"Stability      : { catalogMod.Stability }");
-                    if (!string.IsNullOrEmpty(catalogMod.StabilityNote))
+                    if (catalogMod.StabilityNote != null && !string.IsNullOrEmpty(catalogMod.StabilityNote.Value))
                     {
-                        DataDump.AppendLine($"Stability note : { catalogMod.StabilityNote.Replace("\n", "\n                 ") }");
+                        DataDump.AppendLine($"Stability note : { catalogMod.StabilityNote.Value.Replace("\n", "\n                 ") }");
                     }
 
                     if (catalogMod.Statuses.Any())
@@ -399,9 +399,9 @@ namespace CompatibilityReport.Updater
                         DataDump.AppendLine($"Statuses       : { statuses }");
                     }
 
-                    if (!string.IsNullOrEmpty(catalogMod.Note))
+                    if (catalogMod.Note != null && !string.IsNullOrEmpty(catalogMod.Note.Value))
                     {
-                        DataDump.AppendLine($"Generic Note   : { catalogMod.Note.Replace("\n", "\n                 ") }");
+                        DataDump.AppendLine($"Generic Note   : { catalogMod.Note.Value.Replace("\n", "\n                 ") }");
                     }
 
                     if (catalogMod.Successors.Any())
@@ -435,7 +435,7 @@ namespace CompatibilityReport.Updater
                         if (compatibility.FirstModID == catalogMod.SteamID && compatibility.SecondModID != 1372431101 && compatibility.SecondModID != 1386697922)
                         {
                             compatibilities += $"  * { compatibility.SecondModName } [{ compatibility.SecondModID }]: { compatibility.Status }\n";
-                            if (!string.IsNullOrEmpty(compatibility.Note)) 
+                            if (compatibility.Note != null && !string.IsNullOrEmpty(compatibility.Note.Value)) 
                             {
                                 compatibilities += $"    Note: { compatibility.Note }\n";
                             }
@@ -443,7 +443,7 @@ namespace CompatibilityReport.Updater
                         else if (compatibility.SecondModID == catalogMod.SteamID && compatibility.FirstModID != 1372431101 && compatibility.FirstModID != 1386697922)
                         {
                             compatibilities += $"  * { compatibility.FirstModName } [{ compatibility.FirstModID }]: { compatibility.Status }\n";
-                            if (!string.IsNullOrEmpty(compatibility.Note))
+                            if (compatibility.Note != null && !string.IsNullOrEmpty(compatibility.Note.Value))
                             {
                                 compatibilities += $"    Note: { compatibility.Note }\n";
                             }

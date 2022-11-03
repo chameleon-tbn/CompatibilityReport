@@ -101,28 +101,31 @@
         <script>
             var translations = <#= GetTranslations() #>
             function getTranslation(lang, key) {
-                return translations[lang][key];
+                return translations[lang][key] ? translations[lang][key] : key;
             }
-            function applyVariables(translation, variablesString) {
-                if (!variablesString) return translation;
+            function htmlDecode(input) {
+              var doc = new DOMParser().parseFromString(input, "text/html");
+              return doc.documentElement.textContent;
+            }
+            function applyVariables(lang, translation, variablesString, prefixValue) {
+                if (!variablesString) return prefixValue + translation;
 
                 var keyValues = variablesString.split("|");
                 keyValues.forEach(k => {
-                	console.log('k', k.split(':'))
                     var keyVal = k.split(':');
-                    translation = translation.replace(`{${keyVal[0]}}`, keyVal[1]);
+                    translation = translation.replace(`{${keyVal[0]}}`, getTranslation(lang, keyVal[1]));
                 });
-                return translation;
+                return prefixValue + translation;
             }
             function changeLanguage(lang) {
                 var elements = document.querySelectorAll("[data-i18n]");
                 elements.forEach((element) => {
                     var key = element.dataset.i18n;
                     var localeVars = element.dataset.i18nVars;
+                    var prefixValue = element.dataset.i18nPrefixValue || '';
                     var value = element.dataset.i18nValue || '';
                     var translated = getTranslation(lang, key);
-                    console.log(lang, key, translated, element.innerHTML);
-                    element.innerHTML = translated ? applyVariables(translated, localeVars) + value : element.innerHTML;
+                    element.innerHTML = translated ? applyVariables(lang, translated, localeVars, htmlDecode(prefixValue)) + htmlDecode(value) : element.innerHTML;
                 });
             }
         </script>
@@ -245,7 +248,7 @@
         if (nestedList?.messages == null) return string.Empty;
 
         return !string.IsNullOrEmpty(nestedList.title) 
-            ? "ul".Tag( "li".Tag(nestedList.title, "title", localeId: nestedList.titleLocaleId) + "ul".Tag(nestedList.messages.NestedLi()), classes)
+            ? "ul".Tag( "li".Tag("span".Tag(nestedList.title, "title", localeId: nestedList.titleLocaleId) + "ul".Tag(nestedList.messages.NestedLi())), classes)
             : "ul".Tag(nestedList.messages.NestedLi(), classes);
     }
 
@@ -253,17 +256,16 @@
         return item == null
             ? string.Empty
             : "ul".Tag(
-                "li".Tag(item.message + BulletList(item.details, "details"))
-                , classes, localeId: item.messageLocaleId, localeVars: item.localeIdVariables);
+                "li".Tag("span".Tag(item.message, classes, localeId: item.messageLocaleId, localeVars: item.localeIdVariables) + BulletList(item.details, "details", item.detailsLocaleId)));
     }
 
-    string BulletList(string text, string classes = null) {
+    string BulletList(string text, string classes = null, string localeId = null) {
         return string.IsNullOrEmpty(text)
             ? string.Empty
             : "ul".Tag(
                 string.Join("\n", text
                     .Split('\n')
-                    .Select(part => "li".Tag(part))
+                    .Select(part => "li".Tag(part, localeId: localeId))
                     .ToArray())
                 , classes);
     }
@@ -320,7 +322,7 @@
                         <#= NestedList(modInfo.compatibilities, "compatibilities mt-1") #>
                         <#= NestedList(modInfo.requiredMods, "requiredMods mt-1") #>
                         <#= NestedList(modInfo.statuses, "statuses mt-1") #>
-                        <#= BulletList(modInfo.note, "note mt-1") #>
+                        <#= BulletList(modInfo.note, "note mt-1", modInfo.noteLocaleId) #>
                         <#= NestedList(modInfo.alternatives, "alternatives mt-1") #>
                         <#= NestedList(modInfo.recommendations, "recommendations") #>
                         <#= "ul".TagConditional(modInfo.anyIssues, "li".Tag(noKnownIssuesMessage, localeId: "HRTC_NKIM_S"), "noKnownIssues mt-1") #>

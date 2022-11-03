@@ -337,8 +337,8 @@ namespace CompatibilityReport.Updater
                                      ulong authorID = 0,
                                      string authorUrl = null,
                                      Enums.Stability stability = default,
-                                     string stabilityNote = null,
-                                     string note = null,
+                                     ElementWithId stabilityNote = null,
+                                     ElementWithId note = null,
                                      string gameVersionString = null,
                                      string sourceUrl = null,
                                      bool updatedByImporter = false)
@@ -463,13 +463,13 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Adds a compatibility to the catalog.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void AddCompatibility(Catalog catalog, ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, string note)
+        public static void AddCompatibility(Catalog catalog, ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, ElementWithId note)
         {
             catalog.AddCompatibility(firstModID, secondModID, status, note);
 
             catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { Toolkit.CutOff(catalog.GetMod(firstModID).ToString(), 45), -45 } and " +
                 $"{ Toolkit.CutOff(catalog.GetMod(secondModID).ToString(), 45), -45 }: { status }" +
-                (string.IsNullOrEmpty(note) ? "" : $", { Toolkit.CutOff(note, ModSettings.TextReportWidth) }"));
+                (string.IsNullOrEmpty(note.Value) ? "" : $", { Toolkit.CutOff(note.Value, ModSettings.TextReportWidth) }"));
         }
 
 
@@ -486,7 +486,7 @@ namespace CompatibilityReport.Updater
             catalog.ChangeNotes.AppendRemovedCompatibility("Removed compatibility between " +
                 $"{ Toolkit.CutOff(catalog.GetMod(oldCompatibility.FirstModID).ToString(), 45), -45 } and " +
                 $"{ Toolkit.CutOff(catalog.GetMod(oldCompatibility.SecondModID).ToString(), 45), -45 }: { oldCompatibility.Status }" +
-                (string.IsNullOrEmpty(oldCompatibility.Note) ? "" : $", { oldCompatibility.Note }"));
+                (oldCompatibility.Note == null || string.IsNullOrEmpty(oldCompatibility.Note.Value) ? "" : $", { oldCompatibility.Note.Value }"));
 
             return true;
         }

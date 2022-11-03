@@ -652,8 +652,11 @@ namespace CompatibilityReport.Util
             return string.IsNullOrEmpty(htmlText) ? "" : htmlText.Replace("&quot;", "\"").Replace("&lt;", "<").Replace("&gt;", ">").Replace("&amp;", "&");
         }
 
+        public static string EscapeHtml(string htmlText) {
+            return string.IsNullOrEmpty(htmlText) ? string.Empty : htmlText.Replace("\"", "&quot;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;");
+        }
 
-        /// <summary>Gets the substring between two 'boundary' substrings in a string.</summary>
+    /// <summary>Gets the substring between two 'boundary' substrings in a string.</summary>
         /// <returns>The found substring, or an empty string if either of the 'boundary' substrings is not found.</returns>
         public static string MidString(string original, string leftBoundary, string rightBoundary)
         {

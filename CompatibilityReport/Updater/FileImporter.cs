@@ -216,7 +216,7 @@ namespace CompatibilityReport.Updater
                     string stabilityNote = (lineElements.Length < 4 || lineElements[3].Trim()[0] == '#') ? "" :
                         string.Join(",", lineElements, 3, lineElements.Length - 3).Trim().Replace("\\n", "\n");
                     return lineElements.Length < 3 ? "Not enough parameters." : 
-                        ChangeStability(catalog, steamID: numericSecond, stabilityString: stringThird, stabilityNote);
+                        ChangeStability(catalog, steamID: numericSecond, stabilityString: stringThird, new ElementWithId() {Value= stabilityNote});
 
                 case "set_note":
                     // Join the lineFragments for the note, to allow for commas. Replace "\n" in the CSV text by real newline characters.
@@ -398,7 +398,7 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Changes the stability for a mod.</summary>
         /// <returns>Error message, or empty string when all was well.</returns>
-        private static string ChangeStability(Catalog catalog, ulong steamID, string stabilityString, string note)
+        private static string ChangeStability(Catalog catalog, ulong steamID, string stabilityString, ElementWithId note)
         {
             Mod catalogMod = catalog.GetMod(steamID);
             if (catalogMod == null)
@@ -583,21 +583,21 @@ namespace CompatibilityReport.Updater
             }
             else if (action == "set_note")
             {
-                if (!string.IsNullOrEmpty(catalogMod.Note) && catalogMod.Note == propertyData)
+                if (catalogMod.Note != null && !string.IsNullOrEmpty(catalogMod.Note.Value) && catalogMod.Note.Value == propertyData)
                 {
                     return "Note already added.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, note: propertyData, updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, note: new ElementWithId(){ Value = propertyData}, updatedByImporter: true);
             }
             else if (action == "remove_note")
             {
-                if (string.IsNullOrEmpty(catalogMod.Note))
+                if (catalogMod.Note == null || string.IsNullOrEmpty(catalogMod.Note.Value))
                 {
                     return "Note already empty.";
                 }
 
-                CatalogUpdater.UpdateMod(catalog, catalogMod, note: "", updatedByImporter: true);
+                CatalogUpdater.UpdateMod(catalog, catalogMod, note: new ElementWithId(), updatedByImporter: true);
             }
             else if (action == "update_review")
             {
@@ -912,7 +912,7 @@ namespace CompatibilityReport.Updater
                     }
                 }
 
-                CatalogUpdater.AddCompatibility(catalog, firstSteamID, secondSteamID, compatibilityStatus, note);
+                CatalogUpdater.AddCompatibility(catalog, firstSteamID, secondSteamID, compatibilityStatus, new ElementWithId() {Value = note});
             }
             else
             {

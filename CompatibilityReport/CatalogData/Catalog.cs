@@ -218,7 +218,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Adds a compatibility to the catalog.</summary>
-        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, string note)
+        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, ElementWithId note)
         {
             Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, status, note));
         }
@@ -460,7 +460,7 @@ namespace CompatibilityReport.CatalogData
                     string inGameName = Toolkit.GetPluginName(plugin);
                     if (inGameName != subscribedMod.Name)
                     {
-                        subscribedMod.Update(note: $"{ (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is { inGameName }");
+                        subscribedMod.Update(note: new ElementWithId() {Value =$"{ (string.IsNullOrEmpty(subscribedMod.Note.Value) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is { inGameName }"});
                     }
                 }
 
@@ -497,8 +497,8 @@ namespace CompatibilityReport.CatalogData
                         {
                             Logger.Log($"Fake subscription added for testing: { subscribedMod.ToString() }");
 
-                            subscribedMod.Update(note: (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") +
-                                "This is a fake subscription for testing purposes. This is not really subscribed.");
+                            subscribedMod.Update(note: new ElementWithId() {Value = (string.IsNullOrEmpty(subscribedMod.Note.Value) ? "" : $"{ subscribedMod.Note }\n") +
+                                "This is a fake subscription for testing purposes. This is not really subscribed."});
 
                             AddSubscription(subscribedMod);
                             FakeSubscriptionCount++;
@@ -657,9 +657,9 @@ namespace CompatibilityReport.CatalogData
                         loadedCatalog = (Catalog)serializer.Deserialize(reader);
                     }
                 }
-                catch (IOException)
+                catch (IOException e)
                 {
-                    Logger.Log($"Catalog is not a valid GZip file, will attempt to read as plain text: \"{ Toolkit.Privacy(fullPath) }\"", Logger.Debug);
+                    Logger.Log($"Catalog is not a valid GZip file, will attempt to read as plain text: \"{ Toolkit.Privacy(fullPath) }\" \n{e}", Logger.Debug);
 
                     using (TextReader reader = new StreamReader(fullPath))
                     {
@@ -675,20 +675,20 @@ namespace CompatibilityReport.CatalogData
                 }
                 else
                 {
-                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 }
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
             catch (XmlException ex)
             {
-                Logger.Log($"XML error while reading the catalog. Catalog could not be loaded: \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                Logger.Log($"XML error while reading the catalog. Catalog could not be loaded: \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }

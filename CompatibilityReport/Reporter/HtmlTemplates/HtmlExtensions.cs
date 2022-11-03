@@ -33,9 +33,13 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             return string.IsNullOrEmpty(value) ? string.Empty : "data-i18n-value".Attribute(value);
         }
         
-        public static string Tag(this string name, string content, string classes = null, string localeId = null, string localeVars = null)
+        public static string PrefixVal(this string value) {
+            return string.IsNullOrEmpty(value) ? string.Empty : "data-i18n-prefix-value".Attribute(value);
+        }
+        
+        public static string Tag(this string name, string content, string classes = null, string localeId = null, string localeVars = null, string localePrefix = null, string localeValue = null)
         {
-            return string.IsNullOrEmpty(content) ? string.Empty : $"<{name} {classes.Classes()} {T(localeId)} {TVars(localeVars)}>{content}</{name}>";
+            return string.IsNullOrEmpty(content) ? string.Empty : $"<{name} {classes.Classes()} {T(localeId)} {TVars(localeVars)} {PrefixVal(localePrefix)} {TVal(localeValue)}>{content}</{name}>";
         }
         
         public static string A(this string url, string text= null, string classes = null, bool newTab = false)
@@ -55,7 +59,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                 string list = "";
                 foreach (Message listItem in items)
                 {
-                    list += "li".Tag( listItem.message + "ul".Tag("li".Tag(listItem.details, "details")), "message", localeId: listItem.messageLocaleId, localeVars: listItem.localeIdVariables);
+                    list += "li".Tag( "span".Tag(listItem.message, "message", localeId: listItem.messageLocaleId, localeVars: listItem.localeIdVariables) + "ul".Tag("li".Tag(listItem.details, "details", localeId: listItem.detailsLocaleId, localeValue:listItem.detailsValue, localePrefix: listItem.detailsLocalized)));
                 }
                 return list;
             }
