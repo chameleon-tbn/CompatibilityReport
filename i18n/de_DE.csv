@@ -311,6 +311,8 @@ SET_RT_HAT,"HTML and text","HTML und Text","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
 SET_RT_TXT,Text,Text,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
+HRT_LIL_MAI,"Major Issues","Gravierende Probleme","HRT_LIL_MAI
+HtmlReportTemplate.tt LI_Link majorIssues",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Eine schwarze Leiste kann über der unteren Werkzeugleiste erscheinen.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Ein rot gefärbtes ""Gewicht"" bedeutet nicht notwendigerweise, dass das Asset schlecht ist. Es sagt nur aus, dass es sehr detailliert ist und die Performance stärker beeinflussen könnte.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","Eine Version 3.0 Beta wurde auf GitHub veröffentlicht, wurde aber nie im Steam Workshop veröffentlicht. Der Autor schrieb, er werde den Mod nicht mehr aktualisieren, da er Paradox für ihre DLC-Politik bestrafen will.",REPORT_NOTE_3,,

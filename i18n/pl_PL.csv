@@ -311,6 +311,8 @@ SET_RT_HAT,"HTML and text","HTML i tekst","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
 SET_RT_TXT,Text,Tekst,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
+HRT_LIL_MAI,"Major Issues","Główne problemy","HRT_LIL_MAI
+HtmlReportTemplate.tt LI_Link majorIssues",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",REPORT_NOTE_3,,
