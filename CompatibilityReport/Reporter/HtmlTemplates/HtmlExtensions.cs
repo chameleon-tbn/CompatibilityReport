@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CompatibilityReport.CatalogData;
 using CompatibilityReport.Util;
 
@@ -60,6 +61,24 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                 foreach (Message listItem in items)
                 {
                     list += "li".Tag( "span".Tag(listItem.message, "message", localeId: listItem.messageLocaleId, localeVars: listItem.localeIdVariables) + "ul".Tag("li".Tag(listItem.details, "details", localeId: listItem.detailsLocaleId, localeValue:listItem.detailsValue, localePrefix: listItem.detailsLocalized)));
+                }
+                return list;
+            }
+            return string.Empty;
+        }
+        
+        internal static string NestedCompatLi(this List<CompatibilityList> items)
+        {
+            if (items != null)
+            {
+                string list = "";
+                foreach (CompatibilityList listItem in items)
+                {
+                    if (string.IsNullOrEmpty(listItem.message))
+                    {
+                        continue;
+                    }
+                    list += "li".Tag( "span".Tag(listItem.message, "message", localeId: listItem.messageLocaleId) + "ul".Tag(string.Join("\n", listItem.details.Select(details => "li".Tag(details.details, "details", localeId: details.detailsLocaleId, localeValue:details.detailsValue, localePrefix: details.detailsLocalized)).ToArray())));
                 }
                 return list;
             }

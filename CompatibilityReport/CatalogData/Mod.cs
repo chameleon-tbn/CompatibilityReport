@@ -309,11 +309,18 @@ namespace CompatibilityReport.CatalogData
 
             string idString = IdString(hideFakeID);
 
-            string name = !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
+            string name = html ? this.NameWithIDAsLink() : !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
 
-            return nameFirst ? 
-                $"{((html && !string.IsNullOrEmpty(disabledPrefix)) ? $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>": disabledPrefix)}{ name } { idString }" 
-                : $"{((html && !string.IsNullOrEmpty(disabledPrefix)) ? $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>": disabledPrefix)}{ idString } { name }";
+            return nameFirst 
+                ? $"{DisabledPrefix(html)}{ name } { idString }" 
+                : $"{DisabledPrefix(html)}{ idString } { name }";
+        }
+
+        public string DisabledPrefix(bool html = false) {
+            string disabledPrefix = IsDisabled ? "[Disabled] " : string.Empty;
+            return !html || string.IsNullOrEmpty(disabledPrefix)
+                ? disabledPrefix
+                : $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>";
         }
 
         public string IdString(bool hideFakeID = false)

@@ -70,7 +70,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
         internal string GetTranslations() {
             Hashtable langs = new Hashtable();
-#if !DEBUG_TRANSLATIONS
+#if DEBUG_TRANSLATIONS
             var all = Translation.instance.All;
             for (var i = 0; i < all.Length; i++)
             {
@@ -224,7 +224,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
                 case Enums.Stability.MajorIssues:
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
-                    return new Message(){message = $"Unsubscribe would be wise. This has major issues{(string.IsNullOrEmpty(subscribedMod.StabilityNote.Value) ? ". Check its Workshop page for details." : ":")}", messageLocaleId = "HRTC_I_MAI", localeIdVariables = $"StabilityNote:{subscribedMod.StabilityNote}", details = subscribedMod.StabilityNote.Value, detailsLocaleId = subscribedMod.StabilityNote.Id};
+                    return new Message(){message = $"Unsubscribe would be wise. This has major issues{(string.IsNullOrEmpty(subscribedMod.StabilityNote.Value) ? ". Check its Workshop page for details." : ":")}", messageLocaleId = "HRTC_I_MAI", localeIdVariables = $"StabilityNote█{subscribedMod.StabilityNote}", details = subscribedMod.StabilityNote.Value, detailsLocaleId = subscribedMod.StabilityNote.Id};
 
                 default:
                     return null;
@@ -245,7 +245,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     {
                         message = $"This has minor issues{(!hasNote ? ". Check its Workshop page for details." : ":")}",
                         messageLocaleId = $"{(!hasNote ? "HRTC_S_MI": "HRTC_S_MIS")}",
-                        localeIdVariables = "StabilityNote: ",
+                        localeIdVariables = "StabilityNote█ ",
                         details = subscribedMod.StabilityNote.Value,
                         detailsLocaleId = $"{(hasNote ? $"{subscribedMod.StabilityNote.Id}" :"HRTC_I_MAIC")}"
                     };
@@ -257,7 +257,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     {
                         message = $"Users are reporting issues{(!hasNote2 ? ". Check its Workshop page for details." : ": ")}",
                         messageLocaleId = $"{(!hasNote2 ? "HRTC_S_URI": "HRTC_S_URS")}",
-                        localeIdVariables = $"StabilityNote: ",
+                        localeIdVariables = $"StabilityNote█ ",
                         details = subscribedMod.StabilityNote.Value,
                         detailsLocaleId = $"{(hasNote2 ? $"{subscribedMod.StabilityNote.Id}" :"HRTC_I_MAIC")}"
                     };
@@ -272,7 +272,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     {
                         message = $"There is not enough information about this mod to know if it works well{updatedText}",
                         messageLocaleId = "HRTC_S_NEI",
-                        localeIdVariables = $"{APPEND_TRANSLATED_VALUE_ID}:{(subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? "HRTC_S_NRC" :"")}",
+                        localeIdVariables = $"{APPEND_TRANSLATED_VALUE_ID}█{(subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? "HRTC_S_NRC" :"")}",
                         details = subscribedMod.StabilityNote.Value,
                         detailsLocaleId = subscribedMod.StabilityNote.Id
                     };
@@ -701,18 +701,16 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
                         s.message = "Unsubscribe this. It is succeeded by a mod you already have:";
                         s.messageLocaleId = "HRTC_S_U";
-                        s.details = catalog.GetMod(steamID).ToString(hideFakeID: true);
+                        s.details = catalog.GetMod(steamID).NameWithIDAsLink(true);
                         s.detailsLocaleId = " ";
-                        s.detailsLocalized = Toolkit.EscapeHtml(catalog.GetMod(steamID).ToString(hideFakeID: true, html: true));
+                        s.detailsLocalized = Toolkit.EscapeHtml(catalog.GetMod(steamID).DisabledPrefix(true));
+                        s.detailsValue = Toolkit.EscapeHtml(catalog.GetMod(steamID).NameWithIDAsLink());
                         successorsCollection.Add(s);
                         return successors;
                     }
 
-                    s.message = catalog.GetMod(steamID).ToString(hideFakeID: true);
+                    s.message = catalog.GetMod(steamID).NameWithIDAsLink();
                     s.localeIdVariables = $"{Toolkit.EscapeHtml(HtmlExtensions.A(Toolkit.GetWorkshopUrl(steamID), newTab: true))}";
-                    s.details = $"Workshop page: {HtmlExtensions.A(Toolkit.GetWorkshopUrl(steamID), newTab: true)}";
-                    s.detailsLocaleId = "HRTC_S_WSP";
-                    s.detailsValue = Toolkit.EscapeHtml(HtmlExtensions.A(Toolkit.GetWorkshopUrl(steamID), newTab: true));
                     successorsCollection.Add(s);
                 }
                 else
@@ -779,14 +777,9 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         /// <summary>Creates report text for compatibility issues with other subscribed mods, and increases the report severity for the mod if appropriate.</summary>
         /// <remarks>Result could be multiple mods with multiple statuses. Not reported: CompatibleAccordingToAuthor.</remarks>
         /// <returns>Text wrapped in Message object, or null if there are no known compatibility issues.</returns>
-        private MessageList Compatibilities(Mod subscribedMod)
-        {
+        private List<CompatibilityList> Compatibilities(Mod subscribedMod) {
 
-            var result = new MessageList()
-            {
-                title = string.Empty,
-                messages = new List<Message>()
-            };
+            var result = new Dictionary<Enums.CompatibilityStatus, CompatibilityList>();
             
             foreach (Compatibility compatibility in catalog.GetSubscriptionCompatibilities(subscribedMod.SteamID))
             {
@@ -801,102 +794,168 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
                 string otherModString = catalog.GetMod(otherModID).NameWithIDAsLink(false, idFirst: false);
                 string escapedModString = Toolkit.EscapeHtml(otherModString);
-
-                Message item = new Message();
+                
+                CompatibilityList item;
+                if (!result.TryGetValue(compatibility.Status, out item))
+                {
+                    item = new CompatibilityList();
+                    result.Add(compatibility.Status, item);
+                }
                 switch (compatibility.Status)
                 {
                     case Enums.CompatibilityStatus.SameModDifferentReleaseType:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        item.message = "Unsubscribe either this or the other edition of the same mod:";
-                        item.messageLocaleId = "HRTC_IRS_SMDRT";
-                        item.details = $"{otherModString} {compatibility.Note}";
-                        item.detailsLocalized =  $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                        item.detailsLocaleId = compatibility.Note.Id;
+                        if (string.IsNullOrEmpty(item.message))
+                        {
+                            item.message = "Unsubscribe either this or the other edition of the same mod:";
+                            item.messageLocaleId = "HRTC_IRS_SMDRT";
+                            item.details = new List<Details>();
+                        }
+                        item.details.Add(new Details()
+                        {
+                            details = $"{otherModString} {compatibility.Note}",
+                            detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value : string.Empty)}",
+                            detailsLocaleId = compatibility.Note.Id,
+                        });
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionality:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        item.message = "Unsubscribe either this or the following incompatible mod with similar functionality:";
-                        item.messageLocaleId = "HRTC_IRS_SF";
-                        item.details = $"{otherModString} {compatibility.Note}";
-                        item.detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                        item.detailsLocaleId = compatibility.Note.Id;
+                        if (string.IsNullOrEmpty(item.message))
+                        {
+                            item.message = "Unsubscribe either this or the following incompatible mod with similar functionality:";
+                            item.messageLocaleId = "HRTC_IRS_SF";
+                            item.details = new List<Details>();
+                        }
+                        item.details.Add(new Details()
+                        {
+                            details = $"{otherModString} {compatibility.Note}",
+                            detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value : string.Empty)}",
+                            detailsLocaleId = compatibility.Note.Id,
+                        });
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToAuthor:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Unsubscribe);
-                        item.message = "Unsubscribe either this one or the following mod it's incompatible with:";
-                        item.messageLocaleId = "HRTC_IRS_IATA";
-                        item.details = $"{otherModString} {compatibility.Note}";
-                        item.detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                        item.detailsLocaleId = compatibility.Note.Id;
+                        if (string.IsNullOrEmpty(item.message))
+                        {
+                            item.message = "Unsubscribe either this one or the following mod it's incompatible with:";
+                            item.messageLocaleId = "HRTC_IRS_IATA";
+                            item.details = new List<Details>();
+                        }
+                        item.details.Add(new Details()
+                        {
+                            details = $"{otherModString} {compatibility.Note}",
+                            detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value : string.Empty)}",
+                            detailsLocaleId = compatibility.Note.Id,
+                        });
                         break;
 
                     case Enums.CompatibilityStatus.IncompatibleAccordingToUsers:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
-                        item.message = "Users report an incompatibility with:";
-                        item.messageLocaleId = "HRTC_IRS_IATU";
-                        item.details = $"{otherModString} {compatibility.Note}";
-                        item.detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                        item.detailsLocaleId = $"{compatibility.Note.Id}";
+                        if (string.IsNullOrEmpty(item.message))
+                        {
+                            item.message = "Users report an incompatibility with:";
+                            item.messageLocaleId = "HRTC_IRS_IATU";
+                            item.details = new List<Details>();
+                        }
+                        item.details.Add(new Details()
+                        {
+                            details = $"{otherModString} {compatibility.Note}",
+                            detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value : string.Empty)}",
+                            detailsLocaleId = $"{compatibility.Note.Id}",
+                        });
                         break;
 
                     case Enums.CompatibilityStatus.MajorIssues:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
-                        item.message = "This has major issues with:";
-                        item.messageLocaleId = "HRTC_IRS_MAI";
-                        item.details = $"{otherModString} {compatibility.Note}";
-                        item.detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                        item.detailsLocaleId = compatibility.Note.Id;
+                        if (string.IsNullOrEmpty(item.message))
+                        {
+                            item.message = "This has major issues with:";
+                            item.messageLocaleId = "HRTC_IRS_MAI";
+                            item.details = new List<Details>();
+                        }
+                        item.details.Add(new Details()
+                        {
+                            details = $"{otherModString} {compatibility.Note}",
+                            detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value : string.Empty)}",
+                            detailsLocaleId = compatibility.Note.Id,
+                        });
                         break;
 
                     case Enums.CompatibilityStatus.MinorIssues:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
-                        item.message = "This has minor issues with:";
-                        item.messageLocaleId = "HRTC_IRS_MI";
-                        item.details = $"{otherModString} {compatibility.Note}";
-                        item.detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                        item.detailsLocaleId = compatibility.Note.Id;
+                        if (string.IsNullOrEmpty(item.message))
+                        {
+                            item.message = "This has minor issues with:";
+                            item.messageLocaleId = "HRTC_IRS_MI";
+                            item.details = new List<Details>();
+                        }
+                        item.details.Add(new Details()
+                        {
+                            details = $"{otherModString} {compatibility.Note}",
+                            detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}",
+                            detailsLocaleId = compatibility.Note.Id,
+                        });
                         break;
 
                     case Enums.CompatibilityStatus.RequiresSpecificSettings:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
-                        item.message = "This requires specific configuration to work together with:";
-                        item.messageLocaleId = "HRTC_IRS_RSS";
-                        item.details = $"{otherModString} {compatibility.Note}";
-                        item.detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                        item.detailsLocaleId = compatibility.Note.Id;
+                        if (string.IsNullOrEmpty(item.message))
+                        {
+                            item.message = "This requires specific configuration to work together with:";
+                            item.messageLocaleId = "HRTC_IRS_RSS";
+                            item.details = new List<Details>();
+                        }
+                        item.details.Add(new Details()
+                        {
+                            details = $"{otherModString} {compatibility.Note}",
+                            detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value : string.Empty)}",
+                            detailsLocaleId = compatibility.Note.Id,
+                        });
                         break;
 
                     case Enums.CompatibilityStatus.SameFunctionalityCompatible:
                         subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
-                        item.message = "This has very similar functionality, but is still compatible with (do you need both?):";
-                        item.messageLocaleId = "HRTC_IRS_SFC";
-                        item.details = $"{otherModString} {compatibility.Note}";
-                        item.detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                        item.detailsLocaleId = compatibility.Note.Id;
+                        if (string.IsNullOrEmpty(item.message))
+                        {
+                            item.message = "This has very similar functionality, but is still compatible with (do you need both?):";
+                            item.messageLocaleId = "HRTC_IRS_SFC";
+                            item.details = new List<Details>();
+                        }
+                        item.details.Add(new Details()
+                        {
+                            details = $"{otherModString} {compatibility.Note}",
+                            detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}",
+                            detailsLocaleId = compatibility.Note.Id,
+                        });
                         break;
 
                     case Enums.CompatibilityStatus.CompatibleAccordingToAuthor:
                         if (compatibility.Note != null && !string.IsNullOrEmpty(compatibility.Note.Value))
                         {
                             subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
-                            item.message = "This is compatible with:";
-                            item.messageLocaleId = "HRTC_IRS_CATA";
-                            item.details = $"{otherModString} {compatibility.Note}";
-                            item.detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}";
-                            item.detailsLocaleId = $"{compatibility.Note.Id}";
+                            if (string.IsNullOrEmpty(item.message))
+                            {
+                                item.message = "This is compatible with:";
+                                item.messageLocaleId = "HRTC_IRS_CATA";
+                                item.details = new List<Details>();
+                            }
+                            item.details.Add(new Details()
+                            {
+                                details = $"{otherModString} {compatibility.Note}",
+                                detailsLocalized = $"{escapedModString} {(string.IsNullOrEmpty(compatibility.Note.Id) ? compatibility.Note.Value: string.Empty)}",
+                                detailsLocaleId = $"{compatibility.Note.Id}",
+                            });
                         }
                         break;
 
                     default:
                         break;
                 }
-                
-                result.messages.Add(item);
             }
 
-            return result;
+            return result.Values.ToList();
         }
 
         private class ModInfo
@@ -914,7 +973,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             public Message disabled;
             public MessageList successors;
             public Message stability;
-            public MessageList compatibilities;
+            public List<CompatibilityList> compatibilities;
             public MessageList requiredMods;
             public MessageList statuses;
             public string note;
@@ -952,6 +1011,15 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         public string title;
         public string titleLocaleId;
         public List<Message> messages;
+        public Dictionary<int, List<Message>> messageDictionary;
+    }
+    
+    internal class CompatibilityList
+    {
+        public string message;
+        public string messageLocaleId;
+        public string messageLocalized;
+        public List<Details> details;
     }
 
     internal class Message
@@ -960,6 +1028,14 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         public string messageLocaleId;
         public string messageLocalized;
         public string localeIdVariables;
+        public string details;
+        public string detailsLocaleId;
+        public string detailsLocalized;
+        public string detailsValue;
+    }
+    
+    internal class Details
+    {
         public string details;
         public string detailsLocaleId;
         public string detailsLocalized;
