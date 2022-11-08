@@ -57,9 +57,9 @@ HRT_LIL_R,Remarks,Remarks,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
 HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","이 보고서는 아래에 있는 모드들의 호환성을 검사하지 않습니다. 이 보고서의 서술은 완전히 들어맞지 않을 수 있습니다. 어떤 경우에라도, 가능하다면, 모드는 창작마당에서 구독하여 사용하십시오. local mods folder로 다운로드된 모드는 작동하지 않는 경우가 있으며 다른 모드들에게 인식되지 않는 경우가 많습니다.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
-HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","당신은 기본 설치된 모드 {LocalSubscriptionCount}개를 실행하셨습니다. 이것은 우리가 리뷰할 수 없습니다.","HRT_LSM_P
+HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","로컬 모드가 {LocalSubscriptionCount}개 있습니다. 로컬 모드는 우리가 리뷰할 수 없습니다.","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural",,
-HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","당신은 기본 설치된 모드 {LocalSubscriptionCount}개를 실행하셨습니다. 이것은 우리가 리뷰할 수 없습니다.","HRT_LSM_S
+HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","로컬 모드가 {LocalSubscriptionCount}개 있습니다. 로컬 모드는 우리가 리뷰할 수 없습니다.","HRT_LSM_S
 HtmlReportTemplate.tt Local subscription Mod singular",,
 HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","당신이 사용하는 모드 중 {NonReviewedSubscriptions}개는 아직 리뷰되지 않았습니다.그렇기 때문에, 호환 문제에 대한 알림나 경고가 이 리포트에 들어있지 못할 수 있습니다.","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note",,
@@ -99,7 +99,7 @@ HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was cr
 HtmlReportTemplate.tt section Themodcatalogcontains",,
 HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Version {FullVersion} with catalog {VersionString}.","HRT_S_VWC
 HtmlReportTemplate.tt section Versionwithcatalog",,
-HRT_S_YGM,"Your game has {SubscriptionCount} mods.","당신의 게임에는 {SubscriptionCount}개의 모드가 적용되어 있습니다.","HRT_S_YGM
+HRT_S_YGM,"Your game has {SubscriptionCount} mods.","당신의 게임에는 {SubscriptionCount}개의 모드가 있습니다.","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods",,
 HRTC_A_SNU,"Published source seems out of date, making it hard to continue by another modder.","공개된 소스 코드가 더 이상 작동하지 않는 것 같습니다. 다른 모드 제작자에 의해서 계승되기 힘들 것입니다.","HRTC_A_SNU
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated",,
@@ -207,7 +207,7 @@ HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.","제작
 HtmlReportTemplateCode.cs Statuses authorRetired",,
 HRTC_S_D,"Unsubscribe would be wise. This is deprecated and no longer supported by the author.","구독 취소하는 것이 좋습니다. 이 모드는 deprecate되었으며 제작자가 더 이상 유지보수하고 있지 않습니다.","HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated",,
-HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.","이것은 모드 또는 어셋 제작자에게만 필요합니다. 일반 시용자에게는 필요가 없습니다.","HRTC_S_MFM
+HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.","이것은 모더 또는 창작자에게만 필요합니다. 일반 사용자에게는 필요하지 않습니다.","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
 HRTC_S_MCF,"The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","포함된 음악은 배타적 저작권이 없다고 알려져 있습니다. 스트리밍에 사용해도 좋습니다. 하지만 몇몇 제한은 여전히 존재할 것입니다.","HRTC_S_MCF
 HtmlReportTemplateCode.cs Statuses MusicCopyrightFree",,

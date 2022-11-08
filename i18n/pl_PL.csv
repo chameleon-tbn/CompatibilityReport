@@ -27,7 +27,7 @@ HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get upda
 HtmlReportTemplate.tt General information Abandondedmod",,
 HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Przed subskrypcją zawsze PRZECZYTAJ opis modyfikacji w Warsztacie Steam.","HRT_GI_AR
 HtmlReportTemplate.tt General information Alwaysread",,
-HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","The list of {linkBrokenMods} can help you not to subscribe such at all.","HRT_GI_BML
+HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","Lista {linkBrokenMods} wskazuje modyfikacje, których należy unikać.","HRT_GI_BML
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Zawsze WYCHODŹ DO PULPITU i uruchamiaj ponownie grę. Nigdy nie wychodź do głównego menu!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
@@ -43,7 +43,7 @@ HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This reset
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Modyfikacja kompatybilna, ale nie działa? Spróbuj anulować subskrypcję i subskrybować ponownie (gdy gra nie jest uruchomiona).","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking",,
-HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","The list of {linkRecommendedMods} helps to decide which mods to subscribe.","HRT_GI_RML
+HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","Lista {linkRecommendedMods} pomaga zdecydować, które modyfikacje są warte zasubskrybowania.","HRT_GI_RML
 HtmlReportTemplate.tt General information RecommendedModList",,
 HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","Podczas grania z modyfikacjami twórz nowe zapisy (nie nadpisuj pliku!), a także ich kopie zapasowe.","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying",,
@@ -121,7 +121,7 @@ HRTC_IRS_IATA,"Unsubscribe either this one or the following mod it's incompatibl
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToAuthor",,
 HRTC_IRS_IATU,"Users report an incompatibility with:","Użytkownicy zgłaszają niezgodność:","HRTC_IRS_IATU
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToUsers",,
-HRTC_IRS_MAI,"This has major issues with:","This has major issues with:","HRTC_IRS_MAI
+HRTC_IRS_MAI,"This has major issues with:","Poważne problemy z:","HRTC_IRS_MAI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MajorIssues and HtmlReportTemplate.tt LI_Link majorIssues)",,
 HRTC_IRS_MI,"This has minor issues with:","Niewielkie problemy z:","HRTC_IRS_MI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MinorIssues",,
@@ -179,11 +179,11 @@ HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enable
 HtmlReportTemplateCode.cs RequiredMods subscribedMod",,
 HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Anuluj subskrypcję. Jest to kopia innego modu, zamiast niego użyj tego (lub jego następcy).","HRTC_RU_U
 HtmlReportTemplateCode.cs Reupload Unsubscribe",,
-HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Unsubscribe would be wise. This has major issues: {StabilityNote}","HRTC_I_MAS
+HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Anulowanie subskrypcji byłoby rozsądne. Poważne problemy: {StabilityNote}","HRTC_I_MAS
 HtmlReportTemplateCode.cs Stability MajorIssuesStabilityNote",,
 HRTC_S_MI,"This has minor issues {StabilityNote}.","Drobne problemy {StabilityNote}. Aby uzyskać szczegółowe informacje, sprawdź stronę warsztatu.","HRTC_S_MI
 HtmlReportTemplateCode.cs Stability MinorIssues",,
-HRTC_S_MIS,"This has minor issues: {StabilityNote}","This has minor issues: {StabilityNote}","HRTC_S_MIS
+HRTC_S_MIS,"This has minor issues: {StabilityNote}","Drobne problemy: {StabilityNote}","HRTC_S_MIS
 HtmlReportTemplateCode.cs Stability MinorIssuesStabilityNote",,
 HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","Nie ma wystarczającej ilości informacji o tym modzie, aby dowiedzieć się, czy działa poprawnie.","HRTC_S_NEI
 HtmlReportTemplateCode.cs Stability NotEnoughInformation",,
@@ -195,7 +195,7 @@ HRTC_S_NR,"This mod has not been reviewed yet.","Ta modyfikacja nie została jes
 HtmlReportTemplateCode.cs Stability NotReviewed",,
 HRTC_S_S,"This is compatible with the current game version.","Jest zgodny z aktualną wersją gry.","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable",,
-HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Users are reporting issues: {StabilityNote}","HRTC_S_URS
+HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Użytkownicy zgłaszają problemy: {StabilityNote}","HRTC_S_URS
 HtmlReportTemplateCode.cs Stability UserReportIssuesStabilityNote",,
 HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Użytkownicy zgłaszają problemy {StabilityNote}. Aby uzyskać szczegółowe informacje, sprawdź stronę Warsztatu.","HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues",,
@@ -313,7 +313,7 @@ SET_RT_TXT,Text,Tekst,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
 HRT_LIL_MAI,"Major Issues","Główne problemy","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_S_CRC,"{name}, created on {date+time}","{name}, created on {date+time}","HRT_S_CRC
+HRT_S_CRC,"{name}, created on {date+time}","{name}, utworzony {date+time}","HRT_S_CRC
 HtmlReportTemplate.tt section CompatibilityReportCreated",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,
