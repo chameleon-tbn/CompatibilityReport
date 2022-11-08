@@ -353,7 +353,7 @@ namespace CompatibilityReport.Reporter
         /// <returns>Formatted text.</returns>
         private string Instability(Mod subscribedMod)
         {
-            string note = Format(subscribedMod.StabilityNote, ModSettings.Bullet2);
+            string note = Format(subscribedMod.StabilityNote?.Value ?? string.Empty, ModSettings.Bullet2);
 
             switch (subscribedMod.Stability)
             {
@@ -393,7 +393,7 @@ namespace CompatibilityReport.Reporter
                 subscribedMod.GameVersion() == Toolkit.CurrentGameVersion() ? ", but it was updated for the current game version." :
                 $", but it was updated for game version { subscribedMod.GameVersion().ToString(2) }.";
 
-            string note = Format(subscribedMod.StabilityNote, ModSettings.Bullet2);
+            string note = Format(subscribedMod.StabilityNote?.Value ?? string.Empty, ModSettings.Bullet2);
 
             switch (subscribedMod.Stability)
             {
@@ -619,14 +619,14 @@ namespace CompatibilityReport.Reporter
         /// <returns>Formatted text, or an empty string if no mod note exists.</returns>
         private string ModNote(Mod subscribedMod)
         {
-            if (string.IsNullOrEmpty(subscribedMod.Note))
+            if (subscribedMod.Note == null || string.IsNullOrEmpty(subscribedMod.Note.Value))
             {
-                return "";
+                return string.Empty;
             }
 
             subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.Remarks);
 
-            return Format(subscribedMod.Note);
+            return Format(subscribedMod.Note.Value);
         }
         
 
@@ -780,7 +780,7 @@ namespace CompatibilityReport.Reporter
                 return "";
             }
 
-            string text = (subscribedMod.Successors.Count == 1) ? Format("This is succeeded by:") : Format("This is succeeded by any of the following (pick one, not all):");
+            string text = (subscribedMod.Successors.Count == 1) ? Format("The successor of this mod is:") : Format("This is succeeded by any of the following (pick one, not all):");
 
             foreach (ulong steamID in subscribedMod.Successors)
             {
@@ -874,7 +874,7 @@ namespace CompatibilityReport.Reporter
                 string otherModString = Format(catalog.GetMod(otherModID).ToString(hideFakeID: true), ModSettings.Bullet2, cutOff: true);
                 string workshopUrl = Format($"Workshop page: { Toolkit.GetWorkshopUrl(otherModID) }", ModSettings.Indent2);
 
-                string note = Format(compatibility.Note, ModSettings.Indent2);
+                string note = Format(compatibility.Note != null ? compatibility.Note.Value: string.Empty, ModSettings.Indent2);
 
                 switch (compatibility.Status)
                 {

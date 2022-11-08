@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Xml.Serialization;
 
 namespace CompatibilityReport.CatalogData
 {
-    [Serializable] 
+    [Serializable]
     public class Compatibility
     {
         // The mod names are only for catalog readability, they are not used anywhere else.
@@ -14,8 +15,8 @@ namespace CompatibilityReport.CatalogData
 
         // The compatibility status is from the perspective of the first mod.
         public Enums.CompatibilityStatus Status { get; private set; }
-        public string Note { get; private set; }
-
+        [XmlElement("Note")]
+        public ElementWithId Note { get; private set; }
 
         /// <summary>Default constructor for deserialization.</summary>
         private Compatibility()
@@ -25,7 +26,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Constructor for compatibility creation.</summary>
-        public Compatibility(ulong firstModID, string firstModName, ulong secondModID, string secondModName, Enums.CompatibilityStatus status, string note)
+        public Compatibility(ulong firstModID, string firstModName, ulong secondModID, string secondModName, Enums.CompatibilityStatus status, ElementWithId note)
         {
             FirstModID = firstModID;
             FirstModName = firstModName ?? "";
@@ -34,7 +35,7 @@ namespace CompatibilityReport.CatalogData
             SecondModName = secondModName ?? "";
 
             Status = status;
-            Note = note ?? "";
+            Note = note ?? new ElementWithId();
         }
 
 

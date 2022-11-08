@@ -64,12 +64,17 @@ namespace CompatibilityReport.Reporter
             GeneralConfig modConfig = GlobalConfig.Instance.GeneralConfig;
             if (modConfig.HtmlReport)
             {
+                string textReportFullPath = Path.Combine(modConfig.ReportPath, ModSettings.ReportTextFileName);
+                if (File.Exists(textReportFullPath))
+                {
+                    Toolkit.DeleteFile(textReportFullPath);
+                }
                 HtmlReport htmlReport = new HtmlReport(catalog);
                 htmlReport.Create();
             }
 
             // Always create the text report if the HTML report is disabled, so at least one report is created.
-            if (modConfig.TextReport || !modConfig.HtmlReport)
+            if (modConfig.TextReport)
             {
                 TextReport textReport = new TextReport(catalog);
                 textReport.Create();

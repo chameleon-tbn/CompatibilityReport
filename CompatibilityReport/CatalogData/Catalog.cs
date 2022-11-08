@@ -90,7 +90,14 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>The catalog structure version will also be increased if the current structure version from the mod is higher.</remarks>
         public void NewVersion(DateTime newDate)
         {
-            Version++;
+            if (Version > 99)
+            {
+                Version = 0;
+            }
+            else
+            {
+                Version++;
+            }
             StructureVersion = StructureVersion < ModSettings.CurrentCatalogStructureVersion ? ModSettings.CurrentCatalogStructureVersion : StructureVersion;
             Updated = Toolkit.CleanDateTime(newDate);
         }
@@ -211,7 +218,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Adds a compatibility to the catalog.</summary>
-        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, string note)
+        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, ElementWithId note)
         {
             Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, status, note));
         }
@@ -453,7 +460,7 @@ namespace CompatibilityReport.CatalogData
                     string inGameName = Toolkit.GetPluginName(plugin);
                     if (inGameName != subscribedMod.Name)
                     {
-                        subscribedMod.Update(note: $"{ (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is { inGameName }");
+                        subscribedMod.Update(note: new ElementWithId() {Value =$"{ (string.IsNullOrEmpty(subscribedMod.Note.Value) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is { inGameName }"});
                     }
                 }
 
@@ -490,8 +497,8 @@ namespace CompatibilityReport.CatalogData
                         {
                             Logger.Log($"Fake subscription added for testing: { subscribedMod.ToString() }");
 
-                            subscribedMod.Update(note: (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") +
-                                "This is a fake subscription for testing purposes. This is not really subscribed.");
+                            subscribedMod.Update(note: new ElementWithId() {Value = (string.IsNullOrEmpty(subscribedMod.Note.Value) ? "" : $"{ subscribedMod.Note }\n") +
+                                "This is a fake subscription for testing purposes. This is not really subscribed."});
 
                             AddSubscription(subscribedMod);
                             FakeSubscriptionCount++;
@@ -650,9 +657,9 @@ namespace CompatibilityReport.CatalogData
                         loadedCatalog = (Catalog)serializer.Deserialize(reader);
                     }
                 }
-                catch (IOException)
+                catch (IOException e)
                 {
-                    Logger.Log($"Catalog is not a valid GZip file, will attempt to read as plain text: \"{ Toolkit.Privacy(fullPath) }\"", Logger.Debug);
+                    Logger.Log($"Catalog is not a valid GZip file, will attempt to read as plain text: \"{ Toolkit.Privacy(fullPath) }\" \n{e}", Logger.Debug);
 
                     using (TextReader reader = new StreamReader(fullPath))
                     {
@@ -668,20 +675,20 @@ namespace CompatibilityReport.CatalogData
                 }
                 else
                 {
-                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 }
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
             catch (XmlException ex)
             {
-                Logger.Log($"XML error while reading the catalog. Catalog could not be loaded: \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                Logger.Log($"XML error while reading the catalog. Catalog could not be loaded: \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
@@ -706,8 +713,12 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the catalog with the highest version, or null if none could be loaded.</returns>
         public static Catalog Load(bool force = false, bool updaterRun = false)
         {
+#if CATALOG_DOWNLOAD
             // Downloaded catalog is always newer than, or same as, the previously downloaded and bundled catalogs, so no need to load those after succesful download.
             Catalog downloadedCatalog = Download(force);
+#else
+            Catalog downloadedCatalog = null;
+#endif
             Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
             Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
             Catalog newestCatalog;
@@ -738,8 +749,8 @@ namespace CompatibilityReport.CatalogData
 
             return newestCatalog;
         }
-
-
+        
+#if CATALOG_DOWNLOAD
         /// <summary>Downloads a new catalog and loads it into memory.</summary>
         /// <remarks>A download will only be started once per session. On download errors, the download will be retried immediately a few times.</remarks>
         /// <returns>A reference to the catalog, or null if the download failed.</returns>
@@ -812,7 +823,7 @@ namespace CompatibilityReport.CatalogData
 
             return downloadedCatalog;
         }
-
+#endif
 
         /// <summary>Loads the previously downloaded catalog.</summary>
         /// <returns>A reference to the catalog, or null if loading failed.</returns>

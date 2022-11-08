@@ -1,4 +1,6 @@
-﻿using CompatibilityReport.Settings;
+﻿using ColossalFramework;
+using CompatibilityReport.Settings;
+using CompatibilityReport.Translations;
 using CompatibilityReport.UI;
 using CompatibilityReport.Util;
 using ICities;
@@ -18,7 +20,9 @@ namespace CompatibilityReport
         [UsedImplicitly]
         public void OnEnabled()
         {
-            GlobalConfig.Ensure();   
+            GlobalConfig.Ensure();
+            SingletonLite<Translation>.Ensure();
+            Translation.instance.LoadAll();
         }
 
         [UsedImplicitly]
@@ -26,6 +30,7 @@ namespace CompatibilityReport
         {
             SettingsManager.CleanupEvents();
             Logger.CloseDebugLog();
+            Translation.instance.Dispose();
         }
 
         /// <summary>Start the Updater when enabled and the Reporter when called in the correct scene. Also opens the settings UI.</summary>

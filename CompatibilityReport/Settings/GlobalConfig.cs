@@ -24,6 +24,7 @@ namespace CompatibilityReport.Settings
         
         internal static void Ensure()
         {
+            Validate();
         }
 
         internal static void WriteConfig()
@@ -78,6 +79,26 @@ namespace CompatibilityReport.Settings
                 GlobalConfig config = new GlobalConfig();
                 WriteConfig(config);
                 return config;
+            }
+        }
+
+        private static void Validate() {
+#if DEBUG
+         Logger.Log("Validating global config...");   
+#endif
+            GlobalConfig conf = Instance;
+            bool requireUpdate = false;
+            if (conf.GeneralConfig.ReportType > 1)
+            {
+                conf.GeneralConfig.ReportType = 1; //HTML default
+                requireUpdate = true;
+            }
+#if DEBUG
+            Logger.Log($"Global config validated successfully. Require update? {requireUpdate}");   
+#endif
+            if (requireUpdate)
+            {
+                WriteConfig();
             }
         }
 
