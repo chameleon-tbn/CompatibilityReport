@@ -29,12 +29,12 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
+HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Having issues with a mod? Make a comment on its Workshop page so the author knows.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information","General information","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
-HtmlReportTemplate.tt General information mistake",,
 HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","NEVER (un)subscribe to anything while the game is running! This resets some mods.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try to unsubscribe and resubscribe (while not in game).","HRT_GI_NW
@@ -261,10 +261,14 @@ SET_BCO_TWF,"Text Report width","Text Report width","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path","Change path","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
+SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' launch option detected. No report was generated.","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)","Generate report(s)","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
+SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)","Open report(s)","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
 SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Use Steam Overlay to open HTML report if available.","SET_BRG_OHRISO
@@ -311,10 +315,14 @@ SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
 SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
+SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
 SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
+SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","Never (on-demand only) - not recommended!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
 SET_DO_OAW,"Once a week","Once a week","SET_DO_OAW

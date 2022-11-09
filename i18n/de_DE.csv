@@ -29,12 +29,12 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Immer ZUM DESKTOP VERLASSEN und das Spiel neu starten. Nie in das Hauptmenü zurückkehren!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","Du hast einen Fehler gefunden? Bitte fülle {form} aus.","HRT_GI_M
+HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Hast du Probleme mit einer Mod? Schreibe einen Kommentar auf der Workshop-Seite, so dass der Autor informiert wird.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information","Allgemeine Informationen","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","Du hast einen Fehler gefunden? Bitte fülle {form} aus.","HRT_GI_M
-HtmlReportTemplate.tt General information mistake",,
 HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","Mods NIE abonnieren oder abbestellen während das Spiel läuft! Dies setzt einige Mods zurück.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Eine Mod ist kompatibel, aber funktioniert nicht? Versuche die Mod abzubestellen und erneut zu abonnieren (während du nicht im Spiel bist).","HRT_GI_NW
@@ -261,10 +261,14 @@ SET_BCO_TWF,"Text Report width","Breite des Textberichts","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path","Speicherort ändern","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
+SET_BRG_LAN,Language,Sprache,"SET_BRG_LAN
+SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' Startoption erkannt. Es wurde kein Bericht erstellt","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)","Bericht(e) erstellen","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
+SET_BRG_OOF,"Open folder","Ordner öffnen","SET_BRG_OOF
+SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)","Bericht(e) öffnen","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
 SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Steam Overlay verwenden, um den HTML-Bericht zu öffnen, falls verfügbar.","SET_BRG_OHRISO
@@ -311,10 +315,14 @@ SET_BUL_HWT,"Help with translation",Übersetzung,"SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
 SET_BUL_SOD,"Support on discord","Support auf Discord","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
+SET_BUL_OL,"Other links:","Andere Links:","SET_BUL_OL
+SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List","Empfohlene Mods (EN)","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
 SET_BUL_RC,"Report compatibility","Kompatibilität melden (EN)","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
+SET_BUL_UL,"Useful links:","Nützliche Links:","SET_BUL_UL
+SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","Nie (nur auf Anfrage) - nicht empfohlen!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
 SET_DO_OAW,"Once a week","Einmal pro Woche","SET_DO_OAW

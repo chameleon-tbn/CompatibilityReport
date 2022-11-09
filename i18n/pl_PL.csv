@@ -1,5 +1,5 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
-LANGUAGE,English,Polski,"LANGUAGE
+LANGUAGE,English,Język,"LANGUAGE
 Language to be translated into",,
 CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} utworzony {Updated}, pobrany {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
@@ -29,12 +29,12 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Zawsze WYCHODŹ DO PULPITU i uruchamiaj ponownie grę. Nigdy nie wychodź do głównego menu!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","Znalazłeś błąd? Proszę wypełnić ten formularz {form}.","HRT_GI_M
+HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Masz problemy z modyfikacją? Napisz komentarz na stronie modyfikacji w Warsztacie, aby autor się o tym dowiedział.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information","Informacje ogólne","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","Znalazłeś błąd? Proszę wypełnić ten formularz {form}.","HRT_GI_M
-HtmlReportTemplate.tt General information mistake",,
 HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","NIGDY nie (od)subskrybuj modyfikacji, gdy gra jest uruchomiona! To może zresetować niektóre modyfikacje.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Modyfikacja kompatybilna, ale nie działa? Spróbuj anulować subskrypcję i subskrybować ponownie (gdy gra nie jest uruchomiona).","HRT_GI_NW
@@ -261,10 +261,14 @@ SET_BCO_TWF,"Text Report width","Szerokość raportu tekstowego","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path","Zmień ścieżkę","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
+SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","Wykryto opcję uruchomienia '--noWorkshop'. Nie wygenerowano raportu","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)","Generuj raport(y)","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
+SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)","Otwórz raport(y)","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
 SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Użyj Nakładki Steam do otwarcia raportu HTML, jeśli jest dostępny.","SET_BRG_OHRISO
@@ -283,7 +287,7 @@ SET_BRG_RTD,"Report type","Rodzaj raportu","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
 SET_BRG_RPB,"Reset path to default","Resetuj ścieżkę do domyślnej","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
-SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SET_BTD_GL,"Game Language","Język gry","SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
 SET_BUG_DOI,"Days of inactivity to retire author","Dni braku aktywności w celu zaznaczenia przejścia na emeryturę","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
@@ -305,16 +309,20 @@ SET_BUG_UG,Updater,Aktualizator,"SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
 SET_BUG_WFR,"Weeks for soon retired","Tygodnie dla oznaczenia o niedługim odejściu","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
-SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
+SET_BUL_BML,"Broken Mods List","Lista uszkodzonych modyfikacji","SET_BUL_BML
 SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
-SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SET_BUL_HWT,"Help with translation","Pomóż w tłumaczeniu","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
-SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SET_BUL_SOD,"Support on discord","Wsparcie na Discordzie","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
+SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
+SET_BUL_RML,"Recommended Mods List","Lista rekomendowanych modyfikacji","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
-SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SET_BUL_RC,"Report compatibility","Zgłoś zgodność","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
+SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","Nigdy (tylko na żądanie) - niezalecane!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
 SET_DO_OAW,"Once a week","Raz w tygodniu","SET_DO_OAW

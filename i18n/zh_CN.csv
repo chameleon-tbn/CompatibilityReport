@@ -29,12 +29,12 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!",不要直接回到主菜单，请彻底关闭游戏进程并重新启动游戏！,"HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","若是发现错误，请填写 {form}。","HRT_GI_M
+HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.",如果这个模组有点小问题，请在工坊的对应页面的评论区留言，以便作者获悉。,"HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information",基本信息,"HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","若是发现错误，请填写 {form}。","HRT_GI_M
-HtmlReportTemplate.tt General information mistake",,
 HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.",绝对不能在游戏运行时订阅或取订任何东西！这可能导致某些模组被重置。,"HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).",如果模组兼容却又无法运行，请（在游戏未运行的状态下）尝试：先取消订阅，再重新订阅。,"HRT_GI_NW
@@ -263,10 +263,14 @@ SET_BCO_TWF,"Text Report width",文本报告宽度,"SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path",更改路径,"SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
+SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated",检测到无工坊内容（--noWorkshop）启动选项，因此不会生成报告。,"SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)",生成报告(s),"SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
+SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)",打开报告(s),"SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
 SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","如果可以，请使用 Steam Overlay 打开 HTML 报告。","SET_BRG_OHRISO
@@ -313,10 +317,14 @@ SET_BUL_HWT,"Help with translation",帮我们完善翻译,"SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
 SET_BUL_SOD,"Support on discord",在Discord上获取技术支持,"SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
+SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List",推荐模组列表,"SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
 SET_BUL_RC,"Report compatibility",报告兼容性问题,"SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
+SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","永远不要(仅按需提供) - 不推荐！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
 SET_DO_OAW,"Once a week",每周一次,"SET_DO_OAW

@@ -29,12 +29,12 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!",必ずデスクトップに戻ってからゲームを再起動して下さい。決してメインメニューに戻らないで下さい！,"HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","間違いや問題を見つけましたか？ この {form} に記入して下さい。","HRT_GI_M
+HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.",MODに問題がありますか？作者が把握できるように、ワークショップのページでコメントして下さい。,"HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information",一般情報,"HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","間違いや問題を見つけましたか？ この {form} に記入して下さい。","HRT_GI_M
-HtmlReportTemplate.tt General information mistake",,
 HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","ゲームプレイ中は絶対にサブスク全般の操作はしないで下さい！ 一部MODで機能がリセットされます。","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","MODの互換性はあるが動作しない？サブスクを解除して、サブスクをやり直してみて下さい。 (ゲームを終了して操作)","HRT_GI_NW
@@ -261,10 +261,14 @@ SET_BCO_TWF,"Text Report width",テキストレポートの幅,"SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path",パスの変更,"SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
+SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated",「--noWorkshop」の起動オプションが検出されました。レポートの生成が出来ません。,"SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)",レポートを生成,"SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
+SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)",レポートを開く,"SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
 SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.",利用可能な場合は、Steamオーバーレイを使用してHTMLレポートを開きます。,"SET_BRG_OHRISO
@@ -311,10 +315,14 @@ SET_BUL_HWT,"Help with translation",翻訳を手伝う,"SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
 SET_BUL_SOD,"Support on discord",Discordのサポート,"SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
+SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List",推奨MODのリスト,"SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
 SET_BUL_RC,"Report compatibility",互換性を報告,"SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
+SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","しない (オンデマンドのみ) - 推奨しません！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
 SET_DO_OAW,"Once a week",1週間に1回,"SET_DO_OAW

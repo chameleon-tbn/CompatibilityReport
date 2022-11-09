@@ -29,12 +29,12 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","게임을 재시작하려면 게임을 아예 껐다가 다시 실행하십시오. 메인 메뉴로 나가서 다시 로드하면 안 됩니다!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","오류를 발견하셨다면 다음의 양식으로 제보해주십시오. {form}","HRT_GI_M
+HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","모드에 문제가 있으신가요? 이 모드의 창작마당 페이지에 댓글을 남겨 모드 제작자에게 알리십시오.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information","일반적인 정보","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","오류를 발견하셨다면 다음의 양식으로 제보해주십시오. {form}","HRT_GI_M
-HtmlReportTemplate.tt General information mistake",,
 HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","게임 진행중에는 절대로 아무 것도 구독하거나 구독 취소하지 마십시오! 어떤 모드는 이것 때문에 리셋되기도 합니다.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","호환되는 모드라는데도 작동을 안 한다구요? 게임이 진행중이 아닐 때, 구독을 취소하고 다시 구독해 보십시오.","HRT_GI_NW
@@ -261,10 +261,14 @@ SET_BCO_TWF,"Text Report width","txt 보고서 넓이","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path","경로 바꾸기","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
+SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' 실행 옵션이 감지되었습니다. 보고서는 작성되지 않습니다.","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)","보고서 생성","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
+SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)","보고서 열기","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
 SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","가능하다면 HTML 보고서를 열 때 Steam Overlay를 사용하십시오.","SET_BRG_OHRISO
@@ -311,10 +315,14 @@ SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
 SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
+SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
 SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
+SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","명령이 있을 때만 - 권장하지 않음!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
 SET_DO_OAW,"Once a week","1주일에 한 번씩","SET_DO_OAW
