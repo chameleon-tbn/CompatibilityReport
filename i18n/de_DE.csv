@@ -5,8 +5,6 @@ CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {D
 Catalog.cs newestCatalog SettingsUIText",,
 CAT_S_SUIT,"unknown, catalog not loaded yet.","unbekannt, Katalog noch nicht geladen.","CAT_S_SUIT
 Catalog.cs string SettingsUIText",,
-HRTC_S_MC,"This includes copyrighted music and should not be used for streaming.","Enthält urheberrechtlich geschützte Musik und sollte daher nicht zum Streamen verwendet werden.","HRTC_S_MC
-HtmlReportTemplateCode.cs Statuses MusicCopyrighted",,
 HE_NAWIDAL_S,by,von,"HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string",,
 HRT_DCV_H,WARNING:,WARNUNG:,"HRT_DCV_H
@@ -49,6 +47,8 @@ HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequen
 HtmlReportTemplate.tt General information Whenplaying",,
 HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","WARNUNG: Der aktuelle Katalog konnte nicht heruntergeladen werden. Ergebnisse könnten veraltet sein.","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning",,
+HRT_LIL_MAI,"Major Issues","Gravierende Probleme","HRT_LIL_MAI
+HtmlReportTemplate.tt LI_Link majorIssues",,
 HRT_LIL_MI,"Minor Issues","Kleinere Probleme","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
 HRT_LIL_NTR,"Nothing to report","Nichts zu berichten","HRT_LIL_NTR
@@ -93,6 +93,8 @@ HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:","MODS DIE ABBESTELLT WERDEN K�
 HtmlReportTemplate.tt RenderSection unsubscribeplural",,
 HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","MOD DIE ABBESTELLT WERDEN KANN ODER SOLLTE:","HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
+HRT_S_CRC,"{name}, created on {date+time}","{name}, erstellt am {date+time}","HRT_S_CRC
+HtmlReportTemplate.tt section CompatibilityReportCreated",,
 HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Nach diesem Datum aktualisierte Mods beinhalten möglicherweise Informationen aus einer veralteten Überprüfung.","HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
 HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","Der Mod-Katalog enthält {ReviewedModCount} geprüfte Mods und wurde am {Updated} erstellt.","HRT_S_TMCC
@@ -209,6 +211,8 @@ HRTC_S_D,"Unsubscribe would be wise. This is deprecated and no longer supported 
 HtmlReportTemplateCode.cs Statuses Deprecated",,
 HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.","Diese Mod wird nur für Modder oder Asset-Ersteller benötigt. Normale Benutzer benötigen diese Mod nicht.","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
+HRTC_S_MC,"This includes copyrighted music and should not be used for streaming.","Enthält urheberrechtlich geschützte Musik und sollte daher nicht zum Streamen verwendet werden.","HRTC_S_MC
+HtmlReportTemplateCode.cs Statuses MusicCopyrighted",,
 HRTC_S_MCF,"The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","Die enthaltene Musik soll frei von Urheberrechtsansprüchen sein und soll daher für Streaming geeignet sein. Einige Einschränkungen könnten jedoch dennoch gelten.","HRTC_S_MCF
 HtmlReportTemplateCode.cs Statuses MusicCopyrightFree",,
 HRTC_S_MCU,"This includes music with unknown copyright status. Safer not to use it for streaming.","Der Copyright-Status der enthaltenen Musik mit unbekannt. Es ist sicherer, diese nicht zum Streamen zu verwenden.","HRTC_S_MCU
@@ -301,6 +305,16 @@ SET_BUG_UG,Updater,Aktualisierungstool,"SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
 SET_BUG_WFR,"Weeks for soon retired","Wochen für die ""Bald Inaktiv""-Meldung","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
+SET_BUL_BML,"Broken Mods List","Liste mit defekten Mods (EN)","SET_BUL_BML
+SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
+SET_BUL_HWT,"Help with translation",Übersetzung,"SET_BUL_HWT
+SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
+SET_BUL_SOD,"Support on discord","Support auf Discord","SET_BUL_SOD
+SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
+SET_BUL_RML,"Recommended Mods List","Empfohlene Mods (EN)","SET_BUL_RML
+SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
+SET_BUL_RC,"Report compatibility","Kompatibilität melden (EN)","SET_BUL_RC
+SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","Nie (nur auf Anfrage) - nicht empfohlen!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
 SET_DO_OAW,"Once a week","Einmal pro Woche","SET_DO_OAW
@@ -311,10 +325,6 @@ SET_RT_HAT,"HTML and text","HTML und Text","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
 SET_RT_TXT,Text,Text,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
-HRT_LIL_MAI,"Major Issues","Gravierende Probleme","HRT_LIL_MAI
-HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_S_CRC,"{name}, created on {date+time}","{name}, erstellt am {date+time}","HRT_S_CRC
-HtmlReportTemplate.tt section CompatibilityReportCreated",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Eine schwarze Leiste kann über der unteren Werkzeugleiste erscheinen.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Ein rot gefärbtes ""Gewicht"" bedeutet nicht notwendigerweise, dass das Asset schlecht ist. Es sagt nur aus, dass es sehr detailliert ist und die Performance stärker beeinflussen könnte.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","Eine Version 3.0 Beta wurde auf GitHub veröffentlicht, wurde aber nie im Steam Workshop veröffentlicht. Der Autor schrieb, er werde den Mod nicht mehr aktualisieren, da er Paradox für ihre DLC-Politik bestrafen will.",REPORT_NOTE_3,,

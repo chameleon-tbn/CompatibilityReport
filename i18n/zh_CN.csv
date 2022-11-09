@@ -5,8 +5,6 @@ CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {D
 Catalog.cs newestCatalog SettingsUIText",,
 CAT_S_SUIT,"unknown, catalog not loaded yet.",未知的目录尚未加载。,"CAT_S_SUIT
 Catalog.cs string SettingsUIText",,
-HRTC_S_MC,"This includes copyrighted music and should not be used for streaming.",所包含的音乐受版权保护，因此不可用于直播。,"HRTC_S_MC
-HtmlReportTemplateCode.cs Statuses MusicCopyrighted",,
 HE_NAWIDAL_S,by,由,"HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string",,
 HRT_DCV_H,WARNING:,警告：,"HRT_DCV_H
@@ -49,6 +47,8 @@ HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequen
 HtmlReportTemplate.tt General information Whenplaying",,
 HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.",警告：无法下载最新的检查目录。结果可能已过时。,"HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning",,
+HRT_LIL_MAI,"Major Issues",主要问题,"HRT_LIL_MAI
+HtmlReportTemplate.tt LI_Link majorIssues",,
 HRT_LIL_MI,"Minor Issues","Minor Issues","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
 HRT_LIL_NTR,"Nothing to report",没有要报告的内容,"HRT_LIL_NTR
@@ -93,6 +93,8 @@ HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:",可以或必须取消订阅的
 HtmlReportTemplate.tt RenderSection unsubscribeplural",,
 HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:",可以或必须取消订阅的模组：,"HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
+HRT_S_CRC,"{name}, created on {date+time}","{name}，创建于 {date+time}","HRT_S_CRC
+HtmlReportTemplate.tt section CompatibilityReportCreated",,
 HRT_S_MUA,"Mods updated after this date might have an outdated review below.",在此日期之后更新的模组下面可能会有过时的评论。,"HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
 HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","模组目录包含 {ReviewedModCount} 个经过审核的模组，创建于 {Updated}。","HRT_S_TMCC
@@ -211,6 +213,8 @@ HRTC_S_D,"Unsubscribe would be wise. This is deprecated and no longer supported 
 HtmlReportTemplateCode.cs Statuses Deprecated",,
 HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.",这个模组仅供模组编程者或是资产创作者使用，一般用户并不需要它。,"HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
+HRTC_S_MC,"This includes copyrighted music and should not be used for streaming.",所包含的音乐受版权保护，因此不可用于直播。,"HRTC_S_MC
+HtmlReportTemplateCode.cs Statuses MusicCopyrighted",,
 HRTC_S_MCF,"The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.",所包含的音乐据称没有版权限制且可以用于直播。但还请小心其它的限制要求。,"HRTC_S_MCF
 HtmlReportTemplateCode.cs Statuses MusicCopyrightFree",,
 HRTC_S_MCU,"This includes music with unknown copyright status. Safer not to use it for streaming.",所包含的音乐的版权保护情况未知。安全起见，不要用于直播。,"HRTC_S_MCU
@@ -303,6 +307,16 @@ SET_BUG_UG,Updater,更新程序,"SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
 SET_BUG_WFR,"Weeks for soon retired",即将退役的几周,"SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
+SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
+SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
+SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
+SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
+SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
+SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
+SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","永远不要(仅按需提供) - 不推荐！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
 SET_DO_OAW,"Once a week",每周一次,"SET_DO_OAW
@@ -313,10 +327,6 @@ SET_RT_HAT,"HTML and text","HTML 和文本","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
 SET_RT_TXT,Text,文本,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
-HRT_LIL_MAI,"Major Issues",主要问题,"HRT_LIL_MAI
-HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_S_CRC,"{name}, created on {date+time}","{name}，创建于 {date+time}","HRT_S_CRC
-HtmlReportTemplate.tt section CompatibilityReportCreated",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",黑色条可能会出现在底部工具栏上。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",标红的资产不一定意味着是损坏的。它只是非常精细，可能会较大的影响性能。,REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","一个 3.0 测试版已在 GitHub 上发布，但从未在 Steam 创意工坊上发布。 作者写道，他不会再更新模组，因为他指责Paradox对DLC的政治干涉。",REPORT_NOTE_3,,
