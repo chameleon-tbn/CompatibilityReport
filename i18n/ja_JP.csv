@@ -29,8 +29,6 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!",必ずデスクトップに戻ってからゲームを再起動して下さい。決してメインメニューに戻らないで下さい！,"HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","間違いや問題を見つけましたか？ この {form} に記入して下さい。","HRT_GI_M
-HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.",MODに問題がありますか？作者が把握できるように、ワークショップのページでコメントして下さい。,"HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information",一般情報,"HRT_GI_H
@@ -285,6 +283,8 @@ SET_BRG_RTD,"Report type",レポートの種類,"SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
 SET_BRG_RPB,"Reset path to default",パスをリセット,"SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
+SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
 SET_BUG_DOI,"Days of inactivity to retire author",作家を引退と判断する活動休止の日数,"SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
 SET_BUG_MSPMP,"Estimated milliseconds per mod page",MODページ毎の推定ミリ秒,"SET_BUG_MSPMP
@@ -305,15 +305,15 @@ SET_BUG_UG,Updater,アップデータ,"SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
 SET_BUG_WFR,"Weeks for soon retired",数週間後に引退する予定,"SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
-SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
+SET_BUL_BML,"Broken Mods List",破損MODのリスト,"SET_BUL_BML
 SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
-SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SET_BUL_HWT,"Help with translation",翻訳を手伝う,"SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
-SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SET_BUL_SOD,"Support on discord",Discordのサポート,"SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
+SET_BUL_RML,"Recommended Mods List",推奨MODのリスト,"SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
-SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SET_BUL_RC,"Report compatibility",互換性を報告,"SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","しない (オンデマンドのみ) - 推奨しません！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,

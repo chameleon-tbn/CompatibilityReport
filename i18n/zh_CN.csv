@@ -29,8 +29,6 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!",不要直接回到主菜单，请彻底关闭游戏进程并重新启动游戏！,"HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","若是发现错误，请填写 {form}。","HRT_GI_M
-HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.",如果这个模组有点小问题，请在工坊的对应页面的评论区留言，以便作者获悉。,"HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information",基本信息,"HRT_GI_H
@@ -287,6 +285,8 @@ SET_BRG_RTD,"Report type",报告文件类型,"SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
 SET_BRG_RPB,"Reset path to default",重置默认路径,"SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
+SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
 SET_BUG_DOI,"Days of inactivity to retire author",退休作者不活跃的天数,"SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
 SET_BUG_MSPMP,"Estimated milliseconds per mod page",估计每个模组页面的毫秒数,"SET_BUG_MSPMP
@@ -307,15 +307,15 @@ SET_BUG_UG,Updater,更新程序,"SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
 SET_BUG_WFR,"Weeks for soon retired",即将退役的几周,"SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
-SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
+SET_BUL_BML,"Broken Mods List",已损坏模组列表,"SET_BUL_BML
 SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
-SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SET_BUL_HWT,"Help with translation",帮我们完善翻译,"SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
-SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SET_BUL_SOD,"Support on discord",在Discord上获取技术支持,"SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
+SET_BUL_RML,"Recommended Mods List",推荐模组列表,"SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
-SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SET_BUL_RC,"Report compatibility",报告兼容性问题,"SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","永远不要(仅按需提供) - 不推荐！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,

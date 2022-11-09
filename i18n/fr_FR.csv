@@ -29,8 +29,6 @@ HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at a
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
-HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Having issues with a mod? Make a comment on its Workshop page so the author knows.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information","General information","HRT_GI_H
@@ -285,6 +283,8 @@ SET_BRG_RTD,"Report type","Report type","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
 SET_BRG_RPB,"Reset path to default","Reset path to default","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
+SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
 SET_BUG_DOI,"Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
 SET_BUG_MSPMP,"Estimated milliseconds per mod page","Estimated milliseconds per mod page","SET_BUG_MSPMP
