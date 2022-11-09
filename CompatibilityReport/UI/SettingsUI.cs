@@ -98,7 +98,7 @@ namespace CompatibilityReport.UI
 
         private void BuildTranslatedDataSources() {
             AvailableLangs.Clear();
-            AvailableLangs.Add(T("SET_BRG_LAN"));
+            AvailableLangs.Add(T("SET_BTD_GL"));
 
             var langs = Translation.instance.AvailableLangs;
             foreach (KeyValuePair<string,string> langCodeTranslationPair in langs)
@@ -395,7 +395,7 @@ namespace CompatibilityReport.UI
         {
             GeneralConfig config = GlobalConfig.Instance.GeneralConfig;
             UIDropDown langsDropdown = settingsUIHelper.AddDropdown(
-                translator.T("LANGUAGE"),
+                translator.T("SET_BRG_LAN"),
                 AvailableLangs.ToArray(),
                 FindLangIndex(config.Language),
                 (index) => {
