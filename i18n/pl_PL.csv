@@ -1,5 +1,5 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
-LANGUAGE,English,Język,"LANGUAGE
+LANGUAGE,English,Polski,"LANGUAGE
 Language to be translated into",,
 CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} utworzony {Updated}, pobrany {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
@@ -261,13 +261,13 @@ SET_BCO_TWF,"Text Report width","Szerokość raportu tekstowego","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path","Zmień ścieżkę","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
-SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SET_BRG_LAN,Language,Język,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","Wykryto opcję uruchomienia '--noWorkshop'. Nie wygenerowano raportu","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)","Generuj raport(y)","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
-SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SET_BRG_OOF,"Open folder","Otwórz folder","SET_BRG_OOF
 SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)","Otwórz raport(y)","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
@@ -315,13 +315,13 @@ SET_BUL_HWT,"Help with translation","Pomóż w tłumaczeniu","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
 SET_BUL_SOD,"Support on discord","Wsparcie na Discordzie","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SET_BUL_OL,"Other links:","Inne odnośniki:","SET_BUL_OL
 SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List","Lista rekomendowanych modyfikacji","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
 SET_BUL_RC,"Report compatibility","Zgłoś zgodność","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
-SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SET_BUL_UL,"Useful links:","Przydatne odnośniki:","SET_BUL_UL
 SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","Nigdy (tylko na żądanie) - niezalecane!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
@@ -719,7 +719,7 @@ REPORT_NOTE_383,"Some users report the UI as missing when not subscribed to Fine
 REPORT_NOTE_384,"Deleting a road segment with adjusted pathfinding might cause a NullReference error.","Deleting a road segment with adjusted pathfinding might cause a NullReference error.",REPORT_NOTE_384,,
 REPORT_NOTE_385,"Several users report error messages, not working at all or side effects like noise pollution not reduced anymore.","Several users report error messages, not working at all or side effects like noise pollution not reduced anymore.",REPORT_NOTE_385,,
 REPORT_NOTE_386,"For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.","For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.",REPORT_NOTE_386,,
-REPORT_NOTE_386,"For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.","For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.",REPORT_NOTE_386,,
+REPORT_NOTE_387,"The Paradox Launcher has this functionality.","The Paradox Launcher has this functionality.",REPORT_NOTE_387,,
 REPORT_NOTE_388,"The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.","The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.",REPORT_NOTE_388,,
 REPORT_NOTE_389,"Not compatible with Unlock All + Wonders &amp; Landmarks.","Not compatible with Unlock All + Wonders &amp; Landmarks.",REPORT_NOTE_389,,
 REPORT_NOTE_390,"External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.","External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.",REPORT_NOTE_390,,
@@ -871,3 +871,4 @@ REPORT_NOTE_535,"You cannot save the generated roads and therefore you shouldn't
 REPORT_NOTE_536,"This might cause cims to get stuck at broken or deleted public transport stops. This causes lag in larger cities.","This might cause cims to get stuck at broken or deleted public transport stops. This causes lag in larger cities.",REPORT_NOTE_536,,
 REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.","WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.",REPORT_NOTE_537,,
 REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.","WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.",REPORT_NOTE_538,,
+REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy supersede several mods and includes way more functionalities.",REPORT_NOTE_539,,

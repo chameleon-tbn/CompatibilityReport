@@ -33,7 +33,7 @@ HRT_GI_M,"Found a mistake? Please fill out this {form}.","間違いや問題を�
 HtmlReportTemplate.tt General information Form",,
 HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.",MODに問題がありますか？作者が把握できるように、ワークショップのページでコメントして下さい。,"HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
-HRT_GI_H,"General information",一般情報,"HRT_GI_H
+HRT_GI_H,"General information",概要とお願い,"HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
 HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","ゲームプレイ中は絶対にサブスク全般の操作はしないで下さい！ 一部MODで機能がリセットされます。","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
@@ -47,7 +47,7 @@ HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results 
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning",,
 HRT_LIL_MAI,"Major Issues",メジャーな問題点,"HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_LIL_MI,"Minor Issues","Minor Issues","HRT_LIL_MI
+HRT_LIL_MI,"Minor Issues",マイナーな問題,"HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
 HRT_LIL_NTR,"Nothing to report",問題無し,"HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
@@ -59,7 +59,7 @@ HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review."
 HtmlReportTemplate.tt Local subscription Mod plural",,
 HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","ローカルMODが {LocalSubscriptionCount} 個ありますが、これらはレビュー出来ません。","HRT_LSM_S
 HtmlReportTemplate.tt Local subscription Mod singular",,
-HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} のMODは、まだレビューされていません。そのため、レポートで非互換性や警告が欠落している可能性があります。","HRT_NRS_N
+HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} 個のMODは、まだレビューされていません。そのため、レポートで非互換性や警告が欠落している可能性があります。","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note",,
 HRT_P_D,Disabled,無効化,"HRT_P_D
 HtmlReportTemplate.tt processed Disabled",,
@@ -91,7 +91,7 @@ HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:",個のMODはサブスクを全
 HtmlReportTemplate.tt RenderSection unsubscribeplural",,
 HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:",個のMODはサブスクを全て解除して下さい:,"HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
-HRT_S_CRC,"{name}, created on {date+time}","{name} 氏が、 {date+time} に作成","HRT_S_CRC
+HRT_S_CRC,"{name}, created on {date+time}","{name} を {date+time} に作成","HRT_S_CRC
 HtmlReportTemplate.tt section CompatibilityReportCreated",,
 HRT_S_MUA,"Mods updated after this date might have an outdated review below.",この日付以降にアップデートされたMODは、以下のレビューが古い可能性があります。,"HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
@@ -141,7 +141,7 @@ HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
 HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","サブスクの解除を推奨します。これには大きな問題があります: {StabilityNote}","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
-HRTC_I_MAIC,"Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
+HRTC_I_MAIC,"Check its Workshop page for details.",詳細はワークショップのページを確認して下さい,"HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,
 HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","サブスクを解除して下さい！ このMODは現在のゲームバージョンと互換性の無い依存MODが必要です。","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod",,
@@ -169,7 +169,7 @@ HRTC_NCS_MI,"This mod has the comment section disabled on the Steam Workshop, ma
 HtmlReportTemplateCode.cs NoCommentSection MinorIssues",,
 HRTC_ND_MI,"This has no description on the Steam Workshop. Support from the author is unlikely.",このMODにはSteamのワークショップに説明が何もありません。作者からのサポートは期待出来ません。,"HRTC_ND_MI
 HtmlReportTemplateCode.cs NoDescription MinorIssues",,
-HRTC_NKIM_S,"No known issues or incompatibilities with your other mods.",既知の問題や他のMODとの互換性がありません。,"HRTC_NKIM_S
+HRTC_NKIM_S,"No known issues or incompatibilities with your other mods.",他のMOD間で、既知の問題や非互換の問題はありません。,"HRTC_NKIM_S
 HtmlReportTemplateCode.cs noKnownIssuesMessage string",,
 HRTC_R2_SM,"The author or the users of this mod recommend using the following as well:",このMOD作者やユーザーは、以下のMODも使用することを推奨しています:,"HRTC_R2_SM
 HtmlReportTemplateCode.cs Recommendations2 subscribedMod",,
@@ -261,13 +261,13 @@ SET_BCO_TWF,"Text Report width",テキストレポートの幅,"SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path",パスの変更,"SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
-SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SET_BRG_LAN,Language,言語,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated",「--noWorkshop」の起動オプションが検出されました。レポートの生成が出来ません。,"SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)",レポートを生成,"SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
-SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SET_BRG_OOF,"Open folder",フォルダを開く,"SET_BRG_OOF
 SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)",レポートを開く,"SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
@@ -287,7 +287,7 @@ SET_BRG_RTD,"Report type",レポートの種類,"SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
 SET_BRG_RPB,"Reset path to default",パスをリセット,"SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
-SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SET_BTD_GL,"Game Language",ゲームの言語,"SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
 SET_BUG_DOI,"Days of inactivity to retire author",作家を引退と判断する活動休止の日数,"SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
@@ -315,13 +315,13 @@ SET_BUL_HWT,"Help with translation",翻訳を手伝う,"SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
 SET_BUL_SOD,"Support on discord",Discordのサポート,"SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SET_BUL_OL,"Other links:",他のリンク:,"SET_BUL_OL
 SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List",推奨MODのリスト,"SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
 SET_BUL_RC,"Report compatibility",互換性を報告,"SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
-SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SET_BUL_UL,"Useful links:",便利なリンク集:,"SET_BUL_UL
 SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","しない (オンデマンドのみ) - 推奨しません！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
@@ -744,7 +744,7 @@ REPORT_NOTE_383,"Some users report the UI as missing when not subscribed to Fine
 REPORT_NOTE_384,"Deleting a road segment with adjusted pathfinding might cause a NullReference error.",経路探索のコストを調整した道路でセグメントを削除すると、「NullReferenceのエラーが発生」する場合があります。,REPORT_NOTE_384,,
 REPORT_NOTE_385,"Several users report error messages, not working at all or side effects like noise pollution not reduced anymore.","複数のユーザーから報告: 「エラーメッセージ/動作しない/騒音公害が減少しない副作用などがある」という報告があります。",REPORT_NOTE_385,,
 REPORT_NOTE_386,"For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.","一部のユーザーから報告: 住民が自家用車に乗らず、「自宅付近でデスポーンとリスポーンを繰り返す」という報告があります。もしくは、駅/停留所まで長距離で歩く場合もあります。",REPORT_NOTE_386,,
-REPORT_NOTE_386,"For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.","一部のユーザーから報告: 住民が自家用車に乗らず、「自宅付近でデスポーンとリスポーンを繰り返す」という報告があります。もしくは、駅/停留所まで長距離で歩く場合もあります。",REPORT_NOTE_386,,
+REPORT_NOTE_387,"The Paradox Launcher has this functionality.","The Paradox Launcher has this functionality.",REPORT_NOTE_387,,
 REPORT_NOTE_388,"The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.","ブラシが機能しない場合はサブスクを解除して、「再びサブスク (ゲームを起動する前) のやり直し」を試して下さい。これで一時的に機能しますが根本的な解決策は、「Loading Order ModでForest Brushのロード順序を9999に設定」して下さい。",REPORT_NOTE_388,,
 REPORT_NOTE_389,"Not compatible with Unlock All + Wonders &amp; Landmarks.","Unlock All + Wonders &amp; Landmarksとの互換性はありません。",REPORT_NOTE_389,,
 REPORT_NOTE_390,"External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.",外部リソースが使用されていないので、新しいマップでは使用できません。様々なプレイヤーから、全く機能しない報告があります。,REPORT_NOTE_390,,
@@ -914,3 +914,4 @@ REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmo
 警告！！ この作者はMODにマルウェアのコードを挿入したため、SteamからBANされました。この作者は腹いせに、作成したMODを故意に壊したことでも知られています。
 警告！！ このMODはSteamの規約に違反したため、ワークショップから削除されました。
 公式のアナウンス: https://store.steampowered.com/news/app/255710/view/6047774523920146831",REPORT_NOTE_538,,
+REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy supersede several mods and includes way more functionalities.",REPORT_NOTE_539,,
