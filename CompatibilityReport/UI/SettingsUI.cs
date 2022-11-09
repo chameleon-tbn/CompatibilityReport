@@ -98,7 +98,7 @@ namespace CompatibilityReport.UI
 
         private void BuildTranslatedDataSources() {
             AvailableLangs.Clear();
-            AvailableLangs.Add(T("SET_BTD_GL"));
+            AvailableLangs.Add(T("SET_BRG_LAN"));
 
             var langs = Translation.instance.AvailableLangs;
             foreach (KeyValuePair<string,string> langCodeTranslationPair in langs)
@@ -117,7 +117,7 @@ namespace CompatibilityReport.UI
         }
 
         private void BuildUsefulLinksOptionsUI() {
-            UIHelperBase linksGroup = settingsUIHelper.AddGroup("Useful links:");
+            UIHelperBase linksGroup = settingsUIHelper.AddGroup($"{T("SET_BUL_UL")}");
             UIPanel linksPanel = (linksGroup as UIHelper).self as UIPanel;
             linksPanel.autoLayoutDirection = LayoutDirection.Horizontal;
             linksPanel.autoLayoutPadding = new RectOffset(5, 5, 0, 0);
@@ -128,7 +128,7 @@ namespace CompatibilityReport.UI
         }
 
         private void BuildUsefulOtherLinksOptionsUI() {
-            UIHelperBase linksGroup = settingsUIHelper.AddGroup("Other links:");
+            UIHelperBase linksGroup = settingsUIHelper.AddGroup($"{T("SET_BUL_OL")}");
             UIPanel linksPanel = (linksGroup as UIHelper).self as UIPanel;
             linksPanel.autoLayoutDirection = LayoutDirection.Horizontal;
             linksPanel.autoLayoutPadding = new RectOffset(5, 5, 0, 0);
@@ -190,11 +190,6 @@ namespace CompatibilityReport.UI
             modVersionLabel.text = $"{T("SET_BAO_MVL")}: <color {ModSettings.SettingsUIColor}>{ModSettings.FullVersion}</color>";
             modVersionLabel.textScale = 1.1f;
 
-            
-            // Todo 0.9 Activate checkboxes and button
-            // group.AddCheckbox("Show source URL in report", false, (bool _) => { });
-            // group.AddCheckbox("Show download date/time of mods in report", false, (bool _) => { });
-            // group.AddCheckbox("Debug logging", false, (bool _) => { });
             advancedGroup.AddSpace(10);
 
 #if CATALOG_DOWNLOAD
@@ -347,11 +342,11 @@ namespace CompatibilityReport.UI
             var helper = new UIHelper(panel);
             helper.AddButton($"{T("SET_BUG_OSWC")}", () => SettingsManager.OnStartWebCrawler(OpenProgressModal()));
             helper.AddButton($"{T("SET_BUG_OSWCQ")}", () => SettingsManager.OnStartWebCrawler(OpenProgressModal(), quick: true));
-            helper.AddButton($"{T("SET_BUG_OSU")}", () => SettingsManager.OnStartUpdater(OpenProgressModal()));
             panel.autoLayoutDirection = LayoutDirection.Horizontal;
             panel.autoLayoutPadding = new RectOffset(0, 10, 0, 0);
             panel.autoLayout = true;
             updaterGroup.AddButton($"{T("SET_BUG_OOTA")}", () => SettingsManager.OnOneTimeAction(OpenProgressModal()));
+            updaterGroup.AddButton($"{T("SET_BUG_OSU")}", () => SettingsManager.OnStartUpdater(OpenProgressModal()));
 #if CATALOG_DOWNLOAD
             updaterGroup.AddButton("Upload Catalog", () => OpenUploadCatalogModal());
 
@@ -450,6 +445,10 @@ namespace CompatibilityReport.UI
             UIButton resetPathBtn = reportGroup.AddButton($"{T("SET_BRG_RPB")}", OnResetReportPathClicked) as UIButton;
             resetPathBtn.AlignTo(pathPanel, UIAlignAnchor.TopLeft);
             resetPathBtn.relativePosition += new UnityEngine.Vector3(changePathBtn.width + 10, 0);
+            
+            UIButton openDirectoryBtn = reportGroup.AddButton($"{T("SET_BRG_OOF")}", () => Process.Start(GlobalConfig.Instance.GeneralConfig.ReportPath)) as UIButton;
+            openDirectoryBtn.AlignTo(pathPanel, UIAlignAnchor.TopLeft);
+            openDirectoryBtn.relativePosition += new UnityEngine.Vector3(changePathBtn.width + 10 + resetPathBtn.width + 10, 0);
 
             reportGroup.AddSpace(20);
 

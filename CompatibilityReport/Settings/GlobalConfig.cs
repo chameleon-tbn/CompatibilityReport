@@ -11,6 +11,7 @@ namespace CompatibilityReport.Settings
     {
         private const string SettingsFileName = ModSettings.InternalName + "_Settings.xml";
         private static string SettingsPath { get; } = DataLocation.applicationBase;
+        internal const int CONFIG_VERSION = 1;
         public static GlobalConfig Instance { get; private set; }
 
         public GeneralConfig GeneralConfig = new GeneralConfig();
@@ -88,9 +89,12 @@ namespace CompatibilityReport.Settings
 #endif
             GlobalConfig conf = Instance;
             bool requireUpdate = false;
-            if (conf.GeneralConfig.ReportType > 1)
+            if (conf.GeneralConfig.Version < CONFIG_VERSION)
             {
-                conf.GeneralConfig.ReportType = 1; //HTML default
+                conf.GeneralConfig.Version = CONFIG_VERSION;
+                conf.GeneralConfig.ReportType = 0;
+                conf.GeneralConfig.TextReport = false;
+                conf.GeneralConfig.HtmlReport = true;
                 requireUpdate = true;
             }
 #if DEBUG
