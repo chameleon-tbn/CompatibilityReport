@@ -285,7 +285,7 @@ SET_BRG_RPTF,"Report path",Speicherort,"SET_BRG_RPTF
 SettingsUI.cs BuildRecordGroupUI reportPathTextField",,
 SET_BRG_RTD,"Report type","Art des Berichts","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
-SET_BRG_RPB,"Reset path to default","Speicherort auf Standard zurücksetzen","SET_BRG_RPB
+SET_BRG_RPB,"Reset path to default","Speicherort zurücksetzen","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
 SET_BTD_GL,"Game Language",Spielsprache,"SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
