@@ -307,7 +307,7 @@ namespace CompatibilityReport.CatalogData
         {
             string disabledPrefix = IsDisabled ? "[Disabled] " : string.Empty;
 
-            string idString = IdString(hideFakeID);
+            string idString = IdString(hideFakeID, html);
 
             string name = html ? this.NameWithIDAsLink() : !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
 
@@ -323,13 +323,13 @@ namespace CompatibilityReport.CatalogData
                 : $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>";
         }
 
-        public string IdString(bool hideFakeID = false)
+        public string IdString(bool hideFakeID = false, bool html = false)
         {
             return (SteamID > ModSettings.HighestFakeID) 
                 ? $"[Steam ID { SteamID, 10 }]"
                 : ModSettings.BuiltinMods.ContainsValue(SteamID)
-                    ? $"[{"span".Tag("built-in", localeId: "HRTC_LLMID_BI")} mod{ (hideFakeID ? "" : $" { SteamID }") }]"
-                    : $"[{"span".Tag("local", localeId: "HRTC_LLMID_L")} mod{ (hideFakeID ? "" : $" { SteamID }") }]";
+                    ? html ? $"[{"span".Tag("built-in", localeId: "HRTC_LLMID_BI")} mod{ (hideFakeID ? "" : $" { SteamID }") }]" : $"[built-in mod{ (hideFakeID ? "" : $" { SteamID }") }]"
+                    : html ? $"[{"span".Tag("local", localeId: "HRTC_LLMID_L")} mod{ (hideFakeID ? "" : $" { SteamID }") }]" :$"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
         }
     }
 }

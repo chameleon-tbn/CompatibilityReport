@@ -81,6 +81,7 @@
     <Compile Include="CatalogData\Group.cs" />
     <Compile Include="CatalogData\LocalizedNote.cs" />
     <Compile Include="CatalogData\Mod.cs" />
+    <Compile Include="CatalogData\TextElement.cs" />
     <Compile Include="Reporter\HtmlReport.cs" />
     <Compile Include="Reporter\HtmlTemplates\HtmlExtensions.cs" />
     <Compile Include="Reporter\HtmlTemplates\HtmlReportTemplateCode.cs" />
@@ -130,7 +131,7 @@
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
       <!-- if Release target: copy to workshop directory -->
-      xcopy /y "$(TargetPath)" "C:\Games\Steam Games\steamapps\workshop\content\255710\2633433869\"
+      xcopy /y "$(TargetPath)" "C:\Games\Steam Games\steamapps\workshop\content\255710\2881031511\"
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
       <!-- if Debug target: copy to workshop directory -->

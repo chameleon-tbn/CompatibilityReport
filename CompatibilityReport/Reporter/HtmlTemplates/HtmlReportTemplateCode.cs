@@ -153,7 +153,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             ModInfo modInfo = new ModInfo();
             modInfo.authorName = authorName;
             modInfo.modName = subscribedMod.Name;
-            modInfo.idString = subscribedMod.IdString(true);
+            modInfo.idString = subscribedMod.IdString(true, true);
             modInfo.isDisabled = subscribedMod.IsDisabled;
             modInfo.isLocal = subscribedMod.SteamID >= ModSettings.LowestLocalModID && subscribedMod.SteamID <= ModSettings.HighestLocalModID;
             modInfo.isCameraScript = subscribedMod.IsCameraScript;
