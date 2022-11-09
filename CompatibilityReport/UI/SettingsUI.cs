@@ -120,8 +120,13 @@ namespace CompatibilityReport.UI
             linksPanel.autoLayoutDirection = LayoutDirection.Horizontal;
             linksPanel.autoLayoutPadding = new RectOffset(5, 5, 0, 0);
             UIHelper helper = new UIHelper(linksPanel);
-            helper.AddButton("List of Broken Mods", () => Process.Start("https://pdxint.at/BrokenModCS"));
-            helper.AddButton("Chamëleon TBN Recommended Mods List", () => Process.Start("https://bit.ly/3VA9NxC"));
+            helper.AddButton($"{T("SET_BUL_RC")}", () => Process.Start("https://forms.gle/PvezwfpgS1V1DHqA9"));
+
+            helper.AddButton($"{T("SET_BUL_HWT")}", () => Process.Start("https://crowdin.com/project/compatibility-report"));
+            helper.AddButton($"{T("SET_BUL_SOD")}", () => Process.Start("https://discord.gg/7kV9frCc6u"));
+
+            helper.AddButton($"{T("SET_BUL_BML")}", () => Process.Start("https://pdxint.at/BrokenModCS"));
+            helper.AddButton($"{T("SET_BUL_RML")}", () => Process.Start("https://bit.ly/3VA9NxC"));
         }
 
         private void BuildCatalogOptionsUI()
