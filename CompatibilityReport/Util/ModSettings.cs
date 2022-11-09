@@ -14,7 +14,7 @@ namespace CompatibilityReport.Util
         // allow for hot-swapping the mod - rebuild only if it's in the main menu, game will detect and reload the mod
         public const string Build = "*";
 #else
-        public const string Build = "435";
+        public const string Build = "436";
 #endif
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 6;
