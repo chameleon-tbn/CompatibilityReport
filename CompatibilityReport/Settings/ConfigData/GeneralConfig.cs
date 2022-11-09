@@ -11,6 +11,8 @@ namespace CompatibilityReport.Settings.ConfigData
         internal static string DefaultReportPath { get; } = UnityEngine.Application.dataPath;
 
         public string Language { get; set; } = GAME_DEFAULT_LANG; //game default language
+
+        public int Version { get; set; }
  
         /// <summary>
         /// Configurable path where html and text reports will be stored
@@ -38,7 +40,7 @@ namespace CompatibilityReport.Settings.ConfigData
         /// <summary>
         /// "text", "html", "text and html"
         /// </summary>
-        public int ReportType { get; set; } = 1;
+        public int ReportType { get; set; } = 0;
         
         /// <summary>
         /// 0: "Once a week", 1: "Never (on-demand only) - not recommended!"
