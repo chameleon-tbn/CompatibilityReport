@@ -74,7 +74,9 @@ namespace CompatibilityReport.UI
             }
 
             BuildUsefulLinksOptionsUI();
-            
+
+            BuildUsefulOtherLinksOptionsUI();
+
             BuildCatalogOptionsUI();
 
             BuildAdvancedOptionsUI();
@@ -96,7 +98,7 @@ namespace CompatibilityReport.UI
 
         private void BuildTranslatedDataSources() {
             AvailableLangs.Clear();
-            AvailableLangs.Add("Game Language");
+            AvailableLangs.Add(T("SET_BTD_GL"));
 
             var langs = Translation.instance.AvailableLangs;
             foreach (KeyValuePair<string,string> langCodeTranslationPair in langs)
@@ -121,13 +123,19 @@ namespace CompatibilityReport.UI
             linksPanel.autoLayoutPadding = new RectOffset(5, 5, 0, 0);
             UIHelper helper = new UIHelper(linksPanel);
             helper.AddButton($"{T("SET_BUL_RC")}", () => Process.Start("https://forms.gle/PvezwfpgS1V1DHqA9"));
-
             helper.AddButton($"{T("SET_BUL_HWT")}", () => Process.Start("https://crowdin.com/project/compatibility-report"));
             helper.AddButton($"{T("SET_BUL_SOD")}", () => Process.Start("https://discord.gg/7kV9frCc6u"));
+        }
 
+        private void BuildUsefulOtherLinksOptionsUI() {
+            UIHelperBase linksGroup = settingsUIHelper.AddGroup("Other links:");
+            UIPanel linksPanel = (linksGroup as UIHelper).self as UIPanel;
+            linksPanel.autoLayoutDirection = LayoutDirection.Horizontal;
+            linksPanel.autoLayoutPadding = new RectOffset(5, 5, 0, 0);
+            UIHelper helper = new UIHelper(linksPanel);
             helper.AddButton($"{T("SET_BUL_BML")}", () => Process.Start("https://pdxint.at/BrokenModCS"));
             helper.AddButton($"{T("SET_BUL_RML")}", () => Process.Start("https://bit.ly/3VA9NxC"));
-        }
+        } 
 
         private void BuildCatalogOptionsUI()
         {
