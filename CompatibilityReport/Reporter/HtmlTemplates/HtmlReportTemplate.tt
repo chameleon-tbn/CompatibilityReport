@@ -244,7 +244,7 @@
         <li data-i18n="HRT_GI_NW"> Mod compatible, but not working? Try unsubscribe and resubscribe (NOT while in game).</li>
         <li data-i18n="HRT_GI_BML" data-i18n-vars="linkBrokenMods█<#= Toolkit.EscapeHtml("<a href=\"https://pdxint.at/BrokenModCS\">pdxint.at/BrokenModCS</a>")#>"> List of broken and incompatible mods <a href="https://pdxint.at/BrokenModCS">pdxint.at/BrokenModCS</a></li>
         <li data-i18n="SET_BUL_RML" data-i18n-value="<#= Toolkit.EscapeHtml(": <a href=\"https://bit.ly/3VA9NxC\">bit.ly/3VA9NxC</a>")#>"> Recommended Mods List by <strong>chameleon-tbn</strong> <a href="https://bit.ly/3VA9NxC">bit.ly/3VA9NxC</a> </li>
-        <li data-i18n="HRT_GI_M" data-i18n-vars="form█<#= Toolkit.EscapeHtml("<a href=\"https://forms.gle/PvezwfpgS1V1DHqA9\">form</a>")#>"> Found a mistake? Please fill out this <a href="https://forms.gle/PvezwfpgS1V1DHqA9">form</a>.</li>
+        <li data-i18n="HRT_GI_M" data-i18n-vars="form█<#= Toolkit.EscapeHtml("<a href=\"https://forms.gle/PvezwfpgS1V1DHqA9\">https://forms.gle/PvezwfpgS1V1DHqA9</a>")#>"> Found a mistake? Please fill out this <a href="https://forms.gle/PvezwfpgS1V1DHqA9">form</a>.</li>
     </ul>
 
 <#  // Is outdated
@@ -373,6 +373,7 @@
                     <tr>
                         <th data-i18n="HRT_P_MN">Mod Name</th>
                         <th data-i18n="HRT_P_D">Disabled</th>
+                        <th data-i18n="HRT_P_S">Status</th>
                         <th data-i18n="HRT_P_T">Type</th>
                         <th data-i18n="HRT_P_U">Url</th>
                     </tr>
@@ -383,6 +384,7 @@
                     <tr>
                        <td><#= modInfo.subscriptionName #></td>
                        <td class="font-bold center" <#= (!string.IsNullOrEmpty(modInfo.disabled) ? HtmlExtensions.T("HRTC_CM_ID") : "") #>><#= modInfo.disabled #></td>
+                       <td data-i18n="<#= modInfo.statusLocaleID #>"><#= modInfo.status #></td>
                        <td data-i18n="<#= modInfo.typeLocaleID #>"><#= modInfo.type #></td>
                        <td><#= OptionalUrlLink(modInfo.url, modInfo.isSteam) #></td>
                     </tr>
