@@ -240,24 +240,24 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             {
                 case Enums.Stability.MinorIssues:
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
-                    bool hasNote = string.IsNullOrEmpty(subscribedMod.StabilityNote.Value);
+                    bool hasNote = !string.IsNullOrEmpty(subscribedMod.StabilityNote.Value) || !string.IsNullOrEmpty(subscribedMod.StabilityNote.Id);
                     return new Message()
                     {
                         message = $"This has minor issues{(!hasNote ? ". Check its Workshop page for details." : ":")}",
                         messageLocaleId = $"{(!hasNote ? "HRTC_S_MI": "HRTC_S_MIS")}",
-                        localeIdVariables = "StabilityNote█ ",
+                        localeIdVariables = "StabilityNote█",
                         details = subscribedMod.StabilityNote.Value,
                         detailsLocaleId = $"{(hasNote ? $"{subscribedMod.StabilityNote.Id}" :"HRTC_I_MAIC")}"
                     };
 
                 case Enums.Stability.UsersReportIssues:
                     subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MinorIssues);
-                    bool hasNote2 = string.IsNullOrEmpty(subscribedMod.StabilityNote.Value);
+                    bool hasNote2 = !string.IsNullOrEmpty(subscribedMod.StabilityNote.Value) || !string.IsNullOrEmpty(subscribedMod.StabilityNote.Id);
                     return new Message()
                     {
                         message = $"Users are reporting issues{(!hasNote2 ? ". Check its Workshop page for details." : ": ")}",
                         messageLocaleId = $"{(!hasNote2 ? "HRTC_S_URI": "HRTC_S_URS")}",
-                        localeIdVariables = $"StabilityNote█ ",
+                        localeIdVariables = $"StabilityNote█",
                         details = subscribedMod.StabilityNote.Value,
                         detailsLocaleId = $"{(hasNote2 ? $"{subscribedMod.StabilityNote.Id}" :"HRTC_I_MAIC")}"
                     };
@@ -277,7 +277,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                         detailsLocaleId = subscribedMod.StabilityNote.Id
                     };
                 case Enums.Stability.Stable:
-                    subscribedMod.IncreaseReportSeverity(string.IsNullOrEmpty(subscribedMod.StabilityNote.Value) ? Enums.ReportSeverity.NothingToReport : Enums.ReportSeverity.Remarks);
+                    subscribedMod.IncreaseReportSeverity((string.IsNullOrEmpty(subscribedMod.StabilityNote.Value) && string.IsNullOrEmpty(subscribedMod.StabilityNote.Id)) ? Enums.ReportSeverity.NothingToReport : Enums.ReportSeverity.Remarks);
                     return new Message()
                     {
                         message = $"This is compatible with the current game version.",
