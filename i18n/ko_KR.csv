@@ -333,6 +333,8 @@ SET_RT_HAT,"HTML and text","HTML과 txt 파일","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
 SET_RT_TXT,Text,"txt 파일","SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
+HRT_P_S,Status,Status,"HRT_P_S
+HtmlReportTemplate.tt processed Status",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","하단부 툴바 위에 검은 선이 나타날 수 있습니다.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",REPORT_NOTE_3,,
