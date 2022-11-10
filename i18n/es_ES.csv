@@ -1,5 +1,5 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
-LANGUAGE,English,English,"LANGUAGE
+LANGUAGE,English,Español,"LANGUAGE
 Language to be translated into",,
 CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,

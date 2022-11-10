@@ -53,7 +53,7 @@ HRT_LIL_NTR,"Nothing to report","Nichts zu berichten","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
 HRT_LIL_R,Remarks,Anmerkungen,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
-HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","Der Bericht prüft nicht auf Inkompatibilitäten mit diesen Mods. Die Ergebnisse sind möglicherweise nicht ganz korrekt. Verwend Mods als Workshop-Abonnement, wann immer dies möglich ist. Mods, die in den lokalen Mods Ordner kopiert wurden, funktionieren nicht immer und können von anderen Mods oft nicht richtig erkannt werden.","HRT_LSM_E
+HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","Der Bericht prüft nicht auf Inkompatibilitäten mit diesen Mods. Die Ergebnisse sind möglicherweise nicht ganz korrekt. Verwende Mods als Workshop-Abonnement, wann immer dies möglich ist. Mods, die in den lokalen Mods Ordner kopiert wurden, funktionieren nicht immer und können von anderen Mods oft nicht richtig erkannt werden.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
 HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","Du hast {LocalSubscriptionCount} lokale Mods, die wir nicht überprüfen können.","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural",,
