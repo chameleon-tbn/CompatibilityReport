@@ -93,7 +93,7 @@ namespace CompatibilityReport.CatalogData
         {
             if (Version > 99)
             {
-                Version = 0;
+                Version = 1;
             }
             else
             {
