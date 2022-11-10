@@ -110,8 +110,10 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                     string type = (isSteam ? "Steam" : steamID < ModSettings.LowestLocalModID ? "Built-in" : "Local");
                     string localeId = (isSteam ? "HRTC_IS_S" : steamID < ModSettings.LowestLocalModID ? "HRTC_LLMID_BI" : "HRTC_LLMID_L");
                     string url = steamID > ModSettings.HighestFakeID ? Toolkit.GetWorkshopUrl(steamID) : $"{Toolkit.Privacy(catalogMod.ModPath)}";
+                    string status = SeverityToText(catalogMod.ReportSeverity);
+                    string statusLocaleId = SeverityToLocaleId(catalogMod.ReportSeverity);
 
-                    items.Add(new InstalledModInfo(subscriptionName, disabled, type, localeId, isSteam, url));
+                    items.Add(new InstalledModInfo(subscriptionName, disabled, type, localeId, status, statusLocaleId, isSteam, url));
                 }
             }
             return items.ToArray();
@@ -197,6 +199,44 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                 default:
                     nothingToReport.Add(modInfo);
                     break;
+            }
+        }
+
+        private string SeverityToText(Enums.ReportSeverity severity) {
+            switch (severity)
+            {
+
+                case Enums.ReportSeverity.NothingToReport:
+                    return "Nothing to report";
+                case Enums.ReportSeverity.Remarks:
+                    return "Remarks";
+                case Enums.ReportSeverity.MinorIssues:
+                    return "Minor issues";
+                case Enums.ReportSeverity.MajorIssues:
+                    return "Major issues";
+                case Enums.ReportSeverity.Unsubscribe:
+                    return "Unsubscribe";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(severity), severity, null);
+            }
+        }
+
+        private string SeverityToLocaleId(Enums.ReportSeverity severity) {
+            switch (severity)
+            {
+
+                case Enums.ReportSeverity.NothingToReport:
+                    return "HRT_LIL_NTR";
+                case Enums.ReportSeverity.Remarks:
+                    return "HRT_LIL_R";
+                case Enums.ReportSeverity.MinorIssues:
+                    return "HRT_LIL_MI";
+                case Enums.ReportSeverity.MajorIssues:
+                    return "HRT_LIL_MAI";
+                case Enums.ReportSeverity.Unsubscribe:
+                    return "HRT_LIL_U";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(severity), severity, null);
             }
         }
 
@@ -993,14 +1033,17 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             public string subscriptionName;
             public string type;
             public string typeLocaleID;
+            public string status;
+            public string statusLocaleID;
             public string url;
 
-            internal InstalledModInfo(string subscriptionName, string disabled, string type, string typeLocaleID, bool isSteam, string url)
-            {
+            public InstalledModInfo(string subscriptionName, string disabled, string type, string typeLocaleID, string status, string statusLocaleID, bool isSteam, string url) {
                 this.subscriptionName = subscriptionName;
                 this.disabled = disabled;
                 this.type = type;
                 this.typeLocaleID = typeLocaleID;
+                this.status = status;
+                this.statusLocaleID = statusLocaleID;
                 this.isSteam = isSteam;
                 this.url = url;
             }

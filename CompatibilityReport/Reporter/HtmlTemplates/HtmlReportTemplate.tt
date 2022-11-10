@@ -373,6 +373,7 @@
                     <tr>
                         <th data-i18n="HRT_P_MN">Mod Name</th>
                         <th data-i18n="HRT_P_D">Disabled</th>
+                        <th data-i18n="HRT_P_S">Status</th>
                         <th data-i18n="HRT_P_T">Type</th>
                         <th data-i18n="HRT_P_U">Url</th>
                     </tr>
@@ -383,6 +384,7 @@
                     <tr>
                        <td><#= modInfo.subscriptionName #></td>
                        <td class="font-bold center" <#= (!string.IsNullOrEmpty(modInfo.disabled) ? HtmlExtensions.T("HRTC_CM_ID") : "") #>><#= modInfo.disabled #></td>
+                       <td data-i18n="<#= modInfo.statusLocaleID #>"><#= modInfo.status #></td>
                        <td data-i18n="<#= modInfo.typeLocaleID #>"><#= modInfo.type #></td>
                        <td><#= OptionalUrlLink(modInfo.url, modInfo.isSteam) #></td>
                     </tr>
