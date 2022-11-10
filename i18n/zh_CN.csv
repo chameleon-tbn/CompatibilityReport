@@ -47,7 +47,7 @@ HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results 
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning",,
 HRT_LIL_MAI,"Major Issues",主要问题,"HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_LIL_MI,"Minor Issues","Minor Issues","HRT_LIL_MI
+HRT_LIL_MI,"Minor Issues",次要问题,"HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
 HRT_LIL_NTR,"Nothing to report",没有要报告的内容,"HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
@@ -141,7 +141,7 @@ HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
 HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.",建议取消订阅。这个模组有如下的重大问题：{StabilityNote}。请参考该模组的工坊页面以了解详细信息。,"HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
-HRTC_I_MAIC,"Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
+HRTC_I_MAIC,"Check its Workshop page for details.",请参考其工坊页面以了解详细信息。,"HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,
 HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.",立刻取消订阅！这个模组所依赖的另一个模组与当前的游戏版本不兼容。,"HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod",,
@@ -196,10 +196,9 @@ HRTC_S_NR,"This mod has not been reviewed yet.",此模组尚未被检查。,"HRT
 HtmlReportTemplateCode.cs Stability NotReviewed",,
 HRTC_S_S,"This is compatible with the current game version.",这个模组与当前游戏版本兼容。,"HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable",,
-HRTC_S_URS,"Users are reporting issues: {StabilityNote}","又用户报告了问题: {StabilityNote}","HRTC_S_URS
+HRTC_S_URS,"Users are reporting issues: {StabilityNote}","有用户报告了问题: {StabilityNote}","HRTC_S_URS
 HtmlReportTemplateCode.cs Stability UserReportIssuesStabilityNote",,
-HRTC_S_URI,"Users are reporting issues {StabilityNote}.","有用户报告了如下的次要问题：{StabilityNote}
-请参考该模组的工坊页面以了解详细信息。","HRTC_S_URI
+HRTC_S_URI,"Users are reporting issues {StabilityNote}.",有用户报告了问题：{StabilityNote},"HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues",,
 HRTC_SS_TV,"This is a test version, but is considered quite stable.",这是一个测试版模组，但好像还算稳定。,"HRTC_SS_TV
 HtmlReportTemplateCode.cs StabilityStable TestVersion",,
@@ -235,7 +234,7 @@ HRTC_S_U,"Unsubscribe this. It is succeeded by a mod you already have:",请取�
 HtmlReportTemplateCode.cs Successors Unsubscribe",,
 HRTC_S_WSP,"Workshop page:",工坊页面：,"HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage",,
-REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See <a href=""https://steamcommunity.com/sharedfiles/filedetails/?id=466981085"">Launch Options - Cities Skylines</a> for further information. A list of <a href=""https://pdxint.at/BrokenModCS"">broken mods</a> is also available.","请注意：新的游戏版本！游戏已更新。有一些模组无法在该版本下运行。请务必将所有模组更新到最新版本，并小心谨慎地阅读你的报告。你甚至有可能需要订阅并替换到某个模组的替代模组。如果你的存档没有正常运行，请绝对不要覆盖保存你的存档！建议启动游戏时使用“-noWorkshop”启动选项，新建一个纯原版存档试玩，直到所有模组都已完成更新，或是替代模组都已准备好。（警告：使用了模组的存档可能无法在纯原版模式下加载！）请阅读<a href=""https://steamcommunity.com/sharedfiles/filedetails/?id=466981085"">城市天际线启动选项</a>一文以获取更多信息。这里还有一份<a href=""https://pdxint.at/BrokenModCS"">有问题的模组列表</a>可供你查看。","REP_ATT_NEW
+REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","请注意：新的游戏版本！游戏已更新。有一些模组无法在该版本下运行。请务必将所有模组更新到最新版本，并小心谨慎地阅读你的报告。你甚至有可能需要订阅并替换到某个模组的替代模组。如果你的存档没有正常运行，请绝对不要覆盖保存你的存档！建议启动游戏时使用“-noWorkshop”启动选项，新建一个纯原版存档试玩，直到所有模组都已完成更新，或是替代模组都已准备好。（警告：使用了模组的存档可能无法在纯原版模式下加载！）请阅读 https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 城市天际线启动选项一文以获取更多信息。这里还有一份href=""https://pdxint.at/BrokenModCS 有问题的模组列表 可供你查看。","REP_ATT_NEW
 Information about new game version",,
 SET_BAO_AG,"Advanced options",高级选项：,"SET_BAO_AG
 SettingsUI.cs BuildAdvancedOptionsUI advancedGroup",,
@@ -263,13 +262,13 @@ SET_BCO_TWF,"Text Report width",文本报告宽度,"SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path",更改路径,"SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
-SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SET_BRG_LAN,Language,语言,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated",检测到无工坊内容（--noWorkshop）启动选项，因此不会生成报告。,"SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)",生成报告(s),"SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
-SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SET_BRG_OOF,"Open folder",打开文件夹,"SET_BRG_OOF
 SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)",打开报告(s),"SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
@@ -289,7 +288,7 @@ SET_BRG_RTD,"Report type",报告文件类型,"SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
 SET_BRG_RPB,"Reset path to default",重置默认路径,"SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
-SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SET_BTD_GL,"Game Language",使用游戏语言设置,"SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
 SET_BUG_DOI,"Days of inactivity to retire author",退休作者不活跃的天数,"SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
@@ -317,13 +316,13 @@ SET_BUL_HWT,"Help with translation",帮我们完善翻译,"SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
 SET_BUL_SOD,"Support on discord",在Discord上获取技术支持,"SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SET_BUL_OL,"Other links:",其它链接：,"SET_BUL_OL
 SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List",推荐模组列表,"SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
 SET_BUL_RC,"Report compatibility",报告兼容性问题,"SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
-SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SET_BUL_UL,"Useful links:",相关链接：,"SET_BUL_UL
 SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","永远不要(仅按需提供) - 不推荐！","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
@@ -724,16 +723,16 @@ REPORT_NOTE_382,"It can cause visual glitches in menu (tabs without description 
 REPORT_NOTE_383,"Some users report the UI as missing when not subscribed to Fine Road Tools.","有些用户在未订阅 Fine Road Tools 时报告 UI 缺失。",REPORT_NOTE_383,,
 REPORT_NOTE_384,"Deleting a road segment with adjusted pathfinding might cause a NullReference error.","删除路径调整后的路段可能导致 NullReference 错误。",REPORT_NOTE_384,,
 REPORT_NOTE_385,"Several users report error messages, not working at all or side effects like noise pollution not reduced anymore.",好几个用户报告了它的问题：完全不起作用或负作用。例如噪音污染不再减少。,REPORT_NOTE_385,,
-REPORT_NOTE_386,"For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.","For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.",REPORT_NOTE_386,,
-REPORT_NOTE_387,"The Paradox Launcher has this functionality.","The Paradox Launcher has this functionality.",REPORT_NOTE_387,,
-REPORT_NOTE_388,"The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.","The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.",REPORT_NOTE_388,,
-REPORT_NOTE_389,"Not compatible with Unlock All + Wonders &amp; Landmarks.","Not compatible with Unlock All + Wonders &amp; Landmarks.",REPORT_NOTE_389,,
-REPORT_NOTE_390,"External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.","External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.",REPORT_NOTE_390,,
-REPORT_NOTE_391,"This seems to work, but is no longer supported. Use the Picker mod instead.","This seems to work, but is no longer supported. Use the Picker mod instead.",REPORT_NOTE_391,,
-REPORT_NOTE_392,"User reports that it is not working at all if you select heavy traffic.","User reports that it is not working at all if you select heavy traffic.",REPORT_NOTE_392,,
-REPORT_NOTE_393,"Some users report volume too low or no sound at all for some tracks.","Some users report volume too low or no sound at all for some tracks.",REPORT_NOTE_393,,
-REPORT_NOTE_394,"Only a limited set of roads is included.","Only a limited set of roads is included.",REPORT_NOTE_394,,
-REPORT_NOTE_395,"This was or is missing a needed file. The mod was updated, but no indication that this was solved.","This was or is missing a needed file. The mod was updated, but no indication that this was solved.",REPORT_NOTE_395,,
+REPORT_NOTE_386,"For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.",对于一些用户来说，市民不坐车，而是在家中自己生成或者消失，有时会重复走到同一个车站/站点。,REPORT_NOTE_386,,
+REPORT_NOTE_387,"The Paradox Launcher has this functionality.","Paradox 启动器具有此功能。",REPORT_NOTE_387,,
+REPORT_NOTE_388,"The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.","刷子有时会停止工作。取消订阅和重新订阅（当游戏不运行时）通常能解决短期问题，但一个更永久的解决方案是使用 Loading Order Mod 并将 Forest Brush 的加载顺序设置为9999。",REPORT_NOTE_388,,
+REPORT_NOTE_389,"Not compatible with Unlock All + Wonders &amp; Landmarks.","与 Unlock All + Wonders &amp; Landmarks 不兼容。",REPORT_NOTE_389,,
+REPORT_NOTE_390,"External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.",外部资源没有使用，因此您不能在新地图上使用它。多位玩家报告它根本没有工作。,REPORT_NOTE_390,,
+REPORT_NOTE_391,"This seems to work, but is no longer supported. Use the Picker mod instead.","这似乎仍能正常工作，但已经不再得到支持。请使用 Picker 代替。",REPORT_NOTE_391,,
+REPORT_NOTE_392,"User reports that it is not working at all if you select heavy traffic.",有用户报告说，如果您选择高交通流量，那么它根本无法工作。,REPORT_NOTE_392,,
+REPORT_NOTE_393,"Some users report volume too low or no sound at all for some tracks.",有些用户报告说音量过低或根本没有声音。,REPORT_NOTE_393,,
+REPORT_NOTE_394,"Only a limited set of roads is included.",只包括一套有限的道路资产。,REPORT_NOTE_394,,
+REPORT_NOTE_395,"This was or is missing a needed file. The mod was updated, but no indication that this was solved.",它缺少一个前置文件。该模组已更新，但没有迹象表明这个问题已经解决。,REPORT_NOTE_395,,
 REPORT_NOTE_396,"Highway textures will mirror randomly per segment when applying this mod and need to be rebuilt to fix.","Highway textures will mirror randomly per segment when applying this mod and need to be rebuilt to fix.",REPORT_NOTE_396,,
 REPORT_NOTE_397,"The building info panel that pops up from the toolbar when placing buildings gives the old values for trucks/employees/etc.","The building info panel that pops up from the toolbar when placing buildings gives the old values for trucks/employees/etc.",REPORT_NOTE_397,,
 REPORT_NOTE_398,"This is incompatible with mods that also change building capacity. Use Realistic Population Revisited instead for better compatibility.","This is incompatible with mods that also change building capacity. Use Realistic Population Revisited instead for better compatibility.",REPORT_NOTE_398,,
@@ -840,7 +839,7 @@ REPORT_NOTE_498,"Not working with delivery vehicles from the Industries and Suns
 REPORT_NOTE_499,"Some users still get it to work, but for many it is partially or totally broken, including not being able to load a game save. Disabling the ""new algorithm for unclogging traffic jams near outside connections"" might help. Deleting the EnhancedDistrictServices.cgs file might also help, but you will lose all customizations.","Some users still get it to work, but for many it is partially or totally broken, including not being able to load a game save. Disabling the ""new algorithm for unclogging traffic jams near outside connections"" might help. Deleting the EnhancedDistrictServices.cgs file might also help, but you will lose all customizations.",REPORT_NOTE_499,,
 REPORT_NOTE_500,"There is a bug with spawning as a cow. Slopes, ramps and elevated paths don't seem to work. Some can only walk backwards or are floating.","There is a bug with spawning as a cow. Slopes, ramps and elevated paths don't seem to work. Some can only walk backwards or are floating.",REPORT_NOTE_500,,
 REPORT_NOTE_501,"This mod is not optimized and can cause performance issues. This probably has unknown incompatibilities with other mods.","This mod is not optimized and can cause performance issues. This probably has unknown incompatibilities with other mods.",REPORT_NOTE_501,,
-REPORT_NOTE_502,"This might increase loading time. If you have issues with font display, disable Custom Font Manager in the mod options.","This might increase loading time. If you have issues with font display, disable Custom Font Manager in the mod options.",REPORT_NOTE_502,,
+REPORT_NOTE_502,"If you have issues with font display, disable Custom Font Manager in the mod options.","If you have issues with font display, disable Custom Font Manager in the mod options.",REPORT_NOTE_502,,
 REPORT_NOTE_503,"If intersections look blue, go into the mod's settings and enable auto-refresh. This increases loading time if you have many custom roads.","If intersections look blue, go into the mod's settings and enable auto-refresh. This increases loading time if you have many custom roads.",REPORT_NOTE_503,,
 REPORT_NOTE_504,"Unsubscribe after use! This will spam the game log and seriously increase the size.","Unsubscribe after use! This will spam the game log and seriously increase the size.",REPORT_NOTE_504,,
 REPORT_NOTE_505,"Severe drop in FPS when creating roads. Some users get an 'invalid shape' error. Reversing direction sometimes gives an exception. The exception is harmless, but you can't reverse that segment and have to delete and recreate.","Severe drop in FPS when creating roads. Some users get an 'invalid shape' error. Reversing direction sometimes gives an exception. The exception is harmless, but you can't reverse that segment and have to delete and recreate.",REPORT_NOTE_505,,
@@ -877,4 +876,4 @@ REPORT_NOTE_535,"You cannot save the generated roads and therefore you shouldn't
 REPORT_NOTE_536,"This might cause cims to get stuck at broken or deleted public transport stops. This causes lag in larger cities.","This might cause cims to get stuck at broken or deleted public transport stops. This causes lag in larger cities.",REPORT_NOTE_536,,
 REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.",警告：作者已因在自己的模组中放置恶意代码而被封禁。这个模组可能带有恶意代码。您最好立刻移除这个模组！该作者还以故意破坏自己的模组而闻名。,REPORT_NOTE_537,,
 REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.",警告：这个模组非常危险！它会从某个不受监管的位置下载文件，并将其它模组中的同类文件覆盖。这个模组因而十分危险且绝不应该被使用！您最好立刻移除这个模组！警告：作者已因在自己的模组中放置恶意代码而被封禁。该作者还以故意破坏自己的模组而闻名。警告：由于违反Steam的用户协议，该模组已经被工坊移除。,REPORT_NOTE_538,,
-REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy supersede several mods and includes way more functionalities.",REPORT_NOTE_539,,
+REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy 取代了几个模组，并且包含了更多功能。",REPORT_NOTE_539,,
