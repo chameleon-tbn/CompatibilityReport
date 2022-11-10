@@ -93,8 +93,8 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         public static string NameWithIDAsLink(this Mod mod, bool fakeId = true, bool idFirst = false)
         {
             return idFirst 
-                ? $"{ mod.IdString(fakeId)} {AsLink(Toolkit.GetWorkshopUrl(mod.SteamID), mod.Name, newTab: true) }"
-                : $"{ A(Toolkit.GetWorkshopUrl(mod.SteamID), mod.Name, newTab: true)} {mod.IdString(fakeId) }";
+                ? $"{ mod.IdString(fakeId, true)} {AsLink(Toolkit.GetWorkshopUrl(mod.SteamID), mod.Name, newTab: true) }"
+                : $"{ A(Toolkit.GetWorkshopUrl(mod.SteamID), mod.Name, newTab: true)} {mod.IdString(fakeId, true) }";
         }
 
         public static string NameAuthorWithIDAsLink(string name, string author, string url, string idString)

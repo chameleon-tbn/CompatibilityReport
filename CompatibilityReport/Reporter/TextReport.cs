@@ -108,7 +108,7 @@ namespace CompatibilityReport.Reporter
                 reportText.AppendLine(Toolkit.WordWrap($"{ ModSettings.ReportTextForThisModVersion }\n"));
             }
 
-            if (!string.IsNullOrEmpty(catalog.Note))
+            if (!string.IsNullOrEmpty(catalog.Note.Value))
             {
                 reportText.AppendLine(Toolkit.WordWrap($"{ catalog.Note }\n"));
             }

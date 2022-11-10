@@ -62,7 +62,7 @@ namespace CompatibilityReport.Updater
                     UpdateAuthorRetirement(catalog);
                     UpdateCompatibilityModNames(catalog);
 
-                    if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
+                    if (catalog.Version == 2 && catalog.Note.Value == ModSettings.FirstCatalogNote)
                     {
                         SetNote(catalog, "");
                     }
@@ -179,7 +179,7 @@ namespace CompatibilityReport.Updater
                     
                     UpdateCompatibilityModNames(catalog);
 
-                    if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
+                    if (catalog.Version == 2 && catalog.Note.Value == ModSettings.FirstCatalogNote)
                     {
                         progressMonitor.PushMessage("Setting new empty Catalog note...");
                         SetNote(catalog, "");
@@ -277,7 +277,7 @@ namespace CompatibilityReport.Updater
         public static void SetNote(Catalog catalog, string newCatalogNote)
         {
             catalog.ChangeNotes.AppendCatalogChange($"Catalog note { Toolkit.GetChange(catalog.Note, newCatalogNote) }.");
-            catalog.Update(note: newCatalogNote);
+            catalog.Update(note: new TextElement(){Value = newCatalogNote});
         }
 
 

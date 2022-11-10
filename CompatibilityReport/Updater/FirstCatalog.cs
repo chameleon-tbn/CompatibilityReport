@@ -16,7 +16,7 @@ namespace CompatibilityReport.Updater
 
             Catalog firstCatalog = new Catalog();
             firstCatalog.NewVersion(DateTime.Now);
-            firstCatalog.Update(Toolkit.CurrentGameVersion(), ModSettings.FirstCatalogNote, ModSettings.DefaultHeaderText, ModSettings.DefaultFooterText);
+            firstCatalog.Update(Toolkit.CurrentGameVersion(), new TextElement() { Value = ModSettings.FirstCatalogNote } , ModSettings.DefaultHeaderText, ModSettings.DefaultFooterText);
 
             if (File.Exists(Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ firstCatalog.VersionString() }.xml")))
             {

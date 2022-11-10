@@ -86,6 +86,7 @@ namespace CompatibilityReport.Translations
                 case string s3 when s3.StartsWith("REPORT_NOTE_"):
                 case string s4 when s4.StartsWith("HE_"):
                 case string s5 when s5.StartsWith("REP_"):
+                case string s6 when s6.StartsWith("SET_BUL_"):
                     return true;
             }
             return false;

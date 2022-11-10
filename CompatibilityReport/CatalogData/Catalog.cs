@@ -27,7 +27,8 @@ namespace CompatibilityReport.CatalogData
         [XmlElement("GameVersion")] public string GameVersionString { get; private set; } = Toolkit.UnknownVersion().ToString();
 
         // A note about the catalog, displayed in the report, and the header and footer text for the report.
-        public string Note { get; private set; }
+        [XmlElement("Note")]
+        public TextElement Note { get; private set; }
         public string ReportHeaderText { get; private set; }
         public string ReportFooterText { get; private set; }
 
@@ -112,7 +113,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Updates one or more catalog properties.</summary>
-        public void Update(Version gameVersion = null, string note = null, string reportHeaderText = null, string reportFooterText = null)
+        public void Update(Version gameVersion = null, TextElement note = null, string reportHeaderText = null, string reportFooterText = null)
         {
             GameVersionString = (gameVersion == null) ? GameVersionString : gameVersion.ToString();
 
