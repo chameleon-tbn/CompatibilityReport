@@ -7,6 +7,7 @@ using ColossalFramework;
 using ColossalFramework.Globalization;
 using ColossalFramework.UI;
 using CompatibilityReport.Settings;
+using CompatibilityReport.Settings.ConfigData;
 using CompatibilityReport.Util;
 using UnityEngine;
 using Logger = CompatibilityReport.Util.Logger;
@@ -112,7 +113,7 @@ namespace CompatibilityReport.Translations
             var language = GlobalConfig.Instance.GeneralConfig.Language;
             if (!LocaleManager.exists) return;
             
-            if (string.IsNullOrEmpty(language))
+            if (string.IsNullOrEmpty(language) || language.Equals(GeneralConfig.GAME_DEFAULT_LANG))
             {
                 Logger.Log($"Attempting to apply game language: {LocaleManager.instance.language}");
                 Current = FindTranslator(LocaleManager.instance.language);
@@ -136,12 +137,14 @@ namespace CompatibilityReport.Translations
         private Translator FindTranslator(string code) {
             if (_translators.TryGetValue(code, out Translator translator))
             {
+                Logger.Log($"Found {code} language translator");  
                 return translator;
             }
 
             var firstMatch = _translators.FirstOrDefault(k => k.Key.StartsWith(code.Substring(0, 2)));
             if (!string.IsNullOrEmpty(firstMatch.Key))
             {
+                Logger.Log($"Found {code} language translator by short locale name");  
                 return firstMatch.Value;
             }
             
