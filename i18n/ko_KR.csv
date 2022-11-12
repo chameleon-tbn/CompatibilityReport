@@ -25,7 +25,7 @@ HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get upda
 HtmlReportTemplate.tt General information Abandondedmod",,
 HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Steam 창작마당에서 모드를 구독하기 전에, 언제나 모드 설명을 제대로 읽으십시오.","HRT_GI_AR
 HtmlReportTemplate.tt General information Alwaysread",,
-HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","The list of {linkBrokenMods} can help you not to subscribe such at all.","HRT_GI_BML
+HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","{linkBrokenMods} 목록으로 구독하지 않아야 할 것을 확인할 수 있습니다.","HRT_GI_BML
 HtmlReportTemplate.tt General information BrokenModList",,
 HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","게임을 재시작하려면 게임을 아예 껐다가 다시 실행하십시오. 메인 메뉴로 나가서 다시 로드하면 안 됩니다!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
@@ -39,7 +39,7 @@ HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This reset
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","호환되는 모드라는데도 작동을 안 한다구요? 게임이 진행중이 아닐 때, 구독을 취소하고 다시 구독해 보십시오.","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking",,
-HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","The list of {linkRecommendedMods} helps to decide which mods to subscribe.","HRT_GI_RML
+HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","{linkRecommendedMods} 목록은 구독할 모드를 결정하는 데 도움이 됩니다.","HRT_GI_RML
 HtmlReportTemplate.tt General information RecommendedModList",,
 HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","모드를 설치하고 게임을 하실 때는 게임을 자주 저장하시고 백업을 자주 만드십시오.","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying",,
@@ -51,7 +51,7 @@ HRT_LIL_MI,"Minor Issues","사소한 문제","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
 HRT_LIL_NTR,"Nothing to report","보고할 내용 없음","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
-HRT_LIL_R,Remarks,Remarks,"HRT_LIL_R
+HRT_LIL_R,Remarks,참고,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
 HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","이 보고서는 아래에 있는 모드들의 호환성을 검사하지 않습니다. 이 보고서의 서술은 완전히 들어맞지 않을 수 있습니다. 어떤 경우에라도, 가능하다면, 모드는 창작마당에서 구독하여 사용하십시오. local mods folder로 다운로드된 모드는 작동하지 않는 경우가 있으며 다른 모드들에게 인식되지 않는 경우가 많습니다.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
@@ -65,7 +65,7 @@ HRT_P_D,Disabled,꺼짐,"HRT_P_D
 HtmlReportTemplate.tt processed Disabled",,
 HRT_P_MN,"Mod Name","모드 이름","HRT_P_MN
 HtmlReportTemplate.tt processed Mod Name",,
-HRT_P_PM,"Processed mods","Processed mods","HRT_P_PM
+HRT_P_PM,"Processed mods","처리된 모드","HRT_P_PM
 HtmlReportTemplate.tt processed Processed mods",,
 HRT_P_T,Type,Type,"HRT_P_T
 HtmlReportTemplate.tt processed Type",,
@@ -97,7 +97,7 @@ HRT_S_MUA,"Mods updated after this date might have an outdated review below.","�
 HtmlReportTemplate.tt section Modsupdaterafter",,
 HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","이 모드 카탈로그는 {ReviewedModCount}개의 모드를 리뷰하였으며 {Updated}에 만들어졌습니다.","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains",,
-HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Version {FullVersion} with catalog {VersionString}.","HRT_S_VWC
+HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","버전 {FullVersion} 및 카탈로그 {VersionString}.","HRT_S_VWC
 HtmlReportTemplate.tt section Versionwithcatalog",,
 HRT_S_YGM,"Your game has {SubscriptionCount} mods.","당신의 게임에는 {SubscriptionCount}개의 모드가 있습니다.","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods",,
@@ -141,7 +141,7 @@ HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
 HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","구독 취소하는 것이 좋습니다. 이 모드는 {StabilityNote} 와 같은 중대한 문제가 있습니다. 창작마당 페이지에서 자세한 것을 확인하십시오.","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
-HRTC_I_MAIC,"Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
+HRTC_I_MAIC,"Check its Workshop page for details.","자세한 내용은 모드의 창작마당 페이지를 확인하십시오.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,
 HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","구독 취소하십시오! 이것은 현재의 게임 버전과 전혀 맞지 않는 모드를 요구합니다.","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod",,
@@ -159,9 +159,9 @@ HRTC_IS_S,Steam,스팀,"HRTC_IS_S
 HtmlReportTemplateCode.cs isSteam steam",,
 HRT_LIL_U,Unsubscribe,"구독 취소","HRT_LIL_U
 HtmlReportTemplateCode.cs LI_Link unsubscribe",,
-HRTC_LLMID_BI,Built-in,Built-in,"HRTC_LLMID_BI
+HRTC_LLMID_BI,Built-in,내장,"HRTC_LLMID_BI
 HtmlReportTemplateCode.cs LowestLocalModID builtin",,
-HRTC_LLMID_L,Local,Local,"HRTC_LLMID_L
+HRTC_LLMID_L,Local,로컬,"HRTC_LLMID_L
 HtmlReportTemplateCode.cs LowestLocalModID local",,
 HRTC_M_TV,"If you don't have a specific reason to use it, you'd better use the stable version instead.","이것을 써야 하는 특별한 이유가 없다면, stable 버전을 사용하는 것을 권장합니다.","HRTC_M_TV
 HtmlReportTemplateCode.cs Message TestVersion",,
@@ -233,7 +233,7 @@ HRTC_S_U,"Unsubscribe this. It is succeeded by a mod you already have:","구독 
 HtmlReportTemplateCode.cs Successors Unsubscribe",,
 HRTC_S_WSP,"Workshop page:","창작마당 페이지:","HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage",,
-REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","REP_ATT_NEW
+REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","주의: 새로운 게임 버전! 게임이 업데이트되었습니다. 여러 모드는 새 게임 버전과 작동하지 않을 것입니다. 모든 모드의 최신 업데이트를 받을 수 있도록 주의하고 보고서를 주의 깊게 읽으십시오. 새로운 버전의 대체 모드를 구독해야 할 수도 있습니다. 도시가 제대로 작동하지 않는다면, 세이브를 덮어씌우지 마십시오! 모든 모드가 업데이트되거나 대안을 이용할 수 있을 때까지 새로운 도시에서 순수한 바닐라로 플레이하려면 ""-noWorkshop""을 시작 옵션으로 사용하는 것이 현명할 수 있습니다. (주의: 모드가 사용된 세이브는 바닐라 모드에서 로드되지 않을 수 있습니다!) 자세한 내용은 Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085를 참조하십시오. 고장난 모드들의 목록은 https://pdxint.at/BrokenModCS에서도 볼 수 있습니다.","REP_ATT_NEW
 Information about new game version",,
 SET_BAO_AG,"Advanced options","고급 설정","SET_BAO_AG
 SettingsUI.cs BuildAdvancedOptionsUI advancedGroup",,
@@ -261,13 +261,13 @@ SET_BCO_TWF,"Text Report width","txt 보고서 넓이","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
 SET_BRG_CPB,"Change path","경로 바꾸기","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
-SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SET_BRG_LAN,Language,언어,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' 실행 옵션이 감지되었습니다. 보고서는 작성되지 않습니다.","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
 SET_BRG_OGR,"Generate report(s)","보고서 생성","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
-SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SET_BRG_OOF,"Open folder","폴더 열기","SET_BRG_OOF
 SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
 SET_BRG_OOR,"Open report(s)","보고서 열기","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
@@ -287,7 +287,7 @@ SET_BRG_RTD,"Report type","보고서 타입","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
 SET_BRG_RPB,"Reset path to default","기본 경로로 재설정","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
-SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SET_BTD_GL,"Game Language","게임 언어","SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
 SET_BUG_DOI,"Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
@@ -311,17 +311,17 @@ SET_BUG_WFR,"Weeks for soon retired","Weeks for soon retired","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
 SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
 SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
-SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SET_BUL_HWT,"Help with translation","번역을 돕기","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
-SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SET_BUL_SOD,"Support on discord","Discord에서 지원","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
 SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
 SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
 SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
-SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SET_BUL_RC,"Report compatibility","호환성 보고하기","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
-SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SET_BUL_UL,"Useful links:","유용한 링크:","SET_BUL_UL
 SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
 SET_DO_NEV,"Never (on-demand only) - not recommended!","명령이 있을 때만 - 권장하지 않음!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
@@ -333,7 +333,7 @@ SET_RT_HAT,"HTML and text","HTML과 txt 파일","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
 SET_RT_TXT,Text,"txt 파일","SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
-HRT_P_S,Status,Status,"HRT_P_S
+HRT_P_S,Status,상태,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","하단부 툴바 위에 검은 선이 나타날 수 있습니다.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,

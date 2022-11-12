@@ -333,7 +333,7 @@ SET_RT_HAT,"HTML and text",HTMLとテキスト,"SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
 SET_RT_TXT,Text,テキスト,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
-HRT_P_S,Status,Status,"HRT_P_S
+HRT_P_S,Status,ステータス,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",下部のツールバーの上側に、「黒いバーが表示」される場合があります。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",赤色のウェイト表示は、「必ずしもそのアセットが悪い/問題がある」という意味ではありません。ただし、非常に詳細なディテールの場合は、「パフォーマンスに影響を与える」可能性があります。,REPORT_NOTE_2,,
@@ -871,7 +871,7 @@ REPORT_NOTE_499,"Some users still get it to work, but for many it is partially o
 「new algorithm for unclogging traffic jams near outside connections」を無効化すると、問題が解決するかも知れません。もしくはEnhancedDistrictServices.cgsの設定ファイルの削除も有効かも知れませんが、全ての設定が無くなります。",REPORT_NOTE_499,,
 REPORT_NOTE_500,"There is a bug with spawning as a cow. Slopes, ramps and elevated paths don't seem to work. Some can only walk backwards or are floating.",牛としてスポーンするバグが存在して、坂道/スロープ/高架の歩道は機能していないようです。更に後ろ向きで歩く人や、浮く人も出現します。,REPORT_NOTE_500,,
 REPORT_NOTE_501,"This mod is not optimized and can cause performance issues. This probably has unknown incompatibilities with other mods.",このMODは最適化されておらず、パフォーマンスで問題を起こす可能性があります。恐らく、他のMODと不明な互換性もあります。,REPORT_NOTE_501,,
-REPORT_NOTE_502,"If you have issues with font display, disable Custom Font Manager in the mod options.","If you have issues with font display, disable Custom Font Manager in the mod options.",REPORT_NOTE_502,,
+REPORT_NOTE_502,"If you have issues with font display, disable Custom Font Manager in the mod options.","フォントキャッシュで問題 (文字が崩れる/全く読めないなど) がある場合は、MODオプションで「Custom Font Managerを無効化」して下さい。",REPORT_NOTE_502,,
 REPORT_NOTE_503,"If intersections look blue, go into the mod's settings and enable auto-refresh. This increases loading time if you have many custom roads.",交差点がブルーで表示される場合は、「MODのオプションで自動更新を有効化」して下さい。道路アセットが多い場合は、マップの配置に応じてロード時間が延びます。,REPORT_NOTE_503,,
 REPORT_NOTE_504,"Unsubscribe after use! This will spam the game log and seriously increase the size.",使用後はサブスクを解除して下さい！ゲームのログに大量スパムして、「ファイルサイズを深刻なほど増大」させます。,REPORT_NOTE_504,,
 REPORT_NOTE_505,"Severe drop in FPS when creating roads. Some users get an 'invalid shape' error. Reversing direction sometimes gives an exception. The exception is harmless, but you can't reverse that segment and have to delete and recreate.","道路の敷設時に、fpsの著しい低下/一部のユーザで「invalid shape」のエラー/方向の反転時に例外エラーなど、様々な問題が発生する場合があります。恐らく例外エラーは問題無いですが、該当するセグメントが「反転出来ないので削除して再敷設」する必要があります。",REPORT_NOTE_505,,
