@@ -717,10 +717,11 @@ namespace CompatibilityReport.CatalogData
 #if CATALOG_DOWNLOAD
             // Downloaded catalog is always newer than, or same as, the previously downloaded and bundled catalogs, so no need to load those after succesful download.
             Catalog downloadedCatalog = Download(force);
+            Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
 #else
             Catalog downloadedCatalog = null;
+            Catalog previouslyDownloadedCatalog = null;
 #endif
-            Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
             Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
             Catalog newestCatalog;
             if (updaterRun)
@@ -992,7 +993,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the catalog with the highest version, or null if both catalogs are null.</returns>
         private static Catalog Newest(Catalog catalog1, Catalog catalog2)
         {
-            return (catalog1 == null || catalog2 == null) ? catalog1 ?? catalog2 : (catalog1.Version >= catalog2.Version) ? catalog1 : catalog2;
+            return (catalog1 == null || catalog2 == null) ? catalog1 ?? catalog2 : (new Version(catalog1.StructureVersion, catalog1.Version) >= new Version(catalog2.StructureVersion, catalog2.Version)) ? catalog1 : catalog2;
         }
 
 
