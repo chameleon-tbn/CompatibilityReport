@@ -1,57 +1,57 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
 LANGUAGE,English,Español,"LANGUAGE
 Language to be translated into",,
-CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
+CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} creado el {Updated}, descargado el {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
-CAT_S_SUIT,"unknown, catalog not loaded yet.","unknown, catalog not loaded yet.","CAT_S_SUIT
+CAT_S_SUIT,"unknown, catalog not loaded yet.","desconocido, el catálogo no se ha cargado todavía.","CAT_S_SUIT
 Catalog.cs string SettingsUIText",,
-HE_NAWIDAL_S,by,by,"HE_NAWIDAL_S
+HE_NAWIDAL_S,by,de,"HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string",,
-HRT_DCV_H,WARNING:,WARNING:,"HRT_DCV_H
+HRT_DCV_H,WARNING:,ATENCIÓN:,"HRT_DCV_H
 HtmlReportTemplate.tt Different Catalog version Header",,
-HRT_DCV_RNA,"Results might not be accurate.","Results might not be accurate.","HRT_DCV_RNA
+HRT_DCV_RNA,"Results might not be accurate.","Puede que los resultados no sean exactos.","HRT_DCV_RNA
 HtmlReportTemplate.tt Different Catalog version Resultsnotaccurate",,
-HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","The catalog is made for game version {CatalogGameVersion}.","HRT_DCV_T
+HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","El catálogo está hecho para la versión {CatalogGameVersion} del juego.","HRT_DCV_T
 HtmlReportTemplate.tt Different Catalog version Text",,
-HRT_DCV_YGIN,"Your game is newer.","Your game is newer.","HRT_DCV_YGIN
+HRT_DCV_YGIN,"Your game is newer.","Tu partida es más reciente.","HRT_DCV_YGIN
 HtmlReportTemplate.tt Different Catalog version Your game is newer",,
-HRT_DCV_YGIO,"Your game is older.","Your game is older.","HRT_DCV_YGIO
+HRT_DCV_YGIO,"Your game is older.","Tu partida es anterior.","HRT_DCV_YGIO
 HtmlReportTemplate.tt Different Catalog version Your game is older",,
-HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","The report includes {LocalSubscriptionCount} fake subscriptions.","HRT_FS_P
+HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","El reporte incluye {LocalSubscriptionCount} suscripciones falsas.","HRT_FS_P
 HtmlReportTemplate.tt Fake subscription plural",,
-HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","The report includes {LocalSubscriptionCount} fake subscription.","HRT_FS_S
+HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","El reporte incluye {LocalSubscriptionCount} suscripciones falsas.","HRT_FS_S
 HtmlReportTemplate.tt Fake subscription singular",,
-HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","Abandoned mods can still work fine. They're just unlikely to get updates.","HRT_GI_AM
+HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","Los mods abandonados todavía pueden funcionar bien. Es poco probable que obtengan actualizaciones.","HRT_GI_AM
 HtmlReportTemplate.tt General information Abandondedmod",,
-HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Always READ the mod description on the Steam Workshop before subscribing.","HRT_GI_AR
+HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","LEA siempre la descripción del mod en Steam Workshop antes de subscribirse.","HRT_GI_AR
 HtmlReportTemplate.tt General information Alwaysread",,
-HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","The list of {linkBrokenMods} can help you not to subscribe such at all.","HRT_GI_BML
+HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","La lista de {linkBrokenMods} puede ayudarte a no suscribirte a ningún mod roto.","HRT_GI_BML
 HtmlReportTemplate.tt General information BrokenModList",,
-HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","HRT_GI_ETD
+HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Siempre SALGA AL ESCRITORIO y reinicia el juego. ¡Nunca salga al menú principal!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","¿Has encontrado un error? Por favor llene este formulario {form}.","HRT_GI_M
 HtmlReportTemplate.tt General information Form",,
-HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Having issues with a mod? Make a comment on its Workshop page so the author knows.","HRT_GI_HI
+HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","¿Tienes problemas con un mod? Haz un comentario en su página del Workshop para que el autor lo sepa.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
-HRT_GI_H,"General information","General information","HRT_GI_H
+HRT_GI_H,"General information","Información general","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","NEVER (un)subscribe to anything while the game is running! This resets some mods.","HRT_GI_NU
+HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","¡NUNCA (des)suscribirse a nada mientras el juego está funcionando! Esto reajusta o resetea algunos mods.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
-HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","HRT_GI_NW
+HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","¿El mod es compatible, pero no funciona? Intente cancelar la suscripción y volver a enviarlo (mientras no esté en el juego).","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking",,
-HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","The list of {linkRecommendedMods} helps to decide which mods to subscribe.","HRT_GI_RML
+HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","La lista de {linkRecommendedMods} ayuda a decidir qué mods suscribirse.","HRT_GI_RML
 HtmlReportTemplate.tt General information RecommendedModList",,
-HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","When playing with mods, save to a new savegame often and make frequent BACKUPS.","HRT_GI_WP
+HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","Al jugar con mods, cree una nueva partida guardando frecuentemente la partida actual y haga frecuentes BACKUPS.","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying",,
-HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","HRT_IO_SOW
+HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","ATENCIÓN: El último catálogo de revisiones no pudo ser descargado. Los resultados pueden estar desactualizados.","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning",,
-HRT_LIL_MAI,"Major Issues","Major Issues","HRT_LIL_MAI
+HRT_LIL_MAI,"Major Issues","Problemas graves","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_LIL_MI,"Minor Issues","Minor Issues","HRT_LIL_MI
+HRT_LIL_MI,"Minor Issues","Problemas menores","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
-HRT_LIL_NTR,"Nothing to report","Nothing to report","HRT_LIL_NTR
+HRT_LIL_NTR,"Nothing to report","Nada que reportar","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
-HRT_LIL_R,Remarks,Remarks,"HRT_LIL_R
+HRT_LIL_R,Remarks,Observaciones,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
 HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
@@ -335,11 +335,13 @@ SET_RT_TXT,Text,Text,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
 HRT_P_S,Status,Status,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
-REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.",REPORT_NOTE_1,,
-REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,
-REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",REPORT_NOTE_3,,
-REPORT_NOTE_4,"ABLC has the functionality to prevent abandonment, and much more.","ABLC has the functionality to prevent abandonment, and much more.",REPORT_NOTE_4,,
-REPORT_NOTE_5,"Accelarated night/weekend cycles from Real Time might give issues with district services.","Accelarated night/weekend cycles from Real Time might give issues with district services.",REPORT_NOTE_5,,
+HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","¿Te ha ayudado esto? ¿Falta algo? Deja una calificación o un comentario en la página del Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
+HTMLReport Footer_RatingText",,
+REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Una barra negra puede aparecer sobre la barra de herramientas inferior.",REPORT_NOTE_1,,
+REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Un peso de color rojo no necesariamente significa que el activo sea malo. Sólo que es muy detallado y podría afectar más al rendimiento.",REPORT_NOTE_2,,
+REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","Una versión 3.0 beta ha sido liberada en GitHub pero nunca fue publicada en Steam Workshop. El autor escribió que ya no actualizará el mod porque culpa a Paradox por su política de DLC.",REPORT_NOTE_3,,
+REPORT_NOTE_4,"ABLC has the functionality to prevent abandonment, and much more.","ABLC tiene la funcionalidad para impedir el abandono, y mucho más.",REPORT_NOTE_4,,
+REPORT_NOTE_5,"Accelarated night/weekend cycles from Real Time might give issues with district services.","Los ciclos de noche o fin de semana de Real Time podrían dar problemas a los servicios distritales.",REPORT_NOTE_5,,
 REPORT_NOTE_6,"Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.",REPORT_NOTE_6,,
 REPORT_NOTE_7,"Additive Shader props converted to PO don't show up after reloading a save.","Additive Shader props converted to PO don't show up after reloading a save.",REPORT_NOTE_7,,
 REPORT_NOTE_8,"Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.",REPORT_NOTE_8,,

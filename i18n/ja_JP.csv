@@ -335,6 +335,8 @@ SET_RT_TXT,Text,テキスト,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
 HRT_P_S,Status,ステータス,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
+HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","これは役に立ちましたか？見逃したものはありますか？ワークショップのページで、評価やコメントを残して下さい: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
+HTMLReport Footer_RatingText",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",下部のツールバーの上側に、「黒いバーが表示」される場合があります。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",赤色のウェイト表示は、「必ずしもそのアセットが悪い/問題がある」という意味ではありません。ただし、非常に詳細なディテールの場合は、「パフォーマンスに影響を与える」可能性があります。,REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",バージョン3.0のベータ版がGitHubで公開されましたが、「Steamのワークショップでは公開」されませんでした。MOD作者はParadox社のDLC商法を非難し、これ以上のMODを更新しないと記述しています。,REPORT_NOTE_3,,
