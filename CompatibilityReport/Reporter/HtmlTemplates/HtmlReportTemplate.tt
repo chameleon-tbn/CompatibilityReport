@@ -206,7 +206,7 @@
     
 <#  // Local subscriptions
     if (catalog.LocalSubscriptionCount != 0) {#>
-        <h3>NOTE</h3>
+        <h3 data-i18n="HRTC_TH_N">NOTE</h3>
         <div class="text-small">
           <span data-i18n="<#= catalog.LocalSubscriptionCount == 1 ? "HRT_LSM_S" : "HRT_LSM_P" #>" data-i18n-vars="LocalSubscriptionCount█<#= Toolkit.EscapeHtml($"<strong>{catalog.LocalSubscriptionCount}</strong>")#>">You have <strong><#= catalog.LocalSubscriptionCount #></strong> local mod<#= catalog.LocalSubscriptionCount == 1 ? "" : "s" #> local mods, which we can't review. The report does not check for incompatibilities with these. Results might not be completely accurate.</span>
           </br>
@@ -217,7 +217,7 @@
 
 <#  // Fake subscriptions
     if (catalog.FakeSubscriptionCount != 0) { #>
-        <h3>NOTE</h3>
+        <h3 data-i18n="HRTC_TH_N">NOTE</h3>
         <div>
            <span data-i18n="<#= catalog.FakeSubscriptionCount == 1 ? "HRT_FS_S" : "HRT_FS_P" #>" data-i18n-vars="LocalSubscriptionCount█<#= catalog.FakeSubscriptionCount #>">The report includes <strong><#= catalog.FakeSubscriptionCount #></strong> fake subscription<#= catalog.FakeSubscriptionCount == 1 ? "" : "s" #>.</span> 
         </div><#
@@ -226,7 +226,7 @@
 
 <#  // Non reviewed subscriptions
     if (NonReviewedSubscriptions != 0) { #>
-        <h3>NOTE</h3>
+        <h3 data-i18n="HRTC_TH_N">NOTE</h3>
         <div>
            <span data-i18n="HRT_NRS_N" data-i18n-vars="NonReviewedSubscriptions█<#= NonReviewedSubscriptions #>"><strong><#= NonReviewedSubscriptions #></strong> of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.</span> 
         </div><#
