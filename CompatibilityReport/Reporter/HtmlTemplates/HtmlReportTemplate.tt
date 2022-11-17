@@ -1,4 +1,4 @@
-<#@ template language="C#v3.5" linePragmas="false" visibility="internal" #>
+<#@ template language="C#" linePragmas="false" visibility="internal" #>
 <#@ import namespace="Util" #>
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
