@@ -337,6 +337,8 @@ HRT_P_S,Status,Status,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
 HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
 HTMLReport Footer_RatingText",,
+HRTC_TH_N,NOTE,NOTE,"HRTC_TH_N
+HTMLReportTemplate TextHeader Note",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",REPORT_NOTE_3,,
