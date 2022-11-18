@@ -1,129 +1,129 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
-LANGUAGE,English,Française,"LANGUAGE
+LANGUAGE,English,English,"LANGUAGE
 Language to be translated into",,
-CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} créé le {Updated}, téléchargé le {Downloaded}","CAT_NC_SUIT
+CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
-CAT_S_SUIT,"unknown, catalog not loaded yet.","inconnu, le catalogue n'est pas encore chargé.","CAT_S_SUIT
+CAT_S_SUIT,"unknown, catalog not loaded yet.","unknown, catalog not loaded yet.","CAT_S_SUIT
 Catalog.cs string SettingsUIText",,
-HE_NAWIDAL_S,by,de,"HE_NAWIDAL_S
+HE_NAWIDAL_S,by,by,"HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string",,
-HRT_DCV_H,WARNING:,"ATTENTION :","HRT_DCV_H
+HRT_DCV_H,WARNING:,WARNING:,"HRT_DCV_H
 HtmlReportTemplate.tt Different Catalog version Header",,
-HRT_DCV_RNA,"Results might not be accurate.","Les résultats peuvent ne pas être exacts.","HRT_DCV_RNA
+HRT_DCV_RNA,"Results might not be accurate.","Results might not be accurate.","HRT_DCV_RNA
 HtmlReportTemplate.tt Different Catalog version Resultsnotaccurate",,
-HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","Le catalogue est fait pour la version du jeu {CatalogGameVersion}.","HRT_DCV_T
+HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","The catalog is made for game version {CatalogGameVersion}.","HRT_DCV_T
 HtmlReportTemplate.tt Different Catalog version Text",,
-HRT_DCV_YGIN,"Your game is newer.","Votre jeu est dans une version ultérieure.","HRT_DCV_YGIN
+HRT_DCV_YGIN,"Your game is newer.","Your game is newer.","HRT_DCV_YGIN
 HtmlReportTemplate.tt Different Catalog version Your game is newer",,
-HRT_DCV_YGIO,"Your game is older.","Votre jeu est dans une version antérieure.","HRT_DCV_YGIO
+HRT_DCV_YGIO,"Your game is older.","Your game is older.","HRT_DCV_YGIO
 HtmlReportTemplate.tt Different Catalog version Your game is older",,
-HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","Le rapport contient {LocalSubscriptionCount} faux abonnements.","HRT_FS_P
+HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","The report includes {LocalSubscriptionCount} fake subscriptions.","HRT_FS_P
 HtmlReportTemplate.tt Fake subscription plural",,
-HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","Le rapport contient {LocalSubscriptionCount} faux abonnement.","HRT_FS_S
+HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","The report includes {LocalSubscriptionCount} fake subscription.","HRT_FS_S
 HtmlReportTemplate.tt Fake subscription singular",,
-HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","Les mods abandonnés peuvent toujours fonctionner correctement. Ils sont tout simplement peu susceptibles de recevoir des mises à jour.","HRT_GI_AM
+HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","Abandoned mods can still work fine. They're just unlikely to get updates.","HRT_GI_AM
 HtmlReportTemplate.tt General information Abandondedmod",,
-HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Toujours LIRE la description du mod sur le Workshop Steam avant de le télécharger.","HRT_GI_AR
+HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Always READ the mod description on the Steam Workshop before subscribing.","HRT_GI_AR
 HtmlReportTemplate.tt General information Alwaysread",,
-HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","La liste de {linkBrokenMods} peut vous aider à ne pas vous abonner de la sorte.","HRT_GI_BML
+HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","The list of {linkBrokenMods} can help you not to subscribe such at all.","HRT_GI_BML
 HtmlReportTemplate.tt General information BrokenModList",,
-HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Toujours QUITTER VERS LE BUREAU et redémarrer le jeu. Ne quittez jamais vers le menu principal !","HRT_GI_ETD
+HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","Vous avez trouvé une erreur ? Veuillez remplir ce {form}.","HRT_GI_M
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
 HtmlReportTemplate.tt General information Form",,
-HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Vous avez des problèmes avec un mod ? Faites un commentaire sur sa page du Workshop afin que l'auteur le sache.","HRT_GI_HI
+HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Having issues with a mod? Make a comment on its Workshop page so the author knows.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
-HRT_GI_H,"General information","Informations générales","HRT_GI_H
+HRT_GI_H,"General information","General information","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","JAMAIS (dés)abonnez-vous à quoi que ce soit pendant que le jeu est en cours d'exécution ! Cela réinitialise certains mods.","HRT_GI_NU
+HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","NEVER (un)subscribe to anything while the game is running! This resets some mods.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
-HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Les mods sont compatibles mais ne fonctionnent pas ? Essayez de vous désabonner et de vous réabonner (sans être en jeu).","HRT_GI_NW
+HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking",,
-HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","La liste de {linkRecommendedMods} aide à décider à quels mods s'abonner.","HRT_GI_RML
+HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","The list of {linkRecommendedMods} helps to decide which mods to subscribe.","HRT_GI_RML
 HtmlReportTemplate.tt General information RecommendedModList",,
-HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","Lorsque vous jouez avec des mods, sauvegardez souvent dans une nouvelle sauvegarde et faites des BACKUPS fréquentes.","HRT_GI_WP
+HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","When playing with mods, save to a new savegame often and make frequent BACKUPS.","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying",,
-HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","AVERTISSEMENT : Le dernier catalogue de compatibilités n'a pas pu être téléchargé. Les résultats peuvent être obsolètes.","HRT_IO_SOW
+HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning",,
-HRT_LIL_MAI,"Major Issues","Problèmes majeurs","HRT_LIL_MAI
+HRT_LIL_MAI,"Major Issues","Major Issues","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_LIL_MI,"Minor Issues","Problèmes mineurs","HRT_LIL_MI
+HRT_LIL_MI,"Minor Issues","Minor Issues","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
-HRT_LIL_NTR,"Nothing to report","Rien à signaler","HRT_LIL_NTR
+HRT_LIL_NTR,"Nothing to report","Nothing to report","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
-HRT_LIL_R,Remarks,Commentaires,"HRT_LIL_R
+HRT_LIL_R,Remarks,Remarks,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
-HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","Le rapport ne vérifie pas les incompatibilités avec ceux-ci. Les résultats peuvent ne pas être complètement exacts. Utiliser les mods comme abonnement au Workshop lorsque c'est possible. Les mods copiés dans le dossier local des mods ne fonctionnent pas toujours et ne peuvent souvent pas être détectés correctement par d'autres mods.","HRT_LSM_E
+HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
-HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","Vous avez {LocalSubscriptionCount} mods locaux, que nous ne pouvons pas vérifier.","HRT_LSM_P
+HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","You have {LocalSubscriptionCount} local mods, which we can't review.","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural",,
-HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","Vous avez {LocalSubscriptionCount} mod local, que nous ne pouvons pas vérifier.","HRT_LSM_S
+HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","You have {LocalSubscriptionCount} local mod, which we can't review.","HRT_LSM_S
 HtmlReportTemplate.tt Local subscription Mod singular",,
-HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} de vos mods n'ont pas encore été revus. Des incompatibilités ou des avertissements pourraient être manquants dans le rapport à cause de cela.","HRT_NRS_N
+HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note",,
-HRT_P_D,Disabled,Désactivé,"HRT_P_D
+HRT_P_D,Disabled,Disabled,"HRT_P_D
 HtmlReportTemplate.tt processed Disabled",,
-HRT_P_MN,"Mod Name","Nom du mod","HRT_P_MN
+HRT_P_MN,"Mod Name","Mod Name","HRT_P_MN
 HtmlReportTemplate.tt processed Mod Name",,
-HRT_P_PM,"Processed mods","Mods traités","HRT_P_PM
+HRT_P_PM,"Processed mods","Processed mods","HRT_P_PM
 HtmlReportTemplate.tt processed Processed mods",,
 HRT_P_T,Type,Type,"HRT_P_T
 HtmlReportTemplate.tt processed Type",,
 HRT_P_U,URL,URL,"HRT_P_U
 HtmlReportTemplate.tt processed Url",,
-HRT_RS_MAIP,"MODS HAVE MAJOR ISSUES:","LES MODS ONT DES PROBLÈMES MAJEURS:","HRT_RS_MAIP
+HRT_RS_MAIP,"MODS HAVE MAJOR ISSUES:","MODS HAVE MAJOR ISSUES:","HRT_RS_MAIP
 HtmlReportTemplate.tt RenderSection majorIssuesplural",,
-HRT_RS_MAIS,"MOD HAS MAJOR ISSUES:","CE MOD A DES PROBLÈMES MAJEURS:","HRT_RS_MAIS
+HRT_RS_MAIS,"MOD HAS MAJOR ISSUES:","MOD HAS MAJOR ISSUES:","HRT_RS_MAIS
 HtmlReportTemplate.tt RenderSection majorIssuessingular",,
-HRT_RS_MIP,"MODS HAVE MINOR ISSUES:","LES MODS ONT DES PROBLÈMES MINEURS:","HRT_RS_MIP
+HRT_RS_MIP,"MODS HAVE MINOR ISSUES:","MODS HAVE MINOR ISSUES:","HRT_RS_MIP
 HtmlReportTemplate.tt RenderSection minorIssuesplural",,
-HRT_RS_MIS,"MOD HAS MINOR ISSUES:","CE MOD A DES PROBLÈMES MINEURS:","HRT_RS_MIS
+HRT_RS_MIS,"MOD HAS MINOR ISSUES:","MOD HAS MINOR ISSUES:","HRT_RS_MIS
 HtmlReportTemplate.tt RenderSection minorIssuessingular",,
-HRT_RS_NTRP,"MODS WITH NOTHING TO REPORT:","MODS AVEC RIEN À SIGNALER:","HRT_RS_NTRP
+HRT_RS_NTRP,"MODS WITH NOTHING TO REPORT:","MODS WITH NOTHING TO REPORT:","HRT_RS_NTRP
 HtmlReportTemplate.tt RenderSection nothingToReportplural",,
-HRT_RS_NTRS,"MOD WITH NOTHING TO REPORT:","MOD AVEC RIEN À SIGNALER:","HRT_RS_NTRS
+HRT_RS_NTRS,"MOD WITH NOTHING TO REPORT:","MOD WITH NOTHING TO REPORT:","HRT_RS_NTRS
 HtmlReportTemplate.tt RenderSection nothingToReportsingular",,
-HRT_RS_RP,"MODS WITH REMARKS:","MODS AVEC REMARQUES:","HRT_RS_RP
+HRT_RS_RP,"MODS WITH REMARKS:","MODS WITH REMARKS:","HRT_RS_RP
 HtmlReportTemplate.tt RenderSection remarksplural",,
-HRT_RS_RS,"MOD WITH REMARK:","MOD AVEC REMARQUE:","HRT_RS_RS
+HRT_RS_RS,"MOD WITH REMARK:","MOD WITH REMARK:","HRT_RS_RS
 HtmlReportTemplate.tt RenderSection remarkssingular",,
-HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:","CES MODS PEUVENT OU DEVRAIENT ÊTRE SUPPRIMÉS :","HRT_RS_UP
+HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:","MODS COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_UP
 HtmlReportTemplate.tt RenderSection unsubscribeplural",,
-HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","CE MOD PEUT OU DEVRAIT ÊTRE SUPPRIMÉ :","HRT_RS_US
+HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","MOD COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
-HRT_S_CRC,"{name}, created on {date+time}","{name}, créé le {date+time}","HRT_S_CRC
+HRT_S_CRC,"{name}, created on {date+time}","{name}, created on {date+time}","HRT_S_CRC
 HtmlReportTemplate.tt section CompatibilityReportCreated",,
-HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Les mods mis à jour après cette date peuvent avoir une revue de compatibilité obsolète ci-dessous.","HRT_S_MUA
+HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Mods updated after this date might have an outdated review below.","HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
-HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","Le catalogue des mods contient {ReviewedModCount} mods revus et a été créé le {Updated}.","HRT_S_TMCC
+HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains",,
-HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Version {FullVersion} avec le catalogue {VersionString}.","HRT_S_VWC
+HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Version {FullVersion} with catalog {VersionString}.","HRT_S_VWC
 HtmlReportTemplate.tt section Versionwithcatalog",,
-HRT_S_YGM,"Your game has {SubscriptionCount} mods.","Votre jeu a {SubscriptionCount} mods.","HRT_S_YGM
+HRT_S_YGM,"Your game has {SubscriptionCount} mods.","Your game has {SubscriptionCount} mods.","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods",,
-HRTC_A_SNU,"Published source seems out of date, making it hard to continue by another modder.","La source publiée semble obsolète, ce qui rend difficile la continuité à jour par un autre modder.","HRTC_A_SNU
+HRTC_A_SNU,"Published source seems out of date, making it hard to continue by another modder.","Published source seems out of date, making it hard to continue by another modder.","HRTC_A_SNU
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated",,
-HRTC_A_SURL,"No public source code found, making it hard to continue by another modder.","Aucun code source public trouvé, ce qui rend difficile la récréation à jour par un autre modder.","HRTC_A_SURL
+HRTC_A_SURL,"No public source code found, making it hard to continue by another modder.","No public source code found, making it hard to continue by another modder.","HRTC_A_SURL
 HtmlReportTemplateCode.cs abandoned SourceUrl",,
-HRTC_A_SM,"Some alternatives for this are (pick one, not all):","Certaines alternatives sont (choisir une, pas toutes):","HRTC_A_SM
+HRTC_A_SM,"Some alternatives for this are (pick one, not all):","Some alternatives for this are (pick one, not all):","HRTC_A_SM
 HtmlReportTemplateCode.cs Alternatives subscribedMod",,
-HRTC_A_SMC,"An alternative you could use:","Une alternative que vous pourriez utiliser :","HRTC_A_SMC
+HRTC_A_SMC,"An alternative you could use:","An alternative you could use:","HRTC_A_SMC
 HtmlReportTemplateCode.cs Alternatives subscribedModCount",,
-HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","Si vous utilisez l'éditeur de ressource et/ou l'éditeur de carte, cela peut créer de sérieux problèmes.","HRTC_BE_R
+HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","If you use the asset editor and/or map editor, this may give serious issues.","HRTC_BE_R
 HtmlReportTemplateCode.cs BreaksEditors Remarks",,
-HRTC_CRM_S,"Can't review local mods.","Impossible de vérifier les mods locaux.","HRTC_CRM_S
+HRTC_CRM_S,"Can't review local mods.","Can't review local mods.","HRTC_CRM_S
 HtmlReportTemplateCode.cs cannotReviewMessage string",,
-HRTC_CM_ID,Yes,Oui,"HRTC_CM_ID
+HRTC_CM_ID,Yes,Yes,"HRTC_CM_ID
 HtmlReportTemplateCode.cs catalogMod IsDisabled",,
-HRTC_IRS_CATA,"This is compatible with:","Ceci est compatible avec :","HRTC_IRS_CATA
+HRTC_IRS_CATA,"This is compatible with:","This is compatible with:","HRTC_IRS_CATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity CompatibleAccordingToAuthor",,
-HRTC_IRS_IATA,"Unsubscribe either this one or the following mod it's incompatible with:","Désabonnez-vous de celui-ci ou du mod suivant car il est incompatible avec :","HRTC_IRS_IATA
+HRTC_IRS_IATA,"Unsubscribe either this one or the following mod it's incompatible with:","Unsubscribe either this one or the following mod it's incompatible with:","HRTC_IRS_IATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToAuthor",,
-HRTC_IRS_IATU,"Users report an incompatibility with:","Les utilisateurs signalent une incompatibilité avec :","HRTC_IRS_IATU
+HRTC_IRS_IATU,"Users report an incompatibility with:","Users report an incompatibility with:","HRTC_IRS_IATU
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToUsers",,
-HRTC_IRS_MAI,"This has major issues with:","Il y a des problèmes majeurs avec:","HRTC_IRS_MAI
+HRTC_IRS_MAI,"This has major issues with:","This has major issues with:","HRTC_IRS_MAI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MajorIssues and HtmlReportTemplate.tt LI_Link majorIssues)",,
-HRTC_IRS_MI,"This has minor issues with:","Il y a des problèmes mineurs avec:","HRTC_IRS_MI
+HRTC_IRS_MI,"This has minor issues with:","This has minor issues with:","HRTC_IRS_MI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MinorIssues",,
 HRTC_IRS_RSS,"This requires specific configuration to work together with:","This requires specific configuration to work together with:","HRTC_IRS_RSS
 HtmlReportTemplateCode.cs IncreaseReportSeverity RequiresSpecificSettings",,
