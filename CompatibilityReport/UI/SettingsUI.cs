@@ -30,7 +30,6 @@ namespace CompatibilityReport.UI
         // make GlobalConfig Observable in the future?
         private event Action<GlobalConfig> eventGlobalOptionsUpdated;
 
-        private static string ReportPathText => $"<color {ModSettings.SettingsUIColor}>{Toolkit.Privacy(GlobalConfig.Instance.GeneralConfig.ReportPath)}</color>";
         private Translator translator;
 
         private SettingsUI(UIHelperBase helper) {
@@ -480,7 +479,7 @@ namespace CompatibilityReport.UI
         private void OnResetReportPathClicked()
         {
             SettingsManager.OnResetReportPath();
-            reportPathTextField.text = ReportPathText;
+            reportPathTextField.text = GlobalConfig.Instance.GeneralConfig.ReportPath;
         }
 
         private void OnChangeReportPathClicked()
