@@ -125,87 +125,87 @@ HRTC_IRS_MAI,"This has major issues with:","Il y a des problèmes majeurs avec:"
 HtmlReportTemplateCode.cs IncreaseReportSeverity MajorIssues and HtmlReportTemplate.tt LI_Link majorIssues)",,
 HRTC_IRS_MI,"This has minor issues with:","Il y a des problèmes mineurs avec:","HRTC_IRS_MI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MinorIssues",,
-HRTC_IRS_RSS,"This requires specific configuration to work together with:","This requires specific configuration to work together with:","HRTC_IRS_RSS
+HRTC_IRS_RSS,"This requires specific configuration to work together with:","Cela nécessite une configuration spécifique pour fonctionner ensemble avec:","HRTC_IRS_RSS
 HtmlReportTemplateCode.cs IncreaseReportSeverity RequiresSpecificSettings",,
-HRTC_IRS_SF,"Unsubscribe either this or the following incompatible mod with similar functionality:","Unsubscribe either this or the following incompatible mod with similar functionality:","HRTC_IRS_SF
+HRTC_IRS_SF,"Unsubscribe either this or the following incompatible mod with similar functionality:","Desabonnez vous de ceci ou du mod incompatible suivant avec des fonctionnalités similaires:","HRTC_IRS_SF
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionality",,
-HRTC_IRS_SFC,"This has very similar functionality, but is still compatible with (do you need both?):","This has very similar functionality, but is still compatible with (do you need both?):","HRTC_IRS_SFC
+HRTC_IRS_SFC,"This has very similar functionality, but is still compatible with (do you need both?):","Ceci a des fonctionnalités très similaires, mais est toujours compatible avec ce mod (avez-vous besoin des deux?):","HRTC_IRS_SFC
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionalityCompatible",,
-HRTC_IRS_SMDRT,"Unsubscribe either this or the other edition of the same mod:","Unsubscribe either this or the other edition of the same mod:","HRTC_IRS_SMDRT
+HRTC_IRS_SMDRT,"Unsubscribe either this or the other edition of the same mod:","Se désabonner de cette version ou de l'autre version du même mod :","HRTC_IRS_SMDRT
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameModDifferentReleaseType",,
-HRTC_I_B,"UNSUBSCRIBE! This mod is broken.","UNSUBSCRIBE! This mod is broken.","HRTC_I_B
+HRTC_I_B,"UNSUBSCRIBE! This mod is broken.","DÉSABONNEZ-VOUS ! Ce mod est cassé.","HRTC_I_B
 HtmlReportTemplateCode.cs Instability Broken",,
-HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","UNSUBSCRIBE! This mod breaks the game.","HRTC_I_GB
+HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","DÉSABONNEZ-VOUS ! Ce mod corrompt le jeu.","HRTC_I_GB
 HtmlReportTemplateCode.cs Instability GameBreaking",,
-HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","HRTC_I_IATW
+HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","DÉSABONNEZ-VOUS ! Ce mod est totalement incompatible avec la version actuelle du jeu.","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
-HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","Unsubscribe would be wise. This has major issues {StabilityNote}.","HRTC_I_MAI
+HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","Se désabonner serait sage. Il y a des problèmes majeurs {StabilityNote}.","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
-HRTC_I_MAIC,"Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
+HRTC_I_MAIC,"Check its Workshop page for details.","Consultez sa page du Workshop pour plus de détails.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,
-HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","HRTC_I_RIM
+HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","DÉSABONNEZ-VOUS ! Ce mod nécessite un mod totalement incompatible avec la version actuelle du jeu.","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod",,
-HRTC_ICSM_S,"This is a cinematic camera script, which technically is a mod and thus listed here.","This is a cinematic camera script, which technically is a mod and thus listed here.","HRTC_ICSM_S
+HRTC_ICSM_S,"This is a cinematic camera script, which technically is a mod and thus listed here.","Il s'agit d'un script de caméra cinématique, qui techniquement est un mod et donc est listé ici.","HRTC_ICSM_S
 HtmlReportTemplateCode.cs isCameraScriptMessage string",,
-HRTC_ID_U,"Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","HRTC_ID_U
+HRTC_ID_U,"Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","Activez ce mod si vous voulez l'utiliser, ou désabonnez-vous. Les mods désactivés peuvent causer des problèmes.","HRTC_ID_U
 HtmlReportTemplateCode.cs IsDisabled Unsubscribe",,
-HRTC_IMN_R,"None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","HRTC_IMN_R
+HRTC_IMN_R,"None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","Aucun de vos mods du Steam Workshop n'a besoin de ça, et il ne fournit aucune fonctionnalité par lui-même.","HRTC_IMN_R
 HtmlReportTemplateCode.cs IsModNeeded Remarks",,
-HRTC_IMN_RL,"Unsubscribe this unless it's needed for one of your local mods.","Unsubscribe this unless it's needed for one of your local mods.","HRTC_IMN_RL
+HRTC_IMN_RL,"Unsubscribe this unless it's needed for one of your local mods.","Désabonnez-vous à moins que cela ne soit nécessaire pour l'un de vos mods locaux.","HRTC_IMN_RL
 HtmlReportTemplateCode.cs IsModNeeded RemarksLocal",,
-HRTC_IMN_U,"Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","HRTC_IMN_U
+HRTC_IMN_U,"Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","Désabonnez-vous. Il est seulement nécessaire pour des mods que vous n'avez pas, et il ne fournit aucune fonctionnalité par lui-même.","HRTC_IMN_U
 HtmlReportTemplateCode.cs IsModNeeded Unsubscribe",,
 HRTC_IS_S,Steam,Steam,"HRTC_IS_S
 HtmlReportTemplateCode.cs isSteam steam",,
-HRT_LIL_U,Unsubscribe,Unsubscribe,"HRT_LIL_U
+HRT_LIL_U,Unsubscribe,"Se désabonner","HRT_LIL_U
 HtmlReportTemplateCode.cs LI_Link unsubscribe",,
-HRTC_LLMID_BI,Built-in,Built-in,"HRTC_LLMID_BI
+HRTC_LLMID_BI,Built-in,Intégré,"HRTC_LLMID_BI
 HtmlReportTemplateCode.cs LowestLocalModID builtin",,
 HRTC_LLMID_L,Local,Local,"HRTC_LLMID_L
 HtmlReportTemplateCode.cs LowestLocalModID local",,
-HRTC_M_TV,"If you don't have a specific reason to use it, you'd better use the stable version instead.","If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_M_TV
+HRTC_M_TV,"If you don't have a specific reason to use it, you'd better use the stable version instead.","Si vous n'avez pas de raison spécifique pour l'utiliser, vous devriez utiliser la version stable à la place.","HRTC_M_TV
 HtmlReportTemplateCode.cs Message TestVersion",,
-HRTC_NCS_MI,"This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","HRTC_NCS_MI
+HRTC_NCS_MI,"This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","Ce mod a désactivé la section commentaire sur le Workshop Steam, ce qui rend difficile de voir si d'autres utilisateurs rencontrent des problèmes. À utiliser avec prudence.","HRTC_NCS_MI
 HtmlReportTemplateCode.cs NoCommentSection MinorIssues",,
-HRTC_ND_MI,"This has no description on the Steam Workshop. Support from the author is unlikely.","This has no description on the Steam Workshop. Support from the author is unlikely.","HRTC_ND_MI
+HRTC_ND_MI,"This has no description on the Steam Workshop. Support from the author is unlikely.","Ceci n'a pas de description sur le Workshop Steam. L'aide de l'auteur est peu probable.","HRTC_ND_MI
 HtmlReportTemplateCode.cs NoDescription MinorIssues",,
-HRTC_NKIM_S,"No known issues or incompatibilities with your other mods.","No known issues or incompatibilities with your other mods.","HRTC_NKIM_S
+HRTC_NKIM_S,"No known issues or incompatibilities with your other mods.","Aucun problème ou incompatibilité connus avec vos autres mods.","HRTC_NKIM_S
 HtmlReportTemplateCode.cs noKnownIssuesMessage string",,
-HRTC_R2_SM,"The author or the users of this mod recommend using the following as well:","The author or the users of this mod recommend using the following as well:","HRTC_R2_SM
+HRTC_R2_SM,"The author or the users of this mod recommend using the following as well:","L'auteur ou les utilisateurs de ce mod recommandent également d'utiliser ce qui suit :","HRTC_R2_SM
 HtmlReportTemplateCode.cs Recommendations2 subscribedMod",,
-HRTC_RDLC_U,"Unsubscribe this. It requires DLC you don't have:","Unsubscribe this. It requires DLC you don't have:","HRTC_RDLC_U
+HRTC_RDLC_U,"Unsubscribe this. It requires DLC you don't have:","Se désabonner de ceci. Il nécessite un DLC que vous n'avez pas:","HRTC_RDLC_U
 HtmlReportTemplateCode.cs RequiredDlc Unsubscribe",,
-HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enabled:","This mod requires other mods you don't have, or which are not enabled:","HRTC_RM_SM
+HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enabled:","Ce mod nécessite d'autres mods que vous n'avez pas, ou qui ne sont pas activés :","HRTC_RM_SM
 HtmlReportTemplateCode.cs RequiredMods subscribedMod",,
-HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","HRTC_RU_U
+HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Désabonnez-vous. Il s'agit d'un re-upload d'un autre mod, utilisez celui-ci à la place (ou son successeur).","HRTC_RU_U
 HtmlReportTemplateCode.cs Reupload Unsubscribe",,
-HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Unsubscribe would be wise. This has major issues: {StabilityNote}","HRTC_I_MAS
+HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Se désabonner serait sage. Il y a des problèmes majeurs: {StabilityNote}","HRTC_I_MAS
 HtmlReportTemplateCode.cs Stability MajorIssuesStabilityNote",,
-HRTC_S_MI,"This has minor issues {StabilityNote}.","This has minor issues {StabilityNote}.","HRTC_S_MI
+HRTC_S_MI,"This has minor issues {StabilityNote}.","Il y a des problèmes mineurs {StabilityNote}.","HRTC_S_MI
 HtmlReportTemplateCode.cs Stability MinorIssues",,
-HRTC_S_MIS,"This has minor issues: {StabilityNote}","This has minor issues: {StabilityNote}","HRTC_S_MIS
+HRTC_S_MIS,"This has minor issues: {StabilityNote}","Ceci a des problèmes mineurs : {StabilityNote}","HRTC_S_MIS
 HtmlReportTemplateCode.cs Stability MinorIssuesStabilityNote",,
-HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","There is not enough information about this mod to know if it works well.","HRTC_S_NEI
+HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","Il n'y a pas assez d'informations sur ce mod pour savoir s'il fonctionne bien.","HRTC_S_NEI
 HtmlReportTemplateCode.cs Stability NotEnoughInformation",,
-HRTC_S_NEIC,"but it was updated for the current game version.","but it was updated for the current game version.","HRTC_S_NEIC
+HRTC_S_NEIC,"but it was updated for the current game version.","mais il a été mis à jour pour la version actuelle du jeu.","HRTC_S_NEIC
 HtmlReportTemplateCode.cs Stability NotEnoughInformationCurrent and NotReviewedCurrent",,
-HRTC_S_NEIV,"but it was updated for game version {GameVersion}.","but it was updated for game version {GameVersion}.","HRTC_S_NEIV
+HRTC_S_NEIV,"but it was updated for game version {GameVersion}.","mais il a été mis à jour pour la version {GameVersion} du jeu.","HRTC_S_NEIV
 HtmlReportTemplateCode.cs Stability NotEnoughInformationVersion and NotReviewedVersion",,
-HRTC_S_NR,"This mod has not been reviewed yet.","This mod has not been reviewed yet.","HRTC_S_NR
+HRTC_S_NR,"This mod has not been reviewed yet.","Ce mod n'a pas encore été revu.","HRTC_S_NR
 HtmlReportTemplateCode.cs Stability NotReviewed",,
-HRTC_S_S,"This is compatible with the current game version.","This is compatible with the current game version.","HRTC_S_S
+HRTC_S_S,"This is compatible with the current game version.","Ceci est compatible avec la version actuelle du jeu.","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable",,
-HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Users are reporting issues: {StabilityNote}","HRTC_S_URS
+HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Les utilisateurs signalent des problèmes: {StabilityNote}","HRTC_S_URS
 HtmlReportTemplateCode.cs Stability UserReportIssuesStabilityNote",,
-HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Users are reporting issues {StabilityNote}.","HRTC_S_URI
+HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Les utilisateurs signalent les problèmes {StabilityNote}.","HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues",,
-HRTC_SS_TV,"This is a test version, but is considered quite stable.","This is a test version, but is considered quite stable.","HRTC_SS_TV
+HRTC_SS_TV,"This is a test version, but is considered quite stable.","Il s'agit d'une version de test, mais elle est considérée comme stable.","HRTC_SS_TV
 HtmlReportTemplateCode.cs StabilityStable TestVersion",,
-HRTC_S_A,"This seems to be abandoned and the author seems retired. Future updates are unlikely.","This seems to be abandoned and the author seems retired. Future updates are unlikely.","HRTC_S_A
+HRTC_S_A,"This seems to be abandoned and the author seems retired. Future updates are unlikely.","Cela semble être abandonné et l'auteur semble s'être retiré. Les mises à jour futures sont improbables.","HRTC_S_A
 HtmlReportTemplateCode.cs Statuses Abandoned",,
-HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.","The author seems to be retired. Future updates are unlikely.","HRTC_S_AR
+HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.","L'auteur semble être à la retraite. Les mises à jour futures sont improbables.","HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired",,
-HRTC_S_D,"Unsubscribe would be wise. This is deprecated and no longer supported by the author.","Unsubscribe would be wise. This is deprecated and no longer supported by the author.","HRTC_S_D
+HRTC_S_D,"Unsubscribe would be wise. This is deprecated and no longer supported by the author.","La désinscription serait sage. Ce mod est déprécié et n'est plus maintenu à jour par l'auteur.","HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated",,
 HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.","This is only needed for modders or creators. Regular users don't need this one.","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
@@ -481,7 +481,7 @@ REPORT_NOTE_139,"Prop Painter was not updated to recent Move It updates, creatin
 REPORT_NOTE_140,"Real City doesn't detect the extra CitizenUnits.","Real City doesn't detect the extra CitizenUnits.",REPORT_NOTE_140,,
 REPORT_NOTE_141,"Real Time is meant for cities with a population of up to 65.000 (it can be used on larger cities but there might be issues). Real Time completely changes the simulation, which makes it incompatible with a lot of other mods, especially those that alter or depend on time progression.","Real Time is meant for cities with a population of up to 65.000 (it can be used on larger cities but there might be issues). Real Time completely changes the simulation, which makes it incompatible with a lot of other mods, especially those that alter or depend on time progression.",REPORT_NOTE_141,,
 REPORT_NOTE_142,"Real Time might delay the arrival of extra Starting Money.","Real Time might delay the arrival of extra Starting Money.",REPORT_NOTE_142,,
-REPORT_NOTE_143,"Realistic Population includes a 'no deathcare' functionality.","Realistic Population includes a 'no deathcare' functionality.",REPORT_NOTE_143,,
+REPORT_NOTE_143,"Price changes have no effect on the bank balance.","Price changes have no effect on the bank balance.",REPORT_NOTE_143,,
 REPORT_NOTE_144,"Render It already has shadow strength functionality.","Render It already has shadow strength functionality.",REPORT_NOTE_144,,
 REPORT_NOTE_145,"Replacing road arrows with Prop Switcher is not recommended and might give an 'array out of bounds' error.","Replacing road arrows with Prop Switcher is not recommended and might give an 'array out of bounds' error.",REPORT_NOTE_145,,
 REPORT_NOTE_146,"Require removing all dependent assets before removing the mod. Button for that is in options of the mod.","Require removing all dependent assets before removing the mod. Button for that is in options of the mod.",REPORT_NOTE_146,,

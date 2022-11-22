@@ -494,7 +494,7 @@ REPORT_NOTE_140,"Real City doesn't detect the extra CitizenUnits.","Real Cityは
 REPORT_NOTE_141,"Real Time is meant for cities with a population of up to 65.000 (it can be used on larger cities but there might be issues). Real Time completely changes the simulation, which makes it incompatible with a lot of other mods, especially those that alter or depend on time progression.","Real Timeは、「人口65,000人までの都市を想定」しています。 (それ以上の人口でも使用できますが、問題があるかも知れません)
 Real Timeは都市のシミュレーションを完全に変更するため、「他のMODで互換性に問題が出る」場合があります。特に時間経過を調整/変更したり、それらに依存するMODとは互換性がありません。",REPORT_NOTE_141,,
 REPORT_NOTE_142,"Real Time might delay the arrival of extra Starting Money.","Real Timeでは、「追加した開始資金の補充が遅れる」可能性があります。",REPORT_NOTE_142,,
-REPORT_NOTE_143,"Realistic Population includes a 'no deathcare' functionality.","Realistic Population includes a 'no deathcare' functionality.",REPORT_NOTE_143,,
+REPORT_NOTE_143,"Price changes have no effect on the bank balance.",価格の変更は、銀行残高に影響を与えません。,REPORT_NOTE_143,,
 REPORT_NOTE_144,"Render It already has shadow strength functionality.","Render Itには、「影部分の強度調整」機能が既にあります。",REPORT_NOTE_144,,
 REPORT_NOTE_145,"Replacing road arrows with Prop Switcher is not recommended and might give an 'array out of bounds' error.","Prop Switcherで、「道路の路面矢印を置き換えることは非推奨」です。また、「array out of boundsのエラーが発生」する場合があります。",REPORT_NOTE_145,,
 REPORT_NOTE_146,"Require removing all dependent assets before removing the mod. Button for that is in options of the mod.",MODを削除する前に、「依存するアセットを全て削除」する必要があります。そのためのボタンは、MODのオプション内にあります。,REPORT_NOTE_146,,

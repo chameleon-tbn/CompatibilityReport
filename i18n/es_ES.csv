@@ -93,7 +93,7 @@ HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","MOD QUE PUEDE OR DEBE ELIMINAR
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
 HRT_S_CRC,"{name}, created on {date+time}","{name}, creado el {date+time}","HRT_S_CRC
 HtmlReportTemplate.tt section CompatibilityReportCreated",,
-HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Mods actualizados después de esta fecha pueden estar desactualizadas","HRT_S_MUA
+HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Mods actualizados después de esta fecha pueden estar desactualizados","HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
 HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","El catálogo contiene {ReviewedModCount} mods revisados y fue creado el {Updated}.","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains",,
@@ -101,17 +101,17 @@ HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Versión {FullV
 HtmlReportTemplate.tt section Versionwithcatalog",,
 HRT_S_YGM,"Your game has {SubscriptionCount} mods.","Tu juego tiene {SubscriptionCount} mods.","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods",,
-HRTC_A_SNU,"Published source seems out of date, making it hard to continue by another modder.","Published source seems out of date, making it hard to continue by another modder.","HRTC_A_SNU
+HRTC_A_SNU,"Published source seems out of date, making it hard to continue by another modder.","El código fuente publicado parece estar desactualizado, dificultando actualizarlo por otro modder.","HRTC_A_SNU
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated",,
-HRTC_A_SURL,"No public source code found, making it hard to continue by another modder.","No public source code found, making it hard to continue by another modder.","HRTC_A_SURL
+HRTC_A_SURL,"No public source code found, making it hard to continue by another modder.","No existe código fuente público, dificultando actualizarlo por otro modder.","HRTC_A_SURL
 HtmlReportTemplateCode.cs abandoned SourceUrl",,
-HRTC_A_SM,"Some alternatives for this are (pick one, not all):","Some alternatives for this are (pick one, not all):","HRTC_A_SM
+HRTC_A_SM,"Some alternatives for this are (pick one, not all):","Algunas alternativas para este son (seleccione uno, no todos):","HRTC_A_SM
 HtmlReportTemplateCode.cs Alternatives subscribedMod",,
-HRTC_A_SMC,"An alternative you could use:","An alternative you could use:","HRTC_A_SMC
+HRTC_A_SMC,"An alternative you could use:","Una alternativa que puedes usar: ","HRTC_A_SMC
 HtmlReportTemplateCode.cs Alternatives subscribedModCount",,
-HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","If you use the asset editor and/or map editor, this may give serious issues.","HRTC_BE_R
+HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","Si utilizas el editor de elementos o editor de mapa, esto puede ocasionar problemas serios.","HRTC_BE_R
 HtmlReportTemplateCode.cs BreaksEditors Remarks",,
-HRTC_CRM_S,"Can't review local mods.","Can't review local mods.","HRTC_CRM_S
+HRTC_CRM_S,"Can't review local mods.","No se puede revisar mods locales.","HRTC_CRM_S
 HtmlReportTemplateCode.cs cannotReviewMessage string",,
 HRTC_CM_ID,Yes,Si,"HRTC_CM_ID
 HtmlReportTemplateCode.cs catalogMod IsDisabled",,
@@ -145,13 +145,13 @@ HRTC_I_MAIC,"Check its Workshop page for details.","Revisa la página de Worksho
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,
 HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","¡DESUSCRIBIRSE! Esto requiere un mod que es totalmente incompatible con la versión actual del juego.","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod",,
-HRTC_ICSM_S,"This is a cinematic camera script, which technically is a mod and thus listed here.","This is a cinematic camera script, which technically is a mod and thus listed here.","HRTC_ICSM_S
+HRTC_ICSM_S,"This is a cinematic camera script, which technically is a mod and thus listed here.","Este eb yb scruot de cámara cinemática, técnicamente es un mod y por esa razón esta listado aquí.","HRTC_ICSM_S
 HtmlReportTemplateCode.cs isCameraScriptMessage string",,
 HRTC_ID_U,"Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","Activa esto si deseas usarlo, o desuscribete. Los mods desactivados pueden causar problemas.","HRTC_ID_U
 HtmlReportTemplateCode.cs IsDisabled Unsubscribe",,
-HRTC_IMN_R,"None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","HRTC_IMN_R
+HRTC_IMN_R,"None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","Ninguno de tus mod del Steam Workshop necesita esto, y no provee ninguna funcionalidad por sí solo.","HRTC_IMN_R
 HtmlReportTemplateCode.cs IsModNeeded Remarks",,
-HRTC_IMN_RL,"Unsubscribe this unless it's needed for one of your local mods.","Unsubscribe this unless it's needed for one of your local mods.","HRTC_IMN_RL
+HRTC_IMN_RL,"Unsubscribe this unless it's needed for one of your local mods.","Anula tu suscripción a este mod, al menos que sea necesario por algunos de tus mods locales.","HRTC_IMN_RL
 HtmlReportTemplateCode.cs IsModNeeded RemarksLocal",,
 HRTC_IMN_U,"Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","Desuscribete de esto. Solo es necesitado por mods que no tienes, y no tiene ninguna funcionalidad por si sola.","HRTC_IMN_U
 HtmlReportTemplateCode.cs IsModNeeded Unsubscribe",,
@@ -175,29 +175,29 @@ HRTC_R2_SM,"The author or the users of this mod recommend using the following as
 HtmlReportTemplateCode.cs Recommendations2 subscribedMod",,
 HRTC_RDLC_U,"Unsubscribe this. It requires DLC you don't have:","Desuscribete de esto. Requiere un DLC que no tienes:","HRTC_RDLC_U
 HtmlReportTemplateCode.cs RequiredDlc Unsubscribe",,
-HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enabled:","This mod requires other mods you don't have, or which are not enabled:","HRTC_RM_SM
+HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enabled:","Este mod requiere otros mods que no tienes, o que no están habilitados.","HRTC_RM_SM
 HtmlReportTemplateCode.cs RequiredMods subscribedMod",,
-HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","HRTC_RU_U
+HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Anula tu suscripción a este mod. Es una versión duplicada, usa ese otro (o su sucesor).","HRTC_RU_U
 HtmlReportTemplateCode.cs Reupload Unsubscribe",,
-HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Unsubscribe would be wise. This has major issues: {StabilityNote}","HRTC_I_MAS
+HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Anular la suscripción sería ideal. Este tiene problemas mayores: {StabilityNote}","HRTC_I_MAS
 HtmlReportTemplateCode.cs Stability MajorIssuesStabilityNote",,
-HRTC_S_MI,"This has minor issues {StabilityNote}.","This has minor issues {StabilityNote}.","HRTC_S_MI
+HRTC_S_MI,"This has minor issues {StabilityNote}.","Este tiene problemas menores {StabilityNote}.","HRTC_S_MI
 HtmlReportTemplateCode.cs Stability MinorIssues",,
-HRTC_S_MIS,"This has minor issues: {StabilityNote}","This has minor issues: {StabilityNote}","HRTC_S_MIS
+HRTC_S_MIS,"This has minor issues: {StabilityNote}","Este tiene problemas menores: {StabilityNote}","HRTC_S_MIS
 HtmlReportTemplateCode.cs Stability MinorIssuesStabilityNote",,
-HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","There is not enough information about this mod to know if it works well.","HRTC_S_NEI
+HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","No hay información suficiente acerca de este mod para saber si funciona correctamente.","HRTC_S_NEI
 HtmlReportTemplateCode.cs Stability NotEnoughInformation",,
-HRTC_S_NEIC,"but it was updated for the current game version.","but it was updated for the current game version.","HRTC_S_NEIC
+HRTC_S_NEIC,"but it was updated for the current game version.","pero fue actualizado para la versión actual del juego.","HRTC_S_NEIC
 HtmlReportTemplateCode.cs Stability NotEnoughInformationCurrent and NotReviewedCurrent",,
-HRTC_S_NEIV,"but it was updated for game version {GameVersion}.","but it was updated for game version {GameVersion}.","HRTC_S_NEIV
+HRTC_S_NEIV,"but it was updated for game version {GameVersion}.","pero fue actualizado para la versión de juego {GameVersion}.","HRTC_S_NEIV
 HtmlReportTemplateCode.cs Stability NotEnoughInformationVersion and NotReviewedVersion",,
 HRTC_S_NR,"This mod has not been reviewed yet.","Este mod no ha sido revisado aun.","HRTC_S_NR
 HtmlReportTemplateCode.cs Stability NotReviewed",,
-HRTC_S_S,"This is compatible with the current game version.","This is compatible with the current game version.","HRTC_S_S
+HRTC_S_S,"This is compatible with the current game version.","Este es compatible con la versión actual del juego.","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable",,
-HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Users are reporting issues: {StabilityNote}","HRTC_S_URS
+HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Usuarios están reportando problemas: {StabilityNote}","HRTC_S_URS
 HtmlReportTemplateCode.cs Stability UserReportIssuesStabilityNote",,
-HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Users are reporting issues {StabilityNote}.","HRTC_S_URI
+HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Usuarios están reportando problemas {StabilityNote}.","HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues",,
 HRTC_SS_TV,"This is a test version, but is considered quite stable.","Esta es una versión de testeo, pero se considera bastante estable.","HRTC_SS_TV
 HtmlReportTemplateCode.cs StabilityStable TestVersion",,
@@ -219,19 +219,19 @@ HRTC_S_NIAR,"This seems to be abandoned. Future updates are unlikely.","Parece s
 HtmlReportTemplateCode.cs Statuses nestedItemauthorRetired",,
 HRTC_S_O,"Unsubscribe this. It is no longer needed.","Desuscribirse. Esto ya no es necesario.","HRTC_S_O
 HtmlReportTemplateCode.cs Statuses Obsolete",,
-HRTC_S_RFW,"Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","HRTC_S_RFW
+HRTC_S_RFW,"Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Anular la suscripción sería ideal. Este ya no está disponible en el Steam Workshop.","HRTC_S_RFW
 HtmlReportTemplateCode.cs Statuses RemovedFromWorkshop",,
-HRTC_S_SCLW,"NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTE: After using this mod, game saves won't (easily) load without it anymore.","HRTC_S_SCLW
+HRTC_S_SCLW,"NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTA: Después de utilizar este mod, los juegos salvados no podrán cargar (fácilmente) sin él.","HRTC_S_SCLW
 HtmlReportTemplateCode.cs Statuses SavesCantLoadWithout",,
-HRTC_S_TVA,"This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_S_TVA
+HRTC_S_TVA,"This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","Esta es una versión de prueba. SI no tienes alguna razón específica para usarlo, es mejor que utilices la versión estable.","HRTC_S_TVA
 HtmlReportTemplateCode.cs Statuses TestVersion Alternatives",,
-HRTC_SS_SM,"This is succeeded by any of the following (pick one, not all):","This is succeeded by any of the following (pick one, not all):","HRTC_SS_SM
+HRTC_SS_SM,"This is succeeded by any of the following (pick one, not all):","Este ha sido reemplazado por alguno de los siguientes (selecciona uno, no todos):","HRTC_SS_SM
 HtmlReportTemplateCode.cs Successors subscribedMod",,
-HRTC_S_SMC,"This is succeeded by:","This is succeeded by:","HRTC_S_SMC
+HRTC_S_SMC,"This is succeeded by:","Este ha sido reemplazado por:","HRTC_S_SMC
 HtmlReportTemplateCode.cs Successors subscribedModCount",,
-HRTC_S_U,"Unsubscribe this. It is succeeded by a mod you already have:","Unsubscribe this. It is succeeded by a mod you already have:","HRTC_S_U
+HRTC_S_U,"Unsubscribe this. It is succeeded by a mod you already have:","Anular la suscripción. Ha sido reemplazado por un mod que ya tienes:","HRTC_S_U
 HtmlReportTemplateCode.cs Successors Unsubscribe",,
-HRTC_S_WSP,"Workshop page:","Workshop page:","HRTC_S_WSP
+HRTC_S_WSP,"Workshop page:","Página del Workshop:","HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage",,
 REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","ATENCIÓN: ¡NUEVA VERSION! El juego ha sido actualizado. Varios mods no funcionarán con esta nueva versión del juego. Tenga cuidado de tener las actualizaciones más recientes de todos los mods, y lea cuidadosamente el reporte. Es posible que incluso necesite cambiar y suscribirse a una nueva versión alternativa de un mod. Si tu ciudad no funciona correctamente, ¡NO sobrescriba su guardado! Podría ser aconsejable usar ""-noWorkshop"" como parámetro de lanzamiento para jugar en modo Vanilla en una nueva ciudad hasta que todos los mods se actualicen o este disponible una alternativa. (¡Advertencia: Los guardados que usaron mods no pueden cargarse en modo vanilla!) Ver Parametros de Lanzamiento - Cities Skylines https://steamcommunity. om/sharedfiles/filedetails/?id=466981085 para más información. También está disponible una lista de mods no funcionales en https://pdxint.at/BrokenModCS.","REP_ATT_NEW
 Information about new game version",,
@@ -257,9 +257,9 @@ SET_BCO_DFD,Download,Descargar,"SET_BCO_DFD
 SettingsUI.cs BuildCatalogOptionsUI downloadFrequencyDropdown",,
 SET_BCO_SUIT,"Catalog version","Versión del catálogo","SET_BCO_SUIT
 SettingsUI.cs BuildCatalogOptionsUI SettingsUIText",,
-SET_BCO_TWF,"Text Report width","Text Report width","SET_BCO_TWF
+SET_BCO_TWF,"Text Report width","Ancho de Reporte de Texto","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
-SET_BRG_CPB,"Change path","Change path","SET_BRG_CPB
+SET_BRG_CPB,"Change path","Cambiar ruta","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
 SET_BRG_LAN,Language,Idioma,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
@@ -273,71 +273,71 @@ SET_BRG_OOR,"Open report(s)","Abrir reporte(s)","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
 SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Usar el Overlay de Steam si está disponible.","SET_BRG_OHRISO
 SettingsUI.cs BuildRecordGroupUI OpenHtmlReportInSteamOverlay",,
-SET_BRG_PE,"Access to the Steam Workshop is required for the mod to work properly.","Access to the Steam Workshop is required for the mod to work properly.","SET_BRG_PE
+SET_BRG_PE,"Access to the Steam Workshop is required for the mod to work properly.","Acceso al Steam Workshop es requerido para que el mod funcione correctamente.","SET_BRG_PE
 SettingsUI.cs BuildRecordGroupUI platformError",,
-SET_BRG_PT,"Platform not supported","Platform not supported","SET_BRG_PT
+SET_BRG_PT,"Platform not supported","La plataforma no es soportada","SET_BRG_PT
 SettingsUI.cs BuildRecordGroupUI platformType",,
-SET_BRG_RG,"Report options","Report options","SET_BRG_RG
+SET_BRG_RG,"Report options","Opciones del reporte","SET_BRG_RG
 SettingsUI.cs BuildRecordGroupUI reportGroup",,
-SET_BRG_RP,"Mod Errors","Mod Errors","SET_BRG_RP
+SET_BRG_RP,"Mod Errors","Errores de Mod","SET_BRG_RP
 SettingsUI.cs BuildRecordGroupUI reportPanel",,
-SET_BRG_RPTF,"Report path","Report path","SET_BRG_RPTF
+SET_BRG_RPTF,"Report path","Ruta del reporte","SET_BRG_RPTF
 SettingsUI.cs BuildRecordGroupUI reportPathTextField",,
-SET_BRG_RTD,"Report type","Report type","SET_BRG_RTD
+SET_BRG_RTD,"Report type","Tipo de reporte","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
-SET_BRG_RPB,"Reset path to default","Reset path to default","SET_BRG_RPB
+SET_BRG_RPB,"Reset path to default","Restablecer la ruta predeterminada","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
 SET_BTD_GL,"Game Language","Idioma del juego","SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
-SET_BUG_DOI,"Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
+SET_BUG_DOI,"Days of inactivity to retire author","Días de inactividad para retirar al autor","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
-SET_BUG_MSPMP,"Estimated milliseconds per mod page","Estimated milliseconds per mod page","SET_BUG_MSPMP
+SET_BUG_MSPMP,"Estimated milliseconds per mod page","Milisegundos estimados por página de mod","SET_BUG_MSPMP
 SettingsUI.cs BuildUpdaterGroupUI msPerModPage",,
-SET_BUG_OOTA,"Run Road Asset Crawler (AN dependent)","Run Road Asset Crawler (AN dependent)","SET_BUG_OOTA
+SET_BUG_OOTA,"Run Road Asset Crawler (AN dependent)","Ejecutar el crawler de assets de carretertas (depende de AN)","SET_BUG_OOTA
 SettingsUI.cs BuildUpdaterGroupUI OnOneTimeAction",,
-SET_BUG_OSU,"Run Updater","Run Updater","SET_BUG_OSU
+SET_BUG_OSU,"Run Updater","Iniciar actualización","SET_BUG_OSU
 SettingsUI.cs BuildUpdaterGroupUI OnStartUpdater",,
-SET_BUG_OSWC,"Run Web Crawler","Run Web Crawler","SET_BUG_OSWC
+SET_BUG_OSWC,"Run Web Crawler","Ejecutar Web Crawler","SET_BUG_OSWC
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawler",,
-SET_BUG_OSWCQ,"Run Web Crawler (quick)","Run Web Crawler (quick)","SET_BUG_OSWCQ
+SET_BUG_OSWCQ,"Run Web Crawler (quick)","Ejecutar Web Crawler (rápido)","SET_BUG_OSWCQ
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawlerquick",,
-SET_BUG_SMFP,"Steam max failed pages","Steam max failed pages","SET_BUG_SMFP
+SET_BUG_SMFP,"Steam max failed pages","Páginas con fallos máximas de Steam","SET_BUG_SMFP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxFailedPages",,
-SET_BUG_SMLP,"Steam max listing pages","Steam max listing pages","SET_BUG_SMLP
+SET_BUG_SMLP,"Steam max listing pages","Páginas de listado máximas de Steam","SET_BUG_SMLP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxListingPages",,
-SET_BUG_UG,Updater,Updater,"SET_BUG_UG
+SET_BUG_UG,Updater,Actualizador,"SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
-SET_BUG_WFR,"Weeks for soon retired","Weeks for soon retired","SET_BUG_WFR
+SET_BUG_WFR,"Weeks for soon retired","Semanas para que sea retirado pronto","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
-SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
+SET_BUL_BML,"Broken Mods List","Lista de Mods sin Funcionar","SET_BUL_BML
 SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
-SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SET_BUL_HWT,"Help with translation","Ayuda a traducir","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
-SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SET_BUL_SOD,"Support on discord","Apoyo en Discord","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SET_BUL_OL,"Other links:","Otros vínculos:","SET_BUL_OL
 SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
-SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
+SET_BUL_RML,"Recommended Mods List","Lista de Mods Recomendados","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
-SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SET_BUL_RC,"Report compatibility","Reportar compatibilidad","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
-SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SET_BUL_UL,"Useful links:","Vínculos de ayuda:","SET_BUL_UL
 SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
-SET_DO_NEV,"Never (on-demand only) - not recommended!","Never (on-demand only) - not recommended!","SET_DO_NEV
+SET_DO_NEV,"Never (on-demand only) - not recommended!","Nunca (sólo bajo demanda) - ¡no se recomienda!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
-SET_DO_OAW,"Once a week","Once a week","SET_DO_OAW
+SET_DO_OAW,"Once a week","Una vez a la semana","SET_DO_OAW
 SettingsUI.cs DownloadOptions Once a week",,
 SET_RT_HTM,HTML,HTML,"SET_RT_HTM
 SettingsUI.cs ReportTypes HTML",,
-SET_RT_HAT,"HTML and text","HTML and text","SET_RT_HAT
+SET_RT_HAT,"HTML and text","HTML y texto","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
-SET_RT_TXT,Text,Text,"SET_RT_TXT
+SET_RT_TXT,Text,Texto,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
 HRT_P_S,Status,Estado,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
 HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","¿Te ha ayudado esto? ¿Falta algo? Deja una calificación o un comentario en la página del Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
 HTMLReport Footer_RatingText",,
-HRTC_TH_N,NOTE,NOTE,"HRTC_TH_N
+HRTC_TH_N,NOTE,NOTA,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Una barra negra puede aparecer sobre la barra de herramientas inferior.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Un peso de color rojo no necesariamente significa que el activo sea malo. Sólo que es muy detallado y podría afectar más al rendimiento.",REPORT_NOTE_2,,
@@ -481,7 +481,7 @@ REPORT_NOTE_139,"Prop Painter was not updated to recent Move It updates, creatin
 REPORT_NOTE_140,"Real City doesn't detect the extra CitizenUnits.","Real City doesn't detect the extra CitizenUnits.",REPORT_NOTE_140,,
 REPORT_NOTE_141,"Real Time is meant for cities with a population of up to 65.000 (it can be used on larger cities but there might be issues). Real Time completely changes the simulation, which makes it incompatible with a lot of other mods, especially those that alter or depend on time progression.","Real Time is meant for cities with a population of up to 65.000 (it can be used on larger cities but there might be issues). Real Time completely changes the simulation, which makes it incompatible with a lot of other mods, especially those that alter or depend on time progression.",REPORT_NOTE_141,,
 REPORT_NOTE_142,"Real Time might delay the arrival of extra Starting Money.","Real Time might delay the arrival of extra Starting Money.",REPORT_NOTE_142,,
-REPORT_NOTE_143,"Realistic Population includes a 'no deathcare' functionality.","Realistic Population includes a 'no deathcare' functionality.",REPORT_NOTE_143,,
+REPORT_NOTE_143,"Price changes have no effect on the bank balance.","Price changes have no effect on the bank balance.",REPORT_NOTE_143,,
 REPORT_NOTE_144,"Render It already has shadow strength functionality.","Render It already has shadow strength functionality.",REPORT_NOTE_144,,
 REPORT_NOTE_145,"Replacing road arrows with Prop Switcher is not recommended and might give an 'array out of bounds' error.","Replacing road arrows with Prop Switcher is not recommended and might give an 'array out of bounds' error.",REPORT_NOTE_145,,
 REPORT_NOTE_146,"Require removing all dependent assets before removing the mod. Button for that is in options of the mod.","Require removing all dependent assets before removing the mod. Button for that is in options of the mod.",REPORT_NOTE_146,,
