@@ -340,7 +340,7 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,ПРИМЕЧАНИЕ,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Чёрный панель может появиться над нижней панелью инструментов.",REPORT_NOTE_1,,
+REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Над нижней панелью инструментов может появиться чёрная полоса.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Красный цвет вовсе не обязательно означает, что объект повреждён. Просто он очень детализированный и может сильно повлиять на производительность.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","Версия 3.0 бета была выпущена на GitHub, но так и не была выпущена в Steam Workshop. Автор написал, что он больше не будет обновлять модификацию, и винит в этом Paradox и её политику по поводу DLC.",REPORT_NOTE_3,,
 REPORT_NOTE_4,"ABLC has the functionality to prevent abandonment, and much more.","ABLC имеет функцию предотвращения забрасывания зданий и многое другое.",REPORT_NOTE_4,,
@@ -821,7 +821,7 @@ REPORT_NOTE_478,"Images sometimes are only loaded if you restart the game and ho
 REPORT_NOTE_479,"Not working for all buildings, performance issues, errors messages.","Не работает для всех зданий, проблемы с производительностью, сообщения об ошибках.",REPORT_NOTE_479,,
 REPORT_NOTE_480,"Conflicts with Metro Overhaul Mod pillar selection.","Конфликтует с выбором столбов Metro Overhaul Mod.",REPORT_NOTE_480,,
 REPORT_NOTE_481,"This has some issues with spaces in names.","Имеет некоторые проблемы с пробелами в именах.",REPORT_NOTE_481,,
-REPORT_NOTE_482,"Deactivate the build in mods of Colossal Order, as the functions are included in Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All. Take care to activate the functions before loading into a save.","Деактивируйте встроенные модификации Colossal Order, так как эти функции входят в Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All. Постарайтесь включить функции перед загрузкой сохранения.",REPORT_NOTE_482,,
+REPORT_NOTE_482,"Will break any DLC or base-game intercity transfer features newer than Snowfall DLC.","Сломает функции междугородних перевозок базовой игры или любых DLC, более новых чем Snowfall DLC.",REPORT_NOTE_482,,
 REPORT_NOTE_483,"Be aware that this mod is instable and crashes may occur in larger cities!","Имейте в виду, что этот мод нестабилен и могут произойти ошибки в больших городах!",REPORT_NOTE_483,,
 REPORT_NOTE_484,"Seems to be a Traffic Manager clone, but tells it is Auto Line Color and the sourcecode is not available.","Похоже, что это клон Traffic Manager, но указывает на то что Auto Line Color и исходный код недоступны.",REPORT_NOTE_484,,
 REPORT_NOTE_485,"Various players report, information could not be gathered.","Различные игроки сообщают, что информацию собрать не удалось.",REPORT_NOTE_485,,

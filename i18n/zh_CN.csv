@@ -825,7 +825,7 @@ REPORT_NOTE_478,"Images sometimes are only loaded if you restart the game and ho
 REPORT_NOTE_479,"Not working for all buildings, performance issues, errors messages.",不适用于所有建筑物，存在性能问题和错误信息。,REPORT_NOTE_479,,
 REPORT_NOTE_480,"Conflicts with Metro Overhaul Mod pillar selection.","与 Metro Overhaul Mod 的支柱选择相冲突。",REPORT_NOTE_480,,
 REPORT_NOTE_481,"This has some issues with spaces in names.",这个模组在名称中有一些空格问题。,REPORT_NOTE_481,,
-REPORT_NOTE_482,"Deactivate the build in mods of Colossal Order, as the functions are included in Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All. Take care to activate the functions before loading into a save.","请停用 Colossal Order 的内置模组：无限金钱、无限石油和矿石、全部解锁，因为这些功能已经包含在了 Game Anarchy 里。在加载存档之前，请注意启用 Game Anarchy 的这些功能。",REPORT_NOTE_482,,
+REPORT_NOTE_482,"Will break any DLC or base-game intercity transfer features newer than Snowfall DLC.","将破坏所有 Snowfall DLC 更新之后的城际交通功能。",REPORT_NOTE_482,,
 REPORT_NOTE_483,"Be aware that this mod is instable and crashes may occur in larger cities!",请注意，此模组不稳定且可能导致存档崩溃！,REPORT_NOTE_483,,
 REPORT_NOTE_484,"Seems to be a Traffic Manager clone, but tells it is Auto Line Color and the sourcecode is not available.","看起来是 Traffic Manager 的复制品，但其实它是 Auto Line Color ，并且源码不可用。",REPORT_NOTE_484,,
 REPORT_NOTE_485,"Various players report, information could not be gathered.",无法收集不同的玩家报告。,REPORT_NOTE_485,,

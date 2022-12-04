@@ -235,59 +235,59 @@ HRTC_S_WSP,"Workshop page:","Page du Workshop :","HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage",,
 REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","ATTENTION : NOUVELLE VERSION DE JEU ! Le jeu a été mis à jour. Divers mods ne fonctionneront pas avec cette nouvelle version du jeu. Faites attention à obtenir les mises à jour les plus récentes de tous les mods et lisez attentivement votre rapport. Il est possible que vous ayez même besoin de basculer et de vous abonner à une nouvelle version alternative d'un mod. Si votre ville ne fonctionne pas correctement, n'écrasez PAS sa sauvegarde ! Il serait peut-être judicieux d'utiliser ""-noWorkshop"" comme paramètre de lancement pour jouer en Vanilla dans une nouvelle ville jusqu'à ce que tous les mods soient mis à jour ou que des alternatives soient disponibles. (Attention : Les sauvegardes que les mods utilisés peuvent ne pas charger en mode vanilla !) Voir Options de lancement - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 pour plus d'informations. Une liste de mods cassés est également disponible sur https://pdxint.at/BrokenModCS.","REP_ATT_NEW
 Information about new game version",,
-SET_BAO_AG,"Advanced options","Advanced options","SET_BAO_AG
+SET_BAO_AG,"Advanced options","Options avancées","SET_BAO_AG
 SettingsUI.cs BuildAdvancedOptionsUI advancedGroup",,
-SET_BAO_DM,"Debug Mode","Debug Mode","SET_BAO_DM
+SET_BAO_DM,"Debug Mode","Mode débogage","SET_BAO_DM
 SettingsUI.cs BuildAdvancedOptionsUI debugMode",,
-SET_BAO_MLS,"Max log size (in KB)","Max log size (in KB)","SET_BAO_MLS
+SET_BAO_MLS,"Max log size (in KB)","Taille maximale du log (en KB)","SET_BAO_MLS
 SettingsUI.cs BuildAdvancedOptionsUI maxLogSize",,
-SET_BAO_MR,"Number of catalog download retries","Number of catalog download retries","SET_BAO_MR
+SET_BAO_MR,"Number of catalog download retries","Nombre de tentatives de téléchargement du catalogue","SET_BAO_MR
 SettingsUI.cs BuildAdvancedOptionsUI maxRetries",,
-SET_BAO_MVL,"Mod version","Mod version","SET_BAO_MVL
+SET_BAO_MVL,"Mod version","Version du mod","SET_BAO_MVL
 SettingsUI.cs BuildAdvancedOptionsUI modVersionLabel",,
-SET_BAO_ORAS,"Reset all settings","Reset all settings","SET_BAO_ORAS
+SET_BAO_ORAS,"Reset all settings","Réinitialiser tous les paramètres","SET_BAO_ORAS
 SettingsUI.cs BuildAdvancedOptionsUI OnResetAllSettings",,
-SET_BAO_SBM,"Scan before entering Main Menu","Scan before entering Main Menu","SET_BAO_SBM
+SET_BAO_SBM,"Scan before entering Main Menu","Analyser avant d'arriver sur le menu principal","SET_BAO_SBM
 SettingsUI.cs BuildAdvancedOptionsUI scanBeforeMenu",,
-SET_BCO_CG,"Catalog options","Catalog options","SET_BCO_CG
+SET_BCO_CG,"Catalog options","Options du catalogue","SET_BCO_CG
 SettingsUI.cs BuildCatalogOptionsUI catalogGroup",,
-SET_BCO_UIBD,"Download now","Download now","SET_BCO_UIBD
+SET_BCO_UIBD,"Download now","Télécharger maintenant","SET_BCO_UIBD
 SettingsUI.cs BuildCatalogOptionsUI download",,
-SET_BCO_DFD,Download,Download,"SET_BCO_DFD
+SET_BCO_DFD,Download,Téléchargements,"SET_BCO_DFD
 SettingsUI.cs BuildCatalogOptionsUI downloadFrequencyDropdown",,
-SET_BCO_SUIT,"Catalog version","Catalog version","SET_BCO_SUIT
+SET_BCO_SUIT,"Catalog version","Version du catalogue","SET_BCO_SUIT
 SettingsUI.cs BuildCatalogOptionsUI SettingsUIText",,
-SET_BCO_TWF,"Text Report width","Text Report width","SET_BCO_TWF
+SET_BCO_TWF,"Text Report width","Largeur du rapport","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
-SET_BRG_CPB,"Change path","Change path","SET_BRG_CPB
+SET_BRG_CPB,"Change path","Modifier le chemin d'accès","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
-SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SET_BRG_LAN,Language,Langue,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
-SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' launch option detected. No report was generated","SET_BRG_NW
+SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","Option de lancement '--noWorkshop' détectée. Aucun rapport n'a été généré","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
-SET_BRG_OGR,"Generate report(s)","Generate report(s)","SET_BRG_OGR
+SET_BRG_OGR,"Generate report(s)","Générer un rapport(s)","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
-SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SET_BRG_OOF,"Open folder","Ouvrir le dossier","SET_BRG_OOF
 SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
-SET_BRG_OOR,"Open report(s)","Open report(s)","SET_BRG_OOR
+SET_BRG_OOR,"Open report(s)","Ouvrir le(s) rapport(s)","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
-SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Use Steam Overlay to open HTML report if available.","SET_BRG_OHRISO
+SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Utilisez l'Overlay Steam pour ouvrir le rapport HTML si possible.","SET_BRG_OHRISO
 SettingsUI.cs BuildRecordGroupUI OpenHtmlReportInSteamOverlay",,
-SET_BRG_PE,"Access to the Steam Workshop is required for the mod to work properly.","Access to the Steam Workshop is required for the mod to work properly.","SET_BRG_PE
+SET_BRG_PE,"Access to the Steam Workshop is required for the mod to work properly.","L'accès au Workshop Steam est requis pour que le mod fonctionne correctement.","SET_BRG_PE
 SettingsUI.cs BuildRecordGroupUI platformError",,
-SET_BRG_PT,"Platform not supported","Platform not supported","SET_BRG_PT
+SET_BRG_PT,"Platform not supported","Plateforme non prise en charge","SET_BRG_PT
 SettingsUI.cs BuildRecordGroupUI platformType",,
-SET_BRG_RG,"Report options","Report options","SET_BRG_RG
+SET_BRG_RG,"Report options","Options de rapport","SET_BRG_RG
 SettingsUI.cs BuildRecordGroupUI reportGroup",,
-SET_BRG_RP,"Mod Errors","Mod Errors","SET_BRG_RP
+SET_BRG_RP,"Mod Errors","Erreurs de mod","SET_BRG_RP
 SettingsUI.cs BuildRecordGroupUI reportPanel",,
-SET_BRG_RPTF,"Report path","Report path","SET_BRG_RPTF
+SET_BRG_RPTF,"Report path","Chemin du rapport","SET_BRG_RPTF
 SettingsUI.cs BuildRecordGroupUI reportPathTextField",,
-SET_BRG_RTD,"Report type","Report type","SET_BRG_RTD
+SET_BRG_RTD,"Report type","Type de rapport","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
-SET_BRG_RPB,"Reset path to default","Reset path to default","SET_BRG_RPB
+SET_BRG_RPB,"Reset path to default","Rétablir le chemin d'accès par défaut","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
-SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SET_BTD_GL,"Game Language","Langue du jeu","SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
 SET_BUG_DOI,"Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
@@ -820,7 +820,7 @@ REPORT_NOTE_478,"Images sometimes are only loaded if you restart the game and ho
 REPORT_NOTE_479,"Not working for all buildings, performance issues, errors messages.","Not working for all buildings, performance issues, errors messages.",REPORT_NOTE_479,,
 REPORT_NOTE_480,"Conflicts with Metro Overhaul Mod pillar selection.","Conflicts with Metro Overhaul Mod pillar selection.",REPORT_NOTE_480,,
 REPORT_NOTE_481,"This has some issues with spaces in names.","This has some issues with spaces in names.",REPORT_NOTE_481,,
-REPORT_NOTE_482,"Deactivate the build in mods of Colossal Order, as the functions are included in Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All. Take care to activate the functions before loading into a save.","Deactivate the build in mods of Colossal Order, as the functions are included in Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All. Take care to activate the functions before loading into a save.",REPORT_NOTE_482,,
+REPORT_NOTE_482,"Will break any DLC or base-game intercity transfer features newer than Snowfall DLC.","Will break any DLC or base-game intercity transfer features newer than Snowfall DLC.",REPORT_NOTE_482,,
 REPORT_NOTE_483,"Be aware that this mod is instable and crashes may occur in larger cities!","Be aware that this mod is instable and crashes may occur in larger cities!",REPORT_NOTE_483,,
 REPORT_NOTE_484,"Seems to be a Traffic Manager clone, but tells it is Auto Line Color and the sourcecode is not available.","Seems to be a Traffic Manager clone, but tells it is Auto Line Color and the sourcecode is not available.",REPORT_NOTE_484,,
 REPORT_NOTE_485,"Various players report, information could not be gathered.","Various players report, information could not be gathered.",REPORT_NOTE_485,,
