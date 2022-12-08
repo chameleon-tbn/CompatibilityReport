@@ -59,6 +59,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
@@ -111,6 +114,7 @@
     <Compile Include="Updater\DataDumper.cs" />
     <Compile Include="Updater\FileImporter.cs" />
     <Compile Include="Util\GameObjectObserver.cs" />
+    <Compile Include="Util\LogsCollector.cs" />
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="CompatibilityReport.cs" />
