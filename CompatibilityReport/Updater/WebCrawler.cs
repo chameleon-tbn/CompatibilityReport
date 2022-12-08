@@ -65,21 +65,21 @@ namespace CompatibilityReport.Updater
             progressMonitor.UpdateStage(8, 8);
             progressMonitor.PushMessage("Data dumper started...");
             
-            DataDumper.Start(catalog);
+            DataDumper.Start(catalog, isUpdater: false);
             
             progressMonitor.PushMessage("Data dumper finished.");
             yield return new WaitForSeconds(1);
             progressMonitor.PushMessage("Catalog dumper started...");
 
             string dumpPath = Path.Combine(ModSettings.UpdaterPath, ModSettings.CatalogDumpFileName);
-            bool dumpSuccess = catalog.Save(dumpPath);
+            bool dumpSuccess = catalog.Save(dumpPath, createBackup: true);
             progressMonitor.PushMessage($"Catalog dumper finished. {(dumpSuccess ? "<color #00ff00>Sucess</color>" : "<color #ff0000>Failure</color>")}!\n See: {dumpPath}");
             
             yield return new WaitForSeconds(1);
-            // additionally dump as downloaded catalog
-            string dumpPathAsDownloaded = Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName);
-            bool dump2Success = catalog.Save(dumpPathAsDownloaded);
-            progressMonitor.PushMessage($"Dumped as downloaded catalog. {(dump2Success ? "<color #00ff00>Sucess</color>" : "<color #ff0000>Failure</color>")}!\n See: {dumpPathAsDownloaded}");
+            // NO_NEED - additionally dump as downloaded catalog
+            // string dumpPathAsDownloaded = Path.Combine(ModSettings.WorkPath, ModSettings.DownloadedCatalogFileName);
+            // bool dump2Success = catalog.Save(dumpPathAsDownloaded, createBackup: true, skipCompressed: true);
+            // progressMonitor.PushMessage($"Dumped as downloaded catalog. {(dump2Success ? "<color #00ff00>Sucess</color>" : "<color #ff0000>Failure</color>")}!\n See: {dumpPathAsDownloaded}");
     
             yield return new WaitForSeconds(3);
             progressMonitor.Dispose();

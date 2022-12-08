@@ -82,6 +82,14 @@ namespace CompatibilityReport.Util
             updaterLog?.Dispose();
             updaterLog = null;
         }
+
+        public static void BackupUpdaterLog() {
+            if (updaterLog != null)
+            {
+                string fullPath = Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName);
+                Toolkit.CopyFile(fullPath, $"{fullPath}.old");
+            }
+        }
         
         /// <summary>Closes the debug log.</summary>
         public static void CloseDebugLog()
