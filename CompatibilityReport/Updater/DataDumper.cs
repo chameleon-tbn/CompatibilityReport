@@ -13,7 +13,7 @@ namespace CompatibilityReport.Updater
     {
         /// <summary>Dumps specific catalog data to a text file to help with creating CSV files for the FileImporter.</summary>
         /// <remarks>It's very inefficient with all the duplicate foreach loops, but it doesn't run for regular users and I like to keeps the code simple.</remarks>
-        public static void Start(Catalog catalog)
+        public static void Start(Catalog catalog, bool isUpdater = true)
         {
             StringBuilder DataDump = new StringBuilder(512);
 
@@ -75,7 +75,14 @@ namespace CompatibilityReport.Updater
             DumpAuthorsWithoutID(catalog, DataDump);
 
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
-            Logger.UpdaterLog($"Datadump created as { ModSettings.DataDumpFileName }.");
+            if (isUpdater)
+            {
+                Logger.UpdaterLog($"Datadump created as { ModSettings.DataDumpFileName }.");
+            }
+            else
+            {
+                Logger.Log($"Datadump created as { ModSettings.DataDumpFileName }.");
+            }
         }
 
 

@@ -600,10 +600,15 @@ namespace CompatibilityReport.CatalogData
         /// <summary>Saves the catalog to disk, both in plain text and gzipped.</summary>
         /// <remarks>The fullPath parameter should not contain the GZip extension.</remarks>
         /// <returns>True if saved succesfully, false otherwise.</returns>
-        public bool Save(string fullPath)
+        public bool Save(string fullPath, bool createBackup = false, bool skipCompressed = false)
         {
             try
             {
+                if (createBackup)
+                {
+                    Toolkit.CopyFile(fullPath, $"{ fullPath }.old");
+                }
+                
                 // Catalog as plain text XML file.
                 XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
 
@@ -614,18 +619,30 @@ namespace CompatibilityReport.CatalogData
 
                 Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".");
 
-                // Catalog as gzipped XML file.
-                fullPath = $"{ fullPath }.gz";
-
-                using (FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
-                using (GZipStream gzip = new GZipStream(file, CompressionMode.Compress))
-                using (TextWriter writer = new StreamWriter(gzip))
+                if (!skipCompressed)
                 {
-                    serializer.Serialize(writer, this);
+                    // Catalog as gzipped XML file.
+                    fullPath = $"{fullPath}.gz";
+                    
+                    if (createBackup)
+                    {
+                        Toolkit.CopyFile(fullPath, $"{ fullPath }.old");
+                    }
+                    
+                    using (FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                    using (GZipStream gzip = new GZipStream(file, CompressionMode.Compress))
+                    using (TextWriter writer = new StreamWriter(gzip))
+                    {
+                        serializer.Serialize(writer, this);
+                    }
+
+                    Logger.Log($"Created catalog {VersionString()} at \"{Toolkit.Privacy(fullPath)}\".");
                 }
-
-                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".");
-
+                else
+                {
+                    Logger.Log("Skipped creation of compressed version of the catalog");
+                }
+                
                 return true;
             }
             catch (Exception ex)

@@ -401,6 +401,10 @@ namespace CompatibilityReport.UI
                     optionsPanel.StartCoroutine(Translation.instance.ChangeLanguageByIndex_Deferred(index));
                 }) as UIDropDown;
             langsDropdown.width = 300f;
+
+            settingsUIHelper.AddButton("Collect Logs and open directory", LogsCollector.CollectLogs);
+
+            settingsUIHelper.AddSpace(15);
             
             shouldBuildOptions = true;
             if (PluginManager.noWorkshop || PlatformService.platformType != PlatformType.Steam)

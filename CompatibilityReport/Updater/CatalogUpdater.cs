@@ -109,6 +109,10 @@ namespace CompatibilityReport.Updater
             progressMonitor.PushMessage("Catalog Updater started");
             progressMonitor.UpdateStage(currentStep++, maxSteps);
             
+            //backup and reset updater log
+            Logger.BackupUpdaterLog();
+            Logger.CloseUpdaterLog();
+            
             Logger.UpdaterLog($"Catalog Updater started. { ModSettings.ModName } version { ModSettings.FullVersion }. " +
                 $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.");
 
@@ -245,14 +249,14 @@ namespace CompatibilityReport.Updater
         {
             catalog.ChangeNotes.ConvertUpdated(catalog);
 
-            string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ catalog.VersionString() }");
+            string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog");
 
-            if (catalog.Save($"{ partialPath }.xml"))
+            if (catalog.Save($"{ partialPath }.xml", createBackup: true))
             {
                 Logger.UpdaterLog($"New catalog { catalog.VersionString() } created and change notes saved.");
 
-                Toolkit.SaveToFile(catalog.ChangeNotes.Combined(catalog), $"{ partialPath }_ChangeNotes.txt");
-                Toolkit.MoveFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), $"{ partialPath }_Imports.csv.txt");
+                Toolkit.SaveToFile(catalog.ChangeNotes.Combined(catalog), $"{ partialPath }_ChangeNotes.txt", createBackup: true);
+                Toolkit.MoveFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), $"{ partialPath }_Imports.csv.txt", createBackup: true);
                 Toolkit.CopyFile(Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName), $"{ partialPath }_Updater.log");
                 return true;
             }
