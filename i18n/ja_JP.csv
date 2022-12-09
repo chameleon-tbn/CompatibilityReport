@@ -921,3 +921,4 @@ REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmo
 警告！！ このMODはSteamの規約に違反したため、ワークショップから削除されました。
 公式のアナウンス: https://store.steampowered.com/news/app/255710/view/6047774523920146831",REPORT_NOTE_538,,
 REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchyは複数のMOD機能を統合して、より多くの機能があります。",REPORT_NOTE_539,,
+REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","EML / Prop AnarchyのPropは扱えず、ゲーム内の操作やスクリプトの実行ができません。スクリプトを実行したい場合は、代わりにβ版を使用して下さい。",REPORT_NOTE_540,,

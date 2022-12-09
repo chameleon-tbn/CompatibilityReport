@@ -71,29 +71,29 @@ HRT_P_T,Type,类型,"HRT_P_T
 HtmlReportTemplate.tt processed Type",,
 HRT_P_U,URL,网址链接,"HRT_P_U
 HtmlReportTemplate.tt processed Url",,
-HRT_RS_MAIP,"MODS HAVE MAJOR ISSUES:",有主要问题的模组：,"HRT_RS_MAIP
+HRT_RS_MAIP,"MODS HAVE MAJOR ISSUES:",个有主要问题的模组：,"HRT_RS_MAIP
 HtmlReportTemplate.tt RenderSection majorIssuesplural",,
 HRT_RS_MAIS,"MOD HAS MAJOR ISSUES:",有主要问题的模组：,"HRT_RS_MAIS
 HtmlReportTemplate.tt RenderSection majorIssuessingular",,
-HRT_RS_MIP,"MODS HAVE MINOR ISSUES:",有次要问题的模组：,"HRT_RS_MIP
+HRT_RS_MIP,"MODS HAVE MINOR ISSUES:",个有次要问题的模组：,"HRT_RS_MIP
 HtmlReportTemplate.tt RenderSection minorIssuesplural",,
 HRT_RS_MIS,"MOD HAS MINOR ISSUES:",有次要问题的模组：,"HRT_RS_MIS
 HtmlReportTemplate.tt RenderSection minorIssuessingular",,
-HRT_RS_NTRP,"MODS WITH NOTHING TO REPORT:",不需要报告的模组：,"HRT_RS_NTRP
+HRT_RS_NTRP,"MODS WITH NOTHING TO REPORT:",个无需报告的模组：,"HRT_RS_NTRP
 HtmlReportTemplate.tt RenderSection nothingToReportplural",,
 HRT_RS_NTRS,"MOD WITH NOTHING TO REPORT:",不需要报告的模组：,"HRT_RS_NTRS
 HtmlReportTemplate.tt RenderSection nothingToReportsingular",,
-HRT_RS_RP,"MODS WITH REMARKS:",带注释的模组：,"HRT_RS_RP
+HRT_RS_RP,"MODS WITH REMARKS:",个需要备注的模组：,"HRT_RS_RP
 HtmlReportTemplate.tt RenderSection remarksplural",,
 HRT_RS_RS,"MOD WITH REMARK:",带注释的模组：,"HRT_RS_RS
 HtmlReportTemplate.tt RenderSection remarkssingular",,
-HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:",可以或必须取消订阅的模组：,"HRT_RS_UP
+HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:",个可以或必须取消订阅的模组：,"HRT_RS_UP
 HtmlReportTemplate.tt RenderSection unsubscribeplural",,
 HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:",可以或必须取消订阅的模组：,"HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
 HRT_S_CRC,"{name}, created on {date+time}","{name}，创建于 {date+time}","HRT_S_CRC
 HtmlReportTemplate.tt section CompatibilityReportCreated",,
-HRT_S_MUA,"Mods updated after this date might have an outdated review below.",在此日期之后更新的模组下面可能会有过时的评论。,"HRT_S_MUA
+HRT_S_MUA,"Mods updated after this date might have an outdated review below.",在此日期之后更新的模组可能在下面有过时的报告信息。,"HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
 HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","模组目录包含 {ReviewedModCount} 个经过审核的模组，创建于 {Updated}。","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains",,
@@ -266,11 +266,11 @@ SET_BRG_LAN,Language,语言,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
 SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated",检测到无工坊内容（--noWorkshop）启动选项，因此不会生成报告。,"SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
-SET_BRG_OGR,"Generate report(s)",生成报告(s),"SET_BRG_OGR
+SET_BRG_OGR,"Generate report(s)",生成报告,"SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
 SET_BRG_OOF,"Open folder",打开文件夹,"SET_BRG_OOF
 SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
-SET_BRG_OOR,"Open report(s)",打开报告(s),"SET_BRG_OOR
+SET_BRG_OOR,"Open report(s)",打开报告,"SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
 SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","如果可以，请使用 Steam Overlay 打开 HTML 报告。","SET_BRG_OHRISO
 SettingsUI.cs BuildRecordGroupUI OpenHtmlReportInSteamOverlay",,
@@ -551,7 +551,7 @@ REPORT_NOTE_204,"This breaks maps saved in the map editor.",这会破坏地图�
 REPORT_NOTE_205,"This can be used in a non-commercial way (Creative Commons license), if you name the creator and link to her YouTube or SoundCloud.","如果您联系过创建者并链接到她的 YouTube 或 SoundCloud，可以非商业方式使用 (Creative Commons licensse)。",REPORT_NOTE_205,,
 REPORT_NOTE_206,"This can be used on its own, or be disabled and used as 'prop pack' for the BOB or Traffic Light Replacer mod.","这可以单独使用，或者禁用，并用作 BOB 或 Traffic Light Replacer 的 ""摆件替换包""。",REPORT_NOTE_206,,
 REPORT_NOTE_207,"This causes very long loading times if the Loading Time Fix mod is not used.","如果不使用 Ploppable Asphalt + [Loading time Fix] 模组，加载时间会变得非常长。",REPORT_NOTE_207,,
-REPORT_NOTE_208,"This combination might cause a performance decrease (FPS drop).",这种组合可能导致性能下降（帧数下降）。,REPORT_NOTE_208,,
+REPORT_NOTE_208,"This combination might cause a performance decrease (FPS drop).",与之一起使用可能导致性能下降（帧数下降）。,REPORT_NOTE_208,,
 REPORT_NOTE_209,"This does not include itself in the lists. If you only need a list of mods (and not assets and such), look at the bottom of this report.","这不包括在列表中。 如果您只需要列出模组(而不是资产和其他)，请查看本报告的底部。",REPORT_NOTE_209,,
 REPORT_NOTE_210,"This does not modify the industrial districts from the Industries DLC. This will significantly increase industrial traffic and may also increase land and noise pollution.",这不会改变工业DLC的工业区。这将大大增加工业区交通压力，也可能增加土地污染和噪音污染。,REPORT_NOTE_210,,
 REPORT_NOTE_211,"This does not work on growable buildings. The author classifies this mod as experimental. Crazy changes may affect gameplay.",这不适用于可摆放的建筑物。作者将这个模组归类为实验性的。随便更改可能会影响游戏。,REPORT_NOTE_211,,
@@ -604,7 +604,7 @@ REPORT_NOTE_257,"This only works in the map editor.",这只适用于地图编辑
 REPORT_NOTE_258,"This requires adjusted settings for use with Real Time.","这需要调整设置才能与 Real Time 一起使用。",REPORT_NOTE_258,,
 REPORT_NOTE_259,"This seems to be related to the infamous ali213_mod_01 mod.",这似乎与臭名昭著的ali213_mod_01模组有关。,REPORT_NOTE_259,,
 REPORT_NOTE_260,"This supports train and metro, but not monorail.",这支持火车和地铁，但不支持单轨列车。,REPORT_NOTE_260,,
-REPORT_NOTE_261,"This supports undoing building/bulldozing roads, buildings, props and trees.",这支持撤消也就建设/已经拆除的道路、建筑、摆件和树木。,REPORT_NOTE_261,,
+REPORT_NOTE_261,"This supports undoing building/bulldozing roads, buildings, props and trees.",这支持撤消已经建设/已经拆除的道路、建筑、摆件和树木。,REPORT_NOTE_261,,
 REPORT_NOTE_262,"This used to be the newer version, but was deprecated after the original version was updated. Use the original version instead.",这曾经是较新的版本，但在原始版本更新后被弃用。请改用原始版本。,REPORT_NOTE_262,,
 REPORT_NOTE_263,"This version is only for beta testers that use the Adaptive Networks ALPHA mod.","此版本仅适用于正在使用 Adaptive Networks ALPHA 模组的测试人员。",REPORT_NOTE_263,,
 REPORT_NOTE_264,"This version may contain bugs, including game save-breaking bugs.",此版本可能包含bug，包括破坏存档的bug。,REPORT_NOTE_264,,
@@ -667,7 +667,7 @@ REPORT_NOTE_320,"Users report not being able to freely place parks (Parkify func
 REPORT_NOTE_321,"WARNING: Be very careful when bulldozing train or ship outside connections. This might give errors, but if you save under a new filename and exit to desktop, it might load fine next time. WARNING: Adding, removing or editing aircraft paths often causes issues, preventing all airplanes from spawning.","警告：删除对外连接的航线时要非常小心。 这可能会出现错误，但如果您使用新名称存档并退出到桌面，它下次就会成功加载。 警告：添加、删除或编辑飞机航线往往会造成问题，使所有飞机无法生成。",REPORT_NOTE_321,,
 REPORT_NOTE_322,"WARNING: Potentially harmful mods will also be auto-enabled. WARNING: When you subscribe a mod while the game is running (which is NOT recommended anyway), the mod enables right away, with all kinds of potential issues.","警告：潜在的有害模组也将自动启用。 警告：当游戏正在运行时你订阅模组(这不推荐)， 这个模组能够立即使用，这会导致各种潜在的问题。",REPORT_NOTE_322,,
 REPORT_NOTE_323,"Warnings don't (always) update when resolved and might duplicate on new issues.",警告在解决后不会（总是）更新，并且可能重复发送新问题。,REPORT_NOTE_323,,
-REPORT_NOTE_324,"When a change is made to a road with one of these mods, the other mod and/or the new default Tree Changer game functionality won't work on that road until the road is reset.",当使用这些模组中的一个对道路进行更改时，其他模组或游戏自带的树木替换功能将无法在该道路上使用，直到道路被重置。,REPORT_NOTE_324,,
+REPORT_NOTE_324,"When a change is made to a road with one of these mods, the other mod and/or the new default Tree Changer game functionality won't work on that road until the road is reset.",当使用其中一个模组对道路进行更改时，其他模组或游戏自带的树木替换功能将无法在该道路上使用，直到道路被重置。,REPORT_NOTE_324,,
 REPORT_NOTE_325,"When changing zoning to a road, changes from Network Skins are reset.","当将分区更改为道路时， Network Skins 的更改将被重置。",REPORT_NOTE_325,,
 REPORT_NOTE_326,"When creating assets with the props from this mod, those assets need this version of the mod and can't be used with the original mod.",当使用此模组的摆件创建资产时，这些资产需要这个版本的模组，无法与原版模组一起使用。,REPORT_NOTE_326,,
 REPORT_NOTE_327,"When doing automatic replacement, TM:PE settings will be lost on replaced and connected network segments, and lane arrows and lane connectors might be messed up on the entire map.","当进行自动替换时，替换和连接处的道路部分将丢失 TM:PE 的设置，地图上的道路箭头和车道连接可能会变得混乱。",REPORT_NOTE_327,,
@@ -765,7 +765,7 @@ REPORT_NOTE_418,"On a T-intersection, no light appears on the intersecting road.
 REPORT_NOTE_419,"Some report not being able to save the game, especially with large numbers of procedural objects.","有些报告说无法保存游戏，特别是存档内有大量的魔物（Procedural Objects）时。",REPORT_NOTE_419,,
 REPORT_NOTE_420,"This mod increases loading time, and this increase can be huge for big cities.",这个模组增加了游戏加载时间，对于大城市来说，这种增加可能是巨大的。,REPORT_NOTE_420,,
 REPORT_NOTE_421,"The default English names still appear as well, next to the new Japanese names.",默认的英文名称仍然显示在新的日文名称旁边。,REPORT_NOTE_421,,
-REPORT_NOTE_422,"Flickering or disappearing buildings.",翻新或正在消失的建筑物。,REPORT_NOTE_422,,
+REPORT_NOTE_422,"Flickering or disappearing buildings.",会导致建筑物闪烁或者消失。,REPORT_NOTE_422,,
 REPORT_NOTE_423,"This is an incomplete version to lure you into buying a complete version.",这是一个不完整的版本，旨在吸引您购买完整的版本。,REPORT_NOTE_423,,
 REPORT_NOTE_424,"TouristAI error.","TouristAI 错误。",REPORT_NOTE_424,,
 REPORT_NOTE_425,"Forgets settings at start.",在开始时忘记设置。,REPORT_NOTE_425,,
@@ -883,3 +883,4 @@ REPORT_NOTE_536,"This might cause cims to get stuck at broken or deleted public 
 REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.",警告：作者已因在自己的模组中放置恶意代码而被封禁。这个模组可能带有恶意代码。您最好立刻移除这个模组！该作者还以故意破坏自己的模组而闻名。,REPORT_NOTE_537,,
 REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.",警告：这个模组非常危险！它会从某个不受监管的位置下载文件，并将其它模组中的同类文件覆盖。这个模组因而十分危险且绝不应该被使用！您最好立刻移除这个模组！警告：作者已因在自己的模组中放置恶意代码而被封禁。该作者还以故意破坏自己的模组而闻名。警告：由于违反Steam的用户协议，该模组已经被工坊移除。,REPORT_NOTE_538,,
 REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy 取代了几个模组，并且包含了更多功能。",REPORT_NOTE_539,,
+REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","无法处理 EML / Prop Anarchy 的摆件。程序无法在当前游戏版本中运行。请使用测试版来运行程序。",REPORT_NOTE_540,,

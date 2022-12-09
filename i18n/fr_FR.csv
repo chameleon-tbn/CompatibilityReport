@@ -289,65 +289,65 @@ SET_BRG_RPB,"Reset path to default","Rétablir le chemin d'accès par défaut","
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
 SET_BTD_GL,"Game Language","Langue du jeu","SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
-SET_BUG_DOI,"Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
+SET_BUG_DOI,"Days of inactivity to retire author","Jours d'inactivité pour la retraite de l'auteur","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
-SET_BUG_MSPMP,"Estimated milliseconds per mod page","Estimated milliseconds per mod page","SET_BUG_MSPMP
+SET_BUG_MSPMP,"Estimated milliseconds per mod page","Millisecondes estimées par page de mod","SET_BUG_MSPMP
 SettingsUI.cs BuildUpdaterGroupUI msPerModPage",,
-SET_BUG_OOTA,"Run Road Asset Crawler (AN dependent)","Run Road Asset Crawler (AN dependent)","SET_BUG_OOTA
+SET_BUG_OOTA,"Run Road Asset Crawler (AN dependent)","Exécuter Road Asset Crawler (AN dépendant)","SET_BUG_OOTA
 SettingsUI.cs BuildUpdaterGroupUI OnOneTimeAction",,
-SET_BUG_OSU,"Run Updater","Run Updater","SET_BUG_OSU
+SET_BUG_OSU,"Run Updater","Exécutez la mise à jour","SET_BUG_OSU
 SettingsUI.cs BuildUpdaterGroupUI OnStartUpdater",,
-SET_BUG_OSWC,"Run Web Crawler","Run Web Crawler","SET_BUG_OSWC
+SET_BUG_OSWC,"Run Web Crawler","Lancer Web Crawler","SET_BUG_OSWC
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawler",,
-SET_BUG_OSWCQ,"Run Web Crawler (quick)","Run Web Crawler (quick)","SET_BUG_OSWCQ
+SET_BUG_OSWCQ,"Run Web Crawler (quick)","Exécuter Web Crawler (rapide)","SET_BUG_OSWCQ
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawlerquick",,
-SET_BUG_SMFP,"Steam max failed pages","Steam max failed pages","SET_BUG_SMFP
+SET_BUG_SMFP,"Steam max failed pages","Pages Steam max échouées","SET_BUG_SMFP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxFailedPages",,
-SET_BUG_SMLP,"Steam max listing pages","Steam max listing pages","SET_BUG_SMLP
+SET_BUG_SMLP,"Steam max listing pages","Pages Steam max listées","SET_BUG_SMLP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxListingPages",,
-SET_BUG_UG,Updater,Updater,"SET_BUG_UG
+SET_BUG_UG,Updater,"Mettre à jour","SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
-SET_BUG_WFR,"Weeks for soon retired","Weeks for soon retired","SET_BUG_WFR
+SET_BUG_WFR,"Weeks for soon retired","Semaines pour bientôt à la retraite","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
-SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
+SET_BUL_BML,"Broken Mods List","Liste de mods cassés","SET_BUL_BML
 SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
-SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SET_BUL_HWT,"Help with translation","Aider à la traduction","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
-SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SET_BUL_SOD,"Support on discord","Support sur discord","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SET_BUL_OL,"Other links:","Autres liens:","SET_BUL_OL
 SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
-SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
+SET_BUL_RML,"Recommended Mods List","Listes de lecture recommandées","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
-SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SET_BUL_RC,"Report compatibility","Compatibilité des rapports","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
-SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SET_BUL_UL,"Useful links:","Liens utiles:","SET_BUL_UL
 SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
-SET_DO_NEV,"Never (on-demand only) - not recommended!","Never (on-demand only) - not recommended!","SET_DO_NEV
+SET_DO_NEV,"Never (on-demand only) - not recommended!","Jamais (uniquement à la demande) - non recommandé !","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
-SET_DO_OAW,"Once a week","Once a week","SET_DO_OAW
+SET_DO_OAW,"Once a week","Une fois par semaine","SET_DO_OAW
 SettingsUI.cs DownloadOptions Once a week",,
 SET_RT_HTM,HTML,HTML,"SET_RT_HTM
 SettingsUI.cs ReportTypes HTML",,
-SET_RT_HAT,"HTML and text","HTML and text","SET_RT_HAT
+SET_RT_HAT,"HTML and text","HTML et texte","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
-SET_RT_TXT,Text,Text,"SET_RT_TXT
+SET_RT_TXT,Text,Texte,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
-HRT_P_S,Status,Status,"HRT_P_S
+HRT_P_S,Status,Statut,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
-HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
+HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","Cela a-t-il aidé ? Vous manque-t-il quelque chose ? Laissez une note ou un commentaire sur la page de l'atelier: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
 HTMLReport Footer_RatingText",,
-HRTC_TH_N,NOTE,NOTE,"HRTC_TH_N
+HRTC_TH_N,NOTE,REMARQUE,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.",REPORT_NOTE_1,,
-REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,
-REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",REPORT_NOTE_3,,
-REPORT_NOTE_4,"ABLC has the functionality to prevent abandonment, and much more.","ABLC has the functionality to prevent abandonment, and much more.",REPORT_NOTE_4,,
-REPORT_NOTE_5,"Accelarated night/weekend cycles from Real Time might give issues with district services.","Accelarated night/weekend cycles from Real Time might give issues with district services.",REPORT_NOTE_5,,
-REPORT_NOTE_6,"Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.",REPORT_NOTE_6,,
-REPORT_NOTE_7,"Additive Shader props converted to PO don't show up after reloading a save.","Additive Shader props converted to PO don't show up after reloading a save.",REPORT_NOTE_7,,
-REPORT_NOTE_8,"Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.",REPORT_NOTE_8,,
-REPORT_NOTE_9,"Advanced Building Level Control has all functionality of Historical Districts, and more.","Advanced Building Level Control has all functionality of Historical Districts, and more.",REPORT_NOTE_9,,
+REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Une barre noire peut apparaître au-dessus de la barre d'outils du bas.",REPORT_NOTE_1,,
+REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Un poids de couleur rouge ne signifie pas nécessairement que l'actif est mauvais. Juste qu'il est très détaillé et pourrait avoir un impact plus important sur les performances.",REPORT_NOTE_2,,
+REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","Une version bêta de la version 3.0 a été publiée sur GitHub mais n'a jamais été publiée sur le Steam Workshop. L’auteur a écrit qu’il ne mettra plus à jour le mod en blâmant Paradox pour leur politique de DLC.",REPORT_NOTE_3,,
+REPORT_NOTE_4,"ABLC has the functionality to prevent abandonment, and much more.","ABLC a la fonctionnalité de prévenir l'abandon, et bien plus encore.",REPORT_NOTE_4,,
+REPORT_NOTE_5,"Accelarated night/weekend cycles from Real Time might give issues with district services.","Les cycles de nuit/week-end accélérés à partir de temps réel peuvent causer des problèmes avec les services de district.",REPORT_NOTE_5,,
+REPORT_NOTE_6,"Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","Additive Shader n'est pas compatible avec les heures de lever ou de coucher de soleil variables de temps réel. Utilisez la version de test de Additive Shader à la place.",REPORT_NOTE_6,,
+REPORT_NOTE_7,"Additive Shader props converted to PO don't show up after reloading a save.","Les accessoires additifs de Shader convertis en bon de commande n'apparaissent pas après avoir rechargé une sauvegarde.",REPORT_NOTE_7,,
+REPORT_NOTE_8,"Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","La Consommation d'Entreprises Ajustable peut être incompatible avec l'option « Les Fermes produisent des cultures plus lentes et moins coûteuses » des Industries rééquilibrées.",REPORT_NOTE_8,,
+REPORT_NOTE_9,"Advanced Building Level Control has all functionality of Historical Districts, and more.","Le contrôle avancé du niveau du bâtiment a toutes les fonctionnalités des districts historiques, et plus encore.",REPORT_NOTE_9,,
 REPORT_NOTE_10,"All jobs from non-RICO buildings, including all Industries DLC buildings, are included in the service (SRV) numbers.","All jobs from non-RICO buildings, including all Industries DLC buildings, are included in the service (SRV) numbers.",REPORT_NOTE_10,,
 REPORT_NOTE_11,"All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.","All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.",REPORT_NOTE_11,,
 REPORT_NOTE_12,"All players must have the exact same DLCs (none are supported) and mods. CSM is incompatible with most mods, too many to mention here. A (very short) list of supported mods: https://citiesskylinesmultiplayer.com/#/supported-mods","All players must have the exact same DLCs (none are supported) and mods. CSM is incompatible with most mods, too many to mention here. A (very short) list of supported mods: https://citiesskylinesmultiplayer.com/#/supported-mods",REPORT_NOTE_12,,
@@ -878,3 +878,4 @@ REPORT_NOTE_536,"This might cause cims to get stuck at broken or deleted public 
 REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.","WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.",REPORT_NOTE_537,,
 REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.","WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.",REPORT_NOTE_538,,
 REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy supersede several mods and includes way more functionalities.",REPORT_NOTE_539,,
+REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","Impossible de gérer les Props d'anarchie EML / Prop. Impossible d'exécuter des scripts avec la version actuelle du jeu. Utilisez la version bêta à la place pour exécuter des scripts.",REPORT_NOTE_540,,
