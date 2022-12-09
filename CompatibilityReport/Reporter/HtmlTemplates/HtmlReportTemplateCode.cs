@@ -54,7 +54,6 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
         public HtmlReportTemplate(Catalog catalog)
         {
             this.catalog = catalog;
-            catalog.Save(Path.Combine(ModSettings.UpdaterPath, ModSettings.CatalogDumpFileName));
             reportCreationTime = DateTime.Now;
             unsubscribe = new List<ModInfo>();
             majorIssues = new List<ModInfo>();
