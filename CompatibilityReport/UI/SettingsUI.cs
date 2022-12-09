@@ -402,7 +402,7 @@ namespace CompatibilityReport.UI
                 }) as UIDropDown;
             langsDropdown.width = 300f;
 
-            settingsUIHelper.AddButton("Collect Logs and open directory", LogsCollector.CollectLogs);
+            settingsUIHelper.AddButton($"{T("SET_BRG_CLD")}", LogsCollector.CollectLogs);
 
             settingsUIHelper.AddSpace(15);
             
