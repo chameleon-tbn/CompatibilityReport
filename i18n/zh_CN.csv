@@ -340,6 +340,8 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,注意：,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
+SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",底部工具栏上可能会出现一个黑色条纹。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",标红的资产不一定意味着是损坏的。它只是非常精细，可能会造成较大的性能影响。,REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","一个 3.0 测试版已在 GitHub 上发布，但从未在 Steam 创意工坊上发布。 作者写到，他不会再更新模组，因为他指责Paradox对DLC的政治干涉。",REPORT_NOTE_3,,

@@ -339,6 +339,8 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,NOTA,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
+SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Una barra negra puede aparecer sobre la barra de herramientas inferior.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Un peso de color rojo no necesariamente significa que el activo sea malo. Sólo que es muy detallado y podría afectar más al rendimiento.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","Una versión 3.0 beta ha sido liberada en GitHub pero nunca fue publicada en Steam Workshop. El autor escribió que ya no actualizará el mod porque culpa a Paradox por su política de DLC.",REPORT_NOTE_3,,

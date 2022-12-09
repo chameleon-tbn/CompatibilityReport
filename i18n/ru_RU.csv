@@ -340,6 +340,8 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,ПРИМЕЧАНИЕ,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
+SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Над нижней панелью инструментов может появиться чёрная полоса.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Красный цвет вовсе не обязательно означает, что объект повреждён. Просто он очень детализированный и может сильно повлиять на производительность.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","Версия 3.0 бета была выпущена на GitHub, но так и не была выпущена в Steam Workshop. Автор написал, что он больше не будет обновлять модификацию, и винит в этом Paradox и её политику по поводу DLC.",REPORT_NOTE_3,,

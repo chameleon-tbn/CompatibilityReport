@@ -339,6 +339,8 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,NOTE,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
+SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","하단부 툴바 위에 검은 선이 나타날 수 있습니다.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","빨갛게 표시된 가중치가 반드시 에셋이 좋지 않음을 의미하는 것은 아닙니다. 단지 매우 디테일하고 성능에 더 영향을 미칠 수 있을 뿐입니다.",REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","버전 3.0 베타는 GitHub에서는 출시됐습니다만 창작마당에서는 출시되지 않았습니다. 모더는 Parodox의 DLC 정책을 비난하며 더 이상 모드를 업데이트하지 않겠다고 했습니다.",REPORT_NOTE_3,,
