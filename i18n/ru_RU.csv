@@ -340,7 +340,7 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,ПРИМЕЧАНИЕ,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SET_BRG_CLD,"Collect Logs and open directory","Собрать журналы и открыть папку с ними","SET_BRG_CLD
 SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Над нижней панелью инструментов может появиться чёрная полоса.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Красный цвет вовсе не обязательно означает, что объект повреждён. Просто он очень детализированный и может сильно повлиять на производительность.",REPORT_NOTE_2,,
@@ -882,3 +882,5 @@ REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in t
 REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.","ВНИМАНИЕ: Этот мод представляет ОПАСНОСТЬ! Он загружает файлы из неизвестного источника и перезаписывает файлы других модов. Это ОЧЕНЬ ОПАСНО и не должно быть использовано таким образом! Вам лучше УДАЛИТЬ ЕГО НЕМДЛЕННО! ВНИМАНИЕ: Автор был заблокирован за ввод вредоносного кода в свои моды. Автор также известен тем, что сознательно ломает свои собственные модификации. ВНИМАНИЕ: Этот мод был удален из мастерской модераторами Steam из-за того, что он нарушил соглашение компании.",REPORT_NOTE_538,,
 REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy скрывает несколько модов и включает в себя более функциональные возможности.",REPORT_NOTE_539,,
 REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","Не удается управлять EML/Prop Anarchy Props. Невозможно запустить скрипты с текущей версией игры. Используйте бета-версию, чтобы запустить скрипты.",REPORT_NOTE_540,,
+REPORT_NOTE_541,"Remove Need For Pipes function is included in 81 Tiles 2 mod.","Функция ""Убрать потребность в трубах"" входит в мод 81 Tiles 2.",REPORT_NOTE_541,,
+REPORT_NOTE_542,"Remove Need For Power Lines function is included in 81 Tiles 2 mod.","Функция ""Убрать потребность в ЛЭП"" входит в мод 81 Tiles 2.",REPORT_NOTE_542,,

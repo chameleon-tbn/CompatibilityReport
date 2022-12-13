@@ -340,7 +340,7 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,注意：,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SET_BRG_CLD,"Collect Logs and open directory",收集日志并打开目录,"SET_BRG_CLD
 SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",底部工具栏上可能会出现一个黑色条纹。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",标红的资产不一定意味着是损坏的。它只是非常精细，可能会造成较大的性能影响。,REPORT_NOTE_2,,
@@ -886,3 +886,5 @@ REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in t
 REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.",警告：这个模组非常危险！它会从某个不受监管的位置下载文件，并将其它模组中的同类文件覆盖。这个模组因而十分危险且绝不应该被使用！您最好立刻移除这个模组！警告：作者已因在自己的模组中放置恶意代码而被封禁。该作者还以故意破坏自己的模组而闻名。警告：由于违反Steam的用户协议，该模组已经被工坊移除。,REPORT_NOTE_538,,
 REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy 取代了几个模组，并且包含了更多功能。",REPORT_NOTE_539,,
 REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","无法处理 EML / Prop Anarchy 的摆件。程序无法在当前游戏版本中运行。请使用测试版来运行程序。",REPORT_NOTE_540,,
+REPORT_NOTE_541,"Remove Need For Pipes function is included in 81 Tiles 2 mod.","81 Tiles 2 已经包含了 Remove Need For Pipes 的功能。",REPORT_NOTE_541,,
+REPORT_NOTE_542,"Remove Need For Power Lines function is included in 81 Tiles 2 mod.","81 Tiles 2 已经包含了 Remove Need For Power Lines 的功能。",REPORT_NOTE_542,,

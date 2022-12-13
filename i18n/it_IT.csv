@@ -281,7 +281,7 @@ SET_BRG_RG,"Report options","Opzioni rapporto","SET_BRG_RG
 SettingsUI.cs BuildRecordGroupUI reportGroup",,
 SET_BRG_RP,"Mod Errors","Errori mod","SET_BRG_RP
 SettingsUI.cs BuildRecordGroupUI reportPanel",,
-SET_BRG_RPTF,"Report path","Segnala percorso","SET_BRG_RPTF
+SET_BRG_RPTF,"Report path","Percorso del rapporto","SET_BRG_RPTF
 SettingsUI.cs BuildRecordGroupUI reportPathTextField",,
 SET_BRG_RTD,"Report type","Tipo rapporto","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
@@ -339,7 +339,7 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,NOTA,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SET_BRG_CLD,"Collect Logs and open directory","Raccogli i registri e apri la directory","SET_BRG_CLD
 SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Una barra nera potrebbe apparire sopra la barra degli strumenti in basso.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Un peso colorato di rosso non significa necessariamente che la risorsa sia cattiva. Solo che è molto dettagliata e potrebbe avere un impatto maggiore sulle prestazioni.",REPORT_NOTE_2,,
@@ -881,3 +881,5 @@ REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in t
 REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.","ATTENZIONE: questa mod è PERICOLOSA! Scarica i file da una posizione non controllata e sovrascrive i file di altre mod. Si tratta di un software MOLTO PERICOLOSO e non deve essere utilizzato! È meglio RIMUOVERLA IMMEDIATAMENTE! ATTENZIONE: Questo autore è stato bannato per aver inserito codice dannoso nelle sue mod. L'autore è anche noto per aver deliberatamente violato le proprie mod per dispetto. ATTENZIONE: Questa mod è stata rimossa dal Workshop da Steam perché violava il loro accordo.",REPORT_NOTE_538,,
 REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy sostituisce diverse mod e include molte più funzionalità.",REPORT_NOTE_539,,
 REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","Non è in grado di gestire EML / Prop Anarchy Props. Impossibile eseguire script con la versione attuale del gioco. Utilizza invece la versione beta per eseguire gli script.",REPORT_NOTE_540,,
+REPORT_NOTE_541,"Remove Need For Pipes function is included in 81 Tiles 2 mod.","Remove Need For Pipes function is included in 81 Tiles 2 mod.",REPORT_NOTE_541,,
+REPORT_NOTE_542,"Remove Need For Power Lines function is included in 81 Tiles 2 mod.","Remove Need For Power Lines function is included in 81 Tiles 2 mod.",REPORT_NOTE_542,,

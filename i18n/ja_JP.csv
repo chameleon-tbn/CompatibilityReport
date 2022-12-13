@@ -339,7 +339,7 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,注意,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SET_BRG_CLD,"Collect Logs and open directory",ログの収集とフォルダを開く,"SET_BRG_CLD
 SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",下部のツールバーの上側に、「黒いバーが表示」される場合があります。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",赤色のウェイト表示は、「必ずしもそのアセットが悪い/問題がある」という意味ではありません。ただし、非常に詳細なディテールの場合は、「パフォーマンスに影響を与える」可能性があります。,REPORT_NOTE_2,,
@@ -924,3 +924,5 @@ REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmo
 公式のアナウンス: https://store.steampowered.com/news/app/255710/view/6047774523920146831",REPORT_NOTE_538,,
 REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchyは複数のMOD機能を統合して、より多くの機能があります。",REPORT_NOTE_539,,
 REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","EML / Prop AnarchyのPropは扱えず、ゲーム内の操作やスクリプトの実行ができません。スクリプトを実行したい場合は、代わりにβ版を使用して下さい。",REPORT_NOTE_540,,
+REPORT_NOTE_541,"Remove Need For Pipes function is included in 81 Tiles 2 mod.","Remove Need For Pipesの機能は、81 Tiles 2 modに含まれています。",REPORT_NOTE_541,,
+REPORT_NOTE_542,"Remove Need For Power Lines function is included in 81 Tiles 2 mod.","Remove Need For Power Linesの機能は、81 Tiles 2 modに含まれています。",REPORT_NOTE_542,,
