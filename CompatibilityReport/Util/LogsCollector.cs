@@ -112,8 +112,7 @@ namespace CompatibilityReport.Util
                 "NetworkAnarchy.log",
                 "Picker.log" };
 
-            foreach (string file in files)
-            {
+            foreach (string file in files) {
                 TryAddGameDataLog(zip, file);
             }
         }
@@ -123,8 +122,7 @@ namespace CompatibilityReport.Util
             try
             {
                 string gameLogFilepath = Path.Combine(GameDataPath, fileName);
-                if (File.Exists(gameLogFilepath))
-                {
+                if (File.Exists(gameLogFilepath)) {
                     Logger.Log($"Game log path exists: {gameLogFilepath}");
                     //copying file to prevent IOException: Sharing violation on path...
                     File.Copy(gameLogFilepath, Path.Combine(GameDataPath, $"{fileName}.bak"));
@@ -135,9 +133,7 @@ namespace CompatibilityReport.Util
                         zip.CommitUpdate();
                         File.Delete(Path.Combine(GameDataPath, $"{fileName}.bak"));
                     }
-                }
-                else
-                {
+                } else {
                     Logger.Log($"Game log path is incorrect: {gameLogFilepath} Didn't collect log", Logger.LogLevel.Warning);
                 }
             }
