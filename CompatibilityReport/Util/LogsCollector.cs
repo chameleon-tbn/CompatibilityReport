@@ -17,7 +17,7 @@ namespace CompatibilityReport.Util
             string timestamp = $"{DateTime.Now:yyyy-MM-dd_hh_mm_ss}";
             string fileName = $"CompatibilityReport_Logs_{timestamp}.zip";
             using (ZipFile zip = ZipFile.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), fileName))) {
-                AddGameLog(zip);
+                AddGameDataLogs(zip);
                 AddFile(zip, GlobalConfig.Instance.GeneralConfig.ReportPath, "CompatibilityReport.html");
                 TryIncludeLastErrorLog(zip);
                 TryIncludeLastLSMReport(zip);
@@ -96,32 +96,49 @@ namespace CompatibilityReport.Util
                 Logger.Exception(e);
             }
         }
-        
-        private static void AddGameLog(ZipFile zip) {
-            string fileName = Application.platform == RuntimePlatform.WindowsPlayer ? "output_log.txt" : "Player.log";
-            // persistentDataPath is valid path for Player.log for Linux, hopefully for MacOSX also...
-            string gameLogPath = Application.platform == RuntimePlatform.WindowsPlayer
+
+        // persistentDataPath is valid path for Player.log for Linux, hopefully for MacOSX also...
+        private static string GameDataPath => Application.platform == RuntimePlatform.WindowsPlayer
                                         ? Application.dataPath
                                         : Application.platform != RuntimePlatform.OSXPlayer
                                             ? Application.persistentDataPath
                                             : Path.Combine(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Library"), "Logs"), "Unity");
 
-            try {
-                string gameLogFilepath = Path.Combine(gameLogPath, fileName);
+        private static void AddGameDataLogs(ZipFile zip)
+        {
+            string[] files = new string[4] {
+                Application.platform == RuntimePlatform.WindowsPlayer ? "output_log.txt" : "Player.log",
+                "MoveIt.log",
+                "NetworkAnarchy.log",
+                "Picker.log" };
+
+            foreach (string file in files) {
+                TryAddGameDataLog(zip, file);
+            }
+        }
+
+        private static void TryAddGameDataLog(ZipFile zip, string fileName)
+        {
+            try
+            {
+                string gameLogFilepath = Path.Combine(GameDataPath, fileName);
                 if (File.Exists(gameLogFilepath)) {
                     Logger.Log($"Game log path exists: {gameLogFilepath}");
                     //copying file to prevent IOException: Sharing violation on path...
-                    File.Copy(gameLogFilepath, Path.Combine(gameLogPath, $"{fileName}.bak"));
-                    if (File.Exists(Path.Combine(gameLogPath, $"{fileName}.bak"))) {
+                    File.Copy(gameLogFilepath, Path.Combine(GameDataPath, $"{fileName}.bak"));
+                    if (File.Exists(Path.Combine(GameDataPath, $"{fileName}.bak")))
+                    {
                         zip.BeginUpdate();
-                        zip.Add(Path.Combine(gameLogPath, $"{fileName}.bak"), fileName);
+                        zip.Add(Path.Combine(GameDataPath, $"{fileName}.bak"), fileName);
                         zip.CommitUpdate();
-                        File.Delete(Path.Combine(gameLogPath, $"{fileName}.bak"));
+                        File.Delete(Path.Combine(GameDataPath, $"{fileName}.bak"));
                     }
                 } else {
                     Logger.Log($"Game log path is incorrect: {gameLogFilepath} Didn't collect log", Logger.LogLevel.Warning);
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 Logger.Log(e.ToString(), Logger.LogLevel.Error);
             }
         }
