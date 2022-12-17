@@ -398,7 +398,7 @@
 
     <footer>
         <hr>
-        <span> <#= catalog.ReportFooterText #> </span>
+        <span data-i18n="HRT_F_RAT">Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511</span>
     </footer>
 
 </body>
