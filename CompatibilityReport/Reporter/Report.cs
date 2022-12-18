@@ -37,11 +37,13 @@ namespace CompatibilityReport.Reporter
                 Logger.Log("Your game has no access to the Steam Workshop, and this mod requires that. No report was generated.", Logger.Error);
                 return;
             }
+#if !DEBUG
             if (PluginManager.noWorkshop)
             {
                 Logger.Log("The game can't access the Steam Workshop because of the '--noWorkshop' launch option. No report was generated.", Logger.Warning);
                 return;
             }
+#endif
 
             Catalog catalog = Catalog.Load();
 
