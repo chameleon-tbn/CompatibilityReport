@@ -371,11 +371,12 @@ namespace CompatibilityReport.Updater
 
             if (newMod.Statuses.Contains(Enums.Status.UnlistedInWorkshop))
             {
-                if (Toolkit.Download(Toolkit.GetWorkshopUrl(newMod.SteamID), ModSettings.TempDownloadFullPath) && WebCrawler.ReadModPage(catalog, newMod))
+                KeyValuePair<bool, string> statusWithData = default;
+                Toolkit.DownloadPageText(Toolkit.GetWorkshopUrl(newMod.SteamID), result =>  statusWithData = result).Enumerate();
+                if (statusWithData.Key && WebCrawler.ReadModPageText(catalog, newMod, statusWithData.Value))
                 {
                     Logger.UpdaterLog($"Steam Workshop page downloaded for unlisted mod { newMod.ToString() }");
                 }
-                Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
             }
 
             return "";
