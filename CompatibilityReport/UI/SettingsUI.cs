@@ -407,6 +407,7 @@ namespace CompatibilityReport.UI
             settingsUIHelper.AddSpace(15);
             
             shouldBuildOptions = true;
+#if !DEBUG
             if (PluginManager.noWorkshop || PlatformService.platformType != PlatformType.Steam)
             {
                 UIPanel reportPanel = HelperToUIPanel(settingsUIHelper.AddGroup($"{T("SET_BRG_RP")}"));
@@ -421,6 +422,7 @@ namespace CompatibilityReport.UI
                 shouldBuildOptions = false;
                 return;
             }
+#endif
 
             UIHelperBase reportGroup = settingsUIHelper.AddGroup($"{T("SET_BRG_RG")}:");
 

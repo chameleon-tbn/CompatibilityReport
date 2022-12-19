@@ -113,6 +113,7 @@
     <Compile Include="Updater\FirstCatalog.cs" />
     <Compile Include="Updater\DataDumper.cs" />
     <Compile Include="Updater\FileImporter.cs" />
+    <Compile Include="Util\CollectionExtensions.cs" />
     <Compile Include="Util\GameObjectObserver.cs" />
     <Compile Include="Util\LogsCollector.cs" />
     <Compile Include="Util\ModSettings.cs" />

@@ -745,7 +745,20 @@ namespace CompatibilityReport.CatalogData
             {
                 Catalog webCrawlerCatalog = LoadWebCrawlerCatalog();
                 Catalog updaterCatalog = LoadUpdaterCatalog();
-                newestCatalog = Newest(Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(bundledCatalog, updaterCatalog)), webCrawlerCatalog);
+                if (webCrawlerCatalog == null)
+                {
+                    
+                    newestCatalog = Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(updaterCatalog, bundledCatalog));
+                } 
+                else if (updaterCatalog == null)
+                {
+                    
+                    newestCatalog = Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(webCrawlerCatalog, bundledCatalog));
+                }
+                else
+                {
+                    newestCatalog = Newest(Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(updaterCatalog, webCrawlerCatalog)), bundledCatalog);
+                }
             }
             else
             {
