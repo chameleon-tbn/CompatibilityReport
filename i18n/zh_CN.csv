@@ -770,7 +770,7 @@ REPORT_NOTE_421,"The default English names still appear as well, next to the new
 REPORT_NOTE_422,"Flickering or disappearing buildings.",会导致建筑物闪烁或者消失。,REPORT_NOTE_422,,
 REPORT_NOTE_423,"This is an incomplete version to lure you into buying a complete version.",这是一个不完整的版本，旨在吸引您购买完整的版本。,REPORT_NOTE_423,,
 REPORT_NOTE_424,"TouristAI error.","TouristAI 错误。",REPORT_NOTE_424,,
-REPORT_NOTE_425,"Forgets settings at start.",在开始时忘记设置。,REPORT_NOTE_425,,
+REPORT_NOTE_425,"Forgets settings at start.",在进入存档（开始）时会丢失此模组的设置,REPORT_NOTE_425,,
 REPORT_NOTE_426,"Not working with the buildings from Promenades &amp; Plazas DLC. Causing various glitches and sometimes even crashes!","不适用于 Promenades &amp; Plazas DLC 的建筑。会导致各种错误，有时甚至崩溃！",REPORT_NOTE_426,,
 REPORT_NOTE_427,"Several users report services not spawning vehicles anymore.",一些用户报告说公共服务点不再生成车辆。,REPORT_NOTE_427,,
 REPORT_NOTE_428,"Not working for all buildings, terrain spikes and holes, performance issues, errors messages.",不适用于所有建筑物，可能会出现地形尖刺和空洞，存在性能问题和错误信息。,REPORT_NOTE_428,,

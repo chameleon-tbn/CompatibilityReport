@@ -1,5 +1,5 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
-LANGUAGE,English,Française,"LANGUAGE
+LANGUAGE,English,Français,"LANGUAGE
 Language to be translated into",,
 CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} créé le {Updated}, téléchargé le {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
@@ -35,7 +35,7 @@ HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the 
 HtmlReportTemplate.tt General information Havingissues",,
 HRT_GI_H,"General information","Informations générales","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","JAMAIS (dés)abonnez-vous à quoi que ce soit pendant que le jeu est en cours d'exécution ! Cela réinitialise certains mods.","HRT_GI_NU
+HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","JAMAIS de (dés)abonnement à quoi que ce soit pendant que le jeu est en cours d'exécution ! Cela réinitialise certains mods.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
 HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Les mods sont compatibles mais ne fonctionnent pas ? Essayez de vous désabonner et de vous réabonner (sans être en jeu).","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking",,
@@ -239,7 +239,7 @@ SET_BAO_AG,"Advanced options","Options avancées","SET_BAO_AG
 SettingsUI.cs BuildAdvancedOptionsUI advancedGroup",,
 SET_BAO_DM,"Debug Mode","Mode débogage","SET_BAO_DM
 SettingsUI.cs BuildAdvancedOptionsUI debugMode",,
-SET_BAO_MLS,"Max log size (in KB)","Taille maximale du log (en KB)","SET_BAO_MLS
+SET_BAO_MLS,"Max log size (in KB)","Taille maximale du log (en Ko)","SET_BAO_MLS
 SettingsUI.cs BuildAdvancedOptionsUI maxLogSize",,
 SET_BAO_MR,"Number of catalog download retries","Nombre de tentatives de téléchargement du catalogue","SET_BAO_MR
 SettingsUI.cs BuildAdvancedOptionsUI maxRetries",,
@@ -339,7 +339,7 @@ HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the
 HTMLReport Footer_RatingText",,
 HRTC_TH_N,NOTE,REMARQUE,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SET_BRG_CLD,"Collect Logs and open directory","Récupérer les Logs et ouvrir le dossier","SET_BRG_CLD
 SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Une barre noire peut apparaître au-dessus de la barre d'outils du bas.",REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Un poids de couleur rouge ne signifie pas nécessairement que l'actif est mauvais. Juste qu'il est très détaillé et pourrait avoir un impact plus important sur les performances.",REPORT_NOTE_2,,
