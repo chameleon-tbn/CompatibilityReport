@@ -1,5 +1,60 @@
 # Compatibility Report
 
+### Version 2.3.0
+* Merged Status "MusicCopyrightFree", "MusicCopyrighted", "MusicCopyrightUnknown" to "MusicCopyright" with the same information text.
+* Added Status "SourceNotPublic" to Inform about mods where no public source code is available.
+* Added all new DLCs, CCPs and Radios up to Financial Districts to "RequiredDlcs".
+* Changed the logic when to mark as "Deprecated". A mod will be marked as "Deprecated" only, if a successor is available. 
+* Old mods without successor might have alternatives listed, Status "Abandoned" and can even have Stability "Stable"
+* Stability "RequiresIncompatibleMod" can be set if a mod have a broken mod as dependency, that is not (yet) marked as Incompatible in the workshop.
+
+### Version 2.2.0
+* Improved version check for loading catalog in Updater run
+* CSV Import - unlisted check downloads analyzing file in memory instead of saving temp locally
+* Version bump, no-workshop check disabled in Debug builds
+* Removed obsolete code
+* Updated translations
+* Catalog maintenance to remove wrong status information
+* Catalog 6.14
+
+### Version 2.1.1
+* Added Picker.log, NetworkAnarchy.log and MoveIt.log to the CompatibilityReport_Logs*.zip (Thanks to Quboid!)
+* fixed some typos
+* added a missing translation string
+* updated translations
+
+### Version 2.1.0
+* added functionality to ZIP log files for Support
+* added links to broken mods and assets as well as links to recommended mods
+* various optimisations regarding to the update process
+
+### Version 2.0.4
+* catalog version 6.1
+* fixed parsing of stability notes
+* catalog versioning fix
+* added svg flag to support new language in the html report 
+* form link text update
+* new status column in the Processed mods html table
+* typo fixes
+* improving Settings UI
+* added missing translations
+* fixed default report type selection
+* fixed NullReferenceException when generating the config
+
+### Version 2.0.0
+* Detection of subscribed and local mods.
+* NEW: Gzipped XML catalog with basic mod information and compatibility information integrated in the Mod itself. No need for side downloads and no issues with download limits or non-accessible storage any more.
+* Review of subscribed mods with the catalog information.
+* HTML and/or text report, sorted by mod name. Split into multiple categories, based on issue severity.
+* NEW: Mod options for easy access to reports, catalog download, feedback via report-form or on discord, links to recommended mods and also broken mods.
+* Support for mod groups, to allow different editions (e.g. stable and test) of mods as mod requirement.
+* NEW: Basic translation frame work (UI and catalog standard fields. Languages for notes will be integrated later)
+* Catalog Updater method (for mod maintainers only), based on web crawling the Steam Workshop and CSV import.
+* Automatically detects new mods and changes in mod information: name, required DLC/mods, source URL, ...
+* Easy catalog maintenance with simple CSV files for updated mod and compatibility information. This allows for catalog maintenance by multiple people, upload ofc only through mod-owner.
+* Automatic change notes and catalog versioning.
+* Dedicated UI for easier maintenance.
+
 ### Version 0.8.0
 * HTML report generation
 * Options screen with basic info about catalog state and lots of configurable settings

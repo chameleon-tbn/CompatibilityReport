@@ -44,8 +44,12 @@
             MusicCopyrighted,                   // This mod uses music with copyright and should not be used in videos and streaming.
             MusicCopyrightUnknown,              // This mod uses music, but it's unclear whether that music has copyright on it or not. Not safe for videos or streaming.
             WorksWhenDisabled,                  // This mod will still work when disabled. This suppresses any 'enable this' warnings.
-            ModNamesDiffer                      // This mods in-game name differs so much from the Workshop name that it can be confusing.
+            ModNamesDiffer,                      // This mods in-game name differs so much from the Workshop name that it can be confusing.
+            SourceNotPublic,                    // No source code published. Without source code it is harder to ensure a mod not include malicious code.
+            MusicCopyright                     // As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.
         }
+
+
 
 
         /// <summary>Compatibility statuses between two mods. In most cases only one compatibility can exist between two mods.</summary>
@@ -111,7 +115,19 @@
             Content_Creator_Pack__Vehicles_of_the_World = 1726381,
             Content_Creator_Pack__Map_Pack = 1726382,
             On_Air_Radio = 1726383,
-            Calm_The_Mind_Radio = 1726384
+            Calm_The_Mind_Radio = 1726384,
+            Content_Creator_Pack__MidCentury_Modern = 1992290,
+            Content_Creator_Pack__Seaside_Resorts = 1992291,
+            Shoreline_Radio = 1992292,
+            Paradise_Radio = 1992293,
+            Plazas_&_Promenades = 2008400,
+            Content_Creator_Pack__Heart_of_Korea = 2144480,
+            Content_Creator_Pack__Skyscrapers = 2144481,
+            Kpop_Station = 2144482,
+            80s_Downtown_Beat = 2144483,
+            Financial_Districts = 2148901,
+            Content_Creator_Pack__Map_Pack_2 = 2148903,
+            African_Vibes = 2148904
         }
 
 

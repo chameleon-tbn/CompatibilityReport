@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ColossalFramework.PlatformServices;
 using CompatibilityReport.CatalogData;
+using CompatibilityReport.Reporter.HtmlTemplates;
 using CompatibilityReport.Settings;
 using CompatibilityReport.Settings.ConfigData;
 using CompatibilityReport.Util;
@@ -444,7 +445,7 @@ namespace CompatibilityReport.Reporter
             else if (subscribedMod.Statuses.Contains(Enums.Status.Deprecated))
             {
                 subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
-                text += Format("Unsubscribe would be wise. This is deprecated and no longer supported by the author.");
+                text += Format("This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.");
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
             {
@@ -496,23 +497,49 @@ namespace CompatibilityReport.Reporter
                         subscribedMod.Stability == Enums.Stability.Stable ? ", but is considered quite stable.": "."));
                 }
 
-                if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))
+                // Changed to have only one Music Pack Copyright status
+                if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyright))
                 {
-                    text += Format("The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.");
+                    text += Format("As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.");
                 }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrighted))
-                {
-                    text += Format("This includes copyrighted music and should not be used for streaming.");
-                }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightUnknown))
-                {
-                    text += Format("This includes music with unknown copyright status. Safer not to use it for streaming.");
-                }
+                
+                //if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))
+                //{
+                //    text += Format("The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.");
+                //}
+                //else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrighted))
+                //{
+                //    text += Format("This includes copyrighted music and should not be used for streaming.");
+                //}
+                //else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightUnknown))
+                //{
+                //   text += Format("This includes music with unknown copyright status. Safer not to use it for streaming.");
+                //}
             }
 
             if (subscribedMod.Statuses.Contains(Enums.Status.SavesCantLoadWithout))
             {
                 text += Format("NOTE: After using this mod, savegames won't (easily) load without it anymore.");
+            }
+                //added to inform about non public source code
+
+            if (subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
+            {
+                text += Format("No source code published. Without source code it is harder to ensure a mod not include malicious code.");
+            }
+
+            // added to inform about mods that have no comment section active, no workshop description and no source code available
+            if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription) && !subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
+            {
+                text += Format("Mods without sourcecodes, without comment section and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
+            }
+            else if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
+            {
+                text += Format("Mods without sourcecodes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
+            }
+            else if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
+            {
+                text += Format("Mods without sourcecodes and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
             }
 
             bool abandoned = subscribedMod.Statuses.Contains(Enums.Status.Obsolete) || subscribedMod.Statuses.Contains(Enums.Status.Deprecated) ||
@@ -521,11 +548,11 @@ namespace CompatibilityReport.Reporter
 
             if (abandoned && string.IsNullOrEmpty(subscribedMod.SourceUrl) && !subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
             {
-                text += Format($"No public source code found, making it hard to continue by another modder.");
+                text += Format($"Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.");
             }
-            else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceNotUpdated))
+            else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
             {
-                text += Format($"Published source seems out of date, making it hard to continue by another modder.");
+                text += Format($"No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.");
             }
 
             if (!string.IsNullOrEmpty(text))

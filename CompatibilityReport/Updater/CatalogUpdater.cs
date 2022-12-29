@@ -638,12 +638,17 @@ namespace CompatibilityReport.Updater
                 catalogMod.Statuses.Remove(Enums.Status.Deprecated);
                 catalogMod.Statuses.Remove(Enums.Status.Abandoned);
             }
-            else if (status == Enums.Status.MusicCopyrighted || status == Enums.Status.MusicCopyrightFree || status == Enums.Status.MusicCopyrightUnknown)
+            // Changed to have only one Music Pack Copyright status
+            else if (status == Enums.Status.MusicCopyright)
             {
-                catalogMod.Statuses.Remove(Enums.Status.MusicCopyrighted);
-                catalogMod.Statuses.Remove(Enums.Status.MusicCopyrightFree);
-                catalogMod.Statuses.Remove(Enums.Status.MusicCopyrightUnknown);
+                catalogMod.Statuses.Remove(Enums.Status.MusicCopyright);
             }
+            //else if (status == Enums.Status.MusicCopyrighted || status == Enums.Status.MusicCopyrightFree || status == Enums.Status.MusicCopyrightUnknown)
+            //{
+            //    catalogMod.Statuses.Remove(Enums.Status.MusicCopyrighted);
+            //    catalogMod.Statuses.Remove(Enums.Status.MusicCopyrightFree);
+            //    catalogMod.Statuses.Remove(Enums.Status.MusicCopyrightUnknown);
+            //}
 
             catalogMod.Statuses.Add(status);
             
