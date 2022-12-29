@@ -531,28 +531,32 @@ namespace CompatibilityReport.Reporter
             // added to inform about mods that have no comment section active, no workshop description and no source code available
             if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription) && !subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
             {
-                text += Format("Mods without sourcecodes, without comment section and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
+                text += Format("Mods without source codes, without comment section and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
             {
-                text += Format("Mods without sourcecodes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
+                text += Format("Mods without source codes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
             {
-                text += Format("Mods without sourcecodes and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
+                text += Format("Mods without source codes and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.");
             }
 
             bool abandoned = subscribedMod.Statuses.Contains(Enums.Status.Obsolete) || subscribedMod.Statuses.Contains(Enums.Status.Deprecated) ||
                 subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop) || subscribedMod.Statuses.Contains(Enums.Status.Abandoned) ||
                 (subscribedMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop) || authorRetired;
 
-            if (abandoned && string.IsNullOrEmpty(subscribedMod.SourceUrl) && !subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
+            if (abandoned && string.IsNullOrEmpty(subscribedMod.SourceUrl) && subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
             {
                 text += Format($"Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.");
             }
             else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
             {
                 text += Format($"No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.");
+            }
+            else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceObfuscated))
+            {
+                text += Format($"The author has deliberately hidden the mod code from other modders, which is somewhat suspicious. Without source code it is also harder to ensure a mod not include malicious code.");
             }
 
             if (!string.IsNullOrEmpty(text))
