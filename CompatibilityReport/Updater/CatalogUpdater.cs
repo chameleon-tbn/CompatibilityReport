@@ -19,85 +19,7 @@ namespace CompatibilityReport.Updater
     {
         private static bool hasRun;
         private static DateTime reviewDate;
-
-
-        /// <summary>Starts the updater, which gathers new mod and compatibility information and save an updated catalog.</summary>
-        [Obsolete("Replaced to support reporting progress to UI")]
-        public static void Start()
-        {
-
-            Logger.Log("Catalog Updater started.");
-            Logger.UpdaterLog($"Catalog Updater started. { ModSettings.ModName } version { ModSettings.FullVersion }. " +
-                $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.");
-
-            hasRun = true;
-            string tempCsvCombinedFullPath = Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName);
-
-            // Download the feedback form. Download might fail because of TLS 1.2, but that doesn't matter because we only want to make sure the URL stays active.
-            Toolkit.Download(ModSettings.FeedbackFormUrl, tempCsvCombinedFullPath);
-            Toolkit.DeleteFile(tempCsvCombinedFullPath);
-
-            Catalog catalog = Catalog.Load();
-
-            if (catalog == null)
-            {
-                FirstCatalog.Create();
-            }
-            else
-            {
-                Logger.UpdaterLog($"Current catalog version { catalog.VersionString() }, created on { catalog.Updated.ToLocalTime():D}, " +
-                    $"{ catalog.Updated.ToLocalTime():t}.");
-
-                catalog.NewVersion(DateTime.Now);
-
-                FileImporter.Start(catalog);
-
-                if (!catalog.ChangeNotes.Any())
-                {
-                    Logger.UpdaterLog("No changes or new additions found. No new catalog created.");
-                }
-                else
-                {
-                    // Save the new catalog.
-                    UpdateAuthorRetirement(catalog);
-                    UpdateCompatibilityModNames(catalog);
-
-                    if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
-                    {
-                        SetNote(catalog, "");
-                    }
-
-                    string potentialAssets = catalog.GetPotentialAssetsString();
-                    if (!string.IsNullOrEmpty(potentialAssets))
-                    {
-                        Logger.UpdaterLog($"CSV action for adding assets to the catalog (after verification): Add_RequiredAssets { potentialAssets }");
-                    }
-
-                    SaveCatalog(catalog);
-                }
-            }
-
-            // Reload the catalog as a validity check of the newly created catalog. Also get the correct catalog version for the datadumper if no new catalog.
-            Logger.Log("Reloading the catalog.");
-            catalog = Catalog.Load();
-
-            if (catalog == null)
-            {
-                Logger.Log("Catalog could not be reloaded.", Logger.Error);
-            }
-            else
-            {
-                DataDumper.Start(catalog);
-            }
-
-            Toolkit.DeleteFile(ModSettings.TempDownloadFullPath);
-            Toolkit.DeleteFile(tempCsvCombinedFullPath);
-
-            Logger.UpdaterLog("Catalog Updater has finished.");
-            Logger.Log("Catalog Updater has finished. Closing the catalog.");
-
-            Logger.CloseUpdaterLog();
-        }
+        
 
         /// <summary>Starts the updater, which gathers new mod and compatibility information and save an updated catalog.</summary>
         public static IEnumerator StartWithProgress(ProgressMonitor progressMonitor)
@@ -108,6 +30,10 @@ namespace CompatibilityReport.Updater
             Logger.Log("Catalog Updater started.");
             progressMonitor.PushMessage("Catalog Updater started");
             progressMonitor.UpdateStage(currentStep++, maxSteps);
+            
+            //backup and reset updater log
+            Logger.BackupUpdaterLog();
+            Logger.CloseUpdaterLog();
             
             Logger.UpdaterLog($"Catalog Updater started. { ModSettings.ModName } version { ModSettings.FullVersion }. " +
                 $"Game version { Toolkit.ConvertGameVersionToString(Toolkit.CurrentGameVersion()) }.");
@@ -179,7 +105,7 @@ namespace CompatibilityReport.Updater
                     
                     UpdateCompatibilityModNames(catalog);
 
-                    if (catalog.Version == 2 && catalog.Note == ModSettings.FirstCatalogNote)
+                    if (catalog.Version == 2 && catalog.Note.Value == ModSettings.FirstCatalogNote)
                     {
                         progressMonitor.PushMessage("Setting new empty Catalog note...");
                         SetNote(catalog, "");
@@ -205,7 +131,7 @@ namespace CompatibilityReport.Updater
             
             // Reload the catalog as a validity check of the newly created catalog. Also get the correct catalog version for the datadumper if no new catalog.
             Logger.Log("Reloading the catalog.");
-            catalog = Catalog.Load();
+            catalog = Catalog.Load(updaterRun: true);
 
             progressMonitor.UpdateStage(currentStep++, maxSteps);
             if (catalog == null)
@@ -245,14 +171,14 @@ namespace CompatibilityReport.Updater
         {
             catalog.ChangeNotes.ConvertUpdated(catalog);
 
-            string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog_v{ catalog.VersionString() }");
+            string partialPath = Path.Combine(ModSettings.UpdaterPath, $"{ ModSettings.InternalName }_Catalog");
 
-            if (catalog.Save($"{ partialPath }.xml"))
+            if (catalog.Save($"{ partialPath }.xml", createBackup: true))
             {
                 Logger.UpdaterLog($"New catalog { catalog.VersionString() } created and change notes saved.");
 
-                Toolkit.SaveToFile(catalog.ChangeNotes.Combined(catalog), $"{ partialPath }_ChangeNotes.txt");
-                Toolkit.MoveFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), $"{ partialPath }_Imports.csv.txt");
+                Toolkit.SaveToFile(catalog.ChangeNotes.Combined(catalog), $"{ partialPath }_ChangeNotes.txt", createBackup: true);
+                Toolkit.MoveFile(Path.Combine(ModSettings.WorkPath, ModSettings.TempCsvCombinedFileName), $"{ partialPath }_Imports.csv.txt", createBackup: true);
                 Toolkit.CopyFile(Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName), $"{ partialPath }_Updater.log");
                 return true;
             }
@@ -277,7 +203,7 @@ namespace CompatibilityReport.Updater
         public static void SetNote(Catalog catalog, string newCatalogNote)
         {
             catalog.ChangeNotes.AppendCatalogChange($"Catalog note { Toolkit.GetChange(catalog.Note, newCatalogNote) }.");
-            catalog.Update(note: newCatalogNote);
+            catalog.Update(note: new TextElement(){Value = newCatalogNote});
         }
 
 
@@ -337,8 +263,8 @@ namespace CompatibilityReport.Updater
                                      ulong authorID = 0,
                                      string authorUrl = null,
                                      Enums.Stability stability = default,
-                                     string stabilityNote = null,
-                                     string note = null,
+                                     ElementWithId stabilityNote = null,
+                                     ElementWithId note = null,
                                      string gameVersionString = null,
                                      string sourceUrl = null,
                                      bool updatedByImporter = false)
@@ -463,13 +389,13 @@ namespace CompatibilityReport.Updater
 
         /// <summary>Adds a compatibility to the catalog.</summary>
         /// <remarks>Creates an entry for the change notes.</remarks>
-        public static void AddCompatibility(Catalog catalog, ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, string note)
+        public static void AddCompatibility(Catalog catalog, ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, ElementWithId note)
         {
             catalog.AddCompatibility(firstModID, secondModID, status, note);
 
             catalog.ChangeNotes.AppendNewCompatibility($"Added compatibility between { Toolkit.CutOff(catalog.GetMod(firstModID).ToString(), 45), -45 } and " +
                 $"{ Toolkit.CutOff(catalog.GetMod(secondModID).ToString(), 45), -45 }: { status }" +
-                (string.IsNullOrEmpty(note) ? "" : $", { Toolkit.CutOff(note, ModSettings.TextReportWidth) }"));
+                (string.IsNullOrEmpty(note.Value) ? "" : $", { Toolkit.CutOff(note.Value, ModSettings.TextReportWidth) }"));
         }
 
 
@@ -486,7 +412,7 @@ namespace CompatibilityReport.Updater
             catalog.ChangeNotes.AppendRemovedCompatibility("Removed compatibility between " +
                 $"{ Toolkit.CutOff(catalog.GetMod(oldCompatibility.FirstModID).ToString(), 45), -45 } and " +
                 $"{ Toolkit.CutOff(catalog.GetMod(oldCompatibility.SecondModID).ToString(), 45), -45 }: { oldCompatibility.Status }" +
-                (string.IsNullOrEmpty(oldCompatibility.Note) ? "" : $", { oldCompatibility.Note }"));
+                (oldCompatibility.Note == null || string.IsNullOrEmpty(oldCompatibility.Note.Value) ? "" : $", { oldCompatibility.Note.Value }"));
 
             return true;
         }
@@ -584,65 +510,7 @@ namespace CompatibilityReport.Updater
                 Logger.UpdaterLog($"Found two authors with the name \"{ newName }\": { authors }. This could be a coincidence or an error.", Logger.Warning);
             }
         }
-
-
-        /// <summary>Retires authors eligible due to last seen date, and authors without mods in the Steam Workshop. Un-retires others.</summary>
-        /// <remarks>Resets exclusion when no longer needed. This creates change notes entries for authors that no longer have mods in the Steam Workshop.</remarks>
-        [Obsolete("Replaced to support reporting progress to UI")]
-        private static void UpdateAuthorRetirement(Catalog catalog)
-        {
-            List<ulong> IDsOfAuthorsWithMods = new List<ulong>();
-            List<string> UrlsOfAuthorsWithMods = new List<string>();
-
-            foreach (Mod catalogMod in catalog.Mods)
-            {
-                if (!catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
-                {
-                    if (catalogMod.AuthorID != 0 && !IDsOfAuthorsWithMods.Contains(catalogMod.AuthorID))
-                    {
-                        IDsOfAuthorsWithMods.Add(catalogMod.AuthorID);
-                    }
-                    else if (!string.IsNullOrEmpty(catalogMod.AuthorUrl) && !UrlsOfAuthorsWithMods.Contains(catalogMod.AuthorUrl))
-                    {
-                        UrlsOfAuthorsWithMods.Add(catalogMod.AuthorUrl);
-                    }
-                }
-            }
-
-            UpdaterConfig updaterConfig = GlobalConfig.Instance.UpdaterConfig;
-            foreach (Author catalogAuthor in catalog.Authors)
-            {
-                bool oldEnoughForRetirement = catalogAuthor.LastSeen.AddDays(updaterConfig.DaysOfInactivityToRetireAuthor) < DateTime.Today;
-                bool authorWithoutMods = !IDsOfAuthorsWithMods.Contains(catalogAuthor.SteamID) && !UrlsOfAuthorsWithMods.Contains(catalogAuthor.CustomUrl);
-
-                if (authorWithoutMods)
-                {
-                    if (!catalogAuthor.Retired)
-                    {
-                        UpdateAuthor(catalog, catalogAuthor, retired: true);
-                        catalog.ChangeNotes.AddUpdatedAuthor(catalogAuthor, "no longer has mods on the Steam Workshop");
-                    }
-                    catalogAuthor.Update(exclusionForRetired: false);
-                }
-                else if (oldEnoughForRetirement)
-                {
-                    if (!catalogAuthor.Retired)
-                    {
-                        UpdateAuthor(catalog, catalogAuthor, retired: true);
-                    }
-                    catalogAuthor.Update(exclusionForRetired: false);
-                }
-                else if (!oldEnoughForRetirement && catalogAuthor.Retired && !catalogAuthor.ExclusionForRetired)
-                {
-                    UpdateAuthor(catalog, catalogAuthor, retired: false);
-                }
-                else if (!oldEnoughForRetirement && !catalogAuthor.Retired)
-                {
-                    catalogAuthor.Update(exclusionForRetired: false);
-                }
-            }
-        }
-
+        
 
         /// <summary>Retires authors eligible due to last seen date, and authors without mods in the Steam Workshop. Un-retires others.</summary>
         /// <remarks>Resets exclusion when no longer needed. This creates change notes entries for authors that no longer have mods in the Steam Workshop.</remarks>

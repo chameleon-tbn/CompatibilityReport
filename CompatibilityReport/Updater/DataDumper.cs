@@ -13,7 +13,7 @@ namespace CompatibilityReport.Updater
     {
         /// <summary>Dumps specific catalog data to a text file to help with creating CSV files for the FileImporter.</summary>
         /// <remarks>It's very inefficient with all the duplicate foreach loops, but it doesn't run for regular users and I like to keeps the code simple.</remarks>
-        public static void Start(Catalog catalog)
+        public static void Start(Catalog catalog, bool isUpdater = true)
         {
             StringBuilder DataDump = new StringBuilder(512);
 
@@ -75,7 +75,14 @@ namespace CompatibilityReport.Updater
             DumpAuthorsWithoutID(catalog, DataDump);
 
             Toolkit.SaveToFile(DataDump.ToString(), Path.Combine(ModSettings.UpdaterPath, ModSettings.DataDumpFileName), createBackup: true);
-            Logger.UpdaterLog($"Datadump created as { ModSettings.DataDumpFileName }.");
+            if (isUpdater)
+            {
+                Logger.UpdaterLog($"Datadump created as { ModSettings.DataDumpFileName }.");
+            }
+            else
+            {
+                Logger.Log($"Datadump created as { ModSettings.DataDumpFileName }.");
+            }
         }
 
 
@@ -384,9 +391,9 @@ namespace CompatibilityReport.Updater
                     DataDump.AppendLine($"{ catalogMod.Name } - { WorkshopUrl(catalogMod.SteamID) }");
 
                     DataDump.AppendLine($"Stability      : { catalogMod.Stability }");
-                    if (!string.IsNullOrEmpty(catalogMod.StabilityNote))
+                    if (catalogMod.StabilityNote != null && !string.IsNullOrEmpty(catalogMod.StabilityNote.Value))
                     {
-                        DataDump.AppendLine($"Stability note : { catalogMod.StabilityNote.Replace("\n", "\n                 ") }");
+                        DataDump.AppendLine($"Stability note : { catalogMod.StabilityNote.Value.Replace("\n", "\n                 ") }");
                     }
 
                     if (catalogMod.Statuses.Any())
@@ -399,9 +406,9 @@ namespace CompatibilityReport.Updater
                         DataDump.AppendLine($"Statuses       : { statuses }");
                     }
 
-                    if (!string.IsNullOrEmpty(catalogMod.Note))
+                    if (catalogMod.Note != null && !string.IsNullOrEmpty(catalogMod.Note.Value))
                     {
-                        DataDump.AppendLine($"Generic Note   : { catalogMod.Note.Replace("\n", "\n                 ") }");
+                        DataDump.AppendLine($"Generic Note   : { catalogMod.Note.Value.Replace("\n", "\n                 ") }");
                     }
 
                     if (catalogMod.Successors.Any())
@@ -435,7 +442,7 @@ namespace CompatibilityReport.Updater
                         if (compatibility.FirstModID == catalogMod.SteamID && compatibility.SecondModID != 1372431101 && compatibility.SecondModID != 1386697922)
                         {
                             compatibilities += $"  * { compatibility.SecondModName } [{ compatibility.SecondModID }]: { compatibility.Status }\n";
-                            if (!string.IsNullOrEmpty(compatibility.Note)) 
+                            if (compatibility.Note != null && !string.IsNullOrEmpty(compatibility.Note.Value)) 
                             {
                                 compatibilities += $"    Note: { compatibility.Note }\n";
                             }
@@ -443,7 +450,7 @@ namespace CompatibilityReport.Updater
                         else if (compatibility.SecondModID == catalogMod.SteamID && compatibility.FirstModID != 1372431101 && compatibility.FirstModID != 1386697922)
                         {
                             compatibilities += $"  * { compatibility.FirstModName } [{ compatibility.FirstModID }]: { compatibility.Status }\n";
-                            if (!string.IsNullOrEmpty(compatibility.Note))
+                            if (compatibility.Note != null && !string.IsNullOrEmpty(compatibility.Note.Value))
                             {
                                 compatibilities += $"    Note: { compatibility.Note }\n";
                             }

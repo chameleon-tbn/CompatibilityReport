@@ -82,6 +82,14 @@ namespace CompatibilityReport.Util
             updaterLog?.Dispose();
             updaterLog = null;
         }
+
+        public static void BackupUpdaterLog() {
+            if (updaterLog != null)
+            {
+                string fullPath = Path.Combine(ModSettings.UpdaterPath, ModSettings.UpdaterLogFileName);
+                Toolkit.CopyFile(fullPath, $"{fullPath}.old");
+            }
+        }
         
         /// <summary>Closes the debug log.</summary>
         public static void CloseDebugLog()
@@ -200,7 +208,7 @@ namespace CompatibilityReport.Util
                     GameLog($"{ logLevelPrefix }{ message }");
                 }
 
-                if (GlobalConfig.Instance.AdvancedConfig.DebugMode)
+                if (GlobalConfig.Instance != null && GlobalConfig.Instance.AdvancedConfig.DebugMode)
                 {
                     string lowerCaseMessage = message.ToLower();
                     if (lowerCaseMessage.Contains("\\appdata\\local") || lowerCaseMessage.Contains("c:\\users\\") || lowerCaseMessage.Contains("/users/"))

@@ -27,7 +27,8 @@ namespace CompatibilityReport.CatalogData
         [XmlElement("GameVersion")] public string GameVersionString { get; private set; } = Toolkit.UnknownVersion().ToString();
 
         // A note about the catalog, displayed in the report, and the header and footer text for the report.
-        public string Note { get; private set; }
+        [XmlElement("Note")]
+        public TextElement Note { get; private set; }
         public string ReportHeaderText { get; private set; }
         public string ReportFooterText { get; private set; }
 
@@ -90,7 +91,14 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>The catalog structure version will also be increased if the current structure version from the mod is higher.</remarks>
         public void NewVersion(DateTime newDate)
         {
-            Version++;
+            if (Version > 99)
+            {
+                Version = 1;
+            }
+            else
+            {
+                Version++;
+            }
             StructureVersion = StructureVersion < ModSettings.CurrentCatalogStructureVersion ? ModSettings.CurrentCatalogStructureVersion : StructureVersion;
             Updated = Toolkit.CleanDateTime(newDate);
         }
@@ -105,7 +113,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Updates one or more catalog properties.</summary>
-        public void Update(Version gameVersion = null, string note = null, string reportHeaderText = null, string reportFooterText = null)
+        public void Update(Version gameVersion = null, TextElement note = null, string reportHeaderText = null, string reportFooterText = null)
         {
             GameVersionString = (gameVersion == null) ? GameVersionString : gameVersion.ToString();
 
@@ -211,7 +219,7 @@ namespace CompatibilityReport.CatalogData
 
 
         /// <summary>Adds a compatibility to the catalog.</summary>
-        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, string note)
+        public void AddCompatibility(ulong firstModID, ulong secondModID, Enums.CompatibilityStatus status, ElementWithId note)
         {
             Compatibilities.Add(new Compatibility(firstModID, GetMod(firstModID).Name, secondModID, GetMod(secondModID).Name, status, note));
         }
@@ -453,7 +461,7 @@ namespace CompatibilityReport.CatalogData
                     string inGameName = Toolkit.GetPluginName(plugin);
                     if (inGameName != subscribedMod.Name)
                     {
-                        subscribedMod.Update(note: $"{ (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is { inGameName }");
+                        subscribedMod.Update(note: new ElementWithId() {Value =$"{ (string.IsNullOrEmpty(subscribedMod.Note.Value) ? "" : $"{ subscribedMod.Note }\n") }The in-game name is { inGameName }"});
                     }
                 }
 
@@ -490,8 +498,8 @@ namespace CompatibilityReport.CatalogData
                         {
                             Logger.Log($"Fake subscription added for testing: { subscribedMod.ToString() }");
 
-                            subscribedMod.Update(note: (string.IsNullOrEmpty(subscribedMod.Note) ? "" : $"{ subscribedMod.Note }\n") +
-                                "This is a fake subscription for testing purposes. This is not really subscribed.");
+                            subscribedMod.Update(note: new ElementWithId() {Value = (string.IsNullOrEmpty(subscribedMod.Note.Value) ? "" : $"{ subscribedMod.Note }\n") +
+                                "This is a fake subscription for testing purposes. This is not really subscribed."});
 
                             AddSubscription(subscribedMod);
                             FakeSubscriptionCount++;
@@ -592,10 +600,15 @@ namespace CompatibilityReport.CatalogData
         /// <summary>Saves the catalog to disk, both in plain text and gzipped.</summary>
         /// <remarks>The fullPath parameter should not contain the GZip extension.</remarks>
         /// <returns>True if saved succesfully, false otherwise.</returns>
-        public bool Save(string fullPath)
+        public bool Save(string fullPath, bool createBackup = false, bool skipCompressed = false)
         {
             try
             {
+                if (createBackup)
+                {
+                    Toolkit.CopyFile(fullPath, $"{ fullPath }.old");
+                }
+                
                 // Catalog as plain text XML file.
                 XmlSerializer serializer = new XmlSerializer(typeof(Catalog));
 
@@ -606,18 +619,30 @@ namespace CompatibilityReport.CatalogData
 
                 Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".");
 
-                // Catalog as gzipped XML file.
-                fullPath = $"{ fullPath }.gz";
-
-                using (FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
-                using (GZipStream gzip = new GZipStream(file, CompressionMode.Compress))
-                using (TextWriter writer = new StreamWriter(gzip))
+                if (!skipCompressed)
                 {
-                    serializer.Serialize(writer, this);
+                    // Catalog as gzipped XML file.
+                    fullPath = $"{fullPath}.gz";
+                    
+                    if (createBackup)
+                    {
+                        Toolkit.CopyFile(fullPath, $"{ fullPath }.old");
+                    }
+                    
+                    using (FileStream file = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                    using (GZipStream gzip = new GZipStream(file, CompressionMode.Compress))
+                    using (TextWriter writer = new StreamWriter(gzip))
+                    {
+                        serializer.Serialize(writer, this);
+                    }
+
+                    Logger.Log($"Created catalog {VersionString()} at \"{Toolkit.Privacy(fullPath)}\".");
                 }
-
-                Logger.Log($"Created catalog { VersionString() } at \"{Toolkit.Privacy(fullPath)}\".");
-
+                else
+                {
+                    Logger.Log("Skipped creation of compressed version of the catalog");
+                }
+                
                 return true;
             }
             catch (Exception ex)
@@ -650,9 +675,9 @@ namespace CompatibilityReport.CatalogData
                         loadedCatalog = (Catalog)serializer.Deserialize(reader);
                     }
                 }
-                catch (IOException)
+                catch (IOException e)
                 {
-                    Logger.Log($"Catalog is not a valid GZip file, will attempt to read as plain text: \"{ Toolkit.Privacy(fullPath) }\"", Logger.Debug);
+                    Logger.Log($"Catalog is not a valid GZip file, will attempt to read as plain text: \"{ Toolkit.Privacy(fullPath) }\" \n{e}", Logger.Debug);
 
                     using (TextReader reader = new StreamReader(fullPath))
                     {
@@ -668,20 +693,20 @@ namespace CompatibilityReport.CatalogData
                 }
                 else
                 {
-                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                    Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 }
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
             catch (XmlException ex)
             {
-                Logger.Log($"XML error while reading the catalog. Catalog could not be loaded: \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                Logger.Log($"XML error while reading the catalog. Catalog could not be loaded: \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
             catch (Exception ex)
             {
-                Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".", Logger.Debug);
+                Logger.Log($"Can't load catalog \"{ Toolkit.Privacy(fullPath) }\".\n{ex}", Logger.Debug);
                 Logger.Exception(ex, Logger.Debug);
                 return null;
             }
@@ -706,16 +731,34 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the catalog with the highest version, or null if none could be loaded.</returns>
         public static Catalog Load(bool force = false, bool updaterRun = false)
         {
+#if CATALOG_DOWNLOAD
             // Downloaded catalog is always newer than, or same as, the previously downloaded and bundled catalogs, so no need to load those after succesful download.
             Catalog downloadedCatalog = Download(force);
             Catalog previouslyDownloadedCatalog = downloadedCatalog == null ? LoadPreviouslyDownloaded() : null;
+#else
+            Catalog downloadedCatalog = null;
+            Catalog previouslyDownloadedCatalog = null;
+#endif
             Catalog bundledCatalog = downloadedCatalog == null ? LoadBundled() : null;
             Catalog newestCatalog;
             if (updaterRun)
             {
                 Catalog webCrawlerCatalog = LoadWebCrawlerCatalog();
                 Catalog updaterCatalog = LoadUpdaterCatalog();
-                newestCatalog = Newest(Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(bundledCatalog, updaterCatalog)), webCrawlerCatalog);
+                if (webCrawlerCatalog == null)
+                {
+                    
+                    newestCatalog = Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(updaterCatalog, bundledCatalog));
+                } 
+                else if (updaterCatalog == null)
+                {
+                    
+                    newestCatalog = Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(webCrawlerCatalog, bundledCatalog));
+                }
+                else
+                {
+                    newestCatalog = Newest(Newest(Newest(downloadedCatalog, previouslyDownloadedCatalog), Newest(updaterCatalog, webCrawlerCatalog)), bundledCatalog);
+                }
             }
             else
             {
@@ -738,8 +781,8 @@ namespace CompatibilityReport.CatalogData
 
             return newestCatalog;
         }
-
-
+        
+#if CATALOG_DOWNLOAD
         /// <summary>Downloads a new catalog and loads it into memory.</summary>
         /// <remarks>A download will only be started once per session. On download errors, the download will be retried immediately a few times.</remarks>
         /// <returns>A reference to the catalog, or null if the download failed.</returns>
@@ -812,7 +855,7 @@ namespace CompatibilityReport.CatalogData
 
             return downloadedCatalog;
         }
-
+#endif
 
         /// <summary>Loads the previously downloaded catalog.</summary>
         /// <returns>A reference to the catalog, or null if loading failed.</returns>
@@ -980,7 +1023,7 @@ namespace CompatibilityReport.CatalogData
         /// <returns>A reference to the catalog with the highest version, or null if both catalogs are null.</returns>
         private static Catalog Newest(Catalog catalog1, Catalog catalog2)
         {
-            return (catalog1 == null || catalog2 == null) ? catalog1 ?? catalog2 : (catalog1.Version >= catalog2.Version) ? catalog1 : catalog2;
+            return (catalog1 == null || catalog2 == null) ? catalog1 ?? catalog2 : (new Version(catalog1.StructureVersion, catalog1.Version) >= new Version(catalog2.StructureVersion, catalog2.Version)) ? catalog1 : catalog2;
         }
 
 

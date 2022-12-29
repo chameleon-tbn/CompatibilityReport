@@ -11,6 +11,7 @@ namespace CompatibilityReport.Settings
     {
         private const string SettingsFileName = ModSettings.InternalName + "_Settings.xml";
         private static string SettingsPath { get; } = DataLocation.applicationBase;
+        internal const int CONFIG_VERSION = 1;
         public static GlobalConfig Instance { get; private set; }
 
         public GeneralConfig GeneralConfig = new GeneralConfig();
@@ -24,6 +25,7 @@ namespace CompatibilityReport.Settings
         
         internal static void Ensure()
         {
+            Validate();
         }
 
         internal static void WriteConfig()
@@ -78,6 +80,29 @@ namespace CompatibilityReport.Settings
                 GlobalConfig config = new GlobalConfig();
                 WriteConfig(config);
                 return config;
+            }
+        }
+
+        private static void Validate() {
+#if DEBUG
+         Logger.Log("Validating global config...");   
+#endif
+            GlobalConfig conf = Instance;
+            bool requireUpdate = false;
+            if (conf.GeneralConfig.Version < CONFIG_VERSION)
+            {
+                conf.GeneralConfig.Version = CONFIG_VERSION;
+                conf.GeneralConfig.ReportType = 0;
+                conf.GeneralConfig.TextReport = false;
+                conf.GeneralConfig.HtmlReport = true;
+                requireUpdate = true;
+            }
+#if DEBUG
+            Logger.Log($"Global config validated successfully. Require update? {requireUpdate}");   
+#endif
+            if (requireUpdate)
+            {
+                WriteConfig();
             }
         }
 

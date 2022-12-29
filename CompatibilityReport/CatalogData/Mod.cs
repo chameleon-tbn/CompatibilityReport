@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using CompatibilityReport.Reporter.HtmlTemplates;
 using CompatibilityReport.Util;
 
 namespace CompatibilityReport.CatalogData
@@ -18,11 +19,13 @@ namespace CompatibilityReport.CatalogData
         public string AuthorUrl { get; private set; } = "";
 
         public Enums.Stability Stability { get; private set; } = Enums.Stability.NotReviewed;
-        public string StabilityNote { get; private set; }
+        [XmlElement("StabilityNote")]
+        public ElementWithId StabilityNote { get; private set; }
 
         public List<Enums.Status> Statuses { get; private set; } = new List<Enums.Status>();
         public bool ExclusionForNoDescription { get; private set; }
-        public string Note { get; private set; }
+        [XmlElement("Note")]
+        public ElementWithId Note { get; private set; }
 
         // Game version this mod is compatible with. 'Version' is not serializable, so a converted string is used.
         [XmlElement("GameVersion")] public string GameVersionString { get; private set; }
@@ -89,8 +92,8 @@ namespace CompatibilityReport.CatalogData
                            ulong authorID = 0,
                            string authorUrl = null,
                            Enums.Stability stability = default,
-                           string stabilityNote = null,
-                           string note = null,
+                           ElementWithId stabilityNote = null,
+                           ElementWithId note = null,
                            string gameVersionString = null,
                            string sourceUrl = null,
                            DateTime reviewDate = default,
@@ -107,9 +110,9 @@ namespace CompatibilityReport.CatalogData
             AuthorUrl = authorUrl ?? AuthorUrl ?? "";
 
             Stability = stability == default ? Stability : stability;
-            StabilityNote = stabilityNote ?? StabilityNote ?? "";
+            StabilityNote = stabilityNote ?? StabilityNote ?? new ElementWithId();
 
-            Note = note ?? Note ?? "";
+            Note = note ?? Note ?? new ElementWithId();
             GameVersionString = gameVersionString ?? GameVersionString ?? Toolkit.UnknownVersion().ToString();
             SourceUrl = sourceUrl ?? SourceUrl ?? "";
 
@@ -300,24 +303,33 @@ namespace CompatibilityReport.CatalogData
         /// <remarks>A '[Disabled]' prefix will be included for disabled subscriptions. Optionally hides fake Steam IDs, puts the name before the ID, 
         ///          or cuts off the string at report width.</remarks>
         /// <returns>A string representing the mod.</returns>
-        public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false)
+        public string ToString(bool hideFakeID = false, bool nameFirst = false, bool cutOff = false, bool html = false)
         {
-            string disabledPrefix = IsDisabled ? "[Disabled] " : "";
+            string disabledPrefix = IsDisabled ? "[Disabled] " : string.Empty;
 
-            string idString = IdString(hideFakeID);
+            string idString = IdString(hideFakeID, html);
 
-            string name = !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
+            string name = html ? this.NameWithIDAsLink() : !cutOff ? Name : Toolkit.CutOff(Name, ModSettings.TextReportWidth - idString.Length - 1 - disabledPrefix.Length);
 
-            return nameFirst ? $"{ disabledPrefix }{ name } { idString }" : $"{ disabledPrefix }{ idString } { name }";
+            return nameFirst 
+                ? $"{DisabledPrefix(html)}{ name } { idString }" 
+                : $"{DisabledPrefix(html)}{ idString } { name }";
         }
 
-        public string IdString(bool hideFakeID = false)
+        public string DisabledPrefix(bool html = false) {
+            string disabledPrefix = IsDisabled ? "[Disabled] " : string.Empty;
+            return !html || string.IsNullOrEmpty(disabledPrefix)
+                ? disabledPrefix
+                : $"<span data-i18n=\"HRT_P_D\" class=\"disabled minor f-small\">{ disabledPrefix }</span>";
+        }
+
+        public string IdString(bool hideFakeID = false, bool html = false)
         {
             return (SteamID > ModSettings.HighestFakeID) 
                 ? $"[Steam ID { SteamID, 10 }]"
                 : ModSettings.BuiltinMods.ContainsValue(SteamID)
-                    ? $"[built-in mod{ (hideFakeID ? "" : $" { SteamID }") }]"
-                    : $"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
+                    ? html ? $"[{"span".Tag("built-in", localeId: "HRTC_LLMID_BI")} mod{ (hideFakeID ? "" : $" { SteamID }") }]" : $"[built-in mod{ (hideFakeID ? "" : $" { SteamID }") }]"
+                    : html ? $"[{"span".Tag("local", localeId: "HRTC_LLMID_L")} mod{ (hideFakeID ? "" : $" { SteamID }") }]" :$"[local mod{ (hideFakeID ? "" : $" { SteamID }") }]";
         }
     }
 }

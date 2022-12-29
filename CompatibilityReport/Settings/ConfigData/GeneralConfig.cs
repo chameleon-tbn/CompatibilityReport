@@ -1,4 +1,5 @@
 ﻿using System;
+using CompatibilityReport.Translations;
 
 namespace CompatibilityReport.Settings.ConfigData
 {
@@ -6,7 +7,12 @@ namespace CompatibilityReport.Settings.ConfigData
     public class GeneralConfig
     {
         private const int MinimalTextReportWidth = 90;
+        internal const string GAME_DEFAULT_LANG = "game_language";
         internal static string DefaultReportPath { get; } = UnityEngine.Application.dataPath;
+
+        public string Language { get; set; } = GAME_DEFAULT_LANG; //game default language
+
+        public int Version { get; set; }
  
         /// <summary>
         /// Configurable path where html and text reports will be stored
@@ -46,8 +52,10 @@ namespace CompatibilityReport.Settings.ConfigData
             switch (frequency)
             {
                 case 0:
-                    return "Once a week";
+                    return "Once a day";
                 case 1:
+                    return "Once a week";
+                case 2:
                     return "Never (on-demand only)";
                 default:
                     return $"Not supported: {frequency}";

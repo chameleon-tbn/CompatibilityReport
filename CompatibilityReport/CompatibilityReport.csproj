@@ -35,48 +35,64 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'With catalog download|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;CATALOG_DOWNLOAD</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\With catalog download\</OutputPath>
+  </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>C:\Games\Steam Games\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="ColossalManaged">
-      <HintPath>C:\Games\Steam Games\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
     </Reference>
     <Reference Include="ICities">
-      <HintPath>C:\Games\Steam Games\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\Dependencies\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>C:\Games\Steam Games\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:\Games\Steam Games\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CatalogData\Catalog.cs" />
     <Compile Include="CatalogData\Author.cs" />
     <Compile Include="CatalogData\Compatibility.cs" />
+    <Compile Include="CatalogData\ElementWithId.cs" />
     <Compile Include="CatalogData\Group.cs" />
+    <Compile Include="CatalogData\LocalizedNote.cs" />
     <Compile Include="CatalogData\Mod.cs" />
+    <Compile Include="CatalogData\TextElement.cs" />
     <Compile Include="Reporter\HtmlReport.cs" />
     <Compile Include="Reporter\HtmlTemplates\HtmlExtensions.cs" />
-    <Compile Include="Reporter\HtmlTemplates\HtmlReportTemplateCode.cs" />
     <Compile Include="Reporter\HtmlTemplates\HtmlReportTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HtmlReportTemplate.tt</DependentUpon>
     </Compile>
+    <Compile Include="Reporter\HtmlTemplates\HtmlReportTemplateCode.cs" />
     <Compile Include="Reporter\Report.cs" />
     <Compile Include="Reporter\TextReport.cs" />
     <Compile Include="Settings\ConfigData\AdvancedConfig.cs" />
@@ -84,9 +100,12 @@
     <Compile Include="Settings\ConfigData\UpdaterConfig.cs" />
     <Compile Include="Settings\GlobalConfig.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
+    <Compile Include="Translations\Translation.cs" />
+    <Compile Include="Translations\Translator.cs" />
     <Compile Include="UI\ProgressMonitor.cs" />
     <Compile Include="UI\ProgressMonitorUI.cs" />
     <Compile Include="UI\SettingsUI.cs" />
+    <Compile Include="UI\UploadCatalogUI.cs" />
     <Compile Include="Updater\ChangeNotes.cs" />
     <Compile Include="Updater\OneTimeAction.cs" />
     <Compile Include="Updater\WebCrawler.cs" />
@@ -94,7 +113,9 @@
     <Compile Include="Updater\FirstCatalog.cs" />
     <Compile Include="Updater\DataDumper.cs" />
     <Compile Include="Updater\FileImporter.cs" />
+    <Compile Include="Util\CollectionExtensions.cs" />
     <Compile Include="Util\GameObjectObserver.cs" />
+    <Compile Include="Util\LogsCollector.cs" />
     <Compile Include="Util\ModSettings.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="CompatibilityReport.cs" />
@@ -115,7 +136,7 @@
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
       <!-- if Release target: copy to workshop directory -->
-      xcopy /y "$(TargetPath)" "C:\Games\Steam Games\steamapps\workshop\content\255710\2633433869\"
+      xcopy /y "$(TargetPath)" "C:\Games\Steam Games\steamapps\workshop\content\255710\2881031511\"
     </PostBuildEvent>
     <PostBuildEvent Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
       <!-- if Debug target: copy to workshop directory -->
