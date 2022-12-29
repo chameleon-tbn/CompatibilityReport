@@ -120,11 +120,11 @@
             Content_Creator_Pack__Seaside_Resorts = 1992291,
             Shoreline_Radio = 1992292,
             Paradise_Radio = 1992293,
-            Plazas_&_Promenades = 2008400,
+            Plazas_and_Promenades = 2008400,
             Content_Creator_Pack__Heart_of_Korea = 2144480,
             Content_Creator_Pack__Skyscrapers = 2144481,
             Kpop_Station = 2144482,
-            80s_Downtown_Beat = 2144483,
+            Eighties_Downtown_Beat = 2144483,
             Financial_Districts = 2148901,
             Content_Creator_Pack__Map_Pack_2 = 2148903,
             African_Vibes = 2148904
