@@ -1,426 +1,426 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
-LANGUAGE,English,English,"LANGUAGE
+LANGUAGE,English,"Português (Brasil)","LANGUAGE
 Language to be translated into",,
-CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
+CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} Criado em {Updated}, baixado em {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
-CAT_S_SUIT,"unknown, catalog not loaded yet.","unknown, catalog not loaded yet.","CAT_S_SUIT
+CAT_S_SUIT,"unknown, catalog not loaded yet.","Desconhecido, catálogo ainda não carregado.","CAT_S_SUIT
 Catalog.cs string SettingsUIText",,
-HE_NAWIDAL_S,by,by,"HE_NAWIDAL_S
+HE_NAWIDAL_S,by,por,"HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string",,
-HRT_DCV_H,WARNING:,WARNING:,"HRT_DCV_H
+HRT_DCV_H,WARNING:,ATENÇÃO:,"HRT_DCV_H
 HtmlReportTemplate.tt Different Catalog version Header",,
-HRT_DCV_RNA,"Results might not be accurate.","Results might not be accurate.","HRT_DCV_RNA
+HRT_DCV_RNA,"Results might not be accurate.","Os resultados podem não ser precisos.","HRT_DCV_RNA
 HtmlReportTemplate.tt Different Catalog version Resultsnotaccurate",,
-HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","The catalog is made for game version {CatalogGameVersion}.","HRT_DCV_T
+HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","O catálogo foi feito para a versão {CatalogGameVersion} do jogo.","HRT_DCV_T
 HtmlReportTemplate.tt Different Catalog version Text",,
-HRT_DCV_YGIN,"Your game is newer.","Your game is newer.","HRT_DCV_YGIN
+HRT_DCV_YGIN,"Your game is newer.","O seu jogo é o mais recente.","HRT_DCV_YGIN
 HtmlReportTemplate.tt Different Catalog version Your game is newer",,
-HRT_DCV_YGIO,"Your game is older.","Your game is older.","HRT_DCV_YGIO
+HRT_DCV_YGIO,"Your game is older.","O seu jogo é antigo.","HRT_DCV_YGIO
 HtmlReportTemplate.tt Different Catalog version Your game is older",,
-HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","The report includes {LocalSubscriptionCount} fake subscriptions.","HRT_FS_P
+HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","O relatório inclui {LocalSubscriptionCount} inscrições falsas.","HRT_FS_P
 HtmlReportTemplate.tt Fake subscription plural",,
-HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","The report includes {LocalSubscriptionCount} fake subscription.","HRT_FS_S
+HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","O relatório inclui {LocalSubscriptionCount} inscrição falsa.","HRT_FS_S
 HtmlReportTemplate.tt Fake subscription singular",,
-HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","Abandoned mods can still work fine. They're just unlikely to get updates.","HRT_GI_AM
+HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","MODs abandonadas ainda podem funcionar bem. É improvável que recebam atualizações.","HRT_GI_AM
 HtmlReportTemplate.tt General information Abandondedmod",,
-HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Always READ the mod description on the Steam Workshop before subscribing.","HRT_GI_AR
+HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Sempre LEIA a descrição dos MODs na Oficina antes de se inscrever.","HRT_GI_AR
 HtmlReportTemplate.tt General information Alwaysread",,
-HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","The list of {linkBrokenMods} can help you not to subscribe such at all.","HRT_GI_BML
+HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","A lista de {linkBrokenMods} pode ajudar você a não se inscrever nelas.","HRT_GI_BML
 HtmlReportTemplate.tt General information BrokenModList",,
-HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","HRT_GI_ETD
+HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Sempre SAIA PARA O DESKTOP e reinicie o jogo. Nunca saia para o menu principal!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","Encontrou um erro? Por favor, informe em {form}.","HRT_GI_M
 HtmlReportTemplate.tt General information Form",,
-HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Having issues with a mod? Make a comment on its Workshop page so the author knows.","HRT_GI_HI
+HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Tendo problemas com um MOD? Faça um comentário em sua página da oficina para que o autor saiba.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
-HRT_GI_H,"General information","General information","HRT_GI_H
+HRT_GI_H,"General information","Informações gerais","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","NEVER (un)subscribe to anything while the game is running! This resets some mods.","HRT_GI_NU
+HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","NUNCA (des.)inscreva-se em qualquer coisa enquanto o jogo está sendo executado! Isso redefine alguns MODs.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
-HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try to unsubscribe and resubscribe (while not in game).","HRT_GI_NW
+HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","MOD compatível, mas não está funcionando? Tente cancelar a inscrição e reinscreva-se(enquanto não estiver no jogo).","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking",,
-HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","The list of {linkRecommendedMods} helps to decide which mods to subscribe.","HRT_GI_RML
+HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","A lista de {linkRecommendedMods} ajuda a decidir quais MODs se inscrever.","HRT_GI_RML
 HtmlReportTemplate.tt General information RecommendedModList",,
-HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","When playing with mods, save to a new save game often and make frequent BACKUPS.","HRT_GI_WP
+HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","Ao jogar com MODs, salve num novo jogo frequentemente e faça BACKUPS.","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying",,
-HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","HRT_IO_SOW
+HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","AVISO: O último catálogo de revisão não pôde ser baixado. Os resultados podem estar desatualizados.","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning",,
-HRT_LIL_MAI,"Major Issues","Major Issues","HRT_LIL_MAI
+HRT_LIL_MAI,"Major Issues","Problemas grandes","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_LIL_MI,"Minor Issues","Minor Issues","HRT_LIL_MI
+HRT_LIL_MI,"Minor Issues","Problemas pequenos","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
-HRT_LIL_NTR,"Nothing to report","Nothing to report","HRT_LIL_NTR
+HRT_LIL_NTR,"Nothing to report","Nada a reportar","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
-HRT_LIL_R,Remarks,Remarks,"HRT_LIL_R
+HRT_LIL_R,Remarks,Observações,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
-HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","HRT_LSM_E
+HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","O relatório não procura por incompatibilidades com estas. Resultados podem não ser completamente precisos. Use MODs com assinatura da oficina Steam sempre que possível. MODs copiados para a pasta de MODs locais nem sempre funcionam e muitas vezes não podem ser detetados corretamente por outros MODs.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
-HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","You have {LocalSubscriptionCount} local mods, which we can't review.","HRT_LSM_P
+HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","Existem {LocalSubscriptionCount} MODs locais, que não podemos revisar.","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural",,
-HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","You have {LocalSubscriptionCount} local mod, which we can't review.","HRT_LSM_S
+HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","Existe {LocalSubscriptionCount} MOD local, que não podemos revisar.","HRT_LSM_S
 HtmlReportTemplate.tt Local subscription Mod singular",,
-HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","HRT_NRS_N
+HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} dos seus MODs ainda não foram revisados. Algumas incompatibilidades ou avisos podem faltar no relatório devido a isso.","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note",,
-HRT_P_D,Disabled,Disabled,"HRT_P_D
+HRT_P_D,Disabled,Desativado,"HRT_P_D
 HtmlReportTemplate.tt processed Disabled",,
-HRT_P_MN,"Mod Name","Mod Name","HRT_P_MN
+HRT_P_MN,"Mod Name","Nome do MOD","HRT_P_MN
 HtmlReportTemplate.tt processed Mod Name",,
-HRT_P_PM,"Processed mods","Processed mods","HRT_P_PM
+HRT_P_PM,"Processed mods","MODs carregados","HRT_P_PM
 HtmlReportTemplate.tt processed Processed mods",,
-HRT_P_T,Type,Type,"HRT_P_T
+HRT_P_T,Type,Tipo,"HRT_P_T
 HtmlReportTemplate.tt processed Type",,
-HRT_P_U,URL,URL,"HRT_P_U
+HRT_P_U,URL,Link,"HRT_P_U
 HtmlReportTemplate.tt processed Url",,
-HRT_RS_MAIP,"MODS HAVE MAJOR ISSUES:","MODS HAVE MAJOR ISSUES:","HRT_RS_MAIP
+HRT_RS_MAIP,"MODS HAVE MAJOR ISSUES:","MODS POSSUEM GRANDES PROBLEMAS:","HRT_RS_MAIP
 HtmlReportTemplate.tt RenderSection majorIssuesplural",,
-HRT_RS_MAIS,"MOD HAS MAJOR ISSUES:","MOD HAS MAJOR ISSUES:","HRT_RS_MAIS
+HRT_RS_MAIS,"MOD HAS MAJOR ISSUES:","MOD POSSUI GRANDE PROBLEMA:","HRT_RS_MAIS
 HtmlReportTemplate.tt RenderSection majorIssuessingular",,
-HRT_RS_MIP,"MODS HAVE MINOR ISSUES:","MODS HAVE MINOR ISSUES:","HRT_RS_MIP
+HRT_RS_MIP,"MODS HAVE MINOR ISSUES:","MODS POSSUEM PEQUENOS PROBLEMAS:","HRT_RS_MIP
 HtmlReportTemplate.tt RenderSection minorIssuesplural",,
-HRT_RS_MIS,"MOD HAS MINOR ISSUES:","MOD HAS MINOR ISSUES:","HRT_RS_MIS
+HRT_RS_MIS,"MOD HAS MINOR ISSUES:","MODS POSSUI PEQUENO PROBLEMA:","HRT_RS_MIS
 HtmlReportTemplate.tt RenderSection minorIssuessingular",,
-HRT_RS_NTRP,"MODS WITH NOTHING TO REPORT:","MODS WITH NOTHING TO REPORT:","HRT_RS_NTRP
+HRT_RS_NTRP,"MODS WITH NOTHING TO REPORT:","MODs sem nada para reportar:","HRT_RS_NTRP
 HtmlReportTemplate.tt RenderSection nothingToReportplural",,
-HRT_RS_NTRS,"MOD WITH NOTHING TO REPORT:","MOD WITH NOTHING TO REPORT:","HRT_RS_NTRS
+HRT_RS_NTRS,"MOD WITH NOTHING TO REPORT:","MOD sem nada para reportar:","HRT_RS_NTRS
 HtmlReportTemplate.tt RenderSection nothingToReportsingular",,
-HRT_RS_RP,"MODS WITH REMARKS:","MODS WITH REMARKS:","HRT_RS_RP
+HRT_RS_RP,"MODS WITH REMARKS:","MODS COM OBSERVAÇÕES:","HRT_RS_RP
 HtmlReportTemplate.tt RenderSection remarksplural",,
-HRT_RS_RS,"MOD WITH REMARK:","MOD WITH REMARK:","HRT_RS_RS
+HRT_RS_RS,"MOD WITH REMARK:","MOD COM OBSERVAÇÃO:","HRT_RS_RS
 HtmlReportTemplate.tt RenderSection remarkssingular",,
-HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:","MODS COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_UP
+HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:","MODS PODERIAM OU DEVERIAM SER CANCELADOS A INSCRIÇÃO:","HRT_RS_UP
 HtmlReportTemplate.tt RenderSection unsubscribeplural",,
-HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","MOD COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_US
+HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","MOD PODERIA OU DEVERIA SER CANCELADO A INSCRIÇÃO:","HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
-HRT_S_CRC,"{name}, created on {date+time}","{name}, created on {date+time}","HRT_S_CRC
+HRT_S_CRC,"{name}, created on {date+time}","{name}, criado em {date+time}","HRT_S_CRC
 HtmlReportTemplate.tt section CompatibilityReportCreated",,
-HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Mods updated after this date might have an outdated review below.","HRT_S_MUA
+HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Mods atualizados após esta data podem ter uma revisão desatualizada abaixo.","HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
-HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","HRT_S_TMCC
+HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","O catálogo contém {ReviewedModCount} mods revisados e foi criado em {Updated}.","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains",,
-HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Version {FullVersion} with catalog {VersionString}.","HRT_S_VWC
+HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Versão {FullVersion} com o catálogo {VersionString}.","HRT_S_VWC
 HtmlReportTemplate.tt section Versionwithcatalog",,
-HRT_S_YGM,"Your game has {SubscriptionCount} mods.","Your game has {SubscriptionCount} mods.","HRT_S_YGM
+HRT_S_YGM,"Your game has {SubscriptionCount} mods.","O seu jogo tem {SubscriptionCount} mods.","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods",,
-HRTC_A_SNU,"No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SNU
+HRTC_A_SNU,"No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","Nenhum código-fonte foi publicado, dificultando a continuação por outro modder. Sem o código-fonte também é mais difícil garantir que um mod não inclua código malicioso.","HRTC_A_SNU
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated",,
-HRTC_A_SURL,"Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SURL
+HRTC_A_SURL,"Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","O autor do Mod empacotou o código-fonte e não publicou o código, isso acaba dificultando o trabalho de outros produtores de Mod em mantê-lo atualizado, devido a isso, também é mais complicado garantir que não existam códigos maliciosos.","HRTC_A_SURL
 HtmlReportTemplateCode.cs abandoned SourceUrl",,
-HRTC_A_SM,"Some alternatives for this are (pick one, not all):","Some alternatives for this are (pick one, not all):","HRTC_A_SM
+HRTC_A_SM,"Some alternatives for this are (pick one, not all):","Algumas alternativas para isto são (escolha uma, não todas):","HRTC_A_SM
 HtmlReportTemplateCode.cs Alternatives subscribedMod",,
-HRTC_A_SMC,"An alternative you could use:","An alternative you could use:","HRTC_A_SMC
+HRTC_A_SMC,"An alternative you could use:","Uma alternativa que poderia usar:","HRTC_A_SMC
 HtmlReportTemplateCode.cs Alternatives subscribedModCount",,
-HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","If you use the asset editor and/or map editor, this may give serious issues.","HRTC_BE_R
+HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","Se você usar o editor de arquivos e/ou o editor de mapa, isso pode causar sérios problemas.","HRTC_BE_R
 HtmlReportTemplateCode.cs BreaksEditors Remarks",,
-HRTC_CRM_S,"Can't review local mods.","Can't review local mods.","HRTC_CRM_S
+HRTC_CRM_S,"Can't review local mods.","Não é possível revisar os mods locais.","HRTC_CRM_S
 HtmlReportTemplateCode.cs cannotReviewMessage string",,
-HRTC_CM_ID,Yes,Yes,"HRTC_CM_ID
+HRTC_CM_ID,Yes,Sim,"HRTC_CM_ID
 HtmlReportTemplateCode.cs catalogMod IsDisabled",,
-HRTC_IRS_CATA,"This is compatible with:","This is compatible with:","HRTC_IRS_CATA
+HRTC_IRS_CATA,"This is compatible with:","Isso é compatível com:","HRTC_IRS_CATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity CompatibleAccordingToAuthor",,
-HRTC_IRS_IATA,"Unsubscribe either this one or the following mod it's incompatible with:","Unsubscribe either this one or the following mod it's incompatible with:","HRTC_IRS_IATA
+HRTC_IRS_IATA,"Unsubscribe either this one or the following mod it's incompatible with:","Cancele inscrição neste ou no seguinte mod. É incompatível com:","HRTC_IRS_IATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToAuthor",,
-HRTC_IRS_IATU,"Users report an incompatibility with:","Users report an incompatibility with:","HRTC_IRS_IATU
+HRTC_IRS_IATU,"Users report an incompatibility with:","Os usuários relatam uma incompatibilidade com:","HRTC_IRS_IATU
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToUsers",,
-HRTC_IRS_MAI,"This has major issues with:","This has major issues with:","HRTC_IRS_MAI
+HRTC_IRS_MAI,"This has major issues with:","Isto tem grandes problemas com:","HRTC_IRS_MAI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MajorIssues and HtmlReportTemplate.tt LI_Link majorIssues)",,
-HRTC_IRS_MI,"This has minor issues with:","This has minor issues with:","HRTC_IRS_MI
+HRTC_IRS_MI,"This has minor issues with:","Isto tem pequenos problemas com:","HRTC_IRS_MI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MinorIssues",,
-HRTC_IRS_RSS,"This requires specific configuration to work together with:","This requires specific configuration to work together with:","HRTC_IRS_RSS
+HRTC_IRS_RSS,"This requires specific configuration to work together with:","Isto requer uma configuração específica para funcionar com:","HRTC_IRS_RSS
 HtmlReportTemplateCode.cs IncreaseReportSeverity RequiresSpecificSettings",,
-HRTC_IRS_SF,"Unsubscribe either this or the following incompatible mod with similar functionality:","Unsubscribe either this or the following incompatible mod with similar functionality:","HRTC_IRS_SF
+HRTC_IRS_SF,"Unsubscribe either this or the following incompatible mod with similar functionality:","Cancele a inscrição deste ou do seguinte mod incompatível com funcionalidade semelhante:","HRTC_IRS_SF
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionality",,
-HRTC_IRS_SFC,"This has very similar functionality, but is still compatible with (do you need both?):","This has very similar functionality, but is still compatible with (do you need both?):","HRTC_IRS_SFC
+HRTC_IRS_SFC,"This has very similar functionality, but is still compatible with (do you need both?):","Isso tem funções muito semelhantes, mas ainda é compatível com (você precisa de ambos?):","HRTC_IRS_SFC
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionalityCompatible",,
-HRTC_IRS_SMDRT,"Unsubscribe either this or the other edition of the same mod:","Unsubscribe either this or the other edition of the same mod:","HRTC_IRS_SMDRT
+HRTC_IRS_SMDRT,"Unsubscribe either this or the other edition of the same mod:","Cancele a inscrição desta ou da outra edição do mesmo mod:","HRTC_IRS_SMDRT
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameModDifferentReleaseType",,
-HRTC_I_B,"UNSUBSCRIBE! This mod is broken.","UNSUBSCRIBE! This mod is broken.","HRTC_I_B
+HRTC_I_B,"UNSUBSCRIBE! This mod is broken.","CANCELAR INSCRIÇÃO! Este mod está quebrado.","HRTC_I_B
 HtmlReportTemplateCode.cs Instability Broken",,
-HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","UNSUBSCRIBE! This mod breaks the game.","HRTC_I_GB
+HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","CANCELAR INSCRIÇÃO! Este mod quebra o jogo.","HRTC_I_GB
 HtmlReportTemplateCode.cs Instability GameBreaking",,
-HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","HRTC_I_IATW
+HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","CANCELAR INSCRIÇÃO! Este mod é totalmente incompatível com a versão atual do jogo.","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
-HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","Unsubscribe would be wise. This has major issues {StabilityNote}.","HRTC_I_MAI
+HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","Cancelar inscrição seria sábio. Isto possui grandes problemas {StabilityNote}.","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
-HRTC_I_MAIC,"Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
+HRTC_I_MAIC,"Check its Workshop page for details.","Verifique sua Página de Oficina Steam para detalhes.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,
-HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","HRTC_I_RIM
+HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","CANCELAR INSCRIÇÃO! Isto requer um mod que é totalmente incompatível com a versão atual do jogo.","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod",,
-HRTC_ICSM_S,"This is a cinematic camera script, which technically is a mod and thus listed here.","This is a cinematic camera script, which technically is a mod and thus listed here.","HRTC_ICSM_S
+HRTC_ICSM_S,"This is a cinematic camera script, which technically is a mod and thus listed here.","Este é um script de câmera, que é tecnicamente um mod e, listado aqui.","HRTC_ICSM_S
 HtmlReportTemplateCode.cs isCameraScriptMessage string",,
-HRTC_ID_U,"Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","HRTC_ID_U
+HRTC_ID_U,"Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","Ative isso se quiser usá-lo ou cancelar a inscrição. Mods desativados podem causar problemas.","HRTC_ID_U
 HtmlReportTemplateCode.cs IsDisabled Unsubscribe",,
-HRTC_IMN_R,"None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","HRTC_IMN_R
+HRTC_IMN_R,"None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","Nenhum dos seus mods da Oficina Steam precisa disso, e isso não oferece nenhuma funcionalidade por conta própria.","HRTC_IMN_R
 HtmlReportTemplateCode.cs IsModNeeded Remarks",,
-HRTC_IMN_RL,"Unsubscribe this unless it's needed for one of your local mods.","Unsubscribe this unless it's needed for one of your local mods.","HRTC_IMN_RL
+HRTC_IMN_RL,"Unsubscribe this unless it's needed for one of your local mods.","Cancele a sua assinatura, a menos que seja necessário para um dos seus mods locais.","HRTC_IMN_RL
 HtmlReportTemplateCode.cs IsModNeeded RemarksLocal",,
-HRTC_IMN_U,"Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","HRTC_IMN_U
+HRTC_IMN_U,"Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","Cancele a assinatura. É necessário apenas para mods que você não tem, e não fornece nenhuma funcionalidade.","HRTC_IMN_U
 HtmlReportTemplateCode.cs IsModNeeded Unsubscribe",,
 HRTC_IS_S,Steam,Steam,"HRTC_IS_S
 HtmlReportTemplateCode.cs isSteam steam",,
-HRT_LIL_U,Unsubscribe,Unsubscribe,"HRT_LIL_U
+HRT_LIL_U,Unsubscribe,"Cancelar inscrição","HRT_LIL_U
 HtmlReportTemplateCode.cs LI_Link unsubscribe",,
-HRTC_LLMID_BI,Built-in,Built-in,"HRTC_LLMID_BI
+HRTC_LLMID_BI,Built-in,Construído,"HRTC_LLMID_BI
 HtmlReportTemplateCode.cs LowestLocalModID builtin",,
 HRTC_LLMID_L,Local,Local,"HRTC_LLMID_L
 HtmlReportTemplateCode.cs LowestLocalModID local",,
-HRTC_M_TV,"If you don't have a specific reason to use it, you'd better use the stable version instead.","If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_M_TV
+HRTC_M_TV,"If you don't have a specific reason to use it, you'd better use the stable version instead.","Se você não tem um motivo específico para usá-lo, é melhor usar a versão estável ao invés disso.","HRTC_M_TV
 HtmlReportTemplateCode.cs Message TestVersion",,
-HRTC_NCS_MI,"This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","HRTC_NCS_MI
+HRTC_NCS_MI,"This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","Este mod tem a seção de comentários desativada na Oficina Steam, dificultando ver se outros usuários estão tendo problemas. Use com cuidado.","HRTC_NCS_MI
 HtmlReportTemplateCode.cs NoCommentSection MinorIssues",,
-HRTC_ND_MI,"This has no description on the Steam Workshop. Support from the author is unlikely.","This has no description on the Steam Workshop. Support from the author is unlikely.","HRTC_ND_MI
+HRTC_ND_MI,"This has no description on the Steam Workshop. Support from the author is unlikely.","Isto não tem nenhuma descrição na Oficina Steam. O suporte do autor é improvável.","HRTC_ND_MI
 HtmlReportTemplateCode.cs NoDescription MinorIssues",,
-HRTC_NKIM_S,"No known issues or incompatibilities with your other mods.","No known issues or incompatibilities with your other mods.","HRTC_NKIM_S
+HRTC_NKIM_S,"No known issues or incompatibilities with your other mods.","Nenhum problema ou incompatibilidade conhecido com os seus outros mods.","HRTC_NKIM_S
 HtmlReportTemplateCode.cs noKnownIssuesMessage string",,
-HRTC_R2_SM,"The author or the users of this mod recommend using the following as well:","The author or the users of this mod recommend using the following as well:","HRTC_R2_SM
+HRTC_R2_SM,"The author or the users of this mod recommend using the following as well:","O autor ou os usuários deste mod também recomendam usar:","HRTC_R2_SM
 HtmlReportTemplateCode.cs Recommendations2 subscribedMod",,
-HRTC_RDLC_U,"Unsubscribe this. It requires DLC you don't have:","Unsubscribe this. It requires DLC you don't have:","HRTC_RDLC_U
+HRTC_RDLC_U,"Unsubscribe this. It requires DLC you don't have:","Cancele a inscrição. Requer DLC que você não possui:","HRTC_RDLC_U
 HtmlReportTemplateCode.cs RequiredDlc Unsubscribe",,
-HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enabled:","This mod requires other mods you don't have, or which are not enabled:","HRTC_RM_SM
+HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enabled:","Esse mod requer outros mods que você não tem, ou que não estão ativados:","HRTC_RM_SM
 HtmlReportTemplateCode.cs RequiredMods subscribedMod",,
-HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","HRTC_RU_U
+HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Cancele a assinatura. É um reenvio de outro mod, use esse em vez disso (ou seu sucessor).","HRTC_RU_U
 HtmlReportTemplateCode.cs Reupload Unsubscribe",,
-HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Unsubscribe would be wise. This has major issues: {StabilityNote}","HRTC_I_MAS
+HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Cancelar inscrição seria sábio. Isto possui grandes problemas: {StabilityNote}","HRTC_I_MAS
 HtmlReportTemplateCode.cs Stability MajorIssuesStabilityNote",,
-HRTC_S_MI,"This has minor issues {StabilityNote}.","This has minor issues {StabilityNote}.","HRTC_S_MI
+HRTC_S_MI,"This has minor issues {StabilityNote}.","Isso tem pequenos problemas {StabilityNote}.","HRTC_S_MI
 HtmlReportTemplateCode.cs Stability MinorIssues",,
-HRTC_S_MIS,"This has minor issues: {StabilityNote}","This has minor issues: {StabilityNote}","HRTC_S_MIS
+HRTC_S_MIS,"This has minor issues: {StabilityNote}","Isso tem pequenos problemas: {StabilityNote}","HRTC_S_MIS
 HtmlReportTemplateCode.cs Stability MinorIssuesStabilityNote",,
-HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","There is not enough information about this mod to know if it works well.","HRTC_S_NEI
+HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","Não há informações suficientes sobre esse mod para saber se ele funciona bem.","HRTC_S_NEI
 HtmlReportTemplateCode.cs Stability NotEnoughInformation",,
-HRTC_S_NEIC,"but it was updated for the current game version.","but it was updated for the current game version.","HRTC_S_NEIC
+HRTC_S_NEIC,"but it was updated for the current game version.","mas foi atualizado para a versão atual do jogo.","HRTC_S_NEIC
 HtmlReportTemplateCode.cs Stability NotEnoughInformationCurrent and NotReviewedCurrent",,
-HRTC_S_NEIV,"but it was updated for game version {GameVersion}.","but it was updated for game version {GameVersion}","HRTC_S_NEIV
+HRTC_S_NEIV,"but it was updated for game version {GameVersion}.","mas foi atualizado para a versão {GameVersion} do jogo.","HRTC_S_NEIV
 HtmlReportTemplateCode.cs Stability NotEnoughInformationVersion and NotReviewedVersion",,
-HRTC_S_NR,"This mod has not been reviewed yet.","This mod has not been reviewed yet.","HRTC_S_NR
+HRTC_S_NR,"This mod has not been reviewed yet.","Este mod ainda não foi revisado.","HRTC_S_NR
 HtmlReportTemplateCode.cs Stability NotReviewed",,
-HRTC_S_S,"This is compatible with the current game version.","This is compatible with the current game version.","HRTC_S_S
+HRTC_S_S,"This is compatible with the current game version.","Isso é compatível com a versão atual do jogo.","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable",,
-HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Users are reporting issues: {StabilityNote}","HRTC_S_URS
+HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Os usuários estão reportando problemas: {StabilityNote}","HRTC_S_URS
 HtmlReportTemplateCode.cs Stability UserReportIssuesStabilityNote",,
-HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Users are reporting issues {StabilityNote}.","HRTC_S_URI
+HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Os usuários estão reportando problemas {StabilityNote}.","HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues",,
-HRTC_SS_TV,"This is a test version, but is considered quite stable.","This is a test version, but is considered quite stable.","HRTC_SS_TV
+HRTC_SS_TV,"This is a test version, but is considered quite stable.","Esta é uma versão de teste, mas é considerada bastante estável.","HRTC_SS_TV
 HtmlReportTemplateCode.cs StabilityStable TestVersion",,
-HRTC_S_A,"This seems to be abandoned and the author seems retired. Future updates are unlikely.","This seems to be abandoned and the author seems retired. Future updates are unlikely.","HRTC_S_A
+HRTC_S_A,"This seems to be abandoned and the author seems retired. Future updates are unlikely.","Isso parece ter sido abandonado e o autor parece ter se aposentado. Atualizações futuras são improváveis.","HRTC_S_A
 HtmlReportTemplateCode.cs Statuses Abandoned",,
-HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.","The author seems to be retired. Future updates are unlikely.","HRTC_S_AR
+HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.","O autor parece estar aposentado. Atualizações futuras não são prováveis.","HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired",,
-HRTC_S_D,"This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.","This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.","HRTC_S_D
+HRTC_S_D,"This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.","Isto está obsoleto, já não recebe suporte do autor e um sucessor está disponível. Portanto, seria sensato cancelar a assinatura deste mod e assinar o sucessor.","HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated",,
-HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.","This is only needed for modders or creators. Regular users don't need this one.","HRTC_S_MFM
+HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.","Isto só é necessário para modders ou criadores. Usuários comuns não necessitam.","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
-HRTC_S_MC,"As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.","As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.","HRTC_S_MC
+HRTC_S_MC,"As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.","Visto que a música incluída pode ser protegida por direitos autorais, é melhor não usa-las para streaming, para evitar questões legais.","HRTC_S_MC
 HtmlReportTemplateCode.cs Statuses MusicCopyright",,
-HRTC_S_MCF,"The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","HRTC_S_MCF
+HRTC_S_MCF,"The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","A música incluída é isenta de direitos autorais e segura para streaming, mas ainda podem ser aplicadas algumas restrições.","HRTC_S_MCF
 HtmlReportTemplateCode.cs Statuses MusicCopyrightFree",,
-HRTC_S_MCU,"This includes music with unknown copyright status. Safer not to use it for streaming.","This includes music with unknown copyright status. Safer not to use it for streaming.","HRTC_S_MCU
+HRTC_S_MCU,"This includes music with unknown copyright status. Safer not to use it for streaming.","Isso inclui música com status de direito autoral desconhecido. É mais seguro não usá-la para streaming.","HRTC_S_MCU
 HtmlReportTemplateCode.cs Statuses MusicCopyrightUnknown",,
-HRTC_S_NIAR,"This seems to be abandoned. Future updates are unlikely.","This seems to be abandoned. Future updates are unlikely.","HRTC_S_NIAR
+HRTC_S_NIAR,"This seems to be abandoned. Future updates are unlikely.","Parece que isso foi abandonado. Atualizações futuras não são prováveis.","HRTC_S_NIAR
 HtmlReportTemplateCode.cs Statuses nestedItemauthorRetired",,
-HRTC_S_O,"Unsubscribe this. It is no longer needed.","Unsubscribe this. It is no longer needed.","HRTC_S_O
+HRTC_S_O,"Unsubscribe this. It is no longer needed.","Cancele a inscrição. Já não é necessário.","HRTC_S_O
 HtmlReportTemplateCode.cs Statuses Obsolete",,
-HRTC_S_RFW,"Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","HRTC_S_RFW
+HRTC_S_RFW,"Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Cancelar inscrição seria sábio. Isto não está mais disponível na Oficina Steam.","HRTC_S_RFW
 HtmlReportTemplateCode.cs Statuses RemovedFromWorkshop",,
-HRTC_S_SCLW,"NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTE: After using this mod, game saves won't (easily) load without it anymore.","HRTC_S_SCLW
+HRTC_S_SCLW,"NOTE: After using this mod, game saves won't (easily) load without it anymore.","OBSERVAÇÃO: Após usar este mod, os jogos salvos não irão (facilmente) carregar sem ele.","HRTC_S_SCLW
 HtmlReportTemplateCode.cs Statuses SavesCantLoadWithout",,
-HRTC_S_TVA,"This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_S_TVA
+HRTC_S_TVA,"This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","Esta é uma versão de teste. Se você não tem um motivo específico para usá-la, é melhor usar a versão estável.","HRTC_S_TVA
 HtmlReportTemplateCode.cs Statuses TestVersion Alternatives",,
-HRTC_SS_SM,"This is succeeded by any of the following (pick one, not all):","This is succeeded by any of the following (pick one, not all):","HRTC_SS_SM
+HRTC_SS_SM,"This is succeeded by any of the following (pick one, not all):","Isso foi sucedido por qualquer uma das seguintes (selecione um, não todos):","HRTC_SS_SM
 HtmlReportTemplateCode.cs Successors subscribedMod",,
-HRTC_S_SMC,"This is succeeded by:","This is succeeded by:","HRTC_S_SMC
+HRTC_S_SMC,"This is succeeded by:","Isso foi sucedido por:","HRTC_S_SMC
 HtmlReportTemplateCode.cs Successors subscribedModCount",,
-HRTC_S_U,"Unsubscribe this. It is succeeded by a mod you already have:","Unsubscribe this. It is succeeded by a mod you already have:","HRTC_S_U
+HRTC_S_U,"Unsubscribe this. It is succeeded by a mod you already have:","Cancelando a inscrição. Foi com sucesso um mod que você já possui:","HRTC_S_U
 HtmlReportTemplateCode.cs Successors Unsubscribe",,
-HRTC_S_WSP,"Workshop page:","Workshop page:","HRTC_S_WSP
+HRTC_S_WSP,"Workshop page:","Página da oficina:","HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage",,
-REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","REP_ATT_NEW
+REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","ATENÇÃO: NOVA VERSÃO DO JOGO! O jogo foi atualizado. Vários mods não funcionarão com esta nova versão do jogo. Tome cuidado para ter as atualizações mais recentes de todos os mods e leia cuidadosamente seu relatório. É possível que você precise alternar e assinar uma nova versão alternativa de um mod. Se sua cidade não funcionar corretamente, NÃO sobrescreva seus salvamentos! Pode ser sensato usar ""-noWorkshop"" como parâmetro começar o jogo vanila em uma nova cidade até que todos os mods estejam atualizados ou tenham alternativas. (Aviso: cidades que usam mods podem não carregar no modo vanila!) Veja as Opções de Lançamento - Cities Skylines https://steamcommunity. om/sharedfiles/filedetails/?id=466981085 para mais informações. Uma lista de mods quebrados também está disponível em https://pdxint.at/BrokenModCS.","REP_ATT_NEW
 Information about new game version",,
-SET_BAO_AG,"Advanced options","Advanced options","SET_BAO_AG
+SET_BAO_AG,"Advanced options","Opções avançadas","SET_BAO_AG
 SettingsUI.cs BuildAdvancedOptionsUI advancedGroup",,
-SET_BAO_DM,"Debug Mode","Debug Mode","SET_BAO_DM
+SET_BAO_DM,"Debug Mode","Modo de Depuração","SET_BAO_DM
 SettingsUI.cs BuildAdvancedOptionsUI debugMode",,
-SET_BAO_MLS,"Max log size (in KB)","Max log size (in KB)","SET_BAO_MLS
+SET_BAO_MLS,"Max log size (in KB)","Tamanho máximo do log (em KB)","SET_BAO_MLS
 SettingsUI.cs BuildAdvancedOptionsUI maxLogSize",,
-SET_BAO_MR,"Number of catalog download retries","Number of catalog download retries","SET_BAO_MR
+SET_BAO_MR,"Number of catalog download retries","Número de tentativas de download do catálogo","SET_BAO_MR
 SettingsUI.cs BuildAdvancedOptionsUI maxRetries",,
-SET_BAO_MVL,"Mod version","Mod version","SET_BAO_MVL
+SET_BAO_MVL,"Mod version","Versão do mod","SET_BAO_MVL
 SettingsUI.cs BuildAdvancedOptionsUI modVersionLabel",,
-SET_BAO_ORAS,"Reset all settings","Reset all settings","SET_BAO_ORAS
+SET_BAO_ORAS,"Reset all settings","Reiniciar as configurações","SET_BAO_ORAS
 SettingsUI.cs BuildAdvancedOptionsUI OnResetAllSettings",,
-SET_BAO_SBM,"Scan before entering Main Menu","Scan before entering Main Menu","SET_BAO_SBM
+SET_BAO_SBM,"Scan before entering Main Menu","Escanear antes de entrar no Menu Principal","SET_BAO_SBM
 SettingsUI.cs BuildAdvancedOptionsUI scanBeforeMenu",,
-SET_BCO_CG,"Catalog options","Catalog options","SET_BCO_CG
+SET_BCO_CG,"Catalog options","Opções do catálogo","SET_BCO_CG
 SettingsUI.cs BuildCatalogOptionsUI catalogGroup",,
-SET_BCO_UIBD,"Download now","Download now","SET_BCO_UIBD
+SET_BCO_UIBD,"Download now","Baixar agora","SET_BCO_UIBD
 SettingsUI.cs BuildCatalogOptionsUI download",,
-SET_BCO_DFD,Download,Download,"SET_BCO_DFD
+SET_BCO_DFD,Download,Baixar,"SET_BCO_DFD
 SettingsUI.cs BuildCatalogOptionsUI downloadFrequencyDropdown",,
-SET_BCO_SUIT,"Catalog version","Catalog version","SET_BCO_SUIT
+SET_BCO_SUIT,"Catalog version","Versão do catálogo","SET_BCO_SUIT
 SettingsUI.cs BuildCatalogOptionsUI SettingsUIText",,
-SET_BCO_TWF,"Text Report width","Text Report width","SET_BCO_TWF
+SET_BCO_TWF,"Text Report width","Largura do relatório de texto","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
-SET_BRG_CPB,"Change path","Change path","SET_BRG_CPB
+SET_BRG_CPB,"Change path","Altere o caminho","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
-SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SET_BRG_LAN,Language,Idioma,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
-SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' launch option detected. No report was generated.","SET_BRG_NW
+SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","Opção de lançamento '--noWorkshop' detectada. Nenhum relatório foi gerado","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
-SET_BRG_OGR,"Generate report(s)","Generate report(s)","SET_BRG_OGR
+SET_BRG_OGR,"Generate report(s)","Gerar relatório(s)","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
-SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SET_BRG_OOF,"Open folder","Abrir pasta","SET_BRG_OOF
 SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
-SET_BRG_OOR,"Open report(s)","Open report(s)","SET_BRG_OOR
+SET_BRG_OOR,"Open report(s)","Abrir relatório(s)","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
-SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Use Steam Overlay to open HTML report if available.","SET_BRG_OHRISO
+SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Use a Sobreposição Steam para abrir o relatório HTML se disponível.","SET_BRG_OHRISO
 SettingsUI.cs BuildRecordGroupUI OpenHtmlReportInSteamOverlay",,
-SET_BRG_PE,"Access to the Steam Workshop is required for the mod to work properly.","Access to the Steam Workshop is required for the mod to work properly.","SET_BRG_PE
+SET_BRG_PE,"Access to the Steam Workshop is required for the mod to work properly.","Acesso à Oficina Steam é necessário para que o mod funcione corretamente.","SET_BRG_PE
 SettingsUI.cs BuildRecordGroupUI platformError",,
-SET_BRG_PT,"Platform not supported","Platform not supported","SET_BRG_PT
+SET_BRG_PT,"Platform not supported","Plataforma não suportada","SET_BRG_PT
 SettingsUI.cs BuildRecordGroupUI platformType",,
-SET_BRG_RG,"Report options","Report options","SET_BRG_RG
+SET_BRG_RG,"Report options","Opções de relatório","SET_BRG_RG
 SettingsUI.cs BuildRecordGroupUI reportGroup",,
-SET_BRG_RP,"Mod Errors","Mod Errors","SET_BRG_RP
+SET_BRG_RP,"Mod Errors","Erros do Mod","SET_BRG_RP
 SettingsUI.cs BuildRecordGroupUI reportPanel",,
-SET_BRG_RPTF,"Report path","Report path","SET_BRG_RPTF
+SET_BRG_RPTF,"Report path","Caminho do relatório","SET_BRG_RPTF
 SettingsUI.cs BuildRecordGroupUI reportPathTextField",,
-SET_BRG_RTD,"Report type","Report type","SET_BRG_RTD
+SET_BRG_RTD,"Report type","Tipo de relatório","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
-SET_BRG_RPB,"Reset path to default","Reset path to default","SET_BRG_RPB
+SET_BRG_RPB,"Reset path to default","Restaurar caminho padrão","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
-SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SET_BTD_GL,"Game Language","Idioma do Jogo","SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
-SET_BUG_DOI,"Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
+SET_BUG_DOI,"Days of inactivity to retire author","Dias de inatividade do autor","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
-SET_BUG_MSPMP,"Estimated milliseconds per mod page","Estimated milliseconds per mod page","SET_BUG_MSPMP
+SET_BUG_MSPMP,"Estimated milliseconds per mod page","Estimativa de milissegundos por página de mod","SET_BUG_MSPMP
 SettingsUI.cs BuildUpdaterGroupUI msPerModPage",,
-SET_BUG_OOTA,"Run Road Asset Crawler (AN dependent)","Run Road Asset Crawler (AN dependent)","SET_BUG_OOTA
+SET_BUG_OOTA,"Run Road Asset Crawler (AN dependent)","Executar Road Asset Crawler (AN dependent)","SET_BUG_OOTA
 SettingsUI.cs BuildUpdaterGroupUI OnOneTimeAction",,
-SET_BUG_OSU,"Run Updater","Run Updater","SET_BUG_OSU
+SET_BUG_OSU,"Run Updater","Executar atualização","SET_BUG_OSU
 SettingsUI.cs BuildUpdaterGroupUI OnStartUpdater",,
-SET_BUG_OSWC,"Run Web Crawler","Run Web Crawler","SET_BUG_OSWC
+SET_BUG_OSWC,"Run Web Crawler","Executar rastreador web","SET_BUG_OSWC
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawler",,
-SET_BUG_OSWCQ,"Run Web Crawler (quick)","Run Web Crawler (quick)","SET_BUG_OSWCQ
+SET_BUG_OSWCQ,"Run Web Crawler (quick)","Executar rastreador web (rápido)","SET_BUG_OSWCQ
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawlerquick",,
-SET_BUG_SMFP,"Steam max failed pages","Steam max failed pages","SET_BUG_SMFP
+SET_BUG_SMFP,"Steam max failed pages","Máximo de páginas com falha da Steam","SET_BUG_SMFP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxFailedPages",,
-SET_BUG_SMLP,"Steam max listing pages","Steam max listing pages","SET_BUG_SMLP
+SET_BUG_SMLP,"Steam max listing pages","Máximo de páginas de listagem da Steam","SET_BUG_SMLP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxListingPages",,
-SET_BUG_UG,Updater,Updater,"SET_BUG_UG
+SET_BUG_UG,Updater,Atualizador,"SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
-SET_BUG_WFR,"Weeks for soon retired","Weeks for soon retired","SET_BUG_WFR
+SET_BUG_WFR,"Weeks for soon retired","Semanas para encerrar","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
-SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
+SET_BUL_BML,"Broken Mods List","Lista de Mods quebrados","SET_BUL_BML
 SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
-SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SET_BUL_HWT,"Help with translation","Ajudar com a tradução","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
-SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SET_BUL_SOD,"Support on discord","Apoie no discord","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SET_BUL_OL,"Other links:","Outros links:","SET_BUL_OL
 SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
-SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
+SET_BUL_RML,"Recommended Mods List","Lista de mods recomendados","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
-SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SET_BUL_RC,"Report compatibility","Relatar compatibilidade","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
-SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SET_BUL_UL,"Useful links:","Links úteis:","SET_BUL_UL
 SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
-SET_DO_NEV,"Never (on-demand only) - not recommended!","Never (on-demand only) - not recommended!","SET_DO_NEV
+SET_DO_NEV,"Never (on-demand only) - not recommended!","Nunca (apenas sob demanda) - não recomendado!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
-SET_DO_OAW,"Once a week","Once a week","SET_DO_OAW
+SET_DO_OAW,"Once a week","Uma vez por semana","SET_DO_OAW
 SettingsUI.cs DownloadOptions Once a week",,
 SET_RT_HTM,HTML,HTML,"SET_RT_HTM
 SettingsUI.cs ReportTypes HTML",,
-SET_RT_HAT,"HTML and text","HTML and text","SET_RT_HAT
+SET_RT_HAT,"HTML and text","HTML e texto","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
-SET_RT_TXT,Text,Text,"SET_RT_TXT
+SET_RT_TXT,Text,Texto,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
 HRT_P_S,Status,Status,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
-HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
+HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","Precisa de ajuda? Deixe uma classificação ou comentário na página da oficina: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
 HTMLReport Footer_RatingText",,
-HRTC_TH_N,NOTE,NOTE,"HRTC_TH_N
+HRTC_TH_N,NOTE,NOTA,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SET_BRG_CLD,"Collect Logs and open directory","Coletar logs e abrir diretório","SET_BRG_CLD
 SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
-HRTC_A_SCP,"Mods without source codes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","Mods without source codes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SCP
+HRTC_A_SCP,"Mods without source codes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","Mods sem código-fonte e sem seção de comentários não devem ser inscritos. Sem o código-fonte também é mais difícil garantir que um mod não inclua código malicioso.","HRTC_A_SCP
 HtmlReportTemplateCode.cs NoSourceNoComment",,
-HRTC_A_SDP,"Mods without source codes and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","Mods without source codes and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SDP
+HRTC_A_SDP,"Mods without source codes and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","Mods sem código-fonte e com uma descrição pouco clara não devem ser inscritos. Sem o código-fonte é também mais difícil garantir que um mod não inclua código malicioso.","HRTC_A_SDP
 HtmlReportTemplateCode.cs NoSourceNoDescription",,
-HRTC_S_SCNP,"No source code published. Without source code it is harder to ensure a mod not include malicious code.","No source code published. Without source code it is harder to ensure a mod not include malicious code.","HRTC_S_SCNP
+HRTC_S_SCNP,"No source code published. Without source code it is harder to ensure a mod not include malicious code.","Nenhum código-fonte publicado. Sem o código-fonte é mais difícil garantir que um mod não inclua um código malicioso.","HRTC_S_SCNP
 HtmlReportTemplateCode.cs SourceNotPublic",,
-HRTC_A_SDCP,"Mods without source codes, without comment section and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","Mods without source codes, without comment section and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SDCP
+HRTC_A_SDCP,"Mods without source codes, without comment section and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","Mods sem código-fonte, sem seção de comentários e com uma descrição pouco clara não devem ser inscritos. Sem o código-fonte também é mais difícil garantir que um mod não inclua código malicioso.","HRTC_A_SDCP
 HtmlReportTemplateCode.cs NoSourceNoCommentNoDescription",,
-HRTC_A_SOB,"The author has deliberately hidden the mod code from other modders, which is somewhat suspicious. Without source code it is also harder to ensure a mod not include malicious code.","The author has deliberately hidden the mod code from other modders, which is somewhat suspicious. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SOB
+HRTC_A_SOB,"The author has deliberately hidden the mod code from other modders, which is somewhat suspicious. Without source code it is also harder to ensure a mod not include malicious code.","O autor escondeu deliberadamente o código-fonte de outros modders, o que é um pouco suspeito. Sem o código-fonte também é mais difícil garantir que um mod não inclua código malicioso.","HRTC_A_SOB
 HtmlReportTemplateCode.cs SourceObfuscated",,
-REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","A black bar might appear above the bottom toolbar.",REPORT_NOTE_1,,
-REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",REPORT_NOTE_2,,
-REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",REPORT_NOTE_3,,
-REPORT_NOTE_4,"ABLC has the functionality to prevent abandonment, and much more.","ABLC has the functionality to prevent abandonment, and much more.",REPORT_NOTE_4,,
-REPORT_NOTE_5,"Accelerated night/weekend cycles from Real Time might give issues with district services.","Accelerated night/weekend cycles from Real Time might give issues with district services.",REPORT_NOTE_5,,
-REPORT_NOTE_6,"Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.",REPORT_NOTE_6,,
+REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.","Uma barra preta pode aparecer acima da barra de ferramentas inferior.",REPORT_NOTE_1,,
+REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.","Um recurso marcado em vermelho não significa necessariamente que é totalmente ruim. Apenas que pode conter informações desnecessárias e impactar o desempenho do jogo.",REPORT_NOTE_2,,
+REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","Uma versão 3.0 beta foi lançada no GitHub, mas nunca foi lançada na Oficina Steam. O autor escreveu que ele não atualizará mais o mod enquanto culpa a Paradox pela sua política de DLC.",REPORT_NOTE_3,,
+REPORT_NOTE_4,"ABLC has the functionality to prevent abandonment, and much more.","A ABLC tem a funcionalidade de prevenir o abandono e muito mais.",REPORT_NOTE_4,,
+REPORT_NOTE_5,"Accelerated night/weekend cycles from Real Time might give issues with district services.","Acelerar noites/finais de semana além do tempo normal, podem causar problemas nos ciclos de serviços dos distritos.",REPORT_NOTE_5,,
+REPORT_NOTE_6,"Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","O 'Additive Shader' não é compatível com a variável 'sunrise/sunset times' do 'Real Time'. Use a versão de teste do 'Additive Shader '.",REPORT_NOTE_6,,
 REPORT_NOTE_7,"Additive Shader props converted to PO don't show up after reloading a save.","Additive Shader props converted to PO don't show up after reloading a save.",REPORT_NOTE_7,,
-REPORT_NOTE_8,"Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.",REPORT_NOTE_8,,
-REPORT_NOTE_9,"Advanced Building Level Control has all functionality of Historical Districts, and more.","Advanced Building Level Control has all functionality of Historical Districts, and more.",REPORT_NOTE_9,,
-REPORT_NOTE_10,"All jobs from non-RICO buildings, including all Industries DLC buildings, are included in the service (SRV) numbers.","All jobs from non-RICO buildings, including all Industries DLC buildings, are included in the service (SRV) numbers.",REPORT_NOTE_10,,
-REPORT_NOTE_11,"All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.","All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.",REPORT_NOTE_11,,
-REPORT_NOTE_12,"All players must have the exact same DLCs (none are supported) and mods. CSM is incompatible with most mods, too many to mention here. A (very short) list of supported mods: https://citiesskylinesmultiplayer.com/#/supported-mods","All players must have the exact same DLCs (none are supported) and mods. CSM is incompatible with most mods, too many to mention here. A (very short) list of supported mods: https://citiesskylinesmultiplayer.com/#/supported-mods",REPORT_NOTE_12,,
-REPORT_NOTE_13,"All recoloring will be lost when you (un)subscribe to anything while the game is running.","All recoloring will be lost when you (un)subscribe to anything while the game is running.",REPORT_NOTE_13,,
-REPORT_NOTE_14,"Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532","Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532",REPORT_NOTE_14,,
-REPORT_NOTE_15,"Always run the Steam client before you run the game. On Linux and MacOS some user action is required, see the installation guide: https://steamcommunity.com/workshop/filedetails/discussion/2105755179/3120423877860413758/","Always run the Steam client before you run the game. On Linux and MacOS some user action is required, see the installation guide: https://steamcommunity.com/workshop/filedetails/discussion/2105755179/3120423877860413758/",REPORT_NOTE_15,,
-REPORT_NOTE_16,"As long as you don't use TM:PE to limit the speed for rail tracks, these mods should be compatible.","As long as you don't use TM:PE to limit the speed for rail tracks, these mods should be compatible.",REPORT_NOTE_16,,
-REPORT_NOTE_17,"Autobudgetting police, healthcare and fire stations could cause land value to drop, because lower budget means lower cover area.","Autobudgetting police, healthcare and fire stations could cause land value to drop, because lower budget means lower cover area.",REPORT_NOTE_17,,
-REPORT_NOTE_18,"Backup your save before using this tool!","Backup your save before using this tool!",REPORT_NOTE_18,,
-REPORT_NOTE_19,"Better Highway Icons triggers an error popup from Building Themes ('System.Reflection.MonoMethod.Invoke'). Both mods still appear to work after.","Better Highway Icons triggers an error popup from Building Themes ('System.Reflection.MonoMethod.Invoke'). Both mods still appear to work after.",REPORT_NOTE_19,,
-REPORT_NOTE_20,"BOB has the functionality of Prop it Up, and more.","BOB has the functionality of Prop it Up, and more.",REPORT_NOTE_20,,
-REPORT_NOTE_21,"Both mods have options to hide panels on main menu screen. Only use one mod to hide them, or you might run into issues.","Both mods have options to hide panels on main menu screen. Only use one mod to hide them, or you might run into issues.",REPORT_NOTE_21,,
-REPORT_NOTE_22,"Both mods replace the 'vanilla matchmaker', making them incompatible.","Both mods replace the 'vanilla matchmaker', making them incompatible.",REPORT_NOTE_22,,
-REPORT_NOTE_23,"Both mods touch the same game functionality and probably conflict.","Both mods touch the same game functionality and probably conflict.",REPORT_NOTE_23,,
-REPORT_NOTE_24,"Both mods use the Tab key. Use another first person mod, or change the key for First-person Auto-walking.","Both mods use the Tab key. Use another first person mod, or change the key for First-person Auto-walking.",REPORT_NOTE_24,,
-REPORT_NOTE_25,"Causes trees to float. You could switch to Tree Anarchy, which has the functionality of both these mods.","Causes trees to float. You could switch to Tree Anarchy, which has the functionality of both these mods.",REPORT_NOTE_25,,
+REPORT_NOTE_8,"Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","O 'Adjustable Business Consumption' pode ser incompatível com a opção ""Farms produce crops slower and cost less"" do 'Rebalanced Industries'.",REPORT_NOTE_8,,
+REPORT_NOTE_9,"Advanced Building Level Control has all functionality of Historical Districts, and more.","O 'Advanced Building Level Control' tem todas as funcionalidades do ' Historical Districts' e muito mais.",REPORT_NOTE_9,,
+REPORT_NOTE_10,"All jobs from non-RICO buildings, including all Industries DLC buildings, are included in the service (SRV) numbers.","Todos os postos de trabalho dos edifícios não-RICO, incluindo todos os edifícios da DLC 'Industries', estão incluídos nos números de serviço (SRV).",REPORT_NOTE_10,,
+REPORT_NOTE_11,"All kinds of issues can happen, including the disappearing of Ploppable Asphalt objects.","Pode acontecer todo o tipo de problema, incluindo o desaparecimento de objetos de Asfalto.",REPORT_NOTE_11,,
+REPORT_NOTE_12,"All players must have the exact same DLCs (none are supported) and mods. CSM is incompatible with most mods, too many to mention here. A (very short) list of supported mods: https://citiesskylinesmultiplayer.com/#/supported-mods","Todos os jogadores devem ter exatamente as mesmas DLCs (nenhuma é suportada) e mods. 'CSM ' é incompatível com a maioria dos mods, muitos para mencionar aqui. Uma lista (muito curta) de mods suportados: https://citiesskylinesmultiplayer.com/#/supported-mods",REPORT_NOTE_12,,
+REPORT_NOTE_13,"All recoloring will be lost when you (un)subscribe to anything while the game is running.","Todas as recolorações serão perdidas quando você (des)inscrever de qualquer coisa enquanto o jogo estiver sendo executado.",REPORT_NOTE_13,,
+REPORT_NOTE_14,"Alternatives for this can be found here: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532","Podem ser encontradas alternativas aqui: https://steamcommunity.com/sharedfiles/filedetails/?id=2415082532",REPORT_NOTE_14,,
+REPORT_NOTE_15,"Always run the Steam client before you run the game. On Linux and MacOS some user action is required, see the installation guide: https://steamcommunity.com/workshop/filedetails/discussion/2105755179/3120423877860413758/","Sempre execute o cliente Steam antes de executar o jogo. No Linux e MacOS, algumas ações do usuário são necessárias, consulte o guia de instalação: https://steamcommunity.com/workshop/filedetails/discussion/2105755179/3120423877860413758/",REPORT_NOTE_15,,
+REPORT_NOTE_16,"As long as you don't use TM:PE to limit the speed for rail tracks, these mods should be compatible.","Desde que você não use 'TM:PE' para limitar a velocidade dos trilhos, esses mods devem ser compatíveis.",REPORT_NOTE_16,,
+REPORT_NOTE_17,"Autobudgetting police, healthcare and fire stations could cause land value to drop, because lower budget means lower cover area.","A auto-orçamentação da polícia, dos cuidados de saúde e das estações de bombeiros pode fazer com que o valor do tereno diminua, porque um orçamento mais baixo significa uma área de cobertura mais baixa.",REPORT_NOTE_17,,
+REPORT_NOTE_18,"Backup your save before using this tool!","Faça backup do seu save antes de usar esta ferramenta!",REPORT_NOTE_18,,
+REPORT_NOTE_19,"Better Highway Icons triggers an error popup from Building Themes ('System.Reflection.MonoMethod.Invoke'). Both mods still appear to work after.","'Better Highway Icons' acionam uma janela de erros do 'Building Themes' ('System.Reflection.MonoMethod.Invoke'). Ambos os mods ainda parecem funcionar depois.",REPORT_NOTE_19,,
+REPORT_NOTE_20,"BOB has the functionality of Prop it Up, and more.","'BOB' tem a funcionalidade do 'Prop it Up', e mais.",REPORT_NOTE_20,,
+REPORT_NOTE_21,"Both mods have options to hide panels on main menu screen. Only use one mod to hide them, or you might run into issues.","Ambos os mods têm opções para ocultar painéis na tela do menu principal. Use apenas um mod para ocultá-los, ou você pode ter problemas.",REPORT_NOTE_21,,
+REPORT_NOTE_22,"Both mods replace the 'vanilla matchmaker', making them incompatible.","Ambos os mods substituem o 'vanilla matchmaker', tornando-os incompatíveis.",REPORT_NOTE_22,,
+REPORT_NOTE_23,"Both mods touch the same game functionality and probably conflict.","Ambos os mods acessam a mesma funcionalidade de jogo e provavelmente cause conflitos.",REPORT_NOTE_23,,
+REPORT_NOTE_24,"Both mods use the Tab key. Use another first person mod, or change the key for First-person Auto-walking.","Ambos os mods usam a tecla Tab. Use outro mod de primeira pessoa, ou altere a tecla do 'First-person Auto-walking'.",REPORT_NOTE_24,,
+REPORT_NOTE_25,"Causes trees to float. You could switch to Tree Anarchy, which has the functionality of both these mods.","Faz com que as árvores flutuem. Você pode alternar para 'Tree Anarchy', que tem a funcionalidade de ambos os mods.",REPORT_NOTE_25,,
 REPORT_NOTE_26,"CAUTION: DO NOT SUPPRESS ERRORS in the mod options or in the popups from this mod, as it makes troubleshooting mod/asset issues near impossible. Hiding errors does not make them go away, and will make your game less reliable!","CAUTION: DO NOT SUPPRESS ERRORS in the mod options or in the popups from this mod, as it makes troubleshooting mod/asset issues near impossible. Hiding errors does not make them go away, and will make your game less reliable!",REPORT_NOTE_26,,
-REPORT_NOTE_27,"CAUTION: If you use this and save, the game save is broken.","CAUTION: If you use this and save, the game save is broken.",REPORT_NOTE_27,,
-REPORT_NOTE_28,"CAUTION: This only hides the problem icons. The problems still exist! This can quickly lead to mass abandonment if you forget to check for problems.","CAUTION: This only hides the problem icons. The problems still exist! This can quickly lead to mass abandonment if you forget to check for problems.",REPORT_NOTE_28,,
-REPORT_NOTE_29,"Change the construction speed to 100% in Real Time's settings to avoid buildings disappearing.","Change the construction speed to 100% in Real Time's settings to avoid buildings disappearing.",REPORT_NOTE_29,,
-REPORT_NOTE_30,"Changing the date may cause a gap in the graph or cause part of the graph to be overwritten.","Changing the date may cause a gap in the graph or cause part of the graph to be overwritten.",REPORT_NOTE_30,,
-REPORT_NOTE_31,"Clicking in the bottom bar for UEC functionality does not work.","Clicking in the bottom bar for UEC functionality does not work.",REPORT_NOTE_31,,
-REPORT_NOTE_32,"Clouds &amp; Fog Toggler overrules the fog options of Hide it, Bobby.","Clouds &amp; Fog Toggler overrules the fog options of Hide it, Bobby.",REPORT_NOTE_32,,
-REPORT_NOTE_33,"Clouds &amp; Fog Toggler overrules the fog options of Hide It.","Clouds &amp; Fog Toggler overrules the fog options of Hide It.",REPORT_NOTE_33,,
-REPORT_NOTE_34,"Coloring the road while on a custom map theme, might give intersections a wrong color. In the editors this causes an unresponsive area above the menu.","Coloring the road while on a custom map theme, might give intersections a wrong color. In the editors this causes an unresponsive area above the menu.",REPORT_NOTE_34,,
+REPORT_NOTE_27,"CAUTION: If you use this and save, the game save is broken.","CUIDADO: Se você usar isto e salvar, o jogo salvo não funcionará.",REPORT_NOTE_27,,
+REPORT_NOTE_28,"CAUTION: This only hides the problem icons. The problems still exist! This can quickly lead to mass abandonment if you forget to check for problems.","CUIDADO: Isto só esconde os ícones do problema. Os problemas ainda existem! Isso pode rapidamente levar a um abandono em massa se você esquecer de checá-los.",REPORT_NOTE_28,,
+REPORT_NOTE_29,"Change the construction speed to 100% in Real Time's settings to avoid buildings disappearing.","Altere a velocidade de construção para 100% nas configurações do 'Real Time's' para evitar que edifícios desapareçam.",REPORT_NOTE_29,,
+REPORT_NOTE_30,"Changing the date may cause a gap in the graph or cause part of the graph to be overwritten.","Alterar a data pode causar uma lacuna no gráfico ou fazer com que uma parte do gráfico seja substituída.",REPORT_NOTE_30,,
+REPORT_NOTE_31,"Clicking in the bottom bar for UEC functionality does not work.","Clicar na barra inferior para a funcionalidade da 'UEC' não funciona.",REPORT_NOTE_31,,
+REPORT_NOTE_32,"Clouds &amp; Fog Toggler overrules the fog options of Hide it, Bobby.","'Clouds & Fog Toggler' sobrepõe as opções de nevoeiro do 'Hide it, Bobby'.",REPORT_NOTE_32,,
+REPORT_NOTE_33,"Clouds &amp; Fog Toggler overrules the fog options of Hide It.","'Clouds & Fog Toggler' sobrepõe as opções de nevoeiro do 'Hide It'.",REPORT_NOTE_33,,
+REPORT_NOTE_34,"Coloring the road while on a custom map theme, might give intersections a wrong color. In the editors this causes an unresponsive area above the menu.","Colorir a estrada enquanto estiver com um tema personalizado no mapa, pode dar uma cor errada às interseções. Nos editores isto causa uma área sem resposta acima do menu.",REPORT_NOTE_34,,
 REPORT_NOTE_35,"Compatibility is uncertain, but the increased limit from More Vehicles is probably not used by PXPVehicleInfo, leading to incorrect numbers when going beyond the original vehicle limit.","Compatibility is uncertain, but the increased limit from More Vehicles is probably not used by PXPVehicleInfo, leading to incorrect numbers when going beyond the original vehicle limit.",REPORT_NOTE_35,,
-REPORT_NOTE_36,"Consider replacing the old asset(s) that need this by newer ones and then unsubscribe this mod.","Consider replacing the old asset(s) that need this by newer ones and then unsubscribe this mod.",REPORT_NOTE_36,,
-REPORT_NOTE_37,"Copyright by OpenMSX Authors, licensed under GPL v2.","Copyright by OpenMSX Authors, licensed under GPL v2.",REPORT_NOTE_37,,
-REPORT_NOTE_38,"Creative Commons license.","Creative Commons license.",REPORT_NOTE_38,,
-REPORT_NOTE_39,"CSM can break Find It. Running the game as administrator may temporarily solve the incompatibility issue.","CSM can break Find It. Running the game as administrator may temporarily solve the incompatibility issue.",REPORT_NOTE_39,,
-REPORT_NOTE_40,"CSUR is incompatible with the advanced zoning options in Network Extensions.","CSUR is incompatible with the advanced zoning options in Network Extensions.",REPORT_NOTE_40,,
-REPORT_NOTE_41,"Curb Height Adjuster will not affect CSUR roads, because they don't use standard road depths.","Curb Height Adjuster will not affect CSUR roads, because they don't use standard road depths.",REPORT_NOTE_41,,
-REPORT_NOTE_42,"Daylight Classic overrules the fog options of Hide It, Bobby.","Daylight Classic overrules the fog options of Hide It, Bobby.",REPORT_NOTE_42,,
-REPORT_NOTE_43,"Daylight Classic overrules the fog options of Hide It.","Daylight Classic overrules the fog options of Hide It.",REPORT_NOTE_43,,
-REPORT_NOTE_44,"Deactivate the build in mod of Colossal Order, as its function is included in Extra Landscaping Tools.","Deactivate the build in mod of Colossal Order, as its function is included in Extra Landscaping Tools.",REPORT_NOTE_44,,
-REPORT_NOTE_45,"Deactivate the build in mods of Colossal Order, as the functions are included in Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All. Take care to activate the functions before loading into a save.","Deactivate the build in mods of Colossal Order, as the functions are included in Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All. Take care to activate the functions before loading into a save.",REPORT_NOTE_45,,
-REPORT_NOTE_46,"Disable the Classic sunlight color, Classic sunlight intensity and Classic for color settings in Daylight Classic.","Disable the Classic sunlight color, Classic sunlight intensity and Classic for color settings in Daylight Classic.",REPORT_NOTE_46,,
-REPORT_NOTE_47,"Disabling water pollution is not immediate, it takes some time for the water to clear up. Re-enabling ground or water pollution is also not immediate, it takes some time to build up again.","Disabling water pollution is not immediate, it takes some time for the water to clear up. Re-enabling ground or water pollution is also not immediate, it takes some time to build up again.",REPORT_NOTE_47,,
-REPORT_NOTE_48,"Due to the significant changes to the base game, this mod is best used for new games only.","Due to the significant changes to the base game, this mod is best used for new games only.",REPORT_NOTE_48,,
-REPORT_NOTE_49,"EDS doesn't detect the extra CitizenUnits.","EDS doesn't detect the extra CitizenUnits.",REPORT_NOTE_49,,
+REPORT_NOTE_36,"Consider replacing the old asset(s) that need this by newer ones and then unsubscribe this mod.","Considere substituir o(s) arquivo(s) antigo(s) que precisam deste mod por conteúdos mais recentes e, em seguida, cancele a inscrição deste mod.",REPORT_NOTE_36,,
+REPORT_NOTE_37,"Copyright by OpenMSX Authors, licensed under GPL v2.","Copyright por OpenMSX Authors, licenciado sob a GPL v2.",REPORT_NOTE_37,,
+REPORT_NOTE_38,"Creative Commons license.","Licença Creative Commons.",REPORT_NOTE_38,,
+REPORT_NOTE_39,"CSM can break Find It. Running the game as administrator may temporarily solve the incompatibility issue.","'CSM' pode quebrar o 'Find It'. Executar o jogo como administrador pode resolver temporariamente o problema de incompatibilidade.",REPORT_NOTE_39,,
+REPORT_NOTE_40,"CSUR is incompatible with the advanced zoning options in Network Extensions.","'CSUR' é incompatível com as opções avançadas de zonamento do 'Network Extensions'.",REPORT_NOTE_40,,
+REPORT_NOTE_41,"Curb Height Adjuster will not affect CSUR roads, because they don't use standard road depths.","O 'Curb Height Adjuster' não afetará as estradas do 'CSUR' porque elas não usam as profundezas padrão de estrada.",REPORT_NOTE_41,,
+REPORT_NOTE_42,"Daylight Classic overrules the fog options of Hide It, Bobby.","O 'Daylight Classic overrules' anula as opções de nevoeiro do 'Hide It, Bobby'.",REPORT_NOTE_42,,
+REPORT_NOTE_43,"Daylight Classic overrules the fog options of Hide It.","O 'Daylight Classic overrules' anula as opções de nevoeiro do 'Hide It'.",REPORT_NOTE_43,,
+REPORT_NOTE_44,"Deactivate the build in mod of Colossal Order, as its function is included in Extra Landscaping Tools.","Desative o 'build in mod' da Colossal Order, pois sua função está incluída nas ferramentas do 'Extra Landscaping Tools'.",REPORT_NOTE_44,,
+REPORT_NOTE_45,"Deactivate the build in mods of Colossal Order, as the functions are included in Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All. Take care to activate the functions before loading into a save.","Desative o 'build in mod' da Colossal Order, pois as funções são incluídas no 'Game Anarchy: Unlimited Money, Unlimited Oil And Ore, Unlock All'. Tome cuidado para ativar as funções antes de carregar em um salvamento.",REPORT_NOTE_45,,
+REPORT_NOTE_46,"Disable the Classic sunlight color, Classic sunlight intensity and Classic for color settings in Daylight Classic.","Desative 'Classic sunlight color, Classic sunlight intensity e Classic for color settings' no 'Daylight Classic'.",REPORT_NOTE_46,,
+REPORT_NOTE_47,"Disabling water pollution is not immediate, it takes some time for the water to clear up. Re-enabling ground or water pollution is also not immediate, it takes some time to build up again.","Desativar a poluição da água não é imediato, leva algum tempo para que a água se limpe. Reativar a poluição dos solos e da água também não é imediato, demora algum tempo.",REPORT_NOTE_47,,
+REPORT_NOTE_48,"Due to the significant changes to the base game, this mod is best used for new games only.","Devido às mudanças significativas no jogo base, este mod é recomendado somente para novos jogos.",REPORT_NOTE_48,,
+REPORT_NOTE_49,"EDS doesn't detect the extra CitizenUnits.","'EDS' não detecta 'extra CitizenUnits'.",REPORT_NOTE_49,,
 REPORT_NOTE_50,"Either toggle anarchy off or bulldoze trees/rocks before placing anything, to prevent trees/rocks in buildings or roads.","Either toggle anarchy off or bulldoze trees/rocks before placing anything, to prevent trees/rocks in buildings or roads.",REPORT_NOTE_50,,
-REPORT_NOTE_51,"Elevated road, bridges and tunnels are separate network types and will need to be replaced separately. Read workshop page for links to replacement collections.","Elevated road, bridges and tunnels are separate network types and will need to be replaced separately. Read workshop page for links to replacement collections.",REPORT_NOTE_51,,
+REPORT_NOTE_51,"Elevated road, bridges and tunnels are separate network types and will need to be replaced separately. Read workshop page for links to replacement collections.","Via elevada, pontes e túneis são tipos de estradas separados e precisam ser substituídos separadamente. Leia a página da oficina para obter links de coleções para substituição.",REPORT_NOTE_51,,
 REPORT_NOTE_52,"EML already has a better limit showing functionality.","EML already has a better limit showing functionality.",REPORT_NOTE_52,,
-REPORT_NOTE_53,"EML already has the functionality of Unlimited Outside Connections.","EML already has the functionality of Unlimited Outside Connections.",REPORT_NOTE_53,,
-REPORT_NOTE_54,"EML has electrified roads functionality built-in.","EML has electrified roads functionality built-in.",REPORT_NOTE_54,,
+REPORT_NOTE_53,"EML already has the functionality of Unlimited Outside Connections.","'EML' já tem a funcionalidade de 'Unlimited Outside Connections'.",REPORT_NOTE_53,,
+REPORT_NOTE_54,"EML has electrified roads functionality built-in.","'EML' tem a funcionalidade de estradas eletrificadas incorporada.",REPORT_NOTE_54,,
 REPORT_NOTE_55,"Existing IMT 'raised meshes' (traffic islands) will not automatically have their heights adjusted. Other markings will adjust automatically.","Existing IMT 'raised meshes' (traffic islands) will not automatically have their heights adjusted. Other markings will adjust automatically.",REPORT_NOTE_55,,
-REPORT_NOTE_56,"Extended InfoPanel 2 has all functionality from HideUI.","Extended InfoPanel 2 has all functionality from HideUI.",REPORT_NOTE_56,,
-REPORT_NOTE_57,"Extended InfoPanel 2 has all functionality from More Simulation Speed Options.","Extended InfoPanel 2 has all functionality from More Simulation Speed Options.",REPORT_NOTE_57,,
-REPORT_NOTE_58,"Extended InfoPanel already has Chirper move functionality.","Extended InfoPanel already has Chirper move functionality.",REPORT_NOTE_58,,
-REPORT_NOTE_59,"Find It filters don't work correctly with the Tree &amp; Vehicle Prop mod.","Find It filters don't work correctly with the Tree &amp; Vehicle Prop mod.",REPORT_NOTE_59,,
-REPORT_NOTE_60,"Find It has the ability to 'unlock all'. You can unsubscribe the 'Unlock All + Wonders' mod.","Find It has the ability to 'unlock all'. You can unsubscribe the 'Unlock All + Wonders' mod.",REPORT_NOTE_60,,
-REPORT_NOTE_61,"Will not bulldoze if you own Natural Disasters. You need to use Disaster Response Unit in this case. Newer building categories are not bulldozed.","Will not bulldoze if you own Natural Disasters. You need to use Disaster Response Unit in this case. Newer building categories are not bulldozed.",REPORT_NOTE_61,,
-REPORT_NOTE_62,"Firefighters might walk instead of run back to their firetruck.","Firefighters might walk instead of run back to their firetruck.",REPORT_NOTE_62,,
+REPORT_NOTE_56,"Extended InfoPanel 2 has all functionality from HideUI.","'Extended InfoPanel 2' tem todas as funcionalidades do 'HideUI'.",REPORT_NOTE_56,,
+REPORT_NOTE_57,"Extended InfoPanel 2 has all functionality from More Simulation Speed Options.","'Extended InfoPanel 2' tem todas as funcionalidades do 'More Simulation Speed Options'.",REPORT_NOTE_57,,
+REPORT_NOTE_58,"Extended InfoPanel already has Chirper move functionality.","'Extended InfoPanel' já tem a funcionalidade do 'Chirper move'.",REPORT_NOTE_58,,
+REPORT_NOTE_59,"Find It filters don't work correctly with the Tree &amp; Vehicle Prop mod.","O filtro do 'Find It' não funciona corretamente com o 'Tree & Vehicle Prop'.",REPORT_NOTE_59,,
+REPORT_NOTE_60,"Find It has the ability to 'unlock all'. You can unsubscribe the 'Unlock All + Wonders' mod.","'Find It' tem a habilidade de desbloquear tudo. Você pode cancelar a inscrição do mod 'Unlock All + Wonders'.",REPORT_NOTE_60,,
+REPORT_NOTE_61,"Will not bulldoze if you own Natural Disasters. You need to use Disaster Response Unit in this case. Newer building categories are not bulldozed.","Não irá demolir se você possuir desastres naturais. Você precisa usar o 'Disaster Response Unit' neste caso. As categorias de construção mais recentes não são demolidas.",REPORT_NOTE_61,,
+REPORT_NOTE_62,"Firefighters might walk instead of run back to their firetruck.","Bombeiros podem andar em vez de correr de volta ao seu caminhão de bombeiros.",REPORT_NOTE_62,,
 REPORT_NOTE_63,"For public transport vehicles that spawn at a depot, the vehicles are listed at the depot instead of the station.","For public transport vehicles that spawn at a depot, the vehicles are listed at the depot instead of the station.",REPORT_NOTE_63,,
 REPORT_NOTE_64,"For transit hubs, this only works if the bus part is a sub-building.","For transit hubs, this only works if the bus part is a sub-building.",REPORT_NOTE_64,,
-REPORT_NOTE_65,"FPS Booster has all functionality of Mini FPS Booster, and more.","FPS Booster has all functionality of Mini FPS Booster, and more.",REPORT_NOTE_65,,
+REPORT_NOTE_65,"FPS Booster has all functionality of Mini FPS Booster, and more.","O 'FPS Booster' tem todas as funcionalidades do 'Mini FPS Booster', e mais.",REPORT_NOTE_65,,
 REPORT_NOTE_66,"From the main menu, the delay time in the mod options will be incorrect. While in game, the mod options do show the correct delay time, corresponding to the Real Time slowed time.","From the main menu, the delay time in the mod options will be incorrect. While in game, the mod options do show the correct delay time, corresponding to the Real Time slowed time.",REPORT_NOTE_66,,
-REPORT_NOTE_67,"Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in TimeWarp will not work.","Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in TimeWarp will not work.",REPORT_NOTE_67,,
-REPORT_NOTE_68,"Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.","Game pauses automatically when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.",REPORT_NOTE_68,,
-REPORT_NOTE_69,"Garbage Bin Controller breaks Harmony and any mod depending on Harmony. Switch to Garbage Bin Manager.","Garbage Bin Controller breaks Harmony and any mod depending on Harmony. Switch to Garbage Bin Manager.",REPORT_NOTE_69,,
-REPORT_NOTE_70,"Harmony Redesigned might disable UI Resolution. Use the regular version of Harmony instead.","Harmony Redesigned might disable UI Resolution. Use the regular version of Harmony instead.",REPORT_NOTE_70,,
+REPORT_NOTE_67,"Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in TimeWarp will not work.","O jogo pausa automaticamente quando você muda o tempo e o tempo é redefinido quando você retornar ao jogo. As opções de velocidade do tempo no 'TimeWarp' não funcionarão.",REPORT_NOTE_67,,
+REPORT_NOTE_68,"Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.","O jogo pausa automaticamente quando você muda o tempo e o tempo é redefinido quando você retornar ao jogo. As opções de velocidade do tempo no 'Ultimate Eyecandy' não funcionarão.",REPORT_NOTE_68,,
+REPORT_NOTE_69,"Garbage Bin Controller breaks Harmony and any mod depending on Harmony. Switch to Garbage Bin Manager.","'Garbage Bin Controller' quebra o 'Harmony' e qualquer mod que dependa do 'Harmony'. Troque pelo 'Garbage Bin Manager'.",REPORT_NOTE_69,,
+REPORT_NOTE_70,"Harmony Redesigned might disable UI Resolution. Use the regular version of Harmony instead.","'Harmony Redesigned' pode desativar a resolução da interface de usuario. Em vez disso, use a versão regular do 'Harmony'.",REPORT_NOTE_70,,
 REPORT_NOTE_71,"If contour lines doesn't work, turn off ""Overwrite Terrain"" and set the value to around 100 in ROTTERdams options.","If contour lines doesn't work, turn off ""Overwrite Terrain"" and set the value to around 100 in ROTTERdams options.",REPORT_NOTE_71,,
 REPORT_NOTE_72,"If the default looks too dark, turn up the global and/or ambient light intensity settings in Ultimate Eyecandy. Shadows must be set to max using Shadow Strength Adjuster to prevent the sun from leaking through objects. To make shadows less visible, reduce global light intensity and increase ambient light intensity in Ultimate Eyecandy.","If the default looks too dark, turn up the global and/or ambient light intensity settings in Ultimate Eyecandy. Shadows must be set to max using Shadow Strength Adjuster to prevent the sun from leaking through objects. To make shadows less visible, reduce global light intensity and increase ambient light intensity in Ultimate Eyecandy.",REPORT_NOTE_72,,
 REPORT_NOTE_73,"If you change graphics settings or prop visibility distance, you will have to restart the game for the decals to update.","If you change graphics settings or prop visibility distance, you will have to restart the game for the decals to update.",REPORT_NOTE_73,,
@@ -431,46 +431,46 @@ REPORT_NOTE_77,"If you enable this mod for a resource that you have industry bui
 REPORT_NOTE_78,"If you have issues with nature reserve paths or the topographic lines overlay, read the mod description on the Steam Workshop for fixes.","If you have issues with nature reserve paths or the topographic lines overlay, read the mod description on the Steam Workshop for fixes.",REPORT_NOTE_78,,
 REPORT_NOTE_79,"If you use more than one of the OxylonEuroSoundpack's, you might get one or more ""already exists"" warnings. These are harmless.","If you use more than one of the OxylonEuroSoundpack's, you might get one or more ""already exists"" warnings. These are harmless.",REPORT_NOTE_79,,
 REPORT_NOTE_80,"If you use this only for high resolution screenshots, you don't need this mod and can use the default Shift-F12 instead.","If you use this only for high resolution screenshots, you don't need this mod and can use the default Shift-F12 instead.",REPORT_NOTE_80,,
-REPORT_NOTE_81,"If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller: ""Daynight Fog"" and ""Classic Fog"", and enable the following settings for Daylight Classic: ""Classic sunlight color"", ""Classic sunlight intensity"", ""Classic fog Effect"" and ""Allow Classic fog effect if day/night cycle is on"".","If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller: ""Daynight Fog"" and ""Classic Fog"", and enable the following settings for Daylight Classic: - ""Classic sunlight color"", ""Classic sunlight intensity"", ""Classic fog Effect"" and ""Allow Classic fog effect if day/night cycle is on"".",REPORT_NOTE_81,,
+REPORT_NOTE_81,"If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller: ""Daynight Fog"" and ""Classic Fog"", and enable the following settings for Daylight Classic: ""Classic sunlight color"", ""Classic sunlight intensity"", ""Classic fog Effect"" and ""Allow Classic fog effect if day/night cycle is on"".","If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller: ""Daynight Fog"" and ""Classic Fog"", and enable the following settings for Daylight Classic: ""Classic sunlight color"", ""Classic sunlight intensity"", ""Classic fog Effect"" and ""Allow Classic fog effect if day/night cycle is on"".",REPORT_NOTE_81,,
 REPORT_NOTE_82,"If you want to use the old props that are included in the original mod, you need to keep the original mod subscribed, but disabled. Alternatively you could move the original .crp files to your local asset folder and unsub the original mod. If you start a new city it's the best to unsubscribe the original mod and use the Ploppable Surfaces from this collection: https://steamcommunity.com/sharedfiles/filedetails/?id=2872742333","If you want to use the old props that are included in the original mod, you need to keep the original mod subscribed, but disabled. Alternatively you could move the original .crp files to your local asset folder and unsub the original mod. If you start a new city it's the best to unsubscribe the original mod and use the Ploppable Surfaces from this collection: https://steamcommunity.com/sharedfiles/filedetails/?id=2872742333",REPORT_NOTE_82,,
 REPORT_NOTE_83,"If you're unable to move props vertically with Move It, try turning prop snapping off and on again in the mod options of Prop Anarchy.","If you're unable to move props vertically with Move It, try turning prop snapping off and on again in the mod options of Prop Anarchy.",REPORT_NOTE_83,,
 REPORT_NOTE_84,"IMT markings will be lost on replaced network segments and connected intersections.","IMT markings will be lost on replaced network segments and connected intersections.",REPORT_NOTE_84,,
 REPORT_NOTE_85,"In order to build outside connections with zonable roads outside of unlocked tiles you need to temporarily disable zoning with another mod. In the map editor the connections have to use vanilla roads, not custom roads. Intercity buses only enter the city via 1-way highway outside connections, not via any 2-way road.","In order to build outside connections with zonable roads outside of unlocked tiles you need to temporarily disable zoning with another mod. In the map editor the connections have to use vanilla roads, not custom roads. Intercity buses only enter the city via 1-way highway outside connections, not via any 2-way road.",REPORT_NOTE_85,,
 REPORT_NOTE_86,"In Settings of ""Express Bus Services (TLM Plugin)"" the options ""Experimental"" and ""Agressive"" may cause buses to despawn if Transport Line Manager is also used. The option ""Prudential"" works as expected.","In Settings of ""Express Bus Services (TLM Plugin)"" the options ""Experimental"" and ""Agressive"" may cause buses to despawn if Transport Line Manager is also used. The option ""Prudential"" works as expected.",REPORT_NOTE_86,,
 REPORT_NOTE_87,"The functionality of this mod is included in the game itself.","The functionality of this mod is included in the game itself.",REPORT_NOTE_87,,
-REPORT_NOTE_88,"Incorrectly shows as Cinematic Camera.","Incorrectly shows as Cinematic Camera.",REPORT_NOTE_88,,
+REPORT_NOTE_88,"Incorrectly shows as Cinematic Camera.","Apresenta problemas com a Câmera Cinemática.",REPORT_NOTE_88,,
 REPORT_NOTE_89,"Instead of (or combined with) this mod you can download custom citizens from the Workshop for a more diverse crowd.","Instead of (or combined with) this mod you can download custom citizens from the Workshop for a more diverse crowd.",REPORT_NOTE_89,,
-REPORT_NOTE_90,"Intended only for flat ground.","Intended only for flat ground.",REPORT_NOTE_90,,
-REPORT_NOTE_91,"Intercity buses only enter the city via 1-way highway outside connections, not via any 2-way road.","Intercity buses only enter the city via 1-way highway outside connections, not via any 2-way road.",REPORT_NOTE_91,,
+REPORT_NOTE_90,"Intended only for flat ground.","Indicado apenas para terrenos planos.",REPORT_NOTE_90,,
+REPORT_NOTE_91,"Intercity buses only enter the city via 1-way highway outside connections, not via any 2-way road.","Os ônibus intermunicipais só entram na cidade a partir de rodovias de mão única, não de mão dupla.",REPORT_NOTE_91,,
 REPORT_NOTE_92,"IPT2 already has a (different) 'spawning delay' functionality. This works in real-time instead of game-time, and for individual depots.","IPT2 already has a (different) 'spawning delay' functionality. This works in real-time instead of game-time, and for individual depots.",REPORT_NOTE_92,,
-REPORT_NOTE_93,"It is STRONGLY recommended not to use this mod!","It is STRONGLY recommended not to use this mod!",REPORT_NOTE_93,,
+REPORT_NOTE_93,"It is STRONGLY recommended not to use this mod!","É extremamente NÃO recomendado o uso desse mod!",REPORT_NOTE_93,,
 REPORT_NOTE_94,"It is strongly recommended to make a backup of an existing save before using this mod on it.","It is strongly recommended to make a backup of an existing save before using this mod on it.",REPORT_NOTE_94,,
 REPORT_NOTE_95,"It takes some time before the traffic starts obeying new rules. The author classifies this mod as advanced/experimental.","It takes some time before the traffic starts obeying new rules. The author classifies this mod as advanced/experimental.",REPORT_NOTE_95,,
 REPORT_NOTE_96,"It's best to disable the dynamic day length option in Real Time, because Cubemap Replacer uses hard-coded times for sunset/sunrise.","It's best to disable the dynamic day length option in Real Time, because Cubemap Replacer uses hard-coded times for sunset/sunrise.",REPORT_NOTE_96,,
 REPORT_NOTE_97,"It's best to disable the dynamic day length option in Real Time, because Relight uses hard-coded times for sunset/sunrise.","It's best to disable the dynamic day length option in Real Time, because Relight uses hard-coded times for sunset/sunrise.",REPORT_NOTE_97,,
-REPORT_NOTE_98,"It's not recommended to use this in the map editor, because created maps will require Prop Anarchy.","It's not recommended to use this in the map editor, because created maps will require Prop Anarchy.",REPORT_NOTE_98,,
-REPORT_NOTE_99,"It's unclear if this actually needs the Extra Vehicle Effects mod.","It's unclear if this actually needs the Extra Vehicle Effects mod.",REPORT_NOTE_99,,
+REPORT_NOTE_98,"It's not recommended to use this in the map editor, because created maps will require Prop Anarchy.","Não é recomendado utilizar junto ao editor de mapas, pois, os mapas criados vão precisar do Porp Anarchy.",REPORT_NOTE_98,,
+REPORT_NOTE_99,"It's unclear if this actually needs the Extra Vehicle Effects mod.","Atualmente não está claro se realmente precisa do Mod Extra Vehicle Effects.",REPORT_NOTE_99,,
 REPORT_NOTE_100,"Lifecycle Rebalance already includes 'no deathcare' functionality.","Lifecycle Rebalance already includes 'no deathcare' functionality.",REPORT_NOTE_100,,
 REPORT_NOTE_101,"Loading Screen Mod includes all functionality from Safenets, and much more.","Loading Screen Mod includes all functionality from Safenets, and much more.",REPORT_NOTE_101,,
 REPORT_NOTE_102,"Make historical' is part of the game itself now, but with this mod a historical building can't get abandoned.","Make historical' is part of the game itself now, but with this mod a historical building can't get abandoned.",REPORT_NOTE_102,,
-REPORT_NOTE_103,"Make sure the image you use is a square, not a rectangle.","Make sure the image you use is a square, not a rectangle.",REPORT_NOTE_103,,
+REPORT_NOTE_103,"Make sure the image you use is a square, not a rectangle.","Certifique-se de que a imagem que você usa é um quadrado, não um retângulo.",REPORT_NOTE_103,,
 REPORT_NOTE_104,"Make sure to have the mod always on, directly from the start of a new game. Also, either fix the values from the start and leave them fixed forever, or never fix them at all. Switching between fixed and unfixed values can really throw the demand out of balance, and it might take ages for the demand to catch up. Can cause issues in late game in the way that suddenly all demands stops. Loading the city w/o this mod installed and save it again, fixes this issue. Turn off ""Show RCI demand value on status bar"", as it will spam your log and causes issues.","Make sure to have the mod always on, directly from the start of a new game. Also, either fix the values from the start and leave them fixed forever, or never fix them at all. Switching between fixed and unfixed values can really throw the demand out of balance, and it might take ages for the demand to catch up. Can cause issues in late game in the way that suddenly all demands stops. Loading the city w/o this mod installed and save it again, fixes this issue. Turn off ""Show RCI demand value on status bar"", as it will spam your log and causes issues.",REPORT_NOTE_104,,
-REPORT_NOTE_105,"Mod settings for Shadow Distance Fix reset on game load.","Mod settings for Shadow Distance Fix reset on game load.",REPORT_NOTE_105,,
-REPORT_NOTE_106,"Mods without source codes and with an unclear description should better not be subscribed.","Mods without source codes and with an unclear description should better not be subscribed.",REPORT_NOTE_106,,
-REPORT_NOTE_107,"MOM already allows you to convert train stations to metro stations.","MOM already allows you to convert train stations to metro stations.",REPORT_NOTE_107,,
+REPORT_NOTE_105,"Mod settings for Shadow Distance Fix reset on game load.","As configurações do Mod Shadow Distance Fix voltam ao padrão quando o jogo é carregado.",REPORT_NOTE_105,,
+REPORT_NOTE_106,"Mods without source codes and with an unclear description should better not be subscribed.","Mods sem código-fonte e com descrição pouco clara, não devem ser assinados.",REPORT_NOTE_106,,
+REPORT_NOTE_107,"MOM already allows you to convert train stations to metro stations.","MOM já permite converter estações de trem em estações de metro.",REPORT_NOTE_107,,
 REPORT_NOTE_108,"MOM handles spawn points for metro, so if you have issues with metro spawns, check MOM.","MOM handles spawn points for metro, so if you have issues with metro spawns, check MOM.",REPORT_NOTE_108,,
 REPORT_NOTE_109,"More Advanced OptionsPanel has the functionality of Sort Mod Settings, and more.","More Advanced OptionsPanel has the functionality of Sort Mod Settings, and more.",REPORT_NOTE_109,,
 REPORT_NOTE_110,"More Advanced OptionsPanel has the functionality of Wider OptionsPanel, and more.","More Advanced OptionsPanel has the functionality of Wider OptionsPanel, and more.",REPORT_NOTE_110,,
 REPORT_NOTE_111,"Movement speed has a significant impact on the boarding times at train and metro stations, especially for longer trains. Citizens crossing the streets slowly can lead to more stuttering of traffic, because they block the cars.","Movement speed has a significant impact on the boarding times at train and metro stations, especially for longer trains. Citizens crossing the streets slowly can lead to more stuttering of traffic, because they block the cars.",REPORT_NOTE_111,,
 REPORT_NOTE_112,"Music used with permission from the game developer, ConcernedApe, but unknown if streaming is allowed.","Music used with permission from the game developer, ConcernedApe, but unknown if streaming is allowed.",REPORT_NOTE_112,,
 REPORT_NOTE_113,"Natural Disasters Overhaul gets confused by the slower flow of time. Most notably forest fires will be much more common. Set the fire probability low as a workaround.","Natural Disasters Overhaul gets confused by the slower flow of time. Most notably forest fires will be much more common. Set the fire probability low as a workaround.",REPORT_NOTE_113,,
-REPORT_NOTE_114,"Needs a specific process to change sounds. Read workshop page carefully","Needs a specific process to change sounds. Read workshop page carefully",REPORT_NOTE_114,,
-REPORT_NOTE_115,"Network Skins causes zoning glitches on CSUR roads.","Network Skins causes zoning glitches on CSUR roads.",REPORT_NOTE_115,,
-REPORT_NOTE_116,"Network Skins has all functionality of NoPillars.","Network Skins has all functionality of NoPillars.",REPORT_NOTE_116,,
-REPORT_NOTE_117,"Network Skins modifications will be lost on replaced network segments.","Network Skins modifications will be lost on replaced network segments.",REPORT_NOTE_117,,
+REPORT_NOTE_114,"Needs a specific process to change sounds. Read workshop page carefully","Requer um processo específico para alterar sons. Leia a página da oficina cuidadosamente",REPORT_NOTE_114,,
+REPORT_NOTE_115,"Network Skins causes zoning glitches on CSUR roads.","Network Skins causa algumas falhas no zoneamento do CSUR roads.",REPORT_NOTE_115,,
+REPORT_NOTE_116,"Network Skins has all functionality of NoPillars.","Network Skins possui todas as funcionalidades do NoPillars.",REPORT_NOTE_116,,
+REPORT_NOTE_117,"Network Skins modifications will be lost on replaced network segments.","As modificações do Network Skins serão perdidas se o seguimento for substituído.",REPORT_NOTE_117,,
 REPORT_NOTE_118,"New skins added with Network Skins in a session do not always reflect Traffic Light Replacer changes until a game reload.","New skins added with Network Skins in a session do not always reflect Traffic Light Replacer changes until a game reload.",REPORT_NOTE_118,,
-REPORT_NOTE_119,"No need to subscribe More Network Stuff, if you are not creating Maps or assets.","No need to subscribe More Network Stuff, if you are not creating Maps or assets.",REPORT_NOTE_119,,
-REPORT_NOTE_120,"Node Controller already has the ability to add a crosswalk anywhere on a road.","Node Controller already has the ability to add a crosswalk anywhere on a road.",REPORT_NOTE_120,,
+REPORT_NOTE_119,"No need to subscribe More Network Stuff, if you are not creating Maps or assets.","Não é mais necessário assinar More Network Stuff, se não for criar algum Mapa ou ativos (assets).",REPORT_NOTE_119,,
+REPORT_NOTE_120,"Node Controller already has the ability to add a crosswalk anywhere on a road.","Node Controller já permite adicionar faixas de pedestres em qualquer lugar da via.",REPORT_NOTE_120,,
 REPORT_NOTE_121,"Node Controller Renewal has less features, but a better UI. If you don't use the extra features, you might want to switch to Node Controller Renewal.","Node Controller Renewal has less features, but a better UI. If you don't use the extra features, you might want to switch to Node Controller Renewal.",REPORT_NOTE_121,,
 REPORT_NOTE_122,"NOTE: Don't use the workaround described on the Workshop page (reloading the city), as this might cause issues with other mods.","NOTE: Don't use the workaround described on the Workshop page (reloading the city), as this might cause issues with other mods.",REPORT_NOTE_122,,
 REPORT_NOTE_123,"Note: The locale file will not be removed when unsubscribing. It has to be removed manually, see Workshop page.","Note: The locale file will not be removed when unsubscribing. It has to be removed manually, see Workshop page.",REPORT_NOTE_123,,
@@ -480,11 +480,11 @@ REPORT_NOTE_126,"Painted surfaces might reset when subscribing to anything while
 REPORT_NOTE_127,"Painter breaks Harmony and any mod depending on Harmony. Switch to Repaint.","Painter breaks Harmony and any mod depending on Harmony. Switch to Repaint.",REPORT_NOTE_127,,
 REPORT_NOTE_128,"Picker picking a different object when Dynamic Asset sorter changes the order of items.","Picker picking a different object when Dynamic Asset sorter changes the order of items.",REPORT_NOTE_128,,
 REPORT_NOTE_129,"Placed 'NTCP' props show as missing props in Loading Screen Mod. This is a false alert and can be ignored.","Placed 'NTCP' props show as missing props in Loading Screen Mod. This is a false alert and can be ignored.",REPORT_NOTE_129,,
-REPORT_NOTE_130,"Play It already has game speed functionality.","Play It already has game speed functionality.",REPORT_NOTE_130,,
-REPORT_NOTE_131,"Play It has more extensive weather options.","Play It has more extensive weather options.",REPORT_NOTE_131,,
-REPORT_NOTE_132,"Play It has most functionality of Ultimate Eyecandy. Combine Play It with Render It and Theme Mixer 2 for full replacement functionality.","Play It has most functionality of Ultimate Eyecandy. Combine Play It with Render It and Theme Mixer 2 for full replacement functionality.",REPORT_NOTE_132,,
+REPORT_NOTE_130,"Play It already has game speed functionality.","Play It, já possui funcionalidades de velocidade de jogo.",REPORT_NOTE_130,,
+REPORT_NOTE_131,"Play It has more extensive weather options.","Play It, possui opções meteorológicas mais extensas.",REPORT_NOTE_131,,
+REPORT_NOTE_132,"Play It has most functionality of Ultimate Eyecandy. Combine Play It with Render It and Theme Mixer 2 for full replacement functionality.","'Play It' tem a maioria das funcionalidades do 'Ultimate Eyecandy'. Combine o 'Play It' com o 'Render It' e o 'Theme Mixer 2' para completar as funcionalidades.",REPORT_NOTE_132,,
 REPORT_NOTE_133,"Please note that RT mod compatibility is in beta and there may be bugs present.","Please note that RT mod compatibility is in beta and there may be bugs present.",REPORT_NOTE_133,,
-REPORT_NOTE_134,"Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.","Ploppable RICO now has the functionality of Plop the Growables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Plop the Growables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.",REPORT_NOTE_134,,
+REPORT_NOTE_134,"Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.","Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.",REPORT_NOTE_134,,
 REPORT_NOTE_135,"Prop Anarchy already has a better prop painting functionality.","Prop Anarchy already has a better prop painting functionality.",REPORT_NOTE_135,,
 REPORT_NOTE_136,"Prop Anarchy already has prop scaling functionality.","Prop Anarchy already has prop scaling functionality.",REPORT_NOTE_136,,
 REPORT_NOTE_137,"Prop Anarchy already has the transparency LOD fix.","Prop Anarchy already has the transparency LOD fix.",REPORT_NOTE_137,,
@@ -493,7 +493,7 @@ REPORT_NOTE_139,"Prop Painter was not updated to recent Move It updates, creatin
 REPORT_NOTE_140,"Real City doesn't detect the extra CitizenUnits.","Real City doesn't detect the extra CitizenUnits.",REPORT_NOTE_140,,
 REPORT_NOTE_141,"Real Time is meant for cities with a population of up to 65.000 (it can be used on larger cities but there might be issues). Real Time completely changes the simulation, which makes it incompatible with a lot of other mods, especially those that alter or depend on time progression.","Real Time is meant for cities with a population of up to 65.000 (it can be used on larger cities but there might be issues). Real Time completely changes the simulation, which makes it incompatible with a lot of other mods, especially those that alter or depend on time progression.",REPORT_NOTE_141,,
 REPORT_NOTE_142,"Real Time might delay the arrival of extra Starting Money.","Real Time might delay the arrival of extra Starting Money.",REPORT_NOTE_142,,
-REPORT_NOTE_143,"Price changes have no effect on the bank balance.","Price changes have no effect on the bank balance.",REPORT_NOTE_143,,
+REPORT_NOTE_143,"Price changes have no effect on the bank balance.","As alterações de preços não afetam o saldo bancário.",REPORT_NOTE_143,,
 REPORT_NOTE_144,"Render It already has shadow strength functionality.","Render It already has shadow strength functionality.",REPORT_NOTE_144,,
 REPORT_NOTE_145,"Replacing road arrows with Prop Switcher is not recommended and might give an 'array out of bounds' error.","Replacing road arrows with Prop Switcher is not recommended and might give an 'array out of bounds' error.",REPORT_NOTE_145,,
 REPORT_NOTE_146,"Require removing all dependent assets before removing the mod. Button for that is in options of the mod.","Require removing all dependent assets before removing the mod. Button for that is in options of the mod.",REPORT_NOTE_146,,
@@ -513,9 +513,9 @@ REPORT_NOTE_159,"Some roads from Network Extensions spawn the wrong or an extra 
 REPORT_NOTE_160,"Some roads from Network Extensions spawn the wrong or no traffic light.","Some roads from Network Extensions spawn the wrong or no traffic light.",REPORT_NOTE_160,,
 REPORT_NOTE_161,"Some roads from Network Extensions spawn the wrong traffic light.","Some roads from Network Extensions spawn the wrong traffic light.",REPORT_NOTE_161,,
 REPORT_NOTE_162,"Some textures on Network Extensions roads might not load.","Some textures on Network Extensions roads might not load.",REPORT_NOTE_162,,
-REPORT_NOTE_163,"Some user get these to work together.","Some user get these to work together.",REPORT_NOTE_163,,
+REPORT_NOTE_163,"Some user get these to work together.","Alguns usuários fizeram funcionar juntos.",REPORT_NOTE_163,,
 REPORT_NOTE_164,"Some Workshop roads with non-standard curb heights will not have their curb height adjusted by this mod. Decals and terrain-conforming props placed on the road surface, will automatically adjust to the new height. Ploppable surfaces and other non-terrain-conforming props will need to be manually moved up/down.","Some Workshop roads with non-standard curb heights will not have their curb height adjusted by this mod. Decals and terrain-conforming props placed on the road surface, will automatically adjust to the new height. Ploppable surfaces and other non-terrain-conforming props will need to be manually moved up/down.",REPORT_NOTE_164,,
-REPORT_NOTE_165,"Spawn points for cargo trucks are not supported on cargo train stations, cargo airports or cargo harbors.","Spawn points for cargo trucks are not supported on cargo train stations, cargo airports or cargo harbors.",REPORT_NOTE_165,,
+REPORT_NOTE_165,"Spawn points for cargo trucks are not supported on cargo train stations, cargo airports or cargo harbors.","Os pontos de spawn para camiões de carga não são suportados nas estações de trem de carga, nos aeroportos de carga ou nos portos de cargas.",REPORT_NOTE_165,,
 REPORT_NOTE_166,"TAA can cause some flickering, ghosting and jitter. This is not a bug from this mod, but inherent to TAA. Read the Workshop page for details.","TAA can cause some flickering, ghosting and jitter. This is not a bug from this mod, but inherent to TAA. Read the Workshop page for details.",REPORT_NOTE_166,,
 REPORT_NOTE_167,"Terrain conforming props cannot be moved up/down.","Terrain conforming props cannot be moved up/down.",REPORT_NOTE_167,,
 REPORT_NOTE_168,"The 'No Problem' mod makes the game think the problem doesn't exist, while the 'Hide Problems' mod only hides the icon. Each mod can (ironically) already lead to serious problems. Combining them is really asking for it...","The 'No Problem' mod makes the game think the problem doesn't exist, while the 'Hide Problems' mod only hides the icon. Each mod can (ironically) already lead to serious problems. Combining them is really asking for it...",REPORT_NOTE_168,,
@@ -531,17 +531,17 @@ REPORT_NOTE_177,"The data converter can only do its work when Plop the Growables
 REPORT_NOTE_178,"The destination to which the warehouse sends goods needs to be reachable by another transport mode next to barges. When a different transport mode provides a shorter route, no further barges are spawned. When the other barge harbour becomes unreachable, no further barges are spawned.","The destination to which the warehouse sends goods needs to be reachable by another transport mode next to barges. When a different transport mode provides a shorter route, no further barges are spawned. When the other barge harbour becomes unreachable, no further barges are spawned.",REPORT_NOTE_178,,
 REPORT_NOTE_179,"The FPS Booster patch display doesn't work when the BAF Module is subscribed.","The FPS Booster patch display doesn't work when the BAF Module is subscribed.",REPORT_NOTE_179,,
 REPORT_NOTE_180,"Not showing information for newer DLC assets.","Not showing information for newer DLC assets.",REPORT_NOTE_180,,
-REPORT_NOTE_181,"The game already has this functionality, so this mod is not really needed. This mod uses slightly different values than the base game, so the benefit - if any - is minimal.","The game already has this functionality, so this mod is not really needed. This mod uses slightly different values than the base game, so the benefit - if any - is minimal.",REPORT_NOTE_181,,
+REPORT_NOTE_181,"The game already has this functionality, so this mod is not really needed. This mod uses slightly different values than the base game, so the benefit - if any - is minimal.","O jogo já tem essa funcionalidade, então esse mod não é realmente necessário. Este mod usa valores um pouco diferentes do jogo base, então o benefício - se algum - é mínimo.",REPORT_NOTE_181,,
 REPORT_NOTE_182,"The game already solves the issue of not having enough low educated workers by employing highly educated people in lower-education jobs.","The game already solves the issue of not having enough low educated workers by employing highly educated people in lower-education jobs.",REPORT_NOTE_182,,
 REPORT_NOTE_183,"The game has one-way train tracks as well, but this also has a single two-way track and is still needed for custom stations with a one-way station track.","The game has one-way train tracks as well, but this also has a single two-way track and is still needed for custom stations with a one-way station track.",REPORT_NOTE_183,,
 REPORT_NOTE_184,"The game sometimes forgets the real start of a route and might show it as 'No District'.","The game sometimes forgets the real start of a route and might show it as 'No District'.",REPORT_NOTE_184,,
 REPORT_NOTE_185,"The graphs from Enhanced Outside Connections View are far less useful because time flows much more slowly.","The graphs from Enhanced Outside Connections View are far less useful because time flows much more slowly.",REPORT_NOTE_185,,
 REPORT_NOTE_186,"The mod uses an executable to actually draw the map. That executable works on Windows only and requires .NET Framework 4.5.2. This is not updated for the new Sunset Harbor transport lines.","The mod uses an executable to actually draw the map. That executable works on Windows only and requires .NET Framework 4.5.2. This is not updated for the new Sunset Harbor transport lines.",REPORT_NOTE_186,,
-REPORT_NOTE_187,"The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.","The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .NET install. See Workshop page for details.",REPORT_NOTE_187,,
+REPORT_NOTE_187,"The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.","The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.",REPORT_NOTE_187,,
 REPORT_NOTE_188,"The number of CitizenUnits will be increased correctly, but Watch It incorrectly shows the old number.","The number of CitizenUnits will be increased correctly, but Watch It incorrectly shows the old number.",REPORT_NOTE_188,,
 REPORT_NOTE_189,"The original mod has been updated with a Chinese translation.","The original mod has been updated with a Chinese translation.",REPORT_NOTE_189,,
-REPORT_NOTE_190,"The original mod supports the Chinese language.","The original mod supports the Chinese language.",REPORT_NOTE_190,,
-REPORT_NOTE_191,"The replaced signals have no light or animation.","The replaced signals have no light or animation.",REPORT_NOTE_191,,
+REPORT_NOTE_190,"The original mod supports the Chinese language.","O mod original suporta a língua chinesa.",REPORT_NOTE_190,,
+REPORT_NOTE_191,"The replaced signals have no light or animation.","Os sinais substituídos não possuem luz nem animação.",REPORT_NOTE_191,,
 REPORT_NOTE_192,"The service selections on the Healthcare service selection panel are displayed too low making it difficult or impossible to click.","The service selections on the Healthcare service selection panel are displayed too low making it difficult or impossible to click.",REPORT_NOTE_192,,
 REPORT_NOTE_193,"The Tab key this mod uses conflicts with several other mods. Either use another first person mod, or change the key in the xml file (see Workshop comments).","The Tab key this mod uses conflicts with several other mods. Either use another first person mod, or change the key in the xml file (see Workshop comments).",REPORT_NOTE_193,,
 REPORT_NOTE_194,"The textures from Theme Decals will probably not match the mixed theme.","The textures from Theme Decals will probably not match the mixed theme.",REPORT_NOTE_194,,
@@ -553,8 +553,8 @@ REPORT_NOTE_199,"The vertical scrollbar in the Toolbar won't work well with Find
 REPORT_NOTE_200,"The yellow arrow signals do not operate with TM:PE.","The yellow arrow signals do not operate with TM:PE.",REPORT_NOTE_200,,
 REPORT_NOTE_201,"There is no need to upgrade pipes if you don't need pipes at all.","There is no need to upgrade pipes if you don't need pipes at all.",REPORT_NOTE_201,,
 REPORT_NOTE_202,"These mods combined can cause blue holes or lines in the ground.","These mods combined can cause blue holes or lines in the ground.",REPORT_NOTE_202,,
-REPORT_NOTE_203,"This a map incorrectly labeled as a mod.","This a map incorrectly labeled as a mod.",REPORT_NOTE_203,,
-REPORT_NOTE_204,"This breaks maps saved in the map editor.","This breaks maps saved in the map editor.",REPORT_NOTE_204,,
+REPORT_NOTE_203,"This a map incorrectly labeled as a mod.","Este mapa foi rotulado incorretamente como um mod.",REPORT_NOTE_203,,
+REPORT_NOTE_204,"This breaks maps saved in the map editor.","Isto quebra mapas salvos no editor de mapas.",REPORT_NOTE_204,,
 REPORT_NOTE_205,"This can be used in a non-commercial way (Creative Commons license), if you name the creator and link to her YouTube or SoundCloud.","This can be used in a non-commercial way (Creative Commons license), if you name the creator and link to her YouTube or SoundCloud.",REPORT_NOTE_205,,
 REPORT_NOTE_206,"This can be used on its own, or be disabled and used as 'prop pack' for the BOB or Traffic Light Replacer mod.","This can be used on its own, or be disabled and used as 'prop pack' for the BOB or Traffic Light Replacer mod.",REPORT_NOTE_206,,
 REPORT_NOTE_207,"This causes very long loading times if the Loading Time Fix mod is not used.","This causes very long loading times if the Loading Time Fix mod is not used.",REPORT_NOTE_207,,
@@ -562,7 +562,7 @@ REPORT_NOTE_208,"This combination might cause a performance decrease (FPS drop).
 REPORT_NOTE_209,"This does not include itself in the lists. If you only need a list of mods (and not assets and such), look at the bottom of this report.","This does not include itself in the lists. If you only need a list of mods (and not assets and such), look at the bottom of this report.",REPORT_NOTE_209,,
 REPORT_NOTE_210,"This does not modify the industrial districts from the Industries DLC. This will significantly increase industrial traffic and may also increase land and noise pollution.","This does not modify the industrial districts from the Industries DLC. This will significantly increase industrial traffic and may also increase land and noise pollution.",REPORT_NOTE_210,,
 REPORT_NOTE_211,"This does not work on growable buildings. The author classifies this mod as experimental. Crazy changes may affect gameplay.","This does not work on growable buildings. The author classifies this mod as experimental. Crazy changes may affect gameplay.",REPORT_NOTE_211,,
-REPORT_NOTE_212,"This doesn't affect tourists.","This doesn't affect tourists.",REPORT_NOTE_212,,
+REPORT_NOTE_212,"This doesn't affect tourists.","Isso não afeta os turistas.",REPORT_NOTE_212,,
 REPORT_NOTE_213,"This has a 'ghost mode' which allows unsubscribing and still keep the game save accessible.","This has a 'ghost mode' which allows unsubscribing and still keep the game save accessible.",REPORT_NOTE_213,,
 REPORT_NOTE_214,"This is a standard, builtin mod uploaded to the Workshop.","This is a standard, builtin mod uploaded to the Workshop.",REPORT_NOTE_214,,
 REPORT_NOTE_215,"This is a unofficial fixed version of the Toggleable Whiteness mod.","This is a unofficial fixed version of the Toggleable Whiteness mod.",REPORT_NOTE_215,,
@@ -573,7 +573,7 @@ REPORT_NOTE_219,"This is just a template for creating custom namelists.","This i
 REPORT_NOTE_220,"This is meant as a one-off fix for cities ruined by sickness. It's recommended to unsubscribe afterwards. This only removes sickness from existing citizens once, a few seconds after game load. It does not prevent new sickness to appear.","This is meant as a one-off fix for cities ruined by sickness. It's recommended to unsubscribe afterwards. This only removes sickness from existing citizens once, a few seconds after game load. It does not prevent new sickness to appear.",REPORT_NOTE_220,,
 REPORT_NOTE_221,"This is mostly needed to convert some very old train assets.","This is mostly needed to convert some very old train assets.",REPORT_NOTE_221,,
 REPORT_NOTE_222,"This is no longer needed for any mods, but it might be needed for specific assets.","This is no longer needed for any mods, but it might be needed for specific assets.",REPORT_NOTE_222,,
-REPORT_NOTE_223,"This is no longer needed since game patch 1.13.","This is no longer needed since game patch 1.13.",REPORT_NOTE_223,,
+REPORT_NOTE_223,"This is no longer needed since game patch 1.13.","Isso não é mais necessário desde o patch de jogo 1.13.",REPORT_NOTE_223,,
 REPORT_NOTE_224,"This is only a quick 'proof-of-concept' demo, nothing fancy. Simply disables collision checking.","This is only a quick 'proof-of-concept' demo, nothing fancy. Simply disables collision checking.",REPORT_NOTE_224,,
 REPORT_NOTE_225,"This is only needed for custom networks that require this mod.","This is only needed for custom networks that require this mod.",REPORT_NOTE_225,,
 REPORT_NOTE_226,"This is only needed for custom station assets that don't have the correct spawn points for full multi track support.","This is only needed for custom station assets that don't have the correct spawn points for full multi track support.",REPORT_NOTE_226,,
@@ -585,7 +585,7 @@ REPORT_NOTE_231,"This is only needed if an old flag prop or vehicle sub mesh sti
 REPORT_NOTE_232,"This is only needed if an old prop still requires it.","This is only needed if an old prop still requires it.",REPORT_NOTE_232,,
 REPORT_NOTE_233,"This is only needed if you use the single two-way train track.","This is only needed if you use the single two-way train track.",REPORT_NOTE_233,,
 REPORT_NOTE_234,"This is only needed to convert the settings from Plop the Growables from an existing game save to Advanced Building Level Control. When it has run, you can unsubscribe it.","This is only needed to convert the settings from Plop the Growables from an existing game save to Advanced Building Level Control. When it has run, you can unsubscribe it.",REPORT_NOTE_234,,
-REPORT_NOTE_235,"This is only needed to recover a corrupt game save. Don't use it on regular play. This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).","This is only needed to recover a corrupt save game. Don't use it on regular play. This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).",REPORT_NOTE_235,,
+REPORT_NOTE_235,"This is only needed to recover a corrupt game save. Don't use it on regular play. This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).","This is only needed to recover a corrupt game save. Don't use it on regular play. This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).",REPORT_NOTE_235,,
 REPORT_NOTE_236,"This is succeeded by the following prop pack combined with the BOB mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2632539686","This is succeeded by the following prop pack combined with the BOB mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2632539686",REPORT_NOTE_236,,
 REPORT_NOTE_237,"This may be streamed as long as no profit is gained (CC-BY-NC 4.0 license for most tracks).","This may be streamed as long as no profit is gained (CC-BY-NC 4.0 license for most tracks).",REPORT_NOTE_237,,
 REPORT_NOTE_238,"This might be incompatible with a variety of mods with similar functionality, but the author is not providing any information on this.","This might be incompatible with a variety of mods with similar functionality, but the author is not providing any information on this.",REPORT_NOTE_238,,
@@ -607,15 +607,15 @@ REPORT_NOTE_253,"This mod needs at least one traffic light prop pack to function
 REPORT_NOTE_254,"This mod was only for scenario developers looking for more options.","This mod was only for scenario developers looking for more options.",REPORT_NOTE_254,,
 REPORT_NOTE_255,"This only erases the current debt when loading a game save, not during gameplay.","This only erases the current debt when loading a game save, not during gameplay.",REPORT_NOTE_255,,
 REPORT_NOTE_256,"This only works for trucks in cargo train station or cargo harbors. For other spawn points, use Building Spawn Points: https://steamcommunity.com/sharedfiles/filedetails/?id=2511258910","This only works for trucks in cargo train station or cargo harbors. For other spawn points, use Building Spawn Points: https://steamcommunity.com/sharedfiles/filedetails/?id=2511258910",REPORT_NOTE_256,,
-REPORT_NOTE_257,"This only works in the map editor.","This only works in the map editor.",REPORT_NOTE_257,,
+REPORT_NOTE_257,"This only works in the map editor.","Isto só funciona no editor de mapas.",REPORT_NOTE_257,,
 REPORT_NOTE_258,"This requires adjusted settings for use with Real Time.","This requires adjusted settings for use with Real Time.",REPORT_NOTE_258,,
 REPORT_NOTE_259,"This seems to be related to the infamous ali213_mod_01 mod.","This seems to be related to the infamous ali213_mod_01 mod.",REPORT_NOTE_259,,
-REPORT_NOTE_260,"This supports train and metro, but not monorail.","This supports train and metro, but not monorail.",REPORT_NOTE_260,,
-REPORT_NOTE_261,"This supports undoing building/bulldozing roads, buildings, props and trees.","This supports undoing building/bulldozing roads, buildings, props and trees. This supports undoing building/bulldozing roads, buildings, props and trees.",REPORT_NOTE_261,,
+REPORT_NOTE_260,"This supports train and metro, but not monorail.","Isto suporta trem e metro, mas não o monotrilho.",REPORT_NOTE_260,,
+REPORT_NOTE_261,"This supports undoing building/bulldozing roads, buildings, props and trees.","This supports undoing building/bulldozing roads, buildings, props and trees.",REPORT_NOTE_261,,
 REPORT_NOTE_262,"This used to be the newer version, but was deprecated after the original version was updated. Use the original version instead.","This used to be the newer version, but was deprecated after the original version was updated. Use the original version instead.",REPORT_NOTE_262,,
 REPORT_NOTE_263,"This version is only for beta testers that use the Adaptive Networks ALPHA mod.","This version is only for beta testers that use the Adaptive Networks ALPHA mod.",REPORT_NOTE_263,,
 REPORT_NOTE_264,"This version may contain bugs, including game save-breaking bugs.","This version may contain bugs, including game save-breaking bugs.",REPORT_NOTE_264,,
-REPORT_NOTE_265,"This was formerly known as Adaptive Roads (AR).","This was formerly known as Adaptive Roads (AR).",REPORT_NOTE_265,,
+REPORT_NOTE_265,"This was formerly known as Adaptive Roads (AR).","Antigamente isto era conhecido como 'Adaptive Roads (AR)'.",REPORT_NOTE_265,,
 REPORT_NOTE_266,"This was needed for MacOS, because FPS Booster didn't work on MacOS. That should be solved and everyone should be able to use FPS Booster.","This was needed for MacOS, because FPS Booster didn't work on MacOS. That should be solved and everyone should be able to use FPS Booster.",REPORT_NOTE_266,,
 REPORT_NOTE_267,"This was only ever needed to fix one specific bridge.","This was only ever needed to fix one specific bridge.",REPORT_NOTE_267,,
 REPORT_NOTE_268,"This was updated for the 1.14 patch, but not fully tested yet. A new update is being worked on.","This was updated for the 1.14 patch, but not fully tested yet. A new update is being worked on.",REPORT_NOTE_268,,
@@ -642,32 +642,32 @@ REPORT_NOTE_288,"Tree Anarchy has the functionality of Plant Scaling, and much m
 REPORT_NOTE_289,"UK Street Names takes priority for street names, but Custom Namelists can still be used for district names.","UK Street Names takes priority for street names, but Custom Namelists can still be used for district names.",REPORT_NOTE_289,,
 REPORT_NOTE_290,"Catenaries and Props become black for the supported Vanilla tracks!","Catenaries and Props become black for the supported Vanilla tracks!",REPORT_NOTE_290,,
 REPORT_NOTE_291,"Undoing props is disabled when using EML.","Undoing props is disabled when using EML.",REPORT_NOTE_291,,
-REPORT_NOTE_292,"Unsubscribe Holy Water's TM:PE.","Unsubscribe Holy Water's TM:PE.",REPORT_NOTE_292,,
-REPORT_NOTE_293,"Unsubscribe Network Extensions 3.","Unsubscribe Network Extensions 3.",REPORT_NOTE_293,,
-REPORT_NOTE_294,"Unsubscribe Shadow Distance Fix, as ACME already include this function.","Unsubscribe Shadow Distance Fix, as ACME already include this function.",REPORT_NOTE_294,,
+REPORT_NOTE_292,"Unsubscribe Holy Water's TM:PE.","Cancelar inscrição do 'Holy Water's TM:PE'.",REPORT_NOTE_292,,
+REPORT_NOTE_293,"Unsubscribe Network Extensions 3.","Cancelar inscriçao do 'Network Extensions 3'.",REPORT_NOTE_293,,
+REPORT_NOTE_294,"Unsubscribe Shadow Distance Fix, as ACME already include this function.","Cancelar inscrição do 'Shadow Distance Fix', pois 'ACME' já inclui esta função.",REPORT_NOTE_294,,
 REPORT_NOTE_295,"Upgrade Untouchable breaks the MOM pillar selection.","Upgrade Untouchable breaks the MOM pillar selection.",REPORT_NOTE_295,,
 REPORT_NOTE_296,"Use 'Enlighten Your Mouse' instead of 'Enhanced Mouse Light'.","Use 'Enlighten Your Mouse' instead of 'Enhanced Mouse Light'.",REPORT_NOTE_296,,
 REPORT_NOTE_297,"Use 'Realistic Population Revisited' instead of 'Enhanced Building Capacity'.","Use 'Realistic Population Revisited' instead of 'Enhanced Building Capacity'.",REPORT_NOTE_297,,
-REPORT_NOTE_298,"Use BOB instead of Prop It Up.","Use BOB instead of Prop It Up.",REPORT_NOTE_298,,
-REPORT_NOTE_299,"Use BOB instead of Prop Remover.","Use BOB instead of Prop Remover.",REPORT_NOTE_299,,
-REPORT_NOTE_300,"Use BOB instead of Prop Switcher.","Use BOB instead of Prop Switcher.",REPORT_NOTE_300,,
-REPORT_NOTE_301,"Use Ploppable RICO Revisited instead.","Use Ploppable RICO Revisited instead.",REPORT_NOTE_301,,
+REPORT_NOTE_298,"Use BOB instead of Prop It Up.","Use o 'BOB' em vez do 'Prop It Up'.",REPORT_NOTE_298,,
+REPORT_NOTE_299,"Use BOB instead of Prop Remover.","Use o 'BOB' em vez do 'Prop Remover'.",REPORT_NOTE_299,,
+REPORT_NOTE_300,"Use BOB instead of Prop Switcher.","Use o 'BOB' em vez do 'Prop Switcher'.",REPORT_NOTE_300,,
+REPORT_NOTE_301,"Use Ploppable RICO Revisited instead.","Use 'Ploppable RICO Revisited' em vez disso.",REPORT_NOTE_301,,
 REPORT_NOTE_302,"Transfer Manager CE deactivates on purpose its internal outside connection capacity settings and uses the ones from AdvancedOutsideConnection instead.","Transfer Manager CE deactivates on purpose its internal outside connection capacity settings and uses the ones from AdvancedOutsideConnection instead.",REPORT_NOTE_302,,
-REPORT_NOTE_303,"Use Prop Anarchy combined with Tree Anarchy instead of Prop &amp; Tree Anarchy.","Use Prop Anarchy combined with Tree Anarchy instead of Prop &amp; Tree Anarchy.",REPORT_NOTE_303,,
-REPORT_NOTE_304,"Use Prop Anarchy instead of Additive Shader.","Use Prop Anarchy instead of Additive Shader.",REPORT_NOTE_304,,
-REPORT_NOTE_305,"Use Prop Anarchy instead of Decal Prop Fix.","Use Prop Anarchy instead of Decal Prop Fix.",REPORT_NOTE_305,,
-REPORT_NOTE_306,"Use Prop Anarchy instead of Prop Line Tool.","Use Prop Anarchy instead of Prop Line Tool.",REPORT_NOTE_306,,
-REPORT_NOTE_307,"Use Prop Anarchy instead of Prop Painter.","Use Prop Anarchy instead of Prop Painter.",REPORT_NOTE_307,,
-REPORT_NOTE_308,"Use Prop Anarchy instead of Prop Precision.","Use Prop Anarchy instead of Prop Precision.",REPORT_NOTE_308,,
-REPORT_NOTE_309,"Use Prop Anarchy instead of Prop Scaling.","Use Prop Anarchy instead of Prop Scaling.",REPORT_NOTE_309,,
-REPORT_NOTE_310,"Use Prop Anarchy instead of Prop Snapping.","Use Prop Anarchy instead of Prop Snapping.",REPORT_NOTE_310,,
-REPORT_NOTE_311,"Use Prop Anarchy instead of Transparency LODs Fix.","Use Prop Anarchy instead of Transparency LODs Fix.",REPORT_NOTE_311,,
-REPORT_NOTE_312,"Use the 'Try to recover from Simulation Errors' option from Loading Screen Mod instead, which is more powerful than this mod.","Use the 'Try to recover from Simulation Errors' option from Loading Screen Mod instead, which is more powerful than this mod.",REPORT_NOTE_312,,
-REPORT_NOTE_313,"Use the Loading Screen Mod with the options 'Share textures' and 'Share materials' to reduce memory usage.","Use the Loading Screen Mod with the options 'Share textures' and 'Share materials' to reduce memory usage.",REPORT_NOTE_313,,
-REPORT_NOTE_314,"Use the original instead of the now deprecated 2.0 version.","Use the original instead of the now deprecated 2.0 version.",REPORT_NOTE_314,,
-REPORT_NOTE_315,"Use the original Precision Engineering mod instead of the now deprecated 2.0 version.","Use the original Precision Engineering mod instead of the now deprecated 2.0 version.",REPORT_NOTE_315,,
-REPORT_NOTE_316,"Use the regular version of Harmony instead.","Use the regular version of Harmony instead.",REPORT_NOTE_316,,
-REPORT_NOTE_317,"Use Tree Anarchy instead of Unlimited Trees.","Use Tree Anarchy instead of Unlimited Trees.",REPORT_NOTE_317,,
+REPORT_NOTE_303,"Use Prop Anarchy combined with Tree Anarchy instead of Prop &amp; Tree Anarchy.","Use 'Prop Anarchy' com 'Tree Anarchy' em vez de ' Prop & Tree Anarchy'.",REPORT_NOTE_303,,
+REPORT_NOTE_304,"Use Prop Anarchy instead of Additive Shader.","Use 'Prop Anarchy' em vez de 'Additive Shader'.",REPORT_NOTE_304,,
+REPORT_NOTE_305,"Use Prop Anarchy instead of Decal Prop Fix.","Use 'Prop Anarchy' em vez de 'Decal Prop Fix'.",REPORT_NOTE_305,,
+REPORT_NOTE_306,"Use Prop Anarchy instead of Prop Line Tool.","Use 'Prop Anarchy' em vez de 'Prop Line Tool'.",REPORT_NOTE_306,,
+REPORT_NOTE_307,"Use Prop Anarchy instead of Prop Painter.","Use 'Prop Anarchy' em vez de 'Prop Painter'.",REPORT_NOTE_307,,
+REPORT_NOTE_308,"Use Prop Anarchy instead of Prop Precision.","Use 'Prop Anarchy' em vez de 'Prop Precision'.",REPORT_NOTE_308,,
+REPORT_NOTE_309,"Use Prop Anarchy instead of Prop Scaling.","Use 'Prop Anarchy' em vez de 'Prop Scaling'.",REPORT_NOTE_309,,
+REPORT_NOTE_310,"Use Prop Anarchy instead of Prop Snapping.","Use 'Prop Anarchy' em vez de 'Prop Snapping'.",REPORT_NOTE_310,,
+REPORT_NOTE_311,"Use Prop Anarchy instead of Transparency LODs Fix.","Use 'Prop Anarchy' em vez de 'Transparency LODs Fix'.",REPORT_NOTE_311,,
+REPORT_NOTE_312,"Use the 'Try to recover from Simulation Errors' option from Loading Screen Mod instead, which is more powerful than this mod.","Use a opção 'Try to recover from Simulation Errors' do 'Loading Screen Mod', em vez disso, é mais poderoso que este mod.",REPORT_NOTE_312,,
+REPORT_NOTE_313,"Use the Loading Screen Mod with the options 'Share textures' and 'Share materials' to reduce memory usage.","Use o 'Loading Screen Mod' com as opções 'Share textures' e 'Share materials' para reduzir o uso de memória.",REPORT_NOTE_313,,
+REPORT_NOTE_314,"Use the original instead of the now deprecated 2.0 version.","Use o original em vez da versão 2.0 agora obsoleta.",REPORT_NOTE_314,,
+REPORT_NOTE_315,"Use the original Precision Engineering mod instead of the now deprecated 2.0 version.","Use o mod original 'Precision Engineering' ao invés da versão 2.0 agora obsoleta.",REPORT_NOTE_315,,
+REPORT_NOTE_316,"Use the regular version of Harmony instead.","Em vez disso, use a versão regular do 'Harmony'.",REPORT_NOTE_316,,
+REPORT_NOTE_317,"Use Tree Anarchy instead of Unlimited Trees.","Use 'Tree Anarchy' ao invés de 'Unlimited Trees'.",REPORT_NOTE_317,,
 REPORT_NOTE_318,"Users are reporting an issue with messed up passenger waiting numbers in TLM line view.","Users are reporting an issue with messed up passenger waiting numbers in TLM line view.",REPORT_NOTE_318,,
 REPORT_NOTE_319,"Users are reporting issue with connecting lanes with TM:PE.","Users are reporting issue with connecting lanes with TM:PE.",REPORT_NOTE_319,,
 REPORT_NOTE_320,"Users report not being able to freely place parks (Parkify functionality).","Users report not being able to freely place parks (Parkify functionality).",REPORT_NOTE_320,,
@@ -687,11 +687,11 @@ REPORT_NOTE_333,"When using opposite traffic light, timed traffic light configur
 REPORT_NOTE_334,"When using this mod, it is wise to back up your saves from time to time.","When using this mod, it is wise to back up your saves from time to time.",REPORT_NOTE_334,,
 REPORT_NOTE_335,"When your city reaches about 15000 citizens, this mod will no longer increase the speed above the x4 game default setting.","When your city reaches about 15000 citizens, this mod will no longer increase the speed above the x4 game default setting.",REPORT_NOTE_335,,
 REPORT_NOTE_336,"While this mod increases sharpness, it may also introduce noise, moiré patterns and aliasing problems. Especially on higher resolutions, you might not see the difference between this mod active or not.","While this mod increases sharpness, it may also introduce noise, moiré patterns and aliasing problems. Especially on higher resolutions, you might not see the difference between this mod active or not.",REPORT_NOTE_336,,
-REPORT_NOTE_337,"Will not be able to dump roads that are created with Adaptive Networks Mod","Will not be able to dump roads that are created with Adaptive Networks Mod",REPORT_NOTE_337,,
+REPORT_NOTE_337,"Will not be able to dump roads that are created with Adaptive Networks Mod","Não conseguirá demolir estradas criadas com 'Adaptive Networks'",REPORT_NOTE_337,,
 REPORT_NOTE_338,"With 81 tiles you don't need Cross The Line.","With 81 tiles you don't need Cross The Line.",REPORT_NOTE_338,,
 REPORT_NOTE_339,"With both mods active, placed buildings despawn. Plop the Growables already has the functionality.","With both mods active, placed buildings despawn. Plop the Growables already has the functionality.",REPORT_NOTE_339,,
 REPORT_NOTE_340,"Worker usage is the number of workers assigned to the building, not the number of workers in the current shift from Real Time.","Worker usage is the number of workers assigned to the building, not the number of workers in the current shift from Real Time.",REPORT_NOTE_340,,
-REPORT_NOTE_341,"You can easily modify the RICO settings in-game.","You can easily modify the RICO settings in-game.",REPORT_NOTE_341,,
+REPORT_NOTE_341,"You can easily modify the RICO settings in-game.","Você pode modificar facilmente as configurações do 'RICO' no jogo.",REPORT_NOTE_341,,
 REPORT_NOTE_342,"You can find newer versions of this LABS version on GitHub: https://github.com/kianzarrin/AdaptiveRoads/releases","You can find newer versions of this LABS version on GitHub: https://github.com/kianzarrin/AdaptiveRoads/releases",REPORT_NOTE_342,,
 REPORT_NOTE_343,"You can use this while streaming if you give appropriate credit ('CC BY 3.0' license).","You can use this while streaming if you give appropriate credit ('CC BY 3.0' license).",REPORT_NOTE_343,,
 REPORT_NOTE_344,"You can't export props with modtools while EML is active.","You can't export props with modtools while EML is active.",REPORT_NOTE_344,,
@@ -703,9 +703,9 @@ REPORT_NOTE_349,"You should NOT disable your Windows Firewall, as suggested in t
 REPORT_NOTE_350,"You will have only about 5 to 10 seconds in which to choose your rocket.","You will have only about 5 to 10 seconds in which to choose your rocket.",REPORT_NOTE_350,,
 REPORT_NOTE_351,"Zoning Adjuster does what Zoning toolset can do, and much more.","Zoning Adjuster does what Zoning toolset can do, and much more.",REPORT_NOTE_351,,
 REPORT_NOTE_352,"Broken with Plazas &amp; Promenades free Game Update 1.15.0-f5.","Broken with Plazas &amp; Promenades free Game Update 1.15.0-f5.",REPORT_NOTE_352,,
-REPORT_NOTE_353,"Incompatible with nearly all other mods!","Incompatible with nearly all other mods!",REPORT_NOTE_353,,
-REPORT_NOTE_354,"Broken with Airports free Game Update 1.14 patch.","Broken with Airports free Game Update 1.14 patch.",REPORT_NOTE_354,,
-REPORT_NOTE_355,"Only works on displays with a 16:9 aspect ratio.","Only works on displays with a 16:9 aspect ratio.",REPORT_NOTE_355,,
+REPORT_NOTE_353,"Incompatible with nearly all other mods!","Incompatível com quase todos os outros mods!",REPORT_NOTE_353,,
+REPORT_NOTE_354,"Broken with Airports free Game Update 1.14 patch.","Não funciona com a atualização 'Airports free Game Update 1.14'.",REPORT_NOTE_354,,
+REPORT_NOTE_355,"Only works on displays with a 16:9 aspect ratio.","Funciona apenas em telas com uma proporção de 16:9.",REPORT_NOTE_355,,
 REPORT_NOTE_356,"This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.","This is the infamous ali213 mod that used to spread like a virus in the Steam Workshop. Don't use it.",REPORT_NOTE_356,,
 REPORT_NOTE_357,"Spawnpoints moved too far from the original spawnpoint sometimes prevent all public transport passengers.","Spawnpoints moved too far from the original spawnpoint sometimes prevent all public transport passengers.",REPORT_NOTE_357,,
 REPORT_NOTE_358,"Some UI elements from other mods have a fixed position and cant be moved or scaled correctly, making them appear in odd places.","Some UI elements from other mods have a fixed position and cant be moved or scaled correctly, making them appear in odd places.",REPORT_NOTE_358,,
@@ -717,31 +717,31 @@ REPORT_NOTE_363,"There is not much information about this mod, but there are rep
 REPORT_NOTE_364,"It takes some in-game time for the extra money to arrive.","It takes some in-game time for the extra money to arrive.",REPORT_NOTE_364,,
 REPORT_NOTE_365,"Compatible with Advanced Building Level Control only when level Randomization is OFF.","Compatible with Advanced Building Level Control only when level Randomization is OFF.",REPORT_NOTE_365,,
 REPORT_NOTE_366,"Not work with actual game versions as the dependency mod Roads United Core 2.0 is not updated any more.","Not work with actual game versions as the dependency mod Roads United Core 2.0 is not updated any more.",REPORT_NOTE_366,,
-REPORT_NOTE_367,"Includes malicious code!","Includes malicious code!",REPORT_NOTE_367,,
+REPORT_NOTE_367,"Includes malicious code!","Inclui código malicioso!",REPORT_NOTE_367,,
 REPORT_NOTE_368,"Incompatible with any kind of automated bulldoze mods.","Incompatible with any kind of automated bulldoze mods.",REPORT_NOTE_368,,
-REPORT_NOTE_369,"Causes game crashes.","Causes game crashes.",REPORT_NOTE_369,,
-REPORT_NOTE_370,"Game might get corrupted.","Game might get corrupted.",REPORT_NOTE_370,,
-REPORT_NOTE_371,"Conflicts with various other mods.","Conflicts with various other mods.",REPORT_NOTE_371,,
-REPORT_NOTE_372,"For several players it causes errors and is not working.","For several players it causes errors and is not working.",REPORT_NOTE_372,,
-REPORT_NOTE_373,"Incompatible with Dynamic Resolution and other Camera Mods.","Incompatible with Dynamic Resolution and other Camera Mods.",REPORT_NOTE_373,,
+REPORT_NOTE_369,"Causes game crashes.","Causa travamentos no jogo.",REPORT_NOTE_369,,
+REPORT_NOTE_370,"Game might get corrupted.","O jogo pode ser corrompido.",REPORT_NOTE_370,,
+REPORT_NOTE_371,"Conflicts with various other mods.","Conflito com vários outros mods.",REPORT_NOTE_371,,
+REPORT_NOTE_372,"For several players it causes errors and is not working.","Para vários jogadores, isso causa erros e não está funcionando.",REPORT_NOTE_372,,
+REPORT_NOTE_373,"Incompatible with Dynamic Resolution and other Camera Mods.","Incompatível com 'Dynamic Resolution' e outros Mods de Câmara.",REPORT_NOTE_373,,
 REPORT_NOTE_374,"This doesn't work for the new metro stations from the 'Content Creator Pack: Train Stations', and for some custom stations. You could use Move It instead for those stations.","This doesn't work for the new metro stations from the 'Content Creator Pack: Train Stations', and for some custom stations. You could use Move It instead for those stations.",REPORT_NOTE_374,,
-REPORT_NOTE_375,"Disasters are not recognized.","Disasters are not recognized.",REPORT_NOTE_375,,
+REPORT_NOTE_375,"Disasters are not recognized.","Desastres não são reconhecidos.",REPORT_NOTE_375,,
 REPORT_NOTE_376,"This might work, but it's not the best way to solve the issue. The game already solves this itself by employing some highly educated people in lower-education jobs, or you could use Employ Overeducated Workers V2 instead for a stronger effect.","This might work, but it's not the best way to solve the issue. The game already solves this itself by employing some highly educated people in lower-education jobs, or you could use Employ Overeducated Workers V2 instead for a stronger effect.",REPORT_NOTE_376,,
 REPORT_NOTE_377,"Results are not reliable anymore. Use Compatibility Report instead.","Results are not reliable anymore. Use Compatibility Report instead.",REPORT_NOTE_377,,
 REPORT_NOTE_378,"This might not function with a 3DxWare driver version higher than 10.6.4.","This might not function with a 3DxWare driver version higher than 10.6.4.",REPORT_NOTE_378,,
 REPORT_NOTE_379,"The button cannot be moved, making the stats go off-screen on certain screen resolutions.","The button cannot be moved, making the stats go off-screen on certain screen resolutions.",REPORT_NOTE_379,,
 REPORT_NOTE_380,"Several users report it is not working at all.","Several users report it is not working at all.",REPORT_NOTE_380,,
-REPORT_NOTE_381,"Do not unlock all roads.","Do not unlock all roads.",REPORT_NOTE_381,,
+REPORT_NOTE_381,"Do not unlock all roads.","Não desbloqueia todas as estradas.",REPORT_NOTE_381,,
 REPORT_NOTE_382,"It can cause visual glitches in menu (tabs without description and/or image).","It can cause visual glitches in menu (tabs without description and/or image).",REPORT_NOTE_382,,
 REPORT_NOTE_383,"Some users report the UI as missing when not subscribed to Fine Road Tools.","Some users report the UI as missing when not subscribed to Fine Road Tools.",REPORT_NOTE_383,,
 REPORT_NOTE_384,"Deleting a road segment with adjusted pathfinding might cause a NullReference error.","Deleting a road segment with adjusted pathfinding might cause a NullReference error.",REPORT_NOTE_384,,
 REPORT_NOTE_385,"Several users report error messages, not working at all or side effects like noise pollution not reduced anymore.","Several users report error messages, not working at all or side effects like noise pollution not reduced anymore.",REPORT_NOTE_385,,
 REPORT_NOTE_386,"For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.","For some users citizens don't take a car, but despawn and respawn at their home, sometimes walking to the same station/stop again.",REPORT_NOTE_386,,
-REPORT_NOTE_387,"The Paradox Launcher has this functionality.","The Paradox Launcher has this functionality.",REPORT_NOTE_387,,
+REPORT_NOTE_387,"The Paradox Launcher has this functionality.","O Launcher da Paradox tem essa funcionalidade.",REPORT_NOTE_387,,
 REPORT_NOTE_388,"The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.","The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.",REPORT_NOTE_388,,
 REPORT_NOTE_389,"Not compatible with Unlock All + Wonders &amp; Landmarks.","Not compatible with Unlock All + Wonders &amp; Landmarks.",REPORT_NOTE_389,,
 REPORT_NOTE_390,"External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.","External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.",REPORT_NOTE_390,,
-REPORT_NOTE_391,"Correct name for the mod would be ""Less Garbage Cost"", as it only reduces the cost!","Correct name for the mod would be ""Less Garbage Cost"", as it only reduces the cost!",REPORT_NOTE_391,,
+REPORT_NOTE_391,"Correct name for the mod would be ""Less Garbage Cost"", as it only reduces the cost!","O nome correto para o mod seria ""Less Garbage Cost"", pois ele só reduz o custo!",REPORT_NOTE_391,,
 REPORT_NOTE_392,"User reports that it is not working at all if you select heavy traffic.","User reports that it is not working at all if you select heavy traffic.",REPORT_NOTE_392,,
 REPORT_NOTE_393,"Some users report volume too low or no sound at all for some tracks.","Some users report volume too low or no sound at all for some tracks.",REPORT_NOTE_393,,
 REPORT_NOTE_394,"Only a limited set of roads is included.","Only a limited set of roads is included.",REPORT_NOTE_394,,
@@ -762,10 +762,10 @@ REPORT_NOTE_408,"'Make historical' is part of the game itself now, but with this
 REPORT_NOTE_409,"Depending on screen resolution it might be needed to use UI Resolution 1.2 (https://steamcommunity.com/sharedfiles/filedetails/?id=2487213155) to see all of TLM's UI","Depending on screen resolution it might be needed to use UI Resolution 1.2 (https://steamcommunity.com/sharedfiles/filedetails/?id=2487213155) to see all of TLM's UI",REPORT_NOTE_409,,
 REPORT_NOTE_410,"Button for the settings not visible for several users.","Button for the settings not visible for several users.",REPORT_NOTE_410,,
 REPORT_NOTE_411,"The traffic lights on some custom road do not change.","The traffic lights on some custom road do not change.",REPORT_NOTE_411,,
-REPORT_NOTE_412,"Not able to name new districts.","Not able to name new districts.",REPORT_NOTE_412,,
-REPORT_NOTE_413,"Not working on Vanilla roads from later than Sunser Harbour. You could keep subscribed but deactivated to use BOB https://steamcommunity.com/sharedfiles/filedetails/?id=2197863850 to exchange the props.","Not working on Vanilla roads from later than Sunset Harbor. You could keep subscribed but deactivated to use BOB https://steamcommunity.com/sharedfiles/filedetails/?id=2197863850 to exchange the props.",REPORT_NOTE_413,,
+REPORT_NOTE_412,"Not able to name new districts.","Não é capaz nomear novos distritos.",REPORT_NOTE_412,,
+REPORT_NOTE_413,"Not working on Vanilla roads from later than Sunser Harbour. You could keep subscribed but deactivated to use BOB https://steamcommunity.com/sharedfiles/filedetails/?id=2197863850 to exchange the props.","Not working on Vanilla roads from later than Sunser Harbour. You could keep subscribed but deactivated to use BOB https://steamcommunity.com/sharedfiles/filedetails/?id=2197863850 to exchange the props.",REPORT_NOTE_413,,
 REPORT_NOTE_414,"Resources depleed instead of being unlimited, language switches back to English every start and game is unlocked even if if this function is deactivated.","Resources depleed instead of being unlimited, language switches back to English every start and game is unlocked even if if this function is deactivated.",REPORT_NOTE_414,,
-REPORT_NOTE_415,"Simulation Errors and conflits with various other mods.","Simulation Errors and conflicts with various other mods.",REPORT_NOTE_415,,
+REPORT_NOTE_415,"Simulation Errors and conflits with various other mods.","Simulation Errors and conflits with various other mods.",REPORT_NOTE_415,,
 REPORT_NOTE_416,"Doesn't show up in the CSL Music Mod.","Doesn't show up in the CSL Music Mod.",REPORT_NOTE_416,,
 REPORT_NOTE_417,"This is not updated for the Industries DLC and will probably not work for the industrial areas from that DLC.","This is not updated for the Industries DLC and will probably not work for the industrial areas from that DLC.",REPORT_NOTE_417,,
 REPORT_NOTE_418,"On a T-intersection, no light appears on the intersecting road.","On a T-intersection, no light appears on the intersecting road.",REPORT_NOTE_418,,
@@ -773,16 +773,16 @@ REPORT_NOTE_419,"Some report not being able to save the game, especially with la
 REPORT_NOTE_420,"This mod increases loading time, and this increase can be huge for big cities.","This mod increases loading time, and this increase can be huge for big cities.",REPORT_NOTE_420,,
 REPORT_NOTE_421,"The default English names still appear as well, next to the new Japanese names.","The default English names still appear as well, next to the new Japanese names.",REPORT_NOTE_421,,
 REPORT_NOTE_422,"Flickering or disappearing buildings.","Flickering or disappearing buildings.",REPORT_NOTE_422,,
-REPORT_NOTE_423,"This is an incomplete version to lure you into buying a complete version.","This is an incomplete version to lure you into buying a complete version.",REPORT_NOTE_423,,
+REPORT_NOTE_423,"This is an incomplete version to lure you into buying a complete version.","Esta é uma versão incompleta para atrair você a comprar uma versão completa.",REPORT_NOTE_423,,
 REPORT_NOTE_424,"TouristAI error.","TouristAI error.",REPORT_NOTE_424,,
-REPORT_NOTE_425,"Forgets settings at start.","Forgets settings at start.",REPORT_NOTE_425,,
+REPORT_NOTE_425,"Forgets settings at start.","Esquece as configurações ao iniciar.",REPORT_NOTE_425,,
 REPORT_NOTE_426,"Not working with the buildings from Promenades &amp; Plazas DLC. Causing various glitches and sometimes even crashes!","Not working with the buildings from Promenades &amp; Plazas DLC. Causing various glitches and sometimes even crashes!",REPORT_NOTE_426,,
 REPORT_NOTE_427,"Several users report services not spawning vehicles anymore.","Several users report services not spawning vehicles anymore.",REPORT_NOTE_427,,
 REPORT_NOTE_428,"Not working for all buildings, terrain spikes and holes, performance issues, errors messages.","Not working for all buildings, terrain spikes and holes, performance issues, errors messages.",REPORT_NOTE_428,,
 REPORT_NOTE_429,"Assets that are part of a mod might no longer be auto-enabled by the game.","Assets that are part of a mod might no longer be auto-enabled by the game.",REPORT_NOTE_429,,
 REPORT_NOTE_430,"Road coloring is not working and lights on pedestrian roads can't be exchanged.","Road coloring is not working and lights on pedestrian roads can't be exchanged.",REPORT_NOTE_430,,
-REPORT_NOTE_431,"LOD not correct.","LOD not correct.",REPORT_NOTE_431,,
-REPORT_NOTE_432,"Do not remove trees added after Campus DLC to the game.","Do not remove trees added after Campus DLC to the game.",REPORT_NOTE_432,,
+REPORT_NOTE_431,"LOD not correct.","'LOD' não está correto.",REPORT_NOTE_431,,
+REPORT_NOTE_432,"Do not remove trees added after Campus DLC to the game.","Não remova árvores adicionadas após a DLC Campus no jogo.",REPORT_NOTE_432,,
 REPORT_NOTE_433,"This causes (vanilla) trees to flicker.","This causes (vanilla) trees to flicker.",REPORT_NOTE_433,,
 REPORT_NOTE_434,"If you subscribe to wrong configured assets that need this mod, these assets can cause game issues.","If you subscribe to wrong configured assets that need this mod, these assets can cause game issues.",REPORT_NOTE_434,,
 REPORT_NOTE_435,"Not recognise few latest DLC sounds.","Not recognise few latest DLC sounds.",REPORT_NOTE_435,,
@@ -793,7 +793,7 @@ REPORT_NOTE_439,"Some users get it to work fine, but there are quite some report
 REPORT_NOTE_440,"On game load, the previous value is loaded correctly, but the slider in mod options will always be in the default position.","On game load, the previous value is loaded correctly, but the slider in mod options will always be in the default position.",REPORT_NOTE_440,,
 REPORT_NOTE_441,"White lines at the moon and Flickering when game running.","White lines at the moon and Flickering when game running.",REPORT_NOTE_441,,
 REPORT_NOTE_442,"Lag, game freezes and screen flashes are reported. Use with caution, or unsubscribe.","Lag, game freezes and screen flashes are reported. Use with caution, or unsubscribe.",REPORT_NOTE_442,,
-REPORT_NOTE_443,"Not showing up ingame.","Not showing up ingame.",REPORT_NOTE_443,,
+REPORT_NOTE_443,"Not showing up ingame.","Não apareceu no jogo.",REPORT_NOTE_443,,
 REPORT_NOTE_444,"This causes invisible transport lines.","This causes invisible transport lines.",REPORT_NOTE_444,,
 REPORT_NOTE_445,"""Make it Rain"" must be clicked (in Options) if many mods are used. Without mods it works on its own. Rain may flicker for a bit but settles later.","""Make it Rain"" must be clicked (in Options) if many mods are used. Without mods it works on its own. Rain may flicker for a bit but settles later.",REPORT_NOTE_445,,
 REPORT_NOTE_446,"Causes strange effects on junctions and conflicts with various Mods.","Causes strange effects on junctions and conflicts with various Mods.",REPORT_NOTE_446,,
@@ -805,13 +805,13 @@ REPORT_NOTE_451,"Not able to highlight new districts.","Not able to highlight ne
 REPORT_NOTE_452,"This might generate 'No Heat' warning on maps that don't require heat. Apply the policy 'Only use electricity for heating' to fix this.","This might generate 'No Heat' warning on maps that don't require heat. Apply the policy 'Only use electricity for heating' to fix this.",REPORT_NOTE_452,,
 REPORT_NOTE_453,"Nursing Homes show as Deathcare coverage when placing them.","Nursing Homes show as Deathcare coverage when placing them.",REPORT_NOTE_453,,
 REPORT_NOTE_454,"This mod is not longer needed, unless you have an old asset that requires it.","This mod is not longer needed, unless you have an old asset that requires it.",REPORT_NOTE_454,,
-REPORT_NOTE_455,"This seems to work fine for some users.","This seems to work fine for some users.",REPORT_NOTE_455,,
+REPORT_NOTE_455,"This seems to work fine for some users.","Parece funcionar bem para alguns usuários.",REPORT_NOTE_455,,
 REPORT_NOTE_456,"Breaks game if you setup to high values.","Breaks game if you setup to high values.",REPORT_NOTE_456,,
 REPORT_NOTE_457,"Setting resets every load and for several players it is broken. Also very likely It will conflict with various other camera mods.","Setting resets every load and for several players it is broken. Also very likely It will conflict with various other camera mods.",REPORT_NOTE_457,,
 REPORT_NOTE_458,"Bus stops on roads from newer patches and DLCs will not be replaced.","Bus stops on roads from newer patches and DLCs will not be replaced.",REPORT_NOTE_458,,
 REPORT_NOTE_459,"This is not updated for the latest DLCs and is still missing a lot from the Industries DLC.","This is not updated for the latest DLCs and is still missing a lot from the Industries DLC.",REPORT_NOTE_459,,
 REPORT_NOTE_460,"Mod options resetting on game load.","Mod options resetting on game load.",REPORT_NOTE_460,,
-REPORT_NOTE_461,"This breaks up the UI, especially text scaling.","This breaks up the UI, especially text scaling.",REPORT_NOTE_461,,
+REPORT_NOTE_461,"This breaks up the UI, especially text scaling.","Isso quebra a interface do usuário, especialmente o dimensionamento de texto.",REPORT_NOTE_461,,
 REPORT_NOTE_462,"Underground stations create a tunnel entrance, making it hard to connect the track to the station and disrupting the ground surface. Elevated and ground tracks seem fine.","Underground stations create a tunnel entrance, making it hard to connect the track to the station and disrupting the ground surface. Elevated and ground tracks seem fine.",REPORT_NOTE_462,,
 REPORT_NOTE_463,"For some players it do not create ship pathes.","For some players it do not create ship pathes.",REPORT_NOTE_463,,
 REPORT_NOTE_464,"Do not support the Promenades &amp; Plazas buildings.","Do not support the Promenades &amp; Plazas buildings.",REPORT_NOTE_464,,
@@ -823,8 +823,8 @@ REPORT_NOTE_469,"This might need Ambient Sound Tuner 2.0: https://steamcommunity
 REPORT_NOTE_470,"This is missing statistics from later DLCs and game patches.","This is missing statistics from later DLCs and game patches.",REPORT_NOTE_470,,
 REPORT_NOTE_471,"Dropdown not working, probably due to incompatibility with other mods.","Dropdown not working, probably due to incompatibility with other mods.",REPORT_NOTE_471,,
 REPORT_NOTE_472,"Several functions are not working anymore and throws errors if you have not Industries DLC.","Several functions are not working anymore and throws errors if you have not Industries DLC.",REPORT_NOTE_472,,
-REPORT_NOTE_473,"Demand stays at zero.","Demand stays at zero.",REPORT_NOTE_473,,
-REPORT_NOTE_474,"Rocks can’t be deleted.","Rocks can’t be deleted.",REPORT_NOTE_474,,
+REPORT_NOTE_473,"Demand stays at zero.","A demanda permanece em zero.",REPORT_NOTE_473,,
+REPORT_NOTE_474,"Rocks can’t be deleted.","Pedras não podem ser excluídas.",REPORT_NOTE_474,,
 REPORT_NOTE_475,"Disable scrolling with one of the hotkeys before dezoning to prevent accidental massive dezoning. The same applies to other actions performed with the right mouse button, like road upgrades.","Disable scrolling with one of the hotkeys before dezoning to prevent accidental massive dezoning. The same applies to other actions performed with the right mouse button, like road upgrades.",REPORT_NOTE_475,,
 REPORT_NOTE_476,"Lights on pedestrian roads can't be exchanged.","Lights on pedestrian roads can't be exchanged.",REPORT_NOTE_476,,
 REPORT_NOTE_477,"In resolutions other than 16:9 aspect ratio, it moves to the top left corner, blocking the default Infoview button.","In resolutions other than 16:9 aspect ratio, it moves to the top left corner, blocking the default Infoview button.",REPORT_NOTE_477,,
@@ -837,7 +837,7 @@ REPORT_NOTE_483,"Be aware that this mod is instable and crashes may occur in lar
 REPORT_NOTE_484,"Seems to be a Traffic Manager clone, but tells it is Auto Line Color and the sourcecode is not available.","Seems to be a Traffic Manager clone, but tells it is Auto Line Color and the sourcecode is not available.",REPORT_NOTE_484,,
 REPORT_NOTE_485,"Various players report, information could not be gathered.","Various players report, information could not be gathered.",REPORT_NOTE_485,,
 REPORT_NOTE_486,"It’s in early development stage. See information on workshop page.","It’s in early development stage. See information on workshop page.",REPORT_NOTE_486,,
-REPORT_NOTE_487,"Cargo trains for some do not spawn.","Cargo trains for some do not spawn.",REPORT_NOTE_487,,
+REPORT_NOTE_487,"Cargo trains for some do not spawn.","Os trens de carga para alguns não são gerados.",REPORT_NOTE_487,,
 REPORT_NOTE_488,"Deactivate the build in Unlimited Soil mod of Colossal Order, as its function is included in Extra Landscaping Tools.","Deactivate the build in Unlimited Soil mod of Colossal Order, as its function is included in Extra Landscaping Tools.",REPORT_NOTE_488,,
 REPORT_NOTE_489,"Hide It Bobby can do all what No Radioactive can, except the tree color.","Hide It Bobby can do all what No Radioactive can, except the tree color.",REPORT_NOTE_489,,
 REPORT_NOTE_490,"The copy feature from Move It can also duplicate unique buildings.","The copy feature from Move It can also duplicate unique buildings.",REPORT_NOTE_490,,
@@ -845,23 +845,23 @@ REPORT_NOTE_491,"The warehouse does not empty for some users. This might be caus
 REPORT_NOTE_492,"This mod only works on Windows, not on MacOS or Linux. This is an advanced mod that requires Python scripting knowledge to use.","This mod only works on Windows, not on MacOS or Linux. This is an advanced mod that requires Python scripting knowledge to use.",REPORT_NOTE_492,,
 REPORT_NOTE_493,"Left hand traffic is not supported. This does not work on Linux. Opposite side traffic lights have some quirks on T-intersections and one-way roads.","Left hand traffic is not supported. This does not work on Linux. Opposite side traffic lights have some quirks on T-intersections and one-way roads.",REPORT_NOTE_493,,
 REPORT_NOTE_494,"WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! WARNING: DON'T follow the instructions on the mod page to download an update through GitHub. That updater contains MALICIOUS code and will insert malicious code into this Harmony mod! The author is also known for deliberately breaking their own mods out of spite. Technically, this doesn't function very well, gives a lot of misguided errors and is incompatible with a lot of mods in the Workshop. Combined with the history of the author, it would be very wise to UNSUBSCRIBE!","WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! WARNING: DON'T follow the instructions on the mod page to download an update through GitHub. That updater contains MALICIOUS code and will insert malicious code into this Harmony mod! The author is also known for deliberately breaking their own mods out of spite. Technically, this doesn't function very well, gives a lot of misguided errors and is incompatible with a lot of mods in the Workshop. Combined with the history of the author, it would be very wise to UNSUBSCRIBE!",REPORT_NOTE_494,,
-REPORT_NOTE_495,"Long station names or duplicate station names might break the layout. Lines which serve the same station multiple times might confuse the mod. Station names on multi-platform stations might be incorrect.","Long station names or duplicate station names might break the layout. Lines which serve the same station multiple times might confuse the mod. Station names on multi-platform stations might be incorrect.",REPORT_NOTE_495,,
-REPORT_NOTE_496,"Information on the Workshop for this is very limited, but seems to indicate this works. It takes some in-game time for the extra money to arrive.","Information on the Workshop for this is very limited, but seems to indicate this works. It takes some in-game time for the extra money to arrive.",REPORT_NOTE_496,,
-REPORT_NOTE_497,"WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. Technically, this might function. Considering the history of the author, it would be very wise to UNSUBSCRIBE!","WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. Technically, this might function. Considering the history of the author, it would be very wise to UNSUBSCRIBE!",REPORT_NOTE_497,,
+REPORT_NOTE_495,"Long station names or duplicate station names might break the layout. Lines which serve the same station multiple times might confuse the mod. Station names on multi-platform stations might be incorrect.","Nomes de estações longos ou nomes de estações duplicados podem quebrar o layout. Linhas que servem a mesma estação várias vezes podem confundir o mod. Os nomes de estações em estações multi-plataforma podem estar incorretos.",REPORT_NOTE_495,,
+REPORT_NOTE_496,"Information on the Workshop for this is very limited, but seems to indicate this works. It takes some in-game time for the extra money to arrive.","As informações no Workshop são muito limitadas, mas parecem indicar que isto funciona. Leva algum tempo no jogo para o dinheiro a mais chegar.",REPORT_NOTE_496,,
+REPORT_NOTE_497,"WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. Technically, this might function. Considering the history of the author, it would be very wise to UNSUBSCRIBE!","AVISO: Este autor foi banido por colocar código malicioso nos seus mods. O autor também é conhecido por quebrar deliberadamente seus próprios mods. Tecnicamente, isso pode funcionar. Considerando a história do autor, seria muito sensato CANCELAR a inscrição!",REPORT_NOTE_497,,
 REPORT_NOTE_498,"Not working with delivery vehicles from the Industries and Sunset Harbor DLCs. Settings menu getting messed up (close and reopen settings might help). Potentially incompatible with all mods that modify the Vehicle AI.","Not working with delivery vehicles from the Industries and Sunset Harbor DLCs. Settings menu getting messed up (close and reopen settings might help). Potentially incompatible with all mods that modify the Vehicle AI.",REPORT_NOTE_498,,
 REPORT_NOTE_499,"Some users still get it to work, but for many it is partially or totally broken, including not being able to load a game save. Disabling the ""new algorithm for unclogging traffic jams near outside connections"" might help. Deleting the EnhancedDistrictServices.cgs file might also help, but you will lose all customizations.","Some users still get it to work, but for many it is partially or totally broken, including not being able to load a game save. Disabling the ""new algorithm for unclogging traffic jams near outside connections"" might help. Deleting the EnhancedDistrictServices.cgs file might also help, but you will lose all customizations.",REPORT_NOTE_499,,
 REPORT_NOTE_500,"There is a bug with spawning as a cow. Slopes, ramps and elevated paths don't seem to work. Some can only walk backwards or are floating.","There is a bug with spawning as a cow. Slopes, ramps and elevated paths don't seem to work. Some can only walk backwards or are floating.",REPORT_NOTE_500,,
-REPORT_NOTE_501,"This mod is not optimized and can cause performance issues. This probably has unknown incompatibilities with other mods.","This mod is not optimized and can cause performance issues. This probably has unknown incompatibilities with other mods.",REPORT_NOTE_501,,
-REPORT_NOTE_502,"If you have issues with font display, disable Custom Font Manager in the mod options.","If you have issues with font display, disable Custom Font Manager in the mod options.",REPORT_NOTE_502,,
-REPORT_NOTE_503,"If intersections look blue, go into the mod's settings and enable auto-refresh. This increases loading time if you have many custom roads.","If intersections look blue, go into the mod's settings and enable auto-refresh. This increases loading time if you have many custom roads.",REPORT_NOTE_503,,
+REPORT_NOTE_501,"This mod is not optimized and can cause performance issues. This probably has unknown incompatibilities with other mods.","Este mod não está otimizado e pode causar problemas de desempenho. Provavelmente tem incompatibilidades desconhecidas com outros mods.",REPORT_NOTE_501,,
+REPORT_NOTE_502,"If you have issues with font display, disable Custom Font Manager in the mod options.","Se você tiver problemas com a exibição de fontes, desabilite o 'Custom Font Manager' nas opções do mod.",REPORT_NOTE_502,,
+REPORT_NOTE_503,"If intersections look blue, go into the mod's settings and enable auto-refresh. This increases loading time if you have many custom roads.","Se as interseções estiverem azuis, vá para as configurações do mod e ative o 'auto-refresh'. Isso aumenta o tempo de carregamento se você tem muitas estradas personalizadas.",REPORT_NOTE_503,,
 REPORT_NOTE_504,"Unsubscribe after use! This will spam the game log and seriously increase the size.","Unsubscribe after use! This will spam the game log and seriously increase the size.",REPORT_NOTE_504,,
 REPORT_NOTE_505,"Severe drop in FPS when creating roads. Some users get an 'invalid shape' error. Reversing direction sometimes gives an exception. The exception is harmless, but you can't reverse that segment and have to delete and recreate.","Severe drop in FPS when creating roads. Some users get an 'invalid shape' error. Reversing direction sometimes gives an exception. The exception is harmless, but you can't reverse that segment and have to delete and recreate.",REPORT_NOTE_505,,
 REPORT_NOTE_506,"Increased loading time and memory usage. Short prop rendering distance.","Increased loading time and memory usage. Short prop rendering distance.",REPORT_NOTE_506,,
 REPORT_NOTE_507,"Grass might grow through CSUR roads. Hiding the grass with Hide It or raising the nodes slightly with Move It will help. Roads might sometimes be placed slightly below the surface. Raise them with Move It. Tunnel entrances from non-centered CSUR roads get covered by terrain. Some users report game crashes and CSUR interface not working.","Grass might grow through CSUR roads. Hiding the grass with Hide It or raising the nodes slightly with Move It will help. Roads might sometimes be placed slightly below the surface. Raise them with Move It. Tunnel entrances from non-centered CSUR roads get covered by terrain. Some users report game crashes and CSUR interface not working.",REPORT_NOTE_507,,
 REPORT_NOTE_508,"Reported massive issues including: missing road textures, KeyNotFoundException error, game crashes, high memory usage.","Reported massive issues including: missing road textures, KeyNotFoundException error, game crashes, high memory usage.",REPORT_NOTE_508,,
-REPORT_NOTE_509,"Button missing. Error popups.","Button missing. Error popups.",REPORT_NOTE_509,,
+REPORT_NOTE_509,"Button missing. Error popups.","Botão faltando. pop-ups de erro.",REPORT_NOTE_509,,
 REPORT_NOTE_510,"This often blocks the road upgrade button. The scaling feature is broken and should not be used. Users are reporting some other issues as well.","This often blocks the road upgrade button. The scaling feature is broken and should not be used. Users are reporting some other issues as well.",REPORT_NOTE_510,,
-REPORT_NOTE_511,"Errors on startup. Missing UI. Performance issues (fps drops).","Errors on startup. Missing UI. Performance issues (fps drops).",REPORT_NOTE_511,,
+REPORT_NOTE_511,"Errors on startup. Missing UI. Performance issues (fps drops).","Erros na inicialização. Falta interface de usuário. Problemas de desempenho (queda de fps).",REPORT_NOTE_511,,
 REPORT_NOTE_512,"Hotkey not working (try left shift instead of right shift). Light settings of Ultimate Eyecandy resetting or the light getting very dark on any change in Relight settings, or at game loading.","Hotkey not working (try left shift instead of right shift). Light settings of Ultimate Eyecandy resetting or the light getting very dark on any change in Relight settings, or at game loading.",REPORT_NOTE_512,,
 REPORT_NOTE_513,"Screen flashes / flickering. Time jumping or going backwards.","Screen flashes / flickering. Time jumping or going backwards.",REPORT_NOTE_513,,
 REPORT_NOTE_514,"Several users report colors resetting when reloading a game. Copy-pasting colors from one prop to another doesn't (always) work.","Several users report colors resetting when reloading a game. Copy-pasting colors from one prop to another doesn't (always) work.",REPORT_NOTE_514,,
@@ -872,34 +872,34 @@ REPORT_NOTE_518,"Errors in the game log about unallowed actions. Buses not spawn
 REPORT_NOTE_519,"Some users report this to cause unloadable games. It's unknown if this is a mod conflict or an issue with game patch 1.14. Some users report a missing UI. LODs can't be replaced. See the Workshop for more details about known issues.","Some users report this to cause unloadable games. It's unknown if this is a mod conflict or an issue with game patch 1.14. Some users report a missing UI. LODs can't be replaced. See the Workshop for more details about known issues.",REPORT_NOTE_519,,
 REPORT_NOTE_520,"Main button is not visible anymore. Setting maintenance price is not working correctly. Try pressing Enter after setting a new price instead of using the Apply button. Vehicle settings such as capacity and speed cannot be set. Use the Advanced Vehicle Options mod for this instead.","Main button is not visible anymore. Setting maintenance price is not working correctly. Try pressing Enter after setting a new price instead of using the Apply button. Vehicle settings such as capacity and speed cannot be set. Use the Advanced Vehicle Options mod for this instead.",REPORT_NOTE_520,,
 REPORT_NOTE_521,"Being unable to export with an 'XML root element missing' error in the log. Train tracks sometimes not included.","Being unable to export with an 'XML root element missing' error in the log. Train tracks sometimes not included.",REPORT_NOTE_521,,
-REPORT_NOTE_522,"The mod options screen might break if you have too many train assets. Some users report issues with config file not being properly created. This might cause some lag if not using FPS Booster.","The mod options screen might break if you have too many train assets. Some users report issues with config file not being properly created. This might cause some lag if not using FPS Booster.",REPORT_NOTE_522,,
-REPORT_NOTE_523,"This only works for displays with an aspect ratio of 16:9 or 16:10. This is missing functionality for more recent patches and DLCs.","This only works for displays with an aspect ratio of 16:9 or 16:10. This is missing functionality for more recent patches and DLCs.",REPORT_NOTE_523,,
-REPORT_NOTE_524,"Missing UI. Performance issues (fps drops).","Missing UI. Performance issues (fps drops).",REPORT_NOTE_524,,
+REPORT_NOTE_522,"The mod options screen might break if you have too many train assets. Some users report issues with config file not being properly created. This might cause some lag if not using FPS Booster.","A tela de opções do mod pode apresentar falhas se você tiver muitos assets de trem. Alguns usuários relatam problemas com o arquivo de configuração não sendo criado corretamente. Isso pode causar algum lag se não estiver usando o FPS Booster.",REPORT_NOTE_522,,
+REPORT_NOTE_523,"This only works for displays with an aspect ratio of 16:9 or 16:10. This is missing functionality for more recent patches and DLCs.","Isso só funciona com uma proporção de tela de 16:9 ou 16:10. Faltam funcionalidades para atualizações e DLCs mais recentes.",REPORT_NOTE_523,,
+REPORT_NOTE_524,"Missing UI. Performance issues (fps drops).","Falta interface de usuário. Problemas de desempenho (queda de fps).",REPORT_NOTE_524,,
 REPORT_NOTE_525,"The International Airport of After Dark causes issues on line creation. There are some reports about a missing icon/button.","The International Airport of After Dark causes issues on line creation. There are some reports about a missing icon/button.",REPORT_NOTE_525,,
 REPORT_NOTE_526,"It produces 'duplicate prefab' errors, which are harmless. Some users report that traffic light props still turn white after the last update that should have fixed this.","It produces 'duplicate prefab' errors, which are harmless. Some users report that traffic light props still turn white after the last update that should have fixed this.",REPORT_NOTE_526,,
 REPORT_NOTE_527,"Either toggle anarchy off or bulldoze trees/rocks before placing anything, to prevent trees/rocks in buildings or roads. To prevent props/trees from disappearing after loading a game, set this mod options to 'Anarchy ON by default'.","Either toggle anarchy off or bulldoze trees/rocks before placing anything, to prevent trees/rocks in buildings or roads. To prevent props/trees from disappearing after loading a game, set this mod options to 'Anarchy ON by default'.",REPORT_NOTE_527,,
 REPORT_NOTE_528,"Applying a list will disable unneeded mods but not unsubscribe them, and disabled mods can cause issues. Assets that are included with a mod might glitch. Game settings resetting when saving this mods data.","Applying a list will disable unneeded mods but not unsubscribe them, and disabled mods can cause issues. Assets that are included with a mod might glitch. Game settings resetting when saving this mods data.",REPORT_NOTE_528,,
 REPORT_NOTE_529,"This does work for some corrupted game saves, but not for all. If the game save loads, the game will freeze for some time. This is normal.","This does work for some corrupted game saves, but not for all. If the game save loads, the game will freeze for some time. This is normal.",REPORT_NOTE_529,,
 REPORT_NOTE_530,"This causes severe lag when opening menu panels. Park panels sometimes become corrupted, requiring a game restart.","This causes severe lag when opening menu panels. Park panels sometimes become corrupted, requiring a game restart.",REPORT_NOTE_530,,
-REPORT_NOTE_531,"Custom pillars might reset on next load. UI for the mod not fully working.","Custom pillars might reset on next load. UI for the mod not fully working.",REPORT_NOTE_531,,
+REPORT_NOTE_531,"Custom pillars might reset on next load. UI for the mod not fully working.","Pilares personalizados podem ser redefinidos no próximo carregamento. Interface do usuário para o mod não funciona completamente.",REPORT_NOTE_531,,
 REPORT_NOTE_532,"This is said to be broken, but there are quite some reports saying it works. You might need to set a 180 degress offset for the sun to properly go from east to west.","This is said to be broken, but there are quite some reports saying it works. You might need to set a 180 degress offset for the sun to properly go from east to west.",REPORT_NOTE_532,,
 REPORT_NOTE_533,"Bloom settings not being applied. Config files not loading.","Bloom settings not being applied. Config files not loading.",REPORT_NOTE_533,,
-REPORT_NOTE_534,"This seems to work for some people, but others report issues. Doesn't work in the main menu, only works after loading a map.","This seems to work for some people, but others report issues. Doesn't work in the main menu, only works after loading a map.",REPORT_NOTE_534,,
+REPORT_NOTE_534,"This seems to work for some people, but others report issues. Doesn't work in the main menu, only works after loading a map.","Parece funcionar para algumas pessoas, mas outras relatam problemas. Não funciona no menu principal, só funciona após carregar um mapa.",REPORT_NOTE_534,,
 REPORT_NOTE_535,"You cannot save the generated roads and therefore you shouldn't open a save where it has been used afterwards. This mod is still in an early state of development.","You cannot save the generated roads and therefore you shouldn't open a save where it has been used afterwards. This mod is still in an early state of development.",REPORT_NOTE_535,,
 REPORT_NOTE_536,"This might cause cims to get stuck at broken or deleted public transport stops. This causes lag in larger cities.","This might cause cims to get stuck at broken or deleted public transport stops. This causes lag in larger cities.",REPORT_NOTE_536,,
-REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.","WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.",REPORT_NOTE_537,,
-REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.","WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.",REPORT_NOTE_538,,
-REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","Network Anarchy supersede several mods and includes way more functionalities.",REPORT_NOTE_539,,
+REPORT_NOTE_537,"WARNING: This author was banned for putting malicious code in their mods. This mod is suspected of having malicious code in it. You'd better REMOVE IT IMMEDIATELY! The author is also known for deliberately breaking their own mods out of spite.","AVISO: Este autor foi banido por colocar código malicioso nos seus mods. Este mod é suspeito de ter código malicioso nele. É melhor você REMOVE-LO IMEDIATAMENTE! O autor também é conhecido por quebrar deliberadamente seus próprios mods.",REPORT_NOTE_537,,
+REPORT_NOTE_538,"WARNING: This mod is DANGEROUS! It downloads files from an unmonitored location and overwrites the files of other mods with it. This is VERY DANGEROUS software and should not be used! You'd better REMOVE IT IMMEDIATELY! WARNING: This author was banned for putting malicious code in their mods. The author is also known for deliberately breaking their own mods out of spite. WARNING: This mod was removed from the Workshop by Steam because it violated their agreement.","AVISO: Este mod é PERIGOSO! Ele baixa arquivos de um local não monitorado e substitui os arquivos de outros mods com ele. Este é um software MUITO PERIGO e não deve ser usado! Melhor REMOVE-LO IMEDIATAMENTE! AVISO: Este autor foi banido por colocar código malicioso nos seus mods. O autor também é conhecido por quebrar deliberadamente seus próprios mods. AVISO: Este mod foi removido da Oficina Steam porque ele violou seus acordos.",REPORT_NOTE_538,,
+REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more functionalities.","'Network Anarchy' substitui vários mods e inclui mais funcionalidades.",REPORT_NOTE_539,,
 REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.",REPORT_NOTE_540,,
-REPORT_NOTE_541,"Remove Need For Pipes function is included in 81 Tiles 2 mod.","Remove Need For Pipes function is included in 81 Tiles 2 mod.",REPORT_NOTE_541,,
-REPORT_NOTE_542,"Remove Need For Power Lines function is included in 81 Tiles 2 mod.","Remove Need For Power Lines function is included in 81 Tiles 2 mod.",REPORT_NOTE_542,,
+REPORT_NOTE_541,"Remove Need For Pipes function is included in 81 Tiles 2 mod.","Habilita água, esgotos e transmissão de aquecimento sem tubulações está incluída no mod '81 Tiles 2'.",REPORT_NOTE_541,,
+REPORT_NOTE_542,"Remove Need For Power Lines function is included in 81 Tiles 2 mod.","Permitir a transmissão de eletricidade sem linhas elétricas está incluída no mod '81 Tiles 2'.",REPORT_NOTE_542,,
 REPORT_NOTE_543,"Causes long loading times, causes various issues that are at the end even game breaking, therefore marked as incompatible to the game.","Causes long loading times, causes various issues that are at the end even game breaking, therefore marked as incompatible to the game.",REPORT_NOTE_543,,
-REPORT_NOTE_544,"Conflicts with various mods and can lead to crashes. Can cause performance issues and increase load time.","Conflicts with various mods and can lead to crashes. Can cause performance issues and increase load time.",REPORT_NOTE_544,,
-REPORT_NOTE_545,"Not cleaning all textures and causes FPS drops.","Not cleaning all textures and causes FPS drops.",REPORT_NOTE_545,,
+REPORT_NOTE_544,"Conflicts with various mods and can lead to crashes. Can cause performance issues and increase load time.","Conflito com vários mods e pode causar falhas. Pode causar problemas de desempenho e aumentar o tempo de carregamento.",REPORT_NOTE_544,,
+REPORT_NOTE_545,"Not cleaning all textures and causes FPS drops.","Não está limpando todas as texturas e causa quedas de FPS.",REPORT_NOTE_545,,
 REPORT_NOTE_546,"Clipping may occur as well as simulation errors.","Clipping may occur as well as simulation errors.",REPORT_NOTE_546,,
-REPORT_NOTE_547,"Not supporting budgets for newer DLC.","Not supporting budgets for newer DLC.",REPORT_NOTE_547,,
-REPORT_NOTE_548,"Create massive lags if no overlay.png is in the specified folder.","Create massive lags if no overlay.png is in the specified folder.",REPORT_NOTE_548,,
+REPORT_NOTE_547,"Not supporting budgets for newer DLC.","Não suporta orçamentos para DLCs mais recentes.",REPORT_NOTE_547,,
+REPORT_NOTE_548,"Create massive lags if no overlay.png is in the specified folder.","Causa muito lag se 'overlay.png' não estiver na pasta especificada.",REPORT_NOTE_548,,
 REPORT_NOTE_549,"Water spikes might stay forever, even if the mod is unsubscribed.","Water spikes might stay forever, even if the mod is unsubscribed.",REPORT_NOTE_549,,
-REPORT_NOTE_550,"Buttons are no longer aligned correctly.","Buttons are no longer aligned correctly.",REPORT_NOTE_550,,
-REPORT_NOTE_551,"Works, but causes ""InvalidOperationException"" error messages in log file.","Works, but causes ""InvalidOperationException"" error messages in log file.",REPORT_NOTE_551,,
+REPORT_NOTE_550,"Buttons are no longer aligned correctly.","Os botões não estão alinhados corretamente.",REPORT_NOTE_550,,
+REPORT_NOTE_551,"Works, but causes ""InvalidOperationException"" error messages in log file.","Funciona, mas causa mensagens de erro ""InvalidOperationException"" no arquivo de log.",REPORT_NOTE_551,,
 REPORT_NOTE_552,"Do not support names for newer DLC districts.","Do not support names for newer DLC districts.",REPORT_NOTE_552,,

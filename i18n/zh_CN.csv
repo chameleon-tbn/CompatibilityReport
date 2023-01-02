@@ -101,9 +101,9 @@ HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","版本 {FullVer
 HtmlReportTemplate.tt section Versionwithcatalog",,
 HRT_S_YGM,"Your game has {SubscriptionCount} mods.","您的游戏有 {SubscriptionCount} 个模组。","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods",,
-HRTC_A_SNU,"Published source seems out of date, making it hard to continue by another modder.",公开的源代码似乎不是最新版，这给其他人接手带来了一些困难。,"HRTC_A_SNU
+HRTC_A_SNU,"No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","没有公开发布源代码，这使其他人很难接手。 没有源代码，也很难确保模组不含恶意代码。","HRTC_A_SNU
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated",,
-HRTC_A_SURL,"No public source code found, making it hard to continue by another modder.",无法找到公开的源代码，这给其他人接手带来了一些困难。,"HRTC_A_SURL
+HRTC_A_SURL,"Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","作者激活了“源代码与模组捆绑”选项，但没有发布源代码。 这使其他人很难接手此模组。没有源代码，也更难确保模组不含恶意代码。","HRTC_A_SURL
 HtmlReportTemplateCode.cs abandoned SourceUrl",,
 HRTC_A_SM,"Some alternatives for this are (pick one, not all):",这方面的一些备选办法(请选择一个而不是全部)：,"HRTC_A_SM
 HtmlReportTemplateCode.cs Alternatives subscribedMod",,
@@ -206,12 +206,12 @@ HRTC_S_A,"This seems to be abandoned and the author seems retired. Future update
 HtmlReportTemplateCode.cs Statuses Abandoned",,
 HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.",这个模组的作者好像退坑了。未来继续更新的可能性很低。,"HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired",,
-HRTC_S_D,"Unsubscribe would be wise. This is deprecated and no longer supported by the author.",建议取消订阅。这个模组已被弃用，且作者不再为其提供技术支持。,"HRTC_S_D
+HRTC_S_D,"This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.",此模组已经废弃，不再受模组制作者的支持，并且已有一个继任模组。因此最好取消订阅该模组，并改为订阅继任模组。,"HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated",,
 HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.",这个模组仅供模组编程者或是资产创作者使用，一般用户并不需要它。,"HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
-HRTC_S_MC,"This includes copyrighted music and should not be used for streaming.",所包含的音乐受版权保护，因此不可用于直播。,"HRTC_S_MC
-HtmlReportTemplateCode.cs Statuses MusicCopyrighted",,
+HRTC_S_MC,"As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.",由于其所包含的音乐可能受到版权保护，为了避免法律纠纷问题，最好不要使用音乐包进行直播。,"HRTC_S_MC
+HtmlReportTemplateCode.cs Statuses MusicCopyright",,
 HRTC_S_MCF,"The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.",所包含的音乐据称没有版权限制且可以用于直播。但还请小心其它的限制要求。,"HRTC_S_MCF
 HtmlReportTemplateCode.cs Statuses MusicCopyrightFree",,
 HRTC_S_MCU,"This includes music with unknown copyright status. Safer not to use it for streaming.",所包含的音乐的版权保护情况未知。安全起见，不要用于直播。,"HRTC_S_MCU
@@ -342,11 +342,21 @@ HRTC_TH_N,NOTE,注意：,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
 SET_BRG_CLD,"Collect Logs and open directory",收集日志并打开目录,"SET_BRG_CLD
 SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
+HRTC_A_SCP,"Mods without source codes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.",没有公开源代码，且没有标注注释的模组，最好不要订阅。没有公开源代码，也很难确保模组不含恶意代码。,"HRTC_A_SCP
+HtmlReportTemplateCode.cs NoSourceNoComment",,
+HRTC_A_SDP,"Mods without source codes and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.",没有公开源代码，且描述不明确的模组，最好不要订阅。没有公开源代码，也很难确保模组不含恶意代码。,"HRTC_A_SDP
+HtmlReportTemplateCode.cs NoSourceNoDescription",,
+HRTC_S_SCNP,"No source code published. Without source code it is harder to ensure a mod not include malicious code.",没有公开发布源代码。没有源代码的模组，更难确保其不含恶意代码。,"HRTC_S_SCNP
+HtmlReportTemplateCode.cs SourceNotPublic",,
+HRTC_A_SDCP,"Mods without source codes, without comment section and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.",没有公开源代码、没有标注注释，且描述不明确的模组，最好不要订阅。没有公开源代码，也很难确保模组不含恶意代码。,"HRTC_A_SDCP
+HtmlReportTemplateCode.cs NoSourceNoCommentNoDescription",,
+HRTC_A_SOB,"The author has deliberately hidden the mod code from other modders, which is somewhat suspicious. Without source code it is also harder to ensure a mod not include malicious code.",作者刻意不向其他开发者展示模组的代码，这一行为有点可疑。没有源代码，也就难以保证模组不包含恶意代码。,"HRTC_A_SOB
+HtmlReportTemplateCode.cs SourceObfuscated",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",底部工具栏上可能会出现一个黑色条纹。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",标红的资产不一定意味着是损坏的。它只是非常精细，可能会造成较大的性能影响。,REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","一个 3.0 测试版已在 GitHub 上发布，但从未在 Steam 创意工坊上发布。 作者写到，他不会再更新模组，因为他指责Paradox对DLC的政治干涉。",REPORT_NOTE_3,,
 REPORT_NOTE_4,"ABLC has the functionality to prevent abandonment, and much more.","Advanced Building Level Control有防止建筑物废弃的功能，并且还有其他更丰富的功能。",REPORT_NOTE_4,,
-REPORT_NOTE_5,"Accelarated night/weekend cycles from Real Time might give issues with district services.","Real Time 的加快夜间/周末周期功能可能会给地区服务带来问题。",REPORT_NOTE_5,,
+REPORT_NOTE_5,"Accelerated night/weekend cycles from Real Time might give issues with district services.","Real Time 的加快夜间/周末周期功能可能会给地区服务带来问题。",REPORT_NOTE_5,,
 REPORT_NOTE_6,"Additive Shader is not compatible with the variable sunrise/sunset times from Real Time. Use the Additive Shader test version instead.","Additive Shader 与 Real Time 模组的可变日出/日落时间功能相冲突。请使用 Additive Shader test 代替。",REPORT_NOTE_6,,
 REPORT_NOTE_7,"Additive Shader props converted to PO don't show up after reloading a save.","重新加载存档后，转换为 PO 的 Additive Shader 摆件不会显示。",REPORT_NOTE_7,,
 REPORT_NOTE_8,"Adjustable Business Consumption might be incompatible with the ""Farms produce crops slower and cost less"" option of Rebalanced Industries.","Adjustable Business Consumption 可能与 Rebalanced Industries 的“降低农作物生产速度和降低成本”选项不兼容。",REPORT_NOTE_8,,
@@ -402,7 +412,7 @@ REPORT_NOTE_57,"Extended InfoPanel 2 has all functionality from More Simulation 
 REPORT_NOTE_58,"Extended InfoPanel already has Chirper move functionality.","Extended InfoPanel 已经具有 Chirper 的移动功能。",REPORT_NOTE_58,,
 REPORT_NOTE_59,"Find It filters don't work correctly with the Tree &amp; Vehicle Prop mod.","Find It 的搜索功能与 Tree &amp; Vehicle Prop 不能很好的兼容。",REPORT_NOTE_59,,
 REPORT_NOTE_60,"Find It has the ability to 'unlock all'. You can unsubscribe the 'Unlock All + Wonders' mod.","Find It 已经有了“全部解锁”的功能，请取消'Unlock All + Wonders'模组。",REPORT_NOTE_60,,
-REPORT_NOTE_61,"Fire spreading to other buildings is included in the game itself now.",火灾蔓延现在已经包括在游戏中。,REPORT_NOTE_61,,
+REPORT_NOTE_61,"Will not bulldoze if you own Natural Disasters. You need to use Disaster Response Unit in this case. Newer building categories are not bulldozed.","如果你拥有 Natural Disasters DLC ，就不会铲除废弃建筑。这种情况下，需要使用灾难响应单位。较新类别的建筑不会被自动铲除。",REPORT_NOTE_61,,
 REPORT_NOTE_62,"Firefighters might walk instead of run back to their firetruck.",消防员可能走路，而不是跑到他们的消防车上。,REPORT_NOTE_62,,
 REPORT_NOTE_63,"For public transport vehicles that spawn at a depot, the vehicles are listed at the depot instead of the station.",在车库生成的公共运输车辆停放在车库，而不是在车站。,REPORT_NOTE_63,,
 REPORT_NOTE_64,"For transit hubs, this only works if the bus part is a sub-building.",对于转运枢纽，只有在公共汽车部分是子模型的情况下才能发挥作用。,REPORT_NOTE_64,,
@@ -431,7 +441,7 @@ REPORT_NOTE_83,"If you're unable to move props vertically with Move It, try turn
 REPORT_NOTE_84,"IMT markings will be lost on replaced network segments and connected intersections.","替换后的路段与路口会丢失 Intersection Marking Tool 的标线。",REPORT_NOTE_84,,
 REPORT_NOTE_85,"In order to build outside connections with zonable roads outside of unlocked tiles you need to temporarily disable zoning with another mod. In the map editor the connections have to use vanilla roads, not custom roads. Intercity buses only enter the city via 1-way highway outside connections, not via any 2-way road.",为了在已解锁的地块之外建设可分区的对外连接道路，您需要使用另一个模组临时禁用分区。在地图编辑器中，连接必须使用普通道路，而不是自定义道路。城际公交只能通过单向的外部连接道路进入城市，而不是通过双向道路。,REPORT_NOTE_85,,
 REPORT_NOTE_86,"In Settings of ""Express Bus Services (TLM Plugin)"" the options ""Experimental"" and ""Agressive"" may cause buses to despawn if Transport Line Manager is also used. The option ""Prudential"" works as expected.","如果您使用了 Transport Line Manager ，那么在“ Express Bus Services（TLM的插件）”的设置中，“Experimental”和“Agressive”选项可能会导致公交车停运。选项“Prudential”可以按预期工作。",REPORT_NOTE_86,,
-REPORT_NOTE_87,"Included in base game.",包括在基本游戏中。,REPORT_NOTE_87,,
+REPORT_NOTE_87,"The functionality of this mod is included in the game itself.",包括在基本游戏中。,REPORT_NOTE_87,,
 REPORT_NOTE_88,"Incorrectly shows as Cinematic Camera.","错误的显示为 Cinematic Camera。",REPORT_NOTE_88,,
 REPORT_NOTE_89,"Instead of (or combined with) this mod you can download custom citizens from the Workshop for a more diverse crowd.",您可以从创意工坊下载自定义公民资产，以适应多样化的人群，用以代替（或搭配使用）此模组。,REPORT_NOTE_89,,
 REPORT_NOTE_90,"Intended only for flat ground.",仅用于平坦地面。,REPORT_NOTE_90,,
@@ -448,9 +458,9 @@ REPORT_NOTE_100,"Lifecycle Rebalance already includes 'no deathcare' functionali
 REPORT_NOTE_101,"Loading Screen Mod includes all functionality from Safenets, and much more.","Loading Screen Mod 包含了 Safenets 的所有功能，还提供了更多其他功能。",REPORT_NOTE_101,,
 REPORT_NOTE_102,"Make historical' is part of the game itself now, but with this mod a historical building can't get abandoned.",设置历史建筑是游戏本身的一部分，但在这个模组中，历史建筑不会被废弃。,REPORT_NOTE_102,,
 REPORT_NOTE_103,"Make sure the image you use is a square, not a rectangle.",请确保您使用的图像是正方形，而不是长方形。,REPORT_NOTE_103,,
-REPORT_NOTE_104,"Make sure to have the mod always on, directly from the start of a new game. Also, either fix the values from the start and leave them fixed forever, or never fix them at all. Switching between fixed and unfixed values can really throw the demand out of balance, and it might take ages for the demand to catch up.",确保在新游戏开始时就保持模组的启用。此外，要么从一开始就修改这些值，让它们永远是被修改过的，要么根本不修改它们。在修改值和非修改值之间切换会使需求失去平衡，而需求可能需要很长时间才能恢复。,REPORT_NOTE_104,,
+REPORT_NOTE_104,"Make sure to have the mod always on, directly from the start of a new game. Also, either fix the values from the start and leave them fixed forever, or never fix them at all. Switching between fixed and unfixed values can really throw the demand out of balance, and it might take ages for the demand to catch up. Can cause issues in late game in the way that suddenly all demands stops. Loading the city w/o this mod installed and save it again, fixes this issue. Turn off ""Show RCI demand value on status bar"", as it will spam your log and causes issues.",确保在新游戏开始时就保持模组的启用。此外，要么从一开始就修改这些值，让它们永远是被修改过的，要么根本不修改它们。在修改值和非修改值之间切换会使需求失去平衡，而需求可能需要很长时间才能恢复。,REPORT_NOTE_104,,
 REPORT_NOTE_105,"Mod settings for Shadow Distance Fix reset on game load.","Shadow Distance Fix 的模组设置会在重进游戏时被重置。",REPORT_NOTE_105,,
-REPORT_NOTE_106,"Mods without sourcecodes and with an unclear description should better not be subscribed.",没有源代码和描述不明确的模组最好不要订阅。,REPORT_NOTE_106,,
+REPORT_NOTE_106,"Mods without source codes and with an unclear description should better not be subscribed.",没有源代码和描述不明确的模组最好不要订阅。,REPORT_NOTE_106,,
 REPORT_NOTE_107,"MOM already allows you to convert train stations to metro stations.","MOM 已允许您将火车站转换为地铁站。",REPORT_NOTE_107,,
 REPORT_NOTE_108,"MOM handles spawn points for metro, so if you have issues with metro spawns, check MOM.","MOM 会处理地铁的生成点，因此如果您遇到地铁生成问题，请检查MOM。",REPORT_NOTE_108,,
 REPORT_NOTE_109,"More Advanced OptionsPanel has the functionality of Sort Mod Settings, and more.","More Advanced OptionsPanel 具有 Sort Mod Settings 的功能，还有更多其他功能。",REPORT_NOTE_109,,
@@ -514,7 +524,7 @@ REPORT_NOTE_166,"TAA can cause some flickering, ghosting and jitter. This is not
 REPORT_NOTE_167,"Terrain conforming props cannot be moved up/down.",跟随地形的摆件不能上下移动。,REPORT_NOTE_167,,
 REPORT_NOTE_168,"The 'No Problem' mod makes the game think the problem doesn't exist, while the 'Hide Problems' mod only hides the icon. Each mod can (ironically) already lead to serious problems. Combining them is really asking for it...","'No Problem' mod 使游戏认为问题不存在，而'Hide Problems' mod 只隐藏图标。 每个模组 (具有讽刺意义) 可能已经导致了严重的问题。把它们结合起来一起用真是自讨苦吃。。。",REPORT_NOTE_168,,
 REPORT_NOTE_169,"The 'Remove Unwanted' button may not work properly.",“移除不想要的”按钮可能无法正常工作。,REPORT_NOTE_169,,
-REPORT_NOTE_170,"The ability to upgrade between one- and two-way roads is included in the game itself.",游戏本身已经包含了在单向道和双向道路之间互相升级的功能。,REPORT_NOTE_170,,
+REPORT_NOTE_170,"Can't show data from newer extension mods like Extended Managers Library.","无法显示 Extended Managers Library 等较新扩展模组的数据。",REPORT_NOTE_170,,
 REPORT_NOTE_171,"The AdjacentToPurchased option of Common Ground is incompatible with 81 Tiles. Common Ground is not needed for gameplay when you unlock all 81 tiles, but is still great for use in the map editor.","Common Ground 的邻近已购买选项与 81 Tiles不兼容。
 当你解锁所有81个地块时，游戏不再需要 Common Ground ，但在地图编辑器中仍然很有用。",REPORT_NOTE_171,,
 REPORT_NOTE_172,"The author classifies this mod as experimental. It's probably wise to avoid going too crazy with the numbers.",作者将此模组归类为实验性模组。也许明智的做法是避免对数字过于疯狂。,REPORT_NOTE_172,,
@@ -525,8 +535,8 @@ REPORT_NOTE_176,"The copy feature from the Move It mod can also duplicate unique
 REPORT_NOTE_177,"The data converter can only do its work when Plop the Growables is not subscribed.","数据转换器只能在 Plop The Growables 未订阅时工作。",REPORT_NOTE_177,,
 REPORT_NOTE_178,"The destination to which the warehouse sends goods needs to be reachable by another transport mode next to barges. When a different transport mode provides a shorter route, no further barges are spawned. When the other barge harbour becomes unreachable, no further barges are spawned.",仓库发送货物的目的地需要通过另一种运输模式在下一次驳船上到达。当另一种运输方式提供较短的路线时，便不会有更多的驳船出现，当另一艘驳船无法到达时，便不会产生更多的驳船。,REPORT_NOTE_178,,
 REPORT_NOTE_179,"The FPS Booster patch display doesn't work when the BAF Module is subscribed.","当你订阅 BAF 模块时， FPS Booster 将会显示不可用。",REPORT_NOTE_179,,
-REPORT_NOTE_180,"The functionality of this mod is included in the game itself.",此模组的功能已经被游戏本身包含。,REPORT_NOTE_180,,
-REPORT_NOTE_181,"The game already has this functionality, so this mod might be obsolete. Some however say this mod is still relevant, as this mod uses slightly different values than the base game.","游戏已经有这个功能，所以这个mod可能已经过时。 但有人说这个mod仍然很重要，因为这个mod的功能与游戏略有不同。",REPORT_NOTE_181,,
+REPORT_NOTE_180,"Not showing information for newer DLC assets.",不显示较新DLC资产的信息。,REPORT_NOTE_180,,
+REPORT_NOTE_181,"The game already has this functionality, so this mod is not really needed. This mod uses slightly different values than the base game, so the benefit - if any - is minimal.",游戏已经内置了该功能，因此实际上并不需要该模组。该模组使用的数值与游戏本体的差异很小，因此，如果该模组有效果，那也只是极其微小的效果。,REPORT_NOTE_181,,
 REPORT_NOTE_182,"The game already solves the issue of not having enough low educated workers by employing highly educated people in lower-education jobs.",游戏通过雇佣高学历的人从事低学历的工作，已经解决了没有足够的低学历工人的问题。,REPORT_NOTE_182,,
 REPORT_NOTE_183,"The game has one-way train tracks as well, but this also has a single two-way track and is still needed for custom stations with a one-way station track.",游戏也有单向火车轨道，但它也有单条双向轨道，对于有单向轨道的自定义车站来说仍然需要。,REPORT_NOTE_183,,
 REPORT_NOTE_184,"The game sometimes forgets the real start of a route and might show it as 'No District'.",游戏有时会丢失路线的真正起点，并可能显示为“无区域”。,REPORT_NOTE_184,,
@@ -615,7 +625,7 @@ REPORT_NOTE_266,"This was needed for MacOS, because FPS Booster didn't work on M
 REPORT_NOTE_267,"This was only ever needed to fix one specific bridge.",这只是修建一座特定桥梁所需要的。,REPORT_NOTE_267,,
 REPORT_NOTE_268,"This was updated for the 1.14 patch, but not fully tested yet. A new update is being worked on.",它已更新到1.14版本，但尚未完全测试。一次新的更新正在进行。,REPORT_NOTE_268,,
 REPORT_NOTE_269,"This will not fix buildings that were already abandoned before this mod became active.",这不会修复在这个模组启用之前已经废弃的建筑物。,REPORT_NOTE_269,,
-REPORT_NOTE_270,"This will only unlock tiles at the start of a new game, not on a previous game save.",这只会在新游戏开始时解锁地块，而不是在以前的存档中。,REPORT_NOTE_270,,
+REPORT_NOTE_270,"This will only unlock 25 tiles at the start of a new game, not on a previous game save.",这只会在新游戏开始时解锁地块，而不是在以前的存档中。,REPORT_NOTE_270,,
 REPORT_NOTE_271,"This works for train tracks only, not for others like tram or metro. This will work for tracks from the basegame and DLCs, and selected Workshop tracks.",这适用于火车轨道，不适用于电车轨道或者地铁。这只适用于基本游戏和DLC中的轨道，以及创意工坊中指定的轨道。,REPORT_NOTE_271,,
 REPORT_NOTE_272,"Tip: if you have Industries DLC, put a warehouse near power stations to help give them consistent supplies.","提示：如果你有工业 DLC，请在电站附近放置一个仓库，以帮助他们获得稳定的资源供应。",REPORT_NOTE_272,,
 REPORT_NOTE_273,"TLM already has a 'spawning delay' functionality.","TLM 已经具有“延迟发车”功能。",REPORT_NOTE_273,,
@@ -635,7 +645,7 @@ REPORT_NOTE_286,"Tree Anarchy already has the functionality of Tree Snapping.","
 REPORT_NOTE_287,"Tree Anarchy already has the functionality of Unlimited Trees.","Tree Anarchy 已经具有了 Unlimited Trees 的功能。",REPORT_NOTE_287,,
 REPORT_NOTE_288,"Tree Anarchy has the functionality of Plant Scaling, and much more.","Tree Anarchy 已经具有了 Plant Scaling 的功能，还有更多其它功能。",REPORT_NOTE_288,,
 REPORT_NOTE_289,"UK Street Names takes priority for street names, but Custom Namelists can still be used for district names.","UK Street Names 优先于街道名称，但 Custom Namelists 仍可用于地区名称。",REPORT_NOTE_289,,
-REPORT_NOTE_290,"Unbunching is already part of the base game",解锁全部已经是游戏本身的功能。,REPORT_NOTE_290,,
+REPORT_NOTE_290,"Catenaries and Props become black for the supported Vanilla tracks!",原版轨道的接触网和道具变成黑色。,REPORT_NOTE_290,,
 REPORT_NOTE_291,"Undoing props is disabled when using EML.","在使用 EML 时禁用撤消摆件。",REPORT_NOTE_291,,
 REPORT_NOTE_292,"Unsubscribe Holy Water's TM:PE.","取消订阅 Holy Water 的 TM:PE 。",REPORT_NOTE_292,,
 REPORT_NOTE_293,"Unsubscribe Network Extensions 3.","取消订阅 Network Extensions 3 。",REPORT_NOTE_293,,
@@ -726,7 +736,7 @@ REPORT_NOTE_377,"Results are not reliable anymore. Use Compatibility Report inst
 REPORT_NOTE_378,"This might not function with a 3DxWare driver version higher than 10.6.4.","3DxWare 驱动程序版本高于10.6.4时可能无法起作用。",REPORT_NOTE_378,,
 REPORT_NOTE_379,"The button cannot be moved, making the stats go off-screen on certain screen resolutions.",该按钮不能被移动，这使得在某些屏幕分辨率上，统计数据处于屏幕之外。,REPORT_NOTE_379,,
 REPORT_NOTE_380,"Several users report it is not working at all.",好几个用户报告说它根本没有工作。,REPORT_NOTE_380,,
-REPORT_NOTE_381,"Changing the time of day is no longer possible since patch 1.14.",自1.14版本以来，不再可能改变白天的时间。,REPORT_NOTE_381,,
+REPORT_NOTE_381,"Do not unlock all roads.",无法解锁所有道路。,REPORT_NOTE_381,,
 REPORT_NOTE_382,"It can cause visual glitches in menu (tabs without description and/or image).",它会在菜单中造成错误视图(无描述/图像的选项)。,REPORT_NOTE_382,,
 REPORT_NOTE_383,"Some users report the UI as missing when not subscribed to Fine Road Tools.","有些用户在未订阅 Fine Road Tools 时报告 UI 缺失。",REPORT_NOTE_383,,
 REPORT_NOTE_384,"Deleting a road segment with adjusted pathfinding might cause a NullReference error.","删除路径调整后的路段可能导致 NullReference 错误。",REPORT_NOTE_384,,
@@ -736,7 +746,7 @@ REPORT_NOTE_387,"The Paradox Launcher has this functionality.","Paradox 启动�
 REPORT_NOTE_388,"The brush sometimes stops working. Unsubscribing and resubscribing (while the game is not running) often helps for a while, but a more permanent solution is to use the Loading Order Mod and set the loading order of Forest Brush to 9999.","刷子有时会停止工作。取消订阅和重新订阅（当游戏不运行时）通常能解决短期问题，但一个更永久的解决方案是使用 Loading Order Mod 并将 Forest Brush 的加载顺序设置为9999。",REPORT_NOTE_388,,
 REPORT_NOTE_389,"Not compatible with Unlock All + Wonders &amp; Landmarks.","与 Unlock All + Wonders &amp; Landmarks 不兼容。",REPORT_NOTE_389,,
 REPORT_NOTE_390,"External ressources are not used therefor you can’t use it on a new map. Various players report it’s not working at all.",外部资源没有使用，因此您不能在新地图上使用它。多位玩家报告它根本没有工作。,REPORT_NOTE_390,,
-REPORT_NOTE_391,"This seems to work, but is no longer supported. Use the Picker mod instead.","这似乎仍能正常工作，但已经不再得到支持。请使用 Picker 代替。",REPORT_NOTE_391,,
+REPORT_NOTE_391,"Correct name for the mod would be ""Less Garbage Cost"", as it only reduces the cost!","模组的正确名称应该是 “减少垃圾处理设施维护成本” ，因为模组只会减少垃圾处理设施维护成本，而不会减少垃圾的产生！",REPORT_NOTE_391,,
 REPORT_NOTE_392,"User reports that it is not working at all if you select heavy traffic.",有用户报告说，如果您选择高交通流量，那么它根本无法工作。,REPORT_NOTE_392,,
 REPORT_NOTE_393,"Some users report volume too low or no sound at all for some tracks.",有些用户报告说音量过低或根本没有声音。,REPORT_NOTE_393,,
 REPORT_NOTE_394,"Only a limited set of roads is included.",只包括一套有限的道路资产。,REPORT_NOTE_394,,
@@ -775,7 +785,7 @@ REPORT_NOTE_426,"Not working with the buildings from Promenades &amp; Plazas DLC
 REPORT_NOTE_427,"Several users report services not spawning vehicles anymore.",一些用户报告说公共服务点不再生成车辆。,REPORT_NOTE_427,,
 REPORT_NOTE_428,"Not working for all buildings, terrain spikes and holes, performance issues, errors messages.",不适用于所有建筑物，可能会出现地形尖刺和空洞，存在性能问题和错误信息。,REPORT_NOTE_428,,
 REPORT_NOTE_429,"Assets that are part of a mod might no longer be auto-enabled by the game.",作为模组一部分的资产，可能不再被游戏自动启用。,REPORT_NOTE_429,,
-REPORT_NOTE_430,"See workshop comments.",见创意工坊的评论。,REPORT_NOTE_430,,
+REPORT_NOTE_430,"Road coloring is not working and lights on pedestrian roads can't be exchanged.",道路上色功能无法使用，人行道上的灯也不能替换。,REPORT_NOTE_430,,
 REPORT_NOTE_431,"LOD not correct.",LOD存在错误。,REPORT_NOTE_431,,
 REPORT_NOTE_432,"Do not remove trees added after Campus DLC to the game.",不要移除在校园DLC之后添加到游戏中的树木。,REPORT_NOTE_432,,
 REPORT_NOTE_433,"This causes (vanilla) trees to flicker.","这使得(原版) 树闪烁。",REPORT_NOTE_433,,
@@ -793,7 +803,7 @@ REPORT_NOTE_444,"This causes invisible transport lines.",这会导致运输线�
 REPORT_NOTE_445,"""Make it Rain"" must be clicked (in Options) if many mods are used. Without mods it works on its own. Rain may flicker for a bit but settles later.",如果使用了许多MOD，则必须选择“下雨”（在选项中）。没有MOD，它自己也能运行。雨水可能会闪烁一段时间，但稍后会停下来。,REPORT_NOTE_445,,
 REPORT_NOTE_446,"Causes strange effects on junctions and conflicts with various Mods.",对交叉路口造成奇怪的影响，并与各种模组发生冲突。,REPORT_NOTE_446,,
 REPORT_NOTE_447,"This might block the vanilla quay upgrade tool.",这可能会屏蔽原版查询更新工具。,REPORT_NOTE_447,,
-REPORT_NOTE_448,"Road arrow functionality not working, or only after disabling and re-enabling it on each load.",道路箭头功能不可用，或者仅在禁用并重启游戏后才能使用。,REPORT_NOTE_448,,
+REPORT_NOTE_448,"Various issues, unstable. Road arrow functionality not working, or only after disabling and re-enabling it on each load. Not all roads are supported.",此模组不稳定且有各种问题。道路箭头功能无法使用，或者仅在每次加载存档前禁用并重新启用时才能使用。此模组并非所有道路都能使用。,REPORT_NOTE_448,,
 REPORT_NOTE_449,"This requires a deprecated and broken mod.",这需要一个废弃并已损坏的模组。,REPORT_NOTE_449,,
 REPORT_NOTE_450,"Public transport part not working anymore.",公共交通部分不再起作用。,REPORT_NOTE_450,,
 REPORT_NOTE_451,"Not able to highlight new districts.",无法突出显示新的地区。,REPORT_NOTE_451,,
@@ -821,7 +831,7 @@ REPORT_NOTE_472,"Several functions are not working anymore and throws errors if 
 REPORT_NOTE_473,"Demand stays at zero.",需求保持在零。,REPORT_NOTE_473,,
 REPORT_NOTE_474,"Rocks can’t be deleted.",不能删除岩石。,REPORT_NOTE_474,,
 REPORT_NOTE_475,"Disable scrolling with one of the hotkeys before dezoning to prevent accidental massive dezoning. The same applies to other actions performed with the right mouse button, like road upgrades.",在删除区域时不要使用能缩放/移动的快捷键，以防止意外的大规模删除。这同样适用于使用鼠标右键执行的其他操作，例如道路升级。,REPORT_NOTE_475,,
-REPORT_NOTE_476,"Part of the base game and the Paradox Launcher.","这是基础游戏和 Paradox 启动器的一部分。",REPORT_NOTE_476,,
+REPORT_NOTE_476,"Lights on pedestrian roads can't be exchanged.",人行道上的灯不能替换。,REPORT_NOTE_476,,
 REPORT_NOTE_477,"In resolutions other than 16:9 aspect ratio, it moves to the top left corner, blocking the default Infoview button.",在非16:9宽高比的屏幕分辨率下，时钟会移动到左上角并阻止默认的InfoView按钮。,REPORT_NOTE_477,,
 REPORT_NOTE_478,"Images sometimes are only loaded if you restart the game and hotkeys also not work for all people.",有时只在您重启游戏时才加载图像，快捷键也时常不起作用。,REPORT_NOTE_478,,
 REPORT_NOTE_479,"Not working for all buildings, performance issues, errors messages.",不适用于所有建筑物，存在性能问题和错误信息。,REPORT_NOTE_479,,
@@ -865,7 +875,7 @@ REPORT_NOTE_516,"On some intersections duplicate traffic lights appear. On a T-i
 REPORT_NOTE_517,"This mod can have an impact on game performance. Does not work in scenario games.",这个模组会对游戏性能产生较大影响。在剧情模式中无法正常工作。,REPORT_NOTE_517,,
 REPORT_NOTE_518,"Errors in the game log about unallowed actions. Buses not spawning. No first names being assigned.",由于未经授权的操作，游戏日志中出现了错误。公共汽车不会出现。也不会生成名字。,REPORT_NOTE_518,,
 REPORT_NOTE_519,"Some users report this to cause unloadable games. It's unknown if this is a mod conflict or an issue with game patch 1.14. Some users report a missing UI. LODs can't be replaced. See the Workshop for more details about known issues.",一些用户报告这会导致无法载入存档。目前暂时不清楚这是模组冲突还是游戏版本1.14的问题。一些用户还报告缺少UI、无法替换LODs。如果想要知道更多的有关信息，请参考创意工坊的模组说明。,REPORT_NOTE_519,,
-REPORT_NOTE_520,"Setting maintenance price is not working correctly. Try pressing Enter after setting a new price instead of using the Apply button. Vehicle settings such as capacity and speed cannot be set. Use the Advanced Vehicle Options mod for this instead.","设置维护价格的功能无法正常使用。尝试在设置新价格后按Enter键，而不是选择“应用”按钮。无法设置载具的容量和速度，请使用 Advanced Vehicle Options 代替。",REPORT_NOTE_520,,
+REPORT_NOTE_520,"Main button is not visible anymore. Setting maintenance price is not working correctly. Try pressing Enter after setting a new price instead of using the Apply button. Vehicle settings such as capacity and speed cannot be set. Use the Advanced Vehicle Options mod for this instead.","设置维护价格的功能无法正常使用。尝试在设置新价格后按Enter键，而不是选择“应用”按钮。无法设置载具的容量和速度，请使用 Advanced Vehicle Options 代替。",REPORT_NOTE_520,,
 REPORT_NOTE_521,"Being unable to export with an 'XML root element missing' error in the log. Train tracks sometimes not included.",由于日志中出现“缺少XML根元素”错误，无法导出。有时不包火车轨道。,REPORT_NOTE_521,,
 REPORT_NOTE_522,"The mod options screen might break if you have too many train assets. Some users report issues with config file not being properly created. This might cause some lag if not using FPS Booster.","如果你拥有太多列车资产，模组选项可能会出错。 一些用户报告未正确创建配置文件的问题。如果不使用 FPS Booster，这可能会导致一些延迟。",REPORT_NOTE_522,,
 REPORT_NOTE_523,"This only works for displays with an aspect ratio of 16:9 or 16:10. This is missing functionality for more recent patches and DLCs.","这只适用于分辨率宽高比为 16:9 或 16:10 的屏幕。对于最近的更新和 DLC 来说，这个功能失效了。",REPORT_NOTE_523,,
@@ -888,3 +898,13 @@ REPORT_NOTE_539,"Network Anarchy supersede several mods and includes way more fu
 REPORT_NOTE_540,"Can't handle EML / Prop Anarchy Props. Can't run scripts with the actual game version. Use the beta version instead to run scripts.","无法处理 EML / Prop Anarchy 的摆件。程序无法在当前游戏版本中运行。请使用测试版来运行程序。",REPORT_NOTE_540,,
 REPORT_NOTE_541,"Remove Need For Pipes function is included in 81 Tiles 2 mod.","81 Tiles 2 已经包含了 Remove Need For Pipes 的功能。",REPORT_NOTE_541,,
 REPORT_NOTE_542,"Remove Need For Power Lines function is included in 81 Tiles 2 mod.","81 Tiles 2 已经包含了 Remove Need For Power Lines 的功能。",REPORT_NOTE_542,,
+REPORT_NOTE_543,"Causes long loading times, causes various issues that are at the end even game breaking, therefore marked as incompatible to the game.",导致加载时间很长等各种各样的问题，甚至使游戏崩溃，因此被标记为不兼容。,REPORT_NOTE_543,,
+REPORT_NOTE_544,"Conflicts with various mods and can lead to crashes. Can cause performance issues and increase load time.",与各种模组冲突并可能导致崩溃。导致性能问题，并增加载入时间。,REPORT_NOTE_544,,
+REPORT_NOTE_545,"Not cleaning all textures and causes FPS drops.",并非所有的道路颜色材质都能被移除并更换，还会降低帧率。,REPORT_NOTE_545,,
+REPORT_NOTE_546,"Clipping may occur as well as simulation errors.",可能发生模拟错误和贴图错误。,REPORT_NOTE_546,,
+REPORT_NOTE_547,"Not supporting budgets for newer DLC.","不支持较新的 DLC 的预算。",REPORT_NOTE_547,,
+REPORT_NOTE_548,"Create massive lags if no overlay.png is in the specified folder.","如果指定文件夹中没有 overlay.png ，将大量地导致卡顿。",REPORT_NOTE_548,,
+REPORT_NOTE_549,"Water spikes might stay forever, even if the mod is unsubscribed.",即便取消订阅了该模组，制造的海啸仍可能永久存在。,REPORT_NOTE_549,,
+REPORT_NOTE_550,"Buttons are no longer aligned correctly.",按钮再也无法正确地对齐。,REPORT_NOTE_550,,
+REPORT_NOTE_551,"Works, but causes ""InvalidOperationException"" error messages in log file.","此模组仍然工作，但在日志文件中造成输出 ""InvalidOperationException"" 的错误信息。",REPORT_NOTE_551,,
+REPORT_NOTE_552,"Do not support names for newer DLC districts.","不支持命名较新 DLC 区划的名字。",REPORT_NOTE_552,,

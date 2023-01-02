@@ -1,345 +1,345 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
-LANGUAGE,English,English,"LANGUAGE
+LANGUAGE,English,Čeština,"LANGUAGE
 Language to be translated into",,
-CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","CAT_NC_SUIT
+CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} vytvořil dne {Updated}, stažen dne {Downloaded}","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
-CAT_S_SUIT,"unknown, catalog not loaded yet.","unknown, catalog not loaded yet.","CAT_S_SUIT
+CAT_S_SUIT,"unknown, catalog not loaded yet.","není známo, katalog zatím nebyl nenačten.","CAT_S_SUIT
 Catalog.cs string SettingsUIText",,
-HE_NAWIDAL_S,by,by,"HE_NAWIDAL_S
+HE_NAWIDAL_S,by,od,"HE_NAWIDAL_S
 HtmlExtension.cs NameAuthorWithIDAsLink string",,
-HRT_DCV_H,WARNING:,WARNING:,"HRT_DCV_H
+HRT_DCV_H,WARNING:,VAROVÁNÍ:,"HRT_DCV_H
 HtmlReportTemplate.tt Different Catalog version Header",,
-HRT_DCV_RNA,"Results might not be accurate.","Results might not be accurate.","HRT_DCV_RNA
+HRT_DCV_RNA,"Results might not be accurate.","Výsledky nemusí být přesné.","HRT_DCV_RNA
 HtmlReportTemplate.tt Different Catalog version Resultsnotaccurate",,
-HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","The catalog is made for game version {CatalogGameVersion}.","HRT_DCV_T
+HRT_DCV_T,"The catalog is made for game version {CatalogGameVersion}.","Katalog je vytvořen pro verzi hry {CatalogGameVersion}.","HRT_DCV_T
 HtmlReportTemplate.tt Different Catalog version Text",,
-HRT_DCV_YGIN,"Your game is newer.","Your game is newer.","HRT_DCV_YGIN
+HRT_DCV_YGIN,"Your game is newer.","Verze Vaší hry je novější.","HRT_DCV_YGIN
 HtmlReportTemplate.tt Different Catalog version Your game is newer",,
-HRT_DCV_YGIO,"Your game is older.","Your game is older.","HRT_DCV_YGIO
+HRT_DCV_YGIO,"Your game is older.","Verze Vaší hry je starší.","HRT_DCV_YGIO
 HtmlReportTemplate.tt Different Catalog version Your game is older",,
-HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","The report includes {LocalSubscriptionCount} fake subscriptions.","HRT_FS_P
+HRT_FS_P,"The report includes {LocalSubscriptionCount} fake subscriptions.","Report obsahuje {LocalSubscriptionCount} falešných odběrů.","HRT_FS_P
 HtmlReportTemplate.tt Fake subscription plural",,
-HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","The report includes {LocalSubscriptionCount} fake subscription.","HRT_FS_S
+HRT_FS_S,"The report includes {LocalSubscriptionCount} fake subscription.","Report obsahuje {LocalSubscriptionCount} falešný odběr.","HRT_FS_S
 HtmlReportTemplate.tt Fake subscription singular",,
-HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","Abandoned mods can still work fine. They're just unlikely to get updates.","HRT_GI_AM
+HRT_GI_AM,"Abandoned mods can still work fine. They're just unlikely to get updates.","Zastaralé modifikace mohou stále správně fungovat. Není ale pravděpodobné, že by byly aktualizovány.","HRT_GI_AM
 HtmlReportTemplate.tt General information Abandondedmod",,
-HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Always READ the mod description on the Steam Workshop before subscribing.","HRT_GI_AR
+HRT_GI_AR,"Always READ the mod description on the Steam Workshop before subscribing.","Vždy ČTĚTE popis modifikace na Steam Workshop před odběrem.","HRT_GI_AR
 HtmlReportTemplate.tt General information Alwaysread",,
-HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","The list of {linkBrokenMods} can help you not to subscribe such at all.","HRT_GI_BML
+HRT_GI_BML,"The list of {linkBrokenMods} can help you not to subscribe such at all.","Seznam {linkBrokenMods} Vám může pomoci takové modifikace neodebírat.","HRT_GI_BML
 HtmlReportTemplate.tt General information BrokenModList",,
-HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","HRT_GI_ETD
+HRT_GI_ETD,"Always EXIT TO DESKTOP and restart the game. Never exit to main menu!","Vždy UKONČETE HRU a restartujte ji. Nikdy se nevracejte zpět do hlavní nabídky!","HRT_GI_ETD
 HtmlReportTemplate.tt General information Exittodesktop",,
-HRT_GI_M,"Found a mistake? Please fill out this {form}.","Found a mistake? Please fill out this {form}.","HRT_GI_M
+HRT_GI_M,"Found a mistake? Please fill out this {form}.","Našli jste chybu? Vyplňte prosím tento dotazník {form}.","HRT_GI_M
 HtmlReportTemplate.tt General information Form",,
-HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Having issues with a mod? Make a comment on its Workshop page so the author knows.","HRT_GI_HI
+HRT_GI_HI,"Having issues with a mod? Make a comment on its Workshop page so the author knows.","Máte problémy s modifikací? Napište komentář ve Steam Workshop, aby to autor věděl.","HRT_GI_HI
 HtmlReportTemplate.tt General information Havingissues",,
-HRT_GI_H,"General information","General information","HRT_GI_H
+HRT_GI_H,"General information","Všeobecné informace","HRT_GI_H
 HtmlReportTemplate.tt General information Header",,
-HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","NEVER (un)subscribe to anything while the game is running! This resets some mods.","HRT_GI_NU
+HRT_GI_NU,"NEVER (un)subscribe to anything while the game is running! This resets some mods.","NIKDY neodhlašujte odběr, když hra běží! Může to obnovit některé modifikace.","HRT_GI_NU
 HtmlReportTemplate.tt General information Neverunsubscribe",,
-HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Mod compatible, but not working? Try to unsubscribe and resubscribe (while not in game).","HRT_GI_NW
+HRT_GI_NW,"Mod compatible, but not working? Try unsubscribe and resubscribe (while not in game).","Kompatibilní modifikace, ale stále nefungují? Zkuste odhlásit a znovu přihlásit odběr (když neběží hra).","HRT_GI_NW
 HtmlReportTemplate.tt General information notworking",,
-HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","The list of {linkRecommendedMods} helps to decide which mods to subscribe.","HRT_GI_RML
+HRT_GI_RML,"The list of {linkRecommendedMods} helps to decide which mods to subscribe.","Seznam {linkRecommendedMods} pomáhá rozhodnout, které modifikace se mají odebírat.","HRT_GI_RML
 HtmlReportTemplate.tt General information RecommendedModList",,
-HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","When playing with mods, save to a new save game often and make frequent BACKUPS.","HRT_GI_WP
+HRT_GI_WP,"When playing with mods, save to a new savegame often and make frequent BACKUPS.","Při hraní s modifikacemi často ukládejte do nového uložení a vytvářejte časté ZÁLOHY.","HRT_GI_WP
 HtmlReportTemplate.tt General information Whenplaying",,
-HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","WARNING: The latest review catalog could not be downloaded. Results might be outdated.","HRT_IO_SOW
+HRT_IO_SOW,"WARNING: The latest review catalog could not be downloaded. Results might be outdated.","VAROVÁNÍ: Nelze stáhnout poslední katalog recenze. Výsledky mohou být zastaralé.","HRT_IO_SOW
 HtmlReportTemplate.tt Is outdated ShowOutdatedWarning",,
-HRT_LIL_MAI,"Major Issues","Major Issues","HRT_LIL_MAI
+HRT_LIL_MAI,"Major Issues","Závažné problémy","HRT_LIL_MAI
 HtmlReportTemplate.tt LI_Link majorIssues",,
-HRT_LIL_MI,"Minor Issues","Minor Issues","HRT_LIL_MI
+HRT_LIL_MI,"Minor Issues","Menší problémy","HRT_LIL_MI
 HtmlReportTemplate.tt LI_Link minorIssues",,
-HRT_LIL_NTR,"Nothing to report","Nothing to report","HRT_LIL_NTR
+HRT_LIL_NTR,"Nothing to report","Nic k nahlášení","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
-HRT_LIL_R,Remarks,Remarks,"HRT_LIL_R
+HRT_LIL_R,Remarks,Poznámky,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
-HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","HRT_LSM_E
+HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","Report nekontroluje nekompatibilitu s těmito modifikacemi. Výsledky nemusí být zcela přesné. Kdykoli je to možné, použijte modifikace jako odběr na Steam Workshop. Modifikace zkopírované do místní složky „mods"" ne vždy fungují a ostatní modifikace je často nerozeznají.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
-HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","You have {LocalSubscriptionCount} local mods, which we can't review.","HRT_LSM_P
+HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","Máte {LocalSubscriptionCount} místních modifikací, které nemůžeme zkontrolovat.","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural",,
-HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","You have {LocalSubscriptionCount} local mod, which we can't review.","HRT_LSM_S
+HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","Máte {LocalSubscriptionCount} místní modifikace, kterou nemůžeme zkontrolovat.","HRT_LSM_S
 HtmlReportTemplate.tt Local subscription Mod singular",,
-HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","HRT_NRS_N
+HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","{NonReviewedSubscriptions} vašich módů ještě nebylo zkontrolováno. Některá nekompatibilita nebo varování mohou chybět z tohoto důvodu.","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note",,
-HRT_P_D,Disabled,Disabled,"HRT_P_D
+HRT_P_D,Disabled,Vypnuto,"HRT_P_D
 HtmlReportTemplate.tt processed Disabled",,
-HRT_P_MN,"Mod Name","Mod Name","HRT_P_MN
+HRT_P_MN,"Mod Name","Název modifikace","HRT_P_MN
 HtmlReportTemplate.tt processed Mod Name",,
-HRT_P_PM,"Processed mods","Processed mods","HRT_P_PM
+HRT_P_PM,"Processed mods","Zpracované modifikace","HRT_P_PM
 HtmlReportTemplate.tt processed Processed mods",,
-HRT_P_T,Type,Type,"HRT_P_T
+HRT_P_T,Type,Typ,"HRT_P_T
 HtmlReportTemplate.tt processed Type",,
 HRT_P_U,URL,URL,"HRT_P_U
 HtmlReportTemplate.tt processed Url",,
-HRT_RS_MAIP,"MODS HAVE MAJOR ISSUES:","MODS HAVE MAJOR ISSUES:","HRT_RS_MAIP
+HRT_RS_MAIP,"MODS HAVE MAJOR ISSUES:","MODIFIKACE ZPŮSOBUJÍCÍ ZÁVAŽNÉ PROBLÉMY:","HRT_RS_MAIP
 HtmlReportTemplate.tt RenderSection majorIssuesplural",,
-HRT_RS_MAIS,"MOD HAS MAJOR ISSUES:","MOD HAS MAJOR ISSUES:","HRT_RS_MAIS
+HRT_RS_MAIS,"MOD HAS MAJOR ISSUES:","MODIFIKACE ZPŮSOBUJÍCÍ ZÁVAŽNÉ PROBLÉMY:","HRT_RS_MAIS
 HtmlReportTemplate.tt RenderSection majorIssuessingular",,
-HRT_RS_MIP,"MODS HAVE MINOR ISSUES:","MODS HAVE MINOR ISSUES:","HRT_RS_MIP
+HRT_RS_MIP,"MODS HAVE MINOR ISSUES:","MODIFIKACE ZPŮSOBUJÍCÍ MENŠÍ PROBLÉMY:","HRT_RS_MIP
 HtmlReportTemplate.tt RenderSection minorIssuesplural",,
-HRT_RS_MIS,"MOD HAS MINOR ISSUES:","MOD HAS MINOR ISSUES:","HRT_RS_MIS
+HRT_RS_MIS,"MOD HAS MINOR ISSUES:","MODIFIKACE ZPŮSOBUJÍCÍ MENŠÍ PROBLÉMY:","HRT_RS_MIS
 HtmlReportTemplate.tt RenderSection minorIssuessingular",,
-HRT_RS_NTRP,"MODS WITH NOTHING TO REPORT:","MODS WITH NOTHING TO REPORT:","HRT_RS_NTRP
+HRT_RS_NTRP,"MODS WITH NOTHING TO REPORT:","MODIFIKACE BEZ PROBLÉMŮ:","HRT_RS_NTRP
 HtmlReportTemplate.tt RenderSection nothingToReportplural",,
-HRT_RS_NTRS,"MOD WITH NOTHING TO REPORT:","MOD WITH NOTHING TO REPORT:","HRT_RS_NTRS
+HRT_RS_NTRS,"MOD WITH NOTHING TO REPORT:","MODIFIKACE BEZ PROBLÉMŮ:","HRT_RS_NTRS
 HtmlReportTemplate.tt RenderSection nothingToReportsingular",,
-HRT_RS_RP,"MODS WITH REMARKS:","MODS WITH REMARKS:","HRT_RS_RP
+HRT_RS_RP,"MODS WITH REMARKS:","MODIFIKACE S POZNÁMKOU:","HRT_RS_RP
 HtmlReportTemplate.tt RenderSection remarksplural",,
-HRT_RS_RS,"MOD WITH REMARK:","MOD WITH REMARK:","HRT_RS_RS
+HRT_RS_RS,"MOD WITH REMARK:","MODIFIKACE S POZNÁMKOU:","HRT_RS_RS
 HtmlReportTemplate.tt RenderSection remarkssingular",,
-HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:","MODS COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_UP
+HRT_RS_UP,"MODS COULD OR SHOULD BE UNSUBSCRIBED:","MODIFIKACE, KTERÉ BY MĚLY BÝT ODEBRÁNY:","HRT_RS_UP
 HtmlReportTemplate.tt RenderSection unsubscribeplural",,
-HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","MOD COULD OR SHOULD BE UNSUBSCRIBED:","HRT_RS_US
+HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","MODIFIKACE BY MĚLA BÝT ODEBRÁNA:","HRT_RS_US
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
-HRT_S_CRC,"{name}, created on {date+time}","{name}, created on {date+time}","HRT_S_CRC
+HRT_S_CRC,"{name}, created on {date+time}","{name}, vytvořeno dne {date+time}","HRT_S_CRC
 HtmlReportTemplate.tt section CompatibilityReportCreated",,
-HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Mods updated after this date might have an outdated review below.","HRT_S_MUA
+HRT_S_MUA,"Mods updated after this date might have an outdated review below.","Modifikace aktualizované po tomto datu mohou mít zastaralý přehled níže.","HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
-HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","HRT_S_TMCC
+HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","Katalog modifikací obsahuje {ReviewedModCount} zkontrolovaných modifikací a byl vytvořen dne {Updated}.","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains",,
-HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Version {FullVersion} with catalog {VersionString}.","HRT_S_VWC
+HRT_S_VWC,"Version {FullVersion} with catalog {VersionString}.","Verze {FullVersion} s katalogem {VersionString}.","HRT_S_VWC
 HtmlReportTemplate.tt section Versionwithcatalog",,
-HRT_S_YGM,"Your game has {SubscriptionCount} mods.","Your game has {SubscriptionCount} mods.","HRT_S_YGM
+HRT_S_YGM,"Your game has {SubscriptionCount} mods.","Vaše hra má {SubscriptionCount} modifikací.","HRT_S_YGM
 HtmlReportTemplate.tt section Yourgamemods",,
 HRTC_A_SNU,"No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SNU
 HtmlReportTemplateCode.cs abandoned SourceNotUpdated",,
 HRTC_A_SURL,"Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SURL
 HtmlReportTemplateCode.cs abandoned SourceUrl",,
-HRTC_A_SM,"Some alternatives for this are (pick one, not all):","Some alternatives for this are (pick one, not all):","HRTC_A_SM
+HRTC_A_SM,"Some alternatives for this are (pick one, not all):","Jsou zde některé alternativy (vyberte jen jednu):","HRTC_A_SM
 HtmlReportTemplateCode.cs Alternatives subscribedMod",,
-HRTC_A_SMC,"An alternative you could use:","An alternative you could use:","HRTC_A_SMC
+HRTC_A_SMC,"An alternative you could use:","Alternativa, kterou byste mohli použít:","HRTC_A_SMC
 HtmlReportTemplateCode.cs Alternatives subscribedModCount",,
-HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","If you use the asset editor and/or map editor, this may give serious issues.","HRTC_BE_R
+HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","Pokud používáte editor obsahu nebo editor map, může to způsobit vážné problémy.","HRTC_BE_R
 HtmlReportTemplateCode.cs BreaksEditors Remarks",,
-HRTC_CRM_S,"Can't review local mods.","Can't review local mods.","HRTC_CRM_S
+HRTC_CRM_S,"Can't review local mods.","Nelze zkontrolovat místní modifikace.","HRTC_CRM_S
 HtmlReportTemplateCode.cs cannotReviewMessage string",,
-HRTC_CM_ID,Yes,Yes,"HRTC_CM_ID
+HRTC_CM_ID,Yes,Ano,"HRTC_CM_ID
 HtmlReportTemplateCode.cs catalogMod IsDisabled",,
-HRTC_IRS_CATA,"This is compatible with:","This is compatible with:","HRTC_IRS_CATA
+HRTC_IRS_CATA,"This is compatible with:","Toto je kompatibilní s:","HRTC_IRS_CATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity CompatibleAccordingToAuthor",,
-HRTC_IRS_IATA,"Unsubscribe either this one or the following mod it's incompatible with:","Unsubscribe either this one or the following mod it's incompatible with:","HRTC_IRS_IATA
+HRTC_IRS_IATA,"Unsubscribe either this one or the following mod it's incompatible with:","Zrušte odběr následujících nekompatibilních modifikací:","HRTC_IRS_IATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToAuthor",,
-HRTC_IRS_IATU,"Users report an incompatibility with:","Users report an incompatibility with:","HRTC_IRS_IATU
+HRTC_IRS_IATU,"Users report an incompatibility with:","Uživatelé hlásí nekompatibilitu s:","HRTC_IRS_IATU
 HtmlReportTemplateCode.cs IncreaseReportSeverity IncompatibleAccordingToUsers",,
-HRTC_IRS_MAI,"This has major issues with:","This has major issues with:","HRTC_IRS_MAI
+HRTC_IRS_MAI,"This has major issues with:","Tato modifikace má závažné problémy s:","HRTC_IRS_MAI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MajorIssues and HtmlReportTemplate.tt LI_Link majorIssues)",,
-HRTC_IRS_MI,"This has minor issues with:","This has minor issues with:","HRTC_IRS_MI
+HRTC_IRS_MI,"This has minor issues with:","Tato modifikace má menší problémy s:","HRTC_IRS_MI
 HtmlReportTemplateCode.cs IncreaseReportSeverity MinorIssues",,
-HRTC_IRS_RSS,"This requires specific configuration to work together with:","This requires specific configuration to work together with:","HRTC_IRS_RSS
+HRTC_IRS_RSS,"This requires specific configuration to work together with:","Tato modifikace vyžaduje konkrétní konfiguraci pro spolupráci s:","HRTC_IRS_RSS
 HtmlReportTemplateCode.cs IncreaseReportSeverity RequiresSpecificSettings",,
-HRTC_IRS_SF,"Unsubscribe either this or the following incompatible mod with similar functionality:","Unsubscribe either this or the following incompatible mod with similar functionality:","HRTC_IRS_SF
+HRTC_IRS_SF,"Unsubscribe either this or the following incompatible mod with similar functionality:","Zrušte odběr této nebo následující nekompatibilní modifikace s podobnou funkcí:","HRTC_IRS_SF
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionality",,
-HRTC_IRS_SFC,"This has very similar functionality, but is still compatible with (do you need both?):","This has very similar functionality, but is still compatible with (do you need both?):","HRTC_IRS_SFC
+HRTC_IRS_SFC,"This has very similar functionality, but is still compatible with (do you need both?):","Tato modifikace má velmi podobnou funkci, a je stále kompatibilní (potřebujete obě?):","HRTC_IRS_SFC
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameFunctionalityCompatible",,
-HRTC_IRS_SMDRT,"Unsubscribe either this or the other edition of the same mod:","Unsubscribe either this or the other edition of the same mod:","HRTC_IRS_SMDRT
+HRTC_IRS_SMDRT,"Unsubscribe either this or the other edition of the same mod:","Odhlásit odběr tohoto nebo jiného vydání této modifikace:","HRTC_IRS_SMDRT
 HtmlReportTemplateCode.cs IncreaseReportSeverity SameModDifferentReleaseType",,
-HRTC_I_B,"UNSUBSCRIBE! This mod is broken.","UNSUBSCRIBE! This mod is broken.","HRTC_I_B
+HRTC_I_B,"UNSUBSCRIBE! This mod is broken.","ODHLAŠTE ODBĚR! Tato modifikace je rozbitá.","HRTC_I_B
 HtmlReportTemplateCode.cs Instability Broken",,
-HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","UNSUBSCRIBE! This mod breaks the game.","HRTC_I_GB
+HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","ODHLAŠTE ODBĚR! Tato modifikace způsobuje pády hry.","HRTC_I_GB
 HtmlReportTemplateCode.cs Instability GameBreaking",,
-HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","UNSUBSCRIBE! This mod is totally incompatible with the current game version.","HRTC_I_IATW
+HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","ODHLAŠTE ODBĚR! Tato modifikace je zcela nekompatibilní s aktuální verzí hry.","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
-HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","Unsubscribe would be wise. This has major issues {StabilityNote}.","HRTC_I_MAI
+HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","Odhlášení odběru by bylo moudré. To má velké problémy s {StabilityNote}.","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
-HRTC_I_MAIC,"Check its Workshop page for details.","Check its Workshop page for details.","HRTC_I_MAIC
+HRTC_I_MAIC,"Check its Workshop page for details.","Pro více informací zkontrolujte profil modifikace na Steam Workshop.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,
-HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","HRTC_I_RIM
+HRTC_I_RIM,"UNSUBSCRIBE! This requires a mod that is totally incompatible with the current game version.","ODHLAŠTE ODBĚR! To vyžaduje modifikaci, která je zcela nekompatibilní s aktuální verzí hry.","HRTC_I_RIM
 HtmlReportTemplateCode.cs Instability RequiresIncompatibleMod",,
-HRTC_ICSM_S,"This is a cinematic camera script, which technically is a mod and thus listed here.","This is a cinematic camera script, which technically is a mod and thus listed here.","HRTC_ICSM_S
+HRTC_ICSM_S,"This is a cinematic camera script, which technically is a mod and thus listed here.","Toto je kinematický kamerový skript, který je technicky modifikací, a tak je uveden zde.","HRTC_ICSM_S
 HtmlReportTemplateCode.cs isCameraScriptMessage string",,
-HRTC_ID_U,"Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","HRTC_ID_U
+HRTC_ID_U,"Enable this if you want to use it, or unsubscribe it. Disabled mods can cause issues.","Povolte tuto možnost, pokud ji chcete používat, nebo ji odhlásit. Zakázané modifikace mohou způsobit problémy.","HRTC_ID_U
 HtmlReportTemplateCode.cs IsDisabled Unsubscribe",,
-HRTC_IMN_R,"None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","HRTC_IMN_R
+HRTC_IMN_R,"None of your Steam Workshop mods need this, and it doesn't provide any functionality on its own.","Nic z Vašeho Steam Workshop to nepotřebuje, a neposkytuje žádné funkce samotné.","HRTC_IMN_R
 HtmlReportTemplateCode.cs IsModNeeded Remarks",,
-HRTC_IMN_RL,"Unsubscribe this unless it's needed for one of your local mods.","Unsubscribe this unless it's needed for one of your local mods.","HRTC_IMN_RL
+HRTC_IMN_RL,"Unsubscribe this unless it's needed for one of your local mods.","Odhlašte odběr, pokud to není nutné pro jeden z místních módů.","HRTC_IMN_RL
 HtmlReportTemplateCode.cs IsModNeeded RemarksLocal",,
-HRTC_IMN_U,"Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","HRTC_IMN_U
+HRTC_IMN_U,"Unsubscribe this. It is only needed for mods you don't have, and it doesn't provide any functionality on its own.","Odhlašte odběr. Je to nutné pouze pro modifikace, které nemáte, a neposkytuje sama žádné funkce.","HRTC_IMN_U
 HtmlReportTemplateCode.cs IsModNeeded Unsubscribe",,
 HRTC_IS_S,Steam,Steam,"HRTC_IS_S
 HtmlReportTemplateCode.cs isSteam steam",,
-HRT_LIL_U,Unsubscribe,Unsubscribe,"HRT_LIL_U
+HRT_LIL_U,Unsubscribe,"Odhlásit odběr","HRT_LIL_U
 HtmlReportTemplateCode.cs LI_Link unsubscribe",,
-HRTC_LLMID_BI,Built-in,Built-in,"HRTC_LLMID_BI
+HRTC_LLMID_BI,Built-in,Vestavěný,"HRTC_LLMID_BI
 HtmlReportTemplateCode.cs LowestLocalModID builtin",,
-HRTC_LLMID_L,Local,Local,"HRTC_LLMID_L
+HRTC_LLMID_L,Local,Místní,"HRTC_LLMID_L
 HtmlReportTemplateCode.cs LowestLocalModID local",,
-HRTC_M_TV,"If you don't have a specific reason to use it, you'd better use the stable version instead.","If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_M_TV
+HRTC_M_TV,"If you don't have a specific reason to use it, you'd better use the stable version instead.","Nemáte-li konkrétní důvod pro jeho používání, raději použijte stabilní verzi.","HRTC_M_TV
 HtmlReportTemplateCode.cs Message TestVersion",,
-HRTC_NCS_MI,"This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","HRTC_NCS_MI
+HRTC_NCS_MI,"This mod has the comment section disabled on the Steam Workshop, making it hard to see if other users are experiencing issues. Use with caution.","Tato modifikace má na Steam Workshop zakázané komentáře, takže je obtížné zjistit, zda ostatní uživatelé mají problémy. Používejte s opatrností.","HRTC_NCS_MI
 HtmlReportTemplateCode.cs NoCommentSection MinorIssues",,
-HRTC_ND_MI,"This has no description on the Steam Workshop. Support from the author is unlikely.","This has no description on the Steam Workshop. Support from the author is unlikely.","HRTC_ND_MI
+HRTC_ND_MI,"This has no description on the Steam Workshop. Support from the author is unlikely.","Toto nemá žádný popis na Steam Workshopu. Podpora autora je nepravděpodobná.","HRTC_ND_MI
 HtmlReportTemplateCode.cs NoDescription MinorIssues",,
-HRTC_NKIM_S,"No known issues or incompatibilities with your other mods.","No known issues or incompatibilities with your other mods.","HRTC_NKIM_S
+HRTC_NKIM_S,"No known issues or incompatibilities with your other mods.","Žádné známé problémy ani nekompatibilita s ostatními modifikacemi.","HRTC_NKIM_S
 HtmlReportTemplateCode.cs noKnownIssuesMessage string",,
-HRTC_R2_SM,"The author or the users of this mod recommend using the following as well:","The author or the users of this mod recommend using the following as well:","HRTC_R2_SM
+HRTC_R2_SM,"The author or the users of this mod recommend using the following as well:","Autor nebo uživatelé této modifikace nedoporučují použít tyto parametry:","HRTC_R2_SM
 HtmlReportTemplateCode.cs Recommendations2 subscribedMod",,
-HRTC_RDLC_U,"Unsubscribe this. It requires DLC you don't have:","Unsubscribe this. It requires DLC you don't have:","HRTC_RDLC_U
+HRTC_RDLC_U,"Unsubscribe this. It requires DLC you don't have:","Zrušte odběr. Vyžaduje to DLC, které nemáte:","HRTC_RDLC_U
 HtmlReportTemplateCode.cs RequiredDlc Unsubscribe",,
-HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enabled:","This mod requires other mods you don't have, or which are not enabled:","HRTC_RM_SM
+HRTC_RM_SM,"This mod requires other mods you don't have, or which are not enabled:","Tato modifikace vyžaduje další modifikace, které nemáte, nebo nejsou povoleny:","HRTC_RM_SM
 HtmlReportTemplateCode.cs RequiredMods subscribedMod",,
-HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","HRTC_RU_U
+HRTC_RU_U,"Unsubscribe this. It is a re-upload of another mod, use that one instead (or its successor).","Zrušte odběr. Jedná se o opětovné nahrání jiného módu, použijte ten namísto toho (nebo jeho nástupce).","HRTC_RU_U
 HtmlReportTemplateCode.cs Reupload Unsubscribe",,
-HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Unsubscribe would be wise. This has major issues: {StabilityNote}","HRTC_I_MAS
+HRTC_I_MAS,"Unsubscribe would be wise. This has major issues: {StabilityNote}","Odhlášení odběru by bylo moudré. To má velké problémy s {StabilityNote}","HRTC_I_MAS
 HtmlReportTemplateCode.cs Stability MajorIssuesStabilityNote",,
-HRTC_S_MI,"This has minor issues {StabilityNote}.","This has minor issues {StabilityNote}.","HRTC_S_MI
+HRTC_S_MI,"This has minor issues {StabilityNote}.","Toto má menší problémy {StabilityNote}.","HRTC_S_MI
 HtmlReportTemplateCode.cs Stability MinorIssues",,
-HRTC_S_MIS,"This has minor issues: {StabilityNote}","This has minor issues: {StabilityNote}","HRTC_S_MIS
+HRTC_S_MIS,"This has minor issues: {StabilityNote}","Toto má menší problémy: {StabilityNote}","HRTC_S_MIS
 HtmlReportTemplateCode.cs Stability MinorIssuesStabilityNote",,
-HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","There is not enough information about this mod to know if it works well.","HRTC_S_NEI
+HRTC_S_NEI,"There is not enough information about this mod to know if it works well.","O této modifikaci nemáme dostatek informací, abychom věděli, zda funguje dobře.","HRTC_S_NEI
 HtmlReportTemplateCode.cs Stability NotEnoughInformation",,
-HRTC_S_NEIC,"but it was updated for the current game version.","but it was updated for the current game version.","HRTC_S_NEIC
+HRTC_S_NEIC,"but it was updated for the current game version.","ale byl aktualizován pro aktuální verzi hry.","HRTC_S_NEIC
 HtmlReportTemplateCode.cs Stability NotEnoughInformationCurrent and NotReviewedCurrent",,
-HRTC_S_NEIV,"but it was updated for game version {GameVersion}.","but it was updated for game version {GameVersion}","HRTC_S_NEIV
+HRTC_S_NEIV,"but it was updated for game version {GameVersion}.","ale byl aktualizován pro verzi hry {GameVersion}.","HRTC_S_NEIV
 HtmlReportTemplateCode.cs Stability NotEnoughInformationVersion and NotReviewedVersion",,
-HRTC_S_NR,"This mod has not been reviewed yet.","This mod has not been reviewed yet.","HRTC_S_NR
+HRTC_S_NR,"This mod has not been reviewed yet.","Tato modifikace ještě nebyla zkontrolována.","HRTC_S_NR
 HtmlReportTemplateCode.cs Stability NotReviewed",,
-HRTC_S_S,"This is compatible with the current game version.","This is compatible with the current game version.","HRTC_S_S
+HRTC_S_S,"This is compatible with the current game version.","Toto je kompatibilní s aktuální verzí hry.","HRTC_S_S
 HtmlReportTemplateCode.cs Stability Stable",,
-HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Users are reporting issues: {StabilityNote}","HRTC_S_URS
+HRTC_S_URS,"Users are reporting issues: {StabilityNote}","Uživatelé hlásí problémy: {StabilityNote}","HRTC_S_URS
 HtmlReportTemplateCode.cs Stability UserReportIssuesStabilityNote",,
-HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Users are reporting issues {StabilityNote}.","HRTC_S_URI
+HRTC_S_URI,"Users are reporting issues {StabilityNote}.","Uživatelé hlásí problémy: {StabilityNote}.","HRTC_S_URI
 HtmlReportTemplateCode.cs Stability UsersReportIssues",,
-HRTC_SS_TV,"This is a test version, but is considered quite stable.","This is a test version, but is considered quite stable.","HRTC_SS_TV
+HRTC_SS_TV,"This is a test version, but is considered quite stable.","Toto je zkušební verze, ale je považována za poměrně stabilní.","HRTC_SS_TV
 HtmlReportTemplateCode.cs StabilityStable TestVersion",,
-HRTC_S_A,"This seems to be abandoned and the author seems retired. Future updates are unlikely.","This seems to be abandoned and the author seems retired. Future updates are unlikely.","HRTC_S_A
+HRTC_S_A,"This seems to be abandoned and the author seems retired. Future updates are unlikely.","Tato modifikace vypadá zastarale a autor není dlouho aktivní. Budoucí aktualizace jsou nepravděpodobné.","HRTC_S_A
 HtmlReportTemplateCode.cs Statuses Abandoned",,
-HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.","The author seems to be retired. Future updates are unlikely.","HRTC_S_AR
+HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.","Zdá se, že autor je dlouho neaktivní. Budoucí aktualizace jsou nepravděpodobné.","HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired",,
 HRTC_S_D,"This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.","This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.","HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated",,
-HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.","This is only needed for modders or creators. Regular users don't need this one.","HRTC_S_MFM
+HRTC_S_MFM,"This is only needed for modders or creators. Regular users don't need this one.","To je potřeba pouze pro autory nebo vývojáře. Běžní uživatelé tuto funkci nepotřebují.","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
 HRTC_S_MC,"As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.","As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.","HRTC_S_MC
 HtmlReportTemplateCode.cs Statuses MusicCopyright",,
-HRTC_S_MCF,"The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","HRTC_S_MCF
+HRTC_S_MCF,"The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.","Zahrnutá hudba je údajně bez autorských práv a bezpečná pro streamování. Některá omezení však mohou platit i nadále.","HRTC_S_MCF
 HtmlReportTemplateCode.cs Statuses MusicCopyrightFree",,
-HRTC_S_MCU,"This includes music with unknown copyright status. Safer not to use it for streaming.","This includes music with unknown copyright status. Safer not to use it for streaming.","HRTC_S_MCU
+HRTC_S_MCU,"This includes music with unknown copyright status. Safer not to use it for streaming.","To zahrnuje hudbu s neznámým stavem autorských práv. Bezpečnější ji nepoužívat pro streamování.","HRTC_S_MCU
 HtmlReportTemplateCode.cs Statuses MusicCopyrightUnknown",,
-HRTC_S_NIAR,"This seems to be abandoned. Future updates are unlikely.","This seems to be abandoned. Future updates are unlikely.","HRTC_S_NIAR
+HRTC_S_NIAR,"This seems to be abandoned. Future updates are unlikely.","Zdá se, že je tato modifiace zastaralá. Budoucí aktualizace jsou nepravděpodobné.","HRTC_S_NIAR
 HtmlReportTemplateCode.cs Statuses nestedItemauthorRetired",,
-HRTC_S_O,"Unsubscribe this. It is no longer needed.","Unsubscribe this. It is no longer needed.","HRTC_S_O
+HRTC_S_O,"Unsubscribe this. It is no longer needed.","Zrušte odběr. Už to není potřeba.","HRTC_S_O
 HtmlReportTemplateCode.cs Statuses Obsolete",,
-HRTC_S_RFW,"Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Unsubscribe would be wise. This is no longer available on the Steam Workshop.","HRTC_S_RFW
+HRTC_S_RFW,"Unsubscribe would be wise. This is no longer available on the Steam Workshop.","Odhlášení odběru by bylo moudré. Toto již není k dispozici na Steam Workshop.","HRTC_S_RFW
 HtmlReportTemplateCode.cs Statuses RemovedFromWorkshop",,
-HRTC_S_SCLW,"NOTE: After using this mod, game saves won't (easily) load without it anymore.","NOTE: After using this mod, game saves won't (easily) load without it anymore.","HRTC_S_SCLW
+HRTC_S_SCLW,"NOTE: After using this mod, game saves won't (easily) load without it anymore.","POZNÁMKA: Po použití této modifikace již bez něj nelze plynule načítat uložené hry.","HRTC_S_SCLW
 HtmlReportTemplateCode.cs Statuses SavesCantLoadWithout",,
-HRTC_S_TVA,"This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","HRTC_S_TVA
+HRTC_S_TVA,"This is a test version. If you don't have a specific reason to use it, you'd better use the stable version instead.","Nemáte-li konkrétní důvod pro jeho používání, raději použijte stabilní verzi.","HRTC_S_TVA
 HtmlReportTemplateCode.cs Statuses TestVersion Alternatives",,
-HRTC_SS_SM,"This is succeeded by any of the following (pick one, not all):","This is succeeded by any of the following (pick one, not all):","HRTC_SS_SM
+HRTC_SS_SM,"This is succeeded by any of the following (pick one, not all):","Tuto modifikaci můžete nahradit z následujících (vyberte jednu):","HRTC_SS_SM
 HtmlReportTemplateCode.cs Successors subscribedMod",,
-HRTC_S_SMC,"This is succeeded by:","This is succeeded by:","HRTC_S_SMC
+HRTC_S_SMC,"This is succeeded by:","Tato modifikace byla nahrazena následujícíí modifikací:","HRTC_S_SMC
 HtmlReportTemplateCode.cs Successors subscribedModCount",,
-HRTC_S_U,"Unsubscribe this. It is succeeded by a mod you already have:","Unsubscribe this. It is succeeded by a mod you already have:","HRTC_S_U
+HRTC_S_U,"Unsubscribe this. It is succeeded by a mod you already have:","Odhlašte odběr. Máte již funkční modifikaci:","HRTC_S_U
 HtmlReportTemplateCode.cs Successors Unsubscribe",,
-HRTC_S_WSP,"Workshop page:","Workshop page:","HRTC_S_WSP
+HRTC_S_WSP,"Workshop page:","Profil ve Steam Workshop:","HRTC_S_WSP
 HtmlReportTemplateCode.cs Successors WorkshopPage",,
-REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","REP_ATT_NEW
+REP_ATT_NEW,"ATTENTION: NEW GAME VERSION! The game has been updated. Various mods will not work with this new game version. Take care to get the most recent updates of all mods, and carefully read your report. It is possible you may even need to switch and subscribe to a new alternative version of a mod. If your city doesn't work right, do NOT overwrite its save! It might be wise to use ""-noWorkshop"" as start parameter to play pure Vanilla in a new city until all mods are updated or alternatives are available. (Warning: Saves that used mods may not load in vanilla mode!)  See Launch Options - Cities Skylines https://steamcommunity.com/sharedfiles/filedetails/?id=466981085 for further information. A list of broken mods is also available at https://pdxint.at/BrokenModCS.","POZOR: NOVÁ VERZE HRY! Hra byla aktualizována. Různé modifikace nebudou s touto novou verzí hry fungovat. Dávejte pozor na nejnovější aktualizace všech modifikací a pozorně si přečtěte svůj report. Je možné, že budete budete muset začít odebírat novější alternativní verzi modifikace. Pokud vaše město nefunguje správně, NEUKLÁDEJTE JEJ! Zkuste použít ""-noWorkshop"" jako počáteční parametr pro přehrávání čisté Vanilla v novém městě, dokud nebudou aktualizovány všechny modifikace nebo budou k dispozici alternativy. (Upozornění: uložené hry s modifikacemi nemusí být načteny ve Vanilla) Viz možnosti spuštění - Skyliny https://steamcommunity. om/sharedfiles/filedetails/?id=466981085 pro další informace. Seznam rozbitých modifikací je také k dispozici na https://pdxint.at/BrokenModCS.","REP_ATT_NEW
 Information about new game version",,
-SET_BAO_AG,"Advanced options","Advanced options","SET_BAO_AG
+SET_BAO_AG,"Advanced options","Rozšířené možnosti","SET_BAO_AG
 SettingsUI.cs BuildAdvancedOptionsUI advancedGroup",,
-SET_BAO_DM,"Debug Mode","Debug Mode","SET_BAO_DM
+SET_BAO_DM,"Debug Mode","Ladící režim","SET_BAO_DM
 SettingsUI.cs BuildAdvancedOptionsUI debugMode",,
-SET_BAO_MLS,"Max log size (in KB)","Max log size (in KB)","SET_BAO_MLS
+SET_BAO_MLS,"Max log size (in KB)","Maximální velikost záznamu (v KB)","SET_BAO_MLS
 SettingsUI.cs BuildAdvancedOptionsUI maxLogSize",,
-SET_BAO_MR,"Number of catalog download retries","Number of catalog download retries","SET_BAO_MR
+SET_BAO_MR,"Number of catalog download retries","Počet pokusů o stažení katalogu","SET_BAO_MR
 SettingsUI.cs BuildAdvancedOptionsUI maxRetries",,
-SET_BAO_MVL,"Mod version","Mod version","SET_BAO_MVL
+SET_BAO_MVL,"Mod version","Verze modifikace","SET_BAO_MVL
 SettingsUI.cs BuildAdvancedOptionsUI modVersionLabel",,
-SET_BAO_ORAS,"Reset all settings","Reset all settings","SET_BAO_ORAS
+SET_BAO_ORAS,"Reset all settings","Obnovit výchozí nastavení","SET_BAO_ORAS
 SettingsUI.cs BuildAdvancedOptionsUI OnResetAllSettings",,
-SET_BAO_SBM,"Scan before entering Main Menu","Scan before entering Main Menu","SET_BAO_SBM
+SET_BAO_SBM,"Scan before entering Main Menu","Skenovat před vstupem do hlavního menu","SET_BAO_SBM
 SettingsUI.cs BuildAdvancedOptionsUI scanBeforeMenu",,
-SET_BCO_CG,"Catalog options","Catalog options","SET_BCO_CG
+SET_BCO_CG,"Catalog options","Možnosti katalogu","SET_BCO_CG
 SettingsUI.cs BuildCatalogOptionsUI catalogGroup",,
-SET_BCO_UIBD,"Download now","Download now","SET_BCO_UIBD
+SET_BCO_UIBD,"Download now","Stáhnout nyní","SET_BCO_UIBD
 SettingsUI.cs BuildCatalogOptionsUI download",,
-SET_BCO_DFD,Download,Download,"SET_BCO_DFD
+SET_BCO_DFD,Download,Stáhnout,"SET_BCO_DFD
 SettingsUI.cs BuildCatalogOptionsUI downloadFrequencyDropdown",,
-SET_BCO_SUIT,"Catalog version","Catalog version","SET_BCO_SUIT
+SET_BCO_SUIT,"Catalog version","Verze katalogu","SET_BCO_SUIT
 SettingsUI.cs BuildCatalogOptionsUI SettingsUIText",,
-SET_BCO_TWF,"Text Report width","Text Report width","SET_BCO_TWF
+SET_BCO_TWF,"Text Report width","Šířka textu reportu","SET_BCO_TWF
 SettingsUI.cs BuildCatalogOptionsUI textWidthField",,
-SET_BRG_CPB,"Change path","Change path","SET_BRG_CPB
+SET_BRG_CPB,"Change path","Změnit cestu","SET_BRG_CPB
 SettingsUI.cs BuildRecordGroupUI changePathBtn",,
-SET_BRG_LAN,Language,Language,"SET_BRG_LAN
+SET_BRG_LAN,Language,Jazyk,"SET_BRG_LAN
 SettingsUI.cs BuildRecordGroupUI Language",,
-SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","'--noWorkshop' launch option detected. No report was generated.","SET_BRG_NW
+SET_BRG_NW,"'--noWorkshop' launch option detected. No report was generated","Byla zjištěna možnost spuštění '--noWorkshop'. Report nebyl vytvořen","SET_BRG_NW
 SettingsUI.cs BuildRecordGroupUI noWorkshop",,
-SET_BRG_OGR,"Generate report(s)","Generate report(s)","SET_BRG_OGR
+SET_BRG_OGR,"Generate report(s)","Vytvořit report","SET_BRG_OGR
 SettingsUI.cs BuildRecordGroupUI OnGenerateReports",,
-SET_BRG_OOF,"Open folder","Open folder","SET_BRG_OOF
+SET_BRG_OOF,"Open folder","Otevřít složku","SET_BRG_OOF
 SettingsUI.cs BuildRecordGroupUI OnOpenFolder",,
-SET_BRG_OOR,"Open report(s)","Open report(s)","SET_BRG_OOR
+SET_BRG_OOR,"Open report(s)","Otevřít report","SET_BRG_OOR
 SettingsUI.cs BuildRecordGroupUI OnOpenReports",,
-SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Use Steam Overlay to open HTML report if available.","SET_BRG_OHRISO
+SET_BRG_OHRISO,"Use Steam Overlay to open HTML report if available.","Použijte Steam překrytí k otevření HTML reportu, pokud je k dispozici.","SET_BRG_OHRISO
 SettingsUI.cs BuildRecordGroupUI OpenHtmlReportInSteamOverlay",,
-SET_BRG_PE,"Access to the Steam Workshop is required for the mod to work properly.","Access to the Steam Workshop is required for the mod to work properly.","SET_BRG_PE
+SET_BRG_PE,"Access to the Steam Workshop is required for the mod to work properly.","Přístup do Steam Workshop je vyžadován pro správné fungování modifikace.","SET_BRG_PE
 SettingsUI.cs BuildRecordGroupUI platformError",,
-SET_BRG_PT,"Platform not supported","Platform not supported","SET_BRG_PT
+SET_BRG_PT,"Platform not supported","Platforma není podporována","SET_BRG_PT
 SettingsUI.cs BuildRecordGroupUI platformType",,
-SET_BRG_RG,"Report options","Report options","SET_BRG_RG
+SET_BRG_RG,"Report options","Nastavení reportu","SET_BRG_RG
 SettingsUI.cs BuildRecordGroupUI reportGroup",,
-SET_BRG_RP,"Mod Errors","Mod Errors","SET_BRG_RP
+SET_BRG_RP,"Mod Errors","Chyby modifikací","SET_BRG_RP
 SettingsUI.cs BuildRecordGroupUI reportPanel",,
-SET_BRG_RPTF,"Report path","Report path","SET_BRG_RPTF
+SET_BRG_RPTF,"Report path","Cesta k reportu","SET_BRG_RPTF
 SettingsUI.cs BuildRecordGroupUI reportPathTextField",,
-SET_BRG_RTD,"Report type","Report type","SET_BRG_RTD
+SET_BRG_RTD,"Report type","Typ reportu","SET_BRG_RTD
 SettingsUI.cs BuildRecordGroupUI reportTypeDropdown",,
-SET_BRG_RPB,"Reset path to default","Reset path to default","SET_BRG_RPB
+SET_BRG_RPB,"Reset path to default","Obnovit výchozí cestu","SET_BRG_RPB
 SettingsUI.cs BuildRecordGroupUI resetPathBtn",,
-SET_BTD_GL,"Game Language","Game Language","SET_BTD_GL
+SET_BTD_GL,"Game Language","Jazyk hry","SET_BTD_GL
 SettingsUI.cs BuildTranslatedDataSources GameLanguage",,
-SET_BUG_DOI,"Days of inactivity to retire author","Days of inactivity to retire author","SET_BUG_DOI
+SET_BUG_DOI,"Days of inactivity to retire author","Dny nečinnosti autora","SET_BUG_DOI
 SettingsUI.cs BuildUpdaterGroupUI daysOfInactivity",,
-SET_BUG_MSPMP,"Estimated milliseconds per mod page","Estimated milliseconds per mod page","SET_BUG_MSPMP
+SET_BUG_MSPMP,"Estimated milliseconds per mod page","Odhadované milisekundy na stránku modifikace","SET_BUG_MSPMP
 SettingsUI.cs BuildUpdaterGroupUI msPerModPage",,
-SET_BUG_OOTA,"Run Road Asset Crawler (AN dependent)","Run Road Asset Crawler (AN dependent)","SET_BUG_OOTA
+SET_BUG_OOTA,"Run Road Asset Crawler (AN dependent)","Spustit Road Asset Crawler","SET_BUG_OOTA
 SettingsUI.cs BuildUpdaterGroupUI OnOneTimeAction",,
-SET_BUG_OSU,"Run Updater","Run Updater","SET_BUG_OSU
+SET_BUG_OSU,"Run Updater","Spustit aktualizaci","SET_BUG_OSU
 SettingsUI.cs BuildUpdaterGroupUI OnStartUpdater",,
-SET_BUG_OSWC,"Run Web Crawler","Run Web Crawler","SET_BUG_OSWC
+SET_BUG_OSWC,"Run Web Crawler","Spustit Web Crawler","SET_BUG_OSWC
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawler",,
-SET_BUG_OSWCQ,"Run Web Crawler (quick)","Run Web Crawler (quick)","SET_BUG_OSWCQ
+SET_BUG_OSWCQ,"Run Web Crawler (quick)","Rychle spustit Web Crawler","SET_BUG_OSWCQ
 SettingsUI.cs BuildUpdaterGroupUI OnStartWebCrawlerquick",,
-SET_BUG_SMFP,"Steam max failed pages","Steam max failed pages","SET_BUG_SMFP
+SET_BUG_SMFP,"Steam max failed pages","Steam maximální počet neúspěšných stránek","SET_BUG_SMFP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxFailedPages",,
-SET_BUG_SMLP,"Steam max listing pages","Steam max listing pages","SET_BUG_SMLP
+SET_BUG_SMLP,"Steam max listing pages","Maximální počet stránek s výpisem Steam","SET_BUG_SMLP
 SettingsUI.cs BuildUpdaterGroupUI steamMaxListingPages",,
-SET_BUG_UG,Updater,Updater,"SET_BUG_UG
+SET_BUG_UG,Updater,Aktualizátor,"SET_BUG_UG
 SettingsUI.cs BuildUpdaterGroupUI updaterGroup",,
-SET_BUG_WFR,"Weeks for soon retired","Weeks for soon retired","SET_BUG_WFR
+SET_BUG_WFR,"Weeks for soon retired","Týdny pro zprávu „Brzy neaktivní“","SET_BUG_WFR
 SettingsUI.cs BuildUpdaterGroupUI weeksForRetired",,
-SET_BUL_BML,"Broken Mods List","Broken Mods List","SET_BUL_BML
+SET_BUL_BML,"Broken Mods List","Seznam poškozených modifikací","SET_BUL_BML
 SettingsUI.cs BuildUsefulLinksOptionsUI BrokenModsList",,
-SET_BUL_HWT,"Help with translation","Help with translation","SET_BUL_HWT
+SET_BUL_HWT,"Help with translation","Pomozte s překladem","SET_BUL_HWT
 SettingsUI.cs BuildUsefulLinksOptionsUI crowdin",,
-SET_BUL_SOD,"Support on discord","Support on discord","SET_BUL_SOD
+SET_BUL_SOD,"Support on discord","Získejte podporu na Discord","SET_BUL_SOD
 SettingsUI.cs BuildUsefulLinksOptionsUI discord",,
-SET_BUL_OL,"Other links:","Other links:","SET_BUL_OL
+SET_BUL_OL,"Other links:","Ostatní odkazy:","SET_BUL_OL
 SettingsUI.cs BuildUsefulLinksOptionsUI OtherLinks",,
-SET_BUL_RML,"Recommended Mods List","Recommended Mods List","SET_BUL_RML
+SET_BUL_RML,"Recommended Mods List","Doporučený seznam modifikací","SET_BUL_RML
 SettingsUI.cs BuildUsefulLinksOptionsUI RecommendedModsList",,
-SET_BUL_RC,"Report compatibility","Report compatibility","SET_BUL_RC
+SET_BUL_RC,"Report compatibility","Kompatibilita reportu","SET_BUL_RC
 SettingsUI.cs BuildUsefulLinksOptionsUI Reportform",,
-SET_BUL_UL,"Useful links:","Useful links:","SET_BUL_UL
+SET_BUL_UL,"Useful links:","Užitečné odkazy:","SET_BUL_UL
 SettingsUI.cs BuildUsefulLinksOptionsUI UsefulLinks",,
-SET_DO_NEV,"Never (on-demand only) - not recommended!","Never (on-demand only) - not recommended!","SET_DO_NEV
+SET_DO_NEV,"Never (on-demand only) - not recommended!","Nikdy (pouze na vyžádání) - nedoporučujeme!","SET_DO_NEV
 SettingsUI.cs DownloadOptions Never",,
-SET_DO_OAW,"Once a week","Once a week","SET_DO_OAW
+SET_DO_OAW,"Once a week","Jednou týdně","SET_DO_OAW
 SettingsUI.cs DownloadOptions Once a week",,
 SET_RT_HTM,HTML,HTML,"SET_RT_HTM
 SettingsUI.cs ReportTypes HTML",,
-SET_RT_HAT,"HTML and text","HTML and text","SET_RT_HAT
+SET_RT_HAT,"HTML and text","HTML a text","SET_RT_HAT
 SettingsUI.cs ReportTypes HTML and Text",,
 SET_RT_TXT,Text,Text,"SET_RT_TXT
 SettingsUI.cs ReportTypes Text",,
-HRT_P_S,Status,Status,"HRT_P_S
+HRT_P_S,Status,Stav,"HRT_P_S
 HtmlReportTemplate.tt processed Status",,
-HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
+HRT_F_RAT,"Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","Pomohlo Vám to? Nechybí Vám něco? Ohodnoťte nás nebo zanechte komenář na Steam Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511","HRT_F_RAT
 HTMLReport Footer_RatingText",,
-HRTC_TH_N,NOTE,NOTE,"HRTC_TH_N
+HRTC_TH_N,NOTE,POZNÁMKA,"HRTC_TH_N
 HTMLReportTemplate TextHeader Note",,
-SET_BRG_CLD,"Collect Logs and open directory","Collect Logs and open directory","SET_BRG_CLD
+SET_BRG_CLD,"Collect Logs and open directory","Sbírat protokoly a otevřít adresář","SET_BRG_CLD
 SettingsUI.cs BuildRecordGroupUI Collect Logs Desktop",,
 HRTC_A_SCP,"Mods without source codes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","Mods without source codes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.","HRTC_A_SCP
 HtmlReportTemplateCode.cs NoSourceNoComment",,
@@ -418,7 +418,7 @@ REPORT_NOTE_64,"For transit hubs, this only works if the bus part is a sub-build
 REPORT_NOTE_65,"FPS Booster has all functionality of Mini FPS Booster, and more.","FPS Booster has all functionality of Mini FPS Booster, and more.",REPORT_NOTE_65,,
 REPORT_NOTE_66,"From the main menu, the delay time in the mod options will be incorrect. While in game, the mod options do show the correct delay time, corresponding to the Real Time slowed time.","From the main menu, the delay time in the mod options will be incorrect. While in game, the mod options do show the correct delay time, corresponding to the Real Time slowed time.",REPORT_NOTE_66,,
 REPORT_NOTE_67,"Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in TimeWarp will not work.","Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in TimeWarp will not work.",REPORT_NOTE_67,,
-REPORT_NOTE_68,"Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.","Game pauses automatically when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.",REPORT_NOTE_68,,
+REPORT_NOTE_68,"Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.","Game pauses automatially when you change time, and time resets back when you unpause. Time speed options in Ultimate Eyecandy will not work.",REPORT_NOTE_68,,
 REPORT_NOTE_69,"Garbage Bin Controller breaks Harmony and any mod depending on Harmony. Switch to Garbage Bin Manager.","Garbage Bin Controller breaks Harmony and any mod depending on Harmony. Switch to Garbage Bin Manager.",REPORT_NOTE_69,,
 REPORT_NOTE_70,"Harmony Redesigned might disable UI Resolution. Use the regular version of Harmony instead.","Harmony Redesigned might disable UI Resolution. Use the regular version of Harmony instead.",REPORT_NOTE_70,,
 REPORT_NOTE_71,"If contour lines doesn't work, turn off ""Overwrite Terrain"" and set the value to around 100 in ROTTERdams options.","If contour lines doesn't work, turn off ""Overwrite Terrain"" and set the value to around 100 in ROTTERdams options.",REPORT_NOTE_71,,
@@ -431,7 +431,7 @@ REPORT_NOTE_77,"If you enable this mod for a resource that you have industry bui
 REPORT_NOTE_78,"If you have issues with nature reserve paths or the topographic lines overlay, read the mod description on the Steam Workshop for fixes.","If you have issues with nature reserve paths or the topographic lines overlay, read the mod description on the Steam Workshop for fixes.",REPORT_NOTE_78,,
 REPORT_NOTE_79,"If you use more than one of the OxylonEuroSoundpack's, you might get one or more ""already exists"" warnings. These are harmless.","If you use more than one of the OxylonEuroSoundpack's, you might get one or more ""already exists"" warnings. These are harmless.",REPORT_NOTE_79,,
 REPORT_NOTE_80,"If you use this only for high resolution screenshots, you don't need this mod and can use the default Shift-F12 instead.","If you use this only for high resolution screenshots, you don't need this mod and can use the default Shift-F12 instead.",REPORT_NOTE_80,,
-REPORT_NOTE_81,"If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller: ""Daynight Fog"" and ""Classic Fog"", and enable the following settings for Daylight Classic: ""Classic sunlight color"", ""Classic sunlight intensity"", ""Classic fog Effect"" and ""Allow Classic fog effect if day/night cycle is on"".","If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller: ""Daynight Fog"" and ""Classic Fog"", and enable the following settings for Daylight Classic: - ""Classic sunlight color"", ""Classic sunlight intensity"", ""Classic fog Effect"" and ""Allow Classic fog effect if day/night cycle is on"".",REPORT_NOTE_81,,
+REPORT_NOTE_81,"If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller: ""Daynight Fog"" and ""Classic Fog"", and enable the following settings for Daylight Classic: ""Classic sunlight color"", ""Classic sunlight intensity"", ""Classic fog Effect"" and ""Allow Classic fog effect if day/night cycle is on"".","If you want the new cubemap only by day, with the default night sky, enable the following settings for Fog Controller: ""Daynight Fog"" and ""Classic Fog"", and enable the following settings for Daylight Classic: ""Classic sunlight color"", ""Classic sunlight intensity"", ""Classic fog Effect"" and ""Allow Classic fog effect if day/night cycle is on"".",REPORT_NOTE_81,,
 REPORT_NOTE_82,"If you want to use the old props that are included in the original mod, you need to keep the original mod subscribed, but disabled. Alternatively you could move the original .crp files to your local asset folder and unsub the original mod. If you start a new city it's the best to unsubscribe the original mod and use the Ploppable Surfaces from this collection: https://steamcommunity.com/sharedfiles/filedetails/?id=2872742333","If you want to use the old props that are included in the original mod, you need to keep the original mod subscribed, but disabled. Alternatively you could move the original .crp files to your local asset folder and unsub the original mod. If you start a new city it's the best to unsubscribe the original mod and use the Ploppable Surfaces from this collection: https://steamcommunity.com/sharedfiles/filedetails/?id=2872742333",REPORT_NOTE_82,,
 REPORT_NOTE_83,"If you're unable to move props vertically with Move It, try turning prop snapping off and on again in the mod options of Prop Anarchy.","If you're unable to move props vertically with Move It, try turning prop snapping off and on again in the mod options of Prop Anarchy.",REPORT_NOTE_83,,
 REPORT_NOTE_84,"IMT markings will be lost on replaced network segments and connected intersections.","IMT markings will be lost on replaced network segments and connected intersections.",REPORT_NOTE_84,,
@@ -484,7 +484,7 @@ REPORT_NOTE_130,"Play It already has game speed functionality.","Play It already
 REPORT_NOTE_131,"Play It has more extensive weather options.","Play It has more extensive weather options.",REPORT_NOTE_131,,
 REPORT_NOTE_132,"Play It has most functionality of Ultimate Eyecandy. Combine Play It with Render It and Theme Mixer 2 for full replacement functionality.","Play It has most functionality of Ultimate Eyecandy. Combine Play It with Render It and Theme Mixer 2 for full replacement functionality.",REPORT_NOTE_132,,
 REPORT_NOTE_133,"Please note that RT mod compatibility is in beta and there may be bugs present.","Please note that RT mod compatibility is in beta and there may be bugs present.",REPORT_NOTE_133,,
-REPORT_NOTE_134,"Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.","Ploppable RICO now has the functionality of Plop the Growables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Plop the Growables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.",REPORT_NOTE_134,,
+REPORT_NOTE_134,"Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.","Ploppable RICO now has the functionality of Grow the Ploppables. Using both mods together is possible, but may give inconsistent results unless your settings are aligned. Removing Grow the Ploppables is recommended, but if done on an existing game you have to make sure that the settings of both mods are the same.",REPORT_NOTE_134,,
 REPORT_NOTE_135,"Prop Anarchy already has a better prop painting functionality.","Prop Anarchy already has a better prop painting functionality.",REPORT_NOTE_135,,
 REPORT_NOTE_136,"Prop Anarchy already has prop scaling functionality.","Prop Anarchy already has prop scaling functionality.",REPORT_NOTE_136,,
 REPORT_NOTE_137,"Prop Anarchy already has the transparency LOD fix.","Prop Anarchy already has the transparency LOD fix.",REPORT_NOTE_137,,
@@ -537,7 +537,7 @@ REPORT_NOTE_183,"The game has one-way train tracks as well, but this also has a 
 REPORT_NOTE_184,"The game sometimes forgets the real start of a route and might show it as 'No District'.","The game sometimes forgets the real start of a route and might show it as 'No District'.",REPORT_NOTE_184,,
 REPORT_NOTE_185,"The graphs from Enhanced Outside Connections View are far less useful because time flows much more slowly.","The graphs from Enhanced Outside Connections View are far less useful because time flows much more slowly.",REPORT_NOTE_185,,
 REPORT_NOTE_186,"The mod uses an executable to actually draw the map. That executable works on Windows only and requires .NET Framework 4.5.2. This is not updated for the new Sunset Harbor transport lines.","The mod uses an executable to actually draw the map. That executable works on Windows only and requires .NET Framework 4.5.2. This is not updated for the new Sunset Harbor transport lines.",REPORT_NOTE_186,,
-REPORT_NOTE_187,"The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.","The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .NET install. See Workshop page for details.",REPORT_NOTE_187,,
+REPORT_NOTE_187,"The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.","The mod works on Windows, Mac OS and Linux. The included standalone 'Load Order Tool' is Windows only and requires an additional .Net install. See Workshop page for details.",REPORT_NOTE_187,,
 REPORT_NOTE_188,"The number of CitizenUnits will be increased correctly, but Watch It incorrectly shows the old number.","The number of CitizenUnits will be increased correctly, but Watch It incorrectly shows the old number.",REPORT_NOTE_188,,
 REPORT_NOTE_189,"The original mod has been updated with a Chinese translation.","The original mod has been updated with a Chinese translation.",REPORT_NOTE_189,,
 REPORT_NOTE_190,"The original mod supports the Chinese language.","The original mod supports the Chinese language.",REPORT_NOTE_190,,
@@ -585,7 +585,7 @@ REPORT_NOTE_231,"This is only needed if an old flag prop or vehicle sub mesh sti
 REPORT_NOTE_232,"This is only needed if an old prop still requires it.","This is only needed if an old prop still requires it.",REPORT_NOTE_232,,
 REPORT_NOTE_233,"This is only needed if you use the single two-way train track.","This is only needed if you use the single two-way train track.",REPORT_NOTE_233,,
 REPORT_NOTE_234,"This is only needed to convert the settings from Plop the Growables from an existing game save to Advanced Building Level Control. When it has run, you can unsubscribe it.","This is only needed to convert the settings from Plop the Growables from an existing game save to Advanced Building Level Control. When it has run, you can unsubscribe it.",REPORT_NOTE_234,,
-REPORT_NOTE_235,"This is only needed to recover a corrupt game save. Don't use it on regular play. This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).","This is only needed to recover a corrupt save game. Don't use it on regular play. This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).",REPORT_NOTE_235,,
+REPORT_NOTE_235,"This is only needed to recover a corrupt game save. Don't use it on regular play. This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).","This is only needed to recover a corrupt game save. Don't use it on regular play. This will not fix issues related to mods that add networks (Network Extensions, Elevated Train Station Track, etc.).",REPORT_NOTE_235,,
 REPORT_NOTE_236,"This is succeeded by the following prop pack combined with the BOB mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2632539686","This is succeeded by the following prop pack combined with the BOB mod: https://steamcommunity.com/sharedfiles/filedetails/?id=2632539686",REPORT_NOTE_236,,
 REPORT_NOTE_237,"This may be streamed as long as no profit is gained (CC-BY-NC 4.0 license for most tracks).","This may be streamed as long as no profit is gained (CC-BY-NC 4.0 license for most tracks).",REPORT_NOTE_237,,
 REPORT_NOTE_238,"This might be incompatible with a variety of mods with similar functionality, but the author is not providing any information on this.","This might be incompatible with a variety of mods with similar functionality, but the author is not providing any information on this.",REPORT_NOTE_238,,
@@ -611,7 +611,7 @@ REPORT_NOTE_257,"This only works in the map editor.","This only works in the map
 REPORT_NOTE_258,"This requires adjusted settings for use with Real Time.","This requires adjusted settings for use with Real Time.",REPORT_NOTE_258,,
 REPORT_NOTE_259,"This seems to be related to the infamous ali213_mod_01 mod.","This seems to be related to the infamous ali213_mod_01 mod.",REPORT_NOTE_259,,
 REPORT_NOTE_260,"This supports train and metro, but not monorail.","This supports train and metro, but not monorail.",REPORT_NOTE_260,,
-REPORT_NOTE_261,"This supports undoing building/bulldozing roads, buildings, props and trees.","This supports undoing building/bulldozing roads, buildings, props and trees. This supports undoing building/bulldozing roads, buildings, props and trees.",REPORT_NOTE_261,,
+REPORT_NOTE_261,"This supports undoing building/bulldozing roads, buildings, props and trees.","This supports undoing building/bulldozing roads, buildings, props and trees.",REPORT_NOTE_261,,
 REPORT_NOTE_262,"This used to be the newer version, but was deprecated after the original version was updated. Use the original version instead.","This used to be the newer version, but was deprecated after the original version was updated. Use the original version instead.",REPORT_NOTE_262,,
 REPORT_NOTE_263,"This version is only for beta testers that use the Adaptive Networks ALPHA mod.","This version is only for beta testers that use the Adaptive Networks ALPHA mod.",REPORT_NOTE_263,,
 REPORT_NOTE_264,"This version may contain bugs, including game save-breaking bugs.","This version may contain bugs, including game save-breaking bugs.",REPORT_NOTE_264,,
@@ -763,9 +763,9 @@ REPORT_NOTE_409,"Depending on screen resolution it might be needed to use UI Res
 REPORT_NOTE_410,"Button for the settings not visible for several users.","Button for the settings not visible for several users.",REPORT_NOTE_410,,
 REPORT_NOTE_411,"The traffic lights on some custom road do not change.","The traffic lights on some custom road do not change.",REPORT_NOTE_411,,
 REPORT_NOTE_412,"Not able to name new districts.","Not able to name new districts.",REPORT_NOTE_412,,
-REPORT_NOTE_413,"Not working on Vanilla roads from later than Sunser Harbour. You could keep subscribed but deactivated to use BOB https://steamcommunity.com/sharedfiles/filedetails/?id=2197863850 to exchange the props.","Not working on Vanilla roads from later than Sunset Harbor. You could keep subscribed but deactivated to use BOB https://steamcommunity.com/sharedfiles/filedetails/?id=2197863850 to exchange the props.",REPORT_NOTE_413,,
+REPORT_NOTE_413,"Not working on Vanilla roads from later than Sunser Harbour. You could keep subscribed but deactivated to use BOB https://steamcommunity.com/sharedfiles/filedetails/?id=2197863850 to exchange the props.","Not working on Vanilla roads from later than Sunser Harbour. You could keep subscribed but deactivated to use BOB https://steamcommunity.com/sharedfiles/filedetails/?id=2197863850 to exchange the props.",REPORT_NOTE_413,,
 REPORT_NOTE_414,"Resources depleed instead of being unlimited, language switches back to English every start and game is unlocked even if if this function is deactivated.","Resources depleed instead of being unlimited, language switches back to English every start and game is unlocked even if if this function is deactivated.",REPORT_NOTE_414,,
-REPORT_NOTE_415,"Simulation Errors and conflits with various other mods.","Simulation Errors and conflicts with various other mods.",REPORT_NOTE_415,,
+REPORT_NOTE_415,"Simulation Errors and conflits with various other mods.","Simulation Errors and conflits with various other mods.",REPORT_NOTE_415,,
 REPORT_NOTE_416,"Doesn't show up in the CSL Music Mod.","Doesn't show up in the CSL Music Mod.",REPORT_NOTE_416,,
 REPORT_NOTE_417,"This is not updated for the Industries DLC and will probably not work for the industrial areas from that DLC.","This is not updated for the Industries DLC and will probably not work for the industrial areas from that DLC.",REPORT_NOTE_417,,
 REPORT_NOTE_418,"On a T-intersection, no light appears on the intersecting road.","On a T-intersection, no light appears on the intersecting road.",REPORT_NOTE_418,,
