@@ -53,13 +53,13 @@ HRT_LIL_NTR,"Nothing to report","보고할 내용 없음","HRT_LIL_NTR
 HtmlReportTemplate.tt LI_Link nothingToReport",,
 HRT_LIL_R,Remarks,참고,"HRT_LIL_R
 HtmlReportTemplate.tt LI_Link remarks",,
-HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","이 보고서는 아래에 있는 모드들의 호환성을 검사하지 않습니다. 이 보고서의 서술은 완전히 들어맞지 않을 수 있습니다. 어떤 경우에라도, 가능하다면, 모드는 창작마당에서 구독하여 사용하십시오. local mods folder로 다운로드된 모드는 작동하지 않는 경우가 있으며 다른 모드들에게 인식되지 않는 경우가 많습니다.","HRT_LSM_E
+HRT_LSM_E,"The report does not check for incompatibilities with these. Results might not be completely accurate. Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.","보고서는 로컬 모드들에 대한 호환성을 체크하지 않습니다. 결과는 완전히 정확하지 않을 수 있습니다. 가능한 경우 항상 모드는 창작마당 구독으로 사용하십시오. 로컬 모드 폴더에 복사된 모드가 항상 작동하는 것은 아니며 종종 다른 모드들에 의해 올바르게 감지되지 않습니다.","HRT_LSM_E
 HtmlReportTemplate.tt Local subscription Mod Explain",,
 HRT_LSM_P,"You have {LocalSubscriptionCount} local mods, which we can't review.","로컬 모드가 {LocalSubscriptionCount}개 있습니다. 로컬 모드는 우리가 리뷰할 수 없습니다.","HRT_LSM_P
 HtmlReportTemplate.tt Local subscription Mod plural",,
 HRT_LSM_S,"You have {LocalSubscriptionCount} local mod, which we can't review.","로컬 모드가 {LocalSubscriptionCount}개 있습니다. 로컬 모드는 우리가 리뷰할 수 없습니다.","HRT_LSM_S
 HtmlReportTemplate.tt Local subscription Mod singular",,
-HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","당신이 사용하는 모드 중 {NonReviewedSubscriptions}개는 아직 리뷰되지 않았습니다.그렇기 때문에, 호환 문제에 대한 알림나 경고가 이 리포트에 들어있지 못할 수 있습니다.","HRT_NRS_N
+HRT_NRS_N,"{NonReviewedSubscriptions} of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.","당신이 가지고 있는 모드 중 {NonReviewedSubscriptions}개는 아직 리뷰되지 않았습니다. 이로 인해 리포트에 일부 비호환성이나 경고가 누락되었을 수 있습니다.","HRT_NRS_N
 HtmlReportTemplate.tt Non reviewed subscriptions Note",,
 HRT_P_D,Disabled,꺼짐,"HRT_P_D
 HtmlReportTemplate.tt processed Disabled",,
@@ -111,9 +111,9 @@ HRTC_A_SMC,"An alternative you could use:","다음의 모드로 대체할 수 �
 HtmlReportTemplateCode.cs Alternatives subscribedModCount",,
 HRTC_BE_R,"If you use the asset editor and/or map editor, this may give serious issues.","자산 편집기나 지도 편집기를 사용한다면 중대한 문제가 발생할 수 있습니다.","HRTC_BE_R
 HtmlReportTemplateCode.cs BreaksEditors Remarks",,
-HRTC_CRM_S,"Can't review local mods.","기본 설치된 모드는 리뷰할 수 없습니다.","HRTC_CRM_S
+HRTC_CRM_S,"Can't review local mods.","로컬 모드는 리뷰할 수 없습니다.","HRTC_CRM_S
 HtmlReportTemplateCode.cs cannotReviewMessage string",,
-HRTC_CM_ID,Yes,예.,"HRTC_CM_ID
+HRTC_CM_ID,Yes,O,"HRTC_CM_ID
 HtmlReportTemplateCode.cs catalogMod IsDisabled",,
 HRTC_IRS_CATA,"This is compatible with:","이것은 다음과 호환됩니다.","HRTC_IRS_CATA
 HtmlReportTemplateCode.cs IncreaseReportSeverity CompatibleAccordingToAuthor",,
