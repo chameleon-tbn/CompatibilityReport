@@ -1,7 +1,7 @@
 Identifier,"Source String",Translation,Context,Labels,"Max. Length"
 LANGUAGE,English,한국어,"LANGUAGE
 Language to be translated into",,
-CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} 버전이 {Updated}에 제작도었으며 {Downloaded}에 다운로드되었습니다.","CAT_NC_SUIT
+CAT_NC_SUIT,"{newestCatalogVersionString} created on {Updated}, downloaded on {Downloaded}","{newestCatalogVersionString} 버전이 {Updated} 에 제작됐고, {Downloaded} 에 다운로드됐습니다.","CAT_NC_SUIT
 Catalog.cs newestCatalog SettingsUIText",,
 CAT_S_SUIT,"unknown, catalog not loaded yet.","알 수 없습니다. 카탈로드가 아직 로딩되지 않았습니다.","CAT_S_SUIT
 Catalog.cs string SettingsUIText",,
@@ -455,7 +455,7 @@ REPORT_NOTE_100,"Lifecycle Rebalance already includes 'no deathcare' functionali
 REPORT_NOTE_101,"Loading Screen Mod includes all functionality from Safenets, and much more.","Loading Screen Mod는 Safenets의 모든 기능을 갖고 있으며 더 많은 기능을 갖고 있습니다.",REPORT_NOTE_101,,
 REPORT_NOTE_102,"Make historical' is part of the game itself now, but with this mod a historical building can't get abandoned.","'역사적 건물 지정' 기능은 이제는 게임 자체에서 지원됩니다만, 이 모드가 있다면 역사적 건물은 절대로 버려지지 않습니다.",REPORT_NOTE_102,,
 REPORT_NOTE_103,"Make sure the image you use is a square, not a rectangle.","당신이 사용하는 이미지는 직사각형이 아니라 정사각형이어야 합니다.",REPORT_NOTE_103,,
-REPORT_NOTE_104,"Make sure to have the mod always on, directly from the start of a new game. Also, either fix the values from the start and leave them fixed forever, or never fix them at all. Switching between fixed and unfixed values can really throw the demand out of balance, and it might take ages for the demand to catch up. Can cause issues in late game in the way that suddenly all demands stops. Loading the city w/o this mod installed and save it again, fixes this issue. Turn off ""Show RCI demand value on status bar"", as it will spam your log and causes issues.","게임 시작 직전에 이 모드를 언제나 켜진 상태로 유지하십시오. 그리고 값들을 게임 시작부터 고정하고 계속 그 상태로 고정하시거나, 아니면 절대로 고정하지 마십시오. 이 값이 고정되었다 해제되었다 한다면 (Translation of latter will be offered when I know which mod makes this issue and how this issue breaks the game.)",REPORT_NOTE_104,,
+REPORT_NOTE_104,"Make sure to have the mod always on, directly from the start of a new game. Also, either fix the values from the start and leave them fixed forever, or never fix them at all. Switching between fixed and unfixed values can really throw the demand out of balance, and it might take ages for the demand to catch up. Can cause issues in late game in the way that suddenly all demands stops. Loading the city w/o this mod installed and save it again, fixes this issue. Turn off ""Show RCI demand value on status bar"", as it will spam your log and causes issues.","새로운 게임을 시작할 때부터 항상 모드가 켜져 있도록 보장하십시오. 또한 처음부터 값을 고정하고 영원히 그대로 두거나, 절대로 고정하지 말거나 하십시오. 고정된 값과 고정되지 않은 값 사이의 전환은 정말로 수요의 균형을 무너트릴 수 있으며 수요가 따라잡는 데 오랜 시간이 걸릴 수 있습니다. 갑자기 모든 수요가 멈추는 방식으로 게임 후반에 문제를 일으킬 수 있습니다. 이 모드가 설치되지 않은 상태로 도시를 불러오고 다시 저장하면 문제가 고쳐집니다. ""Show RCI demand value on status bar""가 로그 스팸과 문제를 일으킬 수 있으므로 그것을 끄십시오.",REPORT_NOTE_104,,
 REPORT_NOTE_105,"Mod settings for Shadow Distance Fix reset on game load.","Shadow Distance Fix의 모드 설정은 게임을 불러올 때 재설정됩니다.",REPORT_NOTE_105,,
 REPORT_NOTE_106,"Mods without source codes and with an unclear description should better not be subscribed.","소스 코드가 없고 설명이 불분명한 모드는 구독하지 않는 것이 좋습니다.",REPORT_NOTE_106,,
 REPORT_NOTE_107,"MOM already allows you to convert train stations to metro stations.","MOM에 이미 기차역을 지하철역으로 전환하는 기능이 있습니다.",REPORT_NOTE_107,,
