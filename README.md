@@ -1,4 +1,4 @@
-# Compatibility Report v2.2.0
+# Compatibility Report v2.3.0
 
 Compatibility Report mod for [Cities: Skylines](https://steamcommunity.com/app/255710/workshop/). This reports compatibility issues and missing dependencies for your subscribed mods.
 
