@@ -362,7 +362,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             else if (subscribedMod.Statuses.Contains(Enums.Status.Deprecated))
             {
                 subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
-                nestedItem.title = "Unsubscribe would be wise. This is deprecated and no longer supported by the author.";
+                nestedItem.title = "This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.";
                 nestedItem.titleLocaleId = "HRTC_S_D";
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
@@ -418,37 +418,66 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
                         subscribedMod.Stability == Enums.Stability.Stable ? ", but is considered quite stable." : "."), 
                         messageLocaleId = subscribedMod.Alternatives.Any() ? "HRTC_S_TVA" : subscribedMod.Stability == Enums.Stability.Stable ? "HRTC_SS_TV": string.Empty});
                 }
-
-                if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))
+                // Changed to have only one Music Pack Copyright status
+                if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyright))
                 {
-                    nestedItem.messages.Add(new Message(){message = "The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.", messageLocaleId = "HRTC_S_MCF"});
+                    nestedItem.messages.Add(new Message() { message = "As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.", messageLocaleId = "HRTC_S_MC" });
                 }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrighted))
-                {
-                    nestedItem.messages.Add(new Message(){message = "This includes copyrighted music and should not be used for streaming.", messageLocaleId = "HRTC_S_MC"});
-                }
-                else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightUnknown))
-                {
-                    nestedItem.messages.Add(new Message(){message = "This includes music with unknown copyright status. Safer not to use it for streaming.", messageLocaleId = "HRTC_S_MCU"});
-                }
+                //if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightFree))
+                //{
+                //    nestedItem.messages.Add(new Message(){message = "The included music is said to be copyright-free and safe for streaming. Some restrictions might still apply though.", messageLocaleId = "HRTC_S_MCF"});
+                //}
+                //else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrighted))
+                //
+                //{
+                //    nestedItem.messages.Add(new Message(){message = "As the included music might be copyright protected, it is better not to use Music Packs for streaming to avoid legal issues.", messageLocaleId = "HRTC_S_MC"});
+                //}
+                //else if (subscribedMod.Statuses.Contains(Enums.Status.MusicCopyrightUnknown))
+                //{
+                //    nestedItem.messages.Add(new Message(){message = "This includes music with unknown copyright status. Safer not to use it for streaming.", messageLocaleId = "HRTC_S_MCU"});
+                //}
             }
 
             if (subscribedMod.Statuses.Contains(Enums.Status.SavesCantLoadWithout))
             {
-                    nestedItem.messages.Add(new Message(){message = "NOTE: After using this mod, savegames won't (easily) load without it anymore.", messageLocaleId = "HRTC_S_SCLW"});
+                nestedItem.messages.Add(new Message() { message = "NOTE: After using this mod, savegames won't (easily) load without it anymore.", messageLocaleId = "HRTC_S_SCLW" });
+            }
+
+                //added to inform about non public source code
+            if (subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
+            {
+                    nestedItem.messages.Add(new Message(){message = "No source code published. Without source code it is harder to ensure a mod not include malicious code.", messageLocaleId = "HRTC_S_SCNP"});
+            }
+               
+                // added to inform about mods that have no comment section active, no workshop description and no source code available
+            if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription) && !subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
+            {
+                nestedItem.messages.Add(new Message() { message = "Mods without source codes, without comment section and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.", messageLocaleId = "HRTC_A_SDCP" });
+            }
+            else if (subscribedMod.Statuses.Contains(Enums.Status.NoCommentSection) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
+            {
+                nestedItem.messages.Add(new Message() { message = "Mods without source codes and without comment section should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.", messageLocaleId = "HRTC_A_SCP" });
+            }
+            else if (subscribedMod.Statuses.Contains(Enums.Status.NoDescription) && !subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
+            {
+                nestedItem.messages.Add(new Message() { message = "Mods without source codes and with an unclear description should better not be subscribed. Without source code it is also harder to ensure a mod not include malicious code.", messageLocaleId = "HRTC_A_SDP" });
             }
 
             bool abandoned = subscribedMod.Statuses.Contains(Enums.Status.Obsolete) || subscribedMod.Statuses.Contains(Enums.Status.Deprecated) ||
                 subscribedMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop) || subscribedMod.Statuses.Contains(Enums.Status.Abandoned) ||
                 (subscribedMod.Stability == Enums.Stability.IncompatibleAccordingToWorkshop) || authorRetired;
 
-            if (abandoned && string.IsNullOrEmpty(subscribedMod.SourceUrl) && !subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
+            if (abandoned && string.IsNullOrEmpty(subscribedMod.SourceUrl) && subscribedMod.Statuses.Contains(Enums.Status.SourceBundled))
             {
-                nestedItem.messages.Add(new Message(){message = "No public source code found, making it hard to continue by another modder.", messageLocaleId = "HRTC_A_SURL"});
+                nestedItem.messages.Add(new Message() { message = "Author activated that source code should be bundled with the mod but is not published. This make it harder to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.", messageLocaleId = "HRTC_A_SURL" });
             }
-            else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceNotUpdated))
+            else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceNotPublic))
             {
-                nestedItem.messages.Add(new Message(){message = "Published source seems out of date, making it hard to continue by another modder.", messageLocaleId = "HRTC_A_SNU"});
+                nestedItem.messages.Add(new Message() { message = "No source code published, making it hard to continue by another modder. Without source code it is also harder to ensure a mod not include malicious code.", messageLocaleId = "HRTC_A_SNU" });
+            }
+            else if (abandoned && subscribedMod.Statuses.Contains(Enums.Status.SourceObfuscated))
+            {
+                nestedItem.messages.Add(new Message() { message = "The author has deliberately hidden the mod code from other modders, which is somewhat suspicious. Without source code it is also harder to ensure a mod not include malicious code.", messageLocaleId = "HRTC_A_SOB" });
             }
 
             if (!string.IsNullOrEmpty(nestedItem.title) || nestedItem.messages.Count > 0)
