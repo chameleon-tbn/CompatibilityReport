@@ -9,12 +9,12 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string Version = "2.3.0";
+        public const string Version = "2.3.1";
 #if DEBUG
         // allow for hot-swapping the mod - rebuild only if it's in the main menu, game will detect and reload the mod
         public const string Build = "*";
 #else
-        public const string Build = "443";
+        public const string Build = "444";
 #endif
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 7;
@@ -25,7 +25,7 @@ namespace CompatibilityReport.Util
         public const string IUserModDescription = "Checks your subscribed mods for compatibility and missing dependencies.";
         public const string ModAuthor = "Chamëleon TBN";
         public const string FullVersion = Version + "." + Build + ReleaseType;
-        public const string CopyrightYear = "2022";
+        public const string CopyrightYear = "2023";
         public const ulong OurOwnSteamID = 2881031511;
 
 
