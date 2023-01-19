@@ -408,7 +408,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.ModForModders))
                 {
-                    nestedItem.messages.Add(new Message(){message = "This is only needed for modders. Regular users don't need this one.", messageLocaleId = "HRTC_S_MFM"});
+                    nestedItem.messages.Add(new Message(){message = "This is only needed for modders or asset creators. Regular users don't need this one. Such mods should not be activated if you're not in the Editor. It's even better to exclude such mods with Loading Order Tool or to unsubscribe from them if you want to play the normal game.", messageLocaleId = "HRTC_S_MFM"});
                 }
 
                 if (subscribedMod.Statuses.Contains(Enums.Status.TestVersion))
