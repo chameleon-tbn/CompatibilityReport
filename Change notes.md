@@ -1,5 +1,11 @@
 # Compatibility Report
 
+### Version 2.3.1
+* Updated some internal texts to match more standards for mods for modders and asset creators.
+* Updated the general note in the header of the compatibility report.
+* Updated Translations
+* Updated Catalog to 7.8
+
 ### Version 2.3.0
 * Merged Status "MusicCopyrightFree", "MusicCopyrighted", "MusicCopyrightUnknown" to "MusicCopyright" with the same information text.
 * Added Status "SourceNotPublic" to Inform about mods where no public source code is available.
