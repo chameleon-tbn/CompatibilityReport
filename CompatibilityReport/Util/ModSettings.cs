@@ -9,12 +9,12 @@ namespace CompatibilityReport.Util
     public static class ModSettings
     {
         // Mod properties.
-        public const string Version = "2.3.1";
+        public const string Version = "2.3.2";
 #if DEBUG
         // allow for hot-swapping the mod - rebuild only if it's in the main menu, game will detect and reload the mod
         public const string Build = "*";
 #else
-        public const string Build = "444";
+        public const string Build = "445";
 #endif
         public const string ReleaseType = "";
         public const int CurrentCatalogStructureVersion = 7;
