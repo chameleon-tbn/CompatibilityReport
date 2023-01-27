@@ -1,5 +1,10 @@
 # Compatibility Report
 
+### Version 2.3.2
+* Redesign of the Compatibility Report for better useability and adding a dark mode (Thanks to mxdanger for this great work!).
+* Updated Translations
+* Updated Catalog to 7.9
+
 ### Version 2.3.1
 * Updated some internal texts to match more standards for mods for modders and asset creators.
 * Updated the general note in the header of the compatibility report.
