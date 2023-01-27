@@ -9,92 +9,201 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><#= ModSettings.ModName #></title>
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f9f6ea">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0b0f">
 </head>
 <style>
-    /* 
-        unsubscribe-color: #dd2323
-        major-color: #e69138
-        minor-color: #ffd966
-        remark-color: #93c47d
-        nothing-color: #5a9b3d
-        processed-color: #4cb2e9
-     */
-    * {font-family:sans-serif;}
-    body {background-color:#f9f6ea; margin: 12px}
+    :root {
+        --body-bg: #f9f6ea;
+        --body-bg-rgb: 249, 246, 234;
+        --body-elevated-bg: #e8e5d4;
+        --body-elevated-bg-rgb: 232, 229, 212;
+        --body-color: #212529;
+        --body-color-rgb: 33,37,41;
+        --link-color: var(--body-color);
+        --link-hover-color: hsl(210, 5%, 45%);
+        --unsubscribe: hsl(0, 53%, 55%);
+        --major: hsl(31, 78%, 56%);
+        --minor: hsl(45, 80%, 70%);
+        --remark: hsl(101, 38%, 63%);
+        --nothing: hsl(101, 44%, 52%);
+        --processed: hsl(201, 78%, 61%);
+        --unsubscribe-rgb: 201, 79, 79;
+        --major-rgb: 230, 146, 55;
+        --minor-rgb: 240, 209, 117;
+        --remark-rgb: 148, 197, 125;
+        --nothing-rgb: 113, 186, 79;
+        --processed-rgb: 78, 179, 233;
+        --unsubscribe-hover: hsl(0, 43%, 45%);
+        --major-hover: hsl(31, 68%, 46%);
+        --minor-hover: hsl(45, 70%, 60%);
+        --remark-hover: hsl(101, 28%, 53%);
+        --nothing-hover: hsl(101, 34%, 42%);
+        --processed-hover: hsl(201, 68%, 51%);
+    }
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --body-bg: #0a0b0f;
+            --body-bg-rgb: 10, 11, 15;
+            --body-elevated-bg: #14161f;
+            --body-elevated-bg-rgb: 20, 22, 31;
+            --body-color: #e1e1e1;
+            --body-color-rgb: 225,225,225;
+            --link-color: #fff;
+            --link-hover-color: hsl(0, 0%, 78%);
+            --unsubscribe: hsl(0, 63%, 40%);
+            --major: hsl(31, 78%, 40%);
+            --minor: hsl(45, 100%, 35%);
+            --remark: hsl(101, 38%, 43%);
+            --nothing: hsl(101, 54%, 32%);
+            --processed: hsl(201, 78%, 45%);
+            --unsubscribe-rgb: 166, 38, 38;
+            --major-rgb: 182, 105, 22;
+            --minor-rgb: 179, 134, 0;
+            --remark-rgb: 94, 151, 68;
+            --nothing-rgb: 65, 126, 38;
+            --processed-rgb: 25, 142, 204;
+            --unsubscribe-hover: hsl(0, 63%, 30%);
+            --major-hover: hsl(31, 78%, 30%);
+            --minor-hover: hsl(45, 100%, 25%);
+            --remark-hover: hsl(101, 38%, 33%);
+            --nothing-hover: hsl(101, 54%, 22%);
+            --processed-hover: hsl(201, 78%, 35%);
+        }
+    }
+    
+    html {scroll-behavior: smooth;}
+    body {background-color: var(--body-bg); margin: 0; color: var(--body-color); font-family: sans-serif; padding-top: 1.5rem; padding-bottom: 1.5rem; }
     header {padding: 0 10px;}
-    article header {padding: 0; }
-    footer {margin: 20px 0px 40px 10px}
-    section {padding: 0 10px;}
+    article header {padding: 0;}
+    section { line-height: 1.5; overflow-wrap: break-word;}
+    footer { border-top: 1px solid rgba(var(--body-color-rgb), .25); margin-top: 1.5rem; padding-top: 1rem; overflow-wrap: break-word;}
+    .navbar .container, body > header, body > section, footer {padding-left: 1rem; padding-right: 1rem; max-width: 1320px; margin-right: auto; margin-left: auto;}
 
-    h1 {margin-top: 10px; margin-bottom: 0; padding:24px 18px; background-color:#e8e5d4;}
-    h2 {margin-top:0px; border-bottom:1px solid black;}
-    h3 {margin: 20px 0 0 0px; }
-    h4 {margin: 20px 0 0 18px; }
-    a:link {color: black; text-decoration: underline;}
-    a:visited {color: black; text-decoration: underline;}
-    a:hover {color: #0000e0; text-decoration: underline;}
+    hr {border-color: rgba(var(--body-color-rgb), .25)}
+    h1 {margin-top: 0; margin-bottom: 0; padding: 1rem 1.5rem; background-color:var(--body-elevated-bg); border-radius: 0.25rem;}
+    h2 {margin-top: 0; border-bottom:1px solid black;}
+    h3 {margin-bottom: 0.5rem; }
+    h3 + ul { margin-top: 0; }
+    ul {padding-inline-start: 20px;}
+    p {margin-top: 0;}
+    a { color: var(--link-color); text-decoration: underline; }
+    a:hover { color: var(--link-hover-color); }
 
-    nav { display: flex; position: sticky; top: 0; }
-    nav ul { width: 100%; display: flex; align-items: center; min-height: 40px; padding: 0 10px; background-color: #f9f6ea; }
-    nav ul li { display: flex; align-items: center; height: 40px; list-style: none; font-weight: bold; font-size: 16px; cursor: pointer;}
-    nav ul li:hover { background-color: #f9f6ea; }
-    nav ul li.flag { height: 40px; }
-    nav ul li.flag a { margin-top: 2px; }
-    nav ul li a { padding: 12px 15px; text-decoration: none!important; color: black; }
-    nav ul li a:link { text-decoration: none!important; color: black; }
-    nav ul li a:visited { text-decoration: none!important; color: black; }
-    nav ul li a:hover { text-decoration: none!important; color: black; }
-    
-    .languages ul li a { padding: 0 1px; }
+    @supports (backdrop-filter: blur()) or (-webkit-backdrop-filter: blur()) {
+        .navbar {
+        -webkit-backdrop-filter: saturate(180%) blur(15px);
+        backdrop-filter: saturate(180%) blur(15px);
+        --bg-opacity: .8 !important;
+        }
+    }
 
-    article[id] { margin-top: -40px; padding-top: 60px; }
-    
-    table { font-family: arial, sans-serif; border-collapse: collapse; width: 100%; }
-    td, th { border: 1px solid #dddddd; text-align: left; padding: 8px; }
-    tr:nth-child(even) { background-color: #e7e7e7; }
+    .navbar { --bg-opacity: 1; position: sticky; top: 0; z-index: 100; padding-top: 1rem; padding-bottom: 1rem; background-color: rgba(var(--body-bg-rgb), var(--bg-opacity)); border-bottom: 1px solid rgba(var(--body-color-rgb), .25); box-shadow: rgba(0, 12, 43, 0.1) 0px 4px 8px; margin-bottom: 1rem;}
+    .navbar .container { display: flex; flex-grow: 1; flex-basis: 100%; align-items: center;}
+    .navbar ul { margin-top: 0; margin-bottom: 0; padding-left: 0; list-style: none; display: flex;}
+    .navbar ul.navbar__list {overflow: auto hidden; border-radius: 0.25rem;}
+    .navbar ul li { width: auto; font-weight: bold; font-size: 16px;}
+    .navbar ul li:hover { background-color: var(--body-bg); }
+    .navbar ul li a { padding: .5rem 1rem; display: block; text-decoration: none !important; overflow: visible; white-space: nowrap; border-radius: .25rem; background-color: var(--theme-color); transition: color .15s ease-in-out, background-color .15s ease-in-out;}
+    .navbar ul li a:hover, .navbar ul li a:focus {color: var(--link-color); background-color: var(--theme-color-hover);}
+    .navbar ul li:not(:first-child) a {border-top-left-radius: 0; border-bottom-left-radius: 0;}
+    .navbar ul li:not(:last-child) a {border-top-right-radius: 0; border-bottom-right-radius: 0;}
+    .navbar ul li a svg {height: 30px; display: block;}
+    .navbar .languages {margin-left: auto;}
+    .navbar .languages ul li a { padding: 0; }
 
-    .text-smaller {font-size: 13px; }
-    .text-small {font-size: 15px; }
-    .show {display: inherit;}
-    .hide {display: none; }
-    .warn { color: #ff9200; }
-    .error { color: red; }
+    article { margin-top: -3rem; padding-top: 5rem; }
+
+    table { 
+        border: 1px solid rgba(var(--body-color-rgb), .1);
+        border-collapse: separate;
+        border-left: 0;
+        border-radius: 0.5rem;
+        border-spacing: 0;
+    }
+    thead {
+        display: table-header-group;
+        vertical-align: middle;
+        border-color: inherit;
+        border-collapse: separate;
+    }
+    tr {
+        display: table-row;
+        vertical-align: inherit;
+        border-color: inherit;
+    }
+    th, td {
+        padding: 0.25rem 0.5rem;
+        text-align: left;
+        vertical-align: middle;
+        border-left: 1px solid rgba(var(--body-color-rgb), .1);
+    }
+    td {
+        border-top: 1px solid rgba(var(--body-color-rgb), .1);
+    }
+    thead:first-child tr:first-child th:first-child, tbody:first-child tr:first-child td:first-child {
+        border-radius: 0.5rem 0 0 0;
+    }
+    thead:last-child tr:last-child th:first-child, tbody:last-child tr:last-child td:first-child {
+        border-radius: 0 0 0 0.5rem;
+    }
+
+    tr:nth-child(even) { background-color: rgba(var(--body-elevated-bg-rgb), 0.25); }
+
+    .text-smaller { font-size: 13px; }
+    .text-small { font-size: 15px; }
+    .show { display: inherit;}
+    .hide { display: none; }
+    .warn { color: var(--major); }
+    .error { color: var(--unsubscribe); }
     .font-bold { font-weight: 600; }
-
-    .mt-1 { margin-top: 1rem; }
     .center {text-align: center; }
-    .report-section__titleBar { margin-left: 0; padding: 10px;}
-    .report-section__title { }
-    .report-section__content {margin-left: 0; padding: 5px}
-    .report-content:last-child { border-bottom: unset !important; }
-    li.message a {min-width: 260px; display: inline-block;}   
-    ul {padding-inline-start: 20px;}    
 
-    .author,.modName {font-weight: bold;}
+    .report-section__titleBar { margin: 0; padding: 0.5rem 1rem; margin-top: 0; background-color: var(--theme-color); border-radius: 1rem 0.25rem 1rem 0;}
+    .report-section__title { }
+    .report-section__content {margin: 0; padding: 0.25rem 1rem; background: linear-gradient(180deg, var(--body-bg) 5%, rgba(0,0,0,0) 5%); border-top-left-radius: 0.5rem;}
+    .report-content p {margin-top: 1rem;}
+    .report-content ul:not(:first-of-type) {margin-top: 0;}
+    .report-content ul:not(:last-of-type) {margin-bottom: 0.5rem;}
+    .report-content:last-child { border-bottom: unset !important; }
+
+    .report-content ul.successors { margin-left: -7px; padding: 0.25rem 0.25rem 0.25rem 25px; border-left: 2px solid var(--unsubscribe-hover); background-color: rgba(var(--unsubscribe-rgb), 0.1); border-radius: 0.25rem 0.25rem 1rem 0.25rem; }
+    .report-content ul.compatibilities { margin-left: -7px; padding: 0.25rem 0.25rem 0.25rem 25px; border-left: 2px solid var(--major-hover); background-color: rgba(var(--major-rgb), 0.1); border-radius: 0.25rem 0.25rem 1rem 0.25rem; }
+    .report-content ul.requiredMods { margin-left: -7px; padding: 0.25rem 0.25rem 0.25rem 25px; border-left: 2px solid var(--minor-hover); background-color: rgba(var(--minor-rgb), 0.1); border-radius: 0.25rem 0.25rem 1rem 0.25rem; }
+    .report-content ul.recommendations { margin-left: -7px; padding: 0.25rem 0.25rem 0.25rem 25px; border-left: 2px solid var(--remark-hover); background-color: rgba(var(--remark-rgb), 0.1); border-radius: 0.25rem 0.25rem 1rem 0.25rem; }
+
+    .author, .modName {font-weight: bold;}
+    .steamId { padding: 0.25rem 0.5rem; background-color: rgba(var(--body-elevated-bg-rgb), 0.5); border-radius: 0.25rem; margin-left: 0.25rem; display: inline-block;}
 
     .f-small {font-size: small; margin-right: 2px; margin-left: -2px; padding: 2px !important;}
-    .disabled {padding: 5px; font-weight: bold;}
-    .capitalize {text-transform: uppercase;}
-    .unsubscribe {background-color: #dd2323; color: #f9f6ea}
-    .major {background-color: #e69138;}
-    .minor {background-color: #ffd966;}
-    .remark {background-color: #93c47d;}
-    .nothing {background-color: #5a9b3d; color: #f9f6ea}
-    .processed {background-color: #4cb2e9;}
+    .disabled {padding: 0.25rem 0.5rem; font-weight: bold; background-color: var(--minor); border-radius: 0.25rem; margin-right: 0.5rem; display: inline-block;}
+    .uppercase {text-transform: uppercase;}
+
+    .unsubscribe {--theme-color: var(--unsubscribe); --theme-color-hover: var(--unsubscribe-hover); color: var(--link-color);}
+    .major {--theme-color: var(--major); --theme-color-hover: var(--major-hover); color: var(--link-color);}
+    .minor {--theme-color: var(--minor); --theme-color-hover: var(--minor-hover); color: var(--link-color);}
+    .remark {--theme-color: var(--remark); --theme-color-hover: var(--remark-hover); color: var(--link-color);}
+    .nothing {--theme-color: var(--nothing); --theme-color-hover: var(--nothing-hover); color: var(--link-color);}
+    .processed {--theme-color: var(--processed); --theme-color-hover: var(--processed-hover); color: var(--link-color);}
     
-    .line_unsubscribe {margin-top:-6px; margin-left:0px; border-left: solid 10px #dd2323; border-bottom: solid 10px #dd2323;}
-    .line_major {margin-top:-6px; margin-left:0px; border-left: solid 10px #e69138; border-bottom: solid 10px #e69138;}
-    .line_minor {margin-top:-6px; margin-left:0px; border-left: solid 10px #ffd966; border-bottom: solid 10px #ffd966;}
-    .line_remark {margin-top:-6px; margin-left:0px; border-left: solid 10px #93c47d; border-bottom: solid 10px #93c47d;}
-    .line_nothing {margin-top:-6px; margin-left:0px; border-left: solid 10px #5a9b3d; border-bottom: solid 10px #5a9b3d;}
-    .line_processed {margin-top:-6px; margin-left:0px; border-left: solid 10px #4cb2e9; border-bottom: solid 10px #4cb2e9;}
-    .border-b_unsubscribe {border-bottom: solid 2px #dd2323;}
-    .border-b_major {border-bottom: solid 2px #e69138;}
-    .border-b_minor {border-bottom: solid 2px #ffd966;}
-    .border-b_remark {border-bottom: solid 2px #93c47d;}
-    .border-b_nothing {border-bottom: solid 2px #5a9b3d;}
-    .border-b_processed {border-bottom: solid 2px #4cb2e9;}
+    .line_unsubscribe {border-radius: 0 0 0.75rem 1rem; border-left: solid 10px var(--unsubscribe); border-bottom: solid 10px var(--unsubscribe); background: linear-gradient(180deg, var(--unsubscribe) 4%, rgba(0,0,0,0) 4%);}
+    .line_major {border-radius: 0 0 0.75rem 1rem; border-left: solid 10px var(--major); border-bottom: solid 10px var(--major); background: linear-gradient(180deg, var(--major) 4%, rgba(0,0,0,0) 4%);}
+    .line_minor {border-radius: 0 0 0.75rem 1rem; border-left: solid 10px var(--minor); border-bottom: solid 10px var(--minor); background: linear-gradient(180deg, var(--minor) 4%, rgba(0,0,0,0) 4%);}
+    .line_remark {border-radius: 0 0 0.75rem 1rem; border-left: solid 10px var(--remark); border-bottom: solid 10px var(--remark); background: linear-gradient(180deg, var(--remark) 4%, rgba(0,0,0,0) 4%);}
+    .line_nothing {border-radius: 0 0 0.75rem 1rem; border-left: solid 10px var(--nothing); border-bottom: solid 10px var(--nothing); background: linear-gradient(180deg, var(--nothing) 4%, rgba(0,0,0,0) 4%);}
+    .line_processed {border-radius: 0 0 0.75rem 1rem; border-left: solid 10px var(--processed); border-bottom: solid 10px var(--processed); background: linear-gradient(180deg, var(--processed) 4%, rgba(0,0,0,0) 4%);}
+    .line_processed .report-section__content {padding: 0.5rem;}
+    
+    .border-b_unsubscribe {border-bottom: solid 2px var(--unsubscribe);}
+    .border-b_major {border-bottom: solid 2px var(--major);}
+    .border-b_minor {border-bottom: solid 2px var(--minor);}
+    .border-b_remark {border-bottom: solid 2px var(--remark);}
+    .border-b_nothing {border-bottom: solid 2px var(--nothing);}
+    .border-b_processed {border-bottom: solid 2px var(--processed);}
+    *, :after, :before { box-sizing: border-box; }
 </style>
 
 <body>
@@ -146,30 +255,32 @@
         </script>
     </header>
 
-    <nav>
-        <ul>
-          <# string LI_Link(bool shouldRender, string text, string anchor, string t, string tvalue) => shouldRender ? "<li class=\"" + anchor + "\"><a href=\"#" + anchor + $"\" {t.T()} {tvalue.TVal()}>{text}</a></li>" : ""; #>
+    <nav class="navbar">
+        <div class="container">
+            <ul class="navbar__list">
+                <# string LI_Link(bool shouldRender, string text, string anchor, string t, string tvalue) => shouldRender ? "<li class=\"" + anchor + "\"><a href=\"#" + anchor + $"\" {t.T()} {tvalue.TVal()}>{text}</a></li>" : ""; #>
 
-          <#= LI_Link(unsubscribe.Count > 0, $"Unsubscribe ({unsubscribe.Count})", "unsubscribe", "HRT_LIL_U", $" ({unsubscribe.Count})") #>
-          <#= LI_Link(majorIssues.Count > 0, $"Major Issues ({majorIssues.Count})", "major", "HRT_LIL_MAI", $" ({majorIssues.Count})") #>
-          <#= LI_Link(minorIssues.Count > 0, $"Minor Issues ({minorIssues.Count})", "minor", "HRT_LIL_MI", $" ({minorIssues.Count})") #>
-          <#= LI_Link(remarks.Count > 0, $"Remarks ({remarks.Count})", "remark", "HRT_LIL_R", $" ({remarks.Count})") #>
-          <#= LI_Link(nothingToReport.Count > 0, $"Nothing to report ({nothingToReport.Count})", "nothing", "HRT_LIL_NTR", $" ({nothingToReport.Count})") #>
-          <#= LI_Link(true, $"Mod List ({AllModList().Length})", "processed", "HRT_P_PM", $" ({AllModList().Length})") #>
-        </ul>
-        <div class="languages">
-            <ul>
-                <# string LI_Language(string svgContent, string className, string lang) => "<li class=\"" + className + $"\"><a onclick=\"{(lang == "xx" ? "location.reload()": $"changeLanguage('{lang}')")}\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"0 0 640 480\" width=\"54\" height=\"40\">{svgContent}</svg></a></li>"; #>
-<#
-                   for (int i = 0; i < AvailableLanguages.Count; i++)
-                   {
-                       string langCode = AvailableLanguages[i];
-#>
-                <#= LI_Language(GetFlag(langCode), $"flag flag-{langCode}", langCode) #>
-<#
-                   }
-#>
+                <#= LI_Link(unsubscribe.Count > 0, $"Unsubscribe ({unsubscribe.Count})", "unsubscribe", "HRT_LIL_U", $" ({unsubscribe.Count})") #>
+                <#= LI_Link(majorIssues.Count > 0, $"Major Issues ({majorIssues.Count})", "major", "HRT_LIL_MAI", $" ({majorIssues.Count})") #>
+                <#= LI_Link(minorIssues.Count > 0, $"Minor Issues ({minorIssues.Count})", "minor", "HRT_LIL_MI", $" ({minorIssues.Count})") #>
+                <#= LI_Link(remarks.Count > 0, $"Remarks ({remarks.Count})", "remark", "HRT_LIL_R", $" ({remarks.Count})") #>
+                <#= LI_Link(nothingToReport.Count > 0, $"Nothing to report ({nothingToReport.Count})", "nothing", "HRT_LIL_NTR", $" ({nothingToReport.Count})") #>
+                <#= LI_Link(true, $"Mod List ({AllModList().Length})", "processed", "HRT_P_PM", $" ({AllModList().Length})") #>
             </ul>
+            <div class="languages">
+                <ul>
+                    <# string LI_Language(string svgContent, string className, string lang) => "<li class=\"" + className + $"\"><a onclick=\"{(lang == "xx" ? "location.reload()": $"changeLanguage('{lang}')")}\"><svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" viewBox=\"0 0 640 480\" width=\"54\" height=\"40\">{svgContent}</svg></a></li>"; #>
+<#
+                    for (int i = 0; i < AvailableLanguages.Count; i++)
+                    {
+                        string langCode = AvailableLanguages[i];
+#>
+                    <#= LI_Language(GetFlag(langCode), $"flag flag-{langCode}", langCode) #>
+<#
+                    }
+#>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -179,7 +290,7 @@
             <span class="text-smaller" data-i18n="HRT_S_YGM" data-i18n-vars="SubscriptionCount█<#= Toolkit.EscapeHtml($"<strong>{catalog.SubscriptionCount()}</strong>")#>">Your game has <strong><#= catalog.SubscriptionCount() #></strong> mods.</span>
             <span class="text-smaller" data-i18n="HRT_S_TMCC" data-i18n-vars="ReviewedModCount█<#= Toolkit.EscapeHtml($"<strong>{catalog.ReviewedModCount}</strong>")#>|Updated█<#= $"{catalog.Updated:d MMMM yyyy}" #>">The mod catalog contains <strong><#= catalog.ReviewedModCount #></strong> reviewed mods and was created on <#= $"{catalog.Updated:d MMMM yyyy}" #>.</span>
             <br>
-            <span class="text-small mt-1" data-i18n="HRT_S_MUA">Mods updated after this date might have an outdated review below.</span>
+            <span class="text-small" data-i18n="HRT_S_MUA">Mods updated after this date might have an outdated review below.</span>
             <hr>
         </div>
     
@@ -196,39 +307,38 @@
 <#  // Different Catalog version
     if (IsDifferentVersion) {#>
     <div>
-        <h3 data-i18n="HRT_DCV_H">WARNING:</h3>
-        <span data-i18n="HRT_DCV_T" data-i18n-vars="CatalogGameVersion█<#= Toolkit.EscapeHtml($"<strong>{CatalogGameVersion}</strong>") #>">The catalog is made for game version <#= CatalogGameVersion #>.</span>
-        <span data-i18n="<#= (IsOlder ? "HRT_DCV_YGIO" : "HRT_DCV_YGIN") #>">Your game is <#= IsOlder ? "older" : "newer" #> (<#= CurrentGameVersion #>).</span>
-        <span data-i18n="HRT_DCV_RNA">Results might not be accurate.</span>
+        <h3 data-i18n="HRT_DCV_H" class="uppercase">Warning</h3>
+        <p data-i18n="HRT_DCV_T" data-i18n-vars="CatalogGameVersion█<#= Toolkit.EscapeHtml($"<strong>{CatalogGameVersion}</strong>") #>">The catalog is made for game version <#= CatalogGameVersion #>.</p>
+        <p data-i18n="<#= (IsOlder ? "HRT_DCV_YGIO" : "HRT_DCV_YGIN") #>">Your game is <#= IsOlder ? "older" : "newer" #> (<#= CurrentGameVersion #>).</p>
+        <p data-i18n="HRT_DCV_RNA">Results might not be accurate.</p>
     </div><#
     }
 #>
     
 <#  // Local subscriptions
     if (catalog.LocalSubscriptionCount != 0) {#>
-        <h3 data-i18n="HRTC_TH_N">NOTE</h3>
+        <h3 data-i18n="HRTC_TH_N">Note</h3>
         <div class="text-small">
-          <span data-i18n="<#= catalog.LocalSubscriptionCount == 1 ? "HRT_LSM_S" : "HRT_LSM_P" #>" data-i18n-vars="LocalSubscriptionCount█<#= Toolkit.EscapeHtml($"<strong>{catalog.LocalSubscriptionCount}</strong>")#>">You have <strong><#= catalog.LocalSubscriptionCount #></strong> local mod<#= catalog.LocalSubscriptionCount == 1 ? "" : "s" #> local mods, which we can't review. The report does not check for incompatibilities with these. Results might not be completely accurate.</span>
-          </br>
-          <span data-i18n="HRT_LSM_E">Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.</span> 
+          <p data-i18n="<#= catalog.LocalSubscriptionCount == 1 ? "HRT_LSM_S" : "HRT_LSM_P" #>" data-i18n-vars="LocalSubscriptionCount█<#= Toolkit.EscapeHtml($"<strong>{catalog.LocalSubscriptionCount}</strong>")#>">You have <strong><#= catalog.LocalSubscriptionCount #></strong> local mod<#= catalog.LocalSubscriptionCount == 1 ? "" : "s" #> local mods, which we can't review. The report does not check for incompatibilities with these. Results might not be completely accurate.</p>
+          <p data-i18n="HRT_LSM_E">Use mods as Workshop subscription whenever possible. Mods copied to the local mods folder don't always work and often cannot be detected correctly by other mods.</p> 
         </div><#
     }
 #>
 
 <#  // Fake subscriptions
     if (catalog.FakeSubscriptionCount != 0) { #>
-        <h3 data-i18n="HRTC_TH_N">NOTE</h3>
+        <h3 data-i18n="HRTC_TH_N">Note</h3>
         <div>
-           <span data-i18n="<#= catalog.FakeSubscriptionCount == 1 ? "HRT_FS_S" : "HRT_FS_P" #>" data-i18n-vars="LocalSubscriptionCount█<#= catalog.FakeSubscriptionCount #>">The report includes <strong><#= catalog.FakeSubscriptionCount #></strong> fake subscription<#= catalog.FakeSubscriptionCount == 1 ? "" : "s" #>.</span> 
+           <p data-i18n="<#= catalog.FakeSubscriptionCount == 1 ? "HRT_FS_S" : "HRT_FS_P" #>" data-i18n-vars="LocalSubscriptionCount█<#= catalog.FakeSubscriptionCount #>">The report includes <strong><#= catalog.FakeSubscriptionCount #></strong> fake subscription<#= catalog.FakeSubscriptionCount == 1 ? "" : "s" #>.</p> 
         </div><#
     }
 #>
 
 <#  // Non reviewed subscriptions
     if (NonReviewedSubscriptions != 0) { #>
-        <h3 data-i18n="HRTC_TH_N">NOTE</h3>
+        <h3 data-i18n="HRTC_TH_N">Note</h3>
         <div>
-           <span data-i18n="HRT_NRS_N" data-i18n-vars="NonReviewedSubscriptions█<#= NonReviewedSubscriptions #>"><strong><#= NonReviewedSubscriptions #></strong> of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.</span> 
+           <p data-i18n="HRT_NRS_N" data-i18n-vars="NonReviewedSubscriptions█<#= NonReviewedSubscriptions #>"><strong><#= NonReviewedSubscriptions #></strong> of your mods have not been reviewed yet. Some incompatibilities or warnings might be missing in the report due to this.</p> 
         </div><#
     }
 #>
@@ -250,7 +360,7 @@
 <#  // Is outdated
     if (ShowOutdatedWarning) { #>    
     <h3 class="warn <#= ShowOutdatedWarning ? "show" : "hide" #>" data-i18n="HRT_IO_SOW">
-        <strong>WARNING:</strong> The latest review catalog could not be downloaded. Results might be outdated.
+        <p><strong>WARNING:</strong> The latest review catalog could not be downloaded. Results might be outdated.</p>
     </h3><#
     }
 #>
@@ -331,23 +441,23 @@
 #>
                     <div class="report-content border-b_<#= style #>">
                         <p>
-                            <#= "span".TagConditional(modInfo.isDisabled, "DISABLED", "disabled minor capitalize", localeId: "HRT_P_D") #>
+                            <#= "span".TagConditional(modInfo.isDisabled, "DISABLED", "disabled capitalize", localeId: "HRT_P_D") #>
                             <#= HtmlExtensions.NameAuthorWithIDAsLink(modInfo.modName, modInfo.authorName, modInfo.steamUrl, modInfo.idString) #>
                         </p>
-                        <#= ListItem(modInfo.instability, "instability mt-1") #>
-                        <#= NestedList(modInfo.requiredDlc, "requiredDlc mt-1") #>
-                        <#= ListItem(modInfo.unneededDependencyMod, "unnededDependency mt-1") #>
-                        <#= ListItem(modInfo.disabled, "disabledMod mt-1") #>
-                        <#= NestedList(modInfo.successors, "successors mt-1") #>
-                        <#= ListItem(modInfo.stability, "stability mt-1") #>
-                        <#= NestedCompatibitlityList(modInfo.compatibilities, "compatibilities mt-1") #>
-                        <#= NestedList(modInfo.requiredMods, "requiredMods mt-1") #>
-                        <#= NestedList(modInfo.statuses, "statuses mt-1") #>
-                        <#= BulletList(modInfo.note, "note mt-1", modInfo.noteLocaleId) #>
-                        <#= NestedList(modInfo.alternatives, "alternatives mt-1") #>
+                        <#= ListItem(modInfo.instability, "instability") #>
+                        <#= NestedList(modInfo.requiredDlc, "requiredDlc") #>
+                        <#= ListItem(modInfo.unneededDependencyMod, "unnededDependency") #>
+                        <#= ListItem(modInfo.disabled, "disabledMod") #>
+                        <#= NestedList(modInfo.successors, "successors") #>
+                        <#= ListItem(modInfo.stability, "stability") #>
+                        <#= NestedCompatibitlityList(modInfo.compatibilities, "compatibilities") #>
+                        <#= NestedList(modInfo.requiredMods, "requiredMods") #>
+                        <#= NestedList(modInfo.statuses, "statuses") #>
+                        <#= BulletList(modInfo.note, "note", modInfo.noteLocaleId) #>
+                        <#= NestedList(modInfo.alternatives, "alternatives") #>
                         <#= NestedList(modInfo.recommendations, "recommendations") #>
-                        <#= "ul".TagConditional(modInfo.anyIssues, "li".Tag(noKnownIssuesMessage, localeId: "HRTC_NKIM_S"), "noKnownIssues mt-1") #>
-                        <#= "ul".TagConditional(modInfo.isCameraScript, "li".Tag(isCameraScriptMessage, localeId: "HRTC_ICSM_S"), "isCameraScript mt-1") #>
+                        <#= "ul".TagConditional(modInfo.anyIssues, "li".Tag(noKnownIssuesMessage, localeId: "HRTC_NKIM_S"), "noKnownIssues") #>
+                        <#= "ul".TagConditional(modInfo.isCameraScript, "li".Tag(isCameraScriptMessage, localeId: "HRTC_ICSM_S"), "isCameraScript") #>
                     </div><#
                 }
             }
@@ -365,39 +475,45 @@
     </section>
 
     <section>
-        <article id="processed">    
-            <h3 class="report-section__titleBar processed" data-i18n="HRT_P_PM">Processed mods</h3>
-        
-            <div class="line_processed" style="padding: 10px">
-                <table style="margin-top: 10px">
-                    <tr>
-                        <th data-i18n="HRT_P_MN">Mod Name</th>
-                        <th data-i18n="HRT_P_D">Disabled</th>
-                        <th data-i18n="HRT_P_S">Status</th>
-                        <th data-i18n="HRT_P_T">Type</th>
-                        <th data-i18n="HRT_P_U">Url</th>
-                    </tr>
+        <article id="processed">
+            <header>
+                <h3 class="report-section__titleBar processed" data-i18n="HRT_P_PM">Processed mods</h3>
+            </header>
+            <section class="line_processed">
+                <div class="report-section__content" style="overflow-x: auto">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="HRT_P_MN">Mod Name</th>
+                                <th data-i18n="HRT_P_D">Disabled</th>
+                                <th data-i18n="HRT_P_S">Status</th>
+                                <th data-i18n="HRT_P_T">Type</th>
+                                <th data-i18n="HRT_P_U">Url</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 <#
-                foreach (InstalledModInfo modInfo in AllModList())
-                {
+                    foreach (InstalledModInfo modInfo in AllModList())
+                    {
 #>
-                    <tr>
-                       <td><#= modInfo.subscriptionName #></td>
-                       <td class="font-bold center" <#= (!string.IsNullOrEmpty(modInfo.disabled) ? HtmlExtensions.T("HRTC_CM_ID") : "") #>><#= modInfo.disabled #></td>
-                       <td data-i18n="<#= modInfo.statusLocaleID #>"><#= modInfo.status #></td>
-                       <td data-i18n="<#= modInfo.typeLocaleID #>"><#= modInfo.type #></td>
-                       <td><#= OptionalUrlLink(modInfo.url, modInfo.isSteam) #></td>
-                    </tr>
+                            <tr>
+                            <td><#= modInfo.subscriptionName #></td>
+                            <td class="font-bold center" <#= (!string.IsNullOrEmpty(modInfo.disabled) ? HtmlExtensions.T("HRTC_CM_ID") : "") #>><#= modInfo.disabled #></td>
+                            <td data-i18n="<#= modInfo.statusLocaleID #>"><#= modInfo.status #></td>
+                            <td data-i18n="<#= modInfo.typeLocaleID #>"><#= modInfo.type #></td>
+                            <td><#= OptionalUrlLink(modInfo.url, modInfo.isSteam) #></td>
+                            </tr>
 <#
-                }
+                   }
 #>
-                </table>
-            </div>
+                        <tbody>
+                    </table>
+                </div>
+            </section>
         </article>
     </section>
 
     <footer>
-        <hr>
         <span data-i18n="HRT_F_RAT">Did this help? Do you miss anything? Leave a rating or comment at the Workshop page: https://steamcommunity.com/sharedfiles/filedetails/?id=2881031511</span>
     </footer>
 
