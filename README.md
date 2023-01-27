@@ -33,6 +33,7 @@ This mod is based on Compatibility Report by Finwickle and uses code from [Mod C
 
 Special thanks to:
 * **krzychu124** for doing the coding part that where needed to come to v2.
+* **mxdanger** for the redesign of the HTML report and providing a dark mode.
 * **Finwickle** for his great work on the first version of this mod and all the hours he also spent in testing mods! It's a honour for me to continue your work!
 * **Aubergine** for the awesome MCC mod.
 * **John Rambo**, for his contribution to the code.
