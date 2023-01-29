@@ -24,6 +24,8 @@ This mod is available on the [Steam Workshop](https://steamcommunity.com/sharedf
 ### Roadmap and future ideas
 The roadmap towards version 2.1 and the future ideas will be listed here:
 
+### Translation
+You can participate in translating this mod on ([crowdin](https://crowdin.com/project/compatibility-report)).
 
 ### Credits
 This mod is based on Compatibility Report by Finwickle and uses code from [Mod Compatibility Checker](https://github.com/CitiesSkylinesMods/AutoRepair) by aubergine. It also uses code snippets from:
