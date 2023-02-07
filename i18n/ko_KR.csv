@@ -93,7 +93,7 @@ HRT_RS_US,"MOD COULD OR SHOULD BE UNSUBSCRIBED:","구독 취소할 수 있거나
 HtmlReportTemplate.tt RenderSection unsubscribesingular",,
 HRT_S_CRC,"{name}, created on {date+time}","{name}, {date+time} 에 생성됨","HRT_S_CRC
 HtmlReportTemplate.tt section CompatibilityReportCreated",,
-HRT_S_MUA,"Mods updated after this date might have an outdated review below.","이 날짜 이후에 업데이트된 모드들은 다음과 같은 더 이상 유효하지 않은 리뷰가 있을 수 있습니다.","HRT_S_MUA
+HRT_S_MUA,"Mods updated after this date might have an outdated review below.","위 날짜 이후에 업데이트된 모드들은 아래에 오래되어 맞지 않는 리뷰가 있을 수 있습니다.","HRT_S_MUA
 HtmlReportTemplate.tt section Modsupdaterafter",,
 HRT_S_TMCC,"The mod catalog contains {ReviewedModCount} reviewed mods and was created on {Updated}.","이 모드 카탈로그는 {ReviewedModCount}개의 모드를 리뷰하였으며 {Updated}에 만들어졌습니다.","HRT_S_TMCC
 HtmlReportTemplate.tt section Themodcatalogcontains",,
@@ -139,7 +139,7 @@ HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","구독 취소하십시오! �
 HtmlReportTemplateCode.cs Instability GameBreaking",,
 HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","구독 취소하십시오! 이 모드는 현재 게임 버전에는 절대로 맞지 않습니다.","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
-HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","구독 취소하는 것이 좋습니다. 이 모드는 {StabilityNote} 와 같은 중대한 문제가 있습니다. 창작마당 페이지에서 자세한 것을 확인하십시오.","HRTC_I_MAI
+HRTC_I_MAI,"Unsubscribe would be wise. This has major issues: {StabilityNote}.","구독 취소하는 것이 좋습니다. 이 모드는 {StabilityNote} 와 같은 중대한 문제가 있습니다. 창작마당 페이지에서 자세한 것을 확인하십시오.","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
 HRTC_I_MAIC,"Check its Workshop page for details.","자세한 내용은 모드의 창작마당 페이지를 확인하십시오.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,

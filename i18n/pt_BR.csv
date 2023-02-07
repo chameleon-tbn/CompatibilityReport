@@ -139,7 +139,7 @@ HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","CANCELAR INSCRIÇÃO! Este m
 HtmlReportTemplateCode.cs Instability GameBreaking",,
 HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","CANCELAR INSCRIÇÃO! Este mod é totalmente incompatível com a versão atual do jogo.","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
-HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","Cancelar inscrição seria sábio. Isto possui grandes problemas {StabilityNote}.","HRTC_I_MAI
+HRTC_I_MAI,"Unsubscribe would be wise. This has major issues: {StabilityNote}.","Cancelar inscrição seria sábio. Isto possui grandes problemas {StabilityNote}.","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
 HRTC_I_MAIC,"Check its Workshop page for details.","Verifique sua Página de Oficina Steam para detalhes.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,

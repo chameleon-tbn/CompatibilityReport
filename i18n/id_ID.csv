@@ -139,7 +139,7 @@ HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","BERHENTI BERLANGGANAN! Mod i
 HtmlReportTemplateCode.cs Instability GameBreaking",,
 HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","BERHENTI BERLANGGANAN! Mod ini sama sekali tidak kompatibel dengan versi game saat ini.","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
-HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","Berhenti berlangganan akan bijaksana. Ini memiliki masalah besar {StabilityNote}.","HRTC_I_MAI
+HRTC_I_MAI,"Unsubscribe would be wise. This has major issues: {StabilityNote}.","Berhenti berlangganan akan bijaksana. Ini memiliki masalah besar {StabilityNote}.","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
 HRTC_I_MAIC,"Check its Workshop page for details.","Periksa halaman Workshop untuk detailnya.","HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,

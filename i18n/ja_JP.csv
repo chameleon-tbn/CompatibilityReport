@@ -139,7 +139,7 @@ HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.","サブスクを解除して�
 HtmlReportTemplateCode.cs Instability GameBreaking",,
 HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.","サブスクを解除して下さい！ このMODは現在のゲームバージョンと互換性がありません。","HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
-HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.","サブスクの解除を推奨します。これには大きな問題があります: {StabilityNote}","HRTC_I_MAI
+HRTC_I_MAI,"Unsubscribe would be wise. This has major issues: {StabilityNote}.","サブスクの解除を推奨します。これには大きな問題があります: {StabilityNote}","HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
 HRTC_I_MAIC,"Check its Workshop page for details.",詳細はワークショップのページを確認して下さい,"HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,

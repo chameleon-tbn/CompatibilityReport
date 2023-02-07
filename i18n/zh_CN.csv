@@ -139,7 +139,7 @@ HRTC_I_GB,"UNSUBSCRIBE! This mod breaks the game.",立刻取消订阅！这个�
 HtmlReportTemplateCode.cs Instability GameBreaking",,
 HRTC_I_IATW,"UNSUBSCRIBE! This mod is totally incompatible with the current game version.",立刻取消订阅！这个模组与当前的游戏版本不兼容。,"HRTC_I_IATW
 HtmlReportTemplateCode.cs Instability IncompatibleAccordingToWorkshop",,
-HRTC_I_MAI,"Unsubscribe would be wise. This has major issues {StabilityNote}.",建议取消订阅。这个模组有如下的重大问题：{StabilityNote}。请参考该模组的工坊页面以了解详细信息。,"HRTC_I_MAI
+HRTC_I_MAI,"Unsubscribe would be wise. This has major issues: {StabilityNote}.",建议取消订阅。这个模组有如下的重大问题：{StabilityNote}。请参考该模组的工坊页面以了解详细信息。,"HRTC_I_MAI
 HtmlReportTemplateCode.cs Instability MajorIssues",,
 HRTC_I_MAIC,"Check its Workshop page for details.",请参考其工坊页面以了解详细信息。,"HRTC_I_MAIC
 HtmlReportTemplateCode.cs Instability MajorIssuesCheck, MinorIssuesCheck and UsersReportIssuesCheck",,
