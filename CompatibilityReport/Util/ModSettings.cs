@@ -182,6 +182,8 @@ namespace CompatibilityReport.Util
         public const string SearchDescriptionRight = "</div>";
         public const string SearchDescriptionNextLine = "\t\t\t</div>";
         public const string SearchDescriptionNextSection = "<script>";
+        public const string SearchServerError = "<title id=\"title\">Error</title>";
+        public const string SearchSomethingWentWrongError = "<div id=\"headline\">Something Went Wrong</div>";
         public const string SearchSteamUrlFilter = "https://steamcommunity.com/linkfilter/?url=";
         public static readonly List<string> SearchSourceUrlSites = new List<string>                                      // All must end in a slash.
         { 
