@@ -206,7 +206,7 @@ HRTC_S_A,"This seems to be abandoned and the author seems retired. Future update
 HtmlReportTemplateCode.cs Statuses Abandoned",,
 HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.",这个模组的作者好像退坑了。未来继续更新的可能性很低。,"HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired",,
-HRTC_S_D,"This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.",此模组已经废弃，不再受模组制作者的支持，并且已有一个继任模组。因此最好取消订阅该模组，并改为订阅继任模组。,"HRTC_S_D
+HRTC_S_D,"This is deprecated and no longer supported by the author. If a successor/alternative is available, it would be wise to unsubscribe this mod and subscribe the successor/alternative instead.",该模组已废弃，作者已不再支持更新；如果有能继承/替代它的模组，那么最好取消订阅该模组，并改为订阅其继承/替代模组。,"HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated",,
 HRTC_S_MFM,"This is only needed for modders or asset creators. Regular users don't need this one. Such mods should not be activated if you're not in the Editor. It's even better to exclude such mods with Loading Order Tool or to unsubscribe from them if you want to play the normal game.","该模组仅适用于模组作者或资产作者，普通玩家并不需要它。当您不使用编辑器时，就应该禁用此类模组。如果您想运行存档，最好使用 Loading Order Tool 禁用此类模组，或者取消订阅。","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
@@ -352,6 +352,9 @@ HRTC_A_SDCP,"Mods without source codes, without comment section and with an uncl
 HtmlReportTemplateCode.cs NoSourceNoCommentNoDescription",,
 HRTC_A_SOB,"The author has deliberately hidden the mod code from other modders, which is somewhat suspicious. Without source code it is also harder to ensure a mod not include malicious code.",作者刻意不向其他开发者展示模组的代码，这一行为有点可疑。没有源代码，也就难以保证模组不包含恶意代码。,"HRTC_A_SOB
 HtmlReportTemplateCode.cs SourceObfuscated",,
+HRTC_S_TV,"This is a test version",这是一个测试版模组,"HtmlReportTemplateCode.cs Statuses TestVersion",,
+CAT_M_IGN,"The in-game name is",游戏内显示的名字是,"CAT_M_IGN
+Catalog.cs Modname IngameName",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",底部工具栏上可能会出现一个黑色条纹。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",标红的资产不一定意味着是损坏的。它只是非常精细，可能会造成较大的性能影响。,REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.","一个 3.0 测试版已在 GitHub 上发布，但从未在 Steam 创意工坊上发布。 作者写到，他不会再更新模组，因为他指责Paradox对DLC的政治干涉。",REPORT_NOTE_3,,
@@ -723,7 +726,11 @@ REPORT_NOTE_358,"Some UI elements from other mods have a fixed position and cant
 REPORT_NOTE_359,"Can cause performance issues (lag or fps drops).","可能导致性能问题 (延迟或 fps 下降)。",REPORT_NOTE_359,,
 REPORT_NOTE_360,"Broken Nodes Detector can't handle EML / Prop Anarchy Props. This means it is unable to ""Find Broken Props"" and if you try to use this function, an error message pops up. Afterwards a game restart is needed to use other Broken Nodes Detector Functions again.","当你使用 EML / Prop Anarchy 模组时，Broken Nodes Detector 无法处理摆件。这意味着，此时它的""Find Broken Props""功能无法使用，如果你尝试使用这个功能，会弹出一条错误信息，并且在此之后你需要重新启动游戏，才能使用 Broken Nodes Detector 的其他功能。",REPORT_NOTE_360,,
 REPORT_NOTE_361,"You must follow exactly the steps on the workshop page to use it.",您必须跟随创意工坊页面上的步骤才能使用。,REPORT_NOTE_361,,
-REPORT_NOTE_362,"Do not work on Airport DLC roads but still can be used on all other roads. Stops on Airport DLC roads must be setup manually budget-wise.",请勿在机场DLC道路上使用，但仍可在其他所有道路上使用。机场DLC道路上的站点必须根据手动设置。,REPORT_NOTE_362,,
+REPORT_NOTE_362,"DON'T USE THE GENERATED PROPS in mods like BOB, Pocedural Objects or Intersection Marking Tool. This can break your save!
+
+It's somehow logical and not an issue of these mods. Non Terrain Conforming Props as well as Tree &amp; Vehicle Props are generated at a specific point in the loading process (they are not stored!) This means using these assets in mods, will lead to the issue that they cant be loaded, simply because they are not created at the moment the networks and other things are loaded.","请勿在其他模组（如 BOB、Procedural Objects 或 Intersection Marking Tool）中使用此模组生成的摆件。这么做可能损坏你的存档！
+
+在某种程度上，这是合乎逻辑的，并且这不是这些模组的问题。在加载存档的过程中，Non Terrain Conforming Props 和 Tree &amp; Vehicle Props 会在指定的位置生成摆件（这些摆件并没有被保存在存档中！）这意味着在其他模组中使用这些资产，会出现无法加载摆件的错误，因为它们不是在加载 networks 和其他内容时生成的。",REPORT_NOTE_362,,
 REPORT_NOTE_363,"There is not much information about this mod, but there are reports that this conflicts with other mods. Use Service Vehicle Selector 2 instead.","没有多少关于这个模组的信息，但有报告说这与其他模组冲突。使用 Service Vehicle Selector 2 代替。",REPORT_NOTE_363,,
 REPORT_NOTE_364,"It takes some in-game time for the extra money to arrive.",额外资金的到账需要一些游戏时间。,REPORT_NOTE_364,,
 REPORT_NOTE_365,"Compatible with Advanced Building Level Control only when level Randomization is OFF.","仅当建筑级别随机化关闭时，才与 Advanced Building Level Control 兼容。",REPORT_NOTE_365,,
@@ -841,7 +848,7 @@ REPORT_NOTE_476,"Lights on pedestrian roads can't be exchanged.",人行道上的
 REPORT_NOTE_477,"In resolutions other than 16:9 aspect ratio, it moves to the top left corner, blocking the default Infoview button.",在非16:9宽高比的屏幕分辨率下，时钟会移动到左上角并阻止默认的InfoView按钮。,REPORT_NOTE_477,,
 REPORT_NOTE_478,"Images sometimes are only loaded if you restart the game and hotkeys also not work for all people.",有时只在您重启游戏时才加载图像，快捷键也时常不起作用。,REPORT_NOTE_478,,
 REPORT_NOTE_479,"Not working for all buildings, performance issues, errors messages.",不适用于所有建筑物，存在性能问题和错误信息。,REPORT_NOTE_479,,
-REPORT_NOTE_480,"Conflicts with Metro Overhaul Mod pillar selection.","与 Metro Overhaul Mod 的支柱选择相冲突。",REPORT_NOTE_480,,
+REPORT_NOTE_480,"You need to hide all default game panels in Hide It! options, otherwise the Vanilla info panel will overlap with the one from Extended InfoPanel 2.","您需要在 Hide It! 模组的选项中，隐藏所有原版游戏信息面板的元素，否则原版游戏的信息面板会与 Extended InfoPanel 2 模组的面板重叠。",REPORT_NOTE_480,,
 REPORT_NOTE_481,"This has some issues with spaces in names.",这个模组在名称中有一些空格问题。,REPORT_NOTE_481,,
 REPORT_NOTE_482,"Will break any DLC or base-game intercity transfer features newer than Snowfall DLC.","将破坏所有 Snowfall DLC 更新之后的城际交通功能。",REPORT_NOTE_482,,
 REPORT_NOTE_483,"Be aware that this mod is instable and crashes may occur in larger cities!",请注意，此模组不稳定且可能导致存档崩溃！,REPORT_NOTE_483,,

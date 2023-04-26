@@ -205,7 +205,7 @@ HRTC_S_A,"This seems to be abandoned and the author seems retired. Future update
 HtmlReportTemplateCode.cs Statuses Abandoned",,
 HRTC_S_AR,"The author seems to be retired. Future updates are unlikely.",作者は開発を引退したようです。今後の更新は期待出来ません。,"HRTC_S_AR
 HtmlReportTemplateCode.cs Statuses authorRetired",,
-HRTC_S_D,"This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.",非推奨MODで作者によるサポートは無く、新たな後継MODが利用可能です。このMODの使用を止めて、新たな後継MODをサブスクして使用することを推奨します。,"HRTC_S_D
+HRTC_S_D,"This is deprecated and no longer supported by the author. If a successor/alternative is available, it would be wise to unsubscribe this mod and subscribe the successor/alternative instead.",非推奨MODで作者によるサポートはありません。後継MODや代替MODがある場合は、サブスクを解除して移行することを推奨します。,"HRTC_S_D
 HtmlReportTemplateCode.cs Statuses Deprecated",,
 HRTC_S_MFM,"This is only needed for modders or asset creators. Regular users don't need this one. Such mods should not be activated if you're not in the Editor. It's even better to exclude such mods with Loading Order Tool or to unsubscribe from them if you want to play the normal game.","MOD開発者やアセットクリエイター向けで、一般のユーザーは必要ありません。このようなMODはエディタ以外では、基本的に有効化しない方が無難です。通常のゲームをプレイする場合は、Loading Order Toolで該当MODを除外したり、サブスクを無効化で無く解除した方が安全です。","HRTC_S_MFM
 HtmlReportTemplateCode.cs Statuses ModForModders",,
@@ -352,6 +352,9 @@ HRTC_A_SDCP,"Mods without source codes, without comment section and with an uncl
 HtmlReportTemplateCode.cs NoSourceNoCommentNoDescription",,
 HRTC_A_SOB,"The author has deliberately hidden the mod code from other modders, which is somewhat suspicious. Without source code it is also harder to ensure a mod not include malicious code.",作者は意図的にMODのコードを隠していて、この行為自体が不信感を抱きます。ソースコードが不明だと、悪意のあるコードが含まれていないことを確認することも難しくなります。,"HRTC_A_SOB
 HtmlReportTemplateCode.cs SourceObfuscated",,
+HRTC_S_TV,"This is a test version",これはテストバージョンです。,"HtmlReportTemplateCode.cs Statuses TestVersion",,
+CAT_M_IGN,"The in-game name is",ゲーム内の名前:,"CAT_M_IGN
+Catalog.cs Modname IngameName",,
 REPORT_NOTE_1,"A black bar might appear above the bottom toolbar.",下部のツールバーの上側に、「黒いバーが表示」される場合があります。,REPORT_NOTE_1,,
 REPORT_NOTE_2,"A red colored weight doesn't necessarily mean that the asset is bad. Just that it's very detailed and might impact performance more.",赤色のウェイト表示は、「必ずしもそのアセットが悪い/問題がある」という意味ではありません。ただし、非常に詳細なディテールの場合は、「パフォーマンスに影響を与える」可能性があります。,REPORT_NOTE_2,,
 REPORT_NOTE_3,"A version 3.0 beta has been released on GitHub but was never released on the Steam Workshop. The author wrote he’ll not update the mod any more as he blame Paradox for their DLC politics.",バージョン3.0のベータ版がGitHubで公開されましたが、「Steamのワークショップでは公開」されませんでした。MOD作者はParadox社のDLC商法を非難し、これ以上のMODを更新しないと記述しています。,REPORT_NOTE_3,,
@@ -738,7 +741,11 @@ REPORT_NOTE_358,"Some UI elements from other mods have a fixed position and cant
 REPORT_NOTE_359,"Can cause performance issues (lag or fps drops).",パフォーマンスの問題を引き起こす可能性があります。(モタつき/ラグ/fps低下),REPORT_NOTE_359,,
 REPORT_NOTE_360,"Broken Nodes Detector can't handle EML / Prop Anarchy Props. This means it is unable to ""Find Broken Props"" and if you try to use this function, an error message pops up. Afterwards a game restart is needed to use other Broken Nodes Detector Functions again.","Broken Nodes Detectorは、EML / Prop AnarchyのPropを処理出来ません。「Find Broken Props」機能が正しく動作せず、使用するとエラーメッセージが表示されます。エラー後はBroken Nodes Detectorを継続して使用するには、ゲームの再起動が必要になります。",REPORT_NOTE_360,,
 REPORT_NOTE_361,"You must follow exactly the steps on the workshop page to use it.",使用するにはワークショップのページ内に記述されている、手順を正確に実行する必要があります。,REPORT_NOTE_361,,
-REPORT_NOTE_362,"Do not work on Airport DLC roads but still can be used on all other roads. Stops on Airport DLC roads must be setup manually budget-wise.","DLC Airportsの空港道路では使用できませんが、それ以外の道路では使用可能です。空港道路にあるバス停は、路線設定ごとに予算を手動で設定する必要があります。",REPORT_NOTE_362,,
+REPORT_NOTE_362,"DON'T USE THE GENERATED PROPS in mods like BOB, Pocedural Objects or Intersection Marking Tool. This can break your save!
+
+It's somehow logical and not an issue of these mods. Non Terrain Conforming Props as well as Tree &amp; Vehicle Props are generated at a specific point in the loading process (they are not stored!) This means using these assets in mods, will lead to the issue that they cant be loaded, simply because they are not created at the moment the networks and other things are loaded.","BOB / Pocedural Objects / Intersection Marking ToolなどのMODで、生成したPropを使用しないで下さい！ 使用するとセーブデータが壊れる可能性があります！
+
+MODの問題では無く仕様で、 Non Terrain Conforming PropsとTree &amp; Vehicle Propsはロード中の特定の時点で生成されます。 (セーブデータに保存されません) そのため、これらの変換したアセットをMODで使用すると、ロード出来ない問題が発生します。 単純にネットワークや他のPropなどがロード中の段階では生成されていません。",REPORT_NOTE_362,,
 REPORT_NOTE_363,"There is not much information about this mod, but there are reports that this conflicts with other mods. Use Service Vehicle Selector 2 instead.","このMODに関する情報は少ないですが、他のMODと競合するという報告があります。代わりにService Vehicle Selector 2を使用して下さい。",REPORT_NOTE_363,,
 REPORT_NOTE_364,"It takes some in-game time for the extra money to arrive.",追加の資金が充当するには、「ゲーム内で少し時間」が掛かります。,REPORT_NOTE_364,,
 REPORT_NOTE_365,"Compatible with Advanced Building Level Control only when level Randomization is OFF.","レベルのランダム化が無効の場合は、「Advanced Building Level Controlと互換性」があります。",REPORT_NOTE_365,,
@@ -859,7 +866,7 @@ REPORT_NOTE_476,"Lights on pedestrian roads can't be exchanged.",歩行者専用
 REPORT_NOTE_477,"In resolutions other than 16:9 aspect ratio, it moves to the top left corner, blocking the default Infoview button.",画面のアスペクト比が16:9以外の解像度では、左上に移動して「デフォルトのインフォビューボタン」を隠します。,REPORT_NOTE_477,,
 REPORT_NOTE_478,"Images sometimes are only loaded if you restart the game and hotkeys also not work for all people.",ゲームを再起動しないと画像がロードされない、ホットキーもユーザーによっては機能しない場合があります。,REPORT_NOTE_478,,
 REPORT_NOTE_479,"Not working for all buildings, performance issues, errors messages.",全ての建物で動作せず、パフォーマンスの問題やエラーメッセージが表示されます。,REPORT_NOTE_479,,
-REPORT_NOTE_480,"Conflicts with Metro Overhaul Mod pillar selection.","Metro Overhaul Modの橋脚の選択機能と競合しています。",REPORT_NOTE_480,,
+REPORT_NOTE_480,"You need to hide all default game panels in Hide It! options, otherwise the Vanilla info panel will overlap with the one from Extended InfoPanel 2.","Hide It! のオプションで、デフォルトのゲームパネルを全て非表示にして下さい。そうしないと、バニラの情報パネルとExtended InfoPanel 2のUIが重なります。",REPORT_NOTE_480,,
 REPORT_NOTE_481,"This has some issues with spaces in names.",名前にスペースが入るという、いくつかの問題があります。,REPORT_NOTE_481,,
 REPORT_NOTE_482,"Will break any DLC or base-game intercity transfer features newer than Snowfall DLC.","DLC Snowfall以降の新しいDLCやゲーム本体の外部接続に関わる処理が壊れます。",REPORT_NOTE_482,,
 REPORT_NOTE_483,"Be aware that this mod is instable and crashes may occur in larger cities!",このMODは不安定で、大都市ではクラッシュが発生する可能性があるので注意して下さい！,REPORT_NOTE_483,,
