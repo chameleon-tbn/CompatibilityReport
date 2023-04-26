@@ -362,7 +362,7 @@ namespace CompatibilityReport.Reporter.HtmlTemplates
             else if (subscribedMod.Statuses.Contains(Enums.Status.Deprecated))
             {
                 subscribedMod.IncreaseReportSeverity(Enums.ReportSeverity.MajorIssues);
-                nestedItem.title = "This is deprecated, no longer supported by the author and a successor is available. Therefore it would be wise to unsubscribe this mod and subscribe the successor instead.";
+                nestedItem.title = "This is deprecated and no longer supported by the author. If a successor/alternative is available, it would be wise to unsubscribe this mod and subscribe the successor/alternative instead.";
                 nestedItem.titleLocaleId = "HRTC_S_D";
             }
             else if (subscribedMod.Statuses.Contains(Enums.Status.Abandoned))
