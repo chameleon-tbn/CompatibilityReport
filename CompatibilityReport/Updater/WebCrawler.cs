@@ -397,6 +397,7 @@ namespace CompatibilityReport.Updater
             while (lineIndex++ < lines.Length)
             {
                 line = lines[lineIndex];
+                
                 if (!steamIDmatched)
                 {
                     steamIDmatched = line.Contains($"{ ModSettings.SearchSteamID }{catalogMod.SteamID}");
@@ -429,6 +430,14 @@ namespace CompatibilityReport.Updater
 
                     // Keep reading lines until we find the Steam ID.
                     continue;
+                }
+                
+                if (line.Contains(ModSettings.SearchServerError) || line.Contains(ModSettings.SearchSomethingWentWrongError))
+                {
+                    File.WriteAllText(Path.Combine(ModSettings.UpdaterPath, $"{ catalogMod.SteamID } - communication error.html"), pageText);
+                
+                    Logger.UpdaterLog($"Server communication problem while accessing mod page { catalogMod.ToString() }. Downloaded page saved.", Logger.Warning);
+                    return false;
                 }
 
                 // Author Steam ID, Custom URL and author name.
