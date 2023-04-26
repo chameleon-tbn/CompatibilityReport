@@ -1,5 +1,10 @@
 # Compatibility Report
 
+### Version 2.3.3
+* Fixed a webcraler bug (thanks krzychu!)
+* Updated Translations
+* Updated Catalog
+
 ### Version 2.3.2
 * Redesign of the Compatibility Report for better useability and adding a dark mode (Thanks to mxdanger for this great work!).
 * Updated Translations
