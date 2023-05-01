@@ -364,6 +364,7 @@ namespace CompatibilityReport.Updater
                     
                     if (!ReadModPageText(catalog, catalogMod, statusWithText.Value))
                     {
+                        failedDownloads++;
                         monitor.PushMessage($"<color #ff0000>Mod info not updated for { catalogMod.ToString() }.</color>");
                         Logger.UpdaterLog($"Mod info not updated for { catalogMod.ToString() }.", Logger.Error);
                     }
@@ -388,287 +389,293 @@ namespace CompatibilityReport.Updater
         /// <returns>True if successful, false if there was an error with the mod page.</returns>
         public static bool ReadModPageText(Catalog catalog, Mod catalogMod, string pageText)
         {
-            List<Enums.Dlc> RequiredDlcsToRemove = new List<Enums.Dlc>(catalogMod.RequiredDlcs);
-            bool steamIDmatched = false;
-            string line;
-            int lineIndex = 0;
-            string[] lines = pageText.Split('\n');
-            
-            while (lineIndex++ < lines.Length)
+            try
             {
-                line = lines[lineIndex];
-                
-                if (!steamIDmatched)
+                List<Enums.Dlc> RequiredDlcsToRemove = new List<Enums.Dlc>(catalogMod.RequiredDlcs);
+                bool steamIDmatched = false;
+                string line;
+                int lineIndex = 0;
+                string[] lines = pageText.Split('\n');
+
+                while (lineIndex++ < lines.Length)
                 {
-                    steamIDmatched = line.Contains($"{ ModSettings.SearchSteamID }{catalogMod.SteamID}");
+                    line = lines[lineIndex];
 
-                    if (steamIDmatched)
+                    if (!steamIDmatched)
                     {
-                        CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop);
+                        steamIDmatched = line.Contains($"{ModSettings.SearchSteamID}{catalogMod.SteamID}");
 
-                        if (!catalogMod.UpdatedThisSession)
+                        if (steamIDmatched)
                         {
-                            // Set the unlisted status. Also update the auto review date, which is already done for all listed mods.
-                            CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop);
-                            CatalogUpdater.UpdateMod(catalog, catalogMod);
+                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop);
+
+                            if (!catalogMod.UpdatedThisSession)
+                            {
+                                // Set the unlisted status. Also update the auto review date, which is already done for all listed mods.
+                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.UnlistedInWorkshop);
+                                CatalogUpdater.UpdateMod(catalog, catalogMod);
+                            }
+                        }
+
+                        else if (line.Contains(ModSettings.SearchItemNotFound))
+                        {
+                            if (catalogMod.UpdatedThisSession)
+                            {
+                                Logger.UpdaterLog($"We found this mod, but can't read the Steam page for {catalogMod.ToString()}.", Logger.Warning);
+                                return false;
+                            }
+                            else
+                            {
+                                CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop);
+                                return true;
+                            }
+                        }
+
+                        // Keep reading lines until we find the Steam ID.
+                        continue;
+                    }
+
+                    if (line.Contains(ModSettings.SearchServerError) || line.Contains(ModSettings.SearchSomethingWentWrongError))
+                    {
+                        File.WriteAllText(Path.Combine(ModSettings.UpdaterPath, $"{catalogMod.SteamID} - communication error.html"), pageText);
+
+                        Logger.UpdaterLog($"Server communication problem while accessing mod page {catalogMod.ToString()}. Downloaded page saved.", Logger.Warning);
+                        return false;
+                    }
+
+                    // Author Steam ID, Custom URL and author name.
+                    if (line.Contains(ModSettings.SearchAuthorLeft))
+                    {
+                        // Only get the author URL if the author ID was not found, to prevent updating the author URL to an empty string.
+                        ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, $"{ModSettings.SearchAuthorLeft}profiles/", ModSettings.SearchAuthorMid));
+                        string authorUrl = authorID != 0 ? null : Toolkit.MidString(line, $"{ModSettings.SearchAuthorLeft}id/", ModSettings.SearchAuthorMid);
+
+                        // Author name needs to be cleaned twice because of how it is presented in the HTML source.
+                        string authorName = Toolkit.CleanHtml(Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight)));
+
+                        // Try to get the author with ID/URL from the mod, to prevent creating a new author on an ID/URL change or when Steam gives ID instead of URL.
+                        // On a new mod that fails, so try the newly found ID/URL. If it still fails we have an unknown author, so create a new author.
+                        // Todo 1.x This is not foolproof and we can still accidentally create a new author on new mods. Requires Steam API for better reliability.
+                        Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
+                            CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
+
+                        if (authorName == "")
+                        {
+                            if (string.IsNullOrEmpty(catalogAuthor.Name))
+                            {
+                                Logger.UpdaterLog($"Author found without a name: {catalogAuthor.ToString()}.", Logger.Error);
+                            }
+
+                            // Don't update the name to an empty string.
+                            authorName = null;
+                        }
+                        else if (authorName == authorID.ToString() && authorID != 0 && (authorName != catalogAuthor.Name || catalogAuthor.AddedThisSession) &&
+                            !catalog.SuppressedWarnings.Contains(authorID))
+                        {
+                            // An author name equal to the author ID is a common Steam error, although some authors really have their ID as name (ofcourse they do).
+                            if (string.IsNullOrEmpty(catalogAuthor.Name) || catalogAuthor.AddedThisSession)
+                            {
+                                Logger.UpdaterLog($"Author found with Steam ID as name: {authorName}. Some authors do this, but it could be a Steam error.",
+                                    Logger.Warning);
+                            }
+                            else
+                            {
+                                Logger.UpdaterLog($"Author found with Steam ID as name: {authorName}. Old name still used: {catalogAuthor.Name}.");
+                            }
+
+                            // Don't update the name if we already know a name.
+                            authorName = string.IsNullOrEmpty(catalogAuthor.Name) ? authorName : null;
+                        }
+
+                        // Update the author. All mods from the author will be updated, including this one if it already existed in the catalog.
+                        CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName, updatedByImporter: false);
+
+                        // Still need to update the mod if this is a new mod.
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);
+                    }
+
+                    // Mod name.
+                    else if (line.Contains(ModSettings.SearchModNameLeft))
+                    {
+                        string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchModNameLeft, ModSettings.SearchModNameRight));
+
+                        if (string.IsNullOrEmpty(modName) && !catalog.SuppressedWarnings.Contains(catalogMod.SteamID))
+                        {
+                            // An empty mod name might be an error, although there is a Steam Workshop mod without a name (ofcourse there is).
+                            Logger.UpdaterLog($"Mod name not found for {catalogMod.SteamID}. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
+                        }
+
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, modName);
+                    }
+
+                    // Compatible game version tag
+                    else if (line.Contains(ModSettings.SearchVersionTag))
+                    {
+                        // Convert the found tag to a game version and back to a formatted game version string, so we have a consistently formatted string.
+                        string gameVersionString = Toolkit.MidString(line, ModSettings.SearchVersionTagLeft, ModSettings.SearchVersionTagRight);
+                        Version gameVersion = Toolkit.ConvertToVersion(gameVersionString);
+                        gameVersionString = Toolkit.ConvertGameVersionToString(gameVersion);
+
+                        if (!catalogMod.ExclusionForGameVersion || gameVersion >= catalogMod.GameVersion())
+                        {
+                            CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: gameVersionString);
+                            catalogMod.UpdateExclusions(exclusionForGameVersion: false);
                         }
                     }
 
-                    else if (line.Contains(ModSettings.SearchItemNotFound))
+                    // Publish and update dates.
+                    else if (line.Contains(ModSettings.SearchDates))
                     {
-                        if (catalogMod.UpdatedThisSession)
+                        lineIndex += 2;
+                        line = lines[lineIndex];
+                        // line = reader.ReadLine();
+                        // line = reader.ReadLine();
+                        DateTime published = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.SearchDatesLeft, ModSettings.SearchDatesRight));
+
+                        line = lines[++lineIndex];
+                        // line = reader.ReadLine();
+                        DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.SearchDatesLeft, ModSettings.SearchDatesRight));
+
+                        CatalogUpdater.UpdateMod(catalog, catalogMod, published: published, updated: updated);
+                    }
+
+                    // Required DLC. This line can be found multiple times.
+                    else if (line.Contains(ModSettings.SearchRequiredDlc))
+                    {
+                        line = lines[++lineIndex];
+                        // line = reader.ReadLine();
+                        Enums.Dlc dlc = Toolkit.ConvertToEnum<Enums.Dlc>(Toolkit.MidString(line, ModSettings.SearchRequiredDlcLeft, ModSettings.SearchRequiredDlcRight));
+
+                        if (dlc != default)
                         {
-                            Logger.UpdaterLog($"We found this mod, but can't read the Steam page for { catalogMod.ToString() }.", Logger.Warning);
-                            return false;
+                            if (catalogMod.ExclusionForRequiredDlcs.Contains(dlc) && catalogMod.RequiredDlcs.Contains(dlc))
+                            {
+                                // This required DLC was manually added (thus the exclusion), but was now found on the Steam page. The exclusion is no longer needed.
+                                catalogMod.RemoveExclusion(dlc);
+                            }
+
+                            // If an exclusion exists at this point, then it's about a required DLC that was manually removed. Don't add it again.
+                            if (!catalogMod.ExclusionForRequiredDlcs.Contains(dlc))
+                            {
+                                CatalogUpdater.AddRequiredDlc(catalog, catalogMod, dlc);
+                                RequiredDlcsToRemove.Remove(dlc);
+                            }
+                        }
+                    }
+
+                    // Required mods and assets. The search string is a container with all required items on the next lines.
+                    else if (line.Contains(ModSettings.SearchRequiredMod))
+                    {
+                        List<ulong> RequiredModsToRemove = new List<ulong>(catalogMod.RequiredMods);
+
+                        // Get all required items from the next lines, until we find no more. Max. 50 times to avoid an infinite loop.
+                        for (var i = 1; i <= 50; i++)
+                        {
+                            line = lines[++lineIndex];
+                            // line = reader.ReadLine();
+                            ulong requiredID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.SearchRequiredModLeft, ModSettings.SearchRequiredModRight));
+
+                            if (requiredID == 0)
+                            {
+                                break;
+                            }
+
+                            if (catalogMod.ExclusionForRequiredMods.Contains(requiredID) && catalogMod.RequiredMods.Contains(requiredID))
+                            {
+                                // This required mod was manually added (thus the exclusion), but was now found on the Steam page. The exclusion is no longer needed.
+                                catalogMod.RemoveExclusion(requiredID);
+                            }
+
+                            // If an exclusion exists at this point, then it's about a required mod that was manually removed. Don't add it again.
+                            if (!catalogMod.ExclusionForRequiredMods.Contains(requiredID))
+                            {
+                                CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByImporter: false);
+                                RequiredModsToRemove.Remove(requiredID);
+                            }
+                            lineIndex += 3;
+                            line = lines[lineIndex];
+
+                            // line = reader.ReadLine();
+                            // line = reader.ReadLine();
+                            // line = reader.ReadLine();
+                        }
+
+                        foreach (ulong oldRequiredID in RequiredModsToRemove)
+                        {
+                            if (!catalogMod.ExclusionForRequiredMods.Contains(oldRequiredID))
+                            {
+                                CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID, updatedByImporter: false);
+                            }
+                        }
+                    }
+
+                    // Description for 'no description' status and for source URL.
+                    else if (line.Contains(ModSettings.SearchDescription))
+                    {
+                        line = lines[lineIndex];
+                        // We can't search for the right part, because it might exist inside the description.
+                        StringBuilder descriptionSB = new StringBuilder(Toolkit.MidString($"{line}\n", ModSettings.SearchDescriptionLeft, "\n"));
+
+                        // Usually, the complete description is on one line. However, it might be split when using certain bbcode. Combine up to 30 lines.
+                        for (var i = 1; i <= 30; i++)
+                        {
+                            line = lines[++lineIndex];
+                            // line = reader.ReadLine();
+
+                            // Break out of the for loop when a line is found that marks the end of the description.
+                            if (line == ModSettings.SearchDescriptionNextLine || line == ModSettings.SearchDescriptionNextSection)
+                            {
+                                break;
+                            }
+
+                            descriptionSB.Append(line);
+                        }
+
+                        // A 'no description' status is when the description is not at least a few characters longer than the mod name.
+                        int noDescriptionThreshold = catalogMod.Name.Length + 3 + ModSettings.SearchDescriptionRight.Length;
+
+                        if ((descriptionSB.Length <= noDescriptionThreshold) && !catalogMod.ExclusionForNoDescription)
+                        {
+                            CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.NoDescription);
                         }
                         else
                         {
-                            CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.RemovedFromWorkshop);
-                            return true;
-                        }
-                    }
+                            if ((descriptionSB.Length > noDescriptionThreshold) && !catalogMod.ExclusionForNoDescription)
+                            {
+                                CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription);
+                            }
 
-                    // Keep reading lines until we find the Steam ID.
-                    continue;
+                            // Try to find the source URL, unless an exception exists.
+                            if (!catalogMod.ExclusionForSourceUrl)
+                            {
+                                CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(descriptionSB.ToString(), catalogMod));
+                            }
+                        }
+
+                        // Description is the last info we need from the page, so break out of the while loop.
+                        break;
+                    }
                 }
-                
-                if (line.Contains(ModSettings.SearchServerError) || line.Contains(ModSettings.SearchSomethingWentWrongError))
+
+                if (!steamIDmatched && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
                 {
-                    File.WriteAllText(Path.Combine(ModSettings.UpdaterPath, $"{ catalogMod.SteamID } - communication error.html"), pageText);
-                
-                    Logger.UpdaterLog($"Server communication problem while accessing mod page { catalogMod.ToString() }. Downloaded page saved.", Logger.Warning);
+                    // We didn't find a Steam ID on the page, but no error page either. Must be a download issue or another Steam error.
+                    File.WriteAllText(Path.Combine(ModSettings.UpdaterPath, $"{catalogMod.SteamID} - error.html"), pageText);
+
+                    Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for {catalogMod.ToString()}. Downloaded page saved.", Logger.Warning);
                     return false;
                 }
 
-                // Author Steam ID, Custom URL and author name.
-                if (line.Contains(ModSettings.SearchAuthorLeft))
+                foreach (Enums.Dlc oldRequiredDlc in RequiredDlcsToRemove)
                 {
-                    // Only get the author URL if the author ID was not found, to prevent updating the author URL to an empty string.
-                    ulong authorID = Toolkit.ConvertToUlong(Toolkit.MidString(line, $"{ ModSettings.SearchAuthorLeft }profiles/", ModSettings.SearchAuthorMid));
-                    string authorUrl = authorID != 0 ? null : Toolkit.MidString(line, $"{ ModSettings.SearchAuthorLeft }id/", ModSettings.SearchAuthorMid);
-
-                    // Author name needs to be cleaned twice because of how it is presented in the HTML source.
-                    string authorName = Toolkit.CleanHtml(Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchAuthorMid, ModSettings.SearchAuthorRight)));
-
-                    // Try to get the author with ID/URL from the mod, to prevent creating a new author on an ID/URL change or when Steam gives ID instead of URL.
-                    // On a new mod that fails, so try the newly found ID/URL. If it still fails we have an unknown author, so create a new author.
-                    // Todo 1.x This is not foolproof and we can still accidentally create a new author on new mods. Requires Steam API for better reliability.
-                    Author catalogAuthor = catalog.GetAuthor(catalogMod.AuthorID, catalogMod.AuthorUrl) ?? catalog.GetAuthor(authorID, authorUrl) ??
-                        CatalogUpdater.AddAuthor(catalog, authorID, authorUrl, authorName);
-
-                    if (authorName == "")
-                    {
-                        if (string.IsNullOrEmpty(catalogAuthor.Name))
-                        {
-                            Logger.UpdaterLog($"Author found without a name: { catalogAuthor.ToString() }.", Logger.Error);
-                        }
-
-                        // Don't update the name to an empty string.
-                        authorName = null;
-                    }
-                    else if (authorName == authorID.ToString() && authorID != 0 && (authorName != catalogAuthor.Name || catalogAuthor.AddedThisSession) &&
-                        !catalog.SuppressedWarnings.Contains(authorID))
-                    {
-                        // An author name equal to the author ID is a common Steam error, although some authors really have their ID as name (ofcourse they do).
-                        if (string.IsNullOrEmpty(catalogAuthor.Name) || catalogAuthor.AddedThisSession)
-                        {
-                            Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. Some authors do this, but it could be a Steam error.", 
-                                Logger.Warning);
-                        }
-                        else
-                        {
-                            Logger.UpdaterLog($"Author found with Steam ID as name: { authorName }. Old name still used: { catalogAuthor.Name }.");
-                        }
-
-                        // Don't update the name if we already know a name.
-                        authorName = string.IsNullOrEmpty(catalogAuthor.Name) ? authorName : null;
-                    }
-
-                    // Update the author. All mods from the author will be updated, including this one if it already existed in the catalog.
-                    CatalogUpdater.UpdateAuthor(catalog, catalogAuthor, authorID, authorUrl, authorName, updatedByImporter: false);
-
-                    // Still need to update the mod if this is a new mod.
-                    CatalogUpdater.UpdateMod(catalog, catalogMod, authorID: catalogAuthor.SteamID, authorUrl: catalogAuthor.CustomUrl);
+                    CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, oldRequiredDlc);
                 }
 
-                // Mod name.
-                else if (line.Contains(ModSettings.SearchModNameLeft))
-                {
-                    string modName = Toolkit.CleanHtml(Toolkit.MidString(line, ModSettings.SearchModNameLeft, ModSettings.SearchModNameRight));
-
-                    if (string.IsNullOrEmpty(modName) && !catalog.SuppressedWarnings.Contains(catalogMod.SteamID))
-                    {
-                        // An empty mod name might be an error, although there is a Steam Workshop mod without a name (ofcourse there is).
-                        Logger.UpdaterLog($"Mod name not found for { catalogMod.SteamID }. This could be an actual unnamed mod, or a Steam error.", Logger.Warning);
-                    }
-
-                    CatalogUpdater.UpdateMod(catalog, catalogMod, modName);
-                }
-
-                // Compatible game version tag
-                else if (line.Contains(ModSettings.SearchVersionTag))
-                {
-                    // Convert the found tag to a game version and back to a formatted game version string, so we have a consistently formatted string.
-                    string gameVersionString = Toolkit.MidString(line, ModSettings.SearchVersionTagLeft, ModSettings.SearchVersionTagRight);
-                    Version gameVersion = Toolkit.ConvertToVersion(gameVersionString);
-                    gameVersionString = Toolkit.ConvertGameVersionToString(gameVersion);
-
-                    if (!catalogMod.ExclusionForGameVersion || gameVersion >= catalogMod.GameVersion())
-                    {
-                        CatalogUpdater.UpdateMod(catalog, catalogMod, gameVersionString: gameVersionString);
-                        catalogMod.UpdateExclusions(exclusionForGameVersion: false);
-                    }
-                }
-
-                // Publish and update dates.
-                else if (line.Contains(ModSettings.SearchDates))
-                {
-                    lineIndex += 2;
-                    line = lines[lineIndex];
-                    // line = reader.ReadLine();
-                    // line = reader.ReadLine();
-                    DateTime published = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.SearchDatesLeft, ModSettings.SearchDatesRight));
-                    
-                    line = lines[++lineIndex];
-                    // line = reader.ReadLine();
-                    DateTime updated = Toolkit.ConvertWorkshopDateTime(Toolkit.MidString(line, ModSettings.SearchDatesLeft, ModSettings.SearchDatesRight));
-
-                    CatalogUpdater.UpdateMod(catalog, catalogMod, published: published, updated: updated);
-                }
-
-                // Required DLC. This line can be found multiple times.
-                else if (line.Contains(ModSettings.SearchRequiredDlc))
-                {
-                    line = lines[++lineIndex];
-                    // line = reader.ReadLine();
-                    Enums.Dlc dlc = Toolkit.ConvertToEnum<Enums.Dlc>(Toolkit.MidString(line, ModSettings.SearchRequiredDlcLeft, ModSettings.SearchRequiredDlcRight));
-
-                    if (dlc != default)
-                    {
-                        if (catalogMod.ExclusionForRequiredDlcs.Contains(dlc) && catalogMod.RequiredDlcs.Contains(dlc))
-                        {
-                            // This required DLC was manually added (thus the exclusion), but was now found on the Steam page. The exclusion is no longer needed.
-                            catalogMod.RemoveExclusion(dlc);
-                        }
-
-                        // If an exclusion exists at this point, then it's about a required DLC that was manually removed. Don't add it again.
-                        if (!catalogMod.ExclusionForRequiredDlcs.Contains(dlc))
-                        {
-                            CatalogUpdater.AddRequiredDlc(catalog, catalogMod, dlc);
-                            RequiredDlcsToRemove.Remove(dlc);
-                        }
-                    }
-                }
-
-                // Required mods and assets. The search string is a container with all required items on the next lines.
-                else if (line.Contains(ModSettings.SearchRequiredMod))
-                {
-                    List<ulong> RequiredModsToRemove = new List<ulong>(catalogMod.RequiredMods);
-
-                    // Get all required items from the next lines, until we find no more. Max. 50 times to avoid an infinite loop.
-                    for (var i = 1; i <= 50; i++)
-                    {
-                        line = lines[++lineIndex];
-                        // line = reader.ReadLine();
-                        ulong requiredID = Toolkit.ConvertToUlong(Toolkit.MidString(line, ModSettings.SearchRequiredModLeft, ModSettings.SearchRequiredModRight));
-
-                        if (requiredID == 0)
-                        {
-                            break;
-                        }
-
-                        if (catalogMod.ExclusionForRequiredMods.Contains(requiredID) && catalogMod.RequiredMods.Contains(requiredID))
-                        {
-                            // This required mod was manually added (thus the exclusion), but was now found on the Steam page. The exclusion is no longer needed.
-                            catalogMod.RemoveExclusion(requiredID);
-                        }
-
-                        // If an exclusion exists at this point, then it's about a required mod that was manually removed. Don't add it again.
-                        if (!catalogMod.ExclusionForRequiredMods.Contains(requiredID))
-                        {
-                            CatalogUpdater.AddRequiredMod(catalog, catalogMod, requiredID, updatedByImporter: false);
-                            RequiredModsToRemove.Remove(requiredID);
-                        }
-                        lineIndex += 3;
-                        line = lines[lineIndex];
-
-                        // line = reader.ReadLine();
-                        // line = reader.ReadLine();
-                        // line = reader.ReadLine();
-                    }
-
-                    foreach (ulong oldRequiredID in RequiredModsToRemove)
-                    {
-                        if (!catalogMod.ExclusionForRequiredMods.Contains(oldRequiredID))
-                        {
-                            CatalogUpdater.RemoveRequiredMod(catalog, catalogMod, oldRequiredID, updatedByImporter: false);
-                        }
-                    }
-                }
-
-                // Description for 'no description' status and for source URL.
-                else if (line.Contains(ModSettings.SearchDescription))
-                {
-                    line = lines[lineIndex];
-                    // We can't search for the right part, because it might exist inside the description.
-                    StringBuilder descriptionSB = new StringBuilder(Toolkit.MidString($"{ line }\n", ModSettings.SearchDescriptionLeft, "\n"));
-
-                    // Usually, the complete description is on one line. However, it might be split when using certain bbcode. Combine up to 30 lines.
-                    for (var i = 1; i <= 30; i++)
-                    {
-                        line = lines[++lineIndex];
-                        // line = reader.ReadLine();
-
-                        // Break out of the for loop when a line is found that marks the end of the description.
-                        if (line == ModSettings.SearchDescriptionNextLine || line == ModSettings.SearchDescriptionNextSection)
-                        {
-                            break;
-                        }
-
-                        descriptionSB.Append(line);
-                    }
-
-                    // A 'no description' status is when the description is not at least a few characters longer than the mod name.
-                    int noDescriptionThreshold = catalogMod.Name.Length + 3 + ModSettings.SearchDescriptionRight.Length;
-
-                    if ((descriptionSB.Length <= noDescriptionThreshold) && !catalogMod.ExclusionForNoDescription)
-                    {
-                        CatalogUpdater.AddStatus(catalog, catalogMod, Enums.Status.NoDescription);
-                    }
-                    else
-                    {
-                        if ((descriptionSB.Length > noDescriptionThreshold) && !catalogMod.ExclusionForNoDescription)
-                        {
-                            CatalogUpdater.RemoveStatus(catalog, catalogMod, Enums.Status.NoDescription);
-                        }
-
-                        // Try to find the source URL, unless an exception exists.
-                        if (!catalogMod.ExclusionForSourceUrl)
-                        {
-                            CatalogUpdater.UpdateMod(catalog, catalogMod, sourceUrl: GetSourceUrl(descriptionSB.ToString(), catalogMod));
-                        }
-                    }
-
-                    // Description is the last info we need from the page, so break out of the while loop.
-                    break;
-                }
+                return true;
             }
+            catch (Exception ex) { Logger.Exception(ex); }
 
-            if (!steamIDmatched && !catalogMod.Statuses.Contains(Enums.Status.RemovedFromWorkshop))
-            {
-                // We didn't find a Steam ID on the page, but no error page either. Must be a download issue or another Steam error.
-                File.WriteAllText(Path.Combine(ModSettings.UpdaterPath, $"{ catalogMod.SteamID } - error.html"), pageText);
-                
-                Logger.UpdaterLog($"Can't find the Steam ID on downloaded page for { catalogMod.ToString() }. Downloaded page saved.", Logger.Warning);
-                return false;
-            }
-
-            foreach (Enums.Dlc oldRequiredDlc in RequiredDlcsToRemove)
-            {
-                CatalogUpdater.RemoveRequiredDlc(catalog, catalogMod, oldRequiredDlc);
-            }
-
-            return true;
+            return false;
         }
 
 
